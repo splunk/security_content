@@ -1,74 +1,69 @@
 name: Cisco Secure Firewall - Blocked Connection
 id: 17e9b764-3a2b-4d36-9751-32d13ce4718b
-version: 3
-date: '2025-07-10'
+version: 7
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a blocked connection event by
-  identifying a "Block" value in the action field. It leverages logs from Cisco Secure Firewall Threat Defense devices. This activity is significant as it can identify attempts from users or applications initiating network connection to explicitly or implicitly blocked range or zones. If confirmed malicious, attackers could be attempting to perform a forbidden action on the network such as data exfiltration, lateral movement, or network disruption.
+description: The following analytic detects a blocked connection event by identifying a "Block" value in the action field. It leverages logs from Cisco Secure Firewall Threat Defense devices. This activity is significant as it can identify attempts from users or applications initiating network connection to explicitly or implicitly blocked range or zones. If confirmed malicious, attackers could be attempting to perform a forbidden action on the network such as data exfiltration, lateral movement, or network disruption.
 data_source:
-- Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Block with reset", "Block", "blocked")
-  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, dest, dest_port, transport, rule, url, EVE_Process, action
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `cisco_secure_firewall___blocked_connection_filter`
+    `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Block with reset", "Block", "blocked")
+    | stats count min(_time) as firstTime max(_time) as lastTime by src, dest, dest_port, transport, rule, url, EVE_Process, action
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___blocked_connection_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The access policy must also enable logging.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The access policy must also enable logging.
 known_false_positives: Blocked connection events are generated via an Access Control policy on the Firewall management console. Hence no false positives should be present.
 references:
-- https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A connection request from $src_ip$ to $dest$ has been blocked according to the configured firewall rule $rule$
-  risk_objects:
-  - field: src_ip
-    type: system
-    score: 25
-  threat_objects:
-  - field: EVE_Process
-    type: process_name
-  - field: url
-    type: url
+    message: A connection request from $src$ to $dest$ has been blocked according to the configured firewall rule $rule$
+    risk_objects:
+        - field: src
+          type: system
+          score: 20
+    threat_objects:
+        - field: EVE_Process
+          type: process_name
+        - field: url
+          type: url
 tags:
-  analytic_story:
-  - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Network
-  mitre_attack_id:
-    - T1018
-    - T1046
-    - T1110
-    - T1203
-    - T1595.002
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Network
+    mitre_attack_id:
+        - T1018
+        - T1046
+        - T1110
+        - T1203
+        - T1595.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

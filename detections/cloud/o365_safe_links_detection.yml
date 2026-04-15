@@ -1,65 +1,62 @@
 name: O365 Safe Links Detection
 id: 711d9e8c-2cb0-45cf-8813-5f191ecb9b26
-version: 7
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects when any Microsoft Safe Links alerting
-  is triggered. This behavior may indicate when user has interacted with a phishing
-  or otherwise malicious link within the Microsoft Office ecosystem.
+description: The following analytic detects when any Microsoft Safe Links alerting is triggered. This behavior may indicate when user has interacted with a phishing or otherwise malicious link within the Microsoft Office ecosystem.
 data_source:
-- Office 365 Universal Audit Log
-search: '`o365_management_activity` Name="*a potentially malicious URL*" Operation=AlertEntityGenerated
-  | fromjson Data | fillnull | stats count min(_time) as firstTime max(_time) as lastTime
-  values(ObjectId) as url values(od) as desc by AlertId, trc, Name, ot, dest, vendor_account,
-  vendor_product, src | rename Name as signature, AlertId as signature_id, trc as
-  user, ot as action | eval action = CASE(action == "Allowed", "allowed", action=="BlockPageOverride",
-  "allowed", true(),"blocked") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `o365_safe_links_detection_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events. The Safe Links capability must be configured
-  and is typically only available to E3/E5 level customers.
+    - Office 365 Universal Audit Log
+search: |-
+    `o365_management_activity` Name="*a potentially malicious URL*" Operation=AlertEntityGenerated
+      | fromjson Data
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime values(ObjectId) as url values(od) as desc
+        BY AlertId, trc, Name,
+           ot, dest, vendor_account,
+           vendor_product, src
+      | rename Name as signature, AlertId as signature_id, trc as user, ot as action
+      | eval action = CASE(action == "Allowed", "allowed", action=="BlockPageOverride", "allowed", true(),"blocked")
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_safe_links_detection_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. The Safe Links capability must be configured and is typically only available to E3/E5 level customers.
 known_false_positives: Based on Safe Links policies, may vary.
 references:
-- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/safe-links-about?view=o365-worldwide
-- https://attack.mitre.org/techniques/T1566/
+    - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/safe-links-about?view=o365-worldwide
+    - https://attack.mitre.org/techniques/T1566/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: $user$ triggered a Microsoft Safe Links detection.
-  risk_objects:
-  - field: user
-    type: user
-    score: 40
-  threat_objects: []
+    message: $user$ triggered a Microsoft Safe Links detection.
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Office 365 Account Takeover
-  - Spearphishing Attachments
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1566.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Office 365 Account Takeover
+        - Spearphishing Attachments
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1566.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
-    sourcetype: o365:management:activity
-    source: o365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+          sourcetype: o365:management:activity
+          source: o365

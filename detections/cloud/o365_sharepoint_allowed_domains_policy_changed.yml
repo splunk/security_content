@@ -1,71 +1,48 @@
 name: O365 SharePoint Allowed Domains Policy Changed
 id: b0cc6fa8-39b1-49ac-a4fe-f2f2a668e06c
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies when the allowed domain settings for
-  O365 SharePoint have been changed. With Azure AD B2B collaboration, users and administrators
-  can invite external users to collaborate with internal users. External guest account
-  invitations may also need access to OneDrive/SharePoint resources. These changed
-  should be monitored by security teams as they could potentially lead to unauthorized
-  access.
+description: The following analytic identifies when the allowed domain settings for O365 SharePoint have been changed. With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users. External guest account invitations may also need access to OneDrive/SharePoint resources. These changed should be monitored by security teams as they could potentially lead to unauthorized access.
 data_source:
-- Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=SharePoint Operation=SharingPolicyChanged
-  "ModifiedProperties{}.Name"=AllowDomainList | eval signature_id = CorrelationId,
-  signature=Operation, src = ClientIP, user = UserId, object_name=''ModifiedProperties{}.Name'',
-  object_attrs_new = split(replace(''ModifiedProperties{}.NewValue'',"\.\.\.",""),","),
-  object_attrs_old = split(replace(''ModifiedProperties{}.OldValue'',"\.\.\.",""),",")
-  | fillnull | stats values(object_attrs_new) as object_attrs_new, values(object_attrs_old)
-  as object_attrs_old, values(src) as src, count, min(_time) as firstTime, max(_time)
-  as lastTime by user,signature,signature_id,object_name,dest,action,vendor_account,vendor_product
-  | eval diff_add=mvmap(object_attrs_new,if(isnull(mvfind(object_attrs_old,object_attrs_new)),object_attrs_new,null))
-  | eval diff_remove=mvmap(object_attrs_old,if(isnull(mvfind(object_attrs_new,object_attrs_old)),object_attrs_old,null))
-  | eval result = case(isnotnull(diff_add),"Added ".mvjoin(diff_add,","),isnotnull(diff_remove),"Removed
-  ".mvjoin(diff_remove,",")), action = case(isnotnull(diff_add),"created",isnotnull(diff_remove),"deleted")
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_sharepoint_allowed_domains_policy_changed_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
+    - Office 365 Universal Audit Log
+search: '`o365_management_activity` Workload=SharePoint Operation=SharingPolicyChanged "ModifiedProperties{}.Name"=AllowDomainList | eval signature_id = CorrelationId, signature=Operation, src = ClientIP, user = UserId, object_name=''ModifiedProperties{}.Name'', object_attrs_new = split(replace(''ModifiedProperties{}.NewValue'',"\.\.\.",""),","), object_attrs_old = split(replace(''ModifiedProperties{}.OldValue'',"\.\.\.",""),",") | fillnull | stats values(object_attrs_new) as object_attrs_new, values(object_attrs_old) as object_attrs_old, values(src) as src, count, min(_time) as firstTime, max(_time) as lastTime by user,signature,signature_id,object_name,dest,action,vendor_account,vendor_product | eval diff_add=mvmap(object_attrs_new,if(isnull(mvfind(object_attrs_old,object_attrs_new)),object_attrs_new,null)) | eval diff_remove=mvmap(object_attrs_old,if(isnull(mvfind(object_attrs_new,object_attrs_old)),object_attrs_old,null)) | eval result = case(isnotnull(diff_add),"Added ".mvjoin(diff_add,","),isnotnull(diff_remove),"Removed ".mvjoin(diff_remove,",")), action = case(isnotnull(diff_add),"created",isnotnull(diff_remove),"deleted") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_sharepoint_allowed_domains_policy_changed_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Business approved changes by known administrators.
 references:
-- https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview
+    - https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The SharePoint Online domain allowlist was changed by $user$, $result$
-  risk_objects:
-  - field: user
-    type: user
-    score: 75
-  threat_objects: []
+    message: The SharePoint Online domain allowlist was changed by $user$, $result$
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Azure Active Directory Persistence
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1136.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Azure Active Directory Persistence
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1136.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
-    sourcetype: o365:management:activity
-    source: o365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+          sourcetype: o365:management:activity
+          source: o365

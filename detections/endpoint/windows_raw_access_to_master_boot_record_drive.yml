@@ -1,81 +1,60 @@
 name: Windows Raw Access To Master Boot Record Drive
 id: 7b83f666-900c-11ec-a2d9-acde48001122
-version: 9
-date: '2025-08-20'
+version: 11
+date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious raw access reads to the 
-  drive containing the Master Boot Record (MBR). It leverages Sysmon EventCode 9
-  to identify processes attempting to read or write to the MBR sector, excluding
-  legitimate system processes. This activity is significant because adversaries 
-  often target the MBR to wipe, encrypt, or overwrite it as part of their impact
-  payload. If confirmed malicious, this could lead to system instability, data 
-  loss, or a complete system compromise, severely impacting the organization's 
-  operations.
+description: The following analytic detects suspicious raw access reads to the drive containing the Master Boot Record (MBR). It leverages Sysmon EventCode 9 to identify processes attempting to read or write to the MBR sector, excluding legitimate system processes. This activity is significant because adversaries often target the MBR to wipe, encrypt, or overwrite it as part of their impact payload. If confirmed malicious, this could lead to system instability, data loss, or a complete system compromise, severely impacting the organization's operations.
 data_source:
-- Sysmon EventID 9
-search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*",
-  "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
-  lastTime by dest dvc process_exec process_guid process_id process_name process_path
-  signature signature_id user_id vendor_product Device Image | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_raw_access_to_master_boot_record_drive_filter`'
-how_to_implement: To successfully implement this search, you need to be 
-  ingesting logs with the raw access read event (like sysmon eventcode 9), 
-  process name and process guid from your endpoints. If you are using Sysmon, 
-  you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: There are som minimal number of normal applications from 
-  system32 folder like svchost.exe accessing the MBR. In this case we used 
-  'system32' and 'syswow64' path as a filter for this detection.
+    - Sysmon EventID 9
+search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by dest dvc process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product Device Image | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_master_boot_record_drive_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the raw access read event (like sysmon eventcode 9), process name and process guid from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: There are som minimal number of normal applications from system32 folder like svchost.exe accessing the MBR. In this case we used 'system32' and 'syswow64' path as a filter for this detection.
 references:
-- https://www.splunk.com/en_us/blog/security/threat-advisory-strt-ta02-destructive-software.html
-- https://www.crowdstrike.com/blog/technical-analysis-of-whispergate-malware/
-- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://www.splunk.com/en_us/blog/security/threat-advisory-strt-ta02-destructive-software.html
+    - https://www.crowdstrike.com/blog/technical-analysis-of-whispergate-malware/
+    - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: process accessing MBR $Device$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 90
-  threat_objects: []
+    message: process accessing MBR $Device$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - CISA AA22-264A
-  - WhisperGate
-  - Graceful Wipe Out Attack
-  - Data Destruction
-  - Hermetic Wiper
-  - Caddy Wiper
-  - BlackByte Ransomware
-  - NjRAT
-  - Disk Wiper
-  - PathWiper
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1561.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - CISA AA22-264A
+        - WhisperGate
+        - Graceful Wipe Out Attack
+        - Data Destruction
+        - Hermetic Wiper
+        - Caddy Wiper
+        - BlackByte Ransomware
+        - NjRAT
+        - Disk Wiper
+        - PathWiper
+        - Void Manticore
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1561.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

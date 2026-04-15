@@ -1,58 +1,57 @@
 name: Windows Firewall Rule Added
 id: efc25501-4e75-4075-8cc5-ac80f2847d80
-version: 3
-date: '2025-11-20'
+version: 5
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: This detection identifies instances where a Windows Firewall rule is added by monitoring Event ID 4946 in the Windows Security Event Log. Firewall rule modifications can indicate legitimate administrative actions, but they may also signal unauthorized changes, misconfigurations, or malicious activity such as attackers allowing traffic for backdoors or persistence mechanisms. By analyzing fields like RuleName, RuleId, Computer, and ProfileChanged, security teams can determine whether the change aligns with expected behavior. Correlating with user activity and process execution can help distinguish false positives from real threats, ensuring better visibility into potential security risks.
 data_source:
-- Windows Event Log Security 4946
-search: '`wineventlog_security` EventCode=4946 
-  | stats count min(_time) as firstTime max(_time) as lastTime by RuleName signature subject status dest ProcessID
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_firewall_rule_added_filter`'
+    - Windows Event Log Security 4946
+search: |-
+    `wineventlog_security` EventCode=4946
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY RuleName signature subject
+           status dest ProcessID
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_firewall_rule_added_filter`
 how_to_implement: This detection is based on data collected from Endpoint Detection and Response (EDR) agents, which provide security-related telemetry from monitored endpoints. Specifically, it focuses on Windows Security Event Log entries with EventID 4946, which indicates that a new Windows Firewall rule has been added. To implement this detection in Splunk, you must ingest Windows Security Event Logs that capture EventID 4946, ensuring that critical fields such as _time, EventRecordID, ProcessID, ThreadID, Computer, ProfileChanged, RuleName, and RuleId are available for analysis. These logs must be processed using the appropriate Splunk Technology Add-ons (TAs) to ensure compatibility with the EDR product and proper field extraction. Additionally, mapping these logs to the appropriate data model, such as the Endpoint data model, enhances structured analysis. Leveraging the Splunk Common Information Model (CIM) helps normalize field names, ensuring consistency across different data sources. By implementing this approach, you can effectively detect and monitor Windows Firewall rule modifications, providing visibility into potential security risks or unauthorized changes.
 known_false_positives: Legitimate admin changes, Group Policy updates, software installs, security tools, and automated scripts can trigger false positives for Event ID 4946.
 references:
-- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4946
+    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4946
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: a new firewall rule $RuleName$ added on $dest$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 20
-  threat_objects: []
+    message: a new firewall rule $RuleName$ added on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - ShrinkLocker
-  - Medusa Ransomware
-  - NetSupport RMM Tool Abuse
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1562.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - ShrinkLocker
+        - Medusa Ransomware
+        - NetSupport RMM Tool Abuse
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1562.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/firewall_win_event/added_rule/MPSSVC_Rule-Level_Policy_Change-4946.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/firewall_win_event/added_rule/MPSSVC_Rule-Level_Policy_Change-4946.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

@@ -1,68 +1,58 @@
 name: Clop Ransomware Known Service Name
 id: 07e08a12-870c-11eb-b5f9-acde48001122
-version: 7
-date: '2025-05-02'
+version: 10
+date: '2026-03-10'
 author: Teoderick Contreras
 status: production
 type: TTP
-description: The following analytic identifies the creation of a service with a known
-  name used by CLOP ransomware for persistence and high-privilege code execution.
-  It detects this activity by monitoring Windows Event Logs (EventCode 7045) for specific
-  service names ("SecurityCenterIBM", "WinCheckDRVs"). This activity is significant
-  because the creation of such services is a common tactic used by ransomware to maintain
-  control over infected systems. If confirmed malicious, this could allow attackers
-  to execute code with elevated privileges, maintain persistence, and potentially
-  disrupt or encrypt critical data.
+description: The following analytic identifies the creation of a service with a known name used by CLOP ransomware for persistence and high-privilege code execution. It detects this activity by monitoring Windows Event Logs (EventCode 7045) for specific service names ("SecurityCenterIBM", "WinCheckDRVs"). This activity is significant because the creation of such services is a common tactic used by ransomware to maintain control over infected systems. If confirmed malicious, this could allow attackers to execute code with elevated privileges, maintain persistence, and potentially disrupt or encrypt critical data.
 data_source:
-- Windows Event Log System 7045
-search: '`wineventlog_system` EventCode=7045 ServiceName IN ("SecurityCenterIBM",
-  "WinCheckDRVs") | stats count min(_time) as firstTime max(_time) as lastTime by
-  Computer EventCode ServiceName StartType ServiceType | rename Computer as dest |
-  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `clop_ransomware_known_service_name_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the Service name, Service File Name Service Start type, and Service Type
-  from your endpoints.
-known_false_positives: unknown
+    - Windows Event Log System 7045
+search: |-
+    `wineventlog_system` EventCode=7045 ServiceName IN ("SecurityCenterIBM", "WinCheckDRVs")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY Computer EventCode ServiceName
+           StartType ServiceType
+      | rename Computer as dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `clop_ransomware_known_service_name_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
+known_false_positives: No false positives have been identified at this time.
 references:
-- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
-- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+    - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+    - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An instance of a known Clop Ransomware Service Name detected on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 100
-  threat_objects: []
+    message: An instance of a known Clop Ransomware Service Name detected on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Compromised Windows Host
-  - Clop Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1543
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Compromised Windows Host
+        - Clop Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1543
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-xml.log
-    source: XmlWinEventLog:System
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-xml.log
+          source: XmlWinEventLog:System
+          sourcetype: XmlWinEventLog

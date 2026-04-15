@@ -1,0 +1,54 @@
+name: Cisco SD-WAN - Uncommon User-Agent Multi-URI Activity
+id: 201022d7-a35c-470a-93ff-ae335c42e69d
+version: 1
+date: '2026-03-09'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Hunting
+description: |
+    This hunting search is designed to surface source IP activity using uncommon HTTP user-agents across multiple URI paths in Cisco SD-WAN Manager serviceproxy access logs.
+    It looks for source and user-agent combinations that access more than one distinct URI, then keeps only low-volume behavior (`requests<=50`) to reduce noise from normal high-volume traffic.
+    Use this hunt to pivot on `http_user_agent` and `src` and identify possible automation, scripted reconnaissance, or exploitation attempts.
+data_source:
+    - Cisco SD-WAN Service Proxy Access Logs
+search: |-
+    `cisco_sd_wan_service_proxy_access`
+    | rex field=_raw "^\[.*?\]\s+\"(?<http_method>\S+)\s+(?<uri>\S+)\s+(?<http_protocol>[^\"]+)\"\s+(?<http_response_code>\S+)\s+(?<response_flags>\S+)\s+(?<bytes_in>\S+)\s+(?<bytes_out>\S+)\s+(?<duration>\S+)\s+(?<upstream_service_time>\S+)\s+\"(?<src>[^\"]+)\"\s+\"(?<http_user_agent>[^\"]+)\"\s+\"(?<x_request_id>[^\"]+)\"\s+\"(?<dest>[^\"]+)\"\s+\"(?<upstream_host>[^\"]+)\""
+    | rex field=uri "(?<uri_path>[^\?]+)(?<uri_query>\?.*)?"
+    | bin _time span=5m
+    | stats count as requests
+            min(_time) as firstTime
+            max(_time) as lastTime
+            values(uri) as uri
+            dc(uri) as uri_count
+    by src http_user_agent
+    | where requests<=50 AND uri_count>1
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | sort 0 +requests
+    | `cisco_sd_wan___uncommon_user_agent_multi_uri_activity_filter`
+how_to_implement: |
+    This detection requires Cisco SD-WAN Manager Envoy access logs to be ingested into Splunk.
+    These logs are located in "/var/log/nms/containers/service-proxy/serviceproxy-access.log".
+known_false_positives: |
+    No false positives have been identified at this time.
+references:
+    - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-authbp-qwCX8D4v
+    - https://github.com/zerozenxlabs/CVE-2026-20127---Cisco-SD-WAN-Preauth-RCE
+tags:
+    analytic_story:
+        - Cisco Catalyst SD-WAN Analytics
+    asset_type: Network
+    mitre_attack_id:
+        - T1595
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_sd_wan/service_proxy_access/serviceproxy_access.log
+          source: /var/log/nms/containers/service-proxy/serviceproxy-access.log
+          sourcetype: cisco:sdwan:access

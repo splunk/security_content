@@ -1,67 +1,50 @@
 name: Windows Query Registry UnInstall Program List
 id: 535fd4fc-7151-4062-9d7e-e896bea77bf6
-version: 6
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Windows Event Log Security 4663
-description: The following analytic detects an access request on the uninstall registry
-  key. It leverages Windows Security Event logs, specifically event code 4663. This
-  activity is significant because adversaries or malware can exploit this key to gather
-  information about installed applications, aiding in further attacks. If confirmed
-  malicious, this behavior could allow attackers to map out installed software, potentially
-  identifying vulnerabilities or software to exploit, leading to further system compromise.
-search: '`wineventlog_security` EventCode=4663 object_file_path="*\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name
-  object_file_path process_name process_path  process_id EventCode dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_query_registry_uninstall_program_list_filter`'
-how_to_implement: To successfully implement this search, you must ingest Windows Security
-  Event logs and track event code 4663. For Event code 4663, enable the "Audit Object
-  Access" in Group Policy. Then check the two boxes listed for both "Success" and
-  "Failure."
-known_false_positives: Uninstallers may access this registry to remove the entry of
-  the target application. Filter as needed.
+    - Windows Event Log Security 4663
+description: The following analytic detects an access request on the uninstall registry key. It leverages Windows Security Event logs, specifically event code 4663. This activity is significant because adversaries or malware can exploit this key to gather information about installed applications, aiding in further attacks. If confirmed malicious, this behavior could allow attackers to map out installed software, potentially identifying vulnerabilities or software to exploit, leading to further system compromise.
+search: '`wineventlog_security` EventCode=4663 object_file_path="*\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*" | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name object_file_path process_name process_path  process_id EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_query_registry_uninstall_program_list_filter`'
+how_to_implement: To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For Event code 4663, enable the "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+known_false_positives: Uninstallers may access this registry to remove the entry of the target application. Filter as needed.
 references:
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A suspicious process $process_name$ accessing uninstall registry on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: A suspicious process $process_name$ accessing uninstall registry on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - RedLine Stealer
-  - Meduza Stealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1012
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - StealC Stealer
+        - RedLine Stealer
+        - Meduza Stealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1012
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/recon_registry/recon-reg-redline-security-xml.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/recon_registry/recon-reg-redline-security-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

@@ -1,0 +1,21 @@
+﻿rmm_user_agent,tool
+LogMeIn/*,LogMeIn
+*splashtop*,Splashtop
+RemotePC *,Remotepc
+* DesktopCentral Agent,Zoho Assist
+NetSupport Manager/*,NetSupport
+NetSupport Gateway/*,NetSupport
+AnyDesk,Anydesk
+AnyDesk/*,Anydesk
+AnyDesk *,Anydesk
+Fleet auto-approve,Fleetdm
+Fleet average open time,Fleetdm
+Fleet labels,Fleetdm
+fleet story points,Fleetdm
+Fleetie pie,Fleetdm
+fleet-schema-builder,Fleetdm
+Fleet-Standard-Query-Library,Fleetdm
+nanodep-godep/0,Fleetdm
+SensorsAnalytics CPP SDK 0.3,Aweray
+Advanced Monitoring Agent HTTP Retriever 1.1,Nsight RMM
+MeshCentral,MeshCentral

@@ -1,85 +1,89 @@
 name: Windows Process Injection Remote Thread
 id: 8a618ade-ca8f-4d04-b972-2d526ba59924
-version: 8
-date: '2025-05-02'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description:
-  The following analytic detects suspicious remote thread execution in
-  processes such as Taskmgr.exe, calc.exe, and notepad.exe, which may indicate process
-  injection by malware like Qakbot. This detection leverages Sysmon EventCode 8 to
-  identify remote thread creation in specific target processes. This activity is significant
-  as it often signifies an attempt by malware to inject malicious code into legitimate
-  processes, potentially leading to unauthorized code execution. If confirmed malicious,
-  this could allow attackers to execute arbitrary code, escalate privileges, or maintain
-  persistence on the compromised host.
+description: |
+    The following analytic detects suspicious remote thread execution in processes such as Taskmgr.exe, calc.exe, and notepad.exe, which may indicate process injection by malware like Qakbot. This detection leverages Sysmon EventCode 8 to identify remote thread creation in specific target processes. This activity is significant as it often signifies an attempt by malware to inject malicious code into legitimate processes, potentially leading to unauthorized code execution. If confirmed malicious, this could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence on the compromised host.
 data_source:
-  - Sysmon EventID 8
-search:
-  '`sysmon` EventCode=8 TargetImage IN ("*\\Taskmgr.exe", "*\\calc.exe", "*\\notepad.exe",
-  "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe",
-  "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe","*\\cmd.exe",
-  "*\\powershell.exe") | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventID Guid NewThreadId ProcessID SecurityID SourceImage SourceProcessGuid SourceProcessId
-  StartAddress StartFunction StartModule TargetImage TargetProcessGuid TargetProcessId
-  UserID dest parent_process_exec parent_process_guid parent_process_id parent_process_name
-  parent_process_path process_exec process_guid process_id process_name process_path
-  signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_process_injection_remote_thread_filter`'
-how_to_implement:
-  To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts like remote thread EventCode=8 of
-  sysmon. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon
-  TA.
-known_false_positives: unknown
+    - Sysmon EventID 8
+search: |-
+    `sysmon`
+    EventCode=8
+    TargetImage IN (
+        "*\\calc.exe",
+        "*\\CalculatorApp.exe",
+        "*\\cmd.exe",
+        "*\\dxdiag.exe",
+        "*\\explorer.exe",
+        "*\\mobsync.exe",
+        "*\\msra.exe",
+        "*\\notepad.exe",
+        "*\\OneDriveSetup.exe",
+        "*\\ping.exe",
+        "*\\powershell.exe",
+        "*\\rdpclip.exe",
+        "*\\Taskmgr.exe",
+        "*\\wermgr.exe",
+        "*\\win32calc.exe",
+        "*\\xwizard.exe"
+    )
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+    by EventID Guid NewThreadId ProcessID SecurityID SourceImage
+       SourceProcessGuid SourceProcessId StartAddress StartFunction
+       StartModule TargetImage TargetProcessGuid TargetProcessId UserID
+       dest parent_process_exec parent_process_guid parent_process_id
+       parent_process_name parent_process_path process_exec process_guid
+       process_id process_name process_path signature signature_id
+       user_id vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_process_injection_remote_thread_filter`
+how_to_implement: To successfully implement this search, you must be ingesting data that records process activity from your hosts like remote thread EventCode=8 of sysmon. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: No false positives have been identified at this time.
 references:
-  - https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
-  - https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
+    - https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
+    - https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message:
-    process $SourceImage$ create a remote thread to process $TargetImage$ on
-    host $dest$
-  risk_objects:
-    - field: dest
-      type: system
-      score: 64
-  threat_objects:
-    - field: SourceImage
-      type: process
+    message: process $SourceImage$ created a remote thread in target process $TargetImage$ on host $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: SourceImage
+          type: process
 tags:
-  analytic_story:
-    - Qakbot
-    - Graceful Wipe Out Attack
-    - Warzone RAT
-    - Earth Alux
-    - Water Gamayun
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1055.002
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Qakbot
+        - Graceful Wipe Out Attack
+        - Warzone RAT
+        - Earth Alux
+        - Water Gamayun
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1055.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

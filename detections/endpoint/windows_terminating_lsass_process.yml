@@ -1,76 +1,67 @@
 name: Windows Terminating Lsass Process
 id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
-version: 9
-date: '2025-10-14'
+version: 12
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a suspicious process attempting to terminate
-  the Lsass.exe process. It leverages Sysmon EventCode 10 logs to identify processes
-  granted PROCESS_TERMINATE access to Lsass.exe. This activity is significant because
-  Lsass.exe is a critical process responsible for enforcing security policies and
-  handling user credentials. If confirmed malicious, this behavior could indicate
-  an attempt to perform credential dumping, privilege escalation, or evasion of security
-  policies, potentially leading to unauthorized access and persistence within the
-  environment.
+description: The following analytic detects a suspicious process attempting to terminate the Lsass.exe process. It leverages Sysmon EventCode 10 logs to identify processes granted PROCESS_TERMINATE access to Lsass.exe. This activity is significant because Lsass.exe is a critical process responsible for enforcing security policies and handling user credentials. If confirmed malicious, this behavior could indicate an attempt to perform credential dumping, privilege escalation, or evasion of security policies, potentially leading to unauthorized access and persistence within the environment.
 data_source:
-- Sysmon EventID 10
-search: '`sysmon` EventCode=10 TargetImage=*lsass.exe GrantedAccess = 0x1 | stats
-  count min(_time) as firstTime max(_time) as lastTime by CallTrace EventID GrantedAccess
-  Guid Opcode ProcessID SecurityID SourceImage SourceProcessGUID SourceProcessId TargetImage
-  TargetProcessGUID TargetProcessId UserID dest granted_access parent_process_exec
-  parent_process_guid parent_process_id parent_process_name parent_process_path process_exec
-  process_guid process_id process_name process_path signature signature_id user_id
-  vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_terminating_lsass_process_filter`'
-how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
-  includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-known_false_positives: unknown
+    - Sysmon EventID 10
+search: |-
+    `sysmon` EventCode=10 TargetImage=*lsass.exe GrantedAccess = 0x1
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY CallTrace EventID GrantedAccess
+           Guid Opcode ProcessID
+           SecurityID SourceImage SourceProcessGUID
+           SourceProcessId TargetImage TargetProcessGUID
+           TargetProcessId UserID dest
+           granted_access parent_process_exec parent_process_guid
+           parent_process_id parent_process_name parent_process_path
+           process_exec process_guid process_id
+           process_name process_path signature
+           signature_id user_id vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_terminating_lsass_process_filter`
+how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+known_false_positives: No false positives have been identified at this time.
 references:
-- https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+    - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: a process $SourceImage$ terminates Lsass process on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 64
-  threat_objects:
-  - field: TargetImage
-    type: process
+    message: a process $SourceImage$ terminates Lsass process on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: TargetImage
+          type: process
 tags:
-  analytic_story:
-  - Data Destruction
-  - Double Zero Destructor
-  - Scattered Lapsus$ Hunters
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1562.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Destruction
+        - Double Zero Destructor
+        - Scattered Lapsus$ Hunters
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1562.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

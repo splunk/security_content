@@ -1,7 +1,7 @@
 name: Previously Seen Cloud Compute Creations By User - Update
 id: 6bf75d69-7766-47bc-8097-e41696807a6f
-version: 1
-date: '2020-08-15'
+version: 2
+date: '2026-01-14'
 author: Rico Valdez, Splunk
 type: Baseline
 status: production
@@ -16,7 +16,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) | outputlookup previously_seen_cloud_compute_creations_by_user'
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the proper TAs installed.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

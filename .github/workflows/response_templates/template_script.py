@@ -19,38 +19,48 @@ Example usage:
 import argparse
 import collections
 import json
+import urllib.parse
 from pathlib import Path
 
-def generate_manifest(directory, prefix, output_dir):
+def _get_out_template_name(template_name, double_quote=False):
+    quoted_template_name = urllib.parse.quote(template_name)
+    if double_quote:
+        return f"{urllib.parse.quote(quoted_template_name)}.json"
+    return f"{quoted_template_name}.json"
+
+def generate_manifest(template_mapping, prefix, output_dir):
     # Code to generate the manifest file
-    
+
     response_templates = []
     res = {
         "response_templates": response_templates
     }
     try:
-        template_mapping = _get_template_mapping(directory)
         for template_name, template_list in sorted(template_mapping.items(), key=lambda x: x[0]):
-            out_template_name = f"{template_name}.json"
+            out_template_name = _get_out_template_name(template_name, double_quote=True)
+            curr_template_name = template_name
 
             templates_version= []
             for _, file in template_list:
                 with open(file, 'r') as in_file:
                     content = in_file.read()
                     curr_template = json.loads(content)
-                    version = curr_template.get("version", "1.0")
+                    version = curr_template.get("version")
                     update_time = curr_template.get("update_time")
+                    description = curr_template.get("description")
+                    curr_template_name = curr_template.get("name", template_name)
                     curr_metadata = {
                         "version": version,
                         "update_time": update_time,
+                        "description": description,
                     }
                     templates_version.append(curr_metadata)
             response_templates.append({
-                "name": template_name,
+                "name": curr_template_name,
                 "versions": templates_version,
                 "link": f"{prefix}{out_template_name}"
             })
-        
+
         with open(Path(output_dir) / "manifest.json", 'w') as out_file:
             out_file.write(json.dumps(res, indent=2))
 
@@ -63,54 +73,67 @@ def _get_template_mapping(directory):
     path = Path(directory)
     if not path.exists() or not path.is_dir():
         raise ValueError(f"The directory {directory} does not exist or is not a directory.")
-    
+
     # Check for non-JSON files
     non_json_files = [f.name for f in path.iterdir() if f.is_file() and f.suffix != '.json']
     if non_json_files:
         raise ValueError(f"Non-JSON files found in directory {directory}: {', '.join(non_json_files)}")
-    
+
     files = [f for f in path.glob("*.json") if f.is_file()]
     if not files:
         raise ValueError(f"No files found in the directory {directory} to merge.")
-    
+
     template_to_file_mapping = collections.defaultdict(list)
 
     for file in files:
-        name_split = file.stem.rsplit("_v", 1)
-        if len(name_split) != 2:
-            raise ValueError(f"File {file.name} does not match expected pattern '<template_name>_v<version>'")
-        template_name = name_split[0]
-        version = name_split[1]
+        with open(file, 'r') as in_file:
+            try:
+                content = in_file.read()
+                template_json = json.loads(content)
+                template_name = template_json.get("name")
+                version = template_json.get("version")
+                if not template_name or not version:
+                    raise ValueError(f"File {file.name} is missing required 'name' or 'version' fields in JSON content.")
+                template_to_file_mapping[template_name].append((version, file))
+            except json.JSONDecodeError as e:
+                raise ValueError(f"File {file.name} contains invalid JSON: {e}")
 
-        template_to_file_mapping[template_name].append((version, file))
-    
+    # Validate that (template_name, version) pairs are unique
+    for template_name, template_list in template_to_file_mapping.items():
+        seen_versions = {}
+        for version, file in template_list:
+            if version in seen_versions:
+                raise ValueError(
+                    f"Duplicate version '{version}' for template '{template_name}': "
+                    f"found in both '{seen_versions[version].name}' and '{file.name}'"
+                )
+            seen_versions[version] = file
+
     # Sort each template's version list by version number (ascending order)
     for template_name in template_to_file_mapping:
         try:
             template_to_file_mapping[template_name].sort(key=lambda x: int(x[0]))
         except ValueError:
             raise ValueError(f"Template '{template_name}' has invalid version(s) that cannot be converted to integer")
-    
+
     return template_to_file_mapping
 
-def merge_files(directory, output_dir):
+def merge_files(template_mapping, output_dir):
     try:
-        template_mapping = _get_template_mapping(directory)
-
         for template_name, template_list in sorted(template_mapping.items(), key=lambda x: x[0]):
-            out_template_name = f"{template_name}.json"
+            out_template_name = _get_out_template_name(template_name)
 
             templates = []
             for _, file in template_list:
                 with open(file, 'r') as in_file:
                     content = in_file.read()
                     templates.append(json.loads(content))
-            
+
             with open(Path(output_dir) / out_template_name, 'w') as out_file:
                 out_file.write(json.dumps(templates, indent=2))
     except Exception as e:
         print(f"Error during merging files: {e}")
-        raise    
+        raise
 
 def main():
     parser = argparse.ArgumentParser(description="Response template file merger and manifest generator")
@@ -124,11 +147,13 @@ def main():
 
     output_path = Path(args.output)
     output_path.mkdir(parents=True, exist_ok=True)
-    
-    merge_files(args.directory, args.output)
+
+    template_mapping = _get_template_mapping(args.directory)
+
+    merge_files(template_mapping, args.output)
 
     if args.manifest:
-        generate_manifest(args.directory, args.prefix, args.output)
+        generate_manifest(template_mapping, args.prefix, args.output)
 
 if __name__ == "__main__":
     main()

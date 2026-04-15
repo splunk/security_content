@@ -1,47 +1,52 @@
 name: Detect SNICat SNI Exfiltration
 id: 82d06410-134c-11eb-adc1-0242ac120002
-version: 5
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies the use of SNICat tool commands within
-  the TLS SNI field, indicating potential data exfiltration attempts. It leverages
-  Zeek SSL data to detect specific SNICat commands such as LIST, LS, SIZE, LD, CB,
-  EX, ALIVE, EXIT, WHERE, and finito in the server_name field. This activity is significant
-  as SNICat is a known tool for covert data exfiltration using TLS. If confirmed malicious,
-  this could allow attackers to exfiltrate sensitive data undetected, posing a severe
-  threat to data confidentiality and integrity.
+description: The following analytic identifies the use of SNICat tool commands within the TLS SNI field, indicating potential data exfiltration attempts. It leverages Zeek SSL data to detect specific SNICat commands such as LIST, LS, SIZE, LD, CB, EX, ALIVE, EXIT, WHERE, and finito in the server_name field. This activity is significant as SNICat is a known tool for covert data exfiltration using TLS. If confirmed malicious, this could allow attackers to exfiltrate sensitive data undetected, posing a severe threat to data confidentiality and integrity.
 data_source: []
-search: '`zeek_ssl` | rex field=server_name "(?<snicat>(LIST|LS|SIZE|LD|CB|CD|EX|ALIVE|EXIT|WHERE|finito)-[A-Za-z0-9]{16}\.)"
-  | stats count by src_ip dest_ip server_name snicat | where count>0 | table src_ip
-  dest_ip server_name snicat | `detect_snicat_sni_exfiltration_filter`'
-how_to_implement: You must be ingesting Zeek SSL data into Splunk. Zeek data should
-  also be getting ingested in JSON format.  We are detecting when any of the predefined
-  SNICat commands are found within the server_name (SNI) field. These commands are
-  LIST, LS, SIZE, LD, CB, EX, ALIVE, EXIT, WHERE, and finito.  You can go further
-  once this has been detected, and run other searches to decode the SNI data to prove
-  or disprove if any data exfiltration has taken place.
-known_false_positives: Unknown
+search: |-
+    `zeek_ssl`
+      | rex field=server_name "(?<snicat>(LIST
+      | LS
+      | SIZE
+      | LD
+      | CB
+      | CD
+      | EX
+      | ALIVE
+      | EXIT
+      | WHERE
+      | finito)-[A-Za-z0-9]{16}\.)"
+      | stats count
+        BY src_ip dest_ip server_name
+           snicat
+      | where count>0
+      | table src_ip dest_ip server_name snicat
+      | `detect_snicat_sni_exfiltration_filter`
+how_to_implement: You must be ingesting Zeek SSL data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting when any of the predefined SNICat commands are found within the server_name (SNI) field. These commands are LIST, LS, SIZE, LD, CB, EX, ALIVE, EXIT, WHERE, and finito.  You can go further once this has been detected, and run other searches to decode the SNI data to prove or disprove if any data exfiltration has taken place.
+known_false_positives: No false positives have been identified at this time.
 references:
-- https://www.mnemonic.io/resources/blog/introducing-snicat/
-- https://github.com/mnemonic-no/SNIcat
-- https://attack.mitre.org/techniques/T1041/
+    - https://www.mnemonic.io/resources/blog/introducing-snicat/
+    - https://github.com/mnemonic-no/SNIcat
+    - https://attack.mitre.org/techniques/T1041/
 rba:
-  message: Possible SNICat activity from $src_ip$
-  risk_objects:
-  - field: src_ip
-    type: system
-    score: 25
-  threat_objects: []
+    message: Possible SNICat activity from $src_ip$
+    risk_objects:
+        - field: src_ip
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Exfiltration
-  asset_type: Network
-  mitre_attack_id:
-  - T1041
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Data Exfiltration
+    asset_type: Network
+    mitre_attack_id:
+        - T1041
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network

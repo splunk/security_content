@@ -1,0 +1,146 @@
+name: Windows Rundll32 with Non-Standard File Extension
+id: f52b55ce-41ad-4802-9909-fbd7cc8410a5
+version: 1
+date: '2026-03-27'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic identifies the instance of rundll32.exe process loading a non-standard Windows modules file extension.
+    This behavior is not common and can be associated with malicious activities, such as the Gh0st RAT backdoor. This technique is to evade possible detection by security tools that monitors a suspicious dll loading activity.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    `process_rundll32`
+    (
+        Processes.parent_process_path IN (
+            "*:\\PerfLogs\\*",
+            "*:\\ProgramData\\*",
+            "*:\\Recycle.bin\\*",
+            "*:\\Users\\Administrator\\Music\\*",
+            "*:\\Users\\Public\\*",
+            "*:\\Windows\\Cursors\\*",
+            "*:\\Windows\\debug\\*",
+            "*:\\Windows\\fonts\\*",
+            "*:\\Windows\\INF\\*",
+            "*:\\Windows\\Media\\*",
+            "*:\\Windows\\Prefetch\\*",
+            "*:\\Windows\\repair\\*",
+            "*:\\Windows\\Tasks\\*",
+            "*\\Temp\\*"
+        )
+        OR
+        Processes.parent_process_name IN (
+            "*cmd.exe*",
+            "*cscript.exe*",
+            "*mshta.exe*",
+            "*powershell.exe*",
+            "*pwsh.exe*",
+            "*regsvr32.exe*",
+            "*wscript.exe*"
+        )
+    )
+    NOT Processes.process IN (
+            "*.cpl*",
+            "*.dll*",
+            "*.drv*",
+            "*.inf*",
+            "*.mui*",
+            "*.ocx*"
+        )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_path
+       Processes.process_exec Processes.process_guid Processes.process_hash
+       Processes.process_id Processes.process_integrity_level
+       Processes.process_path Processes.user Processes.user_id
+       Processes.vendor_product Processes.parent_process_name
+       Processes.parent_process Processes.process_name Processes.process
+
+    | `drop_dm_object_name(Processes)`
+
+    | rex field=process "^(?<cmd_base_process>[^\s]+)\s+\"?(?<cmd_base_first_param>[^,^\"^\s]+).*?,(?<cmd_args>.*)$"
+
+    | rex field=cmd_base_first_param "^(?<root>[^\\\\]+)\\\\(?<subdirs>[^\\\\]+)"
+
+    | eval folder_count = mvcount(split(cmd_base_first_param, "\\"))
+
+    | where (
+                folder_count = 3
+                AND
+                NOT lower(subdirs) IN (
+                                        "windows",
+                                        "program files",
+                                        "program files (x86)"
+                                    )
+            )
+            OR
+            like(cmd_base_first_param, "%:\\ProgramData\\%")
+            OR
+            like(cmd_base_first_param, "%:\\Users\\Public\\%")
+            OR
+            like(cmd_base_first_param, "%\\AppData\\Local\\Temp\\%")
+            OR
+            like(cmd_base_first_param, "%\\AppData\\Roaming\\%")
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_rundll32_with_non_standard_file_extension_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Certain legitimate Windows components, third-party applications, or administrative scripts may use rundll32.exe with non-standard or extensionless inputs during normal operation.
+    Filtering and contextual analysis are required, focus on command-line arguments, parent process, file location, and prevalence across the environment before determining malicious intent.
+references:
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.ghost_rat
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrasm/22ad9f0e-4349-43e0-92b3-37f7a9c7ca41
+    - https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf
+    - https://www.sentinelone.com/blog/the-curious-case-of-gh0st-malware/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: An instance of [$parent_process_path$] launched [$process_name$] loading a non-standard DLL extension [$process$] in host [$dest$]
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+        - field: process
+          type: process
+tags:
+    analytic_story:
+        - Living Off The Land
+        - Suspicious Rundll32 Activity
+        - Gh0st RAT
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1218.011
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/rundll32_random_dll_ext/rundll32_random_ext.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

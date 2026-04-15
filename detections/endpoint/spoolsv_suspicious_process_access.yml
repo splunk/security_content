@@ -1,82 +1,58 @@
 name: Spoolsv Suspicious Process Access
 id: 799b606e-da81-11eb-93f8-acde48001122
-version: 9
-date: '2025-05-02'
+version: 11
+date: '2026-03-10'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious process access by spoolsv.exe,
-  potentially indicating exploitation of the PrintNightmare vulnerability (CVE-2021-34527).
-  It leverages Sysmon EventCode 10 to identify when spoolsv.exe accesses critical
-  system files or processes like rundll32.exe with elevated privileges. This activity
-  is significant as it may signal an attempt to gain unauthorized privilege escalation
-  on a vulnerable machine. If confirmed malicious, an attacker could achieve elevated
-  privileges, leading to further system compromise, persistent access, or unauthorized
-  control over the affected environment.
+description: The following analytic detects suspicious process access by spoolsv.exe, potentially indicating exploitation of the PrintNightmare vulnerability (CVE-2021-34527). It leverages Sysmon EventCode 10 to identify when spoolsv.exe accesses critical system files or processes like rundll32.exe with elevated privileges. This activity is significant as it may signal an attempt to gain unauthorized privilege escalation on a vulnerable machine. If confirmed malicious, an attacker could achieve elevated privileges, leading to further system compromise, persistent access, or unauthorized control over the affected environment.
 data_source:
-- Sysmon EventID 10
-search: '`sysmon` EventCode=10 SourceImage = "*\\spoolsv.exe" CallTrace = "*\\Windows\\system32\\spool\\DRIVERS\\x64\\*"
-  TargetImage IN ("*\\rundll32.exe", "*\\spoolsv.exe") GrantedAccess = 0x1fffff |
-  stats count min(_time) as firstTime max(_time) as lastTime by CallTrace EventID
-  GrantedAccess Guid Opcode ProcessID SecurityID SourceImage SourceProcessGUID SourceProcessId
-  TargetImage TargetProcessGUID TargetProcessId UserID dest granted_access parent_process_exec
-  parent_process_guid parent_process_id parent_process_name parent_process_path process_exec
-  process_guid process_id process_name process_path signature signature_id user_id
-  vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `spoolsv_suspicious_process_access_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with process access event where SourceImage, TargetImage, GrantedAccess and
-  CallTrace executions from your endpoints. If you are using Sysmon, you must have
-  at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of spoolsv.exe.
-known_false_positives: Unknown. Filter as needed.
+    - Sysmon EventID 10
+search: '`sysmon` EventCode=10 SourceImage = "*\\spoolsv.exe" CallTrace = "*\\Windows\\system32\\spool\\DRIVERS\\x64\\*" TargetImage IN ("*\\rundll32.exe", "*\\spoolsv.exe") GrantedAccess = 0x1fffff | stats count min(_time) as firstTime max(_time) as lastTime by CallTrace EventID GrantedAccess Guid Opcode ProcessID SecurityID SourceImage SourceProcessGUID SourceProcessId TargetImage TargetProcessGUID TargetProcessId UserID dest granted_access parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `spoolsv_suspicious_process_access_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with process access event where SourceImage, TargetImage, GrantedAccess and CallTrace executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of spoolsv.exe.
+known_false_positives: No false positives have been identified at this time.
 references:
-- https://github.com/cube0x0/impacket/commit/73b9466c17761384ece11e1028ec6689abad6818
-- https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
-- https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675
-- https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+    - https://github.com/cube0x0/impacket/commit/73b9466c17761384ece11e1028ec6689abad6818
+    - https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
+    - https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675
+    - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint
-    $dest$. This behavior is suspicious and related to PrintNightmare.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 72
-  threat_objects:
-  - field: ProcessID
-    type: process
-  - field: TargetImage
-    type: process_name
+    message: $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint $dest$. This behavior is suspicious and related to PrintNightmare.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: ProcessID
+          type: process
+        - field: TargetImage
+          type: process_name
 tags:
-  analytic_story:
-  - PrintNightmare CVE-2021-34527
-  - Black Basta Ransomware
-  asset_type: Endpoint
-  cve:
-  - CVE-2021-34527
-  mitre_attack_id:
-  - T1068
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - PrintNightmare CVE-2021-34527
+        - Black Basta Ransomware
+    asset_type: Endpoint
+    cve:
+        - CVE-2021-34527
+    mitre_attack_id:
+        - T1068
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

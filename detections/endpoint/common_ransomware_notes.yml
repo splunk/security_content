@@ -1,67 +1,78 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 13
-date: '2025-12-15'
+version: 14
+date: '2026-01-16'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the creation of files with names commonly
-  associated with ransomware notes. It leverages file-system activity data from the
-  Endpoint Filesystem data model, typically populated by endpoint detection and response
-  (EDR) tools or Sysmon logs. This activity is significant because ransomware notes
-  indicate a potential ransomware attack, which can lead to data encryption and extortion.
-  If confirmed malicious, this activity could result in significant data loss, operational
-  disruption, and financial impact due to ransom demands.
+description: |
+    The following analytic detects the creation of files with names commonly associated with ransomware notes.
+    It leverages file-system activity data from the Endpoint Filesystem data model, typically populated by endpoint detection and response (EDR) tools or Sysmon logs.
+    This activity is significant because ransomware notes indicate a potential ransomware attack, which can lead to data encryption and extortion.
+    If confirmed malicious, this activity could result in significant data loss, operational disruption, and financial impact due to ransom demands.
+    Note that this analytic relies on a lookup table (ransomware_notes_lookup) that contains known ransomware note file names.
+    Ensure that this lookup table is regularly updated to include new ransomware note file names as they are identified in the threat landscape.
+    Also this analytic leverages a sub-search to enhance performance. sub-searches have limitations on the amount of data they can return. Keep this in mind if you have an extensive list of ransomware note file names.
 data_source:
-- Sysmon EventID 11
+    - Sysmon EventID 11
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
-  as file_path from datamodel=Endpoint.Filesystem
-  by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
-     Filesystem.file_hash Filesystem.file_modify_time
-     Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size
-     Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
-  | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)`
-  | lookup ransomware_notes_lookup ransomware_notes as file_name OUTPUT status as "Known Ransomware Notes"
-  | search "Known Ransomware Notes"=True
-  | `common_ransomware_notes_filter`
-how_to_implement: You must be ingesting data that records file-system activity from
-  your hosts to populate the Endpoint Filesystem data-model node. This is typically
-  populated via endpoint detection-and-response product, such as Carbon Black, or
-  via other endpoint data sources, such as Sysmon. The data used for this search is
-  typically generated via logs that report file-system reads and writes.
-known_false_positives: It's possible that a legitimate file could be created with
-  the same name used by ransomware note files.
+    | tstats `security_content_summariesonly`
+      count
+      min(_time) as firstTime
+      max(_time) as lastTime
+      values(Filesystem.user) as user
+      values(Filesystem.dest) as dest
+      values(Filesystem.file_path) as file_path
+    from datamodel=Endpoint.Filesystem
+    where [
+      | inputlookup ransomware_notes_lookup
+      | search status=true
+      | fields ransomware_notes
+      | dedup ransomware_notes
+      | rename ransomware_notes as Filesystem.file_name
+    ]
+    by Filesystem.action Filesystem.dest Filesystem.file_access_time
+       Filesystem.file_create_time Filesystem.file_hash
+       Filesystem.file_modify_time Filesystem.file_name
+       Filesystem.file_path Filesystem.file_acl Filesystem.file_size
+       Filesystem.process_guid Filesystem.process_id Filesystem.user
+       Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(lastTime)`
+    | `security_content_ctime(firstTime)`
+    | `common_ransomware_notes_filter`
+how_to_implement: You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
+known_false_positives: |
+    There could be cases where a legitimate file coincidentally matches a known ransomware note
+    name. In such cases, further investigation is required to determine the nature of the file and its context.
 references: []
 tags:
-  analytic_story:
-  - Chaos Ransomware
-  - Rhysida Ransomware
-  - Ransomware
-  - LockBit Ransomware
-  - Medusa Ransomware
-  - SamSam Ransomware
-  - Clop Ransomware
-  - Ryuk Ransomware
-  - Black Basta Ransomware
-  - Termite Ransomware
-  - Interlock Ransomware
-  - NailaoLocker Ransomware
-  - Hellcat Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1485
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Chaos Ransomware
+        - Rhysida Ransomware
+        - Ransomware
+        - LockBit Ransomware
+        - Medusa Ransomware
+        - SamSam Ransomware
+        - Clop Ransomware
+        - Ryuk Ransomware
+        - Black Basta Ransomware
+        - Termite Ransomware
+        - Interlock Ransomware
+        - NailaoLocker Ransomware
+        - Hellcat Ransomware
+        - Storm-0501 Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1485
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

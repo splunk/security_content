@@ -1,60 +1,57 @@
 name: Suspicious Email Attachment Extensions
 id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
-version: 9
-date: '2025-12-17'
+version: 11
+date: '2026-03-10'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic detects emails containing attachments with suspicious
-  file extensions. It leverages the Email data model in Splunk, using the tstats command
-  to identify emails where the attachment filename is not empty. This detection is
-  significant for SOC analysts as it highlights potential phishing or malware delivery
-  attempts, which are common vectors for data breaches and malware infections. If
-  confirmed malicious, this activity could lead to unauthorized access to sensitive
-  information, system compromise, or data exfiltration. Immediate review and analysis
-  of the identified emails and attachments are crucial to mitigate these risks.
+description: The following analytic detects emails containing attachments with suspicious file extensions. It leverages the Email data model in Splunk, using the tstats command to identify emails where the attachment filename is not empty. This detection is significant for SOC analysts as it highlights potential phishing or malware delivery attempts, which are common vectors for data breaches and malware infections. If confirmed malicious, this activity could lead to unauthorized access to sensitive information, system compromise, or data exfiltration. Immediate review and analysis of the identified emails and attachments are crucial to mitigate these risks.
 data_source: []
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,
-  All_Email.file_name All_Email.message_id
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `drop_dm_object_name("All_Email")`
-  | lookup update=true is_suspicious_file_extension_lookup file_name OUTPUT suspicious
-  | search suspicious=true
-  | `suspicious_email_attachment_extensions_filter`
-how_to_implement: "You need to ingest data from emails. Specifically, the sender's
-  address and the file names of any attachments must be mapped to the Email data model.\n
-  **Splunk Phantom Playbook Integration**\nIf Splunk Phantom is also configured in
-  your environment, a Playbook called \"Suspicious Email Attachment Investigate and
-  Delete\" can be configured to run when any results are found by this detection search.
-  To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`,
-  and add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response
-  Actions when configuring this detection search. The finding event will be sent to
-  Phantom and the playbook will gather further information about the file attachment
-  and its network behaviors. If Phantom finds malicious behavior and an analyst approves
-  of the results, the email will be deleted from the user's inbox.'"
-known_false_positives: None identified
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime from datamodel=Email.All_Email where All_Email.file_name="*"
+
+    by All_Email.src_user All_Email.file_name All_Email.file_size All_Email.message_id
+       All_Email.message_info All_Email.process All_Email.process_id All_Email.orig_dest
+       All_Email.orig_recipient
+
+    | `drop_dm_object_name(All_Email)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | lookup update=true is_suspicious_file_extension_lookup file_name OUTPUT suspicious
+    | search suspicious=true
+    | `suspicious_email_attachment_extensions_filter`
+how_to_implement: |
+    You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model.
+    **Splunk Phantom Playbook Integration**\nIf Splunk Phantom is also configured in
+    your environment, a Playbook called \"Suspicious Email Attachment Investigate and
+    Delete\" can be configured to run when any results are found by this detection search.
+    To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`,
+    and add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response
+    Actions when configuring this detection search. The finding event will be sent to
+    Phantom and the playbook will gather further information about the file attachment
+    and its network behaviors. If Phantom finds malicious behavior and an analyst approves
+    of the results, the email will be deleted from the user's inbox.'"
+known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
-  message: Suspicious attachment from $src_user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 25
-  threat_objects: []
+    message: Email attachment $file_name$ with suspicious extension from $src_user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Destruction
-  - Emotet Malware DHS Report TA18-201A
-  - Hermetic Wiper
-  - Suspicious Emails
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1566.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Data Destruction
+        - Emotet Malware DHS Report TA18-201A
+        - Hermetic Wiper
+        - Suspicious Emails
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1566.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network

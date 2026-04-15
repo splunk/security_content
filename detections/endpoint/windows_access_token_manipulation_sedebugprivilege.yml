@@ -1,91 +1,69 @@
 name: Windows Access Token Manipulation SeDebugPrivilege
 id: 6ece9ed0-5f92-4315-889d-48560472b188
-version: 18
-date: '2025-12-04'
+version: 20
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a process enabling the 
-  "SeDebugPrivilege" privilege token. It leverages Windows Security Event Logs 
-  with EventCode 4703, filtering out common legitimate processes. This activity 
-  is significant because SeDebugPrivilege allows a process to inspect and modify
-  the memory of other processes, potentially leading to credential dumping or 
-  code injection. If confirmed malicious, an attacker could gain extensive 
-  control over system processes, enabling them to escalate privileges, persist 
-  in the environment, or access sensitive information.
+description: The following analytic detects a process enabling the "SeDebugPrivilege" privilege token. It leverages Windows Security Event Logs with EventCode 4703, filtering out common legitimate processes. This activity is significant because SeDebugPrivilege allows a process to inspect and modify the memory of other processes, potentially leading to credential dumping or code injection. If confirmed malicious, an attacker could gain extensive control over system processes, enabling them to escalate privileges, persist in the environment, or access sensitive information.
 data_source:
-- Windows Event Log Security 4703
-search: '`wineventlog_security` EventCode=4703 EnabledPrivilegeList = "*SeDebugPrivilege*"
-  AND NOT(ProcessName IN ("*\\Program File*", "*\\System32\\lsass.exe*", "*\\SysWOW64\\lsass.exe*",
-  "*\\SysWOW64\\svchost.exe*", "*\\System32\\svchost.exe*")) | stats count min(_time)
-  as firstTime max(_time) as lastTime by Computer ProcessName ProcessId SubjectDomainName
-  SubjectUserName SubjectUserSid TargetUserName TargetLogonId TargetDomainName EnabledPrivilegeList
-  action dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_access_token_manipulation_sedebugprivilege_filter`'
-how_to_implement: To successfully implement this search, you need to be 
-  ingesting Windows Security Event Logs with 4703 EventCode enabled. The Windows
-  TA is also required.
-known_false_positives: Some native binaries and browser applications may request
-  SeDebugPrivilege. Filter as needed.
+    - Windows Event Log Security 4703
+search: '`wineventlog_security` EventCode=4703 EnabledPrivilegeList = "*SeDebugPrivilege*" AND NOT(ProcessName IN ("*\\Program File*", "*\\System32\\lsass.exe*", "*\\SysWOW64\\lsass.exe*", "*\\SysWOW64\\svchost.exe*", "*\\System32\\svchost.exe*")) | stats count min(_time) as firstTime max(_time) as lastTime by Computer ProcessName ProcessId SubjectDomainName SubjectUserName SubjectUserSid TargetUserName TargetLogonId TargetDomainName EnabledPrivilegeList action dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_access_token_manipulation_sedebugprivilege_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4703 EventCode enabled. The Windows TA is also required.
+known_false_positives: Some native binaries and browser applications may request SeDebugPrivilege. Filter as needed.
 references:
-- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4703
-- https://devblogs.microsoft.com/oldnewthing/20080314-00/?p=23113
-- https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e
-- https://atomicredteam.io/privilege-escalation/T1134.001/#atomic-test-2---%60sedebugprivilege%60-token-duplication
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+    - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4703
+    - https://devblogs.microsoft.com/oldnewthing/20080314-00/?p=23113
+    - https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e
+    - https://atomicredteam.io/privilege-escalation/T1134.001/#atomic-test-2---%60sedebugprivilege%60-token-duplication
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
 drilldown_searches:
-- name: View the detection results for - "$Computer$"
-  search: '%original_detection_search% | search  Computer = "$Computer$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$Computer$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$Computer$"
+      search: '%original_detection_search% | search  Computer = "$Computer$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$Computer$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A process $ProcessName$ adjust its privileges with SeDebugPrivilege 
-    on $Computer$.
-  risk_objects:
-  - field: Computer
-    type: system
-    score: 36
-  threat_objects: []
+    message: A process $ProcessName$ adjust its privileges with SeDebugPrivilege on $Computer$.
+    risk_objects:
+        - field: Computer
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Meduza Stealer
-  - PlugX
-  - CISA AA23-347A
-  - China-Nexus Threat Activity
-  - AsyncRAT
-  - SnappyBee
-  - Derusbi
-  - WinDealer RAT
-  - Salt Typhoon
-  - DarkGate Malware
-  - ValleyRAT
-  - Brute Ratel C4
-  - PathWiper
-  - GhostRedirector IIS Module and Rungan Backdoor
-  - Lokibot
-  - Scattered Lapsus$ Hunters
-  - Tuoni
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1134.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Meduza Stealer
+        - PlugX
+        - CISA AA23-347A
+        - China-Nexus Threat Activity
+        - AsyncRAT
+        - SnappyBee
+        - Derusbi
+        - WinDealer RAT
+        - Salt Typhoon
+        - DarkGate Malware
+        - ValleyRAT
+        - Brute Ratel C4
+        - PathWiper
+        - GhostRedirector IIS Module and Rungan Backdoor
+        - Lokibot
+        - Scattered Lapsus$ Hunters
+        - Tuoni
+        - Gh0st RAT
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1134.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/sedebugprivilege_token/security-xml.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/sedebugprivilege_token/security-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

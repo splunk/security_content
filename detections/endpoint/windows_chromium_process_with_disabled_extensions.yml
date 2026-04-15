@@ -1,0 +1,75 @@
+name: Windows Chromium Process with Disabled Extensions
+id: ce245717-779b-483b-bc52-fc7a94729973
+version: 3
+date: '2026-03-10'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects instances of Chromium-based browser processes on Windows launched with extensions explicitly disabled via command-line arguments. Disabling extensions can be used by automation frameworks, testing tools, or headless browser activity, but may also indicate defense evasion or abuse of browser functionality by malicious scripts or malware. This behavior reduces browser visibility and bypasses user-installed security extensions, making it relevant for detecting non-interactive execution, suspicious automation, or living-off-the-land techniques. Analysts should validate execution context, parent process, and command-line parameters to determine legitimacy.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |
+    | tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
+    as lastTime from datamodel=Endpoint.Processes
+    where Processes.process_name IN ("Chrome.exe","Brave.exe", "Opera.exe", "Vivaldi.exe", "msedge.exe")
+    Processes.process = "*--disable-extensions*"
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+       Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_chromium_process_with_disabled_extensions_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: Administrators may enable or disable this feature for framework testing that may cause some false positive.
+references:
+    - https://www.trendmicro.com/en_us/research/26/a/analysis-of-the-evelyn-stealer-campaign.html
+    - https://peter.sh/experiments/chromium-command-line-switches/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: User $user$ launched a Chromium-based browser on $dest$ with the --disable-extensions flag. Parent process $parent_process_name$. Command line $process$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+        - field: user
+          type: user
+          score: 20
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+        - field: process_name
+          type: process_name
+        - field: process
+          type: process
+        - field: parent_process
+          type: parent_process
+tags:
+    analytic_story:
+        - Browser Hijacking
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1497
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497/browser_disable_extension/chrome_disable_ext.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

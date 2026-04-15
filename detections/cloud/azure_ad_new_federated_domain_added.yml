@@ -1,79 +1,67 @@
 name: Azure AD New Federated Domain Added
 id: a87cd633-076d-4ab2-9047-977751a3c1a0
-version: 10
-date: '2025-10-14'
+version: 13
+date: '2026-03-10'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic detects the addition of a new federated domain
-  within an Azure Active Directory tenant. It leverages Azure AD AuditLogs to identify
-  successful "Set domain authentication" operations. This activity is significant
-  as it may indicate the use of the Azure AD identity federation backdoor technique,
-  allowing an adversary to establish persistence. If confirmed malicious, the attacker
-  could impersonate any user, bypassing password and MFA requirements, potentially
-  leading to unauthorized access and control over the Azure AD environment.
+description: The following analytic detects the addition of a new federated domain within an Azure Active Directory tenant. It leverages Azure AD AuditLogs to identify successful "Set domain authentication" operations. This activity is significant as it may indicate the use of the Azure AD identity federation backdoor technique, allowing an adversary to establish persistence. If confirmed malicious, the attacker could impersonate any user, bypassing password and MFA requirements, potentially leading to unauthorized access and control over the Azure AD environment.
 data_source:
-- Azure Active Directory Set domain authentication
-search: '`azure_monitor_aad` operationName="Set domain authentication" "properties.result"=success 
-  | rename properties.* as * 
-  | rename targetResources{}.displayName as domain 
-  | rename userAgent as user_agent 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent domain signature
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_new_federated_domain_added_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
-  the AuditLogs log category.
-known_false_positives: In most organizations, domain federation settings will be updated
-  infrequently. Filter as needed.
+    - Azure Active Directory Set domain authentication
+search: |-
+    `azure_monitor_aad` operationName="Set domain authentication" "properties.result"=success
+      | rename properties.* as *
+      | rename targetResources{}.displayName as domain
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product user_agent
+           domain signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_new_federated_domain_added_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
+known_false_positives: In most organizations, domain federation settings will be updated infrequently. Filter as needed.
 references:
-- https://www.mandiant.com/resources/remediation-and-hardening-strategies-microsoft-365-defend-against-apt29-v13
-- https://o365blog.com/post/federation-vulnerability/
-- https://www.inversecos.com/2021/11/how-to-detect-azure-active-directory.html
-- https://www.mandiant.com/resources/blog/detecting-microsoft-365-azure-active-directory-backdoors
-- https://attack.mitre.org/techniques/T1484/002/
+    - https://www.mandiant.com/resources/remediation-and-hardening-strategies-microsoft-365-defend-against-apt29-v13
+    - https://o365blog.com/post/federation-vulnerability/
+    - https://www.inversecos.com/2021/11/how-to-detect-azure-active-directory.html
+    - https://www.mandiant.com/resources/blog/detecting-microsoft-365-azure-active-directory-backdoors
+    - https://attack.mitre.org/techniques/T1484/002/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A new federated domain, $domain$ , was added by $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 81
-  threat_objects: []
+    message: A new federated domain, $domain$ , was added by $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Azure Active Directory Persistence
-  - Scattered Lapsus$ Hunters
-  - Hellcat Ransomware
-  asset_type: Azure Active Directory
-  mitre_attack_id:
-  - T1484.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Azure Active Directory Persistence
+        - Scattered Lapsus$ Hunters
+        - Hellcat Ransomware
+        - Storm-0501 Ransomware
+    asset_type: Azure Active Directory
+    mitre_attack_id:
+        - T1484.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.002/new_federated_domain/azure-audit.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.002/new_federated_domain/azure-audit.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad

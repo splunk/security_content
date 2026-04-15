@@ -1,81 +1,77 @@
 name: Cisco Secure Firewall - Communication Over Suspicious Ports
 id: d85c05c8-42c0-4e4a-87e7-4e1bb3e844e3
-version: 2
-date: '2025-05-02'
+version: 6
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic detects potential reverse shell activity by identifying connections involving ports commonly associated with remote access tools, shell listeners, or tunneling utilities. It leverages Cisco Secure Firewall Threat Defense logs and monitors destination ports against a list of non-standard, high-risk port values often used in post-exploitation scenarios. Adversaries frequently configure tools like netcat, Meterpreter, or other backdoors to listen or connect over uncommon ports such as 4444, 2222, or 51820 to bypass standard monitoring and firewall rules. If confirmed malicious, this activity may represent command and control (C2) tunneling, lateral movement, or unauthorized remote access.
+    The following analytic detects potential reverse shell activity by identifying connections involving ports commonly associated with remote access tools, shell listeners, or tunneling utilities. It leverages Cisco Secure Firewall Threat Defense logs and monitors destination ports against a list of non-standard, high-risk port values often used in post-exploitation scenarios. Adversaries frequently configure tools like netcat, Meterpreter, or other backdoors to listen or connect over uncommon ports such as 4444, 2222, or 51820 to bypass standard monitoring and firewall rules. If confirmed malicious, this activity may represent command and control (C2) tunneling, lateral movement, or unauthorized remote access.
 data_source:
-- Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent dest_port IN ("888", "999", "2200", "2222", "4000", "4444", "6789", "8531", "50501", "51820") | fillnull value="unknown" url
-  | stats min(_time) as firstTime max(_time) as lastTime 
-        values(src_port) as src_port
-        values(url) as url
-        values(rule) as rule
-        count by src_ip, dest, dest_port, transport, action
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `cisco_secure_firewall___communication_over_suspicious_ports_filter`
+    `cisco_secure_firewall` EventType=ConnectionEvent dest_port IN ("888", "999", "2200", "2222", "4000", "4444", "6789", "8531", "50501", "51820") | fillnull value="unknown" url
+    | stats min(_time) as firstTime max(_time) as lastTime
+          values(src_port) as src_port
+          values(url) as url
+          values(rule) as rule
+          count by src, dest, dest_port, transport, action
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___communication_over_suspicious_ports_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The access policy must also enable logging.
-  The search uses a hardcoded list of suspicious ports, you might want to tune those according to your environment
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The access policy must also enable logging.
+    The search uses a hardcoded list of suspicious ports, you might want to tune those according to your environment
 known_false_positives: |
-  Some legitimate services or custom applications may use non-standard ports for development, remote management, or internal communication.
-  Ephemeral ports in test environments may occasionally overlap with ports used in this detection.
-  Additional context such as process name, user behavior, or endpoint telemetry should be used to validate suspicious sessions before escalation.
+    Some legitimate services or custom applications may use non-standard ports for development, remote management, or internal communication.
+    Ephemeral ports in test environments may occasionally overlap with ports used in this detection.
+    Additional context such as process name, user behavior, or endpoint telemetry should be used to validate suspicious sessions before escalation.
 references:
-  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious communication detected from $src_ip$ to $dest$ over port $dest_port$.
-  risk_objects:
-    - field: src_ip
-      type: system
-      score: 20
-  threat_objects:
-  - field: url
-    type: url
+    message: Suspicious communication detected from $src$ to $dest$ over port $dest_port$.
+    risk_objects:
+        - field: src
+          type: system
+          score: 20
+    threat_objects:
+        - field: url
+          type: url
 tags:
-  analytic_story:
-    - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Network
-  security_domain: network
-  mitre_attack_id:
-    - T1021
-    - T1055
-    - T1059.001
-    - T1105
-    - T1219
-    - T1571
-  product:
-    - Splunk Enterprise
-    - Splunk Cloud
-    - Splunk Enterprise Security
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Network
+    security_domain: network
+    mitre_attack_id:
+        - T1021
+        - T1055
+        - T1059.001
+        - T1105
+        - T1219
+        - T1571
+    product:
+        - Splunk Enterprise
+        - Splunk Cloud
+        - Splunk Enterprise Security
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

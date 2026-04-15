@@ -1,0 +1,29 @@
+name: Cisco Catalyst SD-WAN Analytics
+id: 7ec01b6e-95fa-4a89-86b7-ada08cf237de
+version: 1
+date: '2026-03-02'
+author: Nasreddine Bencherchali, Splunk
+status: production
+description: |
+    This analytic story provides a suite of detections designed to analyze logs collected from Cisco Catalyst SD-WAN devices.
+    The included analytics focus on identifying anomalous control connections, unexpected peer relationships, rare peer-type and system-IP combinations, suspicious public IP associations, and other deviations from established SD-WAN topology behavior.
+    These detections help security teams surface unauthorized devices, misconfigurations, infrastructure drift, and potential exploitation attempts targeting SD-WAN components.
+narrative: |
+    Cisco Catalyst SD-WAN provides centralized orchestration and policy-driven connectivity through control-plane communications between vManage, vSmart, and edge devices.
+    The platform generates logs related to control-connection state changes, peer identity, public IP associations, and system roles, etc.
+    This analytic story leverages that telemetry to detect behavioral anomalies within SD-WAN control relationships, highlighting rare or unexpected peer interactions that may indicate configuration errors, unauthorized infrastructure, or adversary activity.
+references:
+    - https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems
+    - https://blog.talosintelligence.com/uat-8616-sd-wan/
+    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/Monitor-And-Maintain/monitor-maintain-book/m-alarms-events-logs.html
+    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging
+    - https://sec.cloudapps.cisco.com/security/center/resources/Cisco-Catalyst-SD-WAN-HardeningGuide
+    - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
+tags:
+    category:
+        - Adversary Tactics
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    usecase: Advanced Threat Detection

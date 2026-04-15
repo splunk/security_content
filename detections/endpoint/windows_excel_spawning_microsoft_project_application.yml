@@ -1,0 +1,81 @@
+name: Windows Excel Spawning Microsoft Project Application
+id: ee54241e-0815-4423-9729-e1f5dfc402de
+version: 1
+date: '2026-03-16'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |
+    The following analytic identifies the execution of uncommon Microsoft application executables as child processes of Microsoft Excel.
+    Under normal conditions, Excel primarily spawns internal Office-related processes, and the creation of executables such as WINPROJ.EXE, FOXPROW.exe, or SCHDPLUS.exe is uncommon in typical business workflows.
+    Adversaries may abuse this behavior to blend malicious activity within trusted applications, execute unauthorized code, or bypass application control mechanisms.
+    This technique aligns with common tradecraft where Office applications are leveraged as initial access or execution vectors due to their prevalence in enterprise environments.
+    Detecting this relationship helps defenders spot suspicious child processes that may indicate malware execution, persistence mechanisms, or attempts to establish command-and-control.
+    Security teams should investigate the parent Excel process, the context of the ActivateMicrosoftApp() execution, and any subsequent network or file activity.
+    While certain legitimate Office features could trigger this process in specific environments, its occurrence generally warrants further scrutiny to validate intent and rule out compromise.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes WHERE
+    Processes.parent_process_name = "EXCEL.EXE"
+    Processes.process_name IN ("WINPROJ.EXE", "FOXPROW.exe","SCHDPLUS.exe")
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_excel_spawning_microsoft_project_application_filter`
+how_to_implement: |
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |
+    Microsoft Project has been discontinued since January 2010, so its presence is unlikely in modern environments.
+    If a related child process is observed, verify its legitimacy to rule out potential misuse.
+references:
+    - https://specterops.io/blog/2023/10/30/lateral-movement-abuse-the-power-of-dcom-excel-application/
+    - https://blog.talosintelligence.com/pathwiper-targets-ukraine/
+    - https://www.trellix.com/blogs/research/dcom-abuse-and-network-erasure-with-trellix-ndr/
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: $parent_process_name$ spawned $process_name$ on $dest$, indicative of ActivateMicrosoftApp() use
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+        - field: process
+          type: process
+tags:
+    analytic_story:
+        - PathWiper
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1021.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/excel_activemicrosoftapp/sysmon_winprojexe.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

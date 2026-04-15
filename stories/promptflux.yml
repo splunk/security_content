@@ -1,0 +1,18 @@
+name: PromptFlux
+id: e5a8476a-5c58-4da6-8b27-6e18690cca37
+version: 1
+date: '2025-12-17'
+author: Teoderick Contreras, Splunk
+status: production
+description: PromptFlux is a POC malware sample that abuses Gemini-like services for command-and-control operations. It achieves persistence by dropping executables or scripts in startup folders and frequently accesses the Gemini API using hard-coded keys or unauthorized requests, often from non-standard processes. The malware also stages payloads, configuration files, or encrypted prompts in temporary directories such as TMP, leaving forensic artifacts. Detection involves monitoring these locations, tracking anomalous API calls, and observing unusual outbound traffic or process injections, enabling early identification and mitigation.
+narrative: PromptFlux is currently a POC malware sample that abuses Gemini-like services for malicious command execution. It ensures persistence by dropping files in startup folders and staging payloads in temporary directories. The malware exploits Gemini API access to receive instructions or exfiltrate data, often using hard-coded keys or unauthorized requests. Its activity may include unusual outbound traffic, process injections, and script execution outside normal workflows. Monitoring these locations and API usage can help identify infections early and prevent further compromise.
+references:
+  - https://cloud.google.com/blog/topics/threat-intelligence/threat-actor-usage-of-ai-tools
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

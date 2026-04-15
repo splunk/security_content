@@ -1,68 +1,60 @@
 name: Rundll32 Process Creating Exe Dll Files
 id: 6338266a-ee2a-11eb-bf68-acde48001122
-version: 8
-date: '2025-05-02'
+version: 12
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects a rundll32 process creating executable
-  (.exe) or dynamic link library (.dll) files. It leverages Sysmon EventCode 11 to
-  identify instances where rundll32.exe generates these file types. This activity
-  is significant because rundll32 is often exploited by malware, such as IcedID, to
-  drop malicious payloads in directories like Temp, AppData, or ProgramData. If confirmed
-  malicious, this behavior could allow an attacker to execute arbitrary code, establish
-  persistence, or escalate privileges within the environment.
+description: The following analytic detects a rundll32 process creating executable (.exe) or dynamic link library (.dll) files. It leverages Sysmon EventCode 11 to identify instances where rundll32.exe generates these file types. This activity is significant because rundll32 is often exploited by malware, such as IcedID, to drop malicious payloads in directories like Temp, AppData, or ProgramData. If confirmed malicious, this behavior could allow an attacker to execute arbitrary code, establish persistence, or escalate privileges within the environment.
 data_source:
-- Sysmon EventID 11
-search: '`sysmon` EventCode=11 Image="*rundll32.exe" TargetFilename IN ("*.exe", "*.dll")
-  | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name
-  file_path process_guid process_id user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `rundll32_process_creating_exe_dll_files_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, TargetFilename, and eventcode 11 executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-known_false_positives: unknown
+    - Sysmon EventID 11
+search: |-
+    `sysmon` EventCode=11 Image="*rundll32.exe" TargetFilename IN ("*.exe", "*.dll")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action dest file_name
+           file_path process_guid process_id
+           user_id vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `rundll32_process_creating_exe_dll_files_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, TargetFilename, and eventcode 11 executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: No false positives have been identified at this time.
 references:
-- https://any.run/malware-trends/icedid
+    - https://any.run/malware-trends/icedid
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: rundll32 process drops a file $file_name$ on host $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 80
-  threat_objects:
-  - field: file_name
-    type: file_name
+    message: rundll32 process drops a file $file_name$ on host $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: file_name
+          type: file_name
 tags:
-  analytic_story:
-  - IcedID
-  - Living Off The Land
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1218.011
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - IcedID
+        - Living Off The Land
+        - Gh0st RAT
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1218.011
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

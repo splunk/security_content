@@ -5,67 +5,42 @@ date: '2025-05-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects registry changes to the default file association
-  value. It leverages data from the Endpoint data model, specifically monitoring registry
-  paths under "HKCR\\*\\shell\\open\\command\\*". This activity can be significant
-  because, attackers might alter the default file associations in order to execute
-  arbitrary scripts or payloads when a user opens a file, leading to potential code
-  execution. If confirmed malicious, this technique can enable attackers to persist
-  on the compromised host and execute further malicious commands, posing a severe
-  threat to the environment.
+description: The following analytic detects registry changes to the default file association value. It leverages data from the Endpoint data model, specifically monitoring registry paths under "HKCR\\*\\shell\\open\\command\\*". This activity can be significant because, attackers might alter the default file associations in order to execute arbitrary scripts or payloads when a user opens a file, leading to potential code execution. If confirmed malicious, this technique can enable attackers to persist on the compromised host and execute further malicious commands, posing a severe threat to the environment.
 data_source:
-- Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\shell\\open\\command\\*"
-  Registry.registry_path IN ("*HKCR\\*", "*HKEY_CLASSES_ROOT\\*") by Registry.dest  Registry.user
-  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`
-  | `windows_new_default_file_association_value_set_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
-known_false_positives: Windows and third party software will create and modify these
-  file associations during installation or upgrades. Additional filters needs to be
-  applied to tune environment specific false positives.
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\shell\\open\\command\\*" Registry.registry_path IN ("*HKCR\\*", "*HKEY_CLASSES_ROOT\\*") by Registry.dest  Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `windows_new_default_file_association_value_set_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
+known_false_positives: Windows and third party software will create and modify these file associations during installation or upgrades. Additional filters needs to be applied to tune environment specific false positives.
 references:
-- https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/privilege-escalation/untitled-3/accessibility-features
+    - https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/privilege-escalation/untitled-3/accessibility-features
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user$"
-  search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 tags:
-  analytic_story:
-  - Hermetic Wiper
-  - Windows Registry Abuse
-  - Prestige Ransomware
-  - Windows Privilege Escalation
-  - Windows Persistence Techniques
-  - Data Destruction
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1546.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Hermetic Wiper
+        - Windows Registry Abuse
+        - Prestige Ransomware
+        - Windows Privilege Escalation
+        - Windows Persistence Techniques
+        - Data Destruction
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1546.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

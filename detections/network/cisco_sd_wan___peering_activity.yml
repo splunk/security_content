@@ -1,0 +1,76 @@
+name: Cisco SD-WAN - Peering Activity
+id: 1d192a47-4bd3-4c06-902d-5dbe2375ec6d
+version: 2
+date: '2026-03-02'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Hunting
+description: |
+    This analytic detects Cisco SD-WAN `control-connection-state-change` events where a control connection transitions.
+    It extracts and highlights key triage fields including `peer-type`, `peer-system-ip`, `public-ip`, and `public-port`.
+    Analysts should manually validate whether the `peer-system-ip` matches the expected SD-WAN addressing schema and
+    device inventory, whether the event timing aligns with known operational activity (maintenance, failover, or
+    planned changes), and whether the `public-ip` is an expected source for control peering in the environment.
+    Treat `peer-type:vmanage` events with higher scrutiny, especially when peer or source IP values are previously
+    unseen.
+data_source:
+    - Cisco SD-WAN NTCE 1000001
+search: |-
+    `cisco_sd_wan_syslog`
+    TERM("*control-connection-state-change*")
+    TERM("*peer-system-ip:*")
+    TERM("*public-ip:*")
+    TERM("*new-state:up*")
+    | rex field=_raw "^(?<event_timestamp>(?:[A-Z][a-z]{2}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}(?:\.\d{3})?|[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.\d{1,6})?(?:Z|[+-][0-9]{2}:[0-9]{2})))\s*:?"
+    | rex field=_raw "^(?:[A-Z][a-z]{2}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}(?:\.\d{3})?\s*:?\s+)(?<prefix_host>[^\s:]+)\s+\S+(?:\[\d+\])?:\s+%"
+    | eval dest=coalesce(prefix_host, legacy_host, device_name, host)
+    | rex field=_raw "new-state:(?<new_state>\S+)"
+    | rex field=_raw "peer-type:(?<peer_type>\S+)"
+    | rex field=_raw "peer-system-ip:(?<peer_system_ip>\S+)"
+    | rex field=_raw "public-ip:(?<public_ip>\S+)"
+    | rex field=_raw "public-port:(?<public_port>\d+)"
+
+    | where isnotnull(peer_type) AND isnotnull(peer_system_ip)
+
+    | stats count max(event_timestamp) as event_time
+                  values(public_ip) as public_ips
+                  values(public_port) as public_ports
+      by peer_type peer_system_ip dest new_state
+
+    | table event_time dest peer_type peer_system_ip
+            public_ips public_ports count
+    | `cisco_sd_wan___peering_activity_filter`
+how_to_implement: |
+    This analytic requires Cisco SD-WAN/vSmart logs in Splunk and assumes control peering status
+    messages are searchable via the `cisco_sd_wan_syslog` macro. Update that macro with your environment-specific index and sourcetype settings.
+    Follow the documentation https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging to start ingesting these logs.
+known_false_positives: |
+    New controller onboarding, topology expansion, controller failover, maintenance windows, and temporary transport.
+    Path changes can create rare peer/public-IP combinations.
+    Validate outliers against change records and known SD-WAN inventory before escalating.
+references:
+    - https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems
+    - https://blog.talosintelligence.com/uat-8616-sd-wan/
+    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/Monitor-And-Maintain/monitor-maintain-book/m-alarms-events-logs.html
+    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging
+    - https://sec.cloudapps.cisco.com/security/center/resources/Cisco-Catalyst-SD-WAN-HardeningGuide
+    - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
+tags:
+    analytic_story:
+        - Cisco Catalyst SD-WAN Analytics
+    asset_type: Network
+    mitre_attack_id:
+        - T1190
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+    cve:
+        - CVE-2026-20127
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_sd_wan/vsyslog/vsyslog.log
+          source: /var/log/vsyslog
+          sourcetype: cisco:sdwan:syslog

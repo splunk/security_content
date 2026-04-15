@@ -1,71 +1,49 @@
 name: O365 DLP Rule Triggered
 id: 63a8a537-36fd-4aac-a3ea-1a96afd2c871
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects when Microsoft Office 365 Data Loss Prevention
-  (DLP) rules have been triggered. DLP rules can be configured for any number of security,
-  regulatory, or business compliance reasons, as such this analytic will only be as
-  accurate as the upstream DLP configuration. Detections from this analytic should
-  be evaluated thoroughly to de termine what, if any, security relevance the underlying
-  DLP events contain.
+description: The following analytic detects when Microsoft Office 365 Data Loss Prevention (DLP) rules have been triggered. DLP rules can be configured for any number of security, regulatory, or business compliance reasons, as such this analytic will only be as accurate as the upstream DLP configuration. Detections from this analytic should be evaluated thoroughly to de termine what, if any, security relevance the underlying DLP events contain.
 data_source:
-- Office 365 Universal Audit Log
-search: '`o365_management_activity` Operation=DLPRuleMatch | eval recipient = ''ExchangeMetaData.To{}'',
-  signature_id = ''ExchangeMetaData.UniqueID'', signature = ''PolicyDetails{}.Rules{}.RuleName''
-  , src_user = UserId, reason =''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.SensitiveInformationTypeName'',
-  result=''PolicyDetails{}.Rules{}.Actions{}'', file_name=case(NOT match(''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.Location'',"Message
-  Body"),''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.Location'')
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime values(signature)
-  as signature values(file_name) as file_name values(ExchangeMetaData.Subject) AS
-  subject values(Workload) as app values(result) as result by action dest user src
-  vendor_account vendor_product src_user recipient signature_id reason | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `o365_dlp_rule_triggered_filter` '
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events. You must deploy DLP rules through O365 security
-  and compliance functions.
-known_false_positives: WIll depending on accuracy of DLP rules, these can be noisy
-  so tune appropriately.
+    - Office 365 Universal Audit Log
+search: '`o365_management_activity` Operation=DLPRuleMatch | eval recipient = ''ExchangeMetaData.To{}'', signature_id = ''ExchangeMetaData.UniqueID'', signature = ''PolicyDetails{}.Rules{}.RuleName'' , src_user = UserId, reason =''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.SensitiveInformationTypeName'', result=''PolicyDetails{}.Rules{}.Actions{}'', file_name=case(NOT match(''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.Location'',"Message Body"),''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.Location'') | fillnull | stats count min(_time) as firstTime max(_time) as lastTime values(signature) as signature values(file_name) as file_name values(ExchangeMetaData.Subject) AS subject values(Workload) as app values(result) as result by action dest user src vendor_account vendor_product src_user recipient signature_id reason | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_dlp_rule_triggered_filter` '
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. You must deploy DLP rules through O365 security and compliance functions.
+known_false_positives: WIll depending on accuracy of DLP rules, these can be noisy so tune appropriately.
 references:
-- https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp
+    - https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ triggered a Microsoft Office DLP rule.
-  risk_objects:
-  - field: user
-    type: user
-    score: 20
-  threat_objects: []
+    message: User $user$ triggered a Microsoft Office DLP rule.
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Exfiltration
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1048
-  - T1567
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Data Exfiltration
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1048
+        - T1567
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
-    sourcetype: o365:management:activity
-    source: o365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+          sourcetype: o365:management:activity
+          source: o365

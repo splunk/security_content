@@ -1,92 +1,73 @@
 name: Potential Telegram API Request Via CommandLine
 id: d6b0d627-d0bf-46b1-936f-c48284767d21
-version: 6
-date: '2025-10-14'
+version: 8
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk, Zaki Zarkasih Al Mustafa
 status: production
 type: Anomaly
-description: The following analytic detects the presence of "api.telegram.org" 
-  in the CommandLine of a process. It leverages data from Endpoint Detection and
-  Response (EDR) agents, focusing on process execution logs that include 
-  command-line details. This activity can be significant as the telegram API has
-  been used as an exfiltration mechanism or even as a C2 channel. If confirmed 
-  malicious, this could allow an attacker or malware to exfiltrate data or 
-  receive additional C2 instruction, potentially leading to further compromise 
-  and persistence within the network.
+description: The following analytic detects the presence of "api.telegram.org" in the CommandLine of a process. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include command-line details. This activity can be significant as the telegram API has been used as an exfiltration mechanism or even as a C2 channel. If confirmed malicious, this could allow an attacker or malware to exfiltrate data or receive additional C2 instruction, potentially leading to further compromise and persistence within the network.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process= "*api.telegram.org*"
-  NOT Processes.process IN ("*-osint -url*", "* --single-argument*") by Processes.action
-  Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `potential_telegram_api_request_via_commandline_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint 
-  Detection and Response (EDR) agents. These agents are designed to provide 
-  security-related telemetry from the endpoints where the agent is installed. To
-  implement this search, you must ingest logs that contain the process GUID, 
-  process name, and parent process. Additionally, you must ingest complete 
-  command-line executions. These logs must be processed using the appropriate 
-  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
-  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
-  Splunk Common Information Model (CIM) to normalize the field names and speed 
-  up the data modeling process.
-known_false_positives: False positive may stem from application or users 
-  requesting the API directly via CommandLine for testing purposes. Investigate 
-  the matches and apply the necessary filters.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+      WHERE Processes.process= "*api.telegram.org*" NOT Processes.process IN ("*-osint -url*", "* --single-argument*")
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `potential_telegram_api_request_via_commandline_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positive may stem from application or users requesting the API directly via CommandLine for testing purposes. Investigate the matches and apply the necessary filters.
 references:
-- https://www.virustotal.com/gui/file/0b3ef5e04329cefb5bb4bf30b3edcb32d1ec6bbcb29d22695a079bfb5b56e8ac/behavior
-- https://www.virustotal.com/gui/file/72c59eeb15b5ec1d95e72e4b06a030bc058822bc10e5cb807e78a4624d329666/behavior
-- https://www.virustotal.com/gui/file/72c59eeb15b5ec1d95e72e4b06a030bc058822bc10e5cb807e78a4624d329666/content
-- https://www.virustotal.com/gui/file/1c4541bf70b6e251ef024ec4dde8dce400539c2368461c0d90e15a81b11ace44/content
+    - https://www.virustotal.com/gui/file/0b3ef5e04329cefb5bb4bf30b3edcb32d1ec6bbcb29d22695a079bfb5b56e8ac/behavior
+    - https://www.virustotal.com/gui/file/72c59eeb15b5ec1d95e72e4b06a030bc058822bc10e5cb807e78a4624d329666/behavior
+    - https://www.virustotal.com/gui/file/72c59eeb15b5ec1d95e72e4b06a030bc058822bc10e5cb807e78a4624d329666/content
+    - https://www.virustotal.com/gui/file/1c4541bf70b6e251ef024ec4dde8dce400539c2368461c0d90e15a81b11ace44/content
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Process $process_name$ with command line $process$ in $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 30
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: Process $process_name$ with command line $process$ in $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - XMRig
-  - Water Gamayun
-  - 0bj3ctivity Stealer
-  - Hellcat Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1102.002
-  - T1041
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - XMRig
+        - Water Gamayun
+        - 0bj3ctivity Stealer
+        - Hellcat Ransomware
+        - BlankGrabber Stealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1102.002
+        - T1041
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1102.002/telegram_api_cli/telegram_cli.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1102.002/telegram_api_cli/telegram_cli.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

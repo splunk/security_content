@@ -1,76 +1,56 @@
 name: Windows Suspicious Driver Loaded Path
 id: 2ca1c4a1-8342-4750-9363-905650e0c933
-version: 5
-date: '2025-09-18'
+version: 7
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the loading of drivers from 
-  suspicious paths, which is a technique often used by malicious software such 
-  as coin miners (e.g., xmrig). It leverages Sysmon EventCode 6 to identify 
-  drivers loaded from non-standard directories. This activity is significant 
-  because legitimate drivers typically reside in specific system directories, 
-  and deviations may indicate malicious activity. If confirmed malicious, this 
-  could allow an attacker to execute code at the kernel level, potentially 
-  leading to privilege escalation, persistence, or further system compromise.
+description: The following analytic detects the loading of drivers from suspicious paths, which is a technique often used by malicious software such as coin miners (e.g., xmrig). It leverages Sysmon EventCode 6 to identify drivers loaded from non-standard directories. This activity is significant because legitimate drivers typically reside in specific system directories, and deviations may indicate malicious activity. If confirmed malicious, this could allow an attacker to execute code at the kernel level, potentially leading to privilege escalation, persistence, or further system compromise.
 data_source:
-- Sysmon EventID 6
-search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
-  "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*","*:\Windows\\WinSxS\\*","*\\ProgramData\\Microsoft\\Windows
-  Defender\\Definition Updates\\*")) |  stats  min(_time) as firstTime max(_time)
-  as lastTime count by ImageLoaded dest dvc process_hash process_path signature signature_id
-  user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_suspicious_driver_loaded_path_filter`'
-how_to_implement: To successfully implement this search, you need to be 
-  ingesting logs with the driver loaded and Signature from your endpoints. If 
-  you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: Limited false positives will be present. Some 
-  applications do load drivers
+    - Sysmon EventID 6
+search: '`sysmon` EventCode=6 ImageLoaded IN("*\\windows\\fonts\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", "*\\Users\\Administrator\\Music\\*", "*Recycle.bin*", "*\\Windows\\Media\\*","\\Windows\\repair\\*", "*\\PerfLogs\\*", "*:\\Windows\\Prefetch\\*", "*:\\Windows\\Cursors\\*", "*\\temp\\*", "*\\download*", "*\\appdata\\*") |  stats  min(_time) as firstTime max(_time) as lastTime count by ImageLoaded dest dvc process_hash process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_suspicious_driver_loaded_path_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: Limited false positives will be present. Some applications do load drivers
 references:
-- https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
-- https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
+    - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+    - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
+    - https://whiteknightlabs.com/2025/11/25/discreet-driver-loading-in-windows/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious driver $ImageLoaded$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 60
-  threat_objects: []
+    message: Suspicious driver $ImageLoaded$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - XMRig
-  - CISA AA22-320A
-  - AgentTesla
-  - BlackByte Ransomware
-  - Snake Keylogger
-  - Interlock Ransomware
-  - APT37 Rustonotto and FadeStealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1543.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - XMRig
+        - CISA AA22-320A
+        - AgentTesla
+        - BlackByte Ransomware
+        - Snake Keylogger
+        - Interlock Ransomware
+        - APT37 Rustonotto and FadeStealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1543.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

@@ -1,44 +1,54 @@
 name: Detect Computer Changed with Anonymous Account
 id: 1400624a-d42d-484d-8843-e6753e6e3645
-version: 7
-date: '2025-05-02'
+version: 10
+date: '2026-03-18'
 author: Rod Soto, Jose Hernandez, Splunk
-status: experimental
+status: production
 type: Hunting
-description: The following analytic detects changes to computer accounts using an
-  anonymous logon. It leverages Windows Security Event Codes 4742 (Computer Change)
-  and 4624 (Successful Logon) with the TargetUserName set to "ANONYMOUS LOGON" and
-  LogonType 3. This activity is significant because anonymous logons should not typically
-  be modifying computer accounts, indicating potential unauthorized access or misconfiguration.
-  If confirmed malicious, this could allow an attacker to alter computer accounts,
-  potentially leading to privilege escalation or persistent access within the network.
+description: |
+    The following analytic detects changes to computer accounts using an anonymous logon.
+    It leverages Windows Security Event Codes 4742 (Computer Change) with a SubjectUserName of a value "ANONYMOUS LOGON".
+    This activity can be significant because anonymous logons should not typically be modifying computer accounts, indicating potential unauthorized access or misconfiguration.
+    If confirmed malicious, this could allow an attacker to alter computer accounts, potentially leading to privilege escalation or persistent access within the network.
 data_source:
-- Windows Event Log Security 4624
-- Windows Event Log Security 4742
-search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS
-  LOGON" LogonType=3 | stats count min(_time) as firstTime max(_time) as lastTime
-  by action app authentication_method dest dvc process process_id process_name process_path
-  signature signature_id src src_port status subject user user_group vendor_product
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_computer_changed_with_anonymous_account_filter`'
-how_to_implement: This search requires audit computer account management to be enabled
-  on the system in order to generate Event ID 4742. We strongly recommend that you
-  specify your environment-specific configurations (index, source, sourcetype, etc.)
-  for Windows Event Logs. Replace the macro definition with configurations for your
-  Splunk environment. The search also uses a post-filter macro designed to filter
-  out known false positives.
-known_false_positives: None thus far found
+    - Windows Event Log Security 4742
+search: |-
+    `wineventlog_security`
+    EventCode=4742
+    SubjectUserName="ANONYMOUS LOGON"
+    PasswordLastSet="*"
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action app dest ProcessID PasswordLastSet
+           signature signature_id src_user status
+           SubjectDomainName user user_group vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `detect_computer_changed_with_anonymous_account_filter`
+how_to_implement: |
+    This search requires "Audit Computer Account Management" sub-category in the audit policy to be enabled on the system in order to generate Event ID 4742, as well as "Audit Logon" to generate Event ID 4624.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Event Logs.
+    Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+known_false_positives: Some legitimate, legacy devices may utilize this functionality and generate false positives. Apply additional tuning as needed.
 references:
-- https://www.lares.com/blog/from-lares-labs-defensive-guidance-for-zerologon-cve-2020-1472/
+    - https://www.lares.com/blog/from-lares-labs-defensive-guidance-for-zerologon-cve-2020-1472/
+    - https://netwrix.com/en/cybersecurity-glossary/cyber-security-attacks/zerologon-vulnerability/
+    - https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES/blob/master/Credential%20Access/Zerologon_VoidSec_CVE-2020-1472_4626_LT3_Anonym_follwedby_4742_DC_Anony_DC.evtx
 tags:
-  analytic_story:
-  - Detect Zerologon Attack
-  asset_type: Windows
-  cve:
-  - CVE-2020-1472
-  mitre_attack_id:
-  - T1210
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Detect Zerologon Attack
+    asset_type: Windows
+    cve:
+        - CVE-2020-1472
+    mitre_attack_id:
+        - T1210
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/zerologon/zerologon.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

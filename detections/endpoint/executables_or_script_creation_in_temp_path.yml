@@ -1,126 +1,148 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 16
-date: '2025-09-30'
+version: 22
+date: '2026-03-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the creation of executables or 
-  scripts in suspicious file paths on Windows systems. It leverages the 
-  Endpoint.Filesystem data model to detect files with specific extensions (e.g.,
-  .exe, .dll, .ps1) created in uncommon directories (e.g., \windows\fonts\, 
-  \users\public\). This activity is significant as adversaries often use these 
-  paths to evade detection and maintain persistence. If confirmed malicious, 
-  this behavior could allow attackers to execute unauthorized code, escalate 
-  privileges, or persist within the environment, posing a significant security 
-  threat.
+description: |
+    The following analytic identifies the creation of executables or scripts in temporary file paths on Windows systems.
+    It leverages the Endpoint.Filesystem data set to detect files with specific extensions (e.g., .exe, .dll, .ps1) created in temporary directories (e.g., \windows\Temp\, \AppData\Local\Temp\).
+    This activity can be significant as adversaries often use these paths to evade detection and maintain persistence.
+    If confirmed malicious, this behavior could allow attackers to execute unauthorized code, escalate privileges, or persist within the environment, posing a significant security threat.
 data_source:
-- Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` values(Filesystem.file_path) as
-  file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
-  where Filesystem.file_name IN ("*.exe", "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe",
-  "*.js", "*.ps1", "*.bat", "*.cmd", "*.pif", "*.msc") AND Filesystem.file_path IN
-  ("*\\AppData\\Local\\Temp\\*", "*:\\Windows\\Temp\\*", "*:\\Temp*") by Filesystem.action
-  Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash
-  Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl
-  Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user
-  Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `executables_or_script_creation_in_temp_path_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting
-  information on process that include the name of the Filesystem responsible for
-  the changes from your endpoints into the `Endpoint` datamodel in the 
-  `Filesystem` node.
-known_false_positives: Administrators may allow creation of script or exe in the
-  paths specified. Filter as needed.
+    - Sysmon EventID 11
+search: |
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
+    Filesystem.action="created"
+    Filesystem.file_name IN (
+      "*.bat",
+      "*.cmd",
+      "*.com",
+      "*.dll",
+      "*.exe",
+      "*.js",
+      "*.msc",
+      "*.pif",
+      "*.ps1",
+      "*.sys",
+      "*.vbe",
+      "*.vbs"
+    )
+    Filesystem.file_path IN (
+      "*:\\Temp\\*",
+      "*:\\Windows\\Temp\\*",
+      "*\\AppData\\Local\\Temp\\*",
+    )
+    NOT Filesystem.file_path IN (
+      "*\\__PSScriptPolicyTest_*",
+    )
+    by Filesystem.action Filesystem.dest Filesystem.file_access_time
+       Filesystem.file_create_time Filesystem.file_hash
+       Filesystem.file_modify_time Filesystem.file_name
+       Filesystem.file_path Filesystem.file_acl Filesystem.file_size
+       Filesystem.process_guid Filesystem.process_id Filesystem.user
+       Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `executables_or_script_creation_in_temp_path_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: |
+    Executable creation and certain script extensions in temporary paths can very common in certain environments and legitimate use cases. It is important to review and filter these events based on your organization's normal activity and policies.
 references:
-- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
-- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
-- https://twitter.com/pr0xylife/status/1590394227758104576
-- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+    - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+    - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://twitter.com/pr0xylife/status/1590394227758104576
+    - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Potentially suspicious executable or script with file name 
-    $file_name$, $file_path$ and process_id $process_id$ was created in 
-    temporary folder by $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 20
-  threat_objects:
-  - field: file_name
-    type: file_name
+    message: Executable or script with file name $file_name$ located $file_path$ and process_id $process_id$ was created in temporary folder by $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects:
+        - field: file_name
+          type: file_name
+        - field: file_path
+          type: file_path
 tags:
-  analytic_story:
-  - Snake Keylogger
-  - China-Nexus Threat Activity
-  - Remcos
-  - LockBit Ransomware
-  - AsyncRAT
-  - DarkCrystal RAT
-  - Derusbi
-  - WinDealer RAT
-  - DarkGate Malware
-  - AcidPour
-  - ValleyRAT
-  - Crypto Stealer
-  - PlugX
-  - Data Destruction
-  - Qakbot
-  - CISA AA23-347A
-  - Hermetic Wiper
-  - Volt Typhoon
-  - Double Zero Destructor
-  - NjRAT
-  - Trickbot
-  - Meduza Stealer
-  - AgentTesla
-  - SnappyBee
-  - Azorult
-  - WhisperGate
-  - Warzone RAT
-  - Swift Slicer
-  - Rhysida Ransomware
-  - Brute Ratel C4
-  - BlackByte Ransomware
-  - Graceful Wipe Out Attack
-  - Chaos Ransomware
-  - Handala Wiper
-  - RedLine Stealer
-  - Salt Typhoon
-  - XMRig
-  - MoonPeak
-  - Industroyer2
-  - Amadey
-  - IcedID
-  - Interlock Rat
-  - APT37 Rustonotto and FadeStealer
-  - PromptLock
-  - Lokibot
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1036
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Snake Keylogger
+        - China-Nexus Threat Activity
+        - Remcos
+        - LockBit Ransomware
+        - AsyncRAT
+        - DarkCrystal RAT
+        - Derusbi
+        - WinDealer RAT
+        - DarkGate Malware
+        - AcidPour
+        - ValleyRAT
+        - Crypto Stealer
+        - PlugX
+        - Data Destruction
+        - Qakbot
+        - CISA AA23-347A
+        - Hermetic Wiper
+        - Volt Typhoon
+        - Double Zero Destructor
+        - NjRAT
+        - Trickbot
+        - Meduza Stealer
+        - AgentTesla
+        - SnappyBee
+        - Azorult
+        - WhisperGate
+        - Warzone RAT
+        - Swift Slicer
+        - Rhysida Ransomware
+        - Brute Ratel C4
+        - BlackByte Ransomware
+        - Graceful Wipe Out Attack
+        - Chaos Ransomware
+        - Handala Wiper
+        - RedLine Stealer
+        - Salt Typhoon
+        - XMRig
+        - MoonPeak
+        - Industroyer2
+        - Amadey
+        - IcedID
+        - Interlock Rat
+        - APT37 Rustonotto and FadeStealer
+        - PromptLock
+        - Lokibot
+        - SesameOp
+        - PromptFlux
+        - XML Runner Loader
+        - Void Manticore
+        - Axios Supply Chain Post Compromise
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1036
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

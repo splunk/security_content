@@ -1,92 +1,76 @@
 name: Detect Regasm with Network Connection
 id: 07921114-6db4-4e2e-ae58-3ea8a52ae93f
-version: 11
-date: '2025-10-20'
+version: 14
+date: '2026-03-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of regasm.exe establishing
-  a network connection to a public IP address, excluding private IP ranges. This detection
-  leverages Sysmon EventID 3 logs to identify such behavior. This activity is significant
-  as regasm.exe is a legitimate Microsoft-signed binary that can be exploited to bypass
-  application control mechanisms. If confirmed malicious, this behavior could indicate
-  an adversary's attempt to establish a remote Command and Control (C2) channel, potentially
-  leading to privilege escalation and further malicious actions within the environment.
+description: The following analytic detects the execution of regasm.exe establishing a network connection to a public IP address, excluding private IP ranges. This detection leverages Sysmon EventID 3 logs to identify such behavior. This activity is significant as regasm.exe is a legitimate Microsoft-signed binary that can be exploited to bypass application control mechanisms. If confirmed malicious, this behavior could indicate an adversary's attempt to establish a remote Command and Control (C2) channel, potentially leading to privilege escalation and further malicious actions within the environment.
 data_source:
-- Sysmon EventID 3
+    - Sysmon EventID 3
 search: |
-  `sysmon`
-  EventID=3 
-  process_name=regasm.exe
-  NOT dest_ip IN (
-    "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
-    "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
-    "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
-    "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
-    "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
-  )
-  | stats count min(_time) as firstTime max(_time) as lastTime
-    by action app dest dest_ip dest_port direction dvc protocol protocol_version src
-       src_ip src_port transport user vendor_product process_name process_exec process_guid
-       process_id
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `detect_regasm_with_network_connection_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: Although unlikely, limited instances of regasm.exe with a network
-  connection may cause a false positive. Filter based endpoint usage, command line
-  arguments, or process lineage.
+    `sysmon`
+    EventID=3
+    process_name=regasm.exe
+    NOT dest_ip IN (
+      "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+      "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+      "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+      "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+      "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
+    )
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      by action app dest dest_ip dest_port direction dvc protocol protocol_version src
+         src_ip src_port transport user vendor_product process_name process_exec process_guid
+         process_id
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `detect_regasm_with_network_connection_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: Although unlikely, limited instances of regasm.exe with a network connection may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 references:
-- https://attack.mitre.org/techniques/T1218/009/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
-- https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+    - https://attack.mitre.org/techniques/T1218/009/
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+    - https://lolbas-project.github.io/lolbas/Binaries/Regasm/
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An instance of $process_name$ contacting a remote destination was identified
-    on endpoint $dest$ by user $user$. This behavior is not normal for $process_name$.
-  risk_objects:
-  - field: user
-    type: user
-    score: 80
-  - field: dest
-    type: system
-    score: 80
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: An instance of $process_name$ contacting a remote destination was identified on endpoint $dest$ by user $user$. This behavior is not normal for $process_name$.
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Suspicious Regsvcs Regasm Activity
-  - Living Off The Land
-  - Handala Wiper
-  - Hellcat Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1218.009
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Suspicious Regsvcs Regasm Activity
+        - Living Off The Land
+        - Handala Wiper
+        - Hellcat Ransomware
+        - Void Manticore
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1218.009
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

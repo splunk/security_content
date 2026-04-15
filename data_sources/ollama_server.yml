@@ -7,8 +7,7 @@ description: 'Ollama server logs (HTTP access logs via GIN framework and system 
   including GPU/CPU utilization, model loading, memory allocation, errors, and warnings)
   via Splunk TA-ollama add-on by configuring file monitoring inputs to your log directories
   (sourcetype: ollama:server), or enable HEC for real-time API telemetry and prompt
-  analytics (sourcetypes: ollama:api, ollama:prompts). This TA is not available on
-  Splunkbase and must be installed manually via the GitHub repository - https://github.com/rosplk/ta-ollama'
+  analytics (sourcetypes: ollama:api, ollama:prompts). TA available in Splunkbase'
 sourcetype: ollama:server
 source: server.log
 supported_TA:

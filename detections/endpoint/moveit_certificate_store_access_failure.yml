@@ -1,45 +1,39 @@
 name: MOVEit Certificate Store Access Failure
 id: d61292d5-46e4-49ea-b23b-8049ea70b525
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-02-25'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting
 status: production
-description: This detection identifies potential exploitation attempts of the CVE-2024-5806
-  vulnerability in Progress MOVEit Transfer. It looks for log entries indicating failures
-  to access the certificate store, which can occur when an attacker attempts to exploit
-  the authentication bypass vulnerability. This behavior is a key indicator of attempts
-  to impersonate valid users without proper credentials. While certificate store access
-  failures can occur during normal operations, an unusual increase in such events,
-  especially from unexpected sources, may indicate malicious activity.
-search: '`moveit_sftp_logs` "IpWorksKeyService: Caught exception of type IPWorksSSHException:
-  The certificate store could not be opened"| stats count by source _raw | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `moveit_certificate_store_access_failure_filter`'
-how_to_implement: The MOVEit logs must be collected in Splunk. Currently, there is
-  no TA available for MOVEit. Modify the analytic as needed to match the log format
-  of your environment.
-known_false_positives: False positives may occur, therefore utilize the analytic as
-  a jump off point to identifiy potential certificate store errors.
+description: This detection identifies potential exploitation attempts of the CVE-2024-5806 vulnerability in Progress MOVEit Transfer. It looks for log entries indicating failures to access the certificate store, which can occur when an attacker attempts to exploit the authentication bypass vulnerability. This behavior is a key indicator of attempts to impersonate valid users without proper credentials. While certificate store access failures can occur during normal operations, an unusual increase in such events, especially from unexpected sources, may indicate malicious activity.
+search: |-
+    `moveit_sftp_logs` "IpWorksKeyService: Caught exception of type IPWorksSSHException: The certificate store could not be opened"
+      | stats count
+        BY source _raw
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `moveit_certificate_store_access_failure_filter`
+how_to_implement: The MOVEit logs must be collected in Splunk. Currently, there is no TA available for MOVEit. Modify the analytic as needed to match the log format of your environment.
+known_false_positives: False positives may occur, therefore utilize the analytic as a jump off point to identifiy potential certificate store errors.
 references:
-- https://labs.watchtowr.com/auth-bypass-in-un-limited-scenarios-progress-moveit-transfer-cve-2024-5806/
+    - https://labs.watchtowr.com/auth-bypass-in-un-limited-scenarios-progress-moveit-transfer-cve-2024-5806/
 tags:
-  analytic_story:
-  - MOVEit Transfer Authentication Bypass
-  asset_type: Web Server
-  mitre_attack_id:
-  - T1190
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  cve:
-  - CVE-2024-5806
+    analytic_story:
+        - MOVEit Transfer Authentication Bypass
+    asset_type: Web Server
+    mitre_attack_id:
+        - T1190
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2024-5806
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/moveit/SftpServer.log
-    sourcetype: sftp_server_logs
-    source: sftp_server_logs
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/moveit/SftpServer.log
+          sourcetype: sftp_server_logs
+          source: sftp_server_logs

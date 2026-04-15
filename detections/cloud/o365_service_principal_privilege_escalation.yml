@@ -1,75 +1,66 @@
 name: O365 Service Principal Privilege Escalation
 id: b686d0bd-cca7-44ca-ae07-87f6465131d9
-version: 4
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Dean Luxton
 data_source:
-- O365 Add app role assignment grant to user.
+    - O365 Add app role assignment grant to user.
 type: TTP
 status: production
 description: This detection identifies when an Azure Service Principal elevates privileges by adding themself to a new app role assignment.
-search: >- 
-  `o365_management_activity` Operation="Add app role assignment to service principal." "Actor{}.ID"=ServicePrincipal ResultStatus=Success 
-  | spath path=ModifiedProperties{} output=targetResources 
-  | eval src="NA" 
-  | stats min(_time) as _time values(eval(mvfilter(match(targetResources, "AppRole.Value")))) as appRole, values(eval(mvfilter(match(targetResources, "ServicePrincipal.DisplayName")))) as targetServicePrincipal values(object) as targetAppContext values(user_agent) as user_agent values(user) as servicePrincipal values(UserId) as servicePrincipalId by Operation InterSystemsId tenant_id user dest src vendor_account vendor_product signature 
-  | spath input=appRole path=NewValue output=appRole 
-  | spath input=targetServicePrincipal path=NewValue output=targetServicePrincipal 
-  | where servicePrincipal=targetServicePrincipal 
-  | fillnull 
-  | stats earliest(_time) as firstTime latest(_time) as lastTime by servicePrincipal servicePrincipalId appRole targetAppContext user_agent tenant_id InterSystemsId user dest src vendor_account vendor_product signature
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `o365_service_principal_privilege_escalation_filter`
-how_to_implement: The Splunk Add-on for Microsoft Office 365 add-on is required to
-  ingest EntraID audit logs via the 365 API. See references for links for further
-  details on how to onboard this log source.
-known_false_positives: Unknown
+search: >-
+    `o365_management_activity` Operation="Add app role assignment to service principal." "Actor{}.ID"=ServicePrincipal ResultStatus=Success
+    | spath path=ModifiedProperties{} output=targetResources
+    | eval src="NA"
+    | stats min(_time) as _time values(eval(mvfilter(match(targetResources, "AppRole.Value")))) as appRole, values(eval(mvfilter(match(targetResources, "ServicePrincipal.DisplayName")))) as targetServicePrincipal values(object) as targetAppContext values(user_agent) as user_agent values(user) as servicePrincipal values(UserId) as servicePrincipalId by Operation InterSystemsId tenant_id user dest src vendor_account vendor_product signature
+    | spath input=appRole path=NewValue output=appRole
+    | spath input=targetServicePrincipal path=NewValue output=targetServicePrincipal
+    | where servicePrincipal=targetServicePrincipal
+    | fillnull
+    | stats earliest(_time) as firstTime latest(_time) as lastTime by servicePrincipal servicePrincipalId appRole targetAppContext user_agent tenant_id InterSystemsId user dest src vendor_account vendor_product signature
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `o365_service_principal_privilege_escalation_filter`
+how_to_implement: The Splunk Add-on for Microsoft Office 365 add-on is required to ingest EntraID audit logs via the 365 API. See references for links for further details on how to onboard this log source.
+known_false_positives: No false positives have been identified at this time.
 references:
-- https://splunkbase.splunk.com/app/4055
-- https://github.com/mvelazc0/BadZure
-- https://www.splunk.com/en_us/blog/security/hunting-m365-invaders-navigating-the-shadows-of-midnight-blizzard.html
-- https://posts.specterops.io/microsoft-breach-what-happened-what-should-azure-admins-do-da2b7e674ebc
+    - https://splunkbase.splunk.com/app/4055
+    - https://github.com/mvelazc0/BadZure
+    - https://www.splunk.com/en_us/blog/security/hunting-m365-invaders-navigating-the-shadows-of-midnight-blizzard.html
+    - https://posts.specterops.io/microsoft-breach-what-happened-what-should-azure-admins-do-da2b7e674ebc
 drilldown_searches:
-- name: View the detection results for - "$servicePrincipal$"
-  search: '%original_detection_search% | search  servicePrincipal = "$servicePrincipal$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$servicePrincipal$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$servicePrincipal$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$servicePrincipal$"
+      search: '%original_detection_search% | search  servicePrincipal = "$servicePrincipal$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$servicePrincipal$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$servicePrincipal$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Service Principal $servicePrincipal$ has elevated privileges by adding
-    themself to app role $appRole$
-  risk_objects:
-  - field: servicePrincipal
-    type: user
-    score: 100
-  threat_objects:
-  - field: user_agent
-    type: http_user_agent
+    message: Service Principal $servicePrincipal$ has elevated privileges by adding themself to app role $appRole$
+    risk_objects:
+        - field: servicePrincipal
+          type: user
+          score: 50
+    threat_objects:
+        - field: user_agent
+          type: http_user_agent
 tags:
-  analytic_story:
-  - Azure Active Directory Privilege Escalation
-  - Office 365 Account Takeover
-  asset_type: Azure Tenant
-  mitre_attack_id:
-  - T1098.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Azure Active Directory Privilege Escalation
+        - Office 365 Account Takeover
+    asset_type: Azure Tenant
+    mitre_attack_id:
+        - T1098.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_spn_privesc/o365_spn_privesc.log
-    sourcetype: o365:management:activity
-    source: Office 365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_spn_privesc/o365_spn_privesc.log
+          sourcetype: o365:management:activity
+          source: Office 365

@@ -1,70 +1,55 @@
 name: Windows SQL Server Startup Procedure
 id: 7bec7c5c-2262-4adb-ba56-c8028512bc58
-version: 3
-date: '2025-10-14'
+version: 4
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 description: This detection identifies when a startup procedure is registered or executed in SQL Server. Startup procedures automatically execute when SQL Server starts, making them an attractive persistence mechanism for attackers. The detection monitors for suspicious stored procedure names and patterns that may indicate malicious activity, such as attempts to execute operating system commands or gain elevated privileges.
 data_source:
-- Windows Event Log Application 17135
-search: '`wineventlog_application` EventCode=17135 
-  | rex field=EventData_Xml "<Data>(?<startup_procedure>[^<]+)</Data>"
-  | rename host as dest
-  | eval risk_score=case(
-      match(lower(startup_procedure), "xp_|sp_|cmdshell|shell|exec"), 90,
-      true(), 70
-  )
-  | eval risk_message="SQL Server startup procedure ''".startup_procedure."'' was launched on host ".dest
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode startup_procedure risk_message risk_score
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_sql_server_startup_procedure_filter`'
+    - Windows Event Log Application 17135
+search: '`wineventlog_application` EventCode=17135 | rex field=EventData_Xml "<Data>(?<startup_procedure>[^<]+)</Data>" | rename host as dest | eval risk_score=case( match(lower(startup_procedure), "xp_|sp_|cmdshell|shell|exec"), 90, true(), 70 ) | eval risk_message="SQL Server startup procedure ''".startup_procedure."'' was launched on host ".dest | stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode startup_procedure risk_message risk_score | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sql_server_startup_procedure_filter`'
 how_to_implement: To successfully implement this detection, you need to be ingesting Windows Application Event Logs from SQL Server instances. The detection specifically looks for EventID 17135 which indicates startup procedure execution. Ensure proper logging is enabled for SQL Server startup events and that the logs are being forwarded to your SIEM.
 known_false_positives: Legitimate startup procedures may be used by database administrators for maintenance, monitoring, or application functionality. Common legitimate uses include database maintenance and cleanup jobs, performance monitoring and statistics collection, application initialization procedures, and system health checks. To reduce false positives, organizations should document approved startup procedures, maintain an inventory of expected startup procedures, monitor for changes to startup procedure configurations, and create exceptions for known good procedures.
 references:
-- https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-procoption-transact-sql
-- https://www.netspi.com/blog/technical-blog/network-penetration-testing/sql-server-persistence-part-1-startup-stored-procedures/
-- https://attack.mitre.org/techniques/T1505/001/
+    - https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-procoption-transact-sql
+    - https://www.netspi.com/blog/technical-blog/network-penetration-testing/sql-server-persistence-part-1-startup-stored-procedures/
+    - https://attack.mitre.org/techniques/T1505/001/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A SQL Server startup procedure "$startup_procedure$" was executed on host $dest$, which could indicate an attempt to establish persistence
-  risk_objects:
-  - field: dest
-    type: system
-    score: 90
-  - field: startup_procedure
-    type: other
-    score: 70
-  threat_objects: []
+    message: A SQL Server startup procedure "$startup_procedure$" was executed on host $dest$, which could indicate an attempt to establish persistence
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+        - field: startup_procedure
+          type: other
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - SQL Server Abuse
-  - Hellcat Ransomware
-  asset_type: Windows
-  mitre_attack_id:
-  - T1505.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing. 
+    analytic_story:
+        - SQL Server Abuse
+        - Hellcat Ransomware
+    asset_type: Windows
+    mitre_attack_id:
+        - T1505.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/sql_startupprocedure_widows-application.log
-    sourcetype: XmlWinEventLog
-    source: XmlWinEventLog:Application
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/sql_startupprocedure_widows-application.log
+          sourcetype: XmlWinEventLog
+          source: XmlWinEventLog:Application

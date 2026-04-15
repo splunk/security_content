@@ -1,98 +1,91 @@
 name: Cisco Secure Firewall - Remote Access Software Usage Traffic
 id: ac54d39e-a75d-4f42-971d-006db3a0423a
-version: 3
-date: '2025-10-14'
+version: 7
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic detects network traffic associated with known remote access software applications
-  that are covered by Cisco Secure Firewall Application Detectors, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
-  It leverages Cisco Secure Firewall Threat Defense Connection Event.
-  This activity is significant because adversaries often use remote access tools to maintain unauthorized access to compromised environments.
-  If confirmed malicious, this activity could allow attackers to control systems remotely, exfiltrate
-  data, or deploy additional malware, posing a severe threat to the organization's security.
+    The following analytic detects network traffic associated with known remote access software applications
+    that are covered by Cisco Secure Firewall Application Detectors, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
+    It leverages Cisco Secure Firewall Threat Defense Connection Event.
+    This activity is significant because adversaries often use remote access tools to maintain unauthorized access to compromised environments.
+    If confirmed malicious, this activity could allow attackers to control systems remotely, exfiltrate
+    data, or deploy additional malware, posing a severe threat to the organization's security.
 data_source:
-- Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent
-  | stats min(_time) as firstTime max(_time) as lastTime 
-        values(dest_port) as dest_port
-        values(dest) as dest
-        values(transport) as transport
-        values(url) as url
-        values(rule) as rule
-        count by src_ip ClientApplication action
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | lookup cisco_secure_firewall_appid_remote_mgmt_and_desktop_tools appName AS ClientApplication OUTPUT category, appDescription as Description
-  | search category IN ("remote administration", "remote desktop control")
-  | `remote_access_software_usage_exceptions`
-  | `cisco_secure_firewall___remote_access_software_usage_traffic_filter`
+    `cisco_secure_firewall` EventType=ConnectionEvent
+    | stats min(_time) as firstTime max(_time) as lastTime
+          values(dest_port) as dest_port
+          values(dest) as dest
+          values(transport) as transport
+          values(url) as url
+          values(rule) as rule
+          count by src ClientApplication action
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | lookup cisco_secure_firewall_appid_remote_mgmt_and_desktop_tools appName AS ClientApplication OUTPUT category, appDescription as Description
+    | search category IN ("remote administration", "remote desktop control")
+    | `remote_access_software_usage_exceptions`
+    | `cisco_secure_firewall___remote_access_software_usage_traffic_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The access policy must also enable logging.
-  The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions"
-  that lets you track and maintain device- based exceptions for this set of detections.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The access policy must also enable logging.
+    The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions"
+    that lets you track and maintain device- based exceptions for this set of detections.
 known_false_positives: |
-  It is possible that legitimate remote access software is used within the environment. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
+    It is possible that legitimate remote access software is used within the environment. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
 references:
-- https://attack.mitre.org/techniques/T1219/
-- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
-- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+    - https://attack.mitre.org/techniques/T1219/
+    - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+    - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Traffic to known remote access software [$ClientApplication$] was 
-    detected from $src_ip$.
-  risk_objects:
-  - field: src_ip
-    type: system
-    score: 25
-  threat_objects:
-  - field: ClientApplication
-    type: signature
+    message: Traffic to known remote access software [$ClientApplication$] was detected from $src$.
+    risk_objects:
+        - field: src
+          type: system
+          score: 20
+    threat_objects:
+        - field: ClientApplication
+          type: signature
 tags:
-  analytic_story:
-  - Insider Threat
-  - Command And Control
-  - Ransomware
-  - Remote Monitoring and Management Software
-  - Cisco Secure Firewall Threat Defense Analytics
-  - Scattered Spider
-  - Interlock Ransomware
-  - Scattered Lapsus$ Hunters
-  asset_type: Network
-  mitre_attack_id:
-  - T1219
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-  manual_test: This detection uses A&I lookups from Enterprise Security.
+    analytic_story:
+        - Insider Threat
+        - Command And Control
+        - Ransomware
+        - Remote Monitoring and Management Software
+        - Cisco Secure Firewall Threat Defense Analytics
+        - Scattered Spider
+        - Interlock Ransomware
+        - Scattered Lapsus$ Hunters
+    asset_type: Network
+    mitre_attack_id:
+        - T1219
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+    manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

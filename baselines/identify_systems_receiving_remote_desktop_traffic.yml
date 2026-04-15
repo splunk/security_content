@@ -1,7 +1,7 @@
 name: Identify Systems Receiving Remote Desktop Traffic
 id: baaeea15-fe8a-4090-92c2-5b60943bb608
-version: 1
-date: '2017-09-15'
+version: 2
+date: '2026-01-14'
 author: David Dorsey, Splunk
 type: Baseline
 status: production
@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
 how_to_implement: To successfully implement this search you must ingest network traffic
   and populate the Network_Traffic data model. If a system receives a lot of remote
   desktop traffic, you can apply the category common_rdp_destination to it.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

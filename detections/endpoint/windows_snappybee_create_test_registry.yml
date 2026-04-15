@@ -1,81 +1,53 @@
 name: Windows SnappyBee Create Test Registry
 id: 80402396-d78a-4c6e-ade5-7697ea670adf
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description:
-  The following analytic detects modifications to the Windows registry
-  under `SOFTWARE\Microsoft\Test`, a location rarely used by legitimate applications
-  in a production environment. Monitoring this key is crucial, as adversaries may
-  create or alter values here for monitoring update of itself file path, updated configuration
-  file, or system mark compromised. The detection leverages **Sysmon Event ID 13**
-  (Registry Value Set) to identify unauthorized changes. Analysts should investigate
-  processes associated with these modifications, particularly unsigned executables
-  or suspicious command-line activity, as they may indicate malware or unauthorized
-  software behavior.
+description: The following analytic detects modifications to the Windows registry under `SOFTWARE\Microsoft\Test`, a location rarely used by legitimate applications in a production environment. Monitoring this key is crucial, as adversaries may create or alter values here for monitoring update of itself file path, updated configuration file, or system mark compromised. The detection leverages **Sysmon Event ID 13** (Registry Value Set) to identify unauthorized changes. Analysts should investigate processes associated with these modifications, particularly unsigned executables or suspicious command-line activity, as they may indicate malware or unauthorized software behavior.
 data_source:
-  - Sysmon EventID 13
-search:
-  '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Test\\*"
-  by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive
-  Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
-  Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
-  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_snappybee_create_test_registry_filter`'
-how_to_implement:
-  To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives:
-  Administrators and third party software may create this registry
-  entry.
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Test\\*" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_snappybee_create_test_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: Administrators and third party software may create this registry entry.
 references:
-  - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
+    - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: a Test registry Entry [$registry_path$] was created on [$dest$].
-  risk_objects:
-    - field: dest
-      type: system
-      score: 60
-    - field: user
-      type: user
-      score: 60
-  threat_objects: []
+    message: a Test registry Entry [$registry_path$] was created on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-    - Salt Typhoon
-    - China-Nexus Threat Activity
-    - SnappyBee
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1112
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Salt Typhoon
+        - China-Nexus Threat Activity
+        - SnappyBee
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1112
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/test_registry/test_reg.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/test_registry/test_reg.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

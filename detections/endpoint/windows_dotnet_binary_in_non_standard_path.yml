@@ -1,113 +1,112 @@
 name: Windows DotNet Binary in Non Standard Path
 id: fddf3b56-7933-11ec-98a6-acde48001122
-version: 10
-date: '2025-12-13'
+version: 12
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of native .NET binaries
-  from non-standard directories within the Windows operating system. It leverages
-  Endpoint Detection and Response (EDR) telemetry, comparing process names and original
-  file names against a predefined lookup using the `is_net_windows_file_macro` macro.
-  This activity is significant because adversaries may move .NET binaries to unconventional
-  paths to evade detection and execute malicious code. If confirmed malicious, this
-  behavior could allow attackers to execute arbitrary code, escalate privileges, or
-  maintain persistence within the environment, posing a significant security risk.
+description: |
+    The following analytic detects the execution of native .NET binaries from non-standard directories within the Windows operating system.
+    It leverages Endpoint Detection and Response (EDR) telemetry, comparing process names and original file names against a predefined lookup "is_net_windows_file".
+    This activity is significant because adversaries may move .NET binaries to unconventional paths to evade detection and execute malicious code.
+    If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
+    Also this analytic leverages a sub-search to enhance performance. sub-searches have limitations on the amount of data they can return. Keep this in mind if you have an extensive list of ransomware note file names.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime
-  FROM datamodel=Endpoint.Processes where
-  NOT Processes.process_path IN (
-        "*:\\Windows\\ADWS\\*",
-        "*:\\Windows\\Microsoft.NET\\*",
-        "*:\\Windows\\NetworkController\\*",
-        "*:\\Windows\\System32\\*",
-        "*:\\Windows\\SystemApps\\*",
-        "*:\\Windows\\SysWOW64\\*",
-        "*:\\Windows\\WinSxS\\*"
-      )
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-     Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-     Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-     Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name("Processes")`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | lookup update=true is_net_windows_file filename as process_name OUTPUT netFile
-  | lookup update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile
-  | search netFile=true
-  | `windows_dotnet_binary_in_non_standard_path_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be present and filtering may be required.
-  Certain utilities will run from non-standard paths based on the third-party application
-  in use.
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime
+    FROM datamodel=Endpoint.Processes where
+    NOT Processes.process_path IN (
+          "*:\\Windows\\ADWS\\*",
+          "*:\\Windows\\Microsoft.NET\\*",
+          "*:\\Windows\\NetworkController\\*",
+          "*:\\Windows\\System32\\*",
+          "*:\\Windows\\SystemApps\\*",
+          "*:\\Windows\\SysWOW64\\*",
+          "*:\\Windows\\WinSxS\\*"
+        )
+    (
+      [ | inputlookup is_net_windows_file
+        | search netFile=true
+        | fields originalFileName
+        | rename originalFileName as Processes.original_file_name
+        | format
+      ]
+    )
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+       Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name("Processes")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | lookup update=true is_net_windows_file filename as process_name OUTPUT netFile
+    | lookup update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile
+    | search netFile=true
+    | `windows_dotnet_binary_in_non_standard_path_filter`
+how_to_implement: |
+    The detection is based on data that originates from Endpoint Detection
+    and Response (EDR) agents. These agents are designed to provide security-related
+    telemetry from the endpoints where the agent is installed. To implement this search,
+    you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions. These logs must
+    be processed using the appropriate Splunk Technology Add-ons that are specific to
+    the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+    data model. Use the Splunk Common Information Model (CIM) to normalize the field
+    names and speed up the data modeling process.
+known_false_positives: False positives may be present and filtering may be required. Certain utilities will run from non-standard paths based on the third-party application in use.
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
-- https://attack.mitre.org/techniques/T1036/003/
-- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+    - https://attack.mitre.org/techniques/T1036/003/
+    - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An instance of $parent_process_name$ spawning $process_name$ from a non-standard
-    path was identified on endpoint $dest$ by user $user$.
-  risk_objects:
-  - field: user
-    type: user
-    score: 49
-  - field: dest
-    type: system
-    score: 49
-  threat_objects:
-  - field: parent_process_name
-    type: parent_process_name
-  - field: process_name
-    type: process_name
+    message: An instance of $parent_process_name$ spawning $process_name$ from a non-standard path was identified on endpoint $dest$ by user $user$.
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Masquerading - Rename System Utilities
-  - Ransomware
-  - Unusual Processes
-  - Signed Binary Proxy Execution InstallUtil
-  - Data Destruction
-  - WhisperGate
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1036.003
-  - T1218.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Masquerading - Rename System Utilities
+        - Ransomware
+        - Unusual Processes
+        - Signed Binary Proxy Execution InstallUtil
+        - Data Destruction
+        - WhisperGate
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1036.003
+        - T1218.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

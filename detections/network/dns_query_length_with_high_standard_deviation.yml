@@ -1,70 +1,71 @@
 name: DNS Query Length With High Standard Deviation
 id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-version: 11
-date: '2025-05-02'
+version: 14
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies DNS queries with unusually large lengths
-  by computing the standard deviation of query lengths and filtering those exceeding
-  twice the standard deviation. It leverages DNS query data from the Network_Resolution
-  data model, focusing on the length of the domain names being resolved. This activity
-  is significant as unusually long DNS queries can indicate data exfiltration or command-and-control
-  communication attempts. If confirmed malicious, this activity could allow attackers
-  to stealthily transfer data or maintain persistent communication channels within
-  the network.
+description: The following analytic identifies DNS queries with unusually large lengths by computing the standard deviation of query lengths and filtering those exceeding two times the standard deviation. It leverages DNS query data from the Network_Resolution data model, focusing on the length of the domain names being resolved. This activity is significant as unusually long DNS queries can indicate data exfiltration or command-and-control communication attempts. If confirmed malicious, this activity could allow attackers to stealthily transfer data or maintain persistent communication channels within the network.
 data_source:
-- Sysmon EventID 22
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  where NOT DNS.record_type IN("Pointer","PTR") by DNS.answer DNS.answer_count DNS.query
-  DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product host | `drop_dm_object_name("DNS")`
-  | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld)
-  | search tld_len<=24 | eval query_length = len(query) | table host query query_length
-  record_type count | eventstats stdev(query_length) AS stdev avg(query_length) AS
-  avg p50(query_length) AS p50 | where query_length>(avg+stdev*2) | eval z_score=(query_length-avg)/stdev
-  | `dns_query_length_with_high_standard_deviation_filter`'
-how_to_implement: To successfully implement this search, you will need to ensure that
-  DNS data is populating the Network_Resolution data model.
+    - Sysmon EventID 22
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Resolution
+      WHERE NOT DNS.record_type IN ("Pointer","PTR","SOA", "SRV") DNS.query != *.
+      BY DNS.answer DNS.answer_count DNS.query
+         DNS.query_count DNS.reply_code_id DNS.src
+         DNS.vendor_product DNS.dest DNS.record_type
+    | `drop_dm_object_name("DNS")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | eval tlds=split(query,".")
+    | eval tld=mvindex(tlds,-1)
+    | eval tld_len=len(tld)
+    | search tld_len<=20
+    | eval query_length = len(query)
+    | table firstTime lastTime src dest query query_length record_type count record_type
+    | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50
+    | where query_length>(avg+stdev*2)
+    | eval z_score=(query_length-avg)/stdev
+    | stats count values(query) as query values(dest) as dest avg(query_length) as avg_query_length values(record_type) as record_type min(firstTime) as firstTime latest(lastTime) as lastTime
+      BY src
+    | `dns_query_length_with_high_standard_deviation_filter`
+how_to_implement: To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model.
 known_false_positives: It's possible there can be long domain names that are legitimate.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$host$"
-  search: '%original_detection_search% | search  host = "$host$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$host$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A dns query $query$ with 2 time standard deviation of name len of the dns
-    query in host  $host$
-  risk_objects:
-  - field: host
-    type: system
-    score: 56
-  threat_objects: []
+    message: Potentially suspicious DNS query [$query$] with high standard deviation from src - [$src$]
+    risk_objects:
+        - field: src
+          type: system
+          score: 20
+    threat_objects:
+        - field: query
+          type: url
 tags:
-  analytic_story:
-  - Hidden Cobra Malware
-  - Suspicious DNS Traffic
-  - Command And Control
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1048.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Hidden Cobra Malware
+        - Suspicious DNS Traffic
+        - Command And Control
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1048.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/long_dns_query/dns-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

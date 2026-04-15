@@ -1,0 +1,61 @@
+﻿pua_user_agent,tool,description
+AADInternals,AADInternals,Default user agent used by AADInternals
+OWASP Amass,amass,Default user agent for amass recon tool
+ArgusCrawler/1.0,Argus,User agent used by the Information Gathering Toolkit named Argus
+ArgusDataLeakChecker/1.0,Argus,User agent used by the Information Gathering Toolkit named Argus
+Argus-Scanner/1.0,Argus,User agent used by the Information Gathering Toolkit named Argus
+Mozilla/5.0 (compatible; ArgusBot/1.0*,Argus,User agent used by the Information Gathering Toolkit named Argus
+autocert,autocert,Provides automatic access to certificates from Let's Encrypt (used in sshamble)
+azurehound*,AzureHound,AzureHound - Azure Data Exporter for BloodHound - default user agent
+BAV2ROPC,BAV2ROPC,User agent commonly used by older email apps and devices that rely on basic authentication to access email accounts - often observed in Business email compromise
+Box Edit/*,box,Used by box agent file host
+Box/2.*,box,Used by box agent file host
+ccminer*,ccminer,ccminer user-agent
+Certipy,certipy,Default user agent for nltm lib of certipy
+Cr3dOv3r-Framework,Cr3dOv3r,Default user agent used by Cr3dOv3r - ispwned.py
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0,CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/59.0,CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0,CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0) Gecko/20100101 Firefox/59.0,CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1 Safari/605.1.15",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0,CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",CredMaster,Old user agent (from 2018-era or older) used by CredMaster credential access tool
+FUCKUSA,Cryptominer,Used by cryptomining campaigns
+Lomond/*,dataplicity,User agent used by lemond python package with the websocket request - used by dataplicity (enables connecting local systems to dataplicity cloud for remotely accessing them over the internet)
+dirhunt,dirhunt,Default user agent for a tool used to find web directories without bruteforce
+WebServices;eM Client/*,eM Client,Desktop-based email solution fully synchronized with O365 - abused for data exfiltration - observed in multiple BEC cases
+*(Hackintosh*,Hackintosh OS,Default user agent for Hackintosh OS
+KrbRelayUp/1.0,KrbRelayUp,KrbRelayUp default user-agent
+Lemon-Duck-*,Lemon-Duck,cryptominer default user agent
+*UCCAPI/16.0.13328.20130 OC/16.0.13426.20234*,lyncsmash,Default user agent used by lyncsmash.py - a collection of tools to enumerate and attack self-hosted Skype for Business and Microsoft Lync installations
+MEGA/MEGAcmdUpdaterTask,MEGAcmd,Command Line Interactive and Scriptable Application to access MEGA
+MEGAcmd/*,MEGAcmd,Command Line Interactive and Scriptable Application to access MEGA
+MEGAupdater *,MEGASYNC,Used by MEGASYNC software when installed
+Windows Installer,msiexec,Typically associated with .msi installation processes that perform HTTP downloads. While it can be legitimate - it may also indicate the use of remotely hosted malicious installers
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",Phishing Kit,Old version of legitimate Chrome browser used in phishing Kit
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64; WebView/3.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.22621",Phishing Kit,Old version of legitimate Chrome browser used in phishing Kit
+PingCastleAutoUpdater*,Pingcastle,Default user agent used by Pingcastle (PingCastleAutoUpdater)
+rclone/*,rclone,User agent used by rclone
+Rubeus/1.0,Rubeus,User agent used by Rubeus
+ShadowSpray.Kerb/1.0,ShadowSpray,Default user agent for the tool ShadowSpray (spray Shadow Credentials across an entire domain)
+SharpBuster,SharpBuster,SharpBuster default UA
+Valve/Steam HTTP Client ,Steam,Steam client (games)
+subfinder,subfinder,subfinder subdomain passive enumeration tool default UA
+syncthing v*,synchthing,Used by syncthing software
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Teams/1.3.00.30866 Chrome/80.0.3987.165 Electron/8.5.1 Safari/537.36",TeamFiltration,Used in Teamfiltration default conf
+* Toolbar *,Toolbars,Random toolbar software
+*torrent*,Torrents,Many torrent clients use torrent in their user agent strings
+*Your Moms Smart Vibrator*,TREVORspray,Default user agent for TREVORspray example module - a modular password sprayer with threading - clever proxying - loot modules and more
+TruffleHog*,TruffleHog,Find - verify and analyze leaked credentials open source github project
+VirtualBox *,Virtualbox,Default user agent seen during Virtualbox activities
+*SearchToolbar*,wyzo,Browser with torrent search integrated + other junk softwares
+XMRig*,xmrig,xmrig cryptominer user agent
