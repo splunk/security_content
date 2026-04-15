@@ -35,6 +35,8 @@ search: |-
        All_Traffic.protocol_version All_Traffic.src_port
        All_Traffic.user All_Traffic.vendor_product
     | `drop_dm_object_name("All_Traffic")`
+    | rename dest as dest_ip
+    | rename src as src_ip
     | iplocation dest_ip
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

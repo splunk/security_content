@@ -28,6 +28,7 @@ search: |
     | `security_content_ctime(start_time)`
     | `security_content_ctime(end_time)`
     | rename dest as dest_ip
+    | rename src as src_ip
     | iplocation dest_ip
     | `detect_outbound_smb_traffic_filter`
 how_to_implement: This search requires you to be ingesting your network traffic and populating the Network_Traffic data model.
