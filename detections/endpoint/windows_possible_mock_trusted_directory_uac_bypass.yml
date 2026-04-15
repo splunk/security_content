@@ -1,0 +1,53 @@
+name: Windows Possible Mock Trusted Directory UAC Bypass
+id: de8cc077-2dba-4060-af78-c98b3cfc5407
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: 'Detects the creation of MSC files within a "C:\Windows \System32" directory. Due to how Windows parses paths, the space causes an execution flow hijack and a malicious file will be executed instead of the standard Windows Files.
+
+'
+data_source:
+    - Sysmon EventID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("C:\\Windows \\System32\*.msc", "C:\\Windows \\System32\\en-US\*.msc") by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_possible_mock_trusted_directory_uac_bypass_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate software installers or system maintenance tools may create MSC files in the System32 directory with unusual paths. Verify and allow trusted system or vendor-approved processes to reduce false positives.
+references:
+    - https://www.fortinet.com/blog/threat-research/fickle-stealer-distributed-via-multiple-attack-chain
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: A process created a suspicious file at $file_path$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Windows Persistence Techniques
+        - Windows Privilege Escalation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1218.014
+        - T1548.002
+        - T1574
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.014/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
