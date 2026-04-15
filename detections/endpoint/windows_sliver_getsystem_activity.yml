@@ -1,0 +1,51 @@
+name: Windows Sliver GetSystem Activity
+id: 95b0ccda-39f5-4bca-ae74-bd0863f89058
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: 'Detects the potential usage of the built in getsystem command for the sliver c2 framework.
+
+'
+data_source:
+    - Sysmon EventID 8
+search: '`sysmon` EventID=8 EventDescription="CreateRemoteThread" TargetImage="C:\\Windows\\System32\\spoolsv.exe" NOT ProcessName="*csrss.exe*" | fillnull | stats count by Computer, TargetImage, ProcessName, EventDescription, EventID, dest, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, signature, signature_id, user_id, vendor_product| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_sliver_getsystem_activity_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate red team exercises or authorized penetration testing may trigger this detection. Verify activities with your security team before taking action.
+references:
+    - https://www.microsoft.com/security/blog/2022/08/24/looking-for-the-sliver-lining-hunting-for-emerging-command-and-control-frameworks/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: Potential Sliver GetSystem Activity activity observed on $dest$ via $process$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
+tags:
+    analytic_story:
+        - BishopFox Sliver Adversary Emulation Framework
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1055
+        - T1068
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
