@@ -1,7 +1,7 @@
 name: O365 Multiple Service Principals Created by SP
 id: ef4c3f20-d1ad-4ad1-a3f4-d5f391c005fe
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-04-15'
 author: Mauricio Velazco, Splunk
 data_source:
     - O365 Add service principal.
@@ -20,9 +20,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$src_user$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Multiple OAuth applications were created by $src_user$ in a short period of time
     risk_objects:
