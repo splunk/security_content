@@ -58,3 +58,6 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/linux_net_discovery/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_network_discovery.log
+          sourcetype: osquery:results
+          source: osquery
