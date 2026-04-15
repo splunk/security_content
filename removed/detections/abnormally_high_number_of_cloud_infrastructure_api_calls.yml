@@ -1,35 +1,33 @@
-name: Abnormally High Number Of Cloud Security Group API Calls
-id: d4dfb7f3-7a37-498a-b5df-f19334e871af
-version: 11
+name: Abnormally High Number Of Cloud Infrastructure API Calls
+id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
+version: 12
 date: '2026-03-10'
 author: David Dorsey, Splunk
-status: deprecated
+status: removed
 type: Anomaly
-description: The following analytic detects a spike in the number of API calls made to cloud security groups by a user. It leverages data from the Change data model, focusing on successful firewall-related changes. This activity is significant because an abnormal increase in security group API calls can indicate potential malicious activity, such as unauthorized access or configuration changes. If confirmed malicious, this could allow an attacker to manipulate security group settings, potentially exposing sensitive resources or disrupting network security controls.
+description: The following analytic detects a spike in the number of API calls made to your cloud infrastructure by a user. It leverages cloud infrastructure logs and compares the current API call volume against a baseline probability density function to identify anomalies. This activity is significant because an unusual increase in API calls can indicate potential misuse or compromise of cloud resources. If confirmed malicious, this could lead to unauthorized access, data exfiltration, or disruption of cloud services, posing a significant risk to the organization's cloud environment.
 data_source:
     - AWS CloudTrail
 search: |-
-    | tstats count as security_group_api_calls values(All_Changes.command) as command FROM datamodel=Change
-      WHERE All_Changes.object_category=firewall
-        AND
-        All_Changes.status=success
+    | tstats count as api_calls values(All_Changes.command) as command FROM datamodel=Change
+      WHERE All_Changes.user!=unknown All_Changes.status=success
       BY All_Changes.user _time span=1h
     | `drop_dm_object_name("All_Changes")`
     | eval HourOfDay=strftime(_time, "%H")
     | eval HourOfDay=floor(HourOfDay/4)*4
     | eval DayOfWeek=strftime(_time, "%w")
     | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1)
-    | join user HourOfDay isWeekend [ summary cloud_excessive_security_group_api_calls_v1]
+    | join user HourOfDay isWeekend [ summary cloud_excessive_api_calls_v1]
     | where cardinality >=16
-    | apply cloud_excessive_security_group_api_calls_v1 threshold=0.005
-    | rename "IsOutlier(security_group_api_calls)" as isOutlier
+    | apply cloud_excessive_api_calls_v1 threshold=0.005
+    | rename "IsOutlier(api_calls)" as isOutlier
     | where isOutlier=1
     | eval expected_upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0)
-    | where security_group_api_calls > expected_upper_threshold
-    | eval distance_from_threshold = security_group_api_calls - expected_upper_threshold
-    | table _time, user, command, security_group_api_calls, expected_upper_threshold, distance_from_threshold
-    | `abnormally_high_number_of_cloud_security_group_api_calls_filter`
-how_to_implement: You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to create the probability density function model.
+    | where api_calls > expected_upper_threshold
+    | eval distance_from_threshold = api_calls - expected_upper_threshold
+    | table _time, user, command, api_calls, expected_upper_threshold, distance_from_threshold
+    | `abnormally_high_number_of_cloud_infrastructure_api_calls_filter`
+how_to_implement: You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to create the probability density function.
 known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
@@ -42,7 +40,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: user $user$ has made $api_calls$ api calls related to security groups, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$.
+    message: user $user$ has made $api_calls$ api calls, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$.
     risk_objects:
         - field: user
           type: user
@@ -51,6 +49,8 @@ rba:
 tags:
     analytic_story:
         - Suspicious Cloud User Activities
+        - Compromised User Account
+        - Scattered Lapsus$ Hunters
     asset_type: AWS Instance
     mitre_attack_id:
         - T1078.004
@@ -59,7 +59,7 @@ tags:
         - Splunk Enterprise Security
         - Splunk Cloud
     security_domain: network
-    manual_test: This search needs the baseline `Baseline Of Cloud Security Group API Calls Per User` to be run first.
+    manual_test: This search needs the baseline `Baseline Of Cloud Infrastructure API Calls Per User` to be run first.
 tests:
     - name: True Positive Test
       attack_data:

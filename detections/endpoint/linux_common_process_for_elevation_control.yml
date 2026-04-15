@@ -1,7 +1,7 @@
 name: Linux Common Process For Elevation Control
 id: 66ab15c0-63d0-11ec-9e70-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -38,6 +38,7 @@ tags:
         - Linux Living Off The Land
         - Salt Typhoon
         - Linux Privilege Escalation
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1548.001

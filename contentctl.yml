@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 5.25.1
+  version: 5.26.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -92,7 +92,7 @@ apps:
   version: 1.3.0
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-iis_130.tgz
-- uid: 4242
+- uid: 6994
   title: CCX Add-on for Suricata
   appid: SPLUNK_TA_FOR_SURICATA
   version: 1.0.1
@@ -170,12 +170,6 @@ apps:
   version: 5.1.0
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-office-365_510.tgz
-- uid: 2890
-  title: Splunk Machine Learning Toolkit
-  appid: SPLUNK_MACHINE_LEARNING_TOOLKIT
-  version: 5.5.0
-  description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-machine-learning-toolkit_550.tgz
 - uid: 5518
   title: Splunk add on for Microsoft Defender Advanced Hunting
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_DEFENDER_ADVANCED_HUNTING
@@ -206,12 +200,6 @@ apps:
   version: 3.2.1
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/crowdstrike-falcon-event-streams-technical-add-on_321.tgz
-- uid: 2882
-  title: Python for Scientific Computing (for Linux 64-bit)
-  appid: Splunk_SA_Scientific_Python_linux_x86_64
-  version: 4.2.2
-  description: PSC for MLTK
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/python-for-scientific-computing-for-linux-64-bit_422.tgz
 - uid: 6254
   title: Splunk Add-on for Github
   appid: Splunk_TA_github
@@ -262,6 +250,12 @@ apps:
   version: 0.1.2
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/mcp-ta_012.tgz
+- uid: 8574
+  title: TA-osquery
+  appid: ta-osquery
+  version: 1.0.4
+  description: description of app
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-osquery_104.tgz
 githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
 test_data_caches:
 - base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/
