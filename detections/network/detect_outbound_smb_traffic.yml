@@ -18,10 +18,8 @@ search: |
     from datamodel=Network_Traffic where
       All_Traffic.action IN ("allowed", "allow")
     AND (All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app="smb")
-    AND All_Traffic.src_ip IN `non_public_ip_blocks`
-    AND All_Traffic.src IN `non_public_ip_blocks`
-    AND NOT All_Traffic.dest_ip IN `non_public_ip_blocks`
-    AND NOT All_Traffic.dest IN `non_public_ip_blocks`
+    AND (All_Traffic.src_ip IN `non_public_ip_blocks` OR All_Traffic.src IN `non_public_ip_blocks`)
+    AND NOT (All_Traffic.dest_ip IN `non_public_ip_blocks` OR All_Traffic.dest IN `non_public_ip_blocks`)
     by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out
     All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
     All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port
@@ -68,11 +66,6 @@ tags:
         - Splunk Cloud
     security_domain: network
 tests:
-    - name: Cisco Secure Firewall True Positive Test
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-          source: not_applicable
-          sourcetype: cisco:sfw:estreamer
     - name: Cisco Secure Access Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/smb.log

@@ -20,12 +20,8 @@ search: |-
         389,
         636
     )
-    NOT All_Traffic.dest_ip IN (
-            "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
-            "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
-            "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
-            "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
-            "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
+    NOT ( All_Traffic.dest_ip IN `non_public_ip_blocks`
+    OR All_Traffic.dest IN `non_public_ip_blocks`
     )
     by All_Traffic.action All_Traffic.app All_Traffic.bytes
        All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
@@ -34,7 +30,7 @@ search: |-
        All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
        All_Traffic.user All_Traffic.vendor_product All_Traffic.rule
     | `drop_dm_object_name("All_Traffic")`
-    | where src_ip != dest_ip
+    | where src_ip != dest_ip OR src != dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `detect_outbound_ldap_traffic_filter`
