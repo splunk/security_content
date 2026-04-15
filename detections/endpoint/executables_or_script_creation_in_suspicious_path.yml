@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 25
-date: '2026-03-16'
+version: 26
+date: '2026-03-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -148,6 +148,7 @@ tags:
         - DynoWiper
         - XML Runner Loader
         - Void Manticore
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1036

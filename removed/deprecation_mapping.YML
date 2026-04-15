@@ -1,22 +1,22 @@
 detections:
   - content: Ivanti Sentry Authentication Bypass
-    removed_in_version: 5.28.0
+    removed_in_version: 6.1.0
     reason: Detection is deprecated since it is not specific enough to identify the intended malicious activity and might produce false positives.
   - content: Sc exe Manipulating Windows Services
-    removed_in_version: 5.28.0
+    removed_in_version: 6.1.0
     reason: Detection is deprecated as the usage of sc.exe by itself is often used for legitimate purposes.
   - content: Processes launching netsh
-    removed_in_version: 5.28.0
+    removed_in_version: 6.1.0
     reason: Detection is deprecated as the usage of netsh.exe by itself is often used for legitimate purposes.
   - content: CHCP Command Execution
-    removed_in_version: 5.28.0
+    removed_in_version: 6.1.0
     reason: Detection is deprecated as the usage of chcp.com by itself is not malicious.
   - content: Attempt To Add Certificate To Untrusted Store
-    removed_in_version: 5.28.0
+    removed_in_version: 6.1.0
     reason: Detection is deprecated as the usage of certutil and addstore by itself is not malicious.
   - content: Abnormally High Number Of Cloud Infrastructure API Calls
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0). 
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Abnormally High Number Of Cloud Instances Destroyed
     removed_in_version: 5.26.0
     reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
@@ -497,7 +497,7 @@ detections:
       have their specific analytics.
     replacement_content:
     - Microsoft Defender ATP Alerts
-    - Microsoft Defender Incident Alerts   
+    - Microsoft Defender Incident Alerts
   - content: Excel Spawning PowerShell
     removed_in_version: 5.2.0
     reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
@@ -933,7 +933,7 @@ baselines:
   - content: Baseline Of Cloud Infrastructure API Calls Per User
     removed_in_version: 5.26.0
     reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
-  - content: Baseline Of Cloud Instances Destroyed 
+  - content: Baseline Of Cloud Instances Destroyed
     removed_in_version: 5.26.0
     reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
   - content: Baseline Of Cloud Instances Launched
@@ -1008,7 +1008,7 @@ baselines:
   - content: Systems Ready for Spectre-Meltdown Windows Patch
     removed_in_version: 5.2.0
     reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
-investigations: 
+investigations:
   - content: All backup logs for host
     removed_in_version: 5.2.0
     reason: 'As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.'

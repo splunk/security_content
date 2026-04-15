@@ -1,0 +1,24 @@
+name: MacOS Persistence Techniques
+id: 3fc4619d-4a13-45f8-95a2-51056e221a1c
+version: 1
+status: production
+date: '2026-02-26'
+author: Raven Tait, Splunk
+description: Monitor for activities and techniques associated with maintaining persistence
+  on a MacOS system--a sign that an adversary may have compromised your environment.
+narrative: Maintaining persistence is one of the first steps taken by attackers after
+  the initial compromise. Attackers leverage various custom and built-in tools to
+  ensure survivability and persistent access within a compromised enterprise. This
+  Analytic Story provides searches to help you identify various behaviors used by
+  attackers to maintain persistent access to a MacOS environment.
+references:
+- https://attack.mitre.org/techniques/T1053/
+- https://www.loobins.io/binaries/defaults/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

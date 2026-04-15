@@ -4,7 +4,7 @@ version: 3
 date: '2026-02-25'
 author: Rico Valdez, Splunk
 type: Baseline
-status: deprecated
+status: removed
 description:
   This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the length of the DNS queries for each DNS record type observed
