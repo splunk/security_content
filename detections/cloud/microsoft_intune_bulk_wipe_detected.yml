@@ -9,14 +9,14 @@ description: The following analytic detects a high volume of "wipe ManagedDevice
 data_source:
     - Azure Monitor Activity
 search: >-
-    `azure_monitor_activity` operationName="wipe ManagedDevice"
-    | rename identity as user, resultType as result
-    | table _time user tenantId signature result vendor_account vendor_product action dest src
-    | fillnull
-    | stats min(_time) as firstTime max(_time) as lastTime values(*) as * count by _time signature user tenantId vendor_account vendor_product
-    | where count >= 5
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
+    `azure_monitor_activity` operationName="wipe ManagedDevice" 
+    | rename identity as user, resultType as result 
+    | fillnull 
+    | table _time action command dest user src vendor_account vendor_product change_type properties.Targets.*
+    | stats min(_time) as firstTime max(_time) as lastTime values(*) as * count by user 
+    | where count >= 5 
+    | `security_content_ctime(firstTime)` 
+    | `security_content_ctime(lastTime)` 
     | `microsoft_intune_bulk_wipe_detected_filter`
 how_to_implement: >-
     The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest Intune audit logs via Azure EventHub.
@@ -39,7 +39,7 @@ drilldown_searches:
       earliest_offset: 1h
       latest_offset: 1h
 rba:
-    message: Bulk wipe action executed by user $user$
+    message: Bulk wipe action on account [$vendor_account$] executed by user [$user$]
     risk_objects:
         - field: user
           type: user
