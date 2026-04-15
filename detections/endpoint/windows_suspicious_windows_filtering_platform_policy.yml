@@ -1,0 +1,53 @@
+name: Windows Suspicious Windows Filtering Platform Policy
+id: 1dea4856-f096-4e9d-9bd3-22c568dac5fe
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: 'Detects the creation of a Windows Filtering Platform Policy to block the communication of known EDR processes. This can be used by attackers to impair the functionality of these tools and to hide their activities on the machine.
+
+'
+data_source:
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_value_data="*Action=Block*" Registry.registry_value_data IN ("*App=*MsMpEng.exe*", "*App=*MsSense.exe*", "*App=*SenseIR.exe*", "*App=*SenseNdr.exe*", "*App=*SenseCncProxy.exe*", "*App=*SenseSampleUploader.exe*", "*App=*winlogbeat.exe*", "*App=*elastic-agent.exe*", "*App=*elastic-endpoint.exe*", "*App=*filebeat.exe*", "*App=*xagt.exe*", "*App=*QualysAgent.exe*", "*App=*SentinelAgent.exe*", "*App=*SentinelAgentWorker.exe*", "*App=*SentinelServiceHost.exe*", "*App=*SentinelStaticEngine.exe*", "*App=*LogProcessorService.exe*", "*App=*SentinelStaticEngineScanner.exe*", "*App=*SentinelHelperService.exe*", "*App=*SentinelBrowserNativeHost.exe*", "*App=*CylanceSvc.exe*", "*App=*AmSvc.exe*", "*App=*CrAmTray.exe*", "*App=*CrsSvc.exe*", "*App=*ExecutionPreventionSvc.exe*", "*App=*CybereasonAV.exe*", "*App=*cb.exe*", "*App=*RepMgr.exe*", "*App=*RepUtils.exe*", "*App=*RepUx.exe*", "*App=*RepWAV.exe*", "*App=*RepWSC.exe*", "*App=*TaniumClient.exe*", "*App=*TaniumCX.exe*", "*App=*TaniumDetectEngine.exe*", "*App=*Traps.exe*", "*App=*cyserver.exe*", "*App=*CyveraService.exe*", "*App=*CyvrFsFlt.exe*", "*App=*fortiedr.exe*", "*App=*sfc.exe*", "*App=*EIConnector.exe*", "*App=*ekrn.exe*", "*App=*hurukai.exe*", "*App=*CETASvc.exe*", "*App=*WSCommunicator.exe*", "*App=*EndpointBasecamp.exe*", "*App=*TmListen.exe*", "*App=*Ntrtscan.exe*", "*App=*TmWSCSvc.exe*", "*App=*PccNTMon.exe*", "*App=*TMBMSRV.exe*", "*App=*CNTAoSMgr.exe*", "*App=*TmCCSF.exe*") by Registry.dest Registry.vendor_product Registry.user Registry.status Registry.registry_value_name Registry.registry_path Registry.registry_hive Registry.registry_value_data Registry.action Registry.process_path Registry.process_guid Registry.process_id Registry.registry_key_name | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_suspicious_windows_filtering_platform_policy_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate administrative tasks or security configurations may create filtering platform policies. Verify actions with authorized IT personnel before alerting.
+references:
+    - https://unit42.paloaltonetworks.com/edr-bypass-extortion-attempt-thwarted/
+    - https://github.com/wavestone-cdt/EDRSandblast?tab=readme-ov-file
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: Potential Suspicious Windows Filtering Platform Policy activity observed on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Disabling Security Tools
+        - Security Solution Tampering
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1562.001
+        - T1562.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
