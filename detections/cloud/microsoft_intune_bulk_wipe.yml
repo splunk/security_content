@@ -11,7 +11,7 @@ description: |-
     If confirmed malicious, an attacker can abuse this action to perform a large-scale data wiping attack against your managed endpoints.
 data_source:
     - Azure Monitor Activity
-search: >-
+search: |-
     `azure_monitor_activity`
     operationName="wipe ManagedDevice"
     | rename identity as user
