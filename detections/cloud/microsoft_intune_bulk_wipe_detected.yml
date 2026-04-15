@@ -1,0 +1,64 @@
+name: Microsoft Intune Bulk Wipe Detected
+id: c3f48aa9-878e-443f-8889-e42a11a9bea9
+version: 1
+date: '2026-03-27'
+author: Jake Enea
+status: production
+type: TTP
+description: The following analytic detects a high volume of "wipe ManagedDevice" events from the Intune admin portal (5+ per hour by default). It leverages Intune audit logs to identify when this action is triggered. This activity is significant beacuse the "wipe ManagedDevice" action factory resets devices connected to your Microsoft Intune tenant. If confirmed malicious, an attacker can abuse this action to perform a large-scale data wiping attack against your managed endpoints.
+data_source:
+    - Azure Monitor Activity
+search: >-
+    `azure_monitor_activity` operationName="wipe ManagedDevice"
+    | rename identity as user, resultType as result
+    | fillnull
+    | table _time action command dest user src vendor_account vendor_product change_type properties.Targets.*
+    | stats min(_time) as firstTime max(_time) as lastTime values(*) as * count by user
+    | where count >= 5
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `microsoft_intune_bulk_wipe_detected_filter`
+how_to_implement: >-
+    The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest Intune audit logs via Azure EventHub.
+    To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
+    Deploy as an event-based detection rule for quick deployment. Adjust the count threshold according to expected activity in your environment.
+known_false_positives: Legitimate adminstrative usage of the "wipe ManagedDevice" action might trigger this detection. This action is typically used for offboarding endpoints or in response to a lost or stolen device.
+references:
+    - https://www.lumos.com/blog/stryker-hack
+drilldown_searches:
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View sign-in activity +/-1 hour surrounding the detection for - "$user$"
+      search: '`azure_monitor_aad` category=SignInLogs properties.userPrincipalName="$user$"'
+      earliest_offset: 1h
+      latest_offset: 1h
+rba:
+    message: Bulk wipe action executed by user $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Azure Active Directory Account Takeover
+    asset_type: Azure Tenant
+    mitre_attack_id:
+        - T1561.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.001/microsoft_intune_bulk_wipe/microsoft_intune_bulk_wipe.log
+          sourcetype: azure:monitor:activity
+          source: Azure AD
