@@ -1,7 +1,7 @@
 name: Sunburst Correlation DLL and Network Event
 id: 701a8740-e8db-40df-9190-5516d3819787
-version: 9
-date: '2026-03-10'
+version: 10
+date: '2026-04-07'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: TTP
@@ -10,11 +10,21 @@ data_source:
     - Sysmon EventID 7
     - Sysmon EventID 22
 search: |-
-    | (`sysmon` EventCode=7 ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.dll) OR (`sysmon` EventCode=22 QueryName=*avsvmcloud.com)
-      | eventstats dc(EventCode) AS dc_events
-      | where dc_events=2
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY Image ImageLoaded dest
+    `sysmon`
+    (
+        EventCode=7
+        ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.dll
+    )
+    OR
+    (
+        EventCode=22
+        QueryName=*avsvmcloud.com
+    )
+    | eventstats dc(EventCode) AS dc_events
+    | where dc_events=2
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+        by Image ImageLoaded dest
            loaded_file loaded_file_path original_file_name
            process_exec process_guid process_hash
            process_id process_name process_path

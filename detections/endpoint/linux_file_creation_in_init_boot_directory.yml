@@ -1,27 +1,44 @@
 name: Linux File Creation In Init Boot Directory
 id: 97d9cfb2-61ad-11ec-bb2d-acde48001122
-version: 12
-date: '2026-03-10'
+version: 13
+date: '2026-04-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of files in Linux init boot directories, which are used for automatic execution upon system startup. It leverages file system logs to identify new files in directories such as /etc/init.d/ and /etc/rc.d/. This activity is significant as it is a common persistence technique used by adversaries, malware authors, and red teamers. If confirmed malicious, this could allow an attacker to maintain persistence on the compromised host, potentially leading to further exploitation and unauthorized control over the system.
+description: |-
+    The following analytic detects the creation of files in Linux init boot directories, which are used for automatic execution upon system startup.
+    It leverages file system logs to identify new files in directories such as /etc/init.d/ and /etc/rc.d/. This activity is significant as it is a common persistence technique used by adversaries, malware authors, and red teamers.
+    If confirmed malicious, this could allow an attacker to maintain persistence on the compromised host, potentially leading to further exploitation and unauthorized control over the system.
 data_source:
     - Sysmon for Linux EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-      WHERE Filesystem.file_path IN ("*/etc/init.d/*", "*/etc/rc.d/*", "*/sbin/init.d/*", "*/etc/rc.local*")
-      BY Filesystem.action Filesystem.dest Filesystem.file_access_time
-         Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
-         Filesystem.file_name Filesystem.file_path Filesystem.file_acl
-         Filesystem.file_size Filesystem.process_guid Filesystem.process_id
-         Filesystem.user Filesystem.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Filesystem WHERE
+
+    Filesystem.action = "created"
+    Filesystem.file_path IN (
+        "*/etc/init.d/*",
+        "*/etc/rc.d/*",
+        "*/etc/rc.local*",
+        "*/sbin/init.d/*"
+    )
+    BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+       Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+       Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+       Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+       Filesystem.user Filesystem.vendor_product
+
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(lastTime)`
     | `security_content_ctime(firstTime)`
     | `linux_file_creation_in_init_boot_directory_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase
-known_false_positives: Administrator or network operator can create file in this folders for automation purposes. Please update the filter macros to remove false positives.
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase
+known_false_positives: |-
+    Administrator or network operator can create file in this folders for automation purposes. Please update the filter macros to remove false positives.
 references:
     - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
 drilldown_searches:
