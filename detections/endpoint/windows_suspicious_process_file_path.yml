@@ -1,6 +1,6 @@
 name: Windows Suspicious Process File Path
 id: ecddae4e-3d4b-41e2-b3df-e46a88b38521
-version: 24
+version: 22
 date: '2026-04-16'
 author: Teoderick Contreras, Splunk
 status: production

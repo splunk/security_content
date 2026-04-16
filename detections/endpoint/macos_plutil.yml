@@ -1,6 +1,6 @@
 name: MacOS plutil
 id: c11f2b57-92c1-4cd2-b46c-064eafb833ac
-version: 12
+version: 10
 date: '2026-04-16'
 author: Patrick Bareiss, Splunk
 status: production

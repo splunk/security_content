@@ -1,6 +1,6 @@
 name: Microsoft Defender ATP Alerts
 id: 38f034ed-1598-46c8-95e8-14edf05fdf5d
-version: 9
+version: 7
 date: '2026-04-16'
 author: Bryan Pluta, Bhavin Patel, Splunk
 status: production
