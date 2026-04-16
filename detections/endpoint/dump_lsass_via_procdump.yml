@@ -1,7 +1,7 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 18
-date: '2026-03-10'
+version: 19
+date: '2026-04-08'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,8 +34,19 @@ search: |
       OR
       Processes.original_file_name=procdump
     )
-    Processes.process IN (*-ma*, *-mm*, "*-mp*", */ma*, */mm*, "*/mp*")
-    Processes.process IN (* ls*, "* keyiso*", "* samss*")
+    Processes.process IN (
+        "*-ma*",
+        "*-mm*",
+        "*-mp*",
+        "*/ma*",
+        "*/mm*",
+        "*/mp*"
+    )
+    Processes.process IN (
+        "* keyiso*",
+        "* ls*",
+        "* samss*"
+    )
 
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id

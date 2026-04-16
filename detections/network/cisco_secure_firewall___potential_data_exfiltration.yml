@@ -1,25 +1,24 @@
 name: Cisco Secure Firewall - Potential Data Exfiltration
 id: 3d8536b6-52b4-4c3e-b695-3f2e90bb22be
-version: 5
-date: '2026-03-10'
+version: 6
+date: '2026-04-09'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-    The following analytic detects potentially suspicious large outbound data transfers from internal to external networks. It leverages Cisco Secure Firewall Threat Defense logs and calculates the total volume of data exchanged per connection by summing InitiatorBytes and ResponderBytes. Connections exceeding 100 MB are flagged, as these may indicate unauthorized data exfiltration, especially if initiated by unusual users, hosts, or processes. This analytic is scoped to inside-to-outside flows using a macro (cisco_secure_firewall_inside_to_outside) to abstract environment-specific zone definitions. If confirmed malicious, this behavior may reflect data staging and exfiltration over an encrypted or stealthy transport.
+    The following analytic detects potentially suspicious large volumes of data sent by the connection initiator on flows from internal to external networks. It leverages Cisco Secure Firewall Threat Defense ConnectionEvent logs and thresholds on InitiatorBytes (bytes transmitted by the initiator), which for typical inside-initiated client sessions approximates upload or outbound payload from the internal host and avoids flagging large downloads where most bytes appear in ResponderBytes. Connections where the initiator sent at least 100 MB are flagged, as these may indicate unauthorized data exfiltration, especially if associated with unusual users, hosts, or processes. This analytic is scoped to inside-to-outside flows using a macro (cisco_secure_firewall_inside_to_outside) to abstract environment-specific zone definitions. If confirmed malicious, this behavior may reflect data staging and exfiltration over an encrypted or stealthy transport.
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
 search: |
     `cisco_secure_firewall` EventType=ConnectionEvent `cisco_secure_firewall_inside_to_outside`
-    | eval total_bytes = InitiatorBytes + ResponderBytes
-    | eval total_mb = round(total_bytes / 1024 / 1024, 2)
-    | where total_mb >= 100
-    | eval Exfiltrated = total_mb + " MB"
+    | eval initiator_mb = round(InitiatorBytes / 1024 / 1024, 2)
+    | where initiator_mb >= 100
+    | eval Potentially_Exfiltrated = initiator_mb + " MB"
     | stats min(_time) as firstTime max(_time) as lastTime
         Values(url) as url
         Values(rule) as rule
         Values(dest_port) as dest_port
-        by src, dest, Exfiltrated, transport, action
+        by src, dest, Potentially_Exfiltrated, transport, action
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_secure_firewall___potential_data_exfiltration_filter`
@@ -33,8 +32,9 @@ how_to_implement: |
     The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
     The access policy must also enable logging.
 known_false_positives: |
-    Large outbound transfers may occur due to legitimate activities such as cloud backups, file syncing, OS or application updates, or developer build deployments.
+    Large initiator-side transfers may occur due to legitimate activities such as cloud backups, file syncing, or developer build deployments.
     Backup servers, CI/CD pipelines, and enterprise sync tools (e.g., OneDrive, Dropbox) may exhibit similar patterns.
+    Uncommon connection initiation (e.g., certain server-initiated or asymmetric paths) can change which side is logged as the initiator; tune or filter those scenarios if needed.
     Additional validation using user context, scheduled task windows, or endpoint telemetry is recommended to reduce false positives.
 references:
     - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
@@ -48,7 +48,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Potential data exfiltration from $src$ to $dest$ with $Exfiltrated$ MB of data exfiltrated"
+    message: Potential data exfiltration activity from $src$ to $dest$ — With $Potentially_Exfiltrated$ transferred (initiator bytes)
     risk_objects:
         - field: src
           type: system
