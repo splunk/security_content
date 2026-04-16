@@ -1,6 +1,6 @@
 name: MacOS AMOS Stealer - Virtual Machine Check Activity
 id: 4e41ad21-9761-426d-8aa1-083712ff9f30
-version: 7
+version: 6
 date: '2026-04-15'
 author: Nasreddine Bencherchali, Splunk, Alex Karkins
 status: production

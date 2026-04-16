@@ -1,6 +1,6 @@
 name: Windows Security Support Provider Reg Query
 id: 31302468-93c9-4eca-9ae3-2d41f53a4e2b
-version: 13
+version: 12
 date: '2026-04-16'
 author: Teoderick Contreras, Splunk
 status: production
