@@ -1,7 +1,7 @@
 name: Outbound Network Connection from Java Using Default Ports
 id: d2c14d28-5c47-11ec-9892-acde48001122
-version: 11
-date: '2026-03-18'
+version: 12
+date: '2026-04-09'
 author: Mauricio Velazco, Lou Stella, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | join process_id
+    | join process_id dest
     [
         | tstats `security_content_summariesonly` count
         FROM datamodel=Network_Traffic.All_Traffic WHERE
@@ -50,6 +50,7 @@ search: |-
             All_Traffic.process_id
         | `drop_dm_object_name(All_Traffic)`
         | rename dest as connection_to_CNC
+        | rename src as dest
     ]
     | table _time dest
             parent_process_path parent_process_name parent_process

@@ -1,7 +1,7 @@
 name: Windows DLL Side-Loading In Calc
 id: af01f6db-26ac-440e-8d89-2793e303f137
-version: 11
-date: '2026-03-10'
+version: 12
+date: '2026-04-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -9,7 +9,7 @@ description: The following analytic detects the loading of the "WindowsCodecs.dl
 data_source:
     - Sysmon EventID 7
 search: |
-    '`sysmon`
+    `sysmon`
     EventCode=7
     Image="*\\calc.exe"
     ImageLoaded="*\\WindowsCodecs.dll"
