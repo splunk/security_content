@@ -1,7 +1,7 @@
 name: Windows Security Support Provider Reg Query
 id: 31302468-93c9-4eca-9ae3-2d41f53a4e2b
-version: 11
-date: '2026-04-14'
+version: 12
+date: '2026-04-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -25,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 rba:
     message: process with reg query command line $process$ on $dest$
     risk_objects:

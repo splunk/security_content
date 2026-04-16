@@ -1,25 +1,14 @@
 name: Recon Using WMI Class
 id: 018c1972-ca07-11eb-9473-acde48001122
-version: 15
-date: '2026-04-15'
+version: 16
+date: '2026-04-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects suspicious PowerShell activity via EventCode 4104, where WMI performs event queries to gather information on running processes or services. This detection leverages PowerShell Script Block Logging to identify specific WMI queries targeting system information classes like Win32_Bios and Win32_OperatingSystem. This activity is significant as it often indicates reconnaissance efforts by an adversary to profile the compromised machine. If confirmed malicious, the attacker could gain detailed system information, aiding in further exploitation or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` EventCode=4104 AND ScriptBlockText IN ("*SELECT*", "*Get-WmiObject*") AND ScriptBlockText IN ("*Win32_Bios*", "*Win32_OperatingSystem*", "*Win32_Processor*", "*Win32_ComputerSystem*", "*Win32_PnPEntity*", "*Win32_ShadowCopy*", "*Win32_DiskDrive*", "*Win32_PhysicalMemory*", "*Win32_BaseBoard*", "*Win32_DisplayConfiguration*")
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `recon_using_wmi_class_filter`
+search: "`powershell` EventCode=4104 AND ScriptBlockText IN (\"*SELECT*\", \"*Get-WmiObject*\") AND ScriptBlockText IN (\"*Win32_Bios*\", \"*Win32_OperatingSystem*\", \"*Win32_Processor*\", \"*Win32_ComputerSystem*\", \"*Win32_PnPEntity*\", \"*Win32_ShadowCopy*\", \"*Win32_DiskDrive*\", \"*Win32_PhysicalMemory*\", \"*Win32_BaseBoard*\", \"*Win32_DisplayConfiguration*\")\n  | fillnull\n  | stats count min(_time) as firstTime max(_time) as lastTime\n    BY dest signature signature_id\n       user_id vendor_product EventID\n       Guid Opcode Name\n       Path ProcessID ScriptBlockId\n       ScriptBlockText\n  | `security_content_ctime(firstTime)`\n  | `security_content_ctime(lastTime)`\n  | `recon_using_wmi_class_filter`"
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: network administrator may used this command for checking purposes
 references:
@@ -39,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 rba:
     message: A suspicious powershell script contains host recon commands detected on host $dest$
     risk_objects:

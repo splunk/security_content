@@ -1,54 +1,20 @@
 name: MacOS LOLbin
 id: 58d270fb-5b39-418e-a855-4b8ac046805e
-version: 13
-date: '2026-04-15'
+version: 14
+date: '2026-04-16'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: |-
-    The following analytic detects multiple executions of Living off the Land (LOLbin) binaries on macOS within a short period.
+description: 'The following analytic detects multiple executions of Living off the Land (LOLbin) binaries on macOS within a short period.
+
     It leverages osquery to monitor process events and identifies commands such as "find", "crontab", "screencapture", "openssl", "curl", "wget", "killall", and "funzip". This activity is significant as LOLbins are often used by attackers to perform malicious actions while evading detection.
-    If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or persist within the environment, posing a significant security risk.
+
+    If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or persist within the environment, posing a significant security risk.'
 data_source:
     - Osquery Results
-search: |-
-    `osquery_macro`
-    name=es_process_events
-    columns.cmdline IN (
-        "chmod*",
-        "crontab*",
-        "curl*",
-        "find*",
-        "funzip*",
-        "killall*",
-        "openssl*",
-        "screencapture*",
-        "wget*",
-    )
-    | rename columns.* as *
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-                  values(cmdline) as cmdline
-                  values(pid) as pid
-                  values(parent) as parent
-                  values(path) as path
-                  values(signing_id) as signing_id
-                  dc(path) as dc_path
-        BY username host
-
-    | rename username as user
-            cmdline as process
-            path as process_path
-            host as dest
-
-    | where dc_path > 3
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `macos_lolbin_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-known_false_positives: |-
-    No false positives have been identified at this time.
+search: "`osquery_macro`\nname=es_process_events\ncolumns.cmdline IN (\n    \"chmod*\",\n    \"crontab*\",\n    \"curl*\",\n    \"find*\",\n    \"funzip*\",\n    \"killall*\",\n    \"openssl*\",\n    \"screencapture*\",\n    \"wget*\",\n)\n| rename columns.* as *\n| stats count min(_time) as firstTime\n              max(_time) as lastTime\n              values(cmdline) as cmdline\n              values(pid) as pid\n              values(parent) as parent\n              values(path) as path\n              values(signing_id) as signing_id\n              dc(path) as dc_path\n    BY username host\n\n| rename username as user\n        cmdline as process\n        path as process_path\n        host as dest\n\n| where dc_path > 3\n| `security_content_ctime(firstTime)`\n| `security_content_ctime(lastTime)`\n| `macos_lolbin_filter`"
+how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+known_false_positives: No false positives have been identified at this time.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 drilldown_searches:
@@ -59,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 rba:
     message: Multiplle LOLbin are executed on host $dest$ by user $user$
     risk_objects:

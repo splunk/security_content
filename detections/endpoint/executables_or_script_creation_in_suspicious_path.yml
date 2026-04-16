@@ -1,70 +1,36 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 27
-date: '2026-04-15'
+version: 28
+date: '2026-04-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic identifies the creation of executables or scripts in suspicious file paths on Windows systems.
+description: 'The following analytic identifies the creation of executables or scripts in suspicious file paths on Windows systems.
+
     It leverages the Endpoint.Filesystem dataset to detect files with specific extensions (e.g., .exe, .dll, .ps1) created in uncommon directories (e.g., \windows\fonts\, \users\public\).
+
     This activity can be significant as adversaries often use these paths to evade detection and maintain persistence.
+
     If confirmed malicious, this behavior could allow attackers to execute unauthorized code, escalate privileges, or persist within the environment, posing a significant security threat.
+
+'
 data_source:
     - Sysmon EventID 11
-search: |
-    | tstats `security_content_summariesonly`
-      count min(_time) as firstTime
-            max(_time) as lastTime
+search: "| tstats `security_content_summariesonly`\n  count min(_time) as firstTime\n        max(_time) as lastTime\n\nfrom datamodel=Endpoint.Filesystem where\n\nFilesystem.file_name IN (\n  \"*.bat\",\n  \"*.cmd\",\n  \"*.com\",\n  \"*.dll\",\n  \"*.exe\",\n  \"*.js\",\n  \"*.msc\",\n  \"*.pif\",\n  \"*.ps1\",\n  \"*.sys\",\n  \"*.vbe\",\n  \"*.vbs\"\n)\nFilesystem.file_path IN (\n  \"*\\\\PerfLogs\\\\*\",\n  \"*\\\\Users\\\\Administrator\\\\Music\\\\*\",\n  \"*\\\\Users\\\\Default\\\\*\",\n  \"*\\\\Users\\\\Public\\\\*\",\n  \"*\\\\Windows\\\\debug\\\\*\",\n  \"*\\\\Windows\\\\fonts\\\\*\",\n  \"*\\\\Windows\\\\Media\\\\*\",\n  \"*\\\\Windows\\\\repair\\\\*\",\n  \"*\\\\Windows\\\\servicing\\\\*\",\n  \"*Recycle.bin*\",\n  \"*:\\\\inetpub\\\\*\"\n)\n\nby Filesystem.action Filesystem.dest Filesystem.file_access_time\n   Filesystem.file_create_time Filesystem.file_hash\n   Filesystem.file_modify_time Filesystem.file_name\n   Filesystem.file_path Filesystem.file_acl Filesystem.file_size\n   Filesystem.process_guid Filesystem.process_id Filesystem.user\n   Filesystem.vendor_product\n| `drop_dm_object_name(Filesystem)`\n| `security_content_ctime(firstTime)`\n| `security_content_ctime(lastTime)`\n| `executables_or_script_creation_in_suspicious_path_filter`\n"
+how_to_implement: 'To successfully implement this search you need to be ingesting
 
-    from datamodel=Endpoint.Filesystem where
-
-    Filesystem.file_name IN (
-      "*.bat",
-      "*.cmd",
-      "*.com",
-      "*.dll",
-      "*.exe",
-      "*.js",
-      "*.msc",
-      "*.pif",
-      "*.ps1",
-      "*.sys",
-      "*.vbe",
-      "*.vbs"
-    )
-    Filesystem.file_path IN (
-      "*\\PerfLogs\\*",
-      "*\\Users\\Administrator\\Music\\*",
-      "*\\Users\\Default\\*",
-      "*\\Users\\Public\\*",
-      "*\\Windows\\debug\\*",
-      "*\\Windows\\fonts\\*",
-      "*\\Windows\\Media\\*",
-      "*\\Windows\\repair\\*",
-      "*\\Windows\\servicing\\*",
-      "*Recycle.bin*",
-      "*:\\inetpub\\*"
-    )
-
-    by Filesystem.action Filesystem.dest Filesystem.file_access_time
-       Filesystem.file_create_time Filesystem.file_hash
-       Filesystem.file_modify_time Filesystem.file_name
-       Filesystem.file_path Filesystem.file_acl Filesystem.file_size
-       Filesystem.process_guid Filesystem.process_id Filesystem.user
-       Filesystem.vendor_product
-    | `drop_dm_object_name(Filesystem)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `executables_or_script_creation_in_suspicious_path_filter`
-how_to_implement: |
-    To successfully implement this search you need to be ingesting
     information on process that include the name of the Filesystem responsible for
+
     the changes from your endpoints into the `Endpoint` datamodel in the
+
     `Filesystem` node.
-known_false_positives: |
-    Some false positives may arise from paths like Recycle.bin and \Users\Public.
+
+'
+known_false_positives: 'Some false positives may arise from paths like Recycle.bin and \Users\Public.
+
     Other than that executable creation and certain script extensions in these suspicious paths should be less common.
+
+'
 references:
     - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
@@ -78,7 +44,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 rba:
     message: Suspicious executable or scripts with file name $file_name$, $file_path$ and process_id $process_id$ executed in suspicious file path in Windows by $user$
     risk_objects:

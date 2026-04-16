@@ -1,23 +1,32 @@
 name: PowerShell Loading DotNET into Memory via Reflection
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
-version: 17
-date: '2026-04-15'
+version: 18
+date: '2026-04-16'
 author: Michael Haag, Teoderick Contreras Splunk
 status: production
 type: Anomaly
 data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the use of PowerShell scripts to load .NET assemblies into memory via reflection, a technique often used in malicious activities such as those by Empire and Cobalt Strike. It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command executed. This behavior is significant as it can indicate advanced attack techniques aiming to execute code in memory, bypassing traditional defenses. If confirmed malicious, this activity could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.
-search: |
-    `powershell` EventCode=4104 ScriptBlockText IN ("*Reflection.Assembly]::Load*",
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Reflection.Assembly]::Load*",
+
     "*Reflection.Assembly.Load*", "*UnsafeLoadFrom*", "*.LoadFrom(*", "*.LoadModule(*",
-    "*.LoadWithPartialName*", "*ReflectionOnlyLoad*", "*Reflection.Assembly]::('daoL'[-1..-4] -join '')*")
+
+    "*.LoadWithPartialName*", "*ReflectionOnlyLoad*", "*Reflection.Assembly]::(''daoL''[-1..-4] -join '''')*")
+
     | fillnull
+
     | stats count min(_time) as firstTime max(_time) as lastTime
+
     by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+
     | `security_content_ctime(firstTime)`
+
     | `security_content_ctime(lastTime)`
+
     | `powershell_loading_dotnet_into_memory_via_reflection_filter`
+
+'
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: False positives should be limited as day to day scripts do not use this method.
 references:
@@ -34,7 +43,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 rba:
     message: A suspicious powershell script contains reflective class assembly command in $ScriptBlockText$ to load .net code in memory in host $dest$
     risk_objects:

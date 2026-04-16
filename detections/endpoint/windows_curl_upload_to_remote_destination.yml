@@ -1,7 +1,7 @@
 name: Windows Curl Upload to Remote Destination
 id: 42f8f1a2-4228-11ec-aade-acde48001122
-version: 17
-date: '2026-04-15'
+version: 18
+date: '2026-04-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -11,26 +11,7 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
-search: |
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Processes where
-    (Processes.process_name=curl.exe OR Processes.original_file_name=Curl.exe)
-    Processes.process IN (
-      "*-T *",
-      "*--upload-file *",
-      "*-d *",
-      "*--data *",
-      "*-F *"
-    )
-    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-       Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-       Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-       Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id
-       Processes.vendor_product
-    | `drop_dm_object_name(Processes)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_curl_upload_to_remote_destination_filter`
+search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)\nas lastTime from datamodel=Endpoint.Processes where\n(Processes.process_name=curl.exe OR Processes.original_file_name=Curl.exe)\nProcesses.process IN (\n  \"*-T *\",\n  \"*--upload-file *\",\n  \"*-d *\",\n  \"*--data *\",\n  \"*-F *\"\n)\nby Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec\n   Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path\n   Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id\n   Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id\n   Processes.vendor_product\n| `drop_dm_object_name(Processes)`\n| `security_content_ctime(firstTime)`\n| `security_content_ctime(lastTime)`\n| `windows_curl_upload_to_remote_destination_filter`\n"
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: False positives may be limited to source control applications and may be required to be filtered out.
 references:
@@ -45,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 rba:
     message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ uploading a file to a remote destination.
     risk_objects:
