@@ -1,7 +1,7 @@
 name: Windows AD Privileged Account SID History Addition
 id: 6b521149-b91c-43aa-ba97-c2cac59ec830
 version: 12
-date: '2026-04-15'
+date: '2026-04-07'
 author: Dean Luxton
 type: TTP
 status: production
@@ -10,16 +10,16 @@ data_source:
     - Windows Event Log Security 4738
 description: The following analytic identifies when the SID of a privileged user is added to the SID History attribute of another user. It leverages Windows Security Event Codes 4742 and 4738, combined with identity lookups, to detect this activity. This behavior is significant as it may indicate an attempt to abuse SID history for unauthorized access across multiple domains. If confirmed malicious, this activity could allow an attacker to escalate privileges or maintain persistent access within the environment, posing a significant security risk.
 search: |-
-    `wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory IN ("%%1793", -)
-      | rex field=SidHistory "(^%{
-      | ^)(?P<SidHistory>.*?)(}$
-      | $)"
-      | eval category="privileged"
-      | lookup identity_lookup_expanded category, identity as SidHistory OUTPUT identity_tag as match
-      | where isnotnull(match)
-      | rename TargetSid as userSid
-      | table _time action status host user userSid SidHistory Logon_ID src_user dest
-      | `windows_ad_privileged_account_sid_history_addition_filter`
+    `wineventlog_security`
+    EventCode IN (4742, 4738)
+    NOT SidHistory IN ("%%1793", -)
+    | rex field=SidHistory "(^%{|^)(?P<SidHistory>.*?)(}$|$)"
+    | eval category="privileged"
+    | lookup identity_lookup_expanded category, identity as SidHistory OUTPUT identity_tag as match
+    | where isnotnull(match)
+    | rename TargetSid as userSid
+    | table _time action status host user userSid SidHistory Logon_ID src_user dest
+    | `windows_ad_privileged_account_sid_history_addition_filter`
 how_to_implement: Ensure you have objectSid and the Down Level Logon Name `DOMAIN\sAMACountName` added to the identity field of your Asset and Identities lookup, along with the category of privileged for the applicable users. Ensure you are ingesting eventcodes 4742 and 4738. Two advanced audit policies `Audit User Account Management` and `Audit Computer Account Management` under `Account Management` are required to generate these event codes.
 known_false_positives: Migration of privileged accounts.
 references:

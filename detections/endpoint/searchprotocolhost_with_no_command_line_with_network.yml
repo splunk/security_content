@@ -1,7 +1,7 @@
 name: SearchProtocolHost with no Command Line with Network
 id: b690df8c-a145-11eb-a38b-acde48001122
 version: 14
-date: '2026-04-15'
+date: '2026-04-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ search: |
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | join  process_id
+    | join process_id dest
     [
       | tstats `security_content_summariesonly` count
         FROM datamodel=Network_Traffic.All_Traffic where
@@ -41,6 +41,7 @@ search: |
            All_Traffic.process_id
     | `drop_dm_object_name(All_Traffic)`
     | rename dest as C2
+    | rename src as dest
     ]
     | table _time dest parent_process_name process_name process_path process process_id dest_port C2
     | `searchprotocolhost_with_no_command_line_with_network_filter`
