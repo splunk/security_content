@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Snort Rule Triggered Across Multiple Hosts
 id: a4c76d0a-56b6-44be-814b-939746c4d406
-version: 6
-date: '2026-03-10'
+version: 7
+date: '2026-04-15'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -42,9 +42,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$src$" and "$signature_id$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$signature_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$signature_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: The Snort rule $signature$ was triggered by $unique_src_ips$ unique internal hosts within a one-hour window, indicating potential widespread exploitation or coordinated targeting activity.
     risk_objects:
