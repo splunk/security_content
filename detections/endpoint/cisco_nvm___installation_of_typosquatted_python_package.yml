@@ -1,7 +1,7 @@
 name: Cisco NVM - Installation of Typosquatted Python Package
 id: 5e3f6b44-42cb-4f8a-99f0-59e78a52ea1d
-version: 3
-date: '2026-03-10'
+version: 4
+date: '2026-04-15'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -63,9 +63,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$src$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Host $src$ used pip or poetry to install a likely typosquatted python package $package_name$ from $dest_hostname$
     risk_objects:

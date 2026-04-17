@@ -1,7 +1,7 @@
 name: Shai-Hulud Workflow File Creation or Modification
 id: 6b4a0a7f-10d1-4d72-9c4c-5c6a3d9f9d6a
-version: 2
-date: '2026-03-10'
+version: 3
+date: '2026-04-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -69,9 +69,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Shai-Hulud malicious workflow file detected on endpoint $dest$ at $file_path$. Immediate investigation required.
     risk_objects:
