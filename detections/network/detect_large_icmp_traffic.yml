@@ -83,7 +83,7 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1095/palologs/large_icmp.log
           sourcetype: pan:traffic
-          source: pan:traffic
+          source: not_applicable
     - name: Cisco Secure Access Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/large_icmp.log
