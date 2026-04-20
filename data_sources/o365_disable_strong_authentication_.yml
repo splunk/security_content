@@ -18,7 +18,7 @@ separator_value: Disable Strong Authentication.
 supported_TA:
 - name: Splunk Add-on for Microsoft Office 365
   url: https://splunkbase.splunk.com/app/4055
-  version: 5.1.0
+  version: 6.0.1
 fields:
 - _time
 - ActorContextId
