@@ -1,6 +1,6 @@
 name: Logon Script Event Trigger Execution
 id: 4c38c264-1f74-11ec-b5fa-acde48001122
-version: 11
+version: 10
 date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production

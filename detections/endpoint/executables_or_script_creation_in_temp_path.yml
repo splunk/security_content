@@ -1,6 +1,6 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 23
+version: 22
 date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production

@@ -1,6 +1,6 @@
 name: PowerShell Loading DotNET into Memory via Reflection
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
-version: 17
+version: 16
 date: '2026-04-21'
 author: Michael Haag, Teoderick Contreras Splunk
 status: production
@@ -24,9 +24,7 @@ search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Reflection.Assembly]:
 
     | `security_content_ctime(lastTime)`
 
-    | `powershell_loading_dotnet_into_memory_via_reflection_filter`
-
-'
+    | `powershell_loading_dotnet_into_memory_via_reflection_filter` '
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: False positives should be limited as day to day scripts do not use this method.
 references:

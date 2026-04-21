@@ -1,6 +1,6 @@
 name: Windows Unusual Process Load Mozilla NSS-Mozglue Module
 id: 1a7e7650-b81d-492e-99d4-d5ab633afbdd
-version: 7
+version: 6
 date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production
