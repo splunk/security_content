@@ -8,6 +8,7 @@ type: TTP
 description: The following analytic detects outbound SMB (Server Message Block) connections from internal hosts to external servers. It identifies this activity by monitoring network traffic for SMB requests directed towards the Internet, which are unusual for standard operations. This detection is significant for a SOC as it can indicate an attacker's attempt to retrieve credential hashes through compromised servers, a key step in lateral movement and privilege escalation. If confirmed malicious, this activity could lead to unauthorized access to sensitive data and potential full system compromise.
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Access Firewall
 search: |
     | tstats `security_content_summariesonly`
     earliest(_time) as start_time

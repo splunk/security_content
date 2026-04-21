@@ -1,7 +1,7 @@
 name: Detect Outbound LDAP Traffic
 id: 5e06e262-d7cd-4216-b2f8-27b437e18458
-version: 11
-date: '2026-03-25'
+version: 12
+date: '2026-04-21'
 author: Bhavin Patel, Johan Bjerke, Splunk
 status: production
 type: Hunting
@@ -9,6 +9,7 @@ description: The following analytic identifies outbound LDAP traffic to external
 data_source:
     - Palo Alto Network Traffic
     - Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Access Firewall
 search: |-
     | tstats `security_content_summariesonly`
              count min(_time) as firstTime
