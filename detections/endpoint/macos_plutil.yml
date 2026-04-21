@@ -1,24 +1,14 @@
 name: MacOS plutil
 id: c11f2b57-92c1-4cd2-b46c-064eafb833ac
 version: 10
-date: '2026-04-13'
+date: '2026-04-16'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
 description: The following analytic detects the usage of the `plutil` command to modify plist files on macOS systems. It leverages osquery to monitor process events, specifically looking for executions of `/usr/bin/plutil`. This activity is significant because adversaries can use `plutil` to alter plist files, potentially adding malicious binaries or command-line arguments that execute upon user logon or system startup. If confirmed malicious, this could allow attackers to achieve persistence, execute arbitrary code, or escalate privileges, posing a significant threat to the system's security.
 data_source:
     - Osquery Results
-search: |-
-    `osquery_macro` name=es_process_events columns.path=/usr/bin/plutil
-      | rename columns.* as *
-      | stats count  min(_time) as firstTime max(_time) as lastTime
-        BY username host cmdline
-           pid path parent
-           signing_id
-      | rename username as user, cmdline as process, path as process_path, host as dest
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `macos_plutil_filter`
+search: "`osquery_macro` name=es_process_events columns.path=/usr/bin/plutil\n  | rename columns.* as *\n  | stats count  min(_time) as firstTime max(_time) as lastTime\n    BY username host cmdline\n       pid path parent\n       signing_id\n  | rename username as user, cmdline as process, path as process_path, host as dest\n  | `security_content_ctime(firstTime)`\n  | `security_content_ctime(lastTime)`\n  | `macos_plutil_filter`"
 how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
 known_false_positives: Administrators using plutil to change plist files.
 references:
@@ -29,9 +19,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
 rba:
     message: plutil are executed on $dest$ from $user$
     risk_objects:

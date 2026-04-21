@@ -44,7 +44,7 @@ apps:
 - uid: 7404
   title: Cisco Security Cloud
   appid: CiscoSecurityCloud
-  version: 3.6.3
+  version: 3.6.4
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-security-cloud_363.tgz
 - uid: 7569
@@ -71,9 +71,9 @@ apps:
 - uid: 742
   title: Splunk Add-on for Microsoft Windows
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS
-  version: 9.1.2
+  version: 10.0.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_912.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_1000.tgz
 - uid: 5709
   title: Splunk Add-on for Sysmon
   appid: Splunk_TA_microsoft_sysmon
@@ -167,15 +167,15 @@ apps:
 - uid: 3110
   title: Splunk Add-on for Microsoft Cloud Services
   appid: SPLUNK_TA_MICROSOFT_CLOUD_SERVICES
-  version: 6.1.0
+  version: 6.1.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-cloud-services_610.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-cloud-services_611.tgz
 - uid: 4055
   title: Splunk Add-on for Microsoft Office 365
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365
-  version: 5.1.0
+  version: 6.0.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-office-365_510.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-office-365_601.tgz
 - uid: 5518
   title: Splunk add on for Microsoft Defender Advanced Hunting
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_DEFENDER_ADVANCED_HUNTING

@@ -16,7 +16,7 @@ separator_value: Disable Strong Authentication
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services
   url: https://splunkbase.splunk.com/app/3110
-  version: 6.1.0
+  version: 6.1.1
 fields:
 - _time
 - Level
