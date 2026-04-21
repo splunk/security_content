@@ -1,7 +1,7 @@
 name: Windows Disable or Stop Browser Process
 id: 220d34b7-b6c7-45fe-8dbb-c35cdd9fe6d5
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 1
@@ -53,6 +53,7 @@ tags:
         - Hellcat Ransomware
         - Castle RAT
         - BlankGrabber Stealer
+        - VIP Keylogger
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001
