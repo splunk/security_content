@@ -1,6 +1,6 @@
 name: Wscript Or Cscript Suspicious Child Process
 id: 1f35e1da-267b-11ec-90a9-acde48001122
-version: 14
+version: 15
 date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production

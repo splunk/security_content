@@ -1,6 +1,6 @@
 name: Windows Powershell Cryptography Namespace
 id: f8b482f4-6d62-49fa-a905-dfa15698317b
-version: 13
+version: 14
 date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production

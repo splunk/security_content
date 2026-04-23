@@ -1,6 +1,6 @@
 name: Recon Using WMI Class
 id: 018c1972-ca07-11eb-9473-acde48001122
-version: 14
+version: 15
 date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production
