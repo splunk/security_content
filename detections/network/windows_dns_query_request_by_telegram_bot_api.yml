@@ -1,6 +1,6 @@
 name: Windows DNS Query Request by Telegram Bot API
 id: 86f66f44-94d9-412d-a71d-5d8ed0fef72e
-version: 8
+version: 9
 date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 data_source:
