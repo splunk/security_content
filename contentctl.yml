@@ -38,9 +38,9 @@ apps:
 - uid: 6553
   title: Splunk Add-on for Okta Identity Cloud
   appid: Splunk_TA_okta_identity_cloud
-  version: 5.0.1
+  version: 5.0.2
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-okta-identity-cloud_501.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-okta-identity-cloud_502.tgz
 - uid: 7404
   title: Cisco Security Cloud
   appid: CiscoSecurityCloud
@@ -143,9 +143,9 @@ apps:
 - uid: 1876
   title: Splunk Add-on for AWS
   appid: Splunk_TA_aws
-  version: 8.1.0
+  version: 8.1.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-amazon-web-services-aws_810.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-amazon-web-services-aws_811.tgz
 - uid: 3088
   title: Splunk Add-on for Google Cloud Platform
   appid: SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM
