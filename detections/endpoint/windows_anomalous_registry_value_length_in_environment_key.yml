@@ -1,0 +1,63 @@
+name: Windows Anomalous Registry Value Length in Environment Key
+id: f5bde743-245a-4e1f-a152-3971cec6e9ef
+version: 1
+date: '2026-04-16'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects creation or modification of registry values under a user or system Environment key (paths matching *\Environment\*) where the stored value exceeds 2,000 characters. Legitimate environment variables are typically short strings (paths, tokens, or flags); unusually long values can indicate adversaries or malware staging encoded payloads, bloated malicious PATH entries, or other data in a location that is loaded for every interactive session. This behavior is associated with registry modification for persistence or configuration (MITRE ATT&CK T1112) and has been observed in contexts such as .NET infostealer activity. Analysts should validate the writing process, value content, and whether the change aligns with trusted software deployment or administrative tasks.
+data_source:
+    - Sysmon EventID 13
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
+        WHERE Registry.registry_path= "*\\Environment\\*"
+        by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive  Registry.registry_key_name  Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product Registry.registry_value_data Registry.registry_path
+        | `drop_dm_object_name(Registry)`
+        | eval registry_value_data_len = len(registry_value_data)
+        | where registry_value_data_len > 2000
+        | `security_content_ctime(firstTime)`
+        | `security_content_ctime(lastTime)`
+      | `windows_anomalous_registry_value_length_in_environment_key_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: No false positives have been identified at this time.
+references:
+    - https://www.joesandbox.com/analysis/1817558/0/pdfexecutive
+    - https://www.broadcom.com/support/security-center/protection-bulletin/vip-keylogger-spreads-via-multi-org-impersonation-campaign
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.vipkeylogger
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: An anomalous registry value length in [$registry_value_data$] was detected on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: registry_path
+          type: registry_path
+        - field: registry_value_data
+          type: registry_value_text
+tags:
+    analytic_story:
+        - VIP Keylogger
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1112
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/vip_big_env_variable/vip_INTERNAL_DB_CACHE.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
