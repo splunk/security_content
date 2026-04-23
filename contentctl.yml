@@ -65,9 +65,9 @@ apps:
 - uid: 742
   title: Splunk Add-on for Microsoft Windows
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS
-  version: 10.0.0
+  version: 10.0.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_1000.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_1001.tgz
 - uid: 5709
   title: Splunk Add-on for Sysmon
   appid: Splunk_TA_microsoft_sysmon
