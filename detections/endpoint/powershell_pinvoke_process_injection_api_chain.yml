@@ -157,8 +157,6 @@ rba:
     threat_objects: []
 tags:
     analytic_story:
-        - Malicious PowerShell
-        - Process Injection
         - VIP Keylogger
     asset_type: Endpoint
     mitre_attack_id:
