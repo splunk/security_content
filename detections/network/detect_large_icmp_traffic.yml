@@ -1,6 +1,6 @@
 name: Detect Large ICMP Traffic
 id: 9cd6d066-94d5-4ccd-a8b9-28c03ca91be8
-version: 6
+version: 7
 date: '2026-04-15'
 author: Rico Valdez, Dean Luxton, Bhavin Patel, Splunk
 status: production
