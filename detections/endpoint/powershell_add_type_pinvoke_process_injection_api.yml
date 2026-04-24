@@ -162,7 +162,6 @@ tags:
         - VIP Keylogger
     asset_type: Endpoint
     mitre_attack_id:
-        - T1055
         - T1055.001
         - T1055.003
         - T1055.004
