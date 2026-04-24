@@ -1,0 +1,100 @@
+name: Windows Proxy Execution of .NET Utilities via Scripts
+id: eb59cf01-1874-4d16-b7e4-54a6eb9b3118
+version: 1
+date: '2026-04-16'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the launch of common .NET-related utilities—aspnet_compiler.exe, msbuild.exe, regasm.exe, InstallUtil.exe, or vbc.exe when the parent appears to be a script (batch, CMD, PowerShell, JScript, VBScript, or HTML) running from an unusual or user-writable Windows location (for example Public, Temp, Fonts, Debug, Recycle Bin, Prefetch, or similar paths), and the child process shows little or no command-line variation from the image path or name. That pattern is consistent with adversaries using trusted .NET binaries as a proxy to run code while hiding execution behind script parents in low-trust folders, behavior associated with techniques such as signed binary proxy execution.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+        from datamodel=Endpoint.Processes
+        where
+             Processes.process_name IN (
+              "aspnet_compiler.exe",
+              "msbuild.exe",
+              "regasm.exe",
+              "InstallUtil.exe",
+              "vbc.exe"
+              )AND
+
+        Processes.parent_process IN (
+          "*.bat*",
+          "*.cmd*",
+          "*.ps1*",
+          "*.js*",
+          "*.vbs*",
+          "*.html*"
+          ) AND
+      Processes.parent_process IN (
+          "*\\windows\\fonts\\*",
+          "*\\users\\public\\*",
+          "*\\windows\\debug\\*",
+          "*\\Users\\Administrator\\Music\\*",
+          "*Recycle.bin*",
+          "*\\Windows\\Media\\*",
+          "\\Windows\\repair\\*",
+          "*\\PerfLogs\\*",
+          "*:\\Windows\\Prefetch\\*",
+          "*:\\Windows\\Cursors\\*",
+          "*:\\Windows\\INF\\*",
+          "*\\Microsoft\\Windows\\Libraries\\*",
+          "*\\temp\\*"
+      )
+      by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+      | where (isnull(Processes.process) OR Processes.process=Processes.process_path OR Processes.process=Processes.process_name)
+      | `drop_dm_object_name(Processes)`
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_proxy_execution_of__net_utilities_via_scripts_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: No false positives have been identified at this time.
+references:
+    - https://www.joesandbox.com/analysis/1817558/0/pdfexecutive
+    - https://www.broadcom.com/support/security-center/protection-bulletin/vip-keylogger-spreads-via-multi-org-impersonation-campaign
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.vipkeylogger
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: A suspicious script [$parent_process$] spawned [$process_name$] on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+        - field: parent_process
+          type: parent_process
+        - field: process_name
+          type: process_name
+        - field: process
+          type: process
+tags:
+    analytic_story:
+        - VIP Keylogger
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1218
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/vip_aspnet_process/vip_aspnet_process.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

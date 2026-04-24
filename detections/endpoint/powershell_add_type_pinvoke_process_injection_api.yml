@@ -1,0 +1,184 @@
+name: PowerShell P/Invoke Process Injection API Chain
+id: 3f1a2b4c-d5e6-7890-abcd-ef1234567890
+version: 1
+date: '2026-04-22'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects PowerShell Script Block Logging (Event ID 4104) evidence of a complete P/Invoke process-injection API chain at either the compile phase or the execution phase. The compile phase matches an inline .NET class defined via `Add-Type -TypeDefinition` where the embedded C# source declares `[DllImport]` P/Invoke bindings using their full signature context — specifically `extern <ReturnType> <FunctionName>` — rather than bare name strings, eliminating false positives from variable names, comments, or arbitrary string references. The execution phase matches PowerShell static method calls using the `::MethodName(` syntax, anchored by co-occurring execution-context indicators such as `[IntPtr]::Zero` or `Marshal]::Copy`. Eight injection technique groups are covered across both phases (1) Self-injection shellcode runner — VirtualAlloc + VirtualProtect + CreateThread. (2) Remote thread injection — OpenProcess + VirtualAllocEx + WriteProcessMemory + CreateRemoteThread. (3) APC injection — OpenProcess + VirtualAllocEx + WriteProcessMemory + QueueUserAPC. (4) Thread-context hijacking — OpenThread + SuspendThread + GetThreadContext + WriteProcessMemory + SetThreadContext + ResumeThread. (5) Process hollowing — CreateProcess + VirtualAllocEx + WriteProcessMemory + SetThreadContext + ResumeThread. (6) Section-map injection — NtCreateSection + NtMapViewOfSection. (7) Reflective DLL loading — VirtualAlloc + GetProcAddress + GetModuleHandle + VirtualProtect + CreateThread. (8) DLL injection — OpenProcess + VirtualAllocEx + WriteProcessMemory + GetModuleHandle + GetProcAddress + CreateRemoteThread. Including the execution phase ensures coverage when an adversary loads a pre-compiled assembly from memory or disk and bypasses Add-Type entirely, since the static method call pattern is still captured in the script block regardless of how the class was originally compiled.
+data_source:
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell` EventCode=4104
+       (
+           ScriptBlockText = "*add-type*" AND
+           ScriptBlockText="*DllImport*" AND
+           (
+             (
+               ScriptBlockText="*extern IntPtr VirtualAlloc*" AND
+               ScriptBlockText="*extern bool VirtualProtect*" AND
+               ScriptBlockText="*extern IntPtr CreateThread*")
+             OR
+             (
+               ScriptBlockText="*extern IntPtr OpenProcess*" AND
+               ScriptBlockText="*extern IntPtr VirtualAlloc*" AND
+               ScriptBlockText="*extern bool WriteProcessMemory*" AND
+               ScriptBlockText="*extern IntPtr CreateRemoteThread*")
+             OR
+             (
+               ScriptBlockText="*extern IntPtr OpenProcess*" AND
+               ScriptBlockText="*extern IntPtr VirtualAlloc*" AND
+               ScriptBlockText="*extern bool WriteProcessMemory*" AND
+               ScriptBlockText="*extern bool QueueUserAPC*")
+             OR
+             (
+               ScriptBlockText="*extern IntPtr OpenThread*" AND
+               ScriptBlockText="*extern uint SuspendThread*" AND
+               ScriptBlockText="*extern bool GetThreadContext*" AND
+               ScriptBlockText="*extern bool WriteProcessMemory*" AND
+               ScriptBlockText="*extern bool SetThreadContext*" AND
+               ScriptBlockText="*extern uint ResumeThread*")
+             OR
+             (
+               ScriptBlockText="*extern bool CreateProcess*" AND
+               ScriptBlockText="*extern IntPtr VirtualAlloc*" AND
+               ScriptBlockText="*extern bool WriteProcessMemory*" AND
+               ScriptBlockText="*extern bool SetThreadContext*" AND
+               ScriptBlockText="*extern uint ResumeThread*")
+             OR
+             (
+               ScriptBlockText="*extern int NtCreateSection*" AND
+               ScriptBlockText="*extern int NtMapViewOfSection*" AND
+               ScriptBlockText="*extern IntPtr CreateRemoteThread*")
+             OR
+             (
+               ScriptBlockText="*extern IntPtr VirtualAlloc*" AND
+               ScriptBlockText="*extern IntPtr GetProcAddress*" AND
+               ScriptBlockText="*extern IntPtr GetModuleHandle*" AND
+               ScriptBlockText="*extern IntPtr CreateThread*" AND
+               ScriptBlockText="*extern bool VirtualProtect*")
+             OR
+             (
+               ScriptBlockText="*extern IntPtr OpenProcess*" AND
+               ScriptBlockText="*extern IntPtr VirtualAlloc*" AND
+               ScriptBlockText="*extern bool WriteProcessMemory*" AND
+               ScriptBlockText="*extern IntPtr GetProcAddress*" AND
+               ScriptBlockText="*extern IntPtr CreateRemoteThread*")
+            OR
+            (
+              ScriptBlockText="*::VirtualAlloc*" AND
+              ScriptBlockText="*::VirtualProtect*" AND
+              ScriptBlockText="*::CreateThread*" AND
+              (ScriptBlockText="*[IntPtr]::Zero*" OR ScriptBlockText="*Marshal]::Copy*"))
+            OR
+            (
+              ScriptBlockText="*::OpenProcess*" AND
+              ScriptBlockText="*::VirtualAlloc*" AND
+              ScriptBlockText="*::WriteProcessMemory*" AND
+              ScriptBlockText="*::CreateRemoteThread*" AND
+              ScriptBlockText="*[IntPtr]::Zero*")
+            OR
+            (
+             ScriptBlockText="*::OpenProcess*" AND
+             ScriptBlockText="*::VirtualAlloc*" AND
+             ScriptBlockText="*::WriteProcessMemory*" AND
+             ScriptBlockText="*::QueueUserAPC*" AND
+             ScriptBlockText="*[IntPtr]::Zero*")
+            OR
+            (
+             ScriptBlockText="*::OpenThread*" AND
+             ScriptBlockText="*::SuspendThread*" AND
+             ScriptBlockText="*::GetThreadContext*" AND
+             ScriptBlockText="*::WriteProcessMemory*" AND
+             ScriptBlockText="*::SetThreadContext*" AND
+             ScriptBlockText="*::ResumeThread*")
+           OR
+           (
+             ScriptBlockText="*::CreateProcess*" AND
+             ScriptBlockText="*::VirtualAlloc*" AND
+             ScriptBlockText="*::WriteProcessMemory*" AND
+             ScriptBlockText="*::SetThreadContext*" AND
+             ScriptBlockText="*::ResumeThread*")
+           OR
+           (
+             ScriptBlockText="*::NtCreateSection*" AND
+             ScriptBlockText="*::NtMapViewOfSection*" AND
+             ScriptBlockText="*::CreateRemoteThread*")
+           OR
+           (
+             ScriptBlockText="*::VirtualAlloc*" AND
+             ScriptBlockText="*::GetProcAddress*" AND
+             ScriptBlockText="*::GetModuleHandle*" AND
+             ScriptBlockText="*::VirtualProtect*" AND
+             ScriptBlockText="*::CreateThread*" )
+           OR
+           (
+             ScriptBlockText="*::OpenProcess*" AND
+             ScriptBlockText="*::VirtualAlloc*" AND
+             ScriptBlockText="*::WriteProcessMemory*" AND
+             ScriptBlockText="*::GetModuleHandle*" AND
+             ScriptBlockText="*::GetProcAddress*" AND
+             ScriptBlockText="*::CreateRemoteThread*")
+           )
+       )
+     | fillnull
+     | stats count min(_time) as firstTime max(_time) as lastTime
+       by dest signature signature_id user_id vendor_product EventID
+          Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+     | `security_content_ctime(firstTime)`
+     | `security_content_ctime(lastTime)`
+     | `powershell_add_type_pinvoke_process_injection_api_filter`
+how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: No false positives have been identified at this time.
+references:
+    - https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.dllimportattribute
+    - https://www.ired.team/offensive-security/code-injection-process-injection
+    - https://www.broadcom.com/support/security-center/protection-bulletin/vip-keylogger-spreads-via-multi-org-impersonation-campaign
+    - https://attack.mitre.org/techniques/T1055/
+    - https://attack.mitre.org/techniques/T1620/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: A PowerShell script Script block ID [$ScriptBlockId$] contains a possible P-Invoke process injection API chain via either inline Add-Type class declaration or direct static method invocation on [$dest$]
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+        - field: user_id
+          type: user
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Malicious PowerShell
+        - Process Injection
+        - VIP Keylogger
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1055
+        - T1055.001
+        - T1055.003
+        - T1055.004
+        - T1055.012
+        - T1055.013
+        - T1059.001
+        - T1620
+        - T1059.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/vip_injection_pwh/pwh_net_inline.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog
