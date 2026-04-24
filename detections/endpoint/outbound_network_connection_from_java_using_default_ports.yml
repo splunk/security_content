@@ -1,7 +1,7 @@
 name: Outbound Network Connection from Java Using Default Ports
 id: d2c14d28-5c47-11ec-9892-acde48001122
-version: 11
-date: '2026-03-18'
+version: 12
+date: '2026-04-09'
 author: Mauricio Velazco, Lou Stella, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | join process_id
+    | join process_id dest
     [
         | tstats `security_content_summariesonly` count
         FROM datamodel=Network_Traffic.All_Traffic WHERE
@@ -50,6 +50,7 @@ search: |-
             All_Traffic.process_id
         | `drop_dm_object_name(All_Traffic)`
         | rename dest as connection_to_CNC
+        | rename src as dest
     ]
     | table _time dest
             parent_process_path parent_process_name parent_process
@@ -69,9 +70,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Java performed outbound connections to default ports of LDAP or RMI on $dest$
     risk_objects:

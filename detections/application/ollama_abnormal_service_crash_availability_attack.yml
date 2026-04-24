@@ -1,7 +1,7 @@
 name: Ollama Abnormal Service Crash Availability Attack
 id: 327fa152-9b56-4e4e-bc0b-2795d4068afa
-version: 2
-date: '2026-03-10'
+version: 3
+date: '2026-04-15'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -19,9 +19,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: 'View risk events for the last 7 days for - "$host$"'
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: 'Abnormal Ollama service termination detected on host $host$ between $first_seen$ and $last_seen$. Service stopped $termination_count$ times with $unique_errors$ unique error types. Severity: $severity$. Potential cause: $attack_type$. Error messages: $error_messages$ require investigation.'
     risk_objects:

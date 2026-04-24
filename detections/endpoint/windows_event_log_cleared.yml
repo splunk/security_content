@@ -1,7 +1,7 @@
 name: Windows Event Log Cleared
 id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-version: 17
-date: '2026-03-10'
+version: 18
+date: '2026-04-08'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -14,9 +14,7 @@ search: |-
     OR
     (`wineventlog_system` EventCode=104)
     | stats count min(_time) as firstTime max(_time) as lastTime
-      by action app change_type dest dvc name object_attrs object_category
-         signature signature_id src_user status subject user
-         vendor_product object EventCode
+      by action change_type dest dvc object_category signature_id status user vendor_product object EventCode
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_event_log_cleared_filter`
@@ -33,9 +31,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Windows $object$ cleared on $dest$ via EventCode $EventCode$
     risk_objects:
@@ -60,8 +58,13 @@ tags:
         - Splunk Cloud
     security_domain: endpoint
 tests:
-    - name: True Positive Test
+    - name: True Positive Test - Security
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-xml.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-security.log
           source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+    - name: True Positive Test - System
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-system.log
+          source: XmlWinEventLog:System
           sourcetype: XmlWinEventLog

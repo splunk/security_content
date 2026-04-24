@@ -1,9 +1,9 @@
 name: Windows Unusual Count Of Invalid Users Failed To Auth Using NTLM
 id: 15603165-147d-4a6e-9778-bd0ff39e668f
 type: Anomaly
-version: 10
+version: 11
 status: production
-date: '2026-03-10'
+date: '2026-04-15'
 author: Mauricio Velazco, Splunk
 data_source:
     - Windows Event Log Security 4776
@@ -20,9 +20,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 search: |-
     `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xc0000064
       | bucket span=2m _time

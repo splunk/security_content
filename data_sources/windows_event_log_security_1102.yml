@@ -1,7 +1,7 @@
 name: Windows Event Log Security 1102
 id: 8db7b91a-6d7a-40e7-bfac-06f8e901a9cb
-version: 3
-date: '2025-07-10'
+version: 4
+date: '2026-04-15'
 author: Patrick Bareiss, Splunk
 description: Logs an event when the audit log is cleared.
 mitre_components:
@@ -15,7 +15,7 @@ separator_value: '1102'
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.1.2
+  version: 10.0.1
 fields:
 - _time
 - Caller_User_Name
@@ -85,18 +85,12 @@ fields:
 - vendor_product
 output_fields:
 - action
-- app
 - change_type
 - dest
 - dvc
-- name
-- object_attrs
 - object_category
-- signature
 - signature_id
-- src_user
 - status
-- subject
 - user
 - vendor_product
 example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider

@@ -1,7 +1,7 @@
 name: Windows DLL Side-Loading In Calc
 id: af01f6db-26ac-440e-8d89-2793e303f137
-version: 11
-date: '2026-03-10'
+version: 12
+date: '2026-04-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -9,7 +9,7 @@ description: The following analytic detects the loading of the "WindowsCodecs.dl
 data_source:
     - Sysmon EventID 7
 search: |
-    '`sysmon`
+    `sysmon`
     EventCode=7
     Image="*\\calc.exe"
     ImageLoaded="*\\WindowsCodecs.dll"
@@ -38,9 +38,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: The [ $Image$ ] process loaded the [ $ImageLoaded$ ] DLL from a non-standard location on [ $dest$ ]
     risk_objects:

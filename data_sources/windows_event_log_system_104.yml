@@ -1,16 +1,16 @@
 name: Windows Event Log System 104
 id: 577b9b41-6b37-44c4-9016-3d890b909050
-version: 2
-date: '2025-07-10'
+version: 3
+date: '2026-04-08'
 author: Bhavin Patel, Splunk
 description: Data source object for Windows Event Log System 104
-source: XmlWinEventLog:Security
+source: XmlWinEventLog:System
 sourcetype: XmlWinEventLog
 separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.1.2
+  version: 10.0.1
 fields:
 - _time
 output_fields:
