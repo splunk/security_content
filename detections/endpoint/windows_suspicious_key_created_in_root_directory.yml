@@ -36,7 +36,6 @@ tags:
         - Ransomware
     asset_type: Endpoint
     mitre_attack_id:
-        - T1022
         - T1486
     product:
         - Splunk Enterprise
