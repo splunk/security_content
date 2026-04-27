@@ -8,23 +8,30 @@ type: Anomaly
 data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the use of PowerShell scripts to load .NET assemblies into memory via reflection, a technique often used in malicious activities such as those by Empire and Cobalt Strike. It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command executed. This behavior is significant as it can indicate advanced attack techniques aiming to execute code in memory, bypassing traditional defenses. If confirmed malicious, this activity could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Reflection.Assembly]::Load*",
-
-    "*Reflection.Assembly.Load*", "*UnsafeLoadFrom*", "*.LoadFrom(*", "*.LoadModule(*",
-
-    "*.LoadWithPartialName*", "*ReflectionOnlyLoad*", "*Reflection.Assembly]::(''daoL''[-1..-4] -join '''')*")
+search: |-
+    `powershell` EventCode=4104
+    ScriptBlockText IN (
+        "*.LoadFrom(*",
+        "*.LoadModule(*",
+        "*.LoadWithPartialName*",
+        "*Reflection.Assembly.Load*",
+        "*Reflection.Assembly]::('daoL'[-1..-4] -join '')*",
+        "*Reflection.Assembly]::Load*",
+        "*ReflectionOnlyLoad*",
+        "*UnsafeLoadFrom*"
+    )
 
     | fillnull
-
-    | stats count min(_time) as firstTime max(_time) as lastTime
-
-    by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest signature signature_id user_id
+         vendor_product EventID Guid Opcode
+         Name Path ProcessID
+         ScriptBlockId ScriptBlockText
 
     | `security_content_ctime(firstTime)`
-
     | `security_content_ctime(lastTime)`
-
-    | `powershell_loading_dotnet_into_memory_via_reflection_filter` '
+    | `powershell_loading_dotnet_into_memory_via_reflection_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: False positives should be limited as day to day scripts do not use this method.
 references:
