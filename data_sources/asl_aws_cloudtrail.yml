@@ -23,7 +23,7 @@ separator: api.operation
 supported_TA:
 - name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876
-  version: 8.1.0
+  version: 8.1.1
 output_fields:
 - dest
 - user
