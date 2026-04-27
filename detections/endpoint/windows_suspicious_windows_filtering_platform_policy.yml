@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'Detects the creation of a Windows Filtering Platform Policy to block the communication of known EDR processes. This can be used by attackers to impair the functionality of these tools and to hide their activities on the machine.
-
-'
+description: 'Detects the creation of a Windows Filtering Platform Policy to block the communication of known EDR processes. This can be used by attackers to impair the functionality of these tools and to hide their activities on the machine.'
 data_source:
     - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_value_data="*Action=Block*" Registry.registry_value_data IN ("*App=*MsMpEng.exe*", "*App=*MsSense.exe*", "*App=*SenseIR.exe*", "*App=*SenseNdr.exe*", "*App=*SenseCncProxy.exe*", "*App=*SenseSampleUploader.exe*", "*App=*winlogbeat.exe*", "*App=*elastic-agent.exe*", "*App=*elastic-endpoint.exe*", "*App=*filebeat.exe*", "*App=*xagt.exe*", "*App=*QualysAgent.exe*", "*App=*SentinelAgent.exe*", "*App=*SentinelAgentWorker.exe*", "*App=*SentinelServiceHost.exe*", "*App=*SentinelStaticEngine.exe*", "*App=*LogProcessorService.exe*", "*App=*SentinelStaticEngineScanner.exe*", "*App=*SentinelHelperService.exe*", "*App=*SentinelBrowserNativeHost.exe*", "*App=*CylanceSvc.exe*", "*App=*AmSvc.exe*", "*App=*CrAmTray.exe*", "*App=*CrsSvc.exe*", "*App=*ExecutionPreventionSvc.exe*", "*App=*CybereasonAV.exe*", "*App=*cb.exe*", "*App=*RepMgr.exe*", "*App=*RepUtils.exe*", "*App=*RepUx.exe*", "*App=*RepWAV.exe*", "*App=*RepWSC.exe*", "*App=*TaniumClient.exe*", "*App=*TaniumCX.exe*", "*App=*TaniumDetectEngine.exe*", "*App=*Traps.exe*", "*App=*cyserver.exe*", "*App=*CyveraService.exe*", "*App=*CyvrFsFlt.exe*", "*App=*fortiedr.exe*", "*App=*sfc.exe*", "*App=*EIConnector.exe*", "*App=*ekrn.exe*", "*App=*hurukai.exe*", "*App=*CETASvc.exe*", "*App=*WSCommunicator.exe*", "*App=*EndpointBasecamp.exe*", "*App=*TmListen.exe*", "*App=*Ntrtscan.exe*", "*App=*TmWSCSvc.exe*", "*App=*PccNTMon.exe*", "*App=*TMBMSRV.exe*", "*App=*CNTAoSMgr.exe*", "*App=*TmCCSF.exe*") by Registry.dest Registry.vendor_product Registry.user Registry.status Registry.registry_value_name Registry.registry_path Registry.registry_hive Registry.registry_value_data Registry.action Registry.process_path Registry.process_guid Registry.process_id Registry.registry_key_name | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_suspicious_windows_filtering_platform_policy_filter`'
@@ -21,10 +19,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Suspicious Windows Filtering Platform Policy activity observed on $dest$.
     risk_objects:

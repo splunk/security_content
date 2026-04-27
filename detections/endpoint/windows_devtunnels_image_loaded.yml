@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects image load events associated with Microsoft Devtunnels usage. Microsoft Devtunnels is a feature within Visual Studio that allows developers to expose their local development environment to the internet via secure, temporary tunnels, enabling external access for testing webhooks, APIs, and other services. While designed for legitimate development purposes, an attacker could exploit this feature to expose a compromised system or service to the internet, creating a covert communication channel that bypasses network security measures. By using Dev Tunnels, the attacker can establish a remote connection to the compromised environment, facilitate data exfiltration, or maintain command-and-control communications while avoiding detection by blending their activities with legitimate development traffic.
-
-'
+description: 'Detects image load events associated with Microsoft Devtunnels usage. Microsoft Devtunnels is a feature within Visual Studio that allows developers to expose their local development environment to the internet via secure, temporary tunnels, enabling external access for testing webhooks, APIs, and other services. While designed for legitimate development purposes, an attacker could exploit this feature to expose a compromised system or service to the internet, creating a covert communication channel that bypasses network security measures. By using Dev Tunnels, the attacker can establish a remote connection to the compromised environment, facilitate data exfiltration, or maintain command-and-control communications while avoiding detection by blending their activities with legitimate development traffic.'
 data_source:
     - Sysmon EventID 7
 search: '`sysmon` EventID=7 ImageLoaded="*AppData\\Local\\Temp\\.net\\devtunnel\*devtunnel.dll" | fillnull | stats count by Computer, ImageLoaded, EventID, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product| rename Computer as dest| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_devtunnels_image_loaded_filter`'
@@ -20,10 +18,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Devtunnels Image Loaded activity observed on $dest$ via $process$.
     risk_objects:

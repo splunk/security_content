@@ -5,10 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects the creation of UDL files. Could indicate a new phishing technique that exploits Universal Data Link (UDL) files, which are typically used in Windows for database connections. Attackers can use UDL files to bypass email filters and capture user credentials by tricking victims into testing a connection to a malicious server. This method allows attackers to harvest sensitive information if users interact with the file, presenting a significant security risk that may soon be addressed by security vendors.
-
-
-'
+description: 'Detects the creation of UDL files. Could indicate a new phishing technique that exploits Universal Data Link (UDL) files, which are typically used in Windows for database connections. Attackers can use UDL files to bypass email filters and capture user credentials by tricking victims into testing a connection to a malicious server. This method allows attackers to harvest sensitive information if users interact with the file, presenting a significant security risk that may soon be addressed by security vendors.'
 data_source:
     - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="*.udl" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.action Filesystem.file_name Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_udl_file_created_filter`'
@@ -21,10 +18,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: A process created a suspicious file at $file_path$ on $dest$
     risk_objects:

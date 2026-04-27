@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects delete events on the CrowdStrike registry keys. These keys are removed as part of the agent uninstallation process. This activity should only occur during planned events and any instances outside that should be evaluated for malicious activity such as CVE-2022-44721.
-
-'
+description: 'Detects delete events on the CrowdStrike registry keys. These keys are removed as part of the agent uninstallation process. This activity should only occur during planned events and any instances outside that should be evaluated for malicious activity such as CVE-2022-44721.'
 data_source:
     - Sysmon EventID 12
 search: '`sysmon` EventID IN (12, 13, 14) TargetObject="HKLM\\SYSTEM\\CrowdStrike" action="deleted" | fillnull | stats count by Computer, EventID, TargetObject, action, dest, process_guid, process_id, registry_hive, registry_path, registry_key_name, status, user, vendor_product| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_removal_of_crowdstrike_agent_filter`'
@@ -20,10 +18,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Removal of CrowdStrike Agent activity observed on $dest$ via $process$.
     risk_objects:

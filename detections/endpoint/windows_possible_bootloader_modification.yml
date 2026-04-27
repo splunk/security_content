@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'Detects where a process writes to critical EFI bootloader files (bootmgfw.efi or bootx64.efi) within the \EFI\Boot\ directory. These files are responsible for initializing the Windows Boot Manager during system startup. Modification or replacement of these files is highly unusual in normal operations and may indicate an attempt to install a bootkit, persist malicious code at the firmware level, or otherwise tamper with the system boot process.
-
-'
+description: 'Detects where a process writes to critical EFI bootloader files (bootmgfw.efi or bootx64.efi) within the \EFI\Boot\ directory. These files are responsible for initializing the Windows Boot Manager during system startup. Modification or replacement of these files is highly unusual in normal operations and may indicate an attempt to install a bootkit, persist malicious code at the firmware level, or otherwise tamper with the system boot process.'
 data_source:
     - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\EFI\\Boot\\bootmgfw.efi", "*\\EFI\\Boot\\bootx64.efi") by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_possible_bootloader_modification_filter`'
@@ -21,10 +19,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: A process created a suspicious file at $file_path$ on $dest$
     risk_objects:

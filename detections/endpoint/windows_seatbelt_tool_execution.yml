@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects the execution of the enumeration tool Seatbelt via PE information and command line parameters. Seatbelt is an open-source C# security tool designed to assist in post-exploitation activities and the assessment of Windows systems. Seatbelt is specifically focused on gathering a wide range of information about the target system and its configuration. The tool performs a series of checks and collects data related to various aspects of the Windows operating system.
-
-'
+description: 'Detects the execution of the enumeration tool Seatbelt via PE information and command line parameters. Seatbelt is an open-source C# security tool designed to assist in post-exploitation activities and the assessment of Windows systems. Seatbelt is specifically focused on gathering a wide range of information about the target system and its configuration. The tool performs a series of checks and collects data related to various aspects of the Windows operating system.'
 data_source:
     - Sysmon EventID 1
 search: '`sysmon` EventID=1 Image="Seatbelt.exe" OR OriginalFileName="Seatbelt.exe" OR Description="*Seatbelt*" CommandLine="*-group=*" | fillnull | stats count by Computer, Image, OriginalFileName, Description, CommandLine, action, original_file_name, parent_process, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, process_hash, process_integrity_level, user, user_id, vendor_product | rename Computer as dest|`security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_seatbelt_tool_execution_filter`'
@@ -20,10 +18,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Seatbelt Tool Execution activity observed on $dest$ via $process$.
     risk_objects:

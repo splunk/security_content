@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects the registry data used by Exela Stealer to perform persistence. Exela Stealer is an information stealer. Written in Python and incorporating support for JavaScript, it comes fitted with capabilities to siphon passwords, Discord tokens, credit cards, cookies and session data, keystrokes, screenshots, and clipboard content.
-
-'
+description: 'Detects the registry data used by Exela Stealer to perform persistence. Exela Stealer is an information stealer. Written in Python and incorporating support for JavaScript, it comes fitted with capabilities to siphon passwords, Discord tokens, credit cards, cookies and session data, keystrokes, screenshots, and clipboard content.'
 data_source:
     - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_key_name="*Exela Update Service*" OR Registry.registry_value_data="*AppData\\Local\\ExelaUpdateService\\Exela.exe" by Registry.dest Registry.vendor_product Registry.user Registry.status Registry.registry_value_name Registry.registry_path Registry.registry_hive Registry.registry_value_data Registry.action Registry.process_path Registry.process_guid Registry.process_id Registry.registry_key_name | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_exela_registry_persistence_artifacts_filter`'
@@ -20,10 +18,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Exela Registry Presistence Artifacts activity observed on $dest$ via $process$.
     risk_objects:

@@ -7,9 +7,7 @@ status: production
 type: TTP
 description: 'Detects an attacker abusing the Windows Installer rollback mechanism to escalate privileges from a standard user to SYSTEM without triggering a UAC prompt, using a technique known as FolderContentsDeleteToFolderDelete.
 
-    Windows Installer (msiexec.exe) creates rollback scripts during software installation to undo changes if an installation fails. These rollback scripts are generated and executed by the Windows Installer service, which runs as SYSTEM. The FolderContentsDeleteToFolderDelete technique abuses this trusted mechanism by crafting a malicious rollback script that instructs the SYSTEM-level Installer service to delete attacker-chosen files or directories — effectively giving a low-privileged attacker the ability to make SYSTEM-level filesystem modifications without any privilege prompt.
-
-'
+    Windows Installer (msiexec.exe) creates rollback scripts during software installation to undo changes if an installation fails. These rollback scripts are generated and executed by the Windows Installer service, which runs as SYSTEM. The FolderContentsDeleteToFolderDelete technique abuses this trusted mechanism by crafting a malicious rollback script that instructs the SYSTEM-level Installer service to delete attacker-chosen files or directories — effectively giving a low-privileged attacker the ability to make SYSTEM-level filesystem modifications without any privilege prompt.'
 data_source:
     - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process="*/target \"C:\\Config.msi\" *" Processes.process="*/initial*" by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash Processes.parent_process_name Processes.parent_process_exec Processes.action Processes.dest Processes.process_current_directory Processes.process_path Processes.process_integrity_level Processes.original_file_name Processes.parent_process Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id Processes.process_guid Processes.process_id Processes.user Processes.process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_msi_rollback_privilege_escalation_filter`'
@@ -22,10 +20,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential MSI Rollback Privilege Escalation activity observed on $dest$ via $process$.
     risk_objects:

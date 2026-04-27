@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'Detects process creation events of various remote access tools. Remote management tools, when used for legitimate purposes, can help IT professionals and system administrators remotely access and manage computer systems. However, threat actors may exploit these tools for malicious purposes.
-
-'
+description: 'Detects process creation events of various remote access tools. Remote management tools, when used for legitimate purposes, can help IT professionals and system administrators remotely access and manage computer systems. However, threat actors may exploit these tools for malicious purposes.'
 data_source:
     - Sysmon EventID 1
 search: '`sysmon` EventID=1 Company IN ("AmidaWare*", "Ammyy LLC*", "AnyDesk Software*", "ATERA Networks*", "bomgar*", "FleetDeck*", "GoTo, Inc*", "IDrive Inc*", "LogMeIn, Inc*", "MMSOFT Design*", "N-able*", "NetSupport Ltd*", "NinjaRMM*", "Remote Utilities*", "SimpleHelp*", "Servably*", "ScreenConnect*", "Splashtop*", "TeamViewer Germany*", "ZOHO Corporation*") OR Description IN ("Advanced Monitoring Agent*", "AnyDesk*", "Ammyy Admin*", "AteraAgent*", "BeyondTrust Remote Support*", "FleetDeck*", "GoToAssist*", "GoToMyPC*", "Kaseya Live Connect*", "N-able*", "NetSupport Client Application*", "NinjaRMM*", "Pulseway*", "RemotePC*", "Remote Utilities*", "ScreenConnect*", "SimpleHelp Remote*", "Splashtop*", "Tactical RMM Agentz*", "Take Control Agent*", "Zoho Assist*") OR Product IN ("Advanced Monitoring Agent*", "AnyDesk*", "Ammyy Admin*", "AteraAgent*", "BeyondTrust Remote Support*", "FleetDeck*", "GoToAssist*", "GoToMyPC*", "Kaseya Live Connect*", "NetSupport Remote Control*", "NetSupport Manager*", "NinjaRMM*", "Pulseway*", "Remote Access*", "Remote Support*", "Remote Utilities*", "RemotePC*", "Syncro*", "ScreenConnect*", "Splashtop*", "Tactical RMM Agent*", "Take Control Agent*", "TeamViewer*", "Zoho Assist*") OR Image IN ("*AgentPackage*", "*AnyDesk.exe*", "*AteraAgent.exe*", "*BASupSrvc*", "*fleetdeck*", "*level.exe*", "*MeshAgent*", "*MspPlatform\\PME\\Installers*", "*NableCommand*", "*N-able Technologies*", "*NinjaRMM*", "*nxexec.exe*", "*nxserv*", "*nxplayer*", "*PCMonitor*", "*Pulseway*", "*remcmdstub.exe*", "*rustdesk.exe*", "*ScreenConnect*", "*Splashtop*", "*SRAgent.exe*", "*tacticalrmm.exe*", "*TakeControlTechConsole*", "*tailscale*", "*TeamViewer*", "*ZA_Connect*", "*ZMAgent*", "*ZohoMeeting*") | fillnull | stats count by Computer, Company, Description, Product, Image, action, dest, original_file_name, parent_process, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, process_hash, process_integrity_level, user, user_id, vendor_product| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_rmm_tool_execution_filter`'
@@ -22,10 +20,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential RMM Tool Execution activity observed on $dest$ via $process$.
     risk_objects:

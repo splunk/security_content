@@ -8,9 +8,7 @@ type: TTP
 description: 'The ConvertTo-AADIntBackdoor command is part of the AADInternals toolkit, which is used primarily for security testing and administrative tasks in Azure Active Directory (Azure AD) environments. This particular command is designed to create a "backdoor" in a federated Azure AD domain.
 
 
-    When executed, ConvertTo-AADIntBackdoor modifies the federation settings of a domain by adding or changing the federation configuration to allow an attacker to control the authentication process. This manipulation enables the creation of security tokens that can impersonate any user within the Azure AD tenant. Consequently, this allows an attacker to bypass Multi-Factor Authentication (MFA), escalate privileges, and maintain persistent access to the Azure AD environment.
-
-'
+    When executed, ConvertTo-AADIntBackdoor modifies the federation settings of a domain by adding or changing the federation configuration to allow an attacker to control the authentication process. This manipulation enables the creation of security tokens that can impersonate any user within the Azure AD tenant. Consequently, this allows an attacker to bypass Multi-Factor Authentication (MFA), escalate privileges, and maintain persistent access to the Azure AD environment.'
 data_source:
     - Powershell Script Block Logging 4104
 search: '`powershell` EventID="4104" ScriptBlockText="*ConvertTo-AADIntBackdoor*" | fillnull | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId | rename Computer as dest |`security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_azure_domain_federated_via_powershell_filter`'
@@ -23,10 +21,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Azure Domain Federated via Powershell activity observed on $dest$.
     risk_objects:

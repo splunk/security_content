@@ -5,10 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects the powershell loader for the Microsoft Activation Scripts (MAS) project. This provides various methods to activate Windows and Office products using HWID (Hardware ID), KMS38, and online KMS activation techniques. It focuses on open-source code to minimize antivirus detections. Use of such activators can compromise system security and integrity.
-
-
-'
+description: 'Detects the powershell loader for the Microsoft Activation Scripts (MAS) project. This provides various methods to activate Windows and Office products using HWID (Hardware ID), KMS38, and online KMS activation techniques. It focuses on open-source code to minimize antivirus detections. Use of such activators can compromise system security and integrity.'
 data_source:
     - Powershell Script Block Logging 4104
 search: '`powershell` EventID="4104" ScriptBlockText="irm https://get.activated.win | iex" | fillnull | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId | rename Computer as dest |`security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_mas_aio_powershell_loader_filter`'
@@ -22,10 +19,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential MAS AIO Powershell Loader activity observed on $dest$ via $process$.
     risk_objects:

@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'Detects execution of the QEMU binary  and an image file with the -nographic flag. This causes it to run in the background without any display. This has been observed as a persistence and initial access technique by some threat actors to install a rogue linux virtual machine
-
-'
+description: 'Detects execution of the QEMU binary  and an image file with the -nographic flag. This causes it to run in the background without any display. This has been observed as a persistence and initial access technique by some threat actors to install a rogue linux virtual machine'
 data_source:
     - Sysmon EventID 1
 search: '`sysmon` EventID=1 CommandLine="*-nographic*" CommandLine="*.img*" Description="*QEMU machine*" OR Product="QEMU" OR Company="*qemu*" | fillnull | stats count by Computer, EventID, CommandLine, Description, Product, Company, action, dest, original_file_name, parent_process, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, process_hash, process_integrity_level, user, user_id, vendor_product| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_suspicious_qemu_execution_filter`'
@@ -21,10 +19,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Suspicious QEMU Execution activity observed on $dest$ via $process$.
     risk_objects:

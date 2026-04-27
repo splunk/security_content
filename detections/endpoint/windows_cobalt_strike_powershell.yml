@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'Detects default function and variable names known to be used by the cobalt strike powershell beacon. This beacon is used to gain command and control on a victim. False positives should be very unlikely. This detection is based around the default configuration and can be defeated through modifications to the ps1 beacon.
-
-'
+description: 'Detects default function and variable names known to be used by the cobalt strike powershell beacon. This beacon is used to gain command and control on a victim. False positives should be very unlikely. This detection is based around the default configuration and can be defeated through modifications to the ps1 beacon.'
 data_source:
     - Powershell Script Block Logging 4104
 search: '`powershell` EventID="4104" ScriptBlockText IN ("*func_get_proc_address*", "*$var_unsafe_native_methods*", "*$var_gpa.Invoke*", "*func_get_delegate_type*", "*$var_type_builder*") | fillnull | stats count by Computer, EventID, ScriptBlockText, dest, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_cobalt_strike_powershell_filter`'
@@ -18,10 +16,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Cobalt Strike Powershell activity observed on $dest$ via $process$.
     risk_objects:

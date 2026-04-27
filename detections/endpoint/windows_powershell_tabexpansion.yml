@@ -5,9 +5,7 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects specific indicators associated with the execution of the TabExpansion internal function in PowerShell. Calling this function directly is not normal and can be indicative of malicious activity such as TabShell. Due to the way PowerShell internals work it can be used in conjunction with directory transversal to load any PowerShell functions even in a sandboxed session. False positives could include legitimate usage of the TabExpansion function but calling it directly is very rare.
-
-'
+description: 'Detects specific indicators associated with the execution of the TabExpansion internal function in PowerShell. Calling this function directly is not normal and can be indicative of malicious activity such as TabShell. Due to the way PowerShell internals work it can be used in conjunction with directory transversal to load any PowerShell functions even in a sandboxed session. False positives could include legitimate usage of the TabExpansion function but calling it directly is very rare.'
 data_source:
     - Powershell Script Block Logging 4104
 search: '`powershell` EventID="4104" ScriptBlockText="*$lastWord*" ScriptBlockText="*$_val='' + $_expression*" ScriptBlockText="*function Write-Members*" | fillnull | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId | rename Computer as dest | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`| `windows_powershell_tabexpansion_filter`'
@@ -20,10 +18,10 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    - earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-      name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 rba:
     message: Potential Powershell TabExpansion activity observed on $dest$ via $process$.
     risk_objects:
