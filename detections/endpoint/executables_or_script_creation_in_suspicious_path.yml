@@ -14,32 +14,32 @@ search: |-
             max(_time) as lastTime
     from datamodel=Endpoint.Filesystem where
     Filesystem.file_name IN (
-      "*.bat",
-      "*.cmd",
-      "*.com",
-      "*.dll",
-      "*.exe",
-      "*.js",
-      "*.msc",
-      "*.pif",
-      "*.ps1",
-      "*.sys",
-      "*.vbe",
-      "*.vbs"
+        "*.bat",
+        "*.cmd",
+        "*.com",
+        "*.dll",
+        "*.exe",
+        "*.js",
+        "*.msc",
+        "*.pif",
+        "*.ps1",
+        "*.sys",
+        "*.vbe",
+        "*.vbs"
     )
     Filesystem.file_path IN (
-      "*\\PerfLogs\\*",
-      "*\\Users\\Administrator\\Music\\*",
-      "*\\Users\\Default\\*",
-      "*\\Users\\Public\\*",
-      "*\\Windows\\debug\\*",
-      "*\\Windows\\fonts\\*",
-      "*\\Windows\\Media\\*",
-      "*\\Windows\\repair\\*",
-      "*\\Windows\\servicing\\*",
-      "*Recycle.bin*",
-      "*:\\inetpub\\*"
-      "*\\Microsoft\\Windows\\Libraries\\*"
+        "*:\\PerfLogs\\*",
+        "*:\\Users\\Administrator\\Music\\*",
+        "*:\\Users\\Default\\*",
+        "*:\\Users\\Public\\*",
+        "*:\\Windows\\debug\\*",
+        "*:\\Windows\\fonts\\*",
+        "*:\\Windows\\Media\\*",
+        "*:\\Windows\\repair\\*",
+        "*:\\Windows\\servicing\\*",
+        "*\\inetpub\\*",
+        "*\\Microsoft\\Windows\\Libraries\\*",
+        "*Recycle.bin*"
     )
     by Filesystem.action Filesystem.dest Filesystem.file_access_time
        Filesystem.file_create_time Filesystem.file_hash
