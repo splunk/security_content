@@ -18,7 +18,7 @@ search: |-
 
     FROM datamodel=Endpoint.Registry WHERE
 
-    Registry.registry_path= "*\\Environment\\*"
+    Registry.registry_path= "*\\Environment\\*" AND Registry.registry_value_name != "Path"
 
     by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive  Registry.registry_key_name  Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product Registry.registry_value_data Registry.registry_path
     | `drop_dm_object_name(Registry)`

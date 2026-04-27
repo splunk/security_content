@@ -9,7 +9,8 @@ description: The following analytic detects the execution of PowerShell scripts 
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    `powershell` EventCode=4104 ScriptBlockText = "*$env:*" AND ScriptBlockText IN ("*Invoke-Expression*", "*iex *") AND ("*[Environment]::SetEnvironmentVariable*")
+    `powershell` EventCode=4104
+    | regex ScriptBlockText="(?i)(invoke-expression|iex\s+|\biex\b).*\$env:"
     | fillnull
     | stats count min(_time) as firstTime max(_time) as lastTime
     by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
