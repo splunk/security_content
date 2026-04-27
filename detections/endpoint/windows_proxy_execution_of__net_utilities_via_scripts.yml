@@ -5,48 +5,56 @@ date: '2026-04-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the launch of common .NET-related utilities—aspnet_compiler.exe, msbuild.exe, regasm.exe, InstallUtil.exe, or vbc.exe when the parent appears to be a script (batch, CMD, PowerShell, JScript, VBScript, or HTML) running from an unusual or user-writable Windows location (for example Public, Temp, Fonts, Debug, Recycle Bin, Prefetch, or similar paths), and the child process shows little or no command-line variation from the image path or name. That pattern is consistent with adversaries using trusted .NET binaries as a proxy to run code while hiding execution behind script parents in low-trust folders, behavior associated with techniques such as signed binary proxy execution.
+description: |-
+    The following analytic detects the launch of common .NET-related utilities—aspnet_compiler.exe, msbuild.exe, regasm.exe, InstallUtil.exe, or vbc.exe when the parent appears to be a script (batch, CMD, PowerShell, JScript, VBScript, or HTML) running from an unusual or user-writable Windows location (for example Public, Temp, Fonts, Debug, Recycle Bin, Prefetch, or similar paths), and the child process shows little or no command-line variation from the image path or name.
+    That pattern is consistent with adversaries using trusted .NET binaries as a proxy to run code while hiding execution behind script parents in low-trust folders, behavior associated with techniques such as signed binary proxy execution.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-        from datamodel=Endpoint.Processes
-        where
-             Processes.process_name IN (
-              "aspnet_compiler.exe",
-              "msbuild.exe",
-              "regasm.exe",
-              "InstallUtil.exe",
-              "vbc.exe"
-              )AND
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    from datamodel=Endpoint.Processes where
 
-        Processes.parent_process IN (
-          "*.bat*",
-          "*.cmd*",
-          "*.ps1*",
-          "*.js*",
-          "*.vbs*",
-          "*.html*"
-          ) AND
-      Processes.parent_process IN (
-          "*\\windows\\fonts\\*",
-          "*\\users\\public\\*",
-          "*\\windows\\debug\\*",
-          "*\\Users\\Administrator\\Music\\*",
-          "*Recycle.bin*",
-          "*\\Windows\\Media\\*",
-          "\\Windows\\repair\\*",
-          "*\\PerfLogs\\*",
-          "*:\\Windows\\Prefetch\\*",
-          "*:\\Windows\\Cursors\\*",
-          "*:\\Windows\\INF\\*",
-          "*\\Microsoft\\Windows\\Libraries\\*",
-          "*\\temp\\*"
+    Processes.process_name IN (
+        "aspnet_compiler.exe",
+        "InstallUtil.exe",
+        "msbuild.exe",
+        "regasm.exe",
+        "vbc.exe",
+    )
+    Processes.parent_process IN (
+        "*.bat*",
+        "*.cmd*",
+        "*.html*",
+        "*.js*",
+        "*.ps1*",
+        "*.vbe*",
+        "*.vbs*"
+    )
+    Processes.parent_process IN (
+        ":\\Windows\\repair\\*",
+        "*:\\Microsoft\\Windows\\Libraries\\*",
+        "*:\\Temp\\*",
+        "*:\\Users\\Administrator\\Music\\*",
+        "*:\\Users\\Public\\*",
+        "*:\\Windows\\Cursors\\*",
+        "*:\\Windows\\debug\\*",
+        "*:\\Windows\\Fonts\\*",
+        "*:\\Windows\\INF\\*",
+        "*:\\Windows\\Media\\*",
+        "*:\\Windows\\Prefetch\\*",
+        "*:\\Windows\\Temp\\*",
+        "*\\AppData\\Local\\Temp\\*",
+        "*\\PerfLogs\\*",
+        "*Recycle.bin*"
       )
       by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+
       | where (isnull(Processes.process) OR Processes.process=Processes.process_path OR Processes.process=Processes.process_name)
+
       | `drop_dm_object_name(Processes)`
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
@@ -67,7 +75,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: A suspicious script [$parent_process$] spawned [$process_name$] on [$dest$].
+    message: A suspicious script [$parent_process$] spawned [$process_name$] with CommandLine [$process$] on [$dest$].
     risk_objects:
         - field: dest
           type: system
