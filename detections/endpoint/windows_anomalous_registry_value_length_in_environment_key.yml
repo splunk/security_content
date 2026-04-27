@@ -5,19 +5,28 @@ date: '2026-04-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects creation or modification of registry values under a user or system Environment key (paths matching *\Environment\*) where the stored value exceeds 2,000 characters. Legitimate environment variables are typically short strings (paths, tokens, or flags); unusually long values can indicate adversaries or malware staging encoded payloads, bloated malicious PATH entries, or other data in a location that is loaded for every interactive session. This behavior is associated with registry modification for persistence or configuration (MITRE ATT&CK T1112) and has been observed in contexts such as .NET infostealer activity. Analysts should validate the writing process, value content, and whether the change aligns with trusted software deployment or administrative tasks.
+description: |-
+    The following analytic detects creation or modification of registry values under a user or system Environment key (paths matching *\Environment\*) where the stored value exceeds 2,000 characters.
+    Legitimate environment variables are typically short strings (paths, tokens, or flags); unusually long values can indicate adversaries or malware staging encoded payloads, bloated malicious PATH entries, or other data in a location that is loaded for every interactive session.
+    This behavior has been observed in contexts such as .NET infostealer activity. Analysts should validate the writing process, value content, and whether the change aligns with trusted software deployment or administrative tasks.
 data_source:
     - Sysmon EventID 13
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
-        WHERE Registry.registry_path= "*\\Environment\\*"
-        by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive  Registry.registry_key_name  Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product Registry.registry_value_data Registry.registry_path
-        | `drop_dm_object_name(Registry)`
-        | eval registry_value_data_len = len(registry_value_data)
-        | where registry_value_data_len > 2000
-        | `security_content_ctime(firstTime)`
-        | `security_content_ctime(lastTime)`
-      | `windows_anomalous_registry_value_length_in_environment_key_filter`
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Registry WHERE
+
+    Registry.registry_path= "*\\Environment\\*"
+
+    by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive  Registry.registry_key_name  Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product Registry.registry_value_data Registry.registry_path
+    | `drop_dm_object_name(Registry)`
+    | eval registry_value_data_len = len(registry_value_data)
+    | where registry_value_data_len > 2000
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_anomalous_registry_value_length_in_environment_key_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: No false positives have been identified at this time.
 references:
@@ -34,7 +43,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: An anomalous registry value length in [$registry_value_data$] was detected on [$dest$].
+    message: An anomalous registry value length of [$registry_value_data_len$] characters in [$registry_value_data$] was detected on [$dest$].
     risk_objects:
         - field: dest
           type: system
