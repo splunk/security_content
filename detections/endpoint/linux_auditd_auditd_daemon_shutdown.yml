@@ -42,7 +42,7 @@ tags:
         - Compromised Linux Host
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.012
+        - T1685.004
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
