@@ -35,7 +35,7 @@ tags:
         - Black Basta Ransomware
     asset_type: Infrastructure
     mitre_attack_id:
-        - T1562.003
+        - T1690
         - T1070
     product:
         - Splunk Enterprise
