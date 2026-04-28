@@ -1,4 +1,4 @@
-name: Cisco Secure Access RAVPN Security Events
+name: Cisco Secure Access RAVPN Push Security Events
 id: f9ce1c6a-bf61-4a2b-91a6-3c59d837b1a8
 version: 1
 date: '2026-04-27'
@@ -139,9 +139,7 @@ fields:
 - vendor
 - vendor_product
 output_fields:
-- cisco_event_id
-- cisco_event_type
-- cisco_ravpn_session.public_ip
-- cisco_ravpn_session.assigned_ip
-example_log:|
+- _time
+- src_ip
+example_log: |
   {"activity_id":0,"category_uid":4,"cisco_asa":{"full_log_print_specifiers":"[\"\",\"\",\"\",\"\"]","syslog_class":"INFORMATION","syslog_descriptor":"AAA_RESULT_REJECT","syslog_id":"ASA-6-113005","syslog_id_with_version":"ASA-6-113005-0","syslog_severity":"6"},"cisco_dtls_ipsec_tunnel":{"bytes_received":0,"bytes_transmitted":0,"cipher_suite":"","compression":"","connection_timeout":"","connection_timeout_left":"","destination_port":0,"dh_group":"","encapsulation":"","encryption":"","filter_name":"","hashing":"","id":"","idle_timeout":"","idle_timeout_left":"","ipv6_filter_name":"","local_selector":"","packets_received":0,"packets_received_dropped":0,"packets_transmitted":0,"packets_transmitted_dropped":0,"pfs_group":"","prf":"","rekey_data":"","rekey_data_left":"","rekey_interval":"","rekey_interval_left":"","remote_selector":"","source_port":0},"cisco_endpoint_posture":{"dap_connection_type":"","dap_record_name":""},"cisco_event_id":"002d2a48429b9ee68f03743d676acf20e39c411afe61e238378820fa2cb2e724","cisco_event_type":"ravpn","cisco_organization_id":8176184,"cisco_origin":{"id":0,"type":"UNKNOWN"},"cisco_ravpn_metadata":{"anyconnect_version":"","event_type":"FAILED"},"cisco_ravpn_session":{"assigned_ip":"","assigned_ipv6":"","audit_session_id":"","connected_at":0,"disconnection_reason":"","duration":"","id":"","inactivity":"","public_ip":"178.130.47.199","public_ipv6":"","redirect_acl":"","redirect_url":"","security_group_tag":"","session_type":"","vpn_profile":"","warning_reason":""},"cisco_ssl_ike_tunnel":{"bytes_received":0,"bytes_transmitted":0,"cipher_suite":"","compression":"","connection_timeout":"","connection_timeout_left":"","destination_port":0,"dh_group":"","encapsulation":"","encryption":"","filter_name":"","hashing":"","id":"","idle_timeout":"","idle_timeout_left":"","ipv6_filter_name":"","local_selector":"","packets_received":0,"packets_received_dropped":0,"packets_transmitted":0,"packets_transmitted_dropped":0,"pfs_group":"","prf":"","rekey_data":"","rekey_data_left":"","rekey_interval":"","rekey_interval_left":"","remote_selector":"","source_port":0},"class_uid":4001,"cloud":{"region":"us-west-2"},"device":{"os":{"version":""}},"metadata":{"product":{"name":"ciscoSecureAccess"},"version":"1.6.0"},"policy":{"data":{"failed_reasons":["AUTHORIZATION-CHECK"]}},"severity_id":0,"src_endpoint":{"name":""},"time":1777301699000,"type_uid":400100}

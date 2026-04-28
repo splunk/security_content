@@ -1,4 +1,4 @@
-name: Cisco Secure Access RAVPN - High Authentication Failures from Source
+name: RAVPN - High Authentication Failures from Source
 id: 4a39dfc3-2ab0-4620-8da9-18e6a6bad7b6
 version: 1
 date: '2026-04-27'
@@ -8,21 +8,21 @@ type: Anomaly
 description: |
     The following analytic detects a high volume of Cisco Secure Access RAVPN authentication failure events from the same client source within a five-minute window. It identifies events where AnyConnect or ASA AAA signals indicate a failed VPN authentication attempt—such as RAVPN metadata event type FAILED or ASA syslog descriptor AAA_RESULT_REJECT—and aggregates failure events per client public IP. This pattern may indicate password guessing, credential stuffing, or brute-force activity against remote access VPN. If confirmed malicious, an attacker may be attempting to obtain valid VPN credentials for initial access or persistence.
 data_source:
-    - Cisco Secure Access RAVPN Security Events
+    - Cisco Secure Access RAVPN Push Security Events
 search: |-
     `cisco_secure_access_ravpn` (cisco_ravpn_metadata.event_type="FAILED" OR cisco_asa.syslog_descriptor="AAA_RESULT_REJECT")
-    | eval client_ip=coalesce('cisco_ravpn_session.public_ip', src)
-    | where isnotnull(client_ip) AND client_ip!=""
+    | eval src_ip=coalesce('cisco_ravpn_session.public_ip', src)
+    | where isnotnull(src_ip) AND src_ip!=""
     | bin _time span=5m
     | stats count min(_time) as firstTime max(_time) as lastTime
         values(cisco_event_id) as cisco_event_ids
         values(cisco_asa.syslog_id) as cisco_asa_syslog_ids
         values(cloud.region) as cloud_region
-      BY client_ip _time
+      BY src_ip _time
     | where count >= 10
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `cisco_secure_access_ravpn___high_authentication_failures_from_source_filter`
+    | `ravpn___high_authentication_failures_from_source_filter`
 how_to_implement: |
     Ingest Cisco Secure Access RAVPN push security events with sourcetype `cisco:secure_access:security_events_ravpn` using the Cisco Secure Access Add-on for Splunk (https://splunkbase.splunk.com/app/7569). This search uses the input macro `cisco_secure_access_ravpn`; replace it with your index, source, or sourcetype qualifiers as needed. A post-filter macro is included for tuning known false positives. Schedule the search every five minutes with a lookback of at least ten minutes so five-minute buckets are complete.
 known_false_positives: |
@@ -32,27 +32,26 @@ references:
     - https://attack.mitre.org/techniques/T1110/
     - https://splunkbase.splunk.com/app/7569
 drilldown_searches:
-    - name: View the detection results for - "$client_ip$"
-      search: '%original_detection_search% | search client_ip = "$client_ip$"'
+    - name: View the detection results for - "$src_ip$"
+      search: '%original_detection_search% | search src_ip = "$src_ip$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$client_ip$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$client_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$src_ip$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: High volume of RAVPN authentication failures ($count$ events) observed from source $client_ip$ within a five-minute window.
+    message: High volume of RAVPN authentication failures [$count$] events observed from source [$src_ip$] within a five-minute window.
     risk_objects:
-        - field: client_ip
+        - field: src_ip
           type: system
-          score: 30
+          score: 20
     threat_objects: []
 tags:
     analytic_story:
         - Compromised User Account
-    asset_type: Network
+    asset_type: Identity
     mitre_attack_id:
-        - T1110
         - T1110.001
     product:
         - Splunk Enterprise
