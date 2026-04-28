@@ -55,7 +55,7 @@ tags:
         - Hellcat Ransomware
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.007
+        - T1686.001
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
