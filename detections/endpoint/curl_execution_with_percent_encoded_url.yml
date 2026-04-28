@@ -1,6 +1,5 @@
 name: Curl Execution with Percent Encoded URL
 id: 9a8d5516-4c5e-11ef-9d42-acde48001122
-version: 3
 version: 4
 date: '2026-04-28'
 author: Nasreddine Bencherchali, Splunk
