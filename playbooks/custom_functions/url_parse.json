@@ -1,6 +1,6 @@
 {
-    "create_time": "2021-02-02T15:10:10.119581+00:00",
-    "custom_function_id": "afbe8e52b8fbd17c6282cfd1165242298655c038",
+    "create_time": "2023-01-04T19:35:48.275812+00:00",
+    "custom_function_id": "0c42d4fafd7f8d2313721a1f1619b10a34ee656e",
     "description": "Separate a URL into its components using urlparse() from the urllib module of Python 3.",
     "draft_mode": false,
     "inputs": [
@@ -21,14 +21,14 @@
             "description": "The scheme of the URL, such as HTTP, HTTPS, or FTP."
         },
         {
-            "contains_type": [
-                "domain"
-            ],
+            "contains_type": [],
             "data_path": "netloc",
-            "description": "The network location of the URL, which is typically the hostname."
+            "description": "The network location part of the URL."
         },
         {
-            "contains_type": [],
+            "contains_type": [
+                ""
+            ],
             "data_path": "path",
             "description": "The path to the resource after the first slash in the URL, such as \"en_us/software/splunk-security-orchestration-and-automation.html\"."
         },
@@ -38,7 +38,9 @@
             "description": "The parameters in the URL after the semicolon."
         },
         {
-            "contains_type": [],
+            "contains_type": [
+                ""
+            ],
             "data_path": "query",
             "description": "The query string of the URL after the question mark. Multiple parameters are not separated from each other."
         },
@@ -53,8 +55,23 @@
             ],
             "data_path": "output_url",
             "description": "Passthrough of the original url"
+        },
+        {
+            "contains_type": [
+                "hostname"
+            ],
+            "data_path": "hostname",
+            "description": "The host name of the url"
+        },
+        {
+            "contains_type": [
+                "port"
+            ],
+            "data_path": "port",
+            "description": "The port number, if one is used"
         }
     ],
-    "platform_version": "4.10.0.40961",
-    "python_version": "3"
+    "outputs_type": "item",
+    "platform_version": "5.5.0.108488",
+    "python_version": "3.13"
 }

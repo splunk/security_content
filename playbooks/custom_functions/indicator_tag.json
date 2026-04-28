@@ -1,6 +1,6 @@
 {
-    "create_time": "2021-10-29T21:39:29.397862+00:00",
-    "custom_function_id": "e7c38086f9c212dc5db9f6198f5e03be8158c2b2",
+    "create_time": "2022-04-07T17:44:03.889638+00:00",
+    "custom_function_id": "09c1713e8db75bea894b3ab7a47c26aed0d1f484",
     "description": "Tag an existing indicator record. Tags can be overwritten or appended.",
     "draft_mode": false,
     "inputs": [
@@ -24,10 +24,10 @@
         },
         {
             "contains_type": [],
-            "description": "Optional input. Either \"true\" or \"false\" with default as \"false\". If set to \"true\", existing tags on the indicator record will be replaced by the provided input. If set to \"false\", the new tags will be appended to the existing indicator tags.",
+            "description": "Either True or False with default as False. If set to True, existing tags on the indicator record will be replaced by the provided input. If set to False, the new tags will be appended to the existing indicator tags.",
             "input_type": "item",
             "name": "overwrite",
-            "placeholder": "false"
+            "placeholder": "False"
         }
     ],
     "outputs": [
@@ -42,6 +42,6 @@
             "description": "The new tags for the indicator"
         }
     ],
-    "platform_version": "5.0.1.66250",
-    "python_version": "3"
+    "platform_version": "5.3.0.84310",
+    "python_version": "3.13"
 }
