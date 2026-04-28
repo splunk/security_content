@@ -46,7 +46,6 @@ tags:
         - Office 365 Account Takeover
     asset_type: O365 Tenant
     mitre_attack_id:
-        - T1685
         - T1685.002
     product:
         - Splunk Enterprise
