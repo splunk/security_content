@@ -30,7 +30,7 @@ search: |
     )
     Processes.process IN (
       "* --output *",
-      "* -o *" /* Covers both options since the search is case insensitive */,
+      "* -o *"
     )
     Processes.process IN ("*%*")
     by Processes.action Processes.dest Processes.original_file_name

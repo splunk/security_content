@@ -9,7 +9,7 @@ description: The following analytic detects high-risk sign-in attempts against A
 data_source:
     - Azure Active Directory
 search: |-
-    `azure_monitor_aad` `azure_monitor_aad` category=UserRiskEvents properties.riskLevel=high
+    `azure_monitor_aad` category=UserRiskEvents properties.riskLevel=high
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest user src

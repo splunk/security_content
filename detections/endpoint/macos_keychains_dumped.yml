@@ -1,36 +1,39 @@
 name: MacOS Keychains Dumped
 id: dcb45a09-5e6f-441e-b2f8-cbbf923e36d9
-version: 2
-date: '2026-04-15'
-author: Raven Tait, Splunk
+version: 3
+date: '2026-04-28'
+author: Raven Tait, Jamie Windley, Splunk
 status: production
 type: TTP
 description: |-
-    Detects command-line attempts to access or dump macOS Keychain files. Adversaries may use native utilities or direct file access to extract plaintext credentials from Keychain databases located in ~/Library/Keychains/ or /Library/Keychains/.
-    This technique is commonly associated with post-exploitation credential harvesting, where an attacker with local access seeks to escalate privileges or move laterally by obtaining stored credentials for applications, Wi-Fi networks, and system services.
+    Detects command-line attempts to access or dump macOS Keychain data using native utilities or direct file access. This includes credential dumping via the `security` utility (e.g. `dump-keychain -d`), bulk certificate export using `security find-certificate`, and direct file copying of Keychain database files using utilities such as `cat`. Keychain files are located in `~/Library/Keychains/`, `/Library/Keychains/`, and `/Network/Library/Keychains/`.
+    This technique is commonly associated with post-exploitation credential harvesting, where an attacker with local access seeks to escalate privileges or move laterally by obtaining stored credentials for applications, Wi-Fi networks, system services, and certificates.
 data_source:
     - Osquery Results
 search: |-
     | tstats `security_content_summariesonly`
-      count min(_time) as firstTime
-            max(_time) as lastTime
-
-    from datamodel=Endpoint.Processes where
-
-    Processes.process IN (
-        "*dump-keychain -d*",
-        "*keychaindump*"
-    )
-
-    Processes.process="*/library/keychains*"
-
-    by Processes.dest Processes.original_file_name Processes.parent_process_id
-       Processes.process Processes.process_exec Processes.process_guid
-       Processes.process_hash Processes.process_id
-       Processes.process_current_directory Processes.process_name
-       Processes.process_path Processes.user
-       Processes.user_id Processes.vendor_product
-
+    count
+    values(Processes.process) as process
+    values(Processes.parent_process) AS parent_process
+    values(Processes.parent_process_exec) AS parent_process_exec
+    values(Processes.parent_process_id) AS parent_process_id
+    values(Processes.parent_process_name) AS parent_process_name
+    values(Processes.parent_process_path) AS parent_process_path
+    min(_time) as firstTime
+    max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes
+    WHERE (Processes.process_path="/usr/bin/security"
+    AND Processes.process_name="security"
+    AND (
+    (Processes.process="*dump-keychain*" AND Processes.process="*-d*")
+    OR (Processes.process="*find-certificate*" AND Processes.process="*-p*")
+    ))
+    OR Processes.process="*keychaindump*"
+    OR (Processes.process_name IN ("cat", "cp", "dd", "mv")
+    AND Processes.process="*Library/Keychains/*.keychain*")
+    by Processes.action Processes.dest Processes.process Processes.process_hash
+    Processes.process_id Processes.process_name Processes.process_path
+    Processes.user Processes.vendor_product
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -44,6 +47,7 @@ references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://gist.github.com/hfeeki/88c12f01d00534e09a84
     - https://ss64.com/mac/security-keychain-settings.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1555.001/T1555.001.md
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
