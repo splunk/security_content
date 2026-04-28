@@ -1,7 +1,8 @@
 name: Azure Active Directory High Risk Sign-in
 id: 1ecff169-26d7-4161-9a7b-2ac4c8e61bea
 version: 12
-date: '2026-04-15'
+version: 13
+date: '2026-04-28'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
