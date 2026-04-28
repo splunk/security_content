@@ -1,0 +1,3 @@
+definition: sourcetype="cisco:secure_access:security_events_ravpn"
+description: Customer-specific Splunk configurations (index, source, sourcetype, etc.) for Cisco Secure Access RAVPN security events. Replace the macro definition with configurations for your Splunk environment.
+name: cisco_secure_access_ravpn
