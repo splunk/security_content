@@ -56,7 +56,7 @@ tags:
         - Windows Audit Policy Tampering
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.002
+        - T1685.001
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
