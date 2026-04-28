@@ -58,7 +58,7 @@ tags:
         - ShrinkLocker
     asset_type: Endpoint
     mitre_attack_id:
-        - T1070.001
+        - T1685.005
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
