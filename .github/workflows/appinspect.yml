@@ -22,7 +22,7 @@ jobs:
           echo "- Contentctl version - $(cat requirements.txt)"
           pip install -r requirements.txt
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git external_repos/atomic-red-team
-          git clone --depth=1 --single-branch --branch=ATT&CK-v18.1 https://github.com/mitre/cti external_repos/cti
+          git clone --depth=1 --single-branch --branch="ATT&CK-v18.1" https://github.com/mitre/cti external_repos/cti
 
       - name: Running appinspect with enrichments
         env:
