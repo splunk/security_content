@@ -6,7 +6,9 @@ author: Raven Tait, Jamie Windley, Splunk
 status: production
 type: TTP
 description: |-
-    Detects command-line attempts to access or dump macOS Keychain data using native utilities or direct file access. This includes credential dumping via the `security` utility (e.g. `dump-keychain -d`), bulk certificate export using `security find-certificate`, and direct file copying of Keychain database files using utilities such as `cat`. Keychain files are located in `~/Library/Keychains/`, `/Library/Keychains/`, and `/Network/Library/Keychains/`.
+    Detects command-line attempts to access or dump macOS Keychain data using native utilities or direct file access.
+    This includes credential dumping via the `security` utility (e.g. `dump-keychain -d`), bulk certificate export using `security find-certificate`, and direct file copying of Keychain database files using utilities such as `cat`.
+    Keychain files are located in `~/Library/Keychains/`, `/Library/Keychains/`, and `/Network/Library/Keychains/`.
     This technique is commonly associated with post-exploitation credential harvesting, where an attacker with local access seeks to escalate privileges or move laterally by obtaining stored credentials for applications, Wi-Fi networks, system services, and certificates.
 data_source:
     - Osquery Results
