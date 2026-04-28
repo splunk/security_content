@@ -18,6 +18,7 @@ search: |-
 
     FROM datamodel=Endpoint.Registry WHERE
 
+    Registry.action IN ("created", "modified")
     Registry.registry_path= "*\\Environment\\*"
     Registry.registry_value_name != "Path"
 
