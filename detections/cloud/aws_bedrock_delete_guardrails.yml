@@ -9,12 +9,12 @@ description: The following analytic identifies attempts to delete AWS Bedrock Gu
 data_source:
     - AWS CloudTrail DeleteGuardrail
 search: >-
-    `cloudtrail` eventSource=bedrock.amazonaws.com eventName=DeleteGuardrail
-    | rename user_name as user
-    | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.guardrailIdentifier) as guardrailIds by src user user_agent vendor_account vendor_product dest signature vendor_region
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `aws_bedrock_delete_guardrails_filter`
+    `cloudtrail` eventSource=bedrock.amazonaws.com eventName=DeleteGuardrail |
+    rename user_name as user | stats count min(_time) as firstTime max(_time) as
+    lastTime values(requestParameters.guardrailIdentifier) as guardrailIds by src
+    user user_agent vendor_account vendor_product dest signature vendor_region |
+    `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |
+    `aws_bedrock_delete_guardrails_filter`
 how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search requires AWS CloudTrail logs with Bedrock service events enabled. You must install and configure the AWS App for Splunk (version 6.0.0 or later) and Splunk Add-on for AWS (version 5.1.0 or later) to collect CloudTrail logs from AWS. Ensure the CloudTrail is capturing Bedrock GuardRails management events.
 known_false_positives: Legitimate administrators may delete GuardRails as part of normal operations, such as when replacing outdated guardrails with updated versions, cleaning up test resources, or consolidating security controls. Consider implementing an allowlist for expected administrators who regularly manage GuardRails configurations.
 references:
@@ -44,7 +44,7 @@ tags:
         - AWS Bedrock Security
     asset_type: AWS Account
     mitre_attack_id:
-        - T1562.008
+        - T1685.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

@@ -45,7 +45,7 @@ tags:
         - AWS Defense Evasion
     asset_type: AWS Account
     mitre_attack_id:
-        - T1562.008
+        - T1685.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

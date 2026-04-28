@@ -47,7 +47,7 @@ tags:
     asset_type: O365 Tenant
     mitre_attack_id:
         - T1685
-        - T1562.008
+        - T1685.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

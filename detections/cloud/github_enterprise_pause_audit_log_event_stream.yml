@@ -49,7 +49,7 @@ tags:
         - NPM Supply Chain Compromise
     asset_type: GitHub
     mitre_attack_id:
-        - T1562.008
+        - T1685.002
         - T1195
     product:
         - Splunk Enterprise

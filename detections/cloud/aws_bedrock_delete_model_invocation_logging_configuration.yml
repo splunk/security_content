@@ -9,12 +9,12 @@ description: The following analytic identifies attempts to delete AWS Bedrock mo
 data_source:
     - AWS CloudTrail DeleteModelInvocationLoggingConfiguration
 search: >-
-    `cloudtrail` eventSource=bedrock.amazonaws.com eventName=DeleteModelInvocationLoggingConfiguration
-    | rename user_name as user
-    | stats count min(_time) as firstTime max(_time) as lastTime by src user user_agent vendor_account vendor_product dest signature vendor_region
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `aws_bedrock_delete_model_invocation_logging_configuration_filter`
+    `cloudtrail` eventSource=bedrock.amazonaws.com
+    eventName=DeleteModelInvocationLoggingConfiguration | rename user_name as user
+    | stats count min(_time) as firstTime max(_time) as lastTime by src user
+    user_agent vendor_account vendor_product dest signature vendor_region |
+    `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |
+    `aws_bedrock_delete_model_invocation_logging_configuration_filter`
 how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search requires AWS CloudTrail logs with Bedrock service events enabled. You must install and configure the AWS App for Splunk (version 6.0.0 or later) and Splunk Add-on for AWS (version 5.1.0 or later) to collect CloudTrail logs from AWS. Ensure the CloudTrail is capturing Bedrock model invocation logging management events.
 known_false_positives: Legitimate administrators may delete model invocation logging configurations during maintenance, when updating logging policies, or when cleaning up unused resources. Consider implementing an allowlist for expected administrators who regularly manage logging configurations.
 references:
@@ -43,7 +43,7 @@ tags:
         - AWS Bedrock Security
     asset_type: AWS Account
     mitre_attack_id:
-        - T1562.008
+        - T1685.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
