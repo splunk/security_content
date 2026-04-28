@@ -47,7 +47,7 @@ tags:
         - T1484
         - T1021.007
         - T1685
-        - T1562.004
+        - T1686
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
