@@ -37,6 +37,9 @@ def artifact_create(container=None, name=None, label=None, severity=None, cef_fi
         new_artifact['container_id'] = container
     elif isinstance(container, dict):
         new_artifact['container_id'] = container['id']
+    elif isinstance(container, str) and container == 'container:id':
+        # fetch container info directly
+        new_artifact['container_id'] = phantom.get_current_container_id_()
     else:
         raise TypeError("container is neither an int nor a dictionary")
     
@@ -57,14 +60,18 @@ def artifact_create(container=None, name=None, label=None, severity=None, cef_fi
 
     # run_automation must be "true" or "false" and defaults to "false"
     if run_automation:
-        if not isinstance(run_automation, str):
-            raise TypeError("run automation must be a string")
-        if run_automation.lower() == 'true':
-            new_artifact['run_automation'] = True
-        elif run_automation.lower() == 'false':
-            new_artifact['run_automation'] = False
+        if isinstance(run_automation, str):
+            if run_automation.lower() == 'true':
+                new_artifact['run_automation'] = True
+            elif run_automation.lower() == 'false':
+                new_artifact['run_automation'] = False
+            else:
+                raise ValueError("run_automation must be either 'true' or 'false'")
+        elif not isinstance(run_automation, bool):
+            raise TypeError("run automation must be a string or bool")
         else:
-            raise ValueError("run_automation must be either 'true' or 'false'")
+            new_artifact['run_automation'] = run_automation
+        
     else:
         new_artifact['run_automation'] = False
     
@@ -102,7 +109,6 @@ def artifact_create(container=None, name=None, label=None, severity=None, cef_fi
                 phantom.debug(f"Unsupported key: '{json_key}'")
                 
     # now actually create the artifact
-    phantom.debug(f"Creating artifact with the following details: '{new_artifact}'")
     response_json = phantom.requests.post(rest_artifact, json=new_artifact, verify=False).json()
     if response_json.get('message', '') == 'artifact already exists':
         phantom.debug(f"Artifact already exists: '{response_json['existing_artifact_id']}'")
