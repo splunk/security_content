@@ -72,7 +72,7 @@ tags:
     asset_type: Endpoint
     mitre_attack_id:
         - T1053.005
-        - T1562
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

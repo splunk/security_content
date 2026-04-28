@@ -49,7 +49,7 @@ tags:
         - Suspicious Microsoft 365 Copilot Activities
     asset_type: Web Proxy
     mitre_attack_id:
-        - T1562
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

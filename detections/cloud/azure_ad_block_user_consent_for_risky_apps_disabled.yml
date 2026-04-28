@@ -37,7 +37,7 @@ tags:
         - Azure Active Directory Account Takeover
     asset_type: Azure Tenant
     mitre_attack_id:
-        - T1562
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
