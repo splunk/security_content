@@ -38,7 +38,7 @@ tags:
     atomic_guid:
         - 70bd71e6-eba4-4e00-92f7-617911dbe020
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

@@ -8,20 +8,31 @@ data_source:
 type: Hunting
 status: production
 description: >-
-    Microsoft Intune device management configuration policies are a tool administrators can use to remotely manage policies and settings on intune managed devices.
-    This functionality can also be abused to disable defences & evade detection.
-    This detection identifies when a new device management configuration policy has been created.
+    Microsoft Intune device management configuration policies are a tool
+    administrators can use to remotely manage policies and settings on intune
+    managed devices. This functionality can also be abused to disable defences &
+    evade detection. This detection identifies when a new device management
+    configuration policy has been created.
 search: >-
-    `azure_monitor_activity` operationName="* DeviceManagementConfigurationPolicy*"
-    | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin
-    | eval details=mvzip('properties.Targets{}.ModifiedProperties{}.Name','properties.Targets{}.ModifiedProperties{}.New',": ")
-    | rex field="operationName" "^(?P<action>\w+)\s" | replace "Patch" with "updated", "Create" with "created", "Delete", with "deleted", "assign", with "assigned" IN action
-    | eval action=if(match(operationName ,"Assignment$"),"assigned",'action')
-    | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId details status tenantId correlationId | `microsoft_intune_devicemanagementconfigurationpolicies_filter`
+    `azure_monitor_activity` operationName="*
+    DeviceManagementConfigurationPolicy*" | rename identity as user,
+    properties.TargetObjectIds{} as TargetObjectId,
+    properties.TargetDisplayNames{} as TargetDisplayName,
+    properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin | eval
+    details=mvzip('properties.Targets{}.ModifiedProperties{}.Name','properties.Targets{}.ModifiedProperties{}.New',":
+    ") | rex field="operationName" "^(?P<action>\w+)\s" | replace "Patch" with
+    "updated", "Create" with "created", "Delete", with "deleted", "assign", with
+    "assigned" IN action | eval action=if(match(operationName
+    ,"Assignment$"),"assigned",'action') | table _time operationName action user
+    user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId details
+    status tenantId correlationId |
+    `microsoft_intune_devicemanagementconfigurationpolicies_filter`
 how_to_implement: >-
-    The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.
-    To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
-    Deploy as a risk based alerting rule for quick deployment or perform baselining & tune accordingly.
+    The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest
+    In-Tune audit logs via Azure EventHub. To configure this logging, visit Intune
+    > Tenant administration > Diagnostic settings > Add diagnostic settings & send
+    events to the activity audit event hub. Deploy as a risk based alerting rule
+    for quick deployment or perform baselining & tune accordingly.
 known_false_positives: Legitimate adminstrative usage of this functionality will trigger this detection.
 references:
     - https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d
@@ -35,7 +46,7 @@ tags:
         - T1072
         - T1484
         - T1021.007
-        - T1562.001
+        - T1685
         - T1562.004
     product:
         - Splunk Enterprise

@@ -34,7 +34,7 @@ tags:
     asset_type: Infrastructure
     mitre_attack_id:
         - T1601.001
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

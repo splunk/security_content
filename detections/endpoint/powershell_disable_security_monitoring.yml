@@ -115,7 +115,7 @@ tags:
         - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

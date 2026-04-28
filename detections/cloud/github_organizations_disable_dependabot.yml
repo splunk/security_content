@@ -48,7 +48,7 @@ tags:
         - GitHub Malicious Activity
     asset_type: GitHub
     mitre_attack_id:
-        - T1562.001
+        - T1685
         - T1195
     product:
         - Splunk Enterprise

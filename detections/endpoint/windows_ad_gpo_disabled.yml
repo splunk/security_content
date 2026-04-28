@@ -44,7 +44,7 @@ tags:
         - Sneaky Active Directory Persistence Tricks
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
         - T1484.001
     product:
         - Splunk Enterprise

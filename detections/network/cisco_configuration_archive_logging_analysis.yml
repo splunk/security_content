@@ -47,7 +47,7 @@ tags:
         - Cisco Smart Install Remote Code Execution CVE-2018-0171
     asset_type: Network
     mitre_attack_id:
-        - T1562.001
+        - T1685
         - T1098
         - T1505.003
     product:

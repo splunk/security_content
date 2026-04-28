@@ -54,7 +54,7 @@ tags:
         - Suspicious Microsoft 365 Copilot Activities
     asset_type: Web Application
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
