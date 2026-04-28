@@ -70,6 +70,7 @@ tags:
         - Command And Control
         - China-Nexus Threat Activity
         - Backdoor Pingpong
+        - Cisco Secure Access Analytics
     asset_type: Endpoint
     mitre_attack_id:
         - T1095

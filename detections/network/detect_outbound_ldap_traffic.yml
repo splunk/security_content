@@ -45,6 +45,7 @@ tags:
     analytic_story:
         - Log4Shell CVE-2021-44228
         - Cisco Secure Firewall Threat Defense Analytics
+        - Cisco Secure Access Analytics
     asset_type: Endpoint
     cve:
         - CVE-2021-44228
