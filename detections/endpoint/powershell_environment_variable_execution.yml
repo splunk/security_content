@@ -2,15 +2,24 @@ name: PowerShell Environment Variable Execution
 id: 02c1d8e9-044c-401f-906c-cc95445af8bd
 version: 1
 date: '2026-04-20'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the execution of PowerShell scripts that combine environment variable access (`$env:` or `[Environment]::SetEnvironmentVariable`) with `Invoke-Expression` or its alias `iex` to dynamically construct and run code at runtime. This technique is commonly used by adversaries to stage and execute payloads by embedding commands or encoded content inside environment variables, then evaluating them on the fly — effectively hiding the true execution intent from static inspection. Detection is based on PowerShell Script Block Logging (Event ID 4104), which captures the de-obfuscated script block before it executes. Triggering this analytic indicates a potential attempt to execute environment-variable-stored code, a behavior observed in malware loaders and stagers, including those associated with the VIP Keylogger campaign.
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    `powershell` EventCode=4104
-    | regex ScriptBlockText="(?i)(invoke-expression|iex\s+|\biex\b).*\$env:"
+    `powershell`
+    EventCode=4104
+    ScriptBlockText="*$env:*"
+    ScriptBlockText IN (
+        "*.Invoke()*",
+        "*[scriptblock]::Create*",
+        "*iex *",
+        "*Invoke-Expression*"
+    )
+    ScriptBlockText="*[Environment]::SetEnvironmentVariable*"
+    | regex ScriptBlockText="(?i)((invoke-expression|iex\s+|\biex\b).*\$env:|\[scriptblock\]::create\s*\(\s*\$env:[^)]+\)\s*(?:\.\s*invoke\s*\(\s*\))?)"
     | fillnull
     | stats count min(_time) as firstTime max(_time) as lastTime
     by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
