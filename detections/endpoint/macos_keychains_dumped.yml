@@ -12,28 +12,47 @@ data_source:
     - Osquery Results
 search: |-
     | tstats `security_content_summariesonly`
-    count
-    values(Processes.process) as process
-    values(Processes.parent_process) AS parent_process
-    values(Processes.parent_process_exec) AS parent_process_exec
-    values(Processes.parent_process_id) AS parent_process_id
-    values(Processes.parent_process_name) AS parent_process_name
-    values(Processes.parent_process_path) AS parent_process_path
-    min(_time) as firstTime
-    max(_time) as lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE (Processes.process_path="/usr/bin/security"
-    AND Processes.process_name="security"
-    AND (
-    (Processes.process="*dump-keychain*" AND Processes.process="*-d*")
-    OR (Processes.process="*find-certificate*" AND Processes.process="*-p*")
-    ))
-    OR Processes.process="*keychaindump*"
-    OR (Processes.process_name IN ("cat", "cp", "dd", "mv")
-    AND Processes.process="*Library/Keychains/*.keychain*")
+      count min(_time) as firstTime
+            max(_time) as lastTime
+            values(Processes.parent_process) AS parent_process
+            values(Processes.parent_process_exec) AS parent_process_exec
+            values(Processes.parent_process_id) AS parent_process_id
+            values(Processes.parent_process_name) AS parent_process_name
+            values(Processes.parent_process_path) AS parent_process_path
+
+    FROM datamodel=Endpoint.Processes WHERE
+    (
+        Processes.process_path="/usr/bin/security"
+        AND
+        (
+            (
+                Processes.process="*dump-keychain*"
+                Processes.process="*-d*"
+            )
+            OR
+            (
+                Processes.process="*find-certificate*"
+                Processes.process="*-p*"
+            )
+        )
+    )
+    OR
+    Processes.process="*keychaindump*"
+    OR
+    (
+        Processes.process_name IN (
+            "cat",
+            "cp",
+            "dd",
+            "mv"
+        )
+        Processes.process="*Library/Keychains/*"
+        Processes.process="*.keychain*"
+    )
     by Processes.action Processes.dest Processes.process Processes.process_hash
     Processes.process_id Processes.process_name Processes.process_path
     Processes.user Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
