@@ -387,7 +387,7 @@
       }
     ],
     "playbook_type": "data",
-    "python_version": "3",
+    "python_version": "3.13",
     "schema": "5.0.11",
     "version": "6.2.0.355"
   },

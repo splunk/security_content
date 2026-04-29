@@ -178,7 +178,7 @@ def update_workbook_tasks(action=None, success=None, container=None, results=Non
                 if playbook['playbook'] == current_playbook and playbook['scm'] == current_scm:
                     task_order = task['data']['order']
                     status = task['data']['status']
-                    url = phantom.build_phantom_rest_url('workflow_task') + '/{}'.format(task['data']['id'])
+                    url = phantom.build_phantom_rest_url('workbook_task') + '/{}'.format(task['data']['id'])
                     # If status is not started (statud id 0), move to in progress (status id 2) before moving to complete (status id 1)
                     if status == 0:
                         data = {'status': 2}
@@ -193,7 +193,7 @@ def update_workbook_tasks(action=None, success=None, container=None, results=Non
             # If another task matches the updated task's order + 1, then update it as well
             if task['data']['order'] == task_order + 1:
                 data = {'status': 2}
-                url = phantom.build_phantom_rest_url('workflow_task') + '/{}'.format(task['data']['id'])
+                url = phantom.build_phantom_rest_url('workbook_task') + '/{}'.format(task['data']['id'])
                 phantom.requests.post(url, data=json.dumps(data), verify=False)
 
 
