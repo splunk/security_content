@@ -1,6 +1,6 @@
 {
-    "create_time": "2021-03-23T19:52:27.702665+00:00",
-    "custom_function_id": "031e0d2e7d63647b12b99750a49038e9df5a0f3c",
+    "create_time": "2023-03-01T22:02:03.385755+00:00",
+    "custom_function_id": "35b8f221e2aea777070ef3c59e1397bab87eef82",
     "description": "Takes a single input and extracts all IPv4 addresses from it using regex.",
     "draft_mode": false,
     "inputs": [
@@ -9,7 +9,7 @@
                 "*"
             ],
             "description": "An input string that may contain an arbitrary number of ipv4 addresses",
-            "input_type": "list",
+            "input_type": "item",
             "name": "input_string",
             "placeholder": "192.0.2.1"
         }
@@ -19,10 +19,16 @@
             "contains_type": [
                 "ip"
             ],
-            "data_path": "*.ipv4",
-            "description": "Extracted ipv4 address"
+            "data_path": "extracted_ipv4",
+            "description": "Extracted ipv4 address. Will be none if no IP was extracted."
+        },
+        {
+            "contains_type": [],
+            "data_path": "input_value",
+            "description": "The value that was used as input to produce the extracted IP."
         }
     ],
-    "platform_version": "4.10.0.40961",
-    "python_version": "3"
+    "outputs_type": "list",
+    "platform_version": "6.0.0.114895",
+    "python_version": "3.13"
 }

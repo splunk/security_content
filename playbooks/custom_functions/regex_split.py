@@ -17,11 +17,19 @@ def regex_split(input_string=None, regex=None, strip_whitespace=None, **kwargs):
     
     outputs = []
     
-    # strip_whitespace defaults to True, but if any value besides "True" is provided, it will be set to False
-    if strip_whitespace == None or strip_whitespace.lower() == 'true':
-        strip_whitespace = True
+    # strip_whitespace defaults to True
+    if strip_whitespace:
+        if isinstance(strip_whitespace, str):
+            if strip_whitespace.lower() == 'true':
+                strip_whitespace = True
+            elif strip_whitespace.lower() == 'false':
+                strip_whitespace = False
+            else:
+                raise ValueError("If strip_whitespace is a string, it must be a string of true or false.")
+        elif not isinstance(strip_whitespace, bool):
+            raise TypeError("strip_whitespace must be a string or bool")
     else:
-        strip_whitespace = False
+        strip_whitespace = True
     
     regex = regex.replace('\\\\','\\')
     results = re.split(regex, input_string)
