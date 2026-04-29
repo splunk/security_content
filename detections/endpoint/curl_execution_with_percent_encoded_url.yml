@@ -1,7 +1,7 @@
 name: Curl Execution with Percent Encoded URL
 id: 9a8d5516-4c5e-11ef-9d42-acde48001122
-version: 3
-date: '2026-04-15'
+version: 4
+date: '2026-04-28'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -30,7 +30,7 @@ search: |
     )
     Processes.process IN (
       "* --output *",
-      "* -o *" /* Covers both options since the search is case insensitive */,
+      "* -o *"
     )
     Processes.process IN ("*%*")
     by Processes.action Processes.dest Processes.original_file_name
