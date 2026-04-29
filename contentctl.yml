@@ -46,7 +46,7 @@ apps:
   appid: CiscoSecurityCloud
   version: 3.6.4
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-security-cloud_363.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-security-cloud_364.tgz
 - uid: 7569
   title: Cisco Secure Access Add-on for Splunk
   appid: TA-cisco-cloud-security-addon
