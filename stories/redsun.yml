@@ -1,0 +1,21 @@
+name: RedSun
+id: fa31fe1f-ddad-4238-b438-2b7741b7cf34
+version: 1
+status: production
+date: '2026-04-29'
+author: Raven Tait, Splunk
+description: Detect activity associated with RedSun exploit. Released by Nightmare-Eclipse on GitHub alongside BlueHammer and UnDefend, it is part of a set of attacks that abuse Windows Defender to disrupt the system or elevate privileges.
+narrative: RedSun is a zero-day LPE vulnerability in Microsoft Defender that allows a low-privileged user to gain full NT AUTHORITY\SYSTEM access without any kernel exploit or administrator interaction. It abuses a logic flaw in how Defender handles cloud-tagged files during remediation — when Defender detects a malicious file carrying a cloud tag, it attempts to restore the file to its original location rather than quarantine it, running that restore operation with full SYSTEM privileges without validating whether the target path has been tampered with. An attacker redirects that write via an NTFS junction into C:\Windows\System32, dropping an attacker-controlled binary and executing it as SYSTEM through a COM service invocation — never touching credentials.
+references:
+- https://github.com/Nightmare-Eclipse/RedSun
+- https://www.huntress.com/blog/nightmare-eclipse-intrusion
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2026-33825

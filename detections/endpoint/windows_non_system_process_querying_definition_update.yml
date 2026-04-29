@@ -1,0 +1,55 @@
+name: Windows Non-System Process Querying Definition Update
+id: 9d375cfd-c9a5-48ff-b875-9bcaf6b63265
+version: 1
+date: '2026-04-27'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: Detects DNS queries to definitionupdates.microsoft.com or the go.microsoft.com fwlink redirect used for WD update downloads, when the querying process is not a Windows system component. BlueHammer utilizes these definition updates as part of its exploit chain.
+data_source:
+    - Sysmon EventID 22
+search: '`sysmon` EventID="22" QueryName="*definitionupdates.microsoft.com*" NOT (Image IN ("C:\\Windows\\System32\\*", "C:\\Windows\\SysWOW64\\*", "C:\\ProgramData\\Microsoft\\Windows Defender\\*", "C:\\Program Files\\Windows Defender\\*", "C:\\Program Files\\Microsoft Office\\*")) | stats count min(_time) as firstTime max(_time) as lastTime BY answer answer_count dvc Computer process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename Computer as dest | `windows_non_system_process_querying_definition_update_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate third-party applications or security tools may query these update domains for Windows Defender updates. Filter alerts for trusted software and verified update mechanisms.
+references:
+    - https://github.com/Nightmare-Eclipse/BlueHammer
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: Non-System process queried Windows Defender Definition Updates on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process_name
+          type: process
+tags:
+    analytic_story:
+        - Windows Privilege Escalation
+        - BlueHammer
+        - RedSun
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1068
+        - T1071.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2026-33825
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/bluehammer/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
