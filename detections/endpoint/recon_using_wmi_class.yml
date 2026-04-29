@@ -1,7 +1,7 @@
 name: Recon Using WMI Class
 id: 018c1972-ca07-11eb-9473-acde48001122
-version: 14
-date: '2026-04-16'
+version: 15
+date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -54,6 +54,7 @@ tags:
         - Scattered Spider
         - BlankGrabber Stealer
         - Axios Supply Chain Post Compromise
+        - VIP Keylogger
     asset_type: Endpoint
     mitre_attack_id:
         - T1592
