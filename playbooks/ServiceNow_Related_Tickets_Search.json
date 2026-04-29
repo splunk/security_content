@@ -82,7 +82,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "e7ead2bdc6a802950dd37c47b3f4af40d61c676c",
+            "hash": "0c56bc09507f0a442ed7f70f357f51ae6d3983fe",
             "nodes": {
                 "0": {
                     "data": {
@@ -98,7 +98,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -6.394884621840902e-14
+                    "y": -1.9184653865522705e-13
                 },
                 "1": {
                     "data": {
@@ -121,6 +121,8 @@
                         "advanced": {
                             "customName": "input filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Creates a dataset without None values.",
                             "join": [],
                             "note": "Creates a dataset without None values."
@@ -148,11 +150,7 @@
                     "errors": {},
                     "id": "10",
                     "type": "filter",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 60,
                     "y": 622
                 },
@@ -183,7 +181,7 @@
                     "type": "code",
                     "userCode": "    process_results__output = {}\n    for search_term in filtered_input_0_search_term_values:\n        process_results__output[search_term] = []\n        for result, query_table in zip(run_ticket_query_result_item_0, run_ticket_query_parameter_query_table):\n            if not isinstance(result, list):\n                list_result = [result]\n            else:\n                list_result = result\n            for result_item in list_result:\n                result_item_values = [item.lower() for item in result_item.values() if isinstance(item, str)]\n                match = False\n                for string_value in result_item_values:\n                    if search_term.lower() in string_value:\n                        match = True\n                        break\n                if match:\n                    process_results__output[search_term].append({**result_item, **{\"ticket_type\": query_table}})\n\n",
                     "warnings": {},
-                    "x": 0,
+                    "x": 1.4210854715202004e-14,
                     "y": 1158
                 },
                 "16": {
@@ -221,9 +219,9 @@
                     "errors": {},
                     "id": "16",
                     "type": "code",
-                    "userCode": "    import re \n    \n    build_output__observable_array = []\n    build_output__name = []\n    build_output__number = []\n    build_output__message = []\n    build_output__start_time = []\n    build_output__end_time = []\n    build_output__assignee = []\n    build_output__creator_name = []\n    build_output__state = []\n    build_output__matched_fields = []\n    build_output__source_link = []\n    build_output__source = []\n    \n    def generate_ticket_link(sample_url, ticket_type, sys_id):\n        extract_host = re.search(r\"https*:\\/\\/[^\\/]+\", sample_url).group(0)\n        extract_host += f\"/nav_to.do?uri={ticket_type}.do?sys_id={sys_id}\"\n        return extract_host\n        \n    for key in process_results__output.keys():\n        \n        for value in process_results__output[key]:\n            assigned_to = None\n            caller_id = None\n            matched_fields = []\n            if value.get(\"assigned_to\"):\n                assigned_to = value[\"assigned_to\"][\"display_value\"]\n            if value.get(\"caller_id\"):\n                caller_id = value[\"caller_id\"][\"display_value\"]\n            \n            for k, v in value.items():\n                # generate matched fields where the searched entity appears\n                if isinstance(v, str) and key.lower() in v.lower():\n                    matched_fields.append(k)\n                # search for any link sample:\n                if isinstance(v, dict):\n                    sample_link = v.get('link')\n            \n            source_link = generate_ticket_link(sample_link, value['ticket_type'], value['sys_id'])\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    \"name\": value[\"short_description\"],\n                    \"id\": value[\"sys_id\"],\n                    \"number\": value[\"number\"],\n                    \"message\": json.dumps(value[\"description\"]),\n                    \"start_time\": value[\"sys_created_on\"],\n                    \"end_time\": value[\"closed_at\"],\n                    \"assigned_to\": assigned_to,\n                    \"creator_name\": caller_id,\n                    \"state\": value[\"state\"],\n                    \"notes\": [value[\"work_notes\"]],\n                    \"comments\": [value[\"comments\"]]\n                },\n                \"matched_fields\": matched_fields,\n                \"source\": \"ServiceNow\",\n                \"source_link\": source_link\n            }\n            build_output__observable_array.append(observable_object)\n            build_output__name.append(value[\"short_description\"])\n            build_output__number.append(value[\"number\"])\n            build_output__message.append(json.dumps(value[\"description\"]))  # eliminate new line issues\n            build_output__start_time.append(value[\"sys_created_on\"])\n            build_output__end_time.append(value[\"closed_at\"])\n            build_output__assignee.append(assigned_to)\n            build_output__creator_name.append(caller_id)\n            build_output__state.append(value[\"state\"])\n            build_output__matched_fields.append(matched_fields)\n            build_output__source.append(\"ServiceNow\")\n            build_output__source_link.append(source_link)\n            #phantom.debug(observable_object)\n\n",
+                    "userCode": "    import re \n    \n    build_output__observable_array = []\n    build_output__name = []\n    build_output__number = []\n    build_output__message = []\n    build_output__start_time = []\n    build_output__end_time = []\n    build_output__assignee = []\n    build_output__creator_name = []\n    build_output__state = []\n    build_output__matched_fields = []\n    build_output__source_link = []\n    build_output__source = []\n    \n    def generate_ticket_link(sample_url, ticket_type, sys_id):\n        extract_host = re.search(r\"https*:\\/\\/[^\\/]+\", sample_url).group(0)\n        extract_host += f\"/nav_to.do?uri={ticket_type}.do?sys_id={sys_id}\"\n        return extract_host\n        \n    for key in process_results__output.keys():\n        \n        for value in process_results__output[key]:\n            assigned_to = None\n            caller_id = None\n            matched_fields = []\n            if value.get(\"assigned_to\"):\n                assigned_to = value[\"assigned_to\"][\"display_value\"]\n            if value.get(\"caller_id\"):\n                caller_id = value[\"caller_id\"][\"display_value\"]\n            \n            sample_link = None\n            for k, v in value.items():\n                # generate matched fields where the searched entity appears\n                if isinstance(v, str) and key.lower() in v.lower():\n                    matched_fields.append(k)\n                # search for any link sample:\n                if isinstance(v, dict):\n                    sample_link = v.get('link')\n            \n            source_link = generate_ticket_link(sample_link, value['ticket_type'], value['sys_id'])\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    \"name\": value[\"short_description\"],\n                    \"id\": value[\"sys_id\"],\n                    \"number\": value[\"number\"],\n                    \"message\": json.dumps(value[\"description\"]),\n                    \"start_time\": value[\"sys_created_on\"],\n                    \"end_time\": value[\"closed_at\"],\n                    \"assigned_to\": assigned_to,\n                    \"creator_name\": caller_id,\n                    \"state\": value[\"state\"],\n                    \"notes\": [value[\"work_notes\"]],\n                    \"comments\": [value[\"comments\"]]\n                },\n                \"matched_fields\": matched_fields,\n                \"source\": \"ServiceNow\",\n                \"source_link\": source_link\n            }\n            build_output__observable_array.append(observable_object)\n            build_output__name.append(value[\"short_description\"])\n            build_output__number.append(value[\"number\"])\n            build_output__message.append(json.dumps(value[\"description\"]))  # eliminate new line issues\n            build_output__start_time.append(value[\"sys_created_on\"])\n            build_output__end_time.append(value[\"closed_at\"])\n            build_output__assignee.append(assigned_to)\n            build_output__creator_name.append(caller_id)\n            build_output__state.append(value[\"state\"])\n            build_output__matched_fields.append(matched_fields)\n            build_output__source.append(\"ServiceNow\")\n            build_output__source_link.append(source_link)\n            #phantom.debug(observable_object)\n\n",
                     "warnings": {},
-                    "x": 0,
+                    "x": 1.4210854715202004e-14,
                     "y": 1352
                 },
                 "17": {
@@ -231,7 +229,8 @@
                         "advanced": {
                             "customName": "calculate earliest time",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Converts the container create time into a different datetime string compatible with ServiceNow."
                         },
                         "customFunction": {
                             "draftMode": false,
@@ -241,6 +240,15 @@
                         "functionId": 2,
                         "functionName": "calculate_earliest_time",
                         "id": "17",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
                         "selectMore": false,
                         "type": "utility",
                         "utilities": {
@@ -321,7 +329,7 @@
                     "id": "17",
                     "type": "utility",
                     "warnings": {},
-                    "x": 0,
+                    "x": 1.4210854715202004e-14,
                     "y": 474
                 },
                 "19": {
@@ -344,6 +352,15 @@
                         "functionId": 3,
                         "functionName": "run_ticket_query",
                         "id": "19",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
                         "parameters": {
                             "max_results": "100",
                             "query": {
@@ -412,7 +429,7 @@
                     "id": "25",
                     "type": "format",
                     "warnings": {},
-                    "x": 0,
+                    "x": 1.4210854715202004e-14,
                     "y": 1530
                 },
                 "6": {
@@ -438,7 +455,7 @@
                     "type": "code",
                     "userCode": "    \n    # Default tables list to find related tickets. Adjust as needed.\n    default_table_list = [\n        'incident', \n        'change_request', \n        'change_task', \n        'problem',\n        'sc_request', \n        'sc_task', \n        'sc_req_item',\n    ]\n    default_table_list__output = default_table_list\n    \n",
                     "warnings": {},
-                    "x": 0,
+                    "x": 1.4210854715202004e-14,
                     "y": 148
                 },
                 "8": {
@@ -447,6 +464,7 @@
                             "customName": "convert table list",
                             "customNameId": 0,
                             "join": [],
+                            "note": "Converts the table into a custom function result that is filterable downstream.",
                             "refreshNotableData": false
                         },
                         "customFunction": {
@@ -457,6 +475,15 @@
                         "functionId": 1,
                         "functionName": "convert_table_list",
                         "id": "8",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
                         "selectMore": false,
                         "type": "utility",
                         "utilities": {
@@ -492,7 +519,7 @@
                     "type": "utility",
                     "userCode": "\n",
                     "warnings": {},
-                    "x": 0,
+                    "x": 1.4210854715202004e-14,
                     "y": 326
                 },
                 "9": {
@@ -519,7 +546,7 @@
                     "id": "9",
                     "type": "format",
                     "warnings": {},
-                    "x": 0,
+                    "x": 1.4210854715202004e-14,
                     "y": 802
                 }
             },
@@ -557,12 +584,13 @@
                 "name": "markdown_report"
             }
         ],
+        "playbook_trigger": "artifact_created",
         "playbook_type": "data",
-        "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "python_version": "3.13",
+        "schema": "5.0.15",
+        "version": "6.3.1.176"
     },
-    "create_time": "2023-03-03T21:21:48.729159+00:00",
+    "create_time": "2025-01-24T16:39:26.106708+00:00",
     "draft_mode": false,
     "labels": [
         "*"

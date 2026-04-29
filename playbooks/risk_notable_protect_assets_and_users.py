@@ -92,7 +92,7 @@ def list_asset_playbooks(action=None, success=None, container=None, results=None
     parameters.append({
         "name": None,
         "repo": "local",
-        "tags": "asset, protect, risk_notable",
+        "tags": "asset, containment, risk_notable",
         "category": None,
         "playbook_type": "input",
     })
@@ -688,7 +688,7 @@ def list_identity_playbooks(action=None, success=None, container=None, results=N
     parameters.append({
         "name": None,
         "repo": "local",
-        "tags": "identity, protect, risk_notable",
+        "tags": "identity, containment, risk_notable",
         "category": None,
         "playbook_type": "input",
     })

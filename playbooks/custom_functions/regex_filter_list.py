@@ -8,7 +8,7 @@ def regex_filter_list(input_list=None, regex=None, action=None, **kwargs):
         action: Either 'keep' or 'drop' to specify what to do with the items that match the regular expression. The default is 'keep'.
     
     Returns a JSON-serializable object that implements the configured data paths:
-        *.item (CEF type: *): List of output items
+        item (CEF type: *): List of output items
     """
     ############################ Custom Code Goes Below This Line #################################
     import json
@@ -35,5 +35,6 @@ def regex_filter_list(input_list=None, regex=None, action=None, **kwargs):
                     outputs.append({"item": item})
     
     # Return a JSON-serializable object
+    assert isinstance(outputs, list)  # Will raise an exception if the :outputs: object is not a list
     assert json.dumps(outputs)  # Will raise an exception if the :outputs: object is not JSON-serializable
     return outputs
