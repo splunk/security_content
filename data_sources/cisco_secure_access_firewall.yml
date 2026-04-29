@@ -9,7 +9,7 @@ sourcetype: cisco:cloud_security:firewall
 supported_TA:
 - name: Cisco Secure Access Add-on for Splunk
   url: https://splunkbase.splunk.com/app/7569
-  version: 1.0.48
+  version: 1.0.50
 fields:
 - _time
 - action
