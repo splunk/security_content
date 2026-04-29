@@ -1,0 +1,69 @@
+name: PowerShell Environment Variable Execution
+id: 02c1d8e9-044c-401f-906c-cc95445af8bd
+version: 1
+date: '2026-04-20'
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the execution of PowerShell scripts that combine environment variable access (`$env:` or `[Environment]::SetEnvironmentVariable`) with `Invoke-Expression` or its alias `iex` to dynamically construct and run code at runtime. This technique is commonly used by adversaries to stage and execute payloads by embedding commands or encoded content inside environment variables, then evaluating them on the fly — effectively hiding the true execution intent from static inspection. Detection is based on PowerShell Script Block Logging (Event ID 4104), which captures the de-obfuscated script block before it executes. Triggering this analytic indicates a potential attempt to execute environment-variable-stored code, a behavior observed in malware loaders and stagers, including those associated with the VIP Keylogger campaign.
+data_source:
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell`
+    EventCode=4104
+    ScriptBlockText="*$env:*"
+    ScriptBlockText IN (
+        "*.Invoke()*",
+        "*[scriptblock]::Create*",
+        "*iex *",
+        "*Invoke-Expression*"
+    )
+    ScriptBlockText="*[Environment]::SetEnvironmentVariable*"
+    | regex ScriptBlockText="(?i)((invoke-expression|iex\s+|\biex\b).*\$env:|\[scriptblock\]::create\s*\(\s*\$env:[^)]+\)\s*(?:\.\s*invoke\s*\(\s*\))?)"
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
+    by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `powershell_environment_variable_execution_filter`
+how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: No false positives have been identified at this time.
+references:
+    - https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly?view=net-5.0
+    - https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+    - https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63
+    - https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
+    - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
+drilldown_searches:
+    - name: View the detection results for - "$Computer$"
+      search: '%original_detection_search% | search  Computer = "$Computer$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$Computer$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: A suspicious powershell script execute environment variable in [$ScriptBlockText$] on host [$dest$]
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
+tags:
+    analytic_story:
+        - VIP Keylogger
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/vip_env_var_execution/env_vip_pwh_intl.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

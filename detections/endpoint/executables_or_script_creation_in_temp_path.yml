@@ -1,26 +1,57 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 22
-date: '2026-04-16'
+version: 23
+date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: 'The following analytic identifies the creation of executables or scripts in temporary file paths on Windows systems.
-
-    It leverages the Endpoint.Filesystem data set to detect files with specific extensions (e.g., .exe, .dll, .ps1) created in temporary directories (e.g., \windows\Temp\, \AppData\Local\Temp\).
-
+description: |
+    The following analytic identifies the creation of executables or scripts in temporary file paths on Windows systems. It leverages the Endpoint.Filesystem data set to detect files with specific extensions (e.g., .exe, .dll, .ps1) created in temporary directories (e.g., \windows\Temp\, \AppData\Local\Temp\).
     This activity can be significant as adversaries often use these paths to evade detection and maintain persistence.
-
     If confirmed malicious, this behavior could allow attackers to execute unauthorized code, escalate privileges, or persist within the environment, posing a significant security threat.
-
-'
 data_source:
     - Sysmon EventID 11
-search: "| tstats `security_content_summariesonly`\n  count min(_time) as firstTime\n        max(_time) as lastTime\n\nfrom datamodel=Endpoint.Filesystem where\n\nFilesystem.action=\"created\"\nFilesystem.file_name IN (\n  \"*.bat\",\n  \"*.cmd\",\n  \"*.com\",\n  \"*.dll\",\n  \"*.exe\",\n  \"*.js\",\n  \"*.msc\",\n  \"*.pif\",\n  \"*.ps1\",\n  \"*.sys\",\n  \"*.vbe\",\n  \"*.vbs\"\n)\nFilesystem.file_path IN (\n  \"*:\\\\Temp\\\\*\",\n  \"*:\\\\Windows\\\\Temp\\\\*\",\n  \"*\\\\AppData\\\\Local\\\\Temp\\\\*\",\n)\nNOT Filesystem.file_path IN (\n  \"*\\\\__PSScriptPolicyTest_*\",\n)\nby Filesystem.action Filesystem.dest Filesystem.file_access_time\n   Filesystem.file_create_time Filesystem.file_hash\n   Filesystem.file_modify_time Filesystem.file_name\n   Filesystem.file_path Filesystem.file_acl Filesystem.file_size\n   Filesystem.process_guid Filesystem.process_id Filesystem.user\n   Filesystem.vendor_product\n| `drop_dm_object_name(Filesystem)`\n| `security_content_ctime(firstTime)`\n| `security_content_ctime(lastTime)`\n| `executables_or_script_creation_in_temp_path_filter`\n"
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: 'Executable creation and certain script extensions in temporary paths can very common in certain environments and legitimate use cases. It is important to review and filter these events based on your organization''s normal activity and policies.
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    from datamodel=Endpoint.Filesystem where
 
-'
+    Filesystem.action= "created"
+    Filesystem.file_name IN (
+        "*.bat",
+        "*.cmd",
+        "*.com",
+        "*.dll",
+        "*.exe",
+        "*.js",
+        "*.msc",
+        "*.pif",
+        "*.ps1",
+        "*.sys",
+        "*.vbe",
+        "*.vbs"
+    )
+    Filesystem.file_path IN (
+        "*:\\Temp\\*",
+        "*:\\Windows\\Temp\\*",
+        "*\\AppData\\Local\\Temp\\*"
+    )
+    NOT Filesystem.file_path IN ("*\\__PSScriptPolicyTest_*")
+
+    by Filesystem.action Filesystem.dest Filesystem.file_access_time
+       Filesystem.file_create_time Filesystem.file_hash
+       Filesystem.file_modify_time Filesystem.file_name
+       Filesystem.file_path Filesystem.file_acl
+       Filesystem.file_size Filesystem.process_guid
+       Filesystem.process_id Filesystem.user
+       Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `executables_or_script_creation_in_temp_path_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: Executable creation and certain script extensions in temporary paths can very common in certain environments and legitimate use cases. It is important to review and filter these events based on your organization''s normal activity and policies.
 references:
     - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
@@ -98,6 +129,7 @@ tags:
         - XML Runner Loader
         - Void Manticore
         - Axios Supply Chain Post Compromise
+        - VIP Keylogger
     asset_type: Endpoint
     mitre_attack_id:
         - T1036
