@@ -67,6 +67,7 @@ def validate(args):
 def generate(args):
     security_content_path = init(args)
     output = Path(args.output).resolve()
+
     if output.is_dir():
         print("contentctl is using folder {0} to write deployment".format(
             output))
