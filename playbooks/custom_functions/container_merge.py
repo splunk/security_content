@@ -19,6 +19,9 @@ def container_merge(target_container=None, container_list=None, workbook=None, c
     import json
     import phantom.rules as phantom
     
+    def check_numeric_list(input_list):
+        return (all(isinstance(x, int) for x in input_list) or all(x.isnumeric() for x in input_list))
+    
     outputs = {}
     
     # Check if valid target_container input was provided
@@ -31,17 +34,28 @@ def container_merge(target_container=None, container_list=None, workbook=None, c
     
     container_url = phantom.build_phantom_rest_url('container', container['id'])
     
+    
     # Check if container_list input is a list of IDs
-    if isinstance(container_list, list) and (all(isinstance(x, int) for x in container_list) or all(x.isnumeric() for x in container_list)):
-        pass
+    if isinstance(container_list, str):
+        container_list = container_list.replace('[','').replace(']','').replace(' ','').split(',')
+        if not check_numeric_list(container_list):
+            raise TypeError(f"container_list '{container_list}' is not a list of integers")
+    elif isinstance(container_list, list):
+        if not check_numeric_list(container_list):
+            raise TypeError(f"container_list '{container_list}' is not a list of integers")
+    elif isinstance(container_list, int):
+        container_list = [container_list]
     else:
         raise TypeError(f"container_list '{container_list}' is not a list of integers")
-
+        
+    # ensure all ids are integers
+    container_list = [int(item) for item in container_list]
+    
     ## Prep parent container as case with workbook ##
     workbook_name = phantom.requests.get(container_url, verify=False).json().get('workflow_name')
     # If workbook already exists, proceed to promote to case
     if workbook_name:
-        phantom.debug("workbook already exists. adding [Parent] to container name and promoting to case")
+        phantom.debug("Workbook already exists - adding [Parent] to container name and promoting to case")
         update_data = {'container_type': 'case'}
         if not '[Parent]' in container['name']:
             update_data['name'] = "[Parent] {}".format(container['name'])
@@ -50,7 +64,7 @@ def container_merge(target_container=None, container_list=None, workbook=None, c
             phantom.update(container, update_data)
     # If no workbook exists, add one
     else:
-        phantom.debug("no workbook in container. adding one by name or using the default")
+        phantom.debug("No workbook in container - adding one by name or using the default")
         # If workbook ID was provided, add it
         if isinstance(workbook, int):
             workbook_id = workbook
@@ -81,11 +95,11 @@ def container_merge(target_container=None, container_list=None, workbook=None, c
             raise RuntimeError(f"Error occurred during workbook add for workbook '{workbook_name}'")
             
     ## Check if current phase is set. If not, set the current phase to the first available phase to avoid artifact merge error ##
-    if not container.get('current_phase_id'):
-        phantom.debug("no current phase, so setting first available phase to current")
+    if not container.get('current_phase_id') and not container.get('current_phase'):
+        phantom.debug("No current phase - setting first available phase to current")
         workbook_phase_url = phantom.build_phantom_rest_url('workbook_phase') + "?_filter_container={}".format(container['id'])
         request_json = phantom.requests.get(workbook_phase_url, verify=False).json()
-        update_data = {'current_phase_id': request_json['data'][0]['id']}
+        update_data = {'current_phase': request_json['data'][0]['id']}
         phantom.update(container, update_data)
     
     child_container_list = []
@@ -148,6 +162,8 @@ def container_merge(target_container=None, container_list=None, workbook=None, c
         
         ## Close child container
         if isinstance(close_containers, str) and close_containers.lower() == 'true':
+            phantom.set_status(container=child_container_id, status="closed")
+        elif isinstance(close_containers, bool) and close_containers:
             phantom.set_status(container=child_container_id, status="closed")
             
         ### End child container processing ###

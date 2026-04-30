@@ -1,6 +1,6 @@
 name: Detect Large ICMP Traffic
 id: 9cd6d066-94d5-4ccd-a8b9-28c03ca91be8
-version: 6
+version: 7
 date: '2026-04-15'
 author: Rico Valdez, Dean Luxton, Bhavin Patel, Splunk
 status: production
@@ -11,6 +11,7 @@ description: |
     If validated as malicious, this could signal ICMP tunneling, unauthorized data transfer, or compromised endpoints requiring immediate investigation.
 data_source:
     - Palo Alto Network Traffic
+    - Cisco Secure Access Firewall
 search: |-
     | tstats `security_content_summariesonly`
               count earliest(_time) as firstTime
@@ -25,20 +26,17 @@ search: |-
         OR
         All_Traffic.transport=icmp
     )
-    NOT All_Traffic.dest_ip IN (
-            "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
-            "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
-            "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
-            "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
-            "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
+    NOT ( All_Traffic.dest_ip IN `non_public_ip_blocks`
+    OR All_Traffic.dest IN `non_public_ip_blocks`
     )
-
-    by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.protocol
+    by All_Traffic.src_ip All_Traffic.src All_Traffic.dest_ip All_Traffic.dest All_Traffic.protocol
        All_Traffic.bytes All_Traffic.app All_Traffic.bytes_in
        All_Traffic.bytes_out All_Traffic.dest_port All_Traffic.dvc
        All_Traffic.protocol_version All_Traffic.src_port
        All_Traffic.user All_Traffic.vendor_product
     | `drop_dm_object_name("All_Traffic")`
+    | eval dest_ip = dest
+    | eval src_ip = src
     | iplocation dest_ip
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -72,6 +70,7 @@ tags:
         - Command And Control
         - China-Nexus Threat Activity
         - Backdoor Pingpong
+        - Cisco Secure Access Analytics
     asset_type: Endpoint
     mitre_attack_id:
         - T1095
@@ -86,3 +85,8 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1095/palologs/large_icmp.log
           sourcetype: pan:traffic
           source: not_applicable
+    - name: Cisco Secure Access Firewall True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/large_icmp.log
+          source: cisco_cloud_security_addon
+          sourcetype: cisco:cloud_security:firewall

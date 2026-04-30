@@ -15,7 +15,7 @@ def list_merge(input_1=None, input_2=None, input_3=None, input_4=None, input_5=N
         input_10 (CEF type: *)
     
     Returns a JSON-serializable object that implements the configured data paths:
-        *.item (CEF type: *): A combined list of all the values from all the input lists
+        item (CEF type: *): A combined list of all the values from all the input lists
     """
     ############################ Custom Code Goes Below This Line #################################
     import json
@@ -28,13 +28,13 @@ def list_merge(input_1=None, input_2=None, input_3=None, input_4=None, input_5=N
 
         # skip the input if no datapath is provided or the datapath does not resolve to anything
         if not input_value:
-            phantom.debug("skipping input_{} because it is falsy".format(index+1))
+            # phantom.debug("skipping input_{} because it is falsy".format(index+1))
             continue
 
         # if the input is not a list just append the single item
         if not isinstance(input_value, list):
             outputs.append({"item": input_value})
-            phantom.debug("merged 1 items from input_{}".format(index+1))
+            # phantom.debug("merged 1 items from input_{}".format(index+1))
             continue
         
         # keep track of how many items were merged from each input
@@ -43,13 +43,14 @@ def list_merge(input_1=None, input_2=None, input_3=None, input_4=None, input_5=N
         # iterate through the list and append each item in its own dictionary
         for item in input_value:
             if item:
-                phantom.debug("input_value is {} and item is {}".format(input_value, item))
+                # phantom.debug("input_value is {} and item is {}".format(input_value, item))
                 outputs.append({"item": item})
                 item_count += 1
-        phantom.debug("merged {} items from input_{}".format(item_count, index+1))
+        # phantom.debug("merged {} items from input_{}".format(item_count, index+1))
     
-    phantom.debug("merged results: {}".format(outputs))
+    # phantom.debug("merged results: {}".format(outputs))
 
     # Return a JSON-serializable object
+    assert isinstance(outputs, list)  # Will raise an exception if the :outputs: object is not a list
     assert json.dumps(outputs)  # Will raise an exception if the :outputs: object is not JSON-serializable
     return outputs

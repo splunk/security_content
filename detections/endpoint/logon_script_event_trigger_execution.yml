@@ -1,7 +1,7 @@
 name: Logon Script Event Trigger Execution
 id: 4c38c264-1f74-11ec-b5fa-acde48001122
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-04-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -38,6 +38,7 @@ tags:
         - Windows Privilege Escalation
         - Hermetic Wiper
         - Windows Persistence Techniques
+        - VIP Keylogger
     asset_type: Endpoint
     mitre_attack_id:
         - T1037.001
