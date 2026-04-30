@@ -87,7 +87,7 @@ def main(args):
     parser.add_argument("--Version", default=False, action="version", version="version: {0}".format(VERSION),
                         help="shows current contentctl version")
     parser.add_argument("-v", "--verbose", required=False, action='store_true',
-                        help="silences all verbose output, defaults to False")
+                        help="enables verbose output, defaults to False")
     parser.set_defaults(func=lambda _: parser.print_help())
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
