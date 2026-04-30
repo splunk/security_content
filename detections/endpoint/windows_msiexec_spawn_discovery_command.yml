@@ -2,30 +2,136 @@ name: Windows MSIExec Spawn Discovery Command
 id: e9d05aa2-32f0-411b-930c-5b8ca5c4fcee
 version: 14
 date: '2026-04-15'
-author: Michael Haag, Splunk
+author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects MSIExec spawning multiple discovery commands, such as Cmd.exe or PowerShell.exe. This behavior is identified using data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where MSIExec is the parent process. This activity is significant because MSIExec typically does not spawn child processes other than itself, making this behavior highly suspicious. If confirmed malicious, an attacker could use these discovery commands to gather system information, potentially leading to further exploitation or lateral movement within the network.
+description: |-
+    The following analytic detects MSIExec spawning multiple discovery commands.
+    This behavior is identified using data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where MSIExec is the parent process.
+    If confirmed malicious, an attacker could use these discovery commands to gather system information, potentially leading to further exploitation or lateral movement within the network.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.parent_process_name=msiexec.exe Processes.process_name IN ("powershell.exe", "pwsh.exe", "nltest.exe","ipconfig.exe","systeminfo.exe")
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.parent_process_name=msiexec.exe
+
+    (
+        Processes.process_name IN (
+            "arp.exe"
+            "dsget.exe",
+            "hostname.exe",
+            "ipconfig.exe",
+            "nbtstat.exe",
+            "netdom.exe",
+            "nltest.exe",
+            "ntdsutil.exe",
+            "qprocess.exe",
+            "qwinsta.exe",
+            "systeminfo.exe"
+            "wmic.exe"
+        )
+        OR
+        (
+            Processes.process_name IN (
+                "bash.exe",
+                "cmd.exe",
+                "powershell.exe",
+                "powershell_ise.exe",
+                "pwsh.exe"
+            )
+
+            (
+                Processes.process IN (
+                    "*arp *",
+                    "*dsget*",
+                    "*hostname*",
+                    "*ipconfig*",
+                    "*nbtstat*",
+                    "*netdom*",
+                    "*nltest*",
+                    "*ntdsutil*",
+                    "*qprocess *",
+                    "*qwinsta*",
+                    "*systeminfo*",
+                    "*wmic *"
+                )
+                OR
+                (
+                    (
+                        Processes.process IN (
+                            "*net *",
+                            "*net.exe *",
+                            "*net1*"
+                            "*net1.exe*"
+                        )
+                        OR
+                        Processes.process_name IN (
+                            "net.exe",
+                            "net1.exe"
+                        )
+                    )
+                    Processes.process = "*view*"
+                )
+                OR
+                (
+                    (
+                        Processes.process IN (
+                            "*reg *",
+                            "*reg.exe *"
+                            "*sc *",
+                            "*sc.exe *",
+                        )
+                        OR
+                        Processes.process_name IN (
+                            "reg.exe",
+                            "sc.exe"
+                        )
+                    )
+                    Processes.process = "*query*"
+                    NOT Processes.process = "* /SC *"
+                )
+                OR
+                (
+                    (
+                        Processes.process IN (
+                            "*query *",
+                            "*query.exe*"
+                        )
+                        OR
+                        Processes.process_name = "query.exe"
+                    )
+                    Processes.process IN (
+                        "* process",
+                        "* session",
+                        "* user",
+                    )
+                )
+            )
+        )
+    )
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_msiexec_spawn_discovery_command_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: False positives will be present with MSIExec spawning Cmd or PowerShell. Filtering will be needed. In addition, add other known discovery processes to enhance query.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives might still be present, depending on the installer. Filter as needed.
 references:
     - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
