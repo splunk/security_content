@@ -48,7 +48,7 @@ starting program loaded for TIE Fighter...
         print("contentctl is reading from path {0}".format(
             security_content_path))
     else:
-        print("ERROR: contentctl failed to find security_content project")
+        print("ERROR: contentctl failed to find security_content project at {0}".format(security_content_path))
         sys.exit(1)
     return str(security_content_path)
 
