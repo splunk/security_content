@@ -1,0 +1,52 @@
+name: Windows VSSVC Process Accessing Defender Engine
+id: 0c398be7-e33a-4882-9546-12166ceaf73c
+version: 1
+date: '2026-05-01'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: Detects vssvc.exe opening a handle to MsMpEng.exe. In the RedSun exploit, VSS participates in the cloud-file restore race that directs WD to write through the NTFS junction. This handle acquisition is observed at the exact moment of exploitation. vssvc querying MsMpEng is not expected in normal operation.
+data_source:
+    - Sysmon EventID 10
+search: '`sysmon` EventCode=10 TargetImage="*MsMpEng.exe" SourceImage="*vssvc.exe" | stats count min(_time) as firstTime max(_time) as lastTime BY EventID GrantedAccess Guid Opcode ProcessID SourceImage SourceProcessGUID SourceProcessId TargetImage TargetProcessGUID TargetProcessId UserID dest CallTrace user_id parent_process_name parent_process_guid process_name process_guid process_id signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_vssvc_process_accessing_defender_engine_filter`'
+how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+known_false_positives: No false positives have been identified at this time.
+references:
+    - https://github.com/Nightmare-Eclipse/RedSun
+    - https://www.huntress.com/blog/nightmare-eclipse-intrusion
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: Possible RedSun Privilege escalation on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - RedSun
+        - Windows Privilege Escalation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1068
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2026-33825
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/redsun/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
