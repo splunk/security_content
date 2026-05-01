@@ -72,7 +72,8 @@ def parse_and_add_macros(object, macros, lookups):
 
     new_dict = {}
     new_dict['definition'] = 'search *'
-    new_dict['description'] = 'Update this macro to limit the output results to filter out false positives. '
+    new_dict['description'] = 'This macro is used to update the search query to include a filter that limits the output results to only those that are relevant and not false positives.'
+
     new_dict['name'] = object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'
     macro_objects.append(new_dict)
 
