@@ -26,7 +26,7 @@ def load_file(file_path):
 
 
 def main(args):
-    print("copy baselines into it's own folder")
+    print("copy baselines into its own folder")
 
     # process all detections
     REPO_PATH = os.path.join(os.path.dirname(__file__), '../')
