@@ -13,7 +13,7 @@ VERSION = 1
 def init(args):
     path = args.path
     print("""
-Running Splunk Security Content Control Tool (contentctl) v{0}
+Running Splunk Security Content Control Tool (contentctl) v{0}.
 starting program loaded for TIE Fighter...
       _                                            _
      T T                                          T T
