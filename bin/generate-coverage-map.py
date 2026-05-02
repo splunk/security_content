@@ -52,7 +52,7 @@ def count_detections(matched_techniques):
     for technique in matched_techniques:
         if "splunk_rules" in technique:
             technique['score'] = len(technique['splunk_rules'])
-            max_count = technique['score'] if technique['score'] > max_count else max_count
+            max_count = technique['score'] if technique['score'] > maxcount else maxcount
             scored_detections.append(technique)
 
     for technique in matched_techniques:
