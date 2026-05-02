@@ -143,7 +143,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
     # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases
     sto_to_data_models = {}
-    sto_to_mitre_attack_ids = {}
+    sto_to_mitre_attacks = {}
     sto_to_mitre_attacks = {}
     sto_to_kill_chain_phases = {}
     sto_to_det = {}
