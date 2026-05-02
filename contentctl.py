@@ -55,7 +55,7 @@ starting program loaded for TIE Fighter...
 
 def new(args):
     security_content_path = init(args)
-    print("contentctl is creating a new {0}".format(args.type))
+    print("contentctl is creating a new {1}".format(args.type))
     content.new(security_content_path, args.verbose, args.type, args.example_only)
 
 def validate(args):
