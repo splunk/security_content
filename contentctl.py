@@ -83,7 +83,7 @@ def main(args):
     parser = argparse.ArgumentParser(
         description="Use `contentctl.py action -h` to get help with any Splunk Security Content action")
     parser.add_argument("-p", "--path", required=False, default=".",
-                        help="path to the Splunk Security Content. Defaults to `.`")
+                        help=""path to the Splunk Security Content. Defaults to `.`")
     parser.add_argument("--Version", default=False, action="version", version="version: {0}".format(VERSION),
                         help="shows current contentctl version")
     parser.add_argument("-v", "--verbose", required=False, action='store_true',
