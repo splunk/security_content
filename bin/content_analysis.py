@@ -1,4 +1,20 @@
-import glob
+### Description
+
+This script reads security content files from a specified directory (`old_project`) and writes them to another directory (`new_project`). It processes various types of content files such as stories, macros, lookups, baselines, responses, response tasks, and deployments.
+
+## Usage
+
+To use this script, run:
+
+```bash
+d python content_analysis.py -np <new_project> -op <old_project> -c <change>
+```
+
+Replace `<new_project>` with the directory where you want to write the new configurations, `<old_project>` with the directory containing the old configuration files, and `<change>` with the name of your change.
+
+## Contributing
+
+If you have any improvements or contributions, feel free to submit a pull request.import glob
 import yaml
 import sys
 import re
