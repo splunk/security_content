@@ -1,6 +1,6 @@
 name: Windows Audit Policy Excluded Category via Auditpol
 id: 083708d4-d763-4ba2-87ac-105b526de81a
-version: 8
+version: 7
 date: '2026-05-04'
 author: Nasreddine Bencherchali, Splunk
 status: production

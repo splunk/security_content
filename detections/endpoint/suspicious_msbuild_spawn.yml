@@ -1,7 +1,7 @@
 name: Suspicious MSBuild Spawn
 id: a115fba6-5514-11eb-ae93-0242ac130002
-version: 12
-date: '2026-04-15'
+version: 13
+date: '2026-05-04'
 author: Michael Haag, Splunk
 status: production
 type: TTP
