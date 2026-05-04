@@ -1,7 +1,7 @@
 name: ESXi Download Errors
 id: 515cccd0-c4d8-4427-92d9-8a8f8b5a71dc
-version: 3
-date: '2026-04-15'
+version: 4
+date: '2026-05-04'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly

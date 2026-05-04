@@ -1,7 +1,7 @@
 name: ESXi VIB Acceptance Level Tampering
 id: d051d94f-c792-445e-b5d2-0b904f93ac09
-version: 4
-date: '2026-04-15'
+version: 5
+date: '2026-05-04'
 author: Raven Tait, Splunk
 status: production
 type: TTP

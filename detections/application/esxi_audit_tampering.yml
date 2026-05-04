@@ -1,7 +1,7 @@
 name: ESXi Audit Tampering
 id: c48a155b-2861-417a-813c-220f5272cf01
-version: 3
-date: '2026-04-15'
+version: 4
+date: '2026-05-04'
 author: Raven Tait, Splunk
 status: production
 type: TTP

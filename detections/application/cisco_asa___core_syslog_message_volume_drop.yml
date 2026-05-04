@@ -1,7 +1,7 @@
 name: Cisco ASA - Core Syslog Message Volume Drop
 id: 4b4f8fdd-1f9e-45d8-9b0f-1f64c0b297a4
-version: 3
-date: '2025-10-13'
+version: 4
+date: '2026-05-04'
 author: Bhavin Patel, Micheal Haag, Splunk
 status: production
 type: Hunting
