@@ -11,7 +11,7 @@ description: |
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    `powershell`
+    index=attack_data `powershell`
     EventCode=4104
     ScriptBlockText="*add-type*"
     ScriptBlockText="*DllImport*"
@@ -23,7 +23,7 @@ search: |-
     )
     | where
         (
-            ScriptBlockText="*VirtualAlloc*"
+            match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
             AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][p][r][o][t][e][c][t]")
             AND match(ScriptBlockText, "(?i)[c][r][e][a][t][e][t][h][r][e][a][d]")
         )
@@ -34,12 +34,13 @@ search: |-
             AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
             AND (
                 match(ScriptBlockText, "(?i)[c][r][e][a][t][e][r][e][m][o][t][e][t][h][r][e][a][d]")
-                OR match(ScriptBlockText, "(?i)[q][u][e][u][e][u][s][e][r][a][p][c]")
+                OR
+                match(ScriptBlockText, "(?i)[q][u][e][u][e][u][s][e][r][a][p][c]")
             )
         )
         OR
         (
-            ScriptBlockText="*OpenThread*"
+            match(ScriptBlockText, "(?i)[o][p][e][n][t][h][r][e][a][d]")
             AND match(ScriptBlockText, "(?i)[s][u][s][p][e][n][d][t][h][r][e][a][d]")
             AND match(ScriptBlockText, "(?i)[g][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
             AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
@@ -48,7 +49,7 @@ search: |-
         )
         OR
         (
-            ScriptBlockText="*CreateProcess*"
+            match(ScriptBlockText, "(?i)[c][r][e][a][t][e][p][r][o][c][e][s][s]")
             AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
             AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
             AND match(ScriptBlockText, "(?i)[s][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
@@ -57,7 +58,7 @@ search: |-
         OR
         (
             match(ScriptBlockText, "(?i)[n][t][c][r][e][a][t][e][s][e][c][t][i][o][n]")
-            AND ScriptBlockText="*NtMapViewOfSection*"
+            AND match(ScriptBlockText, "(?i)[n][t][m][a][p][v][i][e][w][o][f][s][e][c][t][i][o][n]")
             AND match(ScriptBlockText, "(?i)[c][r][e][a][t][e][r][e][m][o][t][e][t][h][r][e][a][d]")
         )
     | fillnull
