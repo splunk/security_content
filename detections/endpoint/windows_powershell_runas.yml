@@ -5,10 +5,23 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: This analytic detects the use of PowerShell's Start-Process cmdlet with a PSCredential, a technique equivalent to the Windows RunAs command. This activity is significant because it can be used by attackers to execute processes with elevated privileges or different user contexts without direct access to credentials. If confirmed malicious, this behavior may facilitate privilege escalation, lateral movement, or execution of unauthorized commands, potentially compromising system integrity and security.
+description: |-
+    This analytic detects the use of PowerShell's Start-Process cmdlet with a PSCredential, a technique equivalent to the Windows RunAs command.
+    This activity is significant because it can be used by attackers to execute processes with elevated privileges or different user contexts without direct access to credentials.
+    If confirmed malicious, this behavior may facilitate privilege escalation, lateral movement, or execution of unauthorized commands, potentially compromising system integrity and security.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventID="4104" ScriptBlockText="*Start-Process*" ScriptBlockText="*-Credential*" | fillnull | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId |rename Computer as dest| `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`| `windows_powershell_runas_filter`'
+search: |-
+    `powershell`
+    EventID="4104"
+    ScriptBlockText="*Start-Process*"
+    ScriptBlockText="*-Credential*"
+    | fillnull
+    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_powershell_runas_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate administrative scripts may use PowerShell Start-Process with PSCredential for authorized elevation. Filter alerts for approved administrative activities.
 drilldown_searches:

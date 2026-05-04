@@ -5,10 +5,20 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects image load events into a process from a share folder. This can indicate attempts to load malicious files into a process from a remote system.'
+description: |-
+    Detects image load events into a process from a share folder.
+    This can indicate attempts to load malicious files into a process from a remote system.
 data_source:
     - Sysmon EventID 7
-search: '`sysmon` EventID=7 ImageLoaded="\\\\*" | fillnull | stats count by Computer, ImageLoaded, EventID, dest, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_remote_image_load_filter`'
+search: |-
+    `sysmon`
+    EventID=7
+    ImageLoaded="\\\\*"
+    | fillnull
+    | stats count by Computer, ImageLoaded, EventID, dest, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_remote_image_load_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate software updates or remote imaging tools may load images from shared folders. Filter these detections for approved applications to reduce false positives.
 references:

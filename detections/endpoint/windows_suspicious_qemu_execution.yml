@@ -5,10 +5,25 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'Detects execution of the QEMU binary  and an image file with the -nographic flag. This causes it to run in the background without any display. This has been observed as a persistence and initial access technique by some threat actors to install a rogue linux virtual machine'
+description: |-
+    Detects execution of the QEMU binary and an image file with the -nographic flag.
+    This causes it to run in the background without any display.
+    This has been observed as a persistence and initial access technique by some threat actors to install a rogue linux virtual machine
 data_source:
     - Sysmon EventID 1
-search: '`sysmon` EventID=1 CommandLine="*-nographic*" CommandLine="*.img*" Description="*QEMU machine*" OR Product="QEMU" OR Company="*qemu*" | fillnull | stats count by Computer, EventID, CommandLine, Description, Product, Company, action, dest, original_file_name, parent_process, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, process_hash, process_integrity_level, user, user_id, vendor_product| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_suspicious_qemu_execution_filter`'
+search: |-
+    `sysmon`
+    EventID=1
+    CommandLine="*-nographic*"
+    CommandLine="*.img*"
+    Description="*QEMU machine*"
+    OR Product="QEMU"
+    OR Company="*qemu*"
+    | fillnull
+    | stats count by Computer, EventID, CommandLine, Description, Product, Company, action, dest, original_file_name, parent_process, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, process_hash, process_integrity_level, user, user_id, vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_suspicious_qemu_execution_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate virtual machine setups or automated testing environments may run QEMU with the -nographic flag. Review and whitelist approved systems to reduce false alerts.
 references:

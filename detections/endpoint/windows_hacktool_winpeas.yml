@@ -5,10 +5,23 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'winPEAS is windows tool that stands for Windows Privilege Escalation Awesome Script. Similar to its Linux counterpart, linpeas.sh, winPEAS is designed to automate the process of identifying potential privilege escalation paths on Windows systems. This detects the function names used within the powershell version of winPEAS. This detection requires powershell ScriptBlockText logging to be used.'
+description: |-
+    winPEAS is windows tool that stands for Windows Privilege Escalation Awesome Script.
+    Similar to its Linux counterpart, linpeas.sh, winPEAS is designed to automate the process of identifying potential privilege escalation paths on Windows systems.
+    This detects the function names used within the powershell version of winPEAS.
+    This detection requires powershell ScriptBlockText logging to be used.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventID="4104" ScriptBlockText IN ("*returnHotFixID*", "*Start-ACLCheck*", "*UnquotedServicePathCheck*", "*Get-ClipBoardText*") | fillnull |stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId | rename Computer as dest| `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`| `windows_hacktool_winpeas_filter`'
+search: |-
+    `powershell`
+    EventID="4104"
+    ScriptBlockText IN ("*returnHotFixID*", "*Start-ACLCheck*", "*UnquotedServicePathCheck*", "*Get-ClipBoardText*")
+    | fillnull
+    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_hacktool_winpeas_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate security assessments or administrative audits may run WinPEAS for privilege escalation checks. Exclude trusted security tools to reduce false alerts.
 references:

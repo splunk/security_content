@@ -5,10 +5,23 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: This analytic detects the execution of the PowerUp PowerShell script using its default script name. PowerUp is a widely used post-exploitation tool designed to identify common privilege escalation vectors in Windows environments. Detecting its execution is critical because it indicates an attacker may be attempting to elevate privileges on the compromised system, potentially enabling broader access and persistent control. If confirmed malicious, this activity could facilitate full system compromise and unauthorized access to sensitive data.
+description: |-
+    This analytic detects the execution of the PowerUp PowerShell script using its default script name.
+    PowerUp is a widely used post-exploitation tool designed to identify common privilege escalation vectors in Windows environments.
+    Detecting its execution is critical because it indicates an attacker may be attempting to elevate privileges on the compromised system, potentially enabling broader access and persistent control.
+    If confirmed malicious, this activity could facilitate full system compromise and unauthorized access to sensitive data.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventID="4104" Path="*PowerUp.ps1" | fillnull | stats count by EventID Path Computer, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, ProcessID, ScriptBlockId, ScriptBlockText |rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_powerup_powershell_script_filter`'
+search: |-
+    `powershell`
+    EventID="4104"
+    Path="*PowerUp.ps1"
+    | fillnull
+    | stats count by EventID Path Computer, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, ProcessID, ScriptBlockId, ScriptBlockText
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_powerup_powershell_script_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate administrative scripts may execute PowerUp with the default script name. Verify and filter based on approved usage policies.
 drilldown_searches:

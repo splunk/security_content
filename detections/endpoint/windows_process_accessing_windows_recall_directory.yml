@@ -5,12 +5,27 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'This detection triggers on a process accessing the Windows Recall directory. Recall is a new feature Microsoft release that takes screenshots every 5 or so seconds to provide context to it''s AI features. The initial release of Recall was lacking in the security department due to it being trivial to view and steal the data. Due to this lack of security it''s likely that info stealer malware will take advantage of this new feature. Microsoft has recognized the security issues with Recall and is planning on making improvements. Once those improvements are released we will re-assess this detection to make sure it is still relevant.
-
-'
+description: |-
+    This detection triggers on a process accessing the Windows Recall directory.
+    Recall is a new feature Microsoft release that takes screenshots every 5 or so seconds to provide context to it's AI features.
+    The initial release of Recall was lacking in the security department due to it being trivial to view and steal the data.
+    Due to this lack of security it's likely that info stealer malware will take advantage of this new feature.
+    Microsoft has recognized the security issues with Recall and is planning on making improvements.
+    Once those improvements are released we will re-assess this detection to make sure it is still relevant.
 data_source:
     - Windows Event Log Security 4663
-search: '`wineventlog_security` AccessList="%%4416" EventID="4663" ObjectName="*CoreAIPlatform.00\\UKP*" NOT (ProcessName IN ("*aixhost.exe", "*aihost.exe")) | fillnull | stats count by Computer, EventID, AccessList, ObjectName, ProcessName | rename Computer as dest| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_process_accessing_windows_recall_directory_filter`'
+search: |-
+    `wineventlog_security`
+    AccessList="%%4416"
+    EventID="4663"
+    ObjectName="*CoreAIPlatform.00\\UKP*"
+    NOT (ProcessName IN ("*aixhost.exe", "*aihost.exe"))
+    | fillnull
+    | stats count by Computer, EventID, AccessList, ObjectName, ProcessName
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_process_accessing_windows_recall_directory_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate system processes and trusted applications may access the Windows Recall directory for AI-related features. Review and allow access for approved software as needed.
 references:

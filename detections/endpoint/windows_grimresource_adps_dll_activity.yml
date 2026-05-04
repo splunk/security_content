@@ -5,10 +5,24 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: ' GrimResource is an code execution technique discovered by Elastic Security in 2024 that abuses a stored XSS vulnerability in apds.dll to achieve arbitrary code execution inside mmc.exe — a signed, trusted Windows binary. The attack is delivered via a malicious .msc file (MMC Saved Console file). When the victim opens the .msc file, MMC processes an embedded transformNode operation that triggers the XSS in apds.dll, which is then leveraged to execute attacker- controlled script within the MMC process context.'
+description: |-
+    GrimResource is an code execution technique discovered by Elastic Security in 2024 that abuses a stored XSS vulnerability in apds.dll to achieve arbitrary code execution inside mmc.exe — a signed, trusted Windows binary.
+    The attack is delivered via a malicious .msc file (MMC Saved Console file).
+    When the victim opens the .msc file, MMC processes an embedded transformNode operation that triggers the XSS in apds.dll, which is then leveraged to execute attacker- controlled script within the MMC process context.
 data_source:
     - Windows Event Log Security 4663
-search: '`wineventlog_security` AccessList="%%4416" EventID="4663" ObjectName="C:\\Windows\\System32\\apds.dll" ProcessName="C:\\Windows\\System32\\mmc.exe" | fillnull | stats count by Computer, AccessList, EventID, ObjectName, ProcessName |rename Computer as dest| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_grimresource_adps_dll_activity_filter`'
+search: |-
+    `wineventlog_security`
+    AccessList="%%4416"
+    EventID="4663"
+    ObjectName="C:\\Windows\\System32\\apds.dll"
+    ProcessName="C:\\Windows\\System32\\mmc.exe"
+    | fillnull
+    | stats count by Computer, AccessList, EventID, ObjectName, ProcessName
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_grimresource_adps_dll_activity_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate use of mmc.exe accessing apds.dll may occur during routine system management or troubleshooting. Verify with approved administrative activities to reduce false alerts.
 references:

@@ -5,10 +5,23 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: This analytic detects the use of the MagicCopy PowerShell module to encrypt and extract sensitive information. It identifies PowerShell script blocks invoking Magic-Get or Magic-Put commands with encryption key parameters. This activity is significant because adversaries can use MagicCopy to exfiltrate confidential data securely by encrypting it, evading detection. If confirmed malicious, this behavior could lead to unauthorized data access and disclosure, compromising privacy and organizational security.
+description: |-
+    This analytic detects the use of the MagicCopy PowerShell module to encrypt and extract sensitive information.
+    It identifies PowerShell script blocks invoking Magic-Get or Magic-Put commands with encryption key parameters.
+    This activity is significant because adversaries can use MagicCopy to exfiltrate confidential data securely by encrypting it, evading detection.
+    If confirmed malicious, this behavior could lead to unauthorized data access and disclosure, compromising privacy and organizational security.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` (EventID="4104" ScriptBlockText="*Magic-Get*" ScriptBlockText="*-Key*") OR (ScriptBlockText="*Magic-Put*" ScriptBlockText="*-Key*") | fillnull | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId |rename Computer as dest| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_magiccopy_filter`'
+search: |-
+    `powershell`
+    (EventID="4104" ScriptBlockText="*Magic-Get*" ScriptBlockText="*-Key*")
+    OR (ScriptBlockText="*Magic-Put*" ScriptBlockText="*-Key*")
+    | fillnull
+    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_magiccopy_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate use of MagicCopy for data backup or authorized file transfers may trigger this detection. Validate with approved business processes before alerting.
 drilldown_searches:

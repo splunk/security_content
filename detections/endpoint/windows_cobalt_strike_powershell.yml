@@ -5,10 +5,22 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'Detects default function and variable names known to be used by the cobalt strike powershell beacon. This beacon is used to gain command and control on a victim. False positives should be very unlikely. This detection is based around the default configuration and can be defeated through modifications to the ps1 beacon.'
+description: |-
+    Detects default function and variable names known to be used by the cobalt strike powershell beacon.
+    This beacon is used to gain command and control on a victim.
+    False positives should be very unlikely.
+    This detection is based around the default configuration and can be defeated through modifications to the ps1 beacon.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventID="4104" ScriptBlockText IN ("*func_get_proc_address*", "*$var_unsafe_native_methods*", "*$var_gpa.Invoke*", "*func_get_delegate_type*", "*$var_type_builder*") | fillnull | stats count by Computer, EventID, ScriptBlockText, dest, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_cobalt_strike_powershell_filter`'
+search: |-
+    `powershell`
+    EventID="4104"
+    ScriptBlockText IN ("*func_get_proc_address*", "*$var_unsafe_native_methods*", "*$var_gpa.Invoke*", "*func_get_delegate_type*", "*$var_type_builder*")
+    | fillnull
+    | stats count by Computer, EventID, ScriptBlockText, dest, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_cobalt_strike_powershell_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: False positives are very unlikely as this detection targets default cobalt strike Powershell beacon functions and variables. Modifications to the beacon's script may bypass detection but do not create false positives.
 drilldown_searches:

@@ -5,10 +5,22 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects the remote request for file operations on a temporary file on the ADMIN$ share. This activity is common with impacket requesting file output from various commands such as atexec.'
+description: |-
+    Detects the remote request for file operations on a temporary file on the ADMIN$ share.
+    This activity is common with impacket requesting file output from various commands such as atexec.
 data_source:
     - Windows Event Log Security 5145
-search: '`wineventlog_security` EventID="5145" RelativeTargetName="*.tmp" ShareName="\\*\\ADMIN$" | fillnull | stats count by Computer, RelativeTargetName, ShareName | rename Computer as dest| `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`| `windows_impacket_remote_temporary_file_activity_filter`'
+search: |-
+    `wineventlog_security`
+    EventID="5145"
+    RelativeTargetName="*.tmp"
+    ShareName="\\*\\ADMIN$"
+    | fillnull
+    | stats count by Computer, RelativeTargetName, ShareName
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_impacket_remote_temporary_file_activity_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate administrative tasks or approved remote management tools may generate similar remote file operations on ADMIN$ shares. Review and filter based on authorized use cases.
 drilldown_searches:

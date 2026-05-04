@@ -5,10 +5,18 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: 'Detects data files in the EFI volume. This is sometimes indicative of an actor attempting to bypass secure boot through vulnerabilities such as CVE-2024-7344. These use vulnerable boot loaders to run malicious system firmware code.'
+description: |-
+    Detects data files in the EFI volume.
+    This is sometimes indicative of an actor attempting to bypass secure boot through vulnerabilities such as CVE-2024-7344.
+    These use vulnerable boot loaders to run malicious system firmware code.
 data_source:
     - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="*\\EFI\\Boot\\*" Filesystem.file_path="*.dat" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.action Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_suspicious_file_in_efi_volume_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="*\\EFI\\Boot\\*" Filesystem.file_path="*.dat" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.action Filesystem.user Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_suspicious_file_in_efi_volume_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate system or firmware update processes may create or modify files in the EFI volume. Review alerts carefully to distinguish between normal maintenance and suspicious activity.
 references:

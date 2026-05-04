@@ -5,10 +5,16 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'This analytic looks for evidence of web shells being created in the VMware Workspace ONE path on Windows or Linux systems, which has been actively exploited by attackers via CVE-2022-22954.'
+description: |-
+    This analytic looks for evidence of web shells being created in the VMware Workspace ONE path on Windows or Linux systems, which has been actively exploited by attackers via CVE-2022-22954.
 data_source:
     - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/vmware/horizon/workspace/webapps/*","*\\vmware\\horizon\\workspace\\webapps\\*") Filesystem.file_path="*.jsp" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_potential_webshell_creation_for_vmware_workspace_one_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/vmware/horizon/workspace/webapps/*","*\\vmware\\horizon\\workspace\\webapps\\*") Filesystem.file_path="*.jsp" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_potential_webshell_creation_for_vmware_workspace_one_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate software updates or administrative scripts may create files in the VMware Workspace ONE path, triggering alerts. Review and allow trusted processes to reduce false positives.
 references:

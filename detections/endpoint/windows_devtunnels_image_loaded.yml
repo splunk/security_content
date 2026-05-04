@@ -5,10 +5,23 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects image load events associated with Microsoft Devtunnels usage. Microsoft Devtunnels is a feature within Visual Studio that allows developers to expose their local development environment to the internet via secure, temporary tunnels, enabling external access for testing webhooks, APIs, and other services. While designed for legitimate development purposes, an attacker could exploit this feature to expose a compromised system or service to the internet, creating a covert communication channel that bypasses network security measures. By using Dev Tunnels, the attacker can establish a remote connection to the compromised environment, facilitate data exfiltration, or maintain command-and-control communications while avoiding detection by blending their activities with legitimate development traffic.'
+description: |-
+    Detects image load events associated with Microsoft Devtunnels usage.
+    Microsoft Devtunnels is a feature within Visual Studio that allows developers to expose their local development environment to the internet via secure, temporary tunnels, enabling external access for testing webhooks, APIs, and other services.
+    While designed for legitimate development purposes, an attacker could exploit this feature to expose a compromised system or service to the internet, creating a covert communication channel that bypasses network security measures.
+    By using Dev Tunnels, the attacker can establish a remote connection to the compromised environment, facilitate data exfiltration, or maintain command-and-control communications while avoiding detection by blending their activities with legitimate development traffic.
 data_source:
     - Sysmon EventID 7
-search: '`sysmon` EventID=7 ImageLoaded="*AppData\\Local\\Temp\\.net\\devtunnel\*devtunnel.dll" | fillnull | stats count by Computer, ImageLoaded, EventID, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product| rename Computer as dest| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_devtunnels_image_loaded_filter`'
+search: |-
+    `sysmon`
+    EventID=7
+    ImageLoaded="*AppData\\Local\\Temp\\.net\\devtunnel\*devtunnel.dll"
+    | fillnull
+    | stats count by Computer, ImageLoaded, EventID, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_devtunnels_image_loaded_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate developers using Microsoft Devtunnels for testing and debugging may trigger this detection. Filter alerts for approved development environments and personnel.
 references:

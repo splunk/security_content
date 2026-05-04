@@ -5,10 +5,24 @@ date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: 'Detects Office applications accessing Visual Studio Tools for Office (VSTO) files. VSTO files can be bundled alongside office documents and enable .NET based add-ins. Once installed they will execute every time that office application is started granting a unique persistence mechanism as well as a vector for initial access. False positives could include legitimately developed add-ins so further analysis will be needed to determine maliciousness.'
+description: |-
+    Detects Office applications accessing Visual Studio Tools for Office (VSTO) files.
+    VSTO files can be bundled alongside office documents and enable .NET based add-ins.
+    Once installed they will execute every time that office application is started granting a unique persistence mechanism as well as a vector for initial access.
+    False positives could include legitimately developed add-ins so further analysis will be needed to determine maliciousness.
 data_source:
     - Windows Event Log Security 4663
-search: '`wineventlog_security` EventID="4663" ObjectName="*.vsto" ProcessName IN ("*WINWORD.EXE", "*EXCEL.EXE", "*POWERPNT.EXE", "*ONENOTE.EXE", "*OUTLOOK.EXE") | fillnull | stats count by Computer, ObjectName, ProcessName, EventID | rename Computer as dest|`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_possible_malicious_office_add_in_filter`'
+search: |-
+    `wineventlog_security`
+    EventID="4663"
+    ObjectName="*.vsto"
+    ProcessName IN ("*WINWORD.EXE", "*EXCEL.EXE", "*POWERPNT.EXE", "*ONENOTE.EXE", "*OUTLOOK.EXE")
+    | fillnull
+    | stats count by Computer, ObjectName, ProcessName, EventID
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_possible_malicious_office_add_in_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate custom Office add-ins developed by organizations may trigger this detection. Verify the source and purpose of the add-in before taking action.
 references:
