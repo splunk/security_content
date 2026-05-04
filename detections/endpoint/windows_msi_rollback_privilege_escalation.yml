@@ -39,7 +39,7 @@ rba:
           score: 50
     threat_objects:
         - field: parent_process_name
-          type: process
+          type: parent_process_name
 tags:
     analytic_story:
         - Windows Privilege Escalation

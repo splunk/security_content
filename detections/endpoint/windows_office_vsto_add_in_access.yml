@@ -1,26 +1,34 @@
-name: Windows Possible Northstar C2 Agent
-id: 5f13d5b2-5181-487b-89eb-e2b471522202
+name: Windows Office VSTO Add-in Access
+id: 18b3796c-b61c-4ba6-b294-4c8cde857e2d
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
-    Detects the initial agent or persistent agent processes for Northstar C2 being run.
-    NorthStarC2 is an open-source command and control framework developed for penetration testing and red teaming purposes by Engin Demirbilek.
-    NorthStar C2 Framework consists of two applications, a server-side GUI web application for managing sessions and a client-side stager to communicate with C2 server.
+    Detects Office applications accessing Visual Studio Tools for Office (VSTO) files.
+    VSTO files can be bundled alongside office documents and enable .NET based add-ins.
+    Once installed they will execute every time that office application is started granting a unique persistence mechanism as well as a vector for initial access.
+    False positives could include legitimately developed add-ins so further analysis will be needed to determine maliciousness.
 data_source:
-    - Sysmon EventID 1
+    - Windows Event Log Security 4663
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name="NorthstarStager.exe" OR Processes.process_name IN ("SystemHealthCheck.exe", "NorthstarStager.exe") by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash Processes.parent_process_name Processes.parent_process_exec Processes.action Processes.dest Processes.process_current_directory Processes.process_path Processes.process_integrity_level Processes.original_file_name Processes.parent_process Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id Processes.process_guid Processes.process_id Processes.user Processes.process_name
-    | `drop_dm_object_name(Processes)`
+    `wineventlog_security`
+    EventID="4663"
+    ObjectName="*.vsto"
+    ProcessName IN ("*WINWORD.EXE", "*EXCEL.EXE", "*POWERPNT.EXE", "*ONENOTE.EXE", "*OUTLOOK.EXE")
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, ObjectName, ProcessName, EventID
+    | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_possible_northstar_c2_agent_filter`
+    | `windows_office_vsto_add_in_access_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Some legitimate red team or penetration testing activities may use Northstar C2 agents. Filter alerts when these tools are approved for authorized testing.
+known_false_positives: Legitimate custom Office add-ins developed by organizations may trigger this detection. Verify the source and purpose of the add-in before taking action.
 references:
-    - https://github.com/EnginDemirbilek/NorthStarC2/
+    - https://medium.com/@airlockdigital/make-phishing-great-again-vsto-office-files-are-the-new-macro-nightmare-e09fcadef010
+    - https://bohops.com/2018/01/31/vsto-the-payload-installer-that-probably-defeats-your-application-whitelisting-rules/
+    - https://lookbook.cyberjungles.com/random-research-area/phishing-with-ms-office-docs/vsto-and-malicious-office-docs
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -31,22 +39,24 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Northstar C2 agent activity observed on $dest$ via $process$.
+    message: Office process $ProcessName$ accessed VSTO add-in $ObjectName$ on $dest$.
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects:
-        - field: parent_process_name
-          type: process
+        - field: ObjectName
+          type: file_path
 tags:
     analytic_story:
-        - Compromised Windows Host
+        - Malicious PowerShell
+        - Malicious Inno Setup Loader
+        - Suspicious MSHTA Activity
+        - Suspicious Regsvr32 Activity
+        - Suspicious Rundll32 Activity
     asset_type: Endpoint
     mitre_attack_id:
-        - T1204.002
-        - T1547.001
-        - T1608
+        - T1137.006
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -55,6 +65,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/snapattack/snapattack.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1137.006/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog

@@ -1,23 +1,27 @@
-name: Windows Possible Exchange RCE
-id: de84a022-939d-4e38-967b-9cf3c76759fd
+name: Windows Potential EFI Bootloader Modification
+id: 28e1dbcd-9fd2-4de0-a637-f2b30db5dbb9
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    Detects the creation of a subprocess of w3wp.exe via the PowerShell App Pool.
-    Exploits such as ProxyNotShell utilize the /powershell endpoints available in Exchange to execute remote commands.
+    Detects where a process writes to critical EFI bootloader files (bootmgfw.efi or bootx64.efi) within the \EFI\Boot\ directory.
+    These files are responsible for initializing the Windows Boot Manager during system startup.
+    Modification or replacement of these files is highly unusual in normal operations and may indicate an attempt to install a bootkit, persist malicious code at the firmware level, or otherwise tamper with the system boot process.
 data_source:
-    - Sysmon EventID 1
+    - Sysmon EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process="*w3wp.exe*" Processes.parent_process="*MSExchangePowerShellAppPool*" by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash Processes.parent_process_name Processes.parent_process_exec Processes.action Processes.dest Processes.process_current_directory Processes.process_path Processes.process_integrity_level Processes.original_file_name Processes.parent_process Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id Processes.process_guid Processes.process_id Processes.user Processes.process_name
-    | `drop_dm_object_name(Processes)`
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\EFI\\Boot\\bootmgfw.efi", "*\\EFI\\Boot\\bootx64.efi") by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action
+    | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_possible_exchange_rce_filter`
+    | `windows_potential_efi_bootloader_modification_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate administrative tasks using remote PowerShell on Exchange servers may trigger this detection. Verify and whitelist approved remote management activities.
+known_false_positives: Legitimate system updates or authorized IT maintenance may modify EFI bootloader files. Review changes against approved maintenance windows and tools.
+references:
+    - https://www.bleepingcomputer.com/news/security/new-hybridpetya-ransomware-can-bypass-uefi-secure-boot/
+    - https://www.welivesecurity.com/en/eset-research/under-cloak-uefi-secure-boot-introducing-cve-2024-7344/
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -28,21 +32,20 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Exchange RCE activity observed on $dest$ via $process$.
+    message: Critical EFI bootloader file activity observed at $file_path$ on $dest$.
     risk_objects:
         - field: dest
           type: system
           score: 50
     threat_objects:
-        - field: parent_process_name
-          type: process
+        - field: file_path
+          type: file_path
 tags:
     analytic_story:
-        - ProxyNotShell
-        - ProxyShell
+        - Windows BootKits
     asset_type: Endpoint
     mitre_attack_id:
-        - T1059.001
+        - T1542.003
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -51,6 +54,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/snapattack/snapattack.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1542.003/snapattack/snapattack.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog

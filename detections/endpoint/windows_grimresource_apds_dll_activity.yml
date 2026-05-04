@@ -1,26 +1,33 @@
-name: Windows Possible Turla Snake Malware via Queue File Creation
-id: 7a29e4e1-71a8-4f4b-b2cf-75179538126e
+name: Windows GrimResource APDS DLL Activity
+id: 872d1651-7838-4b47-ad3e-ef5e63453a7f
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
-type: Anomaly
+type: TTP
 description: |-
-    The Snake malware makes use of a custom queue file, which contains various pieces of information, including key material, communication channels, modes of operation, and the principal user mode component that Snake requires for successful operation.
-    Typically, this file has been found within the %windows% Registration directory and is decrypted by Snake's kernel driver.
-    This file typically has high entropy, and the file attributes of hidden, system, and archive.
+    GrimResource is a code execution technique discovered by Elastic Security in 2024 that abuses a stored XSS vulnerability in apds.dll to achieve arbitrary code execution inside mmc.exe, a signed, trusted Windows binary.
+    The attack is delivered via a malicious .msc file (MMC Saved Console file).
+    When the victim opens the .msc file, MMC processes an embedded transformNode operation that triggers the XSS in apds.dll, which is then leveraged to execute attacker-controlled script within the MMC process context.
 data_source:
-    - Sysmon EventID 11
+    - Windows Event Log Security 4663
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="*windows\\Registration\*.crmlog" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action
-    | `drop_dm_object_name(Filesystem)`
+    `wineventlog_security`
+    AccessList="%%4416"
+    EventID="4663"
+    ObjectName="C:\\Windows\\System32\\apds.dll"
+    ProcessName="C:\\Windows\\System32\\mmc.exe"
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, AccessList, EventID, ObjectName, ProcessName
+    | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_possible_turla_snake_malware_via_queue_file_creation_filter`
+    | `windows_grimresource_apds_dll_activity_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Some legitimate system or security tools may create files with high entropy and similar attributes in the %windows%\Registration directory. Review these detections with your approved software inventory to reduce false positives.
+known_false_positives: Legitimate use of mmc.exe accessing apds.dll may occur during routine system management or troubleshooting. Verify with approved administrative activities to reduce false alerts.
 references:
-    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-129a
+    - https://www.elastic.co/security-labs/grimresource
+    - https://medium.com/@knownsec404team/from-http-domain-to-res-domain-xss-by-using-ie-adobes-pdf-activex-plugin-ba4f082c8199
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -31,18 +38,21 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: A process created a suspicious file at $file_path$ on $dest$
+    message: mmc.exe accessed apds.dll on $dest$, consistent with GrimResource activity.
     risk_objects:
         - field: dest
           type: system
-          score: 20
-    threat_objects: []
+          score: 50
+    threat_objects:
+        - field: ObjectName
+          type: file_path
 tags:
     analytic_story:
-        - Snake Malware
+        - Compromised Windows Host
     asset_type: Endpoint
     mitre_attack_id:
-        - T1027
+        - T1059.007
+        - T1218.014
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -51,6 +61,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/snapattack/snapattack.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.007/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog

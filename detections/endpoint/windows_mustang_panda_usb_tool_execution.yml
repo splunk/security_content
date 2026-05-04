@@ -1,4 +1,4 @@
-name: Windows Possible Mustang Panda USB Tools
+name: Windows Mustang Panda USB Tool Execution
 id: e66a167f-6506-4e5b-8e4d-1b04940c70be
 version: 1
 date: '2026-04-13'
@@ -6,7 +6,7 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    Detects known executables used for infection or DLL Side Loading by Mutang Panda being launched from a non C:\ location.
+    Detects known executables used for infection or DLL side loading by Mustang Panda being launched from a non-C:\ location.
     This can indicate a compromise via USB, or external storage device.
     This detection needs adjusted if you do not use C:\ as the root device.
     This detection requires process creation event logging.
@@ -17,7 +17,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_possible_mustang_panda_usb_tools_filter`
+    | `windows_mustang_panda_usb_tool_execution_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate tools may be run from external drives or non-C:\ locations for maintenance or portability. Adjust filters accordingly to avoid false alerts for approved usage scenarios.
 references:
@@ -32,14 +32,14 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Mustang Panda USB tool activity observed on $dest$ via $process$.
+    message: Mustang Panda-associated USB tool execution observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system
           score: 50
     threat_objects:
         - field: parent_process_name
-          type: process
+          type: parent_process_name
 tags:
     analytic_story:
         - Compromised Windows Host

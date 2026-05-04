@@ -12,7 +12,7 @@ description: |-
 data_source:
     - Sysmon EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="C:\*.key" NOT Filesystem.file_path="C:\\*\\*" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.action Filesystem.file_name Filesystem.user Filesystem.vendor_product
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="C:\\*.key" NOT Filesystem.file_path="C:\\*\\*" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.action Filesystem.file_name Filesystem.user Filesystem.vendor_product
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -31,12 +31,14 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: A process created a suspicious file at $file_path$ on $dest$
+    message: Key file created in the root of the system drive at $file_path$ on $dest$.
     risk_objects:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
+    threat_objects:
+        - field: file_path
+          type: file_path
 tags:
     analytic_story:
         - Ransomware

@@ -1,24 +1,32 @@
-name: Windows Potential webshell creation for VMware Workspace ONE
-id: 7d15f645-58cc-4cb7-a9bf-2dcf15bc4b28
+name: Windows Potential DCSync Attack
+id: bdfb293e-e3ba-4890-acae-21d112396315
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
-type: Anomaly
+type: TTP
 description: |-
-    This analytic looks for evidence of web shells being created in the VMware Workspace ONE path on Windows or Linux systems, which has been actively exploited by attackers via CVE-2022-22954.
+    The following analytic detects access by a non-machine account to Active Directory replication-related properties such as DS-Replication-Get-Changes, DS-Replication-Get-Changes-All, and Domain-DNS WRITE_DAC.
+    This activity is significant because these permissions are commonly abused during DCSync attacks to request password data from a domain controller.
+    If confirmed malicious, an attacker could extract credential material for domain accounts and use it for privilege escalation or lateral movement.
 data_source:
-    - Sysmon EventID 11
+    - Windows Event Log Security 4662
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/vmware/horizon/workspace/webapps/*","*\\vmware\\horizon\\workspace\\webapps\\*") Filesystem.file_path="*.jsp" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action
-    | `drop_dm_object_name(Filesystem)`
+    `wineventlog_security`
+    EventID=4662
+    NOT SubjectUserName="*$"
+    Properties IN ("*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*", "*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*")
+    Properties="*19195a5b-6da0-11d0-afd3-00c04fd930c9*"
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectUserName, EventID, Properties
+    | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_potential_webshell_creation_for_vmware_workspace_one_filter`
+    | `windows_potential_dcsync_attack_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Some legitimate software updates or administrative scripts may create files in the VMware Workspace ONE path, triggering alerts. Review and allow trusted processes to reduce false positives.
+known_false_positives: Legitimate server promotions to Domain Controllers by Domain or Enterprise Admins may trigger this detection. Filter these events for approved administrative activities.
 references:
-    - https://unit42.paloaltonetworks.com/cve-2022-22954-vmware-vulnerabilities/
+    - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -29,7 +37,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: A process created a suspicious file at $file_path$ on $dest$
+    message: Potential DCSync replication permission access observed on $dest$.
     risk_objects:
         - field: dest
           type: system
@@ -37,12 +45,13 @@ rba:
     threat_objects: []
 tags:
     analytic_story:
-        - VMware Aria Operations vRealize CVE-2023-20887
-        - VMware Server Side Injection and Privilege Escalation
-        - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
+        - Active Directory Privilege Escalation
+        - Active Directory Lateral Movement
+        - Sneaky Active Directory Persistence Tricks
+        - Credential Dumping
     asset_type: Endpoint
     mitre_attack_id:
-        - T1505.003
+        - T1003.006
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -51,6 +60,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/snapattack/snapattack.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.006/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog

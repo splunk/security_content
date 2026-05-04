@@ -29,12 +29,14 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: A process created a suspicious file at $file_path$ on $dest$
+    message: Executable file created under a Confluence path at $file_path$ on $dest$.
     risk_objects:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
+    threat_objects:
+        - field: file_path
+          type: file_path
 tags:
     analytic_story:
         - Confluence Data Center and Confluence Server Vulnerabilities

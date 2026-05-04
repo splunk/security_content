@@ -1,32 +1,26 @@
-name: Windows Possible DCSync Attack
-id: bdfb293e-e3ba-4890-acae-21d112396315
+name: Windows Turla Snake Queue File Creation
+id: 7a29e4e1-71a8-4f4b-b2cf-75179538126e
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
-    The following analytic detects access by a non-machine account to Active Directory replication-related properties such as DS-Replication-Get-Changes, DS-Replication-Get-Changes-All, and Domain-DNS WRITE_DAC.
-    This activity is significant because these permissions are commonly abused during DCSync attacks to request password data from a domain controller.
-    If confirmed malicious, an attacker could extract credential material for domain accounts and use it for privilege escalation or lateral movement.
+    The Snake malware makes use of a custom queue file, which contains various pieces of information, including key material, communication channels, modes of operation, and the principal user mode component that Snake requires for successful operation.
+    Typically, this file has been found within the %windows% Registration directory and is decrypted by Snake's kernel driver.
+    This file typically has high entropy, and the file attributes of hidden, system, and archive.
 data_source:
-    - Windows Event Log Security 4662
+    - Sysmon EventID 11
 search: |-
-    `wineventlog_security`
-    EventID=4662
-    NOT SubjectUserName="*$"
-    Properties IN ("*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*", "*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*")
-    Properties="*19195a5b-6da0-11d0-afd3-00c04fd930c9*"
-    | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectUserName, EventID, Properties
-    | rename Computer as dest
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="*windows\\Registration\\*.crmlog" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action
+    | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_possible_dcsync_attack_filter`
+    | `windows_turla_snake_queue_file_creation_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate server promotions to Domain Controllers by Domain or Enterprise Admins may trigger this detection. Filter these events for approved administrative activities.
+known_false_positives: Some legitimate system or security tools may create files with high entropy and similar attributes in the %windows%\Registration directory. Review these detections with your approved software inventory to reduce false positives.
 references:
-    - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-129a
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -37,21 +31,20 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential DCSync attack activity observed on $dest$.
+    message: Potential Turla Snake queue file creation observed at $file_path$ on $dest$.
     risk_objects:
         - field: dest
           type: system
-          score: 50
-    threat_objects: []
+          score: 20
+    threat_objects:
+        - field: file_path
+          type: file_path
 tags:
     analytic_story:
-        - Active Directory Privilege Escalation
-        - Active Directory Lateral Movement
-        - Sneaky Active Directory Persistence Tricks
-        - Credential Dumping
+        - Snake Malware
     asset_type: Endpoint
     mitre_attack_id:
-        - T1003.006
+        - T1027
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -60,6 +53,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.006/snapattack/snapattack.log
-          source: XmlWinEventLog:Security
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog

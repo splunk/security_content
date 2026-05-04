@@ -17,7 +17,7 @@ search: |-
              max(_time) as lastTime
              values(All_Traffic.src_port) as src_port
 
-    from datamodel=Network_Traffic where WHERE
+    from datamodel=Network_Traffic.All_Traffic where
 
     All_Traffic.dest_port=7844
 
@@ -27,6 +27,7 @@ search: |-
        All_Traffic.src All_Traffic.src_ip All_Traffic.transport
        All_Traffic.user All_Traffic.vendor_product
 
+    | `drop_dm_object_name(All_Traffic)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_potential_cloudflared_network_connection_filter`
@@ -46,7 +47,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Cloudflared network connection observed on $dest$ from $src$ via port $destination_port$.
+    message: Potential Cloudflared network connection observed on $dest$ from $src$ over destination port $dest_port$.
     risk_objects:
         - field: dest
           type: system

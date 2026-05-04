@@ -1,27 +1,32 @@
-name: Windows Possible Bootloader Modification
-id: 28e1dbcd-9fd2-4de0-a637-f2b30db5dbb9
+name: Windows Potential Cloudflared DNS Query
+id: 962a7521-c37b-4326-8c02-69a847eb7e50
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
-    Detects where a process writes to critical EFI bootloader files (bootmgfw.efi or bootx64.efi) within the \EFI\Boot\ directory.
-    These files are responsible for initializing the Windows Boot Manager during system startup.
-    Modification or replacement of these files is highly unusual in normal operations and may indicate an attempt to install a bootkit, persist malicious code at the firmware level, or otherwise tamper with the system boot process.
+    This analytic detects DNS queries associated with the cloudflared client used to create Cloudflare tunnels.
+    Cloudflared is functionally very similar to ngrok, an ingress-as-a-service tool.
+    Cloudflared reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel's controller makes services or private networks accessible.
 data_source:
-    - Sysmon EventID 11
+    - Sysmon EventID 22
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\EFI\\Boot\\bootmgfw.efi", "*\\EFI\\Boot\\bootx64.efi") by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action
-    | `drop_dm_object_name(Filesystem)`
+    `sysmon`
+    EventID=22
+    QueryName IN ("api.trycloudflare.com", "update.argotunnel.com", "*v2.argotunnel.com")
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, QueryName, EventID, answer, answer_count, query, query_count, reply_code_id, src, vendor_product
+    | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_possible_bootloader_modification_filter`
+    | `windows_potential_cloudflared_dns_query_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate system updates or authorized IT maintenance may modify EFI bootloader files. Review changes against approved maintenance windows and tools.
+known_false_positives: Some legitimate Cloudflared tunnels are used by IT teams to securely access internal resources. Filter alerts for approved Cloudflare tunnel usage within your environment.
 references:
-    - https://www.bleepingcomputer.com/news/security/new-hybridpetya-ransomware-can-bypass-uefi-secure-boot/
-    - https://www.welivesecurity.com/en/eset-research/under-cloak-uefi-secure-boot-introducing-cve-2024-7344/
+    - https://github.com/cloudflare/cloudflared
+    - https://www-bleepingcomputer-com.cdn.ampproject.org/c/s/www.bleepingcomputer.com/news/security/hackers-increasingly-abuse-cloudflare-tunnels-for-stealthy-connections/amp/
+    - https://www.guidepointsecurity.com/blog/tunnel-vision-cloudflared-abused-in-the-wild/
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -32,7 +37,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: A process created a suspicious file at $file_path$ on $dest$
+    message: Potential Cloudflared DNS query observed on $dest$.
     risk_objects:
         - field: dest
           type: system
@@ -40,10 +45,10 @@ rba:
     threat_objects: []
 tags:
     analytic_story:
-        - Windows BootKits
+        - Reverse Network Proxy
     asset_type: Endpoint
     mitre_attack_id:
-        - T1542.003
+        - T1572
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -52,6 +57,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1542.003/snapattack/snapattack.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/snapattack/snapattack.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog

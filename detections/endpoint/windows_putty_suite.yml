@@ -36,7 +36,7 @@ rba:
           score: 20
     threat_objects:
         - field: parent_process_name
-          type: process
+          type: parent_process_name
 tags:
     analytic_story:
         - Command And Control

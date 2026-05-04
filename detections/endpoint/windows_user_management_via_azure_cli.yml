@@ -35,7 +35,7 @@ search: |-
        Processes.parent_process Processes.parent_process_path
        Processes.parent_process_guid Processes.parent_process_id
        Processes.process_guid Processes.process_id
-       Processes.userProcesses.process_name
+       Processes.user Processes.process_name
 
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
