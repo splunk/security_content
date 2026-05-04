@@ -1,7 +1,7 @@
 name: Cisco SNMP Community String Configuration Changes
 id: b0ce5521-2533-4f24-b8d5-c2ff977aae08
-version: 4
-date: '2026-04-15'
+version: 5
+date: '2026-05-04'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: Anomaly
