@@ -43,7 +43,14 @@ search: |-
         "*;LS*",
         "*;S-1-5-19*"
     )
-    NOT Processes.process IN ("*McAfeeFramework*", "*mfefire*", "*mfemms*", "*mfevtp*", "*macmnsvc*", "*masvc*")
+    NOT Processes.process IN (
+        "*macmnsvc*",
+        "*masvc*",
+        "*McAfeeFramework*",
+        "*mfefire*",
+        "*mfemms*",
+        "*mfevtp*",
+    )
     BY Processes.action Processes.dest Processes.original_file_name
        Processes.parent_process Processes.parent_process_exec
        Processes.parent_process_guid Processes.parent_process_id
