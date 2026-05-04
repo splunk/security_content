@@ -11,7 +11,7 @@ description: |
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    index=attack_data `powershell`
+    `powershell`
     EventCode=4104
     ScriptBlockText="*add-type*"
     ScriptBlockText="*DllImport*"
