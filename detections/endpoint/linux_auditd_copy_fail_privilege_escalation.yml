@@ -10,11 +10,17 @@ description: |-
     Copy Fail (CVE-2026-31431) is a logic bug in the Linux kernel's authentication cryptographic template.
     It lets an unprivileged local user trigger a deterministic, controlled 4-byte write into the page cache of any readable file on the system.
     A single 732-byte Python script can edit a setuid binary and obtain root on essentially all Linux distributions shipped since 2017.
+    This search relies on the auditd configuration linked in the references section. If you are using a custom configuration, make sure the Key names are the same or adapt the search accordingly.
 data_source:
     - Linux Auditd Syscall
 search: |-
     `linux_auditd`
     type=SYSCALL
+    key IN (
+        "af_alg",
+        "process_creation",
+        "splice_user"
+    )
     | eval setuid_binary = case(
         name IN (
             "/usr/bin/chfn",
