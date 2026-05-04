@@ -1,7 +1,7 @@
 name: GitHub Enterprise Disable IP Allow List
 id: afed020e-edcd-4913-a675-cebedf81d4fb
-version: 6
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

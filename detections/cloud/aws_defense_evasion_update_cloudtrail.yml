@@ -1,7 +1,7 @@
 name: AWS Defense Evasion Update Cloudtrail
 id: 7c921d28-ef48-4f1b-85b3-0af8af7697db
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP

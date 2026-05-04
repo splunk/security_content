@@ -1,7 +1,7 @@
 name: O365 Email Security Feature Changed
 id: 4d28013d-3a0f-4d65-a33f-4e8009fee0ae
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Steven Dick
 status: production
 type: TTP

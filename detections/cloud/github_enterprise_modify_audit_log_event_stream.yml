@@ -1,7 +1,7 @@
 name: GitHub Enterprise Modify Audit Log Event Stream
 id: 99abf2e1-863c-4ec6-82f8-714391590a4c
-version: 7
-date: '2026-04-15'
+version: 8
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

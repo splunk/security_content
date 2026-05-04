@@ -1,7 +1,7 @@
 name: AWS Defense Evasion Delete CloudWatch Log Group
 id: d308b0f1-edb7-4a62-a614-af321160710f
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP

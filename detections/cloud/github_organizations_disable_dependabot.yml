@@ -1,7 +1,7 @@
 name: GitHub Organizations Disable Dependabot
 id: 69078d8c-0de6-45de-bb00-14e78e042fd6
-version: 7
-date: '2026-04-15'
+version: 8
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

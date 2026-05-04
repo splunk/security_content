@@ -1,7 +1,7 @@
 name: Microsoft Intune DeviceManagementConfigurationPolicies
 id: 3c49e5ed-625c-408c-a2c7-8e2b524efb2c
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-05-04'
 author: Dean Luxton
 data_source:
     - Azure Monitor Activity

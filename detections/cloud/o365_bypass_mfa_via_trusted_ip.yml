@@ -1,7 +1,7 @@
 name: O365 Bypass MFA via Trusted IP
 id: c783dd98-c703-4252-9e8a-f19d9f66949e
-version: 11
-date: '2026-04-15'
+version: 12
+date: '2026-05-04'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP

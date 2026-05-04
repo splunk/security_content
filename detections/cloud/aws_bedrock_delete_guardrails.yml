@@ -1,7 +1,7 @@
 name: AWS Bedrock Delete GuardRails
 id: 7a5e3d62-f743-11ee-9f6e-acde48001122
-version: 5
-date: '2026-04-15'
+version: 6
+date: '2026-05-04'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
