@@ -1,6 +1,6 @@
 name: Schtasks Run Task On Demand
 id: bb37061e-af1f-11eb-a159-acde48001122
-version: 9
+version: 10
 date: '2026-04-15'
 author: Teoderick Contreras, Splunk
 status: production

@@ -1,6 +1,6 @@
 name: Windows New Deny Permission Set On Service SD Via Sc.EXE
 id: d0f6a5e5-dbfd-46e1-8bd5-2e2905947c33
-version: 9
+version: 10
 date: '2026-04-15'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production

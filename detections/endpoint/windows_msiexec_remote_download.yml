@@ -1,6 +1,6 @@
 name: Windows MSIExec Remote Download
 id: 6aa49ff2-3c92-4586-83e0-d83eb693dfda
-version: 15
+version: 16
 date: '2026-04-15'
 author: Michael Haag, Splunk
 status: production

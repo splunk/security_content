@@ -1,6 +1,6 @@
 name: Windows MSIExec Spawn Discovery Command
 id: e9d05aa2-32f0-411b-930c-5b8ca5c4fcee
-version: 14
+version: 15
 date: '2026-04-15'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
