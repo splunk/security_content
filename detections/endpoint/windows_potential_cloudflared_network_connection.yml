@@ -1,24 +1,41 @@
-name: Windows AppCertDLL Modification
-id: 3ba73a2b-3396-47e4-bdef-c80e6a7895c0
+name: Windows Potential Cloudflared Network Connection
+id: 29798d45-c9c7-4240-a5ef-d7648c016024
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    This analytic detects attempts to modify AppCertDLL registry keys, which are used to specify DLLs loaded by the Windows Session Manager.
-    Such modifications can be abused by attackers to load malicious code early in the system startup process, enabling persistent malware execution with high privileges.
-    If confirmed malicious, this behavior may lead to system compromise, persistence, and the evasion of security controls.
+    This analytic detects network connection events possibly associated with the Cloudflared tool, a tool used to create tunnels via Cloudflare.
+    Cloudflared is functionally very similar to ngrok, an ingress-as-a-service tool.
+    It reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel's controller makes services or private networks accessible.
 data_source:
-    - Sysmon EventID 1
+    - Sysmon EventID 3
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process="*controlset*\\control\\session manager*appcertdlls*" by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash Processes.parent_process_name Processes.parent_process_exec Processes.action Processes.dest Processes.process_current_directory Processes.process_path Processes.process_integrity_level Processes.original_file_name Processes.parent_process Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id Processes.process_guid Processes.process_id Processes.user Processes.process_name
-    | `drop_dm_object_name(Processes)`
+    | tstats `security_content_summariesonly`
+       count min(_time) as firstTime
+             max(_time) as lastTime
+             values(All_Traffic.src_port) as src_port
+
+    from datamodel=Network_Traffic where WHERE
+
+    All_Traffic.dest_port=7844
+
+    BY All_Traffic.action All_Traffic.app All_Traffic.dest
+       All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.direction
+       All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version
+       All_Traffic.src All_Traffic.src_ip All_Traffic.transport
+       All_Traffic.user All_Traffic.vendor_product
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_appcertdll_modification_filter`
+    | `windows_potential_cloudflared_network_connection_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Modifications to AppCertDLL keys may be made by legitimate software updates or trusted system management tools. Review changes to ensure they are from approved sources.
+known_false_positives: Some legitimate use cases include authorized tunneling for remote access or service exposure in enterprise environments. Filter alerts for approved Cloudflared deployments to reduce false positives.
+references:
+    - https://www-bleepingcomputer-com.cdn.ampproject.org/c/s/www.bleepingcomputer.com/news/security/hackers-increasingly-abuse-cloudflare-tunnels-for-stealthy-connections/amp/
+    - https://github.com/cloudflare/cloudflared
+    - https://www.guidepointsecurity.com/blog/tunnel-vision-cloudflared-abused-in-the-wild/
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -29,21 +46,18 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential AppCertDLL modification activity observed on $dest$ via $process$.
+    message: Potential Cloudflared network connection observed on $dest$ from $src$ via port $destination_port$.
     risk_objects:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: process
+    threat_objects: []
 tags:
     analytic_story:
-        - Windows Persistence Techniques
-        - Windows Privilege Escalation
+        - Reverse Network Proxy
     asset_type: Endpoint
     mitre_attack_id:
-        - T1546.009
+        - T1572
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -52,6 +66,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.009/snapattack/snapattack.log
-          source: XmlWinEventLog:Security
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog

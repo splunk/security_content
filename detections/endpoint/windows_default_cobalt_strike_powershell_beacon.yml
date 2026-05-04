@@ -1,31 +1,39 @@
-name: Windows Cloudflared Network Connection
-id: 29798d45-c9c7-4240-a5ef-d7648c016024
+name: Windows Default Cobalt Strike PowerShell Beacon
+id: 25b6329b-d6b7-4ccd-9ac2-6ca1dfd2b0c1
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
-type: Anomaly
+type: TTP
 description: |-
-    This detects network connection events possibly associated with the Cloudflared tool used to create tunnels via Cloudflare.
-    Cloudflared is functionally very similar to ngrok, an ingress-as-a-service tool.
-    Cloudflared reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel's controller makes services or private networks accessible.
+    Detects default function and variable names known to be used by the Cobalt Strike PowerShell beacon.
+    This beacon is used to gain command and control on a victim.
 data_source:
-    - Sysmon EventID 3
+    - Powershell Script Block Logging 4104
 search: |-
-    `sysmon`
-    EventID=3
-    DestinationPort="7844"
+    `powershell`
+    EventID="4104"
+    ScriptBlockText IN (
+        "*func_get_proc_address*",
+        "*$var_unsafe_native_methods*",
+        "*$var_gpa.Invoke*",
+        "*func_get_delegate_type*",
+        "*$var_type_builder*"
+    )
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, DestinationPort, DestinationIp, SourceIp, EventID, action, app, dest, dest_ip, dest_port, direction, dvc, protocol, protocol_version, src, src_ip, src_port, transport, user, vendor_product
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+    by Computer EventID ScriptBlockText dest signature signature_id
+       user_id vendor_product Guid Opcode Name
+       Path ProcessID ScriptBlockId
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_cloudflared_network_connection_filter`
+    | `windows_default_cobalt_strike_powershell_beacon_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Some legitimate use cases include authorized tunneling for remote access or service exposure in enterprise environments. Filter alerts for approved Cloudflared deployments to reduce false positives.
-references:
-    - https://www-bleepingcomputer-com.cdn.ampproject.org/c/s/www.bleepingcomputer.com/news/security/hackers-increasingly-abuse-cloudflare-tunnels-for-stealthy-connections/amp/
-    - https://github.com/cloudflare/cloudflared
-    - https://www.guidepointsecurity.com/blog/tunnel-vision-cloudflared-abused-in-the-wild/
+known_false_positives: |-
+    False positives are very unlikely as this detection targets default Cobalt Strike PowerShell beacon functions and variables. Modifications to the beacon's script may bypass detection but do not create false positives.
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -36,18 +44,19 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Cloudflared network connection observed on $dest$.
+    message: Default Cobalt Strike PowerShell beacon activity observed on $dest$ via script block $ScriptBlockId$.
     risk_objects:
         - field: dest
           type: system
-          score: 20
+          score: 50
     threat_objects: []
 tags:
     analytic_story:
-        - Reverse Network Proxy
+        - Cobalt Strike
     asset_type: Endpoint
     mitre_attack_id:
-        - T1572
+        - T1059.001
+        - T1204.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -56,6 +65,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/snapattack/snapattack.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
