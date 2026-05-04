@@ -1,7 +1,7 @@
 name: Windows Cisco Secure Endpoint Stop Immunet Service Via Sfc
 id: 44badcb1-2e8c-4628-9537-021bbae571ad
-version: 5
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Windows Global Object Access Audit List Cleared Via Auditpol
 id: 802a0930-0a4a-4451-bf6c-6366c6b6d9e7
-version: 6
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Linux Auditd Auditd Daemon Shutdown
 id: 6e2574b3-e24b-4321-ae3c-ba83a75bb714
-version: 4
-date: '2026-04-15'
+version: 5
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

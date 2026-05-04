@@ -1,7 +1,7 @@
 name: Windows Registry Delete Task SD
 id: ffeb7893-ff06-446f-815b-33ca73224e92
-version: 11
-date: '2026-04-15'
+version: 12
+date: '2026-05-04'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly

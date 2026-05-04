@@ -1,7 +1,7 @@
 name: Process Kill Base On File Path
 id: 5ffaa42c-acdb-11eb-9ad3-acde48001122
-version: 13
-date: '2026-04-15'
+version: 14
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

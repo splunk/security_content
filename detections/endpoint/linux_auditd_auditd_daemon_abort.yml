@@ -1,7 +1,7 @@
 name: Linux Auditd Auditd Daemon Abort
 id: 76d6573f-c4ab-4fa1-8390-c036416d4add
-version: 4
-date: '2026-04-15'
+version: 5
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

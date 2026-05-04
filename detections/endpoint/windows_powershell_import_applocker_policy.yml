@@ -1,7 +1,7 @@
 name: Windows Powershell Import Applocker Policy
 id: 102af98d-0ca3-4aa4-98d6-7ab2b98b955a
-version: 11
-date: '2026-04-15'
+version: 12
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

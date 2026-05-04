@@ -1,7 +1,7 @@
 name: Windows Audit Policy Disabled via Legacy Auditpol
 id: d2cef287-c2b7-4496-a609-7a548c1e27f9
-version: 6
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

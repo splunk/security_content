@@ -1,7 +1,7 @@
 name: Windows MpCmdRun RemoveDefinitions Execution
 id: b2442e49-bd3f-4685-a2dc-2bdc292563bf
-version: 2
-date: '2026-04-15'
+version: 3
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

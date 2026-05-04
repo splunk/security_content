@@ -1,7 +1,7 @@
 name: Windows Event Log Cleared
 id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-version: 18
-date: '2026-04-08'
+version: 19
+date: '2026-05-04'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP

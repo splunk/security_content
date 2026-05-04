@@ -1,7 +1,7 @@
 name: Windows Cisco Secure Endpoint Unblock File Via Sfc
 id: 9a7a490c-5581-4c95-bab5-a21e351293ef
-version: 5
-date: '2026-04-15'
+version: 6
+date: '2026-05-04'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
