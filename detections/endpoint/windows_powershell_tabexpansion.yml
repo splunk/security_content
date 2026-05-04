@@ -1,4 +1,4 @@
-name: Windows Powershell TabExpansion
+name: Windows PowerShell TabExpansion
 id: d36a09b3-35ac-4d6f-964a-39fd337abc2f
 version: 1
 date: '2026-04-13'
@@ -19,7 +19,7 @@ search: |-
     ScriptBlockText="*$_val=' + $_expression*"
     ScriptBlockText="*function Write-Members*"
     | fillnull
-    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -38,7 +38,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Powershell TabExpansion activity observed on $dest$ via $process$.
+    message: Potential PowerShell TabExpansion activity observed on $dest$ via script block $ScriptBlockId$.
     risk_objects:
         - field: dest
           type: system

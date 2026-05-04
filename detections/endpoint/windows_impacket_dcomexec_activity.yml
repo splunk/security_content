@@ -16,7 +16,7 @@ search: |-
     EventID="5145"
     RelativeTargetName="TEMP\\__*"
     | fillnull
-    | stats count by Computer, AccessList, RelativeTargetName, EventID
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, AccessList, RelativeTargetName, EventID
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -33,7 +33,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Impacket DCOMExec Activity activity observed on $dest$.
+    message: Potential Impacket DCOMExec activity observed on $dest$.
     risk_objects:
         - field: dest
           type: system

@@ -16,7 +16,7 @@ search: |-
     RelativeTargetName="*.tmp"
     ShareName="\\*\\ADMIN$"
     | fillnull
-    | stats count by Computer, RelativeTargetName, ShareName
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, RelativeTargetName, ShareName
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -33,7 +33,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Impacket Remote Temporary File Activity activity observed on $dest$.
+    message: Potential Impacket remote temporary file activity observed on $dest$.
     risk_objects:
         - field: dest
           type: system

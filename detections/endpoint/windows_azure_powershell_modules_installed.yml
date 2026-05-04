@@ -1,4 +1,4 @@
-name: Windows Azure Powershell Modules Installed
+name: Windows Azure PowerShell Modules Installed
 id: 344bed10-9a8b-4398-8bf3-ec9114125260
 version: 1
 date: '2026-04-13'
@@ -15,7 +15,7 @@ search: |-
     EventID="4104"
     ScriptBlockText IN ("*Install-Module AzureAd*", "*Install-Module AADInternals*", "*Install-Module MSOnline*", "*Install-Module Az.Resources*", "*Install-Module -Name AzureAd*", "*Install-Module -Name MSOnline*", "*Install-Module -Name AADInternal*", "*Install-Module -Name Az.Resources*")
     | fillnull
-    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -32,7 +32,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Azure Powershell Modules Installed activity observed on $dest$ via $process$.
+    message: Potential Azure PowerShell module installation observed on $dest$ via script block $ScriptBlockId$.
     risk_objects:
         - field: dest
           type: system

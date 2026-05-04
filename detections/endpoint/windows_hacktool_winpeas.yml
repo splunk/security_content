@@ -6,10 +6,10 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    winPEAS is windows tool that stands for Windows Privilege Escalation Awesome Script.
+    winPEAS is a Windows tool that stands for Windows Privilege Escalation Awesome Script.
     Similar to its Linux counterpart, linpeas.sh, winPEAS is designed to automate the process of identifying potential privilege escalation paths on Windows systems.
-    This detects the function names used within the powershell version of winPEAS.
-    This detection requires powershell ScriptBlockText logging to be used.
+    This detects the function names used within the PowerShell version of winPEAS.
+    This detection requires PowerShell ScriptBlockText logging to be used.
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
@@ -17,7 +17,7 @@ search: |-
     EventID="4104"
     ScriptBlockText IN ("*returnHotFixID*", "*Start-ACLCheck*", "*UnquotedServicePathCheck*", "*Get-ClipBoardText*")
     | fillnull
-    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -36,7 +36,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Hacktool - WinPEAS.ps1 activity observed on $dest$ via $process$.
+    message: Potential WinPEAS PowerShell activity observed on $dest$ via script block $ScriptBlockId$.
     risk_objects:
         - field: dest
           type: system

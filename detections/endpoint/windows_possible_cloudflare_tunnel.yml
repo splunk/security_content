@@ -6,7 +6,7 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    This detects command line arguments associated with the Cloudflared tool used to create tunnels via CloudFlare.
+    This detects command line arguments associated with the Cloudflared tool used to create tunnels via Cloudflare.
     Cloudflared is functionally very similar to ngrok, an ingress-as-a-service tool.
     Cloudflared reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel's controller makes services or private networks accessible.
 data_source:
@@ -33,7 +33,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Possible Cloudflare Tunnel activity observed on $dest$ via $process$.
+    message: Potential Cloudflare tunnel activity observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

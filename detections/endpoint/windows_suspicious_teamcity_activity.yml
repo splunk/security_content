@@ -32,7 +32,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Suspicious TeamCity Activity activity observed on $dest$ via $process$.
+    message: Potential suspicious TeamCity activity observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

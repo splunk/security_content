@@ -1,4 +1,4 @@
-name: Windows Possible DCSync attack
+name: Windows Possible DCSync Attack
 id: bdfb293e-e3ba-4890-acae-21d112396315
 version: 1
 date: '2026-04-13'
@@ -6,7 +6,9 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    The rule detect a access by a non-machine account to an AD object (stored credentials) with properties of DS-Replication-Get-Changes or DS-Replication-Get-Changes-All and Domain-DNS class WRITE_DAC.
+    The following analytic detects access by a non-machine account to Active Directory replication-related properties such as DS-Replication-Get-Changes, DS-Replication-Get-Changes-All, and Domain-DNS WRITE_DAC.
+    This activity is significant because these permissions are commonly abused during DCSync attacks to request password data from a domain controller.
+    If confirmed malicious, an attacker could extract credential material for domain accounts and use it for privilege escalation or lateral movement.
 data_source:
     - Windows Event Log Security 4662
 search: |-
@@ -16,7 +18,7 @@ search: |-
     Properties IN ("*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*", "*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*")
     Properties="*19195a5b-6da0-11d0-afd3-00c04fd930c9*"
     | fillnull
-    | stats count by Computer, SubjectUserName, EventID, Properties
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectUserName, EventID, Properties
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -35,7 +37,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Possible DCSync attack activity observed on $dest$.
+    message: Potential DCSync attack activity observed on $dest$.
     risk_objects:
         - field: dest
           type: system

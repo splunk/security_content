@@ -8,6 +8,7 @@ type: TTP
 description: |-
     This rule matches on the modification of the User Account Control flags for a computer account by setting the SERVER_TRUST_ACCOUNT flag.
     This flag is normally set only for domain controllers.
+    If confirmed malicious, this activity may indicate an attempt to escalate a computer account to domain controller-like trust and abuse Active Directory privileges.
 data_source:
     - Windows Event Log Security 4742
 search: |-
@@ -15,7 +16,7 @@ search: |-
     EventID=4742
     UserAccountControl="*%%2088*"
     | fillnull
-    | stats count by Computer, TargetUserName, UserAccountControl, EventID
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetUserName, UserAccountControl, EventID
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

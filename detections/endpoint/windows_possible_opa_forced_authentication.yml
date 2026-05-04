@@ -35,7 +35,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Possible OPA Forced Authentication activity observed on $dest$ via $process$.
+    message: Potential OPA forced authentication activity observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

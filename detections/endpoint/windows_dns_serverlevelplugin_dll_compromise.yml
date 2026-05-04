@@ -6,7 +6,9 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    Detects command line usage of dnscmd.exe or registry key modifications related to a .dll load in Microsoft DNS servers.
+    The following analytic detects command-line usage of dnscmd.exe to configure the Microsoft DNS ServerLevelPluginDll setting.
+    This setting allows the DNS service to load an arbitrary DLL, which can be abused by attackers with DNS administrative privileges to execute code in the context of the DNS service.
+    If confirmed malicious, this activity could enable persistence, privilege escalation, or domain controller compromise through malicious DLL loading.
 data_source:
     - Sysmon EventID 1
 search: |-
@@ -29,7 +31,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential DNS ServerLevelPlugin DLL Compromise activity observed on $dest$ via $process$.
+    message: Potential DNS ServerLevelPlugin DLL configuration observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

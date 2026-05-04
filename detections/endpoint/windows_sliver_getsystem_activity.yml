@@ -6,7 +6,9 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects the potential usage of the built in getsystem command for the sliver c2 framework.
+    The following analytic detects CreateRemoteThread activity targeting spoolsv.exe that is consistent with Sliver's built-in getsystem behavior.
+    This activity is significant because getsystem-style techniques attempt to elevate privileges by injecting or executing code in a higher-privileged process.
+    If confirmed malicious, an attacker may gain elevated privileges and expand control over the compromised host.
 data_source:
     - Sysmon EventID 8
 search: |-
@@ -16,7 +18,7 @@ search: |-
     TargetImage="C:\\Windows\\System32\\spoolsv.exe"
     NOT ProcessName="*csrss.exe*"
     | fillnull
-    | stats count by Computer, TargetImage, ProcessName, EventDescription, EventID, dest, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, signature, signature_id, user_id, vendor_product
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage, ProcessName, EventDescription, EventID, dest, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, signature, signature_id, user_id, vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_sliver_getsystem_activity_filter`
@@ -34,7 +36,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Sliver GetSystem Activity activity observed on $dest$ via $process$.
+    message: Potential Sliver GetSystem activity observed on $dest$ via $ProcessName$.
     risk_objects:
         - field: dest
           type: system

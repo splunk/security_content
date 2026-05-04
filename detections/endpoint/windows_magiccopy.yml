@@ -14,10 +14,13 @@ data_source:
     - Powershell Script Block Logging 4104
 search: |-
     `powershell`
-    (EventID="4104" ScriptBlockText="*Magic-Get*" ScriptBlockText="*-Key*")
-    OR (ScriptBlockText="*Magic-Put*" ScriptBlockText="*-Key*")
+    EventID="4104"
+    (
+        (ScriptBlockText="*Magic-Get*" ScriptBlockText="*-Key*")
+        OR (ScriptBlockText="*Magic-Put*" ScriptBlockText="*-Key*")
+    )
     | fillnull
-    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -34,7 +37,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential MagicCopy activity observed on $dest$ via $process$.
+    message: Potential MagicCopy activity observed on $dest$ via script block $ScriptBlockId$.
     risk_objects:
         - field: dest
           type: system

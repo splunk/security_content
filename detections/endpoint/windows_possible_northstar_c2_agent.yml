@@ -31,7 +31,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Possible Northstar C2 Agent activity observed on $dest$ via $process$.
+    message: Potential Northstar C2 agent activity observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

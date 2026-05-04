@@ -1,4 +1,4 @@
-name: Windows Azure Domain Federated via Powershell
+name: Windows Azure Domain Federated via PowerShell
 id: 59a8662f-f616-4494-8fa1-29ae77fc2018
 version: 1
 date: '2026-04-13'
@@ -18,7 +18,7 @@ search: |-
     EventID="4104"
     ScriptBlockText="*ConvertTo-AADIntBackdoor*"
     | fillnull
-    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -37,7 +37,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Azure Domain Federated via Powershell activity observed on $dest$.
+    message: Potential Azure domain federation via PowerShell activity observed on $dest$.
     risk_objects:
         - field: dest
           type: system

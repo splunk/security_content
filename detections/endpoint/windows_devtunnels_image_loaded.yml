@@ -17,7 +17,7 @@ search: |-
     EventID=7
     ImageLoaded="*AppData\\Local\\Temp\\.net\\devtunnel\*devtunnel.dll"
     | fillnull
-    | stats count by Computer, ImageLoaded, EventID, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, ImageLoaded, EventID, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -36,7 +36,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Devtunnels Image Loaded activity observed on $dest$ via $process$.
+    message: Potential Devtunnels image load observed on $dest$ via $ImageLoaded$.
     risk_objects:
         - field: dest
           type: system

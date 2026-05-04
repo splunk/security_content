@@ -1,4 +1,4 @@
-name: Windows Putty suite
+name: Windows PuTTY Suite
 id: 64d5263e-0f29-4641-81ed-03b39c27ecd4
 version: 1
 date: '2026-04-13'
@@ -29,7 +29,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Putty suite activity observed on $dest$ via $process$.
+    message: Potential PuTTY suite activity observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

@@ -1,4 +1,4 @@
-name: Windows PowerUp Powershell Script
+name: Windows PowerUp PowerShell Script
 id: 8a7f0b72-ca00-4b60-bda2-2ed2c28436f6
 version: 1
 date: '2026-04-13'
@@ -17,7 +17,7 @@ search: |-
     EventID="4104"
     Path="*PowerUp.ps1"
     | fillnull
-    | stats count by EventID Path Computer, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, ProcessID, ScriptBlockId, ScriptBlockText
+    | stats count min(_time) as firstTime max(_time) as lastTime by EventID, Path, Computer, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, ProcessID, ScriptBlockId, ScriptBlockText
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -34,7 +34,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential PowerUp activity observed on $dest$ via $process$.
+    message: Potential PowerUp activity observed on $dest$ via script block $ScriptBlockId$.
     risk_objects:
         - field: dest
           type: system

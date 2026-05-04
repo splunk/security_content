@@ -1,4 +1,4 @@
-name: Windows MAS AIO Powershell Loader
+name: Windows MAS AIO PowerShell Loader
 id: 68e86415-9281-41cd-9200-97b12c2195e1
 version: 1
 date: '2026-04-13'
@@ -6,7 +6,7 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects the powershell loader for the Microsoft Activation Scripts (MAS) project.
+    Detects the PowerShell loader for the Microsoft Activation Scripts (MAS) project.
     This provides various methods to activate Windows and Office products using HWID (Hardware ID), KMS38, and online KMS activation techniques.
     It focuses on open-source code to minimize antivirus detections.
     Use of such activators can compromise system security and integrity.
@@ -17,7 +17,7 @@ search: |-
     EventID="4104"
     ScriptBlockText="irm https://get.activated.win | iex"
     | fillnull
-    | stats count by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -37,7 +37,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential MAS AIO Powershell Loader activity observed on $dest$ via $process$.
+    message: Potential MAS AIO PowerShell loader activity observed on $dest$ via script block $ScriptBlockId$.
     risk_objects:
         - field: dest
           type: system

@@ -18,7 +18,7 @@ search: |-
     ObjectName="C:\\Windows\\System32\\apds.dll"
     ProcessName="C:\\Windows\\System32\\mmc.exe"
     | fillnull
-    | stats count by Computer, AccessList, EventID, ObjectName, ProcessName
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, AccessList, EventID, ObjectName, ProcessName
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

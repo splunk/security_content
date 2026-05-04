@@ -6,8 +6,8 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    Detects the creation of a subprocess of w3wp.exe via the Powershell App Pool.
-    Exploits such as ProxyNotShell utilize the /powershell endpoints available in exchange to execute remote commands.
+    Detects the creation of a subprocess of w3wp.exe via the PowerShell App Pool.
+    Exploits such as ProxyNotShell utilize the /powershell endpoints available in Exchange to execute remote commands.
 data_source:
     - Sysmon EventID 1
 search: |-
@@ -28,7 +28,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Possible Exchange RCE activity observed on $dest$ via $process$.
+    message: Potential Exchange RCE activity observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

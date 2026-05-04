@@ -6,7 +6,7 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects usage of the Azure cli to interact with user accounts such as creating or deleting a user.
+    Detects usage of the Azure CLI to interact with user accounts such as creating or deleting a user.
     Adversaries create new users so that their malicious activity does not interrupt the normal functions of the compromised users and can remain undetected.
 data_source:
     - Sysmon EventID 1

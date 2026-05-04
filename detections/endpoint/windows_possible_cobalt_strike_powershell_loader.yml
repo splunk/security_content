@@ -1,4 +1,4 @@
-name: Windows Possible Cobalt Strike Powershell Loader
+name: Windows Possible Cobalt Strike PowerShell Loader
 id: a6351724-06dc-42dd-939f-679add826e76
 version: 1
 date: '2026-04-13'
@@ -6,7 +6,7 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    Detects the powershell pattern used at the end of a Cobalt Strike powershell loader to perform the decompression of the executable.
+    Detects the PowerShell pattern used at the end of a Cobalt Strike PowerShell loader to perform the decompression of the executable.
     This loader is used in attacks such as scripted web delivery.
     Cobalt Strike is a legitimate, commercial penetration testing tool that has been largely co-opted by ransomware gangs to launch attacks.
     Cobalt Strike's popularity is mainly due to its beacons or payload being stealthy, and easily customizable.
@@ -15,10 +15,10 @@ data_source:
     - Powershell Script Block Logging 4104
 search: |-
     `powershell`
-    (EventID="*4104" ScriptBlockText="*));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();")
-    OR (EventData_Xml="*));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();*" EventID="4104")
+    EventID="4104"
+    ScriptBlockText="*));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();"
     | fillnull
-    | stats count by Computer, EventID, ScriptBlockText, EventData_Xml, dest, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, dest, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_possible_cobalt_strike_powershell_loader_filter`
@@ -34,7 +34,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Possible Cobalt Strike Powershell Loader activity observed on $dest$.
+    message: Potential Cobalt Strike PowerShell loader activity observed on $dest$.
     risk_objects:
         - field: dest
           type: system

@@ -18,7 +18,7 @@ search: |-
     EventDescription="FileCreate"
     TargetFilename IN ("C:\\ProgramData\\WindowsDefenderService.ini", "C:\\ProgramData\\EventManager.dll", "C:\\ProgramData\\EventManager.logs")
     | fillnull
-    | stats count by Computer, EventID, EventDescription, TargetFilename, action, file_name, file_path, process_guid, process_id, user, vendor_product
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, EventDescription, TargetFilename, action, file_name, file_path, process_guid, process_id, user, vendor_product
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -37,7 +37,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential POWERSTATS Backdoor Files activity observed on $dest$ via $process$.
+    message: Potential POWERSTATS backdoor file activity observed on $dest$ via $TargetFilename$.
     risk_objects:
         - field: dest
           type: system

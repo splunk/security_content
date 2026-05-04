@@ -6,7 +6,9 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects the use of net use to mount a OneDrive share as a network drive.
+    The following analytic detects the use of net.exe or net1.exe to mount a OneDrive share as a network drive.
+    This behavior may indicate an attempt to stage, access, or exfiltrate data through a cloud-hosted WebDAV path rather than a traditional file share.
+    If confirmed malicious, an attacker could use the mounted share to move data outside the environment over trusted cloud infrastructure.
 data_source:
     - Sysmon EventID 1
 search: |-
@@ -27,7 +29,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential OneDrive Share Mounted activity observed on $dest$ via $process$.
+    message: Potential OneDrive share mounted on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

@@ -18,7 +18,7 @@ search: |-
     EventID="4624"
     ProcessName="C:\\Program Files\\Microsoft Configuration Manager\\bin\\X64\\smsexec.exe"
     | fillnull
-    | stats count by Computer, ElevatedToken, EventID, ProcessName, action, app, authentication_method, dest, signature, signature_id, src, user
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, ElevatedToken, EventID, ProcessName, action, app, authentication_method, dest, signature, signature_id, src, user
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_suspicious_configuration_manager_connection_filter`
@@ -36,7 +36,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Suspicious Configuration Manager Connection activity observed on $dest$.
+    message: Potential suspicious Configuration Manager connection observed on $dest$.
     risk_objects:
         - field: dest
           type: system

@@ -1,4 +1,4 @@
-name: Windows Powershell Module File Created
+name: Windows PowerShell Module File Created
 id: ef018634-8999-4854-9344-bde9593468e7
 version: 1
 date: '2026-04-13'
@@ -6,9 +6,9 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects the creation of a dll within the various Powershell Module directories.
-    This can indicate a new module being installed, attempts at ScriptBlock smuggling, or other malicious powershell activities utilizing modules.
-    False positives could include installation of legitimate Modules.
+    Detects the creation of a DLL within the various PowerShell module directories.
+    This can indicate a new module being installed, attempts at ScriptBlock smuggling, or other malicious PowerShell activity utilizing modules.
+    False positives could include installation of legitimate modules.
 data_source:
     - Sysmon EventID 11
 search: |-

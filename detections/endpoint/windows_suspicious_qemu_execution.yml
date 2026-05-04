@@ -16,11 +16,13 @@ search: |-
     EventID=1
     CommandLine="*-nographic*"
     CommandLine="*.img*"
-    Description="*QEMU machine*"
-    OR Product="QEMU"
-    OR Company="*qemu*"
+    (
+        Description="*QEMU machine*"
+        OR Product="QEMU"
+        OR Company="*qemu*"
+    )
     | fillnull
-    | stats count by Computer, EventID, CommandLine, Description, Product, Company, action, dest, original_file_name, parent_process, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, process_hash, process_integrity_level, user, user_id, vendor_product
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, CommandLine, Description, Product, Company, action, dest, original_file_name, parent_process, parent_process_exec, parent_process_guid, parent_process_id, parent_process_name, parent_process_path, process_hash, process_integrity_level, user, user_id, vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_suspicious_qemu_execution_filter`
@@ -39,7 +41,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Suspicious QEMU Execution activity observed on $dest$ via $process$.
+    message: Potential suspicious QEMU execution observed on $dest$ via $CommandLine$.
     risk_objects:
         - field: dest
           type: system

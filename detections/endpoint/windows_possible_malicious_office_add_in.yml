@@ -18,7 +18,7 @@ search: |-
     ObjectName="*.vsto"
     ProcessName IN ("*WINWORD.EXE", "*EXCEL.EXE", "*POWERPNT.EXE", "*ONENOTE.EXE", "*OUTLOOK.EXE")
     | fillnull
-    | stats count by Computer, ObjectName, ProcessName, EventID
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, ObjectName, ProcessName, EventID
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -39,7 +39,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Possible Malicious Office Add-in activity observed on $dest$ via $process$.
+    message: Potential malicious Office add-in activity observed on $dest$ via $ProcessName$.
     risk_objects:
         - field: dest
           type: system

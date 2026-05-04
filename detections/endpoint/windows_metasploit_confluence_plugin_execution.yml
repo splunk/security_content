@@ -28,7 +28,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Metasploit Confluence Plugin Execution activity observed on $dest$.
+    message: Potential Metasploit Confluence plugin execution observed on $dest$.
     risk_objects:
         - field: dest
           type: system

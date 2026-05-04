@@ -15,7 +15,8 @@ search: |-
     EventID IN (12, 13, 14)
     TargetObject IN ("*PoqexecCmdline", "*COMPONENTS\\PendingXmlIdentifier")
     NOT ProcessPath="*C:\\Windows\\WinSxS\\*"
-    | fillnull stats count by EventID, TargetObject, ProcessPath, Computer, action, process_guid, process_id, registry_hive, registry_path, registry_key_name, registry_value_data, registry_value_name, status, user, vendor_product
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime by EventID, TargetObject, ProcessPath, Computer, action, process_guid, process_id, registry_hive, registry_path, registry_key_name, registry_value_data, registry_value_name, status, user, vendor_product
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -34,7 +35,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Downdate Registry Activity activity observed on $dest$ via $process$.
+    message: Potential Downdate registry activity observed on $dest$ via $TargetObject$.
     risk_objects:
         - field: dest
           type: system

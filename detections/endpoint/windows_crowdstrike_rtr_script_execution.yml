@@ -30,7 +30,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Crowdstrike RTR Script Execution activity observed on $dest$ via $process$.
+    message: Potential CrowdStrike RTR script execution observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

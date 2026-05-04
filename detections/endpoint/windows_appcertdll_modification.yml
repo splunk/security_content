@@ -29,7 +29,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential AppCertDLL Modification activity observed on $dest$ via $process$.via $process$.
+    message: Potential AppCertDLL modification activity observed on $dest$ via $process$.
     risk_objects:
         - field: dest
           type: system

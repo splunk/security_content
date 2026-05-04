@@ -18,7 +18,7 @@ search: |-
     TargetFilename="C:\\Config.Msi\*.rbs"
     NOT ProcessName="msiexec.exe"
     | fillnull
-    | stats count by Computer, ProcessName, TargetFilename, EventID, action, dest, dvc, file_path, file_hash, file_name, file_modify_time, process_exec, process_guid, process_id, process_name, process_path, signature, signature_id, user, user_id, vendor_product
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, ProcessName, TargetFilename, EventID, action, dest, dvc, file_path, file_hash, file_name, file_modify_time, process_exec, process_guid, process_id, process_name, process_path, signature, signature_id, user, user_id, vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_possible_filesystem_privilege_escalation_filter`

@@ -6,8 +6,9 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects image load events into a process from a share folder.
-    This can indicate attempts to load malicious files into a process from a remote system.
+    The following analytic detects image load events where a process loads a file from a remote share path.
+    This activity is significant because remote DLL or image loading can be abused for execution, defense evasion, or lateral movement while leaving the payload hosted on another system.
+    If confirmed malicious, an attacker may be loading code into a local process from attacker-controlled infrastructure.
 data_source:
     - Sysmon EventID 7
 search: |-
@@ -15,7 +16,7 @@ search: |-
     EventID=7
     ImageLoaded="\\\\*"
     | fillnull
-    | stats count by Computer, ImageLoaded, EventID, dest, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product
+    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, ImageLoaded, EventID, dest, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_remote_image_load_filter`
@@ -34,7 +35,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Remote Image Load activity observed on $dest$ via $process$.
+    message: Potential remote image load activity observed on $dest$ via $ImageLoaded$.
     risk_objects:
         - field: dest
           type: system

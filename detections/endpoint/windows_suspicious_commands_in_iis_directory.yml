@@ -6,7 +6,7 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    Detects windows command tools such as cmd or powershell being executed out of the IIS installation directory.
+    Detects Windows command tools such as cmd or PowerShell being executed out of the IIS installation directory.
     This can be indicative of exploitation of software reliant on IIS such as Exchange.
 data_source:
     - Sysmon EventID 1
