@@ -1,10 +1,10 @@
 name: Windows Files and Dirs Access Rights Modification Via Icacls
 id: c76b796c-27e1-4520-91c4-4a58695c749e
-version: 13
+version: 14
 date: '2026-04-15'
 author: Teoderick Contreras, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |
     The following analytic identifies the modification of security permissions
     on files or directories using tools like icacls.exe, cacls.exe, or xcacls.exe. It
@@ -50,10 +50,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 30
         - field: user
           type: user
-          score: 50
+          score: 30
     threat_objects: []
 tags:
     analytic_story:

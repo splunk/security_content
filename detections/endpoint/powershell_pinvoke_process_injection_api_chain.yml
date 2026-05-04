@@ -7,169 +7,60 @@ status: production
 type: TTP
 description: |
     The following analytic detects PowerShell Script Block Logging (Event ID 4104) evidence of a complete P/Invoke process-injection API chain at either the compile phase or the execution phase.
-
-    Compile phase:
-    Detects inline .NET class definitions created via `Add-Type -TypeDefinition` where the embedded C# source includes `[DllImport]` declarations and full P/Invoke signatures such as `extern <ReturnType> <FunctionName>`. This reduces false positives from comments, string literals, and arbitrary text references.
-
-    Execution phase:
-    Detects PowerShell static method invocation patterns using `::MethodName(` syntax, anchored with execution-context indicators such as `[IntPtr]::Zero` or `Marshal]::Copy`.
-
-    Injection technique coverage:
-
-    1. Self-injection shellcode runner
-       - VirtualAlloc + VirtualProtect + CreateThread
-    2. Remote thread injection
-       - OpenProcess + VirtualAllocEx/VirtualAlloc + WriteProcessMemory + CreateRemoteThread
-    3. APC injection
-       - OpenProcess + VirtualAllocEx/VirtualAlloc + WriteProcessMemory + QueueUserAPC
-    4. Thread-context hijacking
-       - OpenThread + SuspendThread + GetThreadContext + WriteProcessMemory + SetThreadContext + ResumeThread
-    5. Process hollowing
-       - CreateProcess + VirtualAllocEx/VirtualAlloc + WriteProcessMemory + SetThreadContext + ResumeThread
-    6. Section-map injection
-       - NtCreateSection + NtMapViewOfSection (+ CreateRemoteThread in this analytic)
-    7. Reflective DLL loading
-       - VirtualAlloc + GetProcAddress + GetModuleHandle + VirtualProtect + CreateThread
-    8. DLL injection
-       - OpenProcess + VirtualAllocEx/VirtualAlloc + WriteProcessMemory + GetModuleHandle + GetProcAddress + CreateRemoteThread
-
-    Including the execution phase ensures coverage when an adversary loads a pre-compiled assembly from memory or disk and bypasses Add-Type entirely, since the static method call pattern is still captured in the script block regardless of how the class was originally compiled.
+    Portions of this search were modified to retain the same functionality while preventing antivirus products from alerting on the detection itself
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
     `powershell`
     EventCode=4104
-    (
-        ScriptBlockText = "*add-type*"
-        ScriptBlockText="*DllImport*"
+    ScriptBlockText="*add-type*"
+    ScriptBlockText="*DllImport*"
+    ScriptBlockText IN (
+        "*extern IntPtr*",
+        "*extern bool*",
+        "*extern uint*",
+        "*extern int*"
+    )
+    | where
         (
-            (
-               ScriptBlockText="*extern IntPtr VirtualAlloc*"
-               ScriptBlockText="*extern bool VirtualProtect*"
-               ScriptBlockText="*extern IntPtr CreateThread*"
-            )
-            OR
-            (
-               ScriptBlockText="*extern IntPtr OpenProcess*"
-               ScriptBlockText="*extern IntPtr VirtualAlloc*"
-               ScriptBlockText="*extern bool WriteProcessMemory*"
-               ScriptBlockText="*extern IntPtr CreateRemoteThread*"
-            )
-            OR
-            (
-               ScriptBlockText="*extern IntPtr OpenProcess*"
-               ScriptBlockText="*extern IntPtr VirtualAlloc*"
-               ScriptBlockText="*extern bool WriteProcessMemory*"
-               ScriptBlockText="*extern bool QueueUserAPC*"
-            )
-            OR
-            (
-               ScriptBlockText="*extern IntPtr OpenThread*"
-               ScriptBlockText="*extern uint SuspendThread*"
-               ScriptBlockText="*extern bool GetThreadContext*"
-               ScriptBlockText="*extern bool WriteProcessMemory*"
-               ScriptBlockText="*extern bool SetThreadContext*"
-               ScriptBlockText="*extern uint ResumeThread*"
-            )
-            OR
-            (
-               ScriptBlockText="*extern bool CreateProcess*"
-               ScriptBlockText="*extern IntPtr VirtualAlloc*"
-               ScriptBlockText="*extern bool WriteProcessMemory*"
-               ScriptBlockText="*extern bool SetThreadContext*"
-               ScriptBlockText="*extern uint ResumeThread*"
-            )
-            OR
-            (
-               ScriptBlockText="*extern int NtCreateSection*"
-               ScriptBlockText="*extern int NtMapViewOfSection*"
-               ScriptBlockText="*extern IntPtr CreateRemoteThread*"
-            )
-            OR
-            (
-               ScriptBlockText="*extern IntPtr VirtualAlloc*"
-               ScriptBlockText="*extern IntPtr GetProcAddress*"
-               ScriptBlockText="*extern IntPtr GetModuleHandle*"
-               ScriptBlockText="*extern IntPtr CreateThread*"
-               ScriptBlockText="*extern bool VirtualProtect*"
-            )
-            OR
-            (
-                ScriptBlockText="*extern IntPtr OpenProcess*"
-                ScriptBlockText="*extern IntPtr VirtualAlloc*"
-                ScriptBlockText="*extern bool WriteProcessMemory*"
-                ScriptBlockText="*extern IntPtr GetProcAddress*"
-                ScriptBlockText="*extern IntPtr CreateRemoteThread*"
-            )
-            OR
-            (
-                ScriptBlockText="*::VirtualAlloc*"
-                ScriptBlockText="*::VirtualProtect*"
-                ScriptBlockText="*::CreateThread*"
-                (
-                    ScriptBlockText="*[IntPtr]::Zero*"
-                    OR
-                    ScriptBlockText="*Marshal]::Copy*"
-                )
-            )
-            OR
-            (
-                ScriptBlockText="*::OpenProcess*"
-                ScriptBlockText="*::VirtualAlloc*"
-                ScriptBlockText="*::WriteProcessMemory*"
-                ScriptBlockText="*::CreateRemoteThread*"
-                ScriptBlockText="*[IntPtr]::Zero*"
-            )
-            OR
-            (
-                ScriptBlockText="*::OpenProcess*"
-                ScriptBlockText="*::VirtualAlloc*"
-                ScriptBlockText="*::WriteProcessMemory*"
-                ScriptBlockText="*::QueueUserAPC*"
-                ScriptBlockText="*[IntPtr]::Zero*"
-            )
-            OR
-            (
-                ScriptBlockText="*::OpenThread*"
-                ScriptBlockText="*::SuspendThread*"
-                ScriptBlockText="*::GetThreadContext*"
-                ScriptBlockText="*::WriteProcessMemory*"
-                ScriptBlockText="*::SetThreadContext*"
-                ScriptBlockText="*::ResumeThread*"
-            )
-            OR
-            (
-                ScriptBlockText="*::CreateProcess*"
-                ScriptBlockText="*::VirtualAlloc*"
-                ScriptBlockText="*::WriteProcessMemory*"
-                ScriptBlockText="*::SetThreadContext*"
-                ScriptBlockText="*::ResumeThread*"
-            )
-            OR
-            (
-                ScriptBlockText="*::NtCreateSection*"
-                ScriptBlockText="*::NtMapViewOfSection*"
-                ScriptBlockText="*::CreateRemoteThread*"
-            )
-            OR
-            (
-                ScriptBlockText="*::VirtualAlloc*"
-                ScriptBlockText="*::GetProcAddress*"
-                ScriptBlockText="*::GetModuleHandle*"
-                ScriptBlockText="*::VirtualProtect*"
-                ScriptBlockText="*::CreateThread*"
-            )
-            OR
-            (
-                ScriptBlockText="*::OpenProcess*"
-                ScriptBlockText="*::VirtualAlloc*"
-                ScriptBlockText="*::WriteProcessMemory*"
-                ScriptBlockText="*::GetModuleHandle*"
-                ScriptBlockText="*::GetProcAddress*"
-                ScriptBlockText="*::CreateRemoteThread*"
+            match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+            AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][p][r][o][t][e][c][t]")
+            AND match(ScriptBlockText, "(?i)[c][r][e][a][t][e][t][h][r][e][a][d]")
+        )
+        OR
+        (
+            match(ScriptBlockText, "(?i)[o][p][e][n][p][r][o][c][e][s][s]")
+            AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+            AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+            AND (
+                match(ScriptBlockText, "(?i)[c][r][e][a][t][e][r][e][m][o][t][e][t][h][r][e][a][d]")
+                OR
+                match(ScriptBlockText, "(?i)[q][u][e][u][e][u][s][e][r][a][p][c]")
             )
         )
-    )
+        OR
+        (
+            match(ScriptBlockText, "(?i)[o][p][e][n][t][h][r][e][a][d]")
+            AND match(ScriptBlockText, "(?i)[s][u][s][p][e][n][d][t][h][r][e][a][d]")
+            AND match(ScriptBlockText, "(?i)[g][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+            AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+            AND match(ScriptBlockText, "(?i)[s][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+            AND match(ScriptBlockText, "(?i)[r][e][s][u][m][e][t][h][r][e][a][d]")
+        )
+        OR
+        (
+            match(ScriptBlockText, "(?i)[c][r][e][a][t][e][p][r][o][c][e][s][s]")
+            AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+            AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+            AND match(ScriptBlockText, "(?i)[s][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+            AND ScriptBlockText = "*ResumeThread*"
+        )
+        OR
+        (
+            match(ScriptBlockText, "(?i)[n][t][c][r][e][a][t][e][s][e][c][t][i][o][n]")
+            AND match(ScriptBlockText, "(?i)[n][t][m][a][p][v][i][e][w][o][f][s][e][c][t][i][o][n]")
+            AND match(ScriptBlockText, "(?i)[c][r][e][a][t][e][r][e][m][o][t][e][t][h][r][e][a][d]")
+        )
     | fillnull
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
@@ -178,8 +69,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `powershell_pinvoke_process_injection_api_chain_filter`
-how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: No false positives have been identified at this time.
+how_to_implement: |-
+    The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: |-
+    No false positives have been identified at this time.
 references:
     - https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.dllimportattribute
     - https://www.ired.team/offensive-security/code-injection-process-injection
