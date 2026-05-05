@@ -32,15 +32,15 @@ if ! command -v yq >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! yq eval -e 'has("Version")' "$file" >/dev/null; then
+if ! yq eval -e 'has("version")' "$file" >/dev/null; then
   printf 'Error: expected a top-level Version field.\n' >&2
   exit 1
 fi
 
-if ! yq eval -e 'has("Date")' "$file" >/dev/null; then
+if ! yq eval -e 'has("date")' "$file" >/dev/null; then
   printf 'Error: expected a top-level Date field.\n' >&2
   exit 1
 fi
 
 today=$(date +%F)
-TODAY=$today yq eval -i '.Version = ((.Version | tonumber) + 1) | .Date = strenv(TODAY)' "$file"
+TODAY=$today yq eval -i '.version = ((.version | tonumber) + 1) | .date = strenv(TODAY)' "$file"
