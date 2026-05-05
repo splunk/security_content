@@ -37,12 +37,14 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Cloudflared DNS query observed on $dest$.
+    message: Potential Cloudflared DNS query $QueryName$ observed on $dest$.
     risk_objects:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
+    threat_objects:
+        - field: QueryName
+          type: domain
 tags:
     analytic_story:
         - Reverse Network Proxy

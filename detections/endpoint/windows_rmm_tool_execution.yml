@@ -157,12 +157,8 @@ rba:
           type: system
           score: 20
     threat_objects:
-        - field: process_name
+        - field: Image
           type: process_name
-        - field: process
-          type: process
-        - field: parent_process_name
-          type: parent_process_name
 tags:
     analytic_story:
         - NetSupport RMM Tool Abuse

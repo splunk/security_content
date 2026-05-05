@@ -29,7 +29,7 @@ search: |-
     | where match(file_path, "^[A-Za-z]:\\\\[^\\\\]+\.key$")
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows__key_file_creation_in_root_directory_filter`
+    | `windows_key_file_creation_in_root_directory_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: False positives may occur if legitimate software or administrative tools create key files in the root directory, although this is uncommon in normal operations. Filter alerts based on known approved applications.
 references:

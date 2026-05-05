@@ -11,6 +11,8 @@ description: |-
     If confirmed malicious, this behavior may enable persistence, execution of unauthorized code, or evasion of security controls.
 data_source:
     - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
