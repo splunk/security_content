@@ -10,7 +10,22 @@ description: |-
 data_source:
     - Sysmon EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/vmware/horizon/workspace/webapps/*","*\\vmware\\horizon\\workspace\\webapps\\*") Filesystem.file_path="*.jsp" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
+    Filesystem.file_path IN (
+        "*/vmware/horizon/workspace/webapps/*",
+        "*\\vmware\\horizon\\workspace\\webapps\\*"
+    )
+    Filesystem.file_path="*.jsp"
+
+    by Filesystem.dest Filesystem.file_create_time Filesystem.process_path
+       Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name
+       Filesystem.user Filesystem.vendor_product Filesystem.action
+
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

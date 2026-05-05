@@ -1,4 +1,4 @@
-name: Windows PowerShell TabExpansion
+name: Windows PowerShell Script TabExpansion Direct Call
 id: d36a09b3-35ac-4d6f-964a-39fd337abc2f
 version: 1
 date: '2026-04-13'
@@ -19,11 +19,15 @@ search: |-
     ScriptBlockText="*$_val=' + $_expression*"
     ScriptBlockText="*function Write-Members*"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer EventID ScriptBlockText signature signature_id user_id vendor_product Guid
+         Opcode Name Path ProcessID ScriptBlockId
+
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_powershell_tabexpansion_filter`
+    | `windows_powershell_script_tabexpansion_direct_call_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate use of the TabExpansion function is rare but possible. Filter alerts if direct calls are from trusted administrative or development activities.
 references:

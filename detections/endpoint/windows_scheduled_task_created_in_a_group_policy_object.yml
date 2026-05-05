@@ -1,4 +1,4 @@
-name: Windows Scheduled task created in a Group Policy Object
+name: Windows Scheduled Task Created in a Group Policy Object
 id: 350032cd-3d3f-4278-afc8-e01cf5c33524
 version: 1
 date: '2026-04-13'
@@ -16,9 +16,15 @@ search: |-
     ShareName="\\*\\SYSVOL"
     RelativeTargetName="*\\ScheduledTasks\\ScheduledTasks.xml"
     RelativeTargetName="*\\Policies\\*"
-    AccessList IN ("*%%4417*", "*%%4418*")
+    AccessList IN (
+        "*%%4417*",
+        "*%%4418*"
+    )
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, ShareName, RelativeTargetName, AccessList
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer ShareName RelativeTargetName AccessList
+
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

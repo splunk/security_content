@@ -1,32 +1,34 @@
-name: Windows Potential DCSync Attack
-id: bdfb293e-e3ba-4890-acae-21d112396315
+name: Windows CrowdStrike Agent Registry Key Removal
+id: 094e8c62-c071-4b3d-af43-d3c74c4b249f
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
-    The following analytic detects access by a non-machine account to Active Directory replication-related properties such as DS-Replication-Get-Changes, DS-Replication-Get-Changes-All, and Domain-DNS WRITE_DAC.
-    This activity is significant because these permissions are commonly abused during DCSync attacks to request password data from a domain controller.
-    If confirmed malicious, an attacker could extract credential material for domain accounts and use it for privilege escalation or lateral movement.
+    Detects delete events on the CrowdStrike registry keys.
+    These keys are removed as part of the agent uninstallation process.
+    This activity should only occur during planned events and any instances outside that should be evaluated for malicious activity such as CVE-2022-44721.
 data_source:
-    - Windows Event Log Security 4662
+    - Sysmon EventID 12
 search: |-
-    `wineventlog_security`
-    EventID=4662
-    NOT SubjectUserName="*$"
-    Properties IN ("*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*", "*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*")
-    Properties="*19195a5b-6da0-11d0-afd3-00c04fd930c9*"
+    `sysmon`
+    EventID="12"
+    TargetObject="*\\SYSTEM\\CrowdStrike"
+    action="deleted"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectUserName, EventID, Properties
-    | rename Computer as dest
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer EventID TargetObject action dest process_guid process_id registry_hive
+         registry_path registry_key_name status user vendor_product
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_potential_dcsync_attack_filter`
+    | `windows_crowdstrike_agent_registry_key_removal_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate server promotions to Domain Controllers by Domain or Enterprise Admins may trigger this detection. Filter these events for approved administrative activities.
+known_false_positives: Agent uninstallations during planned maintenance or legitimate IT workflows may trigger these detections. Review such events to avoid false positive alerts.
 references:
-    - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
+    - https://github.com/purplededa/CVE-2022-44721-CsFalconUninstaller
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -37,21 +39,19 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential DCSync replication permission access observed on $dest$.
+    message: Potential removal of CrowdStrike agent activity observed on $dest$ via $TargetObject$.
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:
-        - Active Directory Privilege Escalation
-        - Active Directory Lateral Movement
-        - Sneaky Active Directory Persistence Tricks
-        - Credential Dumping
+        - Windows Defense Evasion Tactics
+        - Security Solution Tampering
     asset_type: Endpoint
     mitre_attack_id:
-        - T1003.006
+        - T1562
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -60,6 +60,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.006/snapattack/snapattack.log
-          source: XmlWinEventLog:Security
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
