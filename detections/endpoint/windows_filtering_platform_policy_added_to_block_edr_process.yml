@@ -1,4 +1,4 @@
-name: Windows Suspicious Windows Filtering Platform Policy
+name: Windows Filtering Platform Policy Added to Block EDR Process
 id: 1dea4856-f096-4e9d-9bd3-22c568dac5fe
 version: 1
 date: '2026-04-13'
@@ -6,16 +6,85 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    Detects the creation of a Windows Filtering Platform Policy to block the communication of known EDR processes.
+    Detects the modification of a Windows Filtering Platform Policy to block the communication of known EDR processes.
     This can be used by attackers to impair the functionality of these tools and to hide their activities on the machine.
 data_source:
     - Sysmon EventID 13
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_value_data="*Action=Block*" Registry.registry_value_data IN ("*App=*MsMpEng.exe*", "*App=*MsSense.exe*", "*App=*SenseIR.exe*", "*App=*SenseNdr.exe*", "*App=*SenseCncProxy.exe*", "*App=*SenseSampleUploader.exe*", "*App=*winlogbeat.exe*", "*App=*elastic-agent.exe*", "*App=*elastic-endpoint.exe*", "*App=*filebeat.exe*", "*App=*xagt.exe*", "*App=*QualysAgent.exe*", "*App=*SentinelAgent.exe*", "*App=*SentinelAgentWorker.exe*", "*App=*SentinelServiceHost.exe*", "*App=*SentinelStaticEngine.exe*", "*App=*LogProcessorService.exe*", "*App=*SentinelStaticEngineScanner.exe*", "*App=*SentinelHelperService.exe*", "*App=*SentinelBrowserNativeHost.exe*", "*App=*CylanceSvc.exe*", "*App=*AmSvc.exe*", "*App=*CrAmTray.exe*", "*App=*CrsSvc.exe*", "*App=*ExecutionPreventionSvc.exe*", "*App=*CybereasonAV.exe*", "*App=*cb.exe*", "*App=*RepMgr.exe*", "*App=*RepUtils.exe*", "*App=*RepUx.exe*", "*App=*RepWAV.exe*", "*App=*RepWSC.exe*", "*App=*TaniumClient.exe*", "*App=*TaniumCX.exe*", "*App=*TaniumDetectEngine.exe*", "*App=*Traps.exe*", "*App=*cyserver.exe*", "*App=*CyveraService.exe*", "*App=*CyvrFsFlt.exe*", "*App=*fortiedr.exe*", "*App=*sfc.exe*", "*App=*EIConnector.exe*", "*App=*ekrn.exe*", "*App=*hurukai.exe*", "*App=*CETASvc.exe*", "*App=*WSCommunicator.exe*", "*App=*EndpointBasecamp.exe*", "*App=*TmListen.exe*", "*App=*Ntrtscan.exe*", "*App=*TmWSCSvc.exe*", "*App=*PccNTMon.exe*", "*App=*TMBMSRV.exe*", "*App=*CNTAoSMgr.exe*", "*App=*TmCCSF.exe*") by Registry.dest Registry.vendor_product Registry.user Registry.status Registry.registry_value_name Registry.registry_path Registry.registry_hive Registry.registry_value_data Registry.action Registry.process_path Registry.process_guid Registry.process_id Registry.registry_key_name
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+
+    from datamodel=Endpoint.Registry where
+
+    Registry.action="modified"
+    Registry.registry_path="*\\Parameters\\FirewallPolicy\\FirewallRules*"
+    Registry.registry_value_data="*Action=Block*"
+    Registry.registry_value_data="*App=*"
+    Registry.registry_value_data IN (
+        "*AmSvc.exe*",
+        "*cb.exe*",
+        "*CETASvc.exe*",
+        "*CNTAoSMgr.exe*",
+        "*CrAmTray.exe*",
+        "*CrsSvc.exe*",
+        "*CybereasonAV.exe*",
+        "*CylanceSvc.exe*",
+        "*cyserver.exe*",
+        "*CyveraService.exe*",
+        "*CyvrFsFlt.exe*",
+        "*EIConnector.exe*",
+        "*ekrn.exe*",
+        "*elastic-agent.exe*",
+        "*elastic-endpoint.exe*",
+        "*EndpointBasecamp.exe*",
+        "*ExecutionPreventionSvc.exe*",
+        "*filebeat.exe*",
+        "*fortiedr.exe*",
+        "*hurukai.exe*",
+        "*LogProcessorService.exe*",
+        "*MsMpEng.exe*",
+        "*MsSense.exe*",
+        "*Ntrtscan.exe*",
+        "*PccNTMon.exe*",
+        "*QualysAgent.exe*",
+        "*RepMgr.exe*",
+        "*RepUtils.exe*",
+        "*RepUx.exe*",
+        "*RepWAV.exe*",
+        "*RepWSC.exe*",
+        "*SenseCncProxy.exe*",
+        "*SenseIR.exe*",
+        "*SenseNdr.exe*",
+        "*SenseSampleUploader.exe*",
+        "*SentinelAgent.exe*",
+        "*SentinelAgentWorker.exe*",
+        "*SentinelBrowserNativeHost.exe*",
+        "*SentinelHelperService.exe*",
+        "*SentinelServiceHost.exe*",
+        "*SentinelStaticEngine.exe*",
+        "*SentinelStaticEngineScanner.exe*",
+        "*sfc.exe*",
+        "*TaniumClient.exe*",
+        "*TaniumCX.exe*",
+        "*TaniumDetectEngine.exe*",
+        "*TMBMSRV.exe*",
+        "*TmCCSF.exe*",
+        "*TmListen.exe*",
+        "*TmWSCSvc.exe*",
+        "*Traps.exe*",
+        "*winlogbeat.exe*",
+        "*WSCommunicator.exe*",
+        "*xagt.exe*"
+    )
+
+    by Registry.dest Registry.vendor_product Registry.user Registry.status
+       Registry.registry_value_name Registry.registry_path Registry.registry_hive
+       Registry.registry_value_data Registry.action Registry.process_path
+       Registry.process_guid Registry.process_id Registry.registry_key_name
+
     | `drop_dm_object_name(Registry)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_suspicious_windows_filtering_platform_policy_filter`
+    | `windows_filtering_platform_policy_added_to_block_edr_process_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate administrative tasks or security configurations may create filtering platform policies. Verify actions with authorized IT personnel before alerting.
 references:
@@ -31,12 +100,16 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Suspicious Windows Filtering Platform Policy activity observed on $dest$.
+    message: Suspicious Windows Filtering Platform Policy with value $registry_value_data$ created on $dest$.
     risk_objects:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
+    threat_objects:
+        - field: registry_value_name
+          type: registry_value_name
+        - field: registry_path
+          type: registry_path
 tags:
     analytic_story:
         - Disabling Security Tools

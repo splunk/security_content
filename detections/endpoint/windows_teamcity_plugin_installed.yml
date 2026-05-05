@@ -6,12 +6,25 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects the file creation of a plugin zip under the TeamCity data structure.
+    Detects the creation of a plugin zip file under the TeamCity data structure.
     This indicates a new plugin has been installed and can potentially indicate attempts to gain code execution on the TeamCity server if the plugin installation was unexpected.
 data_source:
     - Sysmon EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="C:\\ProgramData\\JetBrains\\TeamCity\\plugins\\*.zip" by Filesystem.dest Filesystem.action Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
+    Filesystem.file_path="*:\\ProgramData\\JetBrains\\TeamCity\\plugins\\"
+    Filesystem.file_name="*.zip"
+    Filesystem.action="created"
+
+    by Filesystem.dest Filesystem.action Filesystem.file_name Filesystem.user
+       Filesystem.vendor_product Filesystem.file_create_time Filesystem.process_path
+       Filesystem.process_guid Filesystem.process_id Filesystem.file_path
+
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
