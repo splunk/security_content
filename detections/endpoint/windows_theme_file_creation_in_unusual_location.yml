@@ -1,29 +1,43 @@
-name: Windows PowerShell RunAs
-id: 8eaa880b-5d0b-4cb5-abdc-77611ffc0df4
+name: Windows Theme File Creation in Unusual Location
+id: a11f5f36-2c32-4323-8cb0-0fec84b3188d
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    This analytic detects the use of PowerShell's Start-Process cmdlet with a PSCredential, a technique equivalent to the Windows RunAs command.
-    This activity is significant because it can be used by attackers to execute processes with elevated privileges or different user contexts without direct access to credentials.
-    If confirmed malicious, this behavior may facilitate privilege escalation, lateral movement, or execution of unauthorized commands, potentially compromising system integrity and security.
+    Detects theme files being created in unusual locations. These files, used to customize desktop appearances, have been used for remote code execution and NTLM coercion attacks.
 data_source:
-    - Powershell Script Block Logging 4104
+    - Sysmon EventID 11
 search: |-
-    `powershell`
-    EventID="4104"
-    ScriptBlockText="*Start-Process*"
-    ScriptBlockText="*-Credential*"
-    | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
-    | rename Computer as dest
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
+    Filesystem.file_path IN (
+        "*\\Desktop\\*",
+        "*\\Documents\\*",
+        "*\\Downloads\\*",
+        "*\\Temp\\*"
+    )
+    Filesystem.file_name="*.theme"
+    Filesystem.action="created"
+
+    by Filesystem.dest Filesystem.file_create_time Filesystem.process_path
+       Filesystem.process_guid Filesystem.process_id Filesystem.file_path
+       Filesystem.action Filesystem.file_name
+       Filesystem.user Filesystem.vendor_product
+
+    | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_powershell_runas_filter`
+    | `windows_theme_file_creation_in_unusual_location_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate administrative scripts may use PowerShell Start-Process with PSCredential for authorized elevation. Filter alerts for approved administrative activities.
+known_false_positives: Legitimate customization or IT management may use theme files that trigger this detection. Review and allow trusted themes from authorized sources.
+references:
+    - https://www.darkreading.com/vulnerabilities-threats/recurring-windows-flaw-could-expose-user-credentials
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -34,29 +48,22 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential PowerShell RunAs activity observed on $dest$ via script block $ScriptBlockId$.
+    message: Windows theme file created in unusual location at $file_path$ on $dest$.
     risk_objects:
         - field: dest
           type: system
-          score: 50
-    threat_objects: []
+          score: 20
+    threat_objects:
+        - field: file_path
+          type: file_path
 tags:
     analytic_story:
-        - Windows Persistence Techniques
-        - Windows Privilege Escalation
-        - Malicious PowerShell
-        - Living Off The Land
-        - Trusted Developer Utilities Proxy Execution MSBuild
-        - Suspicious Regsvcs Regasm Activity
-        - Suspicious Regsvr32 Activity
-        - Suspicious MSHTA Activity
-        - Suspicious Rundll32 Activity
-        - Windows Service Abuse
-        - Windows Attack Surface Reduction
+        - Spearphishing Attachments
     asset_type: Endpoint
     mitre_attack_id:
-        - T1059.001
-        - T1078
+        - T1187
+        - T1557.001
+        - T1021.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -65,6 +72,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/snapattack/snapattack.log
-          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog

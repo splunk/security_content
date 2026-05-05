@@ -1,25 +1,39 @@
-name: Windows Suspicious Theme File
-id: a11f5f36-2c32-4323-8cb0-0fec84b3188d
+name: Windows .Key File Creation in Root Directory
+id: 90e71722-8c0f-43b4-937a-6222325976c2
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects a suspicious Windows theme file.
-    These files, used to customize desktop appearances, have been used for remote code execution and NTLM coercion attacks.
+    Detects the creation of a .key file in the root directory of the system drive.
+    This activity was seen with various ransomware before performing encryption of files.
 data_source:
     - Sysmon EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*Downloads*", "*Documents*", "*Temp*", "*AppData*", "*Desktop*") Filesystem.file_path="*.theme" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.action Filesystem.file_name Filesystem.user Filesystem.vendor_product
+    | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
+    Filesystem.file_name="*.key"
+
+    by Filesystem.dest Filesystem.file_create_time
+       Filesystem.process_path Filesystem.process_guid
+       Filesystem.process_id Filesystem.file_path
+       Filesystem.action Filesystem.file_name
+       Filesystem.user Filesystem.vendor_product
+
     | `drop_dm_object_name(Filesystem)`
+    | where match(file_path, "^[A-Za-z]:\\\\[^\\\\]+\.key$")
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_suspicious_theme_file_filter`
+    | `windows__key_file_creation_in_root_directory_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate customization or IT management may use theme files that trigger this detection. Review and allow trusted themes from authorized sources.
+known_false_positives: False positives may occur if legitimate software or administrative tools create key files in the root directory, although this is uncommon in normal operations. Filter alerts based on known approved applications.
 references:
-    - https://www.darkreading.com/vulnerabilities-threats/recurring-windows-flaw-could-expose-user-credentials
+    - https://www.cisa.gov/uscert/ncas/alerts/aa22-321a
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -30,7 +44,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Windows theme file created from a user-writable path at $file_path$ on $dest$.
+    message: .key file created in the root of the system drive at $file_path$ on $dest$.
     risk_objects:
         - field: dest
           type: system
@@ -40,12 +54,10 @@ rba:
           type: file_path
 tags:
     analytic_story:
-        - Spearphishing Attachments
+        - Ransomware
     asset_type: Endpoint
     mitre_attack_id:
-        - T1187
-        - T1557.001
-        - T1021.002
+        - T1486
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -54,6 +66,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/snapattack/snapattack.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1022/snapattack/snapattack.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
