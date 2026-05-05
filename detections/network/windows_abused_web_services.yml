@@ -1,7 +1,7 @@
 name: Windows Abused Web Services
 id: 01f0aef4-8591-4daa-a53d-0ed49823b681
-version: 11
-date: '2026-04-15'
+version: 12
+date: '2026-05-05'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ search: |-
     QueryName IN (
         "*//objects.githubusercontent.com*",
         "*anonfiles.com*",
+        "*.argotunnel.com*",
         "*cdn.discordapp.com*",
         "*ddns.net*",
         "*dl.dropboxusercontent.com*",
