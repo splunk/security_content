@@ -1,7 +1,7 @@
 name: Windows Impair Defense Add Xml Applocker Rules
 id: 467ed9d9-8035-470e-ad5e-ae5189283033
-version: 8
-date: '2026-02-25'
+version: 9
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -39,7 +39,7 @@ tags:
         - Azorult
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

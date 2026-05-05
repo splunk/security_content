@@ -1,7 +1,7 @@
 name: Suspicious wevtutil Usage
 id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
-version: 18
-date: '2026-04-15'
+version: 19
+date: '2026-05-04'
 author: David Dorsey, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -61,7 +61,7 @@ tags:
         - VoidLink Cloud-Native Linux Malware
     asset_type: Endpoint
     mitre_attack_id:
-        - T1070.001
+        - T1685.005
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

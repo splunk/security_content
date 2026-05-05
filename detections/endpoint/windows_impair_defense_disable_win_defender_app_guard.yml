@@ -1,7 +1,7 @@
 name: Windows Impair Defense Disable Win Defender App Guard
 id: 8b700d7e-54ad-4d7d-81cc-1456c4703306
-version: 9
-date: '2026-04-15'
+version: 10
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ tags:
         - Windows Registry Abuse
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

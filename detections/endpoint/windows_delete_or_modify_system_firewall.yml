@@ -1,7 +1,7 @@
 name: Windows Delete or Modify System Firewall
 id: b188d11a-eba7-419d-b8b6-cc265b4f2c4f
-version: 11
-date: '2026-03-26'
+version: 12
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -34,7 +34,7 @@ tags:
         - ShrinkLocker
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.004
+        - T1686
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

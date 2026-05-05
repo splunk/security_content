@@ -1,7 +1,7 @@
 name: ASL AWS Defense Evasion Delete CloudWatch Log Group
 id: 0f701b38-a0fb-43fd-a83d-d12265f71f33
-version: 11
-date: '2026-04-15'
+version: 12
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -46,7 +46,7 @@ tags:
         - AWS Defense Evasion
     asset_type: AWS Account
     mitre_attack_id:
-        - T1562.008
+        - T1685.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

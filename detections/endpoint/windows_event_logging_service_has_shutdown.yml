@@ -1,7 +1,7 @@
 name: Windows Event Logging Service Has Shutdown
 id: d696f622-6b08-4336-b456-696cb5b43ba0
-version: 5
-date: '2026-02-25'
+version: 6
+date: '2026-05-04'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -34,7 +34,7 @@ tags:
         - Scattered Lapsus$ Hunters
     asset_type: Endpoint
     mitre_attack_id:
-        - T1070.001
+        - T1685.005
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

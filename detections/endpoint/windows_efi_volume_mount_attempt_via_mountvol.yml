@@ -71,7 +71,7 @@ tags:
     mitre_attack_id:
         - T1204.002
         - T1542
-        - T1562.009
+        - T1688
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

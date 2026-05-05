@@ -1,7 +1,7 @@
 name: Windows Disable Windows Event Logging Disable HTTP Logging
 id: 23fb6787-255f-4d5b-9a66-9fd7504032b5
 version: 14
-date: '2026-04-15'
+date: '2026-05-04'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -63,7 +63,7 @@ tags:
     asset_type: Endpoint
     mitre_attack_id:
         - T1505.004
-        - T1562.002
+        - T1685.001
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

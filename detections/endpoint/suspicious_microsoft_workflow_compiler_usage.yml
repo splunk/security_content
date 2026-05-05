@@ -1,7 +1,7 @@
 name: Suspicious microsoft workflow compiler usage
 id: 9bbc62e8-55d8-11eb-ae93-0242ac130002
-version: 11
-date: '2026-04-15'
+version: 12
+date: '2026-05-04'
 author: Michael Haag, Splunk
 status: production
 type: TTP

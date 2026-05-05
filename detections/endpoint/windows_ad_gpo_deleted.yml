@@ -1,7 +1,7 @@
 name: Windows AD GPO Deleted
 id: 0d41772b-35ab-4e1c-a2ba-d0b455481aee
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Dean Luxton
 status: production
 type: TTP
@@ -51,7 +51,7 @@ tags:
         - Sneaky Active Directory Persistence Tricks
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
         - T1484.001
     product:
         - Splunk Enterprise

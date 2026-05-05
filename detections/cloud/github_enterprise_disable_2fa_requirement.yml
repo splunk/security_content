@@ -1,7 +1,7 @@
 name: GitHub Enterprise Disable 2FA Requirement
 id: 5a773226-ebd7-480c-a819-fccacfeddcd9
-version: 6
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -47,7 +47,7 @@ tags:
         - GitHub Malicious Activity
     asset_type: GitHub
     mitre_attack_id:
-        - T1562.001
+        - T1685
         - T1195
     product:
         - Splunk Enterprise

@@ -1,7 +1,7 @@
 name: Windows Firewall Rule Deletion
 id: ca5327e1-0a91-4e23-bbd4-8901806c00e1
-version: 6
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -43,7 +43,7 @@ tags:
         - NetSupport RMM Tool Abuse
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.004
+        - T1686
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

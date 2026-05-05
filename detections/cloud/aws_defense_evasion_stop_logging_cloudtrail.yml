@@ -1,7 +1,7 @@
 name: AWS Defense Evasion Stop Logging Cloudtrail
 id: 8a2f3ca2-4eb5-4389-a549-14063882e537
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -45,7 +45,7 @@ tags:
         - AWS Defense Evasion
     asset_type: AWS Account
     mitre_attack_id:
-        - T1562.008
+        - T1685.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

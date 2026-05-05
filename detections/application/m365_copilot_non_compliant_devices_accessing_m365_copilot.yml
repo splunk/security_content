@@ -1,7 +1,7 @@
 name: M365 Copilot Non Compliant Devices Accessing M365 Copilot
 id: e26bc52d-9cbc-4743-9745-e8781d935042
-version: 4
-date: '2026-04-15'
+version: 5
+date: '2026-05-04'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -43,7 +43,7 @@ tags:
         - Suspicious Microsoft 365 Copilot Activities
     asset_type: Web Application
     mitre_attack_id:
-        - T1562
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

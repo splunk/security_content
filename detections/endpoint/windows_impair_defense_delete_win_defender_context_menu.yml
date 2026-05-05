@@ -1,7 +1,7 @@
 name: Windows Impair Defense Delete Win Defender Context Menu
 id: 395ed5fe-ad13-4366-9405-a228427bdd91
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -20,7 +20,7 @@ tags:
         - Windows Registry Abuse
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

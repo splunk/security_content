@@ -1,7 +1,7 @@
 name: Disable Logs Using WevtUtil
 id: 236e7c8e-c9d9-11eb-a824-acde48001122
 version: 13
-date: '2026-04-15'
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -55,7 +55,7 @@ tags:
         - Rhysida Ransomware
     asset_type: Endpoint
     mitre_attack_id:
-        - T1070.001
+        - T1685.005
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
