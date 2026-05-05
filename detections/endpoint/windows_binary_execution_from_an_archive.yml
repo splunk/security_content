@@ -19,9 +19,17 @@ search: |-
 
     from datamodel=Endpoint.Processes where
 
-    Processes.parent_process_name IN ("explorer.exe", "winrar.exe", "7zFM.exe")
+    Processes.parent_process_name IN (
+        "explorer.exe",
+        "winrar.exe",
+        "7zFM.exe"
+    )
     Processes.process_path="*\\AppData\\Local\\Temp\\*"
-    Processes.process_path IN ("*\\rar*", "*\\7z*", "*.zip*")
+    Processes.process_path IN (
+        "*\\rar*",
+        "*\\7z*",
+        "*.zip*"
+    )
 
     by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
        Processes.parent_process_name Processes.parent_process_exec Processes.action

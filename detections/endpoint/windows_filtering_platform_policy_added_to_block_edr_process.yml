@@ -11,7 +11,9 @@ description: |-
 data_source:
     - Sysmon EventID 13
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
 
     from datamodel=Endpoint.Registry where
 

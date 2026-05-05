@@ -18,7 +18,11 @@ search: |-
     EventID="4104"
     ScriptBlockText="*));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, dest, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer EventID ScriptBlockText dest signature signature_id user_id vendor_product
+         Guid Opcode Name Path ProcessID ScriptBlockId
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_cobalt_strike_powershell_loader_filter`

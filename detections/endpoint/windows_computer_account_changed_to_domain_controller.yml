@@ -16,7 +16,10 @@ search: |-
     EventID=4742
     UserAccountControl="*%%2088*"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetUserName, UserAccountControl, EventID
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer TargetUserName UserAccountControl EventID
+
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

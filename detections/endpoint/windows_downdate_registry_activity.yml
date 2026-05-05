@@ -9,14 +9,30 @@ description: |-
     Detects the setting of a pending.xml file associated with the Windows Downdate attack which forces a Windows downgrade to enable exploitation.
     Looks for uses of a pending.xml outside of typical locations.
 data_source:
+    - Sysmon EventID 12
     - Sysmon EventID 13
+    - Sysmon EventID 14
 search: |-
     `sysmon`
-    EventID IN (12, 13, 14)
-    TargetObject IN ("*PoqexecCmdline", "*COMPONENTS\\PendingXmlIdentifier")
-    NOT ProcessPath="*C:\\Windows\\WinSxS\\*"
+    EventID IN (
+        12,
+        13,
+        14
+    )
+    TargetObject IN (
+        "*PoqexecCmdline",
+        "*COMPONENTS\\PendingXmlIdentifier"
+    )
+    NOT ProcessPath="*:\\Windows\\WinSxS\\*"
+
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by EventID, TargetObject, ProcessPath, Computer, action, process_guid, process_id, registry_hive, registry_path, registry_key_name, registry_value_data, registry_value_name, status, user, vendor_product
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+      by EventID TargetObject ProcessPath Computer action process_guid process_id
+         registry_hive registry_path registry_key_name registry_value_data registry_value_name
+         status user vendor_product
+
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

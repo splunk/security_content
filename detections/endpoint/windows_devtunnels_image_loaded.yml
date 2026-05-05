@@ -15,9 +15,15 @@ data_source:
 search: |-
     `sysmon`
     EventID=7
-    ImageLoaded="*AppData\\Local\\Temp\\.net\\devtunnel\\*devtunnel.dll"
+    ImageLoaded="*\\AppData\\Local\\Temp\\.net\\devtunnel\\*"
+    ImageLoaded="*devtunnel.dll"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, ImageLoaded, EventID, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature_id, user_id, vendor_product
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer ImageLoaded EventID loaded_file loaded_file_path process_exec process_guid
+         process_hash process_id process_name process_path service_dll_signature_exists
+         service_dll_signature_verified signature_id user_id vendor_product
+
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

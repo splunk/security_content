@@ -17,7 +17,11 @@ search: |-
     ScriptBlockText="*Get-ItemProperty *"
     ScriptBlockText="*Windows\\CurrentVersion\\Uninstall*"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, ScriptBlockText, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer EventID ScriptBlockText signature signature_id user_id vendor_product Guid
+         Opcode Name Path ProcessID ScriptBlockId
+
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
