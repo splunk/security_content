@@ -19,9 +19,17 @@ search: |-
     AccessList="%%4416"
     EventID="4663"
     ObjectName="*CoreAIPlatform.00\\UKP*"
-    NOT (ProcessName IN ("*aixhost.exe", "*aihost.exe"))
+    NOT (
+        ProcessName IN (
+            "*aixhost.exe",
+            "*aihost.exe"
+        )
+    )
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventID, AccessList, ObjectName, ProcessName
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer EventID AccessList ObjectName ProcessName
+
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

@@ -17,7 +17,7 @@ search: |-
 
     from datamodel=Endpoint.Filesystem where
 
-    Filesystem.file_path="*:\\ProgramData\\JetBrains\\TeamCity\\plugins\\"
+    Filesystem.file_path="*:\\ProgramData\\JetBrains\\TeamCity\\plugins\\*"
     Filesystem.file_name="*.zip"
     Filesystem.action="created"
 
