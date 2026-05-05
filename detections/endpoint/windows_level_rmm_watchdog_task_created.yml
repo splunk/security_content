@@ -1,10 +1,10 @@
-name: Windows Level RRM Watchdog
+name: Windows Level RMM Watchdog Task Created
 id: c4abe40f-91fb-42c0-bcc1-74ada766d0d8
 version: 1
 date: '2026-04-13'
 author: Raven Tait, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
     Detects the watchdog task created when Level is installed.
     Level is a commercial remote management tool from Level.io.
@@ -18,11 +18,14 @@ search: |-
     EventID="4698"
     TaskName="\\Level\\Level Watchdog"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime by EventID, TaskName, Computer
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by EventID TaskName Computer
+
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_level_rrm_watchdog_filter`
+    | `windows_level_rmm_watchdog_task_created_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate IT professionals and system administrators may use Level remote management tools for authorized access and maintenance. Filter alerts for approved remote management software to reduce false positives.
 references:
@@ -37,11 +40,11 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 rba:
-    message: Potential Level RRM Watchdog activity observed on $dest$.
+    message: Level RRM Watchdog task [$TaskName$] created on $dest$.
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:
