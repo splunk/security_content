@@ -11,7 +11,29 @@ description: |-
 data_source:
     - Sysmon EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("C:\\Windows \\System32\\*.msc", "C:\\Windows \\System32\\en-US\\*.msc") by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
+    Filesystem.file_path IN (
+        "C:\\Windows \\System32\\*.msc",
+        "C:\\Windows \\System32\\de-DE\\*.msc",
+        "C:\\Windows \\System32\\en-US\\*.msc",
+        "C:\\Windows \\System32\\es-ES\\*.msc",
+        "C:\\Windows \\System32\\fr-FR\\*.msc",
+        "C:\\Windows \\System32\\it-IT\\*.msc",
+        "C:\\Windows \\System32\\ja-JP\\*.msc",
+        "C:\\Windows \\System32\\ko-KR\\*.msc",
+        "C:\\Windows \\System32\\zh-CN\\*.msc",
+        "C:\\Windows \\System32\\zh-TW\\*.msc"
+    )
+
+    by Filesystem.dest Filesystem.file_create_time Filesystem.process_path
+       Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name
+       Filesystem.user Filesystem.vendor_product Filesystem.action
+
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
