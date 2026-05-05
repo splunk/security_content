@@ -1,0 +1,69 @@
+name: Windows GrimResource - MMC Process Accessing APDS DLL
+id: 872d1651-7838-4b47-ad3e-ef5e63453a7f
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: |-
+    GrimResource is a code execution technique discovered by Elastic Security in 2024 that abuses a stored XSS vulnerability in apds.dll to achieve arbitrary code execution inside mmc.exe, a signed, trusted Windows binary.
+    The attack is delivered via a malicious .msc file (MMC Saved Console file).
+    When the victim opens the .msc file, MMC processes an embedded transformNode operation that triggers the XSS in apds.dll, which is then leveraged to execute attacker-controlled script within the MMC process context.
+data_source:
+    - Windows Event Log Security 4663
+search: |-
+    `wineventlog_security`
+    AccessList="%%4416"
+    EventID="4663"
+    ObjectName="*:\\Windows\\System32\\apds.dll"
+    ProcessName="*:\\Windows\\System32\\mmc.exe"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer AccessList EventID ObjectName ProcessName
+
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_grimresource___mmc_process_accessing_apds_dll_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate use of mmc.exe accessing apds.dll may occur during routine system management or troubleshooting. Verify with approved administrative activities to reduce false alerts.
+references:
+    - https://www.elastic.co/security-labs/grimresource
+    - https://medium.com/@knownsec404team/from-http-domain-to-res-domain-xss-by-using-ie-adobes-pdf-activex-plugin-ba4f082c8199
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: mmc.exe accessed apds.dll on $dest$, consistent with GrimResource activity.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: ObjectName
+          type: file_path
+tags:
+    analytic_story:
+        - Compromised Windows Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.007
+        - T1218.014
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.007/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

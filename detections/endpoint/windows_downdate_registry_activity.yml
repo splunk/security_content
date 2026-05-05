@@ -1,0 +1,77 @@
+name: Windows Downdate Registry Activity
+id: d984fca1-ba3a-4f89-aa58-800e235fdf53
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    Detects the setting of a pending.xml file associated with the Windows Downdate attack which forces a Windows downgrade to enable exploitation.
+    Looks for uses of a pending.xml outside of typical locations.
+data_source:
+    - Sysmon EventID 12
+    - Sysmon EventID 13
+    - Sysmon EventID 14
+search: |-
+    `sysmon`
+    EventID IN (
+        12,
+        13,
+        14
+    )
+    TargetObject IN (
+        "*PoqexecCmdline",
+        "*COMPONENTS\\PendingXmlIdentifier"
+    )
+    NOT ProcessPath="*:\\Windows\\WinSxS\\*"
+
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+      by EventID TargetObject ProcessPath Computer action process_guid process_id
+         registry_hive registry_path registry_key_name registry_value_data registry_value_name
+         status user vendor_product
+
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_downdate_registry_activity_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate system updates or rollback processes may create or modify pending.xml files in non-standard locations. Verify with IT change management to reduce false alerts.
+references:
+    - https://www.safebreach.com/blog/downgrade-attacks-using-windows-updates/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: Potential Downdate registry activity observed on $dest$ via $TargetObject$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Windows Persistence Techniques
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1112
+        - T1562.010
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
