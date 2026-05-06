@@ -16,7 +16,9 @@ def init(args):
 Running Splunk Security Content Control Tool (contentctl) v{0}
 starting program loaded for TIE Fighter...
       _                                            _
-     T T                                          T T
+           T T                                          T T
+
+
      | |                                          | |
      | |                                          | |
      | |                                          | |
