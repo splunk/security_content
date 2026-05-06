@@ -84,7 +84,7 @@ To view an up-to-date detection coverage map for all the content tagged with MIT
 Customize your content to change how [often detections run](https://github.com/splunk/security_content/wiki/Customize-to-Your-Environment#customizing-scheduling-and-alert-actions-with-deployments), or what the right source type for [sysmon](https://github.com/splunk/security_content/wiki/Customize-to-Your-Environment#customizing-source-types-with-macros) in your environment is please follow this [guide](https://github.com/splunk/security_content/wiki/Customize-to-Your-Environment).  
 
 # What's in an Analytic Story? 🗺
-A complete use case, specifically built to detect, investigate, and respond to a specific threat like [Credential Dumping](https://github.com/splunk/security_content/blob/develop/stories/credential_dumping.yml) or [Ransomware](https://github.com/splunk/security_content/blob/develop/stories/ransomware.yml). A group of detections and a response make up an analytic story, they are associated with the tag `analytic_story: <name>`.  
+An analytic story provides a detailed walkthrough or demonstration of how to investigate and respond to a specific threat or security event using Splunk Security Content. It includes steps for data collection, analysis, and visualization, along with recommended configurations and tools., specifically built to detect, investigate, and respond to a specific threat like [Credential Dumping](https://github.com/splunk/security_content/blob/develop/stories/credential_dumping.yml) or [Ransomware](https://github.com/splunk/security_content/blob/develop/stories/ransomware.yml). A group of detections and a response make up an analytic story, they are associated with the tag `analytic_story: <name>`.  
 
 # Content Parts 🧩
 
