@@ -81,7 +81,7 @@ def analysis_detection(detections):
 def call_splunk_parser_api(detection):
     requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
     spl = ''
-    if detection['search'].startswith('| tstats'):
+    if detection['search'].startswith('| stats'):
         spl = detection['search']
     else:
         spl = 'search ' + detection['search']
