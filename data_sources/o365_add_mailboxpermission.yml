@@ -18,7 +18,7 @@ separator_value: Add-MailboxPermission
 supported_TA:
 - name: Splunk Add-on for Microsoft Office 365
   url: https://splunkbase.splunk.com/app/4055
-  version: 6.0.1
+  version: 6.0.2
 fields:
 - _time
 - AccessRights
