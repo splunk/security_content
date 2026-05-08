@@ -1,0 +1,5 @@
+definition: sourcetype="cisco:cloud_security:proxy"
+description: |
+  Customer-specific Splunk configurations (for example index, source, or sourcetype) for Cisco Secure Access proxy telemetry from the Splunk Add-on for Cisco Security Cloud.
+  Replace the macro definition with settings that match your deployment. The default targets index `sse` and the `cisco:cloud_security:proxy` sourcetype.
+name: cisco_secure_access_proxy
