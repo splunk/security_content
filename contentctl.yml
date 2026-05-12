@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 5.27.0
+  version: 6.0.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -173,9 +173,9 @@ apps:
 - uid: 4055
   title: Splunk Add-on for Microsoft Office 365
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365
-  version: 6.0.1
+  version: 6.0.2
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-office-365_601.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-office-365_602.tgz
 - uid: 5518
   title: Splunk add on for Microsoft Defender Advanced Hunting
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_DEFENDER_ADVANCED_HUNTING
