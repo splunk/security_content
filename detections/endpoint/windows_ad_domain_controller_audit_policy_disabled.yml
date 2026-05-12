@@ -1,7 +1,7 @@
 name: Windows AD Domain Controller Audit Policy Disabled
 id: fc3ccef1-60a4-4239-bd66-b279511b4d14
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Dean Luxton
 type: TTP
 status: production
@@ -41,7 +41,7 @@ tags:
         - Windows Audit Policy Tampering
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

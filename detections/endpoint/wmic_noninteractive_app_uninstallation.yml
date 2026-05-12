@@ -1,7 +1,7 @@
 name: Wmic NonInteractive App Uninstallation
 id: bff0e7a0-317f-11ec-ab4e-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -34,7 +34,7 @@ tags:
         - Azorult
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

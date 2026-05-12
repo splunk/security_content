@@ -1,7 +1,7 @@
 name: ASL AWS Network Access Control List Created with All Open Ports
 id: a2625034-c2de-44fc-b45c-7bac9c4a7974
-version: 7
-date: '2026-04-15'
+version: 8
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -52,7 +52,7 @@ tags:
         - AWS Network ACL Activity
     asset_type: AWS Instance
     mitre_attack_id:
-        - T1562.007
+        - T1686.001
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

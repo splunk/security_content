@@ -1,7 +1,7 @@
 name: Windows Impair Defense Configure App Install Control
 id: c54b7439-cfb1-44c3-bb35-b0409553077c
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ tags:
         - Windows Registry Abuse
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

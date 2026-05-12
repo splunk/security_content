@@ -1,7 +1,7 @@
 name: Linux Auditd Auditd Daemon Start
 id: 6b0cb0ff-9a7e-4475-a687-43827fdb31d6
-version: 4
-date: '2026-04-15'
+version: 5
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -42,7 +42,7 @@ tags:
         - Compromised Linux Host
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.012
+        - T1685.004
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

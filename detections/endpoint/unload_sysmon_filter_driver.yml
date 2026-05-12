@@ -1,7 +1,7 @@
 name: Unload Sysmon Filter Driver
 id: e5928ff3-23eb-4d8b-b8a4-dcbc844fdfbe
-version: 14
-date: '2026-04-15'
+version: 15
+date: '2026-05-04'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -55,7 +55,7 @@ tags:
         - Disabling Security Tools
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

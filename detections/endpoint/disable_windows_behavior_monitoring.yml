@@ -1,7 +1,7 @@
 name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
-version: 21
-date: '2026-04-15'
+version: 22
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -47,7 +47,7 @@ tags:
         - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

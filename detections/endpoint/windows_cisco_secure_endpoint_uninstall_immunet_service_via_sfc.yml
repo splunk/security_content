@@ -1,7 +1,7 @@
 name: Windows Cisco Secure Endpoint Uninstall Immunet Service Via Sfc
 id: ba6e7f4d-a85e-4a14-8e7d-41f4b82e3c9a
-version: 5
-date: '2026-04-15'
+version: 6
+date: '2026-05-04'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -43,7 +43,7 @@ tags:
         - Security Solution Tampering
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

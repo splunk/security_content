@@ -1,7 +1,7 @@
 name: ESXi Lockdown Mode Disabled
 id: 07c0d28a-9a9b-409f-8d4b-65355bd19ead
-version: 3
-date: '2026-04-15'
+version: 4
+date: '2026-05-04'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -33,7 +33,7 @@ tags:
         - Black Basta Ransomware
     asset_type: Infrastructure
     mitre_attack_id:
-        - T1562
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Linux Stdout Redirection To Dev Null File
 id: de62b809-a04d-46b5-9a15-8298d330f0c8
-version: 12
-date: '2026-04-15'
+version: 13
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -50,7 +50,7 @@ tags:
         - Industroyer2
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.004
+        - T1686
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

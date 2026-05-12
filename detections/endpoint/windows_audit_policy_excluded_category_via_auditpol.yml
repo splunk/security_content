@@ -1,7 +1,7 @@
 name: Windows Audit Policy Excluded Category via Auditpol
 id: 083708d4-d763-4ba2-87ac-105b526de81a
-version: 6
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -59,7 +59,7 @@ tags:
         - Windows Audit Policy Tampering
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.002
+        - T1685.001
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

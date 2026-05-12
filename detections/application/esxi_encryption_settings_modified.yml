@@ -1,7 +1,7 @@
 name: ESXi Encryption Settings Modified
 id: dbbbe26f-83fe-4ee3-8b77-ccf7fbd416c8
-version: 3
-date: '2026-04-15'
+version: 4
+date: '2026-05-04'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -33,7 +33,7 @@ tags:
         - Black Basta Ransomware
     asset_type: Infrastructure
     mitre_attack_id:
-        - T1562
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

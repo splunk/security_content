@@ -1,7 +1,7 @@
 name: Disabling ControlPanel
 id: 6ae0148e-9215-11eb-a94a-acde48001122
-version: 15
-date: '2026-04-15'
+version: 16
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -39,7 +39,7 @@ tags:
     asset_type: Endpoint
     mitre_attack_id:
         - T1112
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

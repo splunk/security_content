@@ -1,7 +1,7 @@
 name: Windows New EventLog ChannelAccess Registry Value Set
 id: 16eb11bc-ef42-42e8-9d0c-d21e0fa15725
-version: 6
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -39,7 +39,7 @@ tags:
         - Defense Evasion or Unauthorized Access Via SDDL Tampering
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.002
+        - T1685.001
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

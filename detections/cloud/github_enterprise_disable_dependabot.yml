@@ -1,7 +1,7 @@
 name: GitHub Enterprise Disable Dependabot
 id: 787dd1c1-eb3a-4a31-8e8c-2ad24b214bc8
-version: 6
-date: '2026-04-15'
+version: 7
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -48,7 +48,7 @@ tags:
         - GitHub Malicious Activity
     asset_type: GitHub
     mitre_attack_id:
-        - T1562.001
+        - T1685
         - T1195
     product:
         - Splunk Enterprise

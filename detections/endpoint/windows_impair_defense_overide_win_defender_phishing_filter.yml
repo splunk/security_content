@@ -1,7 +1,7 @@
 name: Windows Impair Defense Overide Win Defender Phishing Filter
 id: 10ca081c-57b1-4a78-ba56-14a40a7e116a
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ tags:
         - Windows Registry Abuse
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

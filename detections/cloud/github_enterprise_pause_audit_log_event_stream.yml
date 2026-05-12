@@ -1,7 +1,7 @@
 name: GitHub Enterprise Pause Audit Log Event Stream
 id: 21083dcb-276d-4ef9-8f7e-2113ca5e8094
-version: 7
-date: '2026-04-15'
+version: 8
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -49,7 +49,7 @@ tags:
         - NPM Supply Chain Compromise
     asset_type: GitHub
     mitre_attack_id:
-        - T1562.008
+        - T1685.002
         - T1195
     product:
         - Splunk Enterprise

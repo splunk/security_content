@@ -1,7 +1,7 @@
 name: Disable AMSI Through Registry
 id: 9c27ec42-d338-11eb-9044-acde48001122
-version: 13
-date: '2026-04-15'
+version: 14
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -37,7 +37,7 @@ tags:
         - Windows Registry Abuse
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

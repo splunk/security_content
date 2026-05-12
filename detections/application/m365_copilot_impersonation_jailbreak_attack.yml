@@ -1,7 +1,7 @@
 name: M365 Copilot Impersonation Jailbreak Attack
 id: cc26aba8-7f4a-4078-b91a-052d6a53cb13
-version: 3
-date: '2026-03-10'
+version: 4
+date: '2026-05-04'
 author: Rod Soto
 status: experimental
 type: TTP
@@ -49,7 +49,7 @@ tags:
         - Suspicious Microsoft 365 Copilot Activities
     asset_type: Web Proxy
     mitre_attack_id:
-        - T1562
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

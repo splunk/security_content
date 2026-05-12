@@ -1,7 +1,7 @@
 name: Firewall Allowed Program Enable
 id: 9a8f63a8-43ac-11ec-904c-acde48001122
-version: 10
-date: '2026-04-15'
+version: 11
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -54,7 +54,7 @@ tags:
         - Azorult
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.004
+        - T1686
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

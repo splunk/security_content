@@ -1,0 +1,77 @@
+name: Windows Azure PowerShell Module Installation Via PowerShell Script
+id: 344bed10-9a8b-4398-8bf3-ec9114125260
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects the installation of Azure AD and cloud management modules via PowerShell Script Block Logging.
+    Tools such as AADInternals, AzureAD, MSOnline, and Az.Resources provide deep access to Azure Active Directory objects, user accounts, service principals, and tenant configurations making them high-value targets for adversaries conducting reconnaissance, privilege escalation, or persistence operations post-compromise.
+data_source:
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell`
+    EventID="4104"
+    ScriptBlockText IN (
+        "*Install-Module -Name AADInternals*",
+        "*Install-Module -Name Az.Resources*",
+        "*Install-Module -Name AzureAd*",
+        "*Install-Module -Name MSOnline*",
+        "*Install-Module AADInternals*",
+        "*Install-Module Az.Resources*",
+        "*Install-Module AzureAd*",
+        "*Install-Module MSOnline*"
+    )
+    | fillnull
+    | stats count min(_time) as firstTime
+            max(_time) as lastTime
+      by Computer EventID ScriptBlockText signature signature_id
+         user_id vendor_product Guid Opcode
+         Name Path ProcessID ScriptBlockId
+
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_azure_powershell_module_installation_via_powershell_script_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate administrators often install these modules for managing Azure environments. Filter alerts for authorized personnel and approved administrative activities.
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: Potential Azure PowerShell module installation observed on $dest$ via script block $ScriptBlockId$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Azure Active Directory Account Takeover
+        - Azure Active Directory Persistence
+        - Azure Active Directory Privilege Escalation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1078
+        - T1021.007
+        - T1136.003
+        - T1098
+        - T1069.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

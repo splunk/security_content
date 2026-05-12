@@ -1,0 +1,77 @@
+name: Windows Set Custom DNS ServerLevelPlugin Via Dnscmd
+id: 9add7765-4af5-45aa-a078-3b32de303e3e
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects command-line usage of dnscmd.exe to configure the Microsoft DNS ServerLevelPluginDll setting.
+    This setting allows the DNS service to load an arbitrary DLL, which can be abused by attackers with DNS administrative privileges to execute code in the context of the DNS service.
+    If confirmed malicious, this activity could enable persistence, privilege escalation, or domain controller compromise through malicious DLL loading.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process_name="dnscmd.exe"
+    Processes.process="*/config *"
+    Processes.process="*/serverlevelplugindll *"
+
+    by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
+       Processes.parent_process_name Processes.parent_process_exec Processes.action
+       Processes.dest Processes.process_current_directory Processes.process_path
+       Processes.process_integrity_level Processes.original_file_name Processes.parent_process
+       Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id
+       Processes.process_guid Processes.process_id Processes.user Processes.process_name
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_set_custom_dns_serverlevelplugin_via_dnscmd_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate administrative activities may involve dnscmd.exe usage or registry changes for DLL management in DNS servers. Filter alerts to exclude authorized administrative actions.
+references:
+    - https://medium.com/@esnesenon/feature-not-bug-dnsadmin-to-dc-compromise-in-one-line-a0f779b8dc83
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dnscmd
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: Potential DNS ServerLevelPlugin DLL configuration observed on $dest$ via $process$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+tags:
+    analytic_story:
+        - Windows Persistence Techniques
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1574
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

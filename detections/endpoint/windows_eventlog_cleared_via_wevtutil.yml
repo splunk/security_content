@@ -1,7 +1,7 @@
 name: Windows Eventlog Cleared Via Wevtutil
 id: fdb829a8-db84-4832-b64b-3e964cd44f01
-version: 5
-date: '2026-04-15'
+version: 6
+date: '2026-05-04'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -58,7 +58,7 @@ tags:
         - ShrinkLocker
     asset_type: Endpoint
     mitre_attack_id:
-        - T1070.001
+        - T1685.005
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

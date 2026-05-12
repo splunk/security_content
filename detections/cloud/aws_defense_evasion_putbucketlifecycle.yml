@@ -1,7 +1,7 @@
 name: AWS Defense Evasion PutBucketLifecycle
 id: ce1c0e2b-9303-4903-818b-0d9002fc6ea4
-version: 8
-date: '2026-02-25'
+version: 9
+date: '2026-05-04'
 author: Bhavin Patel
 status: production
 type: Hunting
@@ -31,7 +31,7 @@ tags:
     asset_type: AWS Account
     mitre_attack_id:
         - T1485.001
-        - T1562.008
+        - T1685.002
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

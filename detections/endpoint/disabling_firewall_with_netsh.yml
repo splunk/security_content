@@ -1,7 +1,7 @@
 name: Disabling Firewall with Netsh
 id: 6860a62c-9203-11eb-9e05-acde48001122
-version: 12
-date: '2026-04-15'
+version: 13
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -55,7 +55,7 @@ tags:
         - BlackByte Ransomware
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

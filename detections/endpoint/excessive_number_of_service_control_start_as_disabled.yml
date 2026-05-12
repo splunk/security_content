@@ -1,7 +1,7 @@
 name: Excessive number of service control start as disabled
 id: 77592bec-d5cc-11eb-9e60-acde48001122
-version: 11
-date: '2026-04-15'
+version: 12
+date: '2026-05-04'
 author: Michael Hart, Splunk
 status: production
 type: Anomaly
@@ -51,7 +51,7 @@ tags:
         - Windows Defense Evasion Tactics
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

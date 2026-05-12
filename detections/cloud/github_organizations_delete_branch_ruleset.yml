@@ -1,7 +1,7 @@
 name: GitHub Organizations Delete Branch Ruleset
 id: 8e454f64-4bd6-45e6-8a94-1b482593d721
-version: 8
-date: '2026-04-15'
+version: 9
+date: '2026-05-04'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -50,7 +50,7 @@ tags:
         - NPM Supply Chain Compromise
     asset_type: GitHub
     mitre_attack_id:
-        - T1562.001
+        - T1685
         - T1195
     product:
         - Splunk Enterprise

@@ -1,7 +1,7 @@
 name: O365 Block User Consent For Risky Apps Disabled
 id: 12a23592-e3da-4344-8545-205d3290647c
-version: 8
-date: '2026-04-15'
+version: 9
+date: '2026-05-04'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -38,7 +38,7 @@ tags:
     asset_type: O365 Tenant
     atomic_guid: []
     mitre_attack_id:
-        - T1562
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

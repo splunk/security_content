@@ -1,7 +1,7 @@
 name: ETW Registry Disabled
 id: 8ed523ac-276b-11ec-ac39-acde48001122
-version: 16
-date: '2026-04-15'
+version: 17
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -44,7 +44,7 @@ tags:
     asset_type: Endpoint
     mitre_attack_id:
         - T1127
-        - T1562.006
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Disable Windows App Hotkeys
 id: 1490f224-ad8b-11eb-8c4f-acde48001122
-version: 15
-date: '2026-04-15'
+version: 16
+date: '2026-05-04'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -36,7 +36,7 @@ tags:
     asset_type: Endpoint
     mitre_attack_id:
         - T1112
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

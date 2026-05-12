@@ -1,7 +1,7 @@
 name: M365 Copilot Jailbreak Attempts
 id: b05a4f25-e07d-436f-ab03-f954afa922c0
-version: 4
-date: '2026-04-15'
+version: 5
+date: '2026-05-04'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -54,7 +54,7 @@ tags:
         - Suspicious Microsoft 365 Copilot Activities
     asset_type: Web Application
     mitre_attack_id:
-        - T1562.001
+        - T1685
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

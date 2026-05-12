@@ -1,0 +1,66 @@
+name: Windows Level RMM Watchdog Task Created
+id: c4abe40f-91fb-42c0-bcc1-74ada766d0d8
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    Detects the watchdog task created when Level is installed.
+    Level is a commercial remote management tool from Level.io.
+    Remote management tools, when used for legitimate purposes, can help IT professionals and system administrators remotely access and manage computer systems.
+    However, threat actors may exploit these tools for malicious purposes.
+    It can be used to maintain persistence and execution on a host by a malicious actor.
+data_source:
+    - Windows Event Log Security 4698
+search: |-
+    `wineventlog_security`
+    EventID="4698"
+    TaskName="\\Level\\Level Watchdog"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by EventID TaskName Computer
+
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_level_rmm_watchdog_task_created_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate IT professionals and system administrators may use Level remote management tools for authorized access and maintenance. Filter alerts for approved remote management software to reduce false positives.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: Level RRM Watchdog task [$TaskName$] created on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
+tags:
+    analytic_story:
+        - Remote Monitoring and Management Software
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1053
+        - T1219
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
