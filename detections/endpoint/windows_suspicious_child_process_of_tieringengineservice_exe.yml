@@ -8,7 +8,20 @@ type: TTP
 description: Detects the RedSun privilege escalation exploit delivering a SYSTEM-level shell to the attacker's session. RedSun replaces the legitimate TieringEngineService.exe with a malicious binary, which launches a process as SYSTEM, usually some sort of shell or shell spawner (conhost.exe, cmd.exe, PowerShell, etc.) in the attacker's active session.
 data_source:
     - Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE ( Processes.parent_process_name="*TieringEngineService.exe*" ) Processes.process IN ("*conhost.exe*","*cmd.exe*","*powershell.exe*","*rundll32.exe*","*bitsadmin.exe*","*wmic.exe*","*cscript.exe*") Processes.user IN ("*AUTHORITY*","*System*") BY Processes.dest Processes.user Processes.original_file_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name action parent_process_exec parent_process_guid parent_process_path process_exec process_guid process_hash process_integrity_level process_path user_id vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_suspicious_child_process_of_tieringengineservice_exe_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes
+    WHERE
+      (Processes.parent_process_name="*TieringEngineService.exe*" )
+      Processes.process IN ("*conhost.exe*","*cmd.exe*","*powershell.exe*","*rundll32.exe*","*bitsadmin.exe*","*wmic.exe*","*cscript.exe*")
+      Processes.user IN ("*AUTHORITY*","*System*")
+    BY Processes.dest Processes.user Processes.original_file_name Processes.parent_process Processes.process_name Processes.process
+    Processes.process_id Processes.parent_process_id Processes.parent_process_name action parent_process_exec parent_process_guid
+    parent_process_path process_exec process_guid process_hash process_integrity_level process_path user_id vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_suspicious_child_process_of_tieringengineservice_exe_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: This process should normally never be spawning these child processes.
 references:
