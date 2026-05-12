@@ -26,7 +26,7 @@ how_to_implement: |
 known_false_positives: |
     Security research, approved privacy tools, or mis-categorized destinations may appear as anonymizer traffic. Tune this analytic with the filter macro or allow-lists for known-good users, networks, and domains after validating business justification.
 references:
-    - https://attack.mitre.org/techniques/T1562/001/
+    - https://attack.mitre.org/techniques/T1090/003
 drilldown_searches:
     - name: View the detection results for user $user$ and source $src_ip$
       search: '%original_detection_search% | search user = "$user$" src_ip = "$src_ip$"'
@@ -50,7 +50,7 @@ tags:
         - Cisco Secure Access Analytics
     asset_type: Endpoint
     mitre_attack_id:
-        - T1562.001
+        - T1090.003
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
