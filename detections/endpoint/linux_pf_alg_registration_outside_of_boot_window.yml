@@ -1,0 +1,61 @@
+name: Linux PF_ALG Registration Outside of Boot Window
+id: 8a9684ae-52e6-4a57-aea4-8a9f72942564
+version: 1
+date: '2026-05-11'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: tbd
+data_source:
+    - Linux Messages Syslog
+search: |
+    sourcetype="linux_messages_syslog" "NET: Registered PF_ALG protocol family"
+    | rex field=_raw "kernel: \[\s*(?<uptime_seconds>[\d\.]+)\]"
+    | eval uptime_seconds=tonumber(uptime_seconds)
+    | where uptime_seconds > 300
+    | eval uptime_readable=tostring(round(uptime_seconds/60,1)) . " minutes after boot"
+    | rename host as dest
+    | table _time dest uptime_seconds uptime_readable _raw
+    | sort -uptime_seconds
+    | `linux_pf_alg_registration_outside_of_boot_window_filter`
+how_to_implement: To successfully implement this search, you need to have relevant kernel logs ingested with the Splunk Add-On for Unix and Linux (https://splunkbase.splunk.com/app/833).
+known_false_positives: AF_ALG can be legitimately loaded after boot by on-demand LUKS volume mounts, IPsec VPN clients establishing tunnels, or OpenSSL deployments with the afalg engine enabled, making this signal most reliable on dedicated server infrastructure where these operations are handled at boot time.
+references:
+    - https://xint.io/blog/copy-fail-linux-distributions
+    - https://github.com/theori-io/copy-fail-CVE-2026-31431
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: AF_ALG instantiated after boot on $dest$ indicating possible privilege escalation.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Linux Privilege Escalation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1068
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2026-31431
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: http://localhost/T1068/linux_auditd_copy_fail/kern.log
+          source: /var/log/kern
+          sourcetype: linux_messages_syslog
