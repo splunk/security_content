@@ -1,7 +1,8 @@
 name: Abnormally High Number Of Cloud Instances Launched
 id: f2361e9f-3928-496c-a556-120cd4223a65
 version: 10
-date: '2026-03-10'
+creation_date: '2021-01-14'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: removed
 type: Anomaly
@@ -51,3 +52,7 @@ tags:
         - Splunk Enterprise Security
         - Splunk Cloud
     security_domain: threat
+deprecation_info:
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+    removed_in_version: 5.26.0
+    replacement_content: []

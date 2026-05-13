@@ -1,7 +1,8 @@
 name: ASL AWS Defense Evasion PutBucketLifecycle
 id: 986565a2-7707-48ea-9590-37929cebc938
-version: 6
-date: '2026-05-04'
+version: 7
+creation_date: '2022-07-25'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: Hunting
@@ -27,21 +28,22 @@ how_to_implement: The detection is based on Amazon Security Lake events from Ama
 known_false_positives: While this search has no known false positives, it is possible that it is a legitimate admin activity. Please consider filtering out these noisy events using userAgent, user_arn field names.
 references:
     - https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-lifecycle-rule/
-tags:
-    analytic_story:
-        - AWS Defense Evasion
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1485.001
-        - T1685.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+analytic_story:
+    - AWS Defense Evasion
+asset_type: AWS Account
+mitre_attack_id:
+    - T1485.001
+    - T1685.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/put_bucketlifecycle/asl_ocsf_cloudtrail.json
           sourcetype: aws:asl
           source: aws_asl
+      test_type: unit

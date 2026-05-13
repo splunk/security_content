@@ -1,13 +1,14 @@
 name: O365 ApplicationImpersonation Role Assigned
 id: 49cdce75-f814-4d56-a7a4-c64ec3a481f2
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects the assignment of the ApplicationImpersonation role in Office 365 to a user or application. It uses the Office 365 Management Activity API to monitor Azure Active Directory audit logs for role assignment events. This activity is significant because the ApplicationImpersonation role allows impersonation of any user, enabling access to and modification of their mailbox. If confirmed malicious, an attacker could gain unauthorized access to sensitive information, manipulate mailbox data, and perform actions as a legitimate user, posing a severe security risk to the organization.
 data_source:
     - O365
-description: The following analytic detects the assignment of the ApplicationImpersonation role in Office 365 to a user or application. It uses the Office 365 Management Activity API to monitor Azure Active Directory audit logs for role assignment events. This activity is significant because the ApplicationImpersonation role allows impersonation of any user, enabling access to and modification of their mailbox. If confirmed malicious, an attacker could gain unauthorized access to sensitive information, manipulate mailbox data, and perform actions as a legitimate user, posing a severe security risk to the organization.
 search: |-
     `o365_management_activity` Workload=Exchange Operation="New-ManagementRoleAssignment" Role=ApplicationImpersonation
       | rename User as target_user
@@ -33,32 +34,47 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$target_user$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $user$ granted the ApplicationImpersonation role to $target_user$
-    risk_objects:
-        - field: target_user
-          type: user
-          score: 50
+finding:
+    title: $user$ granted the ApplicationImpersonation role to $target_user$
+    entity:
+        field: target_user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Persistence Mechanisms
-        - Office 365 Collection Techniques
-        - NOBELIUM Group
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1098.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: $user$ granted the ApplicationImpersonation role to $target_user$
+analytic_story:
+    - Office 365 Persistence Mechanisms
+    - Office 365 Collection Techniques
+    - NOBELIUM Group
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1098.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/application_impersonation_role_assigned/application_impersonation_role_assigned.log
           source: O365
           sourcetype: o365:management:activity
+      test_type: unit
+MANUAL_REVIEW:
+    rba:
+        message: $user$ granted the ApplicationImpersonation role to $target_user$
+        risk_objects:
+            - field: target_user
+              type: user
+              score: 50
+            - field: user
+              type: user
+              score: 50
+        threat_objects: []
+    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

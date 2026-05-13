@@ -1,13 +1,14 @@
 name: Okta Successful Single Factor Authentication
 id: 98f6ad4f-4325-4096-9d69-45dc8e638e82
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies successful single-factor authentication events against the Okta Dashboard for accounts without Multi-Factor Authentication (MFA) enabled. It detects this activity by analyzing Okta logs for successful authentication events where "Okta Verify" is not used. This behavior is significant as it may indicate a misconfiguration, policy violation, or potential account takeover. If confirmed malicious, an attacker could gain unauthorized access to the account, potentially leading to data breaches or further exploitation within the environment.
 data_source:
     - Okta
-type: Anomaly
-status: production
-description: The following analytic identifies successful single-factor authentication events against the Okta Dashboard for accounts without Multi-Factor Authentication (MFA) enabled. It detects this activity by analyzing Okta logs for successful authentication events where "Okta Verify" is not used. This behavior is significant as it may indicate a misconfiguration, policy violation, or potential account takeover. If confirmed malicious, an attacker could gain unauthorized access to the account, potentially leading to data breaches or further exploitation within the environment.
 search: |-
     `okta`  action=success src_user_type = User eventType = user.authentication.verify OR eventType = user.authentication.auth_via_mfa
       | stats dc(eventType) values(eventType) as eventType values(target{}.displayName) as targets values(debugContext.debugData.url) min(_time) as firstTime max(_time) as lastTime values(authentication_method)
@@ -31,29 +32,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A user [$user$] has successfully logged in to Okta Dashboard with single factor authentication from IP Address - [$src_ip$].
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Okta Account Takeover
-    asset_type: Okta Tenant
-    mitre_attack_id:
-        - T1078.004
-        - T1586.003
-        - T1621
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+          message: A user [$user$] has successfully logged in to Okta Dashboard with single factor authentication from IP Address - [$src_ip$].
+analytic_story:
+    - Okta Account Takeover
+asset_type: Okta Tenant
+mitre_attack_id:
+    - T1078.004
+    - T1586.003
+    - T1621
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/okta_single_factor_auth/okta_single_factor_auth.log
           source: okta_log
           sourcetype: OktaIM2:log
+      test_type: unit

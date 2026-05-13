@@ -1,0 +1,15 @@
+name: security_group_activity_baseline
+id: 2e110067-48ac-42bd-84a8-a97861edf80d
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A placeholder for the baseline information for AWS security groups
+fields:
+    - _key
+    - arn
+    - latestCount
+    - numDataPoints
+    - avgApiCalls
+    - stdevApiCalls

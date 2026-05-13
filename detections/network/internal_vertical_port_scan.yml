@@ -1,14 +1,15 @@
 name: Internal Vertical Port Scan
 id: 40d2dc41-9bbf-421a-a34b-8611271a6770
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2020-01-19'
+modification_date: '2026-05-13'
 author: Dean Luxton, Splunk
 status: production
 type: TTP
+description: This analytic detects instances where an internal host attempts to communicate with over 500 ports on a single destination IP address. It includes filtering criteria to exclude applications performing scans over ephemeral port ranges, focusing on potential reconnaissance or scanning activities. Monitoring network traffic logs allows for timely detection and response to such behavior, enhancing network security by identifying and mitigating potential threats promptly.
 data_source:
     - AWS CloudWatchLogs VPCflow
     - Cisco Secure Firewall Threat Defense Connection Event
-description: This analytic detects instances where an internal host attempts to communicate with over 500 ports on a single destination IP address. It includes filtering criteria to exclude applications performing scans over ephemeral port ranges, focusing on potential reconnaissance or scanning activities. Monitoring network traffic logs allows for timely detection and response to such behavior, enhancing network security by identifying and mitigating potential threats promptly.
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -64,37 +65,39 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $src_ip$ has scanned $totalDestPortCount$ ports on $dest_ip$
-    risk_objects:
-        - field: src_ip
-          type: system
-          score: 50
-    threat_objects:
-        - field: dest_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Network Discovery
-        - Cisco Secure Firewall Threat Defense Analytics
-        - China-Nexus Threat Activity
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1046
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: $src_ip$ has scanned $totalDestPortCount$ ports on $dest_ip$
+    entity:
+        field: src_ip
+        type: system
+        score: 50
+threat_objects:
+    - field: dest_ip
+      type: ip_address
+analytic_story:
+    - Network Discovery
+    - Cisco Secure Firewall Threat Defense Analytics
+    - China-Nexus Threat Activity
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id:
+    - T1046
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: AWS CloudWatch True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/nmap/vertical.log
           source: aws:cloudwatchlogs:vpcflow
           sourcetype: aws:cloudwatchlogs:vpcflow
+      test_type: unit
     - name: Cisco Secure Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

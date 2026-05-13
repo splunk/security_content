@@ -1,7 +1,8 @@
 name: Microsoft Intune Mobile Apps
 id: 98e6b389-2806-4426-a580-8a92cb0d9710
-version: 4
-date: '2026-02-25'
+version: 5
+creation_date: '2025-01-06'
+modification_date: '2026-05-13'
 author: Dean Luxton
 status: experimental
 type: Hunting
@@ -25,17 +26,17 @@ references:
     - https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d
     - https://securityintelligence.com/x-force/detecting-intune-lateral-movement/
     - https://posts.specterops.io/maestro-9ed71d38d546
-tags:
-    analytic_story:
-        - Azure Active Directory Account Takeover
-    asset_type: Azure Tenant
-    mitre_attack_id:
-        - T1072
-        - T1021.007
-        - T1202
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: audit
+analytic_story:
+    - Azure Active Directory Account Takeover
+asset_type: Azure Tenant
+mitre_attack_id:
+    - T1072
+    - T1021.007
+    - T1202
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: audit

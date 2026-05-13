@@ -1,7 +1,8 @@
 name: Exchange PowerShell Abuse via SSRF
 id: 29228ab4-0762-11ec-94aa-acde48001122
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2021-09-01'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -21,25 +22,24 @@ references:
     - https://github.com/GossiTheDog/ThreatHunting/blob/master/AzureSentinel/Exchange-Powershell-via-SSRF
     - https://blog.orange.tw/2021/08/proxylogon-a-new-attack-surface-on-ms-exchange-part-1.html
     - https://peterjson.medium.com/reproducing-the-proxyshell-pwn2own-exploit-49743a4ea9a1
-rba:
-    message: Activity related to ProxyShell has been identified on $dest$. Review events and take action accordingly.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ProxyShell
-        - BlackByte Ransomware
-        - ProxyNotShell
-        - Seashell Blizzard
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1190
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Activity related to ProxyShell has been identified on $dest$. Review events and take action accordingly.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - ProxyShell
+    - BlackByte Ransomware
+    - ProxyNotShell
+    - Seashell Blizzard
+asset_type: Endpoint
+mitre_attack_id:
+    - T1190
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

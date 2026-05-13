@@ -1,7 +1,8 @@
 name: O365 Cross-Tenant Access Change
 id: 7c0fa490-12b0-4d0b-b9f5-e101d1e0e06f
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-04-13'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -25,27 +26,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The user [$user$] changed the Azure cross-tenant access settings
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Azure Active Directory Persistence
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1484.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: The user [$user$] changed the Azure cross-tenant access settings
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Azure Active Directory Persistence
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1484.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
           sourcetype: o365:management:activity
           source: o365
+      test_type: unit

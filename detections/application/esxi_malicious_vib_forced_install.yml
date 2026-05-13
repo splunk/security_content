@@ -1,7 +1,8 @@
 name: ESXi Malicious VIB Forced Install
 id: 5d4d2cd2-7b65-4474-97cf-e9b203bcd770
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-07-11'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -22,29 +23,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A VIB was installed on ESXi $dest$ with the force flag.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ESXi Post Compromise
-        - Black Basta Ransomware
-        - China-Nexus Threat Activity
-    asset_type: Infrastructure
-    mitre_attack_id:
-        - T1505.006
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A VIB was installed on ESXi $dest$ with the force flag.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - ESXi Post Compromise
+    - Black Basta Ransomware
+    - China-Nexus Threat Activity
+asset_type: Infrastructure
+mitre_attack_id:
+    - T1505.006
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.006/esxi_malicious_vib/esxi_malicious_vib_forced_install.log
           source: vmware:esxlog
           sourcetype: vmw-syslog
+      test_type: unit

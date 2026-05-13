@@ -1,23 +1,23 @@
 name: Investigate Web POSTs From src
 id: f5c39fac-205c-4e07-9004-8fd61ea3431a
 version: 2
-date: '2024-09-24'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Jose Hernandez, Splunk
 type: Investigation
 status: removed
-description: This investigative search retrieves POST requests from a specified source
-  IP or hostname. Identifying the POST requests, as well as their associated destination
-  URLs and user agent(s), may help you scope and characterize the suspicious traffic.
-search: '| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web
-  by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name(Web)`| search
-  http_method, "POST" | search src=$src$'
-how_to_implement: To successfully implement this search, you must be ingesting your
-  web-traffic logs and populating the web data model.
+description: This investigative search retrieves POST requests from a specified source IP or hostname. Identifying the POST requests, as well as their associated destination URLs and user agent(s), may help you scope and characterize the suspicious traffic.
+search: '| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name(Web)`| search http_method, "POST" | search src=$src$'
+how_to_implement: To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - Apache Struts Vulnerability
-  product:
-  - Splunk Phantom
-  security_domain: network
+    analytic_story:
+        - Apache Struts Vulnerability
+    product:
+        - Splunk Phantom
+    security_domain: network
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

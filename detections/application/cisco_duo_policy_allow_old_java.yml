@@ -1,12 +1,11 @@
 name: Cisco Duo Policy Allow Old Java
 id: ff56d843-57de-4a87-b726-13b145f6bf96
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-07-10'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-data_source:
-    - Cisco Duo Administrator
-type: TTP
 status: production
+type: TTP
 description: |
     The following analytic detects when a Duo policy is created or updated to allow the use of outdated Java versions, which can introduce significant
     security risks. It works by searching Duo administrator activity logs for policy creation or update actions where the policy explicitly sets
@@ -15,6 +14,8 @@ description: |
     (SOC) because allowing outdated Java can expose an organization to known vulnerabilities, malware, and exploitation techniques. Attackers or malicious
     insiders may attempt to weaken security controls by modifying policies to permit insecure software, increasing the risk of compromise. Prompt detection
     enables SOC analysts to respond quickly, revert risky changes, and mitigate potential threats before they are exploited.
+data_source:
+    - Cisco Duo Administrator
 search: |-
     `cisco_duo_administrator` action=policy_update OR action=policy_create
       | spath input=description
@@ -39,27 +40,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A policy has been created or updated to allow old java by user $user$ with email $admin_email$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Cisco Duo Suspicious Activity
-    asset_type: Identity
-    mitre_attack_id:
-        - T1556
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: A policy has been created or updated to allow old java by user $user$ with email $admin_email$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Cisco Duo Suspicious Activity
+asset_type: Identity
+mitre_attack_id:
+    - T1556
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_policy_allow_old_flash_and_java/cisco_duo_administrator.json
           source: duo
           sourcetype: cisco:duo:administrator
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Windows Cabinet File Extraction Via Expand
 id: 4e3e3b8c-6d3a-4b47-9f5a-9e3e0a0a6f2f
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-10-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -43,41 +44,59 @@ drilldown_searches:
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: |
-        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$","$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name"
-          values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories"
-          values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-          by normalized_risk_object
-        | `security_content_ctime(firstTime)`
-        | `security_content_ctime(lastTime)`
+          | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$","$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name"
+            values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories"
+            values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+            by normalized_risk_object
+          | `security_content_ctime(firstTime)`
+          | `security_content_ctime(lastTime)`
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: expand.exe extracted cabinet contents on $dest$ executed by $user$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
+finding:
+    title: expand.exe extracted cabinet contents on $dest$ executed by $user$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+intermediate_findings:
+    entities:
         - field: user
           type: system
           score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - APT37 Rustonotto and FadeStealer
-        - NetSupport RMM Tool Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: expand.exe extracted cabinet contents on $dest$ executed by $user$.
+threat_objects:
+    - &id001
+      field: process_name
+      type: process_name
+analytic_story:
+    - APT37 Rustonotto and FadeStealer
+    - NetSupport RMM Tool Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1140/atomic_red_team/expand_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+MANUAL_REVIEW:
+    rba:
+        message: expand.exe extracted cabinet contents on $dest$ executed by $user$.
+        risk_objects:
+            - field: dest
+              type: system
+              score: 50
+            - field: user
+              type: system
+              score: 50
+        threat_objects:
+            - *id001
+    manual_review_rationale: Multiple non-user-type entities found, but no user-type entities. We have picked the first non-user type entity and flagged this detection for manual review.

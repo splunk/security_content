@@ -1,0 +1,12 @@
+name: typo_squatted_python_packages
+id: cd309a8c-90d8-4c0d-98bf-70e8f5296a1e
+version: 2
+creation_date: '2025-07-05'
+modification_date: '2026-05-13'
+author: Nasreddine Bencherchali, Splunk Threat Research Team
+lookup_type: csv
+description: A list of known typo squatted python packages
+match_type:
+    - WILDCARD(typosquatted_package_name)
+min_matches: 1
+case_sensitive_match: false

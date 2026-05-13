@@ -1,7 +1,8 @@
 name: Web or Application Server Spawning a Shell
 id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2021-12-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -68,50 +69,51 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ spawning a Linux shell, potentially indicative of exploitation.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - BlackByte Ransomware
-        - CISA AA22-257A
-        - CISA AA22-264A
-        - Cleo File Transfer Software
-        - Data Destruction
-        - Flax Typhoon
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - HAFNIUM Group
-        - Hermetic Wiper
-        - Log4Shell CVE-2021-44228
-        - Microsoft SharePoint Vulnerabilities
-        - Microsoft WSUS CVE-2025-59287
-        - PHP-CGI RCE Attack on Japanese Organizations
-        - ProxyNotShell
-        - ProxyShell
-        - SAP NetWeaver Exploitation
-        - Spring4Shell CVE-2022-22965
-        - SysAid On-Prem Software CVE-2023-47246 Vulnerability
-        - WS FTP Server Critical Vulnerabilities
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1190
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ spawning a Linux shell, potentially indicative of exploitation.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - BlackByte Ransomware
+    - CISA AA22-257A
+    - CISA AA22-264A
+    - Cleo File Transfer Software
+    - Data Destruction
+    - Flax Typhoon
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - HAFNIUM Group
+    - Hermetic Wiper
+    - Log4Shell CVE-2021-44228
+    - Microsoft SharePoint Vulnerabilities
+    - Microsoft WSUS CVE-2025-59287
+    - PHP-CGI RCE Attack on Japanese Organizations
+    - ProxyNotShell
+    - ProxyShell
+    - SAP NetWeaver Exploitation
+    - Spring4Shell CVE-2022-22965
+    - SysAid On-Prem Software CVE-2023-47246 Vulnerability
+    - WS FTP Server Critical Vulnerabilities
+asset_type: Endpoint
+mitre_attack_id:
+    - T1190
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java_spawn_shell_nix.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

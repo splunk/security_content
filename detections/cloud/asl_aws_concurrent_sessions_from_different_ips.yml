@@ -1,7 +1,8 @@
 name: ASL AWS Concurrent Sessions From Different Ips
 id: b3424bbe-3204-4469-887b-ec144483a336
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2023-02-01'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -33,32 +34,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ has concurrent sessions from more than one unique IP address in the span of 5 minutes.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Compromised User Account
-        - AWS Identity and Access Management Account Takeover
-        - Scattered Lapsus$ Hunters
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1185
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
-    manual_test: Can't be tested automatically because of time span.
+          message: User $user$ has concurrent sessions from more than one unique IP address in the span of 5 minutes.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Compromised User Account
+    - AWS Identity and Access Management Account Takeover
+    - Scattered Lapsus$ Hunters
+asset_type: AWS Account
+mitre_attack_id:
+    - T1185
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/asl_ocsf_cloudtrail.json
           sourcetype: aws:asl
           source: aws_asl
+      description: PORTED MANUAL TEST - Can't be tested automatically because of time span.
+      test_type: experimental

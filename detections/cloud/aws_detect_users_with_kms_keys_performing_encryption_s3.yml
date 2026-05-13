@@ -1,7 +1,8 @@
 name: AWS Detect Users with KMS keys performing encryption S3
 id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2020-10-27'
+modification_date: '2026-05-13'
 author: Rod Soto, Patrick Bareiss Splunk
 status: production
 type: Anomaly
@@ -35,27 +36,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ with KMS keys is performing encryption, against S3 buckets on these files $dest_file$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Ransomware Cloud
-    asset_type: S3 Bucket
-    mitre_attack_id:
-        - T1486
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: User $user$ with KMS keys is performing encryption, against S3 buckets on these files $dest_file$
+analytic_story:
+    - Ransomware Cloud
+asset_type: S3 Bucket
+mitre_attack_id:
+    - T1486
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

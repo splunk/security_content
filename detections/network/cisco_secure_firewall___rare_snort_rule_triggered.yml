@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Rare Snort Rule Triggered
 id: e20313d2-7d63-4fcf-b2d9-d6e12c6c7bd7
-version: 5
-date: '2026-02-25'
+version: 6
+creation_date: '2025-04-16'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
@@ -36,22 +37,23 @@ how_to_implement: |
 known_false_positives: False positives may occur with certain rare activity. Apply additional filters where required.
 references:
     - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Network
-    security_domain: network
-    mitre_attack_id:
-        - T1598
-        - T1583.006
-    product:
-        - Splunk Enterprise
-        - Splunk Cloud
-        - Splunk Enterprise Security
-    manual_test: This detection is a hunting search that has the fixed time range of 7 days baked into the search. Hence based on the time range of the data in the logs, the detection may or may not return results with TriggerCount = 1 in testing.
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Network
+mitre_attack_id:
+    - T1598
+    - T1583.006
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      description: PORTED MANUAL TEST - This detection is a hunting search that has the fixed time range of 7 days baked into the search. Hence based on the time range of the data in the logs, the detection may or may not return results with TriggerCount = 1 in testing.
+      test_type: experimental

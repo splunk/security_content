@@ -1,0 +1,9 @@
+name: baseline_blocked_outbound_connections
+id: 3abebeea-215f-44aa-ba69-3c2e828b7887
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A lookup file that will contain the baseline information for number of blocked outbound connections
+

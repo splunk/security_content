@@ -1,12 +1,13 @@
 name: Windows Modify Registry Risk Behavior
 id: 5eb479b1-a5ea-4e01-8365-780078613776
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2023-06-15'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Correlation
-data_source: []
 description: The following analytic identifies instances where three or more distinct registry modification events associated with MITRE ATT&CK Technique T1112 are detected. It leverages data from the Risk data model in Splunk, focusing on registry-related sources and MITRE technique annotations. This activity is significant because multiple registry modifications can indicate an attempt to persist, hide malicious configurations, or erase forensic evidence. If confirmed malicious, this behavior could allow attackers to maintain persistent access, execute malicious code, and evade detection, posing a severe threat to the integrity and security of the affected host.
+data_source: []
 search: |-
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score) as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source, dc(source) as source_count FROM datamodel=Risk.All_Risk
       WHERE source IN ("*registry*") All_Risk.annotations.mitre_attack.mitre_technique_id IN ("*T1112*")
@@ -32,20 +33,24 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-tags:
-    analytic_story:
-        - Windows Registry Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1112
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Windows Registry Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1112
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/windows_mod_reg_risk_behavior/modify_reg_risk.log
           source: mod_reg
           sourcetype: stash
+      test_type: unit
+MANUAL_REVIEW:
+    rba: {}
+    manual_review_rationale: Legacy Correlation detections have no rba section (and therefore no entities), but the new format requires a finding with at least one entity. A content author must supply the finding entity for each Correlation detection. Additionally, evaluate whether any Threat Objects are appropriate.

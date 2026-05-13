@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Citrix NetScaler Memory Overread Attempt
 id: 93db24a0-fd21-45d7-9daf-84afd5a8cca2
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-07-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP
@@ -62,31 +63,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential exploitation of CVE-2025-5777 from $src$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: system
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Citrix NetScaler ADC and NetScaler Gateway CVE-2025-5777
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1203
-        - T1059
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Potential exploitation of CVE-2025-5777 from $src$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: system
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Citrix NetScaler ADC and NetScaler Gateway CVE-2025-5777
+asset_type: Endpoint
+mitre_attack_id:
+    - T1203
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

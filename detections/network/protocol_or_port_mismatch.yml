@@ -1,7 +1,8 @@
 name: Protocol or Port Mismatch
 id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: production
 type: Anomaly
@@ -55,31 +56,43 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Port or Protocol Traffic Mismatch
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src_ip
           type: system
           score: 20
-    threat_objects:
-        - field: dest_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Prohibited Traffic Allowed or Protocol Mismatch
-        - Command And Control
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1048.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Port or Protocol Traffic Mismatch
+threat_objects:
+    - &id001
+      field: dest_ip
+      type: ip_address
+analytic_story:
+    - Prohibited Traffic Allowed or Protocol Mismatch
+    - Command And Control
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1048.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: Cisco Secure Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit
+MANUAL_REVIEW:
+    rba:
+        message: Port or Protocol Traffic Mismatch
+        risk_objects:
+            - field: src_ip
+              type: system
+              score: 20
+        threat_objects:
+            - *id001
+    manual_review_rationale: "The following error was found while validating the intermediate finding message: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Port or Protocol Traffic Mismatch'. At least one token is required. [type=value_error, input_value='Port or Protocol Traffic Mismatch', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

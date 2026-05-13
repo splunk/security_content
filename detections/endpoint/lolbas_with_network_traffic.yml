@@ -1,7 +1,8 @@
 name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
-version: 17
-date: '2026-04-15'
+version: 18
+creation_date: '2023-02-02'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -107,38 +108,39 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The LOLBAS $process_name$ on device $src$ was seen communicating with $dest$.
-    risk_objects:
-        - field: src
-          type: system
-          score: 50
-    threat_objects:
-        - field: dest_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Fake CAPTCHA Campaigns
-        - Living Off The Land
-        - Malicious Inno Setup Loader
-        - Water Gamayun
-        - APT37 Rustonotto and FadeStealer
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Hellcat Ransomware
-        - NetSupport RMM Tool Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1105
-        - T1567
-        - T1218
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: The LOLBAS $process_name$ on device $src$ was seen communicating with $dest$.
+    entity:
+        field: src
+        type: system
+        score: 50
+threat_objects:
+    - field: dest_ip
+      type: ip_address
+analytic_story:
+    - Fake CAPTCHA Campaigns
+    - Living Off The Land
+    - Malicious Inno Setup Loader
+    - Water Gamayun
+    - APT37 Rustonotto and FadeStealer
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Hellcat Ransomware
+    - NetSupport RMM Tool Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+    - T1567
+    - T1218
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

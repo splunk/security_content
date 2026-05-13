@@ -1,0 +1,14 @@
+name: cloud_instances_enough_data
+id: 2aabac97-9782-4156-9dfd-7c1fb7aab2a6
+version: 3
+creation_date: '2020-08-25'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A lookup to determine if you have a sufficient amount of time has passed to collect cloud instance data for behavioral searches
+fields:
+    - _key
+    - filter
+    - enough_data
+match_type:
+    - WILDCARD(filter)

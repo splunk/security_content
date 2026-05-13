@@ -1,13 +1,14 @@
 name: Windows AD ServicePrincipalName Added To Domain Account
 id: 8a1259cb-0ea7-409c-8bfe-74bad89259f9
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2022-11-17'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
-type: TTP
 status: production
+type: TTP
+description: The following analytic detects the addition of a Service Principal Name (SPN) to a domain account. It leverages Windows Event Code 5136 and monitors changes to the servicePrincipalName attribute. This activity is significant because it may indicate an attempt to perform Kerberoasting, a technique where attackers extract and crack service account passwords offline. If confirmed malicious, this could allow an attacker to obtain cleartext passwords, leading to unauthorized access and potential lateral movement within the domain environment.
 data_source:
     - Windows Event Log Security 5136
-description: The following analytic detects the addition of a Service Principal Name (SPN) to a domain account. It leverages Windows Event Code 5136 and monitors changes to the servicePrincipalName attribute. This activity is significant because it may indicate an attempt to perform Kerberoasting, a technique where attackers extract and crack service account passwords offline. If confirmed malicious, this could allow an attacker to obtain cleartext passwords, leading to unauthorized access and potential lateral movement within the domain environment.
 search: >-
     `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
     OperationType="%%14674" ObjectClass=user
@@ -30,31 +31,46 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$ObjectDN$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A Servince Principal Name for $ObjectDN$ was set by $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: A Servince Principal Name for $ObjectDN$ was set by $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: src_user
           type: user
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sneaky Active Directory Persistence Tricks
-        - Interlock Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1098
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A Servince Principal Name for $ObjectDN$ was set by $user$
+analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+    - Interlock Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1098
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/service_principal_name_added/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit
+MANUAL_REVIEW:
+    rba:
+        message: A Servince Principal Name for $ObjectDN$ was set by $user$
+        risk_objects:
+            - field: user
+              type: user
+              score: 50
+            - field: src_user
+              type: user
+              score: 50
+        threat_objects: []
+    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

@@ -1,7 +1,8 @@
 name: Detect Outlook exe writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
-version: 17
-date: '2026-04-15'
+version: 18
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -93,39 +94,41 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: ZIP file - [$file_name$] located in [$file_path$] written by outlook.exe on destination host - [$dest$] by user - [$user$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: ZIP file - [$file_name$] located in [$file_path$] written by outlook.exe on destination host - [$dest$] by user - [$user$]
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: file_name
-          type: file_name
-        - field: file_path
-          type: file_path
-tags:
-    analytic_story:
-        - Amadey
-        - APT37 Rustonotto and FadeStealer
-        - Meduza Stealer
-        - PXA Stealer
-        - Remcos
-        - Spearphishing Attachments
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1566.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: ZIP file - [$file_name$] located in [$file_path$] written by outlook.exe on destination host - [$dest$] by user - [$user$]
+threat_objects:
+    - field: file_name
+      type: file_name
+    - field: file_path
+      type: file_path
+analytic_story:
+    - Amadey
+    - APT37 Rustonotto and FadeStealer
+    - Meduza Stealer
+    - PXA Stealer
+    - Remcos
+    - Spearphishing Attachments
+asset_type: Endpoint
+mitre_attack_id:
+    - T1566.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/outlook_writing_zip/outlook_writing_zip.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

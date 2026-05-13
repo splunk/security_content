@@ -1,7 +1,8 @@
 name: Detect F5 TMUI RCE CVE-2020-5902
 id: 810e4dbc-d46e-11ea-87d0-0242ac130003
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2020-08-04'
+modification_date: '2026-05-13'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -13,23 +14,31 @@ known_false_positives: No false positives have been identified at this time.
 references:
     - https://www.ptsecurity.com/ww-en/about/news/f5-fixes-critical-vulnerability-discovered-by-positive-technologies-in-big-ip-application-delivery-controller/
     - https://support.f5.com/csp/article/K52145254
-rba:
-    message: Potential F5 TMUI RCE traffic
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - F5 TMUI RCE CVE-2020-5902
-    asset_type: Network
-    cve:
-        - CVE-2020-5902
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Potential F5 TMUI RCE traffic
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - F5 TMUI RCE CVE-2020-5902
+asset_type: Network
+cve:
+    - CVE-2020-5902
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+MANUAL_REVIEW:
+    rba:
+        message: Potential F5 TMUI RCE traffic
+        risk_objects:
+            - field: dest
+              type: system
+              score: 50
+        threat_objects: []
+    manual_review_rationale: "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential F5 TMUI RCE traffic'. At least one token is required. [type=value_error, input_value='Potential F5 TMUI RCE traffic', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

@@ -1,22 +1,19 @@
 name: Seashell Blizzard
 id: 72d9b847-0600-4cb6-8f70-516cc662a55c
-version: 1
-status: production
-date: '2025-03-24'
+version: 2
+creation_date: '2025-03-24'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
 description: Seashell Blizzard is a threat actor known for targeting organizations globally through a sophisticated campaign leveraging Exchange Server vulnerabilities, custom tools, and living-off-the-land techniques for persistent access and data collection.
-narrative: Seashell Blizzard operates through a multi-stage attack chain that begins with Exchange Server exploitation and progresses to establishing persistent access through various techniques. The group's initial access typically involves the exploitation of Exchange Server vulnerabilities including ProxyShell and ProxyNotShell, followed by web shell deployment through compromised Exchange paths and credential harvesting using renamed system tools and Task Manager UI.
-  The threat actor maintains persistence by deploying scheduled tasks, installing OpenSSH with custom keys, and making registry modifications for automatic execution. Their command and control infrastructure leverages Tor hidden services (ShadowLink) alongside legitimate remote access tools and custom tunneling utilities for covert communications.
-  For lateral movement and data collection, Seashell Blizzard extensively abuses Exchange PowerShell for mailbox access while conducting NTLM credential theft and systematic enumeration of network resources. The group demonstrates sophisticated operational security, often using legitimate system tools and living-off-the-land binaries to blend in with normal system operations. Their focus appears to be on long-term persistence and data collection, with particular emphasis on email data and network credentials.
-  Detection strategies focus on identifying suspicious Exchange Server activity, monitoring for unusual PowerShell commands, tracking scheduled task creation, and identifying anomalous system tool usage in sensitive contexts. The group's ability to maintain long-term access while evading detection makes them a significant threat to organizations globally.
-references: 
-- https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/
-- https://edgewaterit.com/2025/02/20/seashell-blizzard-apt/
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+narrative: Seashell Blizzard operates through a multi-stage attack chain that begins with Exchange Server exploitation and progresses to establishing persistent access through various techniques. The group's initial access typically involves the exploitation of Exchange Server vulnerabilities including ProxyShell and ProxyNotShell, followed by web shell deployment through compromised Exchange paths and credential harvesting using renamed system tools and Task Manager UI. The threat actor maintains persistence by deploying scheduled tasks, installing OpenSSH with custom keys, and making registry modifications for automatic execution. Their command and control infrastructure leverages Tor hidden services (ShadowLink) alongside legitimate remote access tools and custom tunneling utilities for covert communications. For lateral movement and data collection, Seashell Blizzard extensively abuses Exchange PowerShell for mailbox access while conducting NTLM credential theft and systematic enumeration of network resources. The group demonstrates sophisticated operational security, often using legitimate system tools and living-off-the-land binaries to blend in with normal system operations. Their focus appears to be on long-term persistence and data collection, with particular emphasis on email data and network credentials. Detection strategies focus on identifying suspicious Exchange Server activity, monitoring for unusual PowerShell commands, tracking scheduled task creation, and identifying anomalous system tool usage in sensitive contexts. The group's ability to maintain long-term access while evading detection makes them a significant threat to organizations globally.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/
+    - https://edgewaterit.com/2025/02/20/seashell-blizzard-apt/
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

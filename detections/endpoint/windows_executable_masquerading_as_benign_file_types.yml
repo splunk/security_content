@@ -1,7 +1,8 @@
 name: Windows Executable Masquerading as Benign File Types
 id: 0470c8e7-dd8d-420f-8302-073e8a2b66f0
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-11-21'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -36,33 +37,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A valid Windows PE executable $file_name$ located in $file_path$ was dropped on $dest$, disguised as a non-executable file type.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: Image
-          type: process
-        - field: file_name
-          type: file_name
-        - field: file_path
-          type: file_path
-tags:
-    analytic_story:
-        - NetSupport RMM Tool Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1036.008
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A valid Windows PE executable $file_name$ located in $file_path$ was dropped on $dest$, disguised as a non-executable file type.
+threat_objects:
+    - field: Image
+      type: process
+    - field: file_name
+      type: file_name
+    - field: file_path
+      type: file_path
+analytic_story:
+    - NetSupport RMM Tool Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1036.008
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.008/masquerading_executable_as_non_exec_file_type/non_exec_ext_but_exec_detected.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

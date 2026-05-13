@@ -1,34 +1,35 @@
 name: ASL AWS CloudTrail
 id: 1dcf9cfb-0e91-44c6-81b3-61b2574ec898
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2025-01-14'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 description: Represents AWS API dataset data collection from Amazon Security Lake.
 mitre_components:
-- Cloud Service Metadata
-- Cloud Service Modification
-- Cloud Storage Access
-- Instance Creation
-- Instance Deletion
-- Instance Start
-- Instance Stop
-- Instance Modification
-- Cloud Storage Creation
-- Cloud Storage Deletion
-- Cloud Service Enumeration
-- Cloud Storage Enumeration
+    - Cloud Service Metadata
+    - Cloud Service Modification
+    - Cloud Storage Access
+    - Instance Creation
+    - Instance Deletion
+    - Instance Start
+    - Instance Stop
+    - Instance Modification
+    - Cloud Storage Creation
+    - Cloud Storage Deletion
+    - Cloud Service Enumeration
+    - Cloud Storage Enumeration
 source: aws_asl
 sourcetype: aws:asl
 separator: api.operation
 supported_TA:
-- name: Splunk Add-on for AWS
-  url: https://splunkbase.splunk.com/app/1876
-  version: 8.1.1
+    - name: Splunk Add-on for AWS
+      url: https://splunkbase.splunk.com/app/1876
+      version: 8.1.1
 output_fields:
-- dest
-- user
-- user_agent
-- src
-- vendor_account
-- vendor_region
-- vendor_product
+    - dest
+    - user
+    - user_agent
+    - src
+    - vendor_account
+    - vendor_region
+    - vendor_product

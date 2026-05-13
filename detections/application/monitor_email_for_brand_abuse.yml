@@ -1,7 +1,8 @@
 name: Monitor Email For Brand Abuse
 id: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
@@ -22,21 +23,26 @@ search: |-
 how_to_implement: You need to ingest email header data. Specifically the sender's address (src_user) must be populated.  You also need to have run the search "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that will be checked for.
 known_false_positives: No false positives have been identified at this time.
 references: []
-rba:
-    message: Possible Brand Abuse from $email_domain$
-    risk_objects:
-        - field: src_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Brand Monitoring
-        - Suspicious Emails
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Possible Brand Abuse from $email_domain$
+    entity:
+        field: src_user
+        type: user
+        score: 50
+analytic_story:
+    - Brand Monitoring
+    - Suspicious Emails
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
+baselines:
+    - DNSTwist Domain Names
+MANUAL_REVIEW:
+    rba: {}
+    manual_review_rationale: 'Detection references baseline(s) flagged for manual review: DNSTwist Domain Names'

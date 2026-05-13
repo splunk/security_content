@@ -1,30 +1,21 @@
 name: DNSTwist Domain Names
 id: 19f7d2ec-6028-4d01-bcdb-bda9a034c17f
-version: 3
-date: '2026-01-14'
+version: 4
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
-type: Baseline
 status: production
-description: This search creates permutations of your existing domains, removes the
-  valid domain names and stores them in a specified lookup file so they can be checked
-  for in the associated detection searches.
-search: '| dnstwist domainlist=domains.csv | `remove_valid_domains` | eval domain_abuse="true"
-  | table domain, domain_abuse | outputlookup brandMonitoring_lookup | stats count'
-how_to_implement: To successfully implement this search you need to update the file
-  called domains.csv in the DA-ESS-SOC/lookup directory. Or `cim_corporate_email_domains.csv`
-  and `cim_corporate_web_domains.csv` from **Splunk\_SA\_CIM**.
+description: This search creates permutations of your existing domains, removes the valid domain names and stores them in a specified lookup file so they can be checked for in the associated detection searches.
+search: '| dnstwist domainlist=domains.csv | `remove_valid_domains` | eval domain_abuse="true" | table domain, domain_abuse | outputlookup brandMonitoring_lookup | stats count'
+how_to_implement: To successfully implement this search you need to update the file called domains.csv in the DA-ESS-SOC/lookup directory. Or `cim_corporate_email_domains.csv` and `cim_corporate_web_domains.csv` from **Splunk\_SA\_CIM**.
 known_false_positives: No false positives have been identified at this time.
 references: []
-tags:
-  analytic_story:
-  - Brand Monitoring
-  - Suspicious Emails
-  detections:
-  - Monitor Email For Brand Abuse
-  - Monitor DNS For Brand Abuse
-  - Monitor Web Traffic For Brand Abuse
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+security_domain: network
+schedule: Default Baseline
+MANUAL_REVIEW:
+    rba: {}
+    manual_review_rationale: 'Baseline references detections that do not exist in the corpus: Monitor DNS For Brand Abuse'

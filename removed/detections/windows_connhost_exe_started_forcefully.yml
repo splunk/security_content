@@ -1,49 +1,37 @@
 name: Windows connhost exe started forcefully
 id: c114aaca-68ee-41c2-ad8c-32bf21db8769
 version: 5
-date: '2024-11-14'
+creation_date: '2020-11-06'
+modification_date: '2026-05-13'
 author: Rod Soto, Jose Hernandez, Splunk
 status: removed
 type: TTP
-description: The search looks for the Console Window Host process (connhost.exe) executed
-  using the force flag -ForceV1. This is not regular behavior in the Windows OS and
-  is often seen executed by the Ryuk Ransomware. DEPRECATED This event is actually
-  seen in the windows 10 client of attack_range_local. After further testing we realized
-  this is not specific to Ryuk.
+description: The search looks for the Console Window Host process (connhost.exe) executed using the force flag -ForceV1. This is not regular behavior in the Windows OS and is often seen executed by the Ryuk Ransomware. DEPRECATED This event is actually seen in the windows 10 client of attack_range_local. After further testing we realized this is not specific to Ryuk.
 data_source:
-- Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process="*C:\\Windows\\system32\\conhost.exe*
-  0xffffffff *-ForceV1*" by Processes.user Processes.process_name Processes.process
-  Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `windows_connhost_exe_started_forcefully_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: This process should not be ran forcefully, we have not see
-  any false positives for this detection
+    - Sysmon EventID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process="*C:\\Windows\\system32\\conhost.exe* 0xffffffff *-ForceV1*" by Processes.user Processes.process_name Processes.process Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_connhost_exe_started_forcefully_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: This process should not be ran forcefully, we have not see any false positives for this detection
 references: []
 rba:
-  message: Potentially suspicious connhost.exe behavior on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: Potentially suspicious connhost.exe behavior on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Ryuk Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1059.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Ryuk Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.2.0
+    replacement_content: []

@@ -1,0 +1,139 @@
+{
+   "TTP": {
+      "count": 1048,
+      "exactly_one_user": 536,
+      "no_user_exactly_one_entity": 475,
+      "no_user_multiple_entities": 5,
+      "multiple_users": 32,
+      "flagged_for_review": 37
+   },
+   "Anomaly": {
+      "count": 788,
+      "flagged_for_review": 0
+   },
+   "Hunting": {
+      "count": 222,
+      "flagged_for_review": 0
+   },
+   "Correlation": {
+      "count": 15,
+      "flagged_for_review": 15
+   },
+   "Detailed Messages": {
+      "Baseline references detections that do not exist in the corpus: Monitor DNS For Brand Abuse": [
+         "baselines/dnstwist_domain_names.yml"
+      ],
+      "Baseline references detections that do not exist in the corpus: Detect Spike in Security Group Activity": [
+         "baselines/baseline_of_security_group_activity_by_arn.yml"
+      ],
+      "Baseline references detections that do not exist in the corpus: DNS record changed": [
+         "baselines/discover_dns_records.yml"
+      ],
+      "Baseline references detections that do not exist in the corpus: First time seen command line argument": [
+         "baselines/previously_seen_command_line_arguments.yml"
+      ],
+      "Baseline references detections that do not exist in the corpus: Detect Spike in Network ACL Activity": [
+         "baselines/baseline_of_network_acl_activity_by_arn.yml"
+      ],
+      "Baseline references detections that do not exist in the corpus: Detect AWS API Activities From Unapproved Accounts": [
+         "baselines/create_a_list_of_approved_aws_service_accounts.yml"
+      ],
+      "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potentially malicious traffic exploiting JBoss servers'. At least one token is required. [type=value_error, input_value='Potentially malicious tr...xploiting JBoss servers', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/web/detect_malicious_requests_to_exploit_jboss_servers.yml"
+      ],
+      "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential Scanning for Vulnerable JBoss Servers'. At least one token is required. [type=value_error, input_value='Potential Scanning for Vulnerable JBoss Servers', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/web/detect_attackers_scanning_for_vulnerable_jboss_servers.yml"
+      ],
+      "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential Brand Abus discovered in web logs'. At least one token is required. [type=value_error, input_value='Potential Brand Abus discovered in web logs', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/web/monitor_web_traffic_for_brand_abuse.yml"
+      ],
+      "Detection references baseline(s) flagged for manual review: DNSTwist Domain Names": [
+         "detections/application/monitor_email_for_brand_abuse.yml",
+         "detections/web/monitor_web_traffic_for_brand_abuse.yml"
+      ],
+      "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential F5 TMUI RCE traffic'. At least one token is required. [type=value_error, input_value='Potential F5 TMUI RCE traffic', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/web/detect_f5_tmui_rce_cve_2020_5902.yml"
+      ],
+      "Legacy Correlation detections have no rba section (and therefore no entities), but the new format requires a finding with at least one entity. A content author must supply the finding entity for each Correlation detection. Additionally, evaluate whether any Threat Objects are appropriate.": [
+         "detections/application/okta_risk_threshold_exceeded.yml",
+         "detections/cloud/aws_s3_exfiltration_behavior_identified.yml",
+         "detections/cloud/risk_rule_for_dev_sec_ops_by_repository.yml",
+         "detections/endpoint/active_directory_lateral_movement_identified.yml",
+         "detections/endpoint/active_directory_privilege_escalation_identified.yml",
+         "detections/endpoint/linux_persistence_and_privilege_escalation_risk_behavior.yml",
+         "detections/endpoint/living_off_the_land_detection.yml",
+         "detections/endpoint/log4shell_cve_2021_44228_exploitation.yml",
+         "detections/endpoint/steal_or_forge_authentication_certificates_behavior_identified.yml",
+         "detections/endpoint/windows_common_abused_cmd_shell_risk_behavior.yml",
+         "detections/endpoint/windows_modify_registry_risk_behavior.yml",
+         "detections/endpoint/windows_post_exploitation_risk_behavior.yml",
+         "detections/network/cisco_privileged_account_creation_with_http_command_execution.yml",
+         "detections/network/cisco_privileged_account_creation_with_suspicious_ssh_activity.yml",
+         "detections/web/proxyshell_proxynotshell_behavior_detected.yml"
+      ],
+      "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential Zerologon activity detected'. At least one token is required. [type=value_error, input_value='Potential Zerologon activity detected', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/network/detect_zerologon_via_zeek.yml"
+      ],
+      "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potentially Prohibited Network Traffic allowed'. At least one token is required. [type=value_error, input_value='Potentially Prohibited Network Traffic allowed', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/network/prohibited_network_traffic_allowed.yml"
+      ],
+      "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potentially Unauthorized Device observed'. At least one token is required. [type=value_error, input_value='Potentially Unauthorized Device observed', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/network/detect_unauthorized_assets_by_mac_address.yml"
+      ],
+      "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential SIGRed activity detected'. At least one token is required. [type=value_error, input_value='Potential SIGRed activity detected', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/network/detect_windows_dns_sigred_via_splunk_stream.yml",
+         "detections/network/detect_windows_dns_sigred_via_zeek.yml"
+      ],
+      "The following error was found while validating the intermediate finding message: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Port or Protocol Traffic Mismatch'. At least one token is required. [type=value_error, input_value='Port or Protocol Traffic Mismatch', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/network/protocol_or_port_mismatch.yml"
+      ],
+      "Multiple non-user-type entities found, but no user-type entities. We have picked the first non-user type entity and flagged this detection for manual review.": [
+         "detections/endpoint/slui_runas_elevated.yml",
+         "detections/endpoint/windows_cabinet_file_extraction_via_expand.yml",
+         "detections/endpoint/windows_sql_server_critical_procedures_enabled.yml",
+         "detections/endpoint/windows_sql_server_xp_cmdshell_config_change.yml",
+         "detections/network/detect_large_icmp_traffic.yml"
+      ],
+      "Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.": [
+         "detections/cloud/azure_ad_admin_consent_bypassed_by_service_principal.yml",
+         "detections/cloud/azure_ad_external_guest_user_invited.yml",
+         "detections/cloud/azure_ad_global_administrator_role_assigned.yml",
+         "detections/cloud/azure_ad_privileged_authentication_administrator_role_assigned.yml",
+         "detections/cloud/azure_ad_privileged_role_assigned.yml",
+         "detections/cloud/azure_ad_service_principal_owner_added.yml",
+         "detections/cloud/azure_ad_user_enabled_and_password_reset.yml",
+         "detections/cloud/azure_ad_user_immutableid_attribute_updated.yml",
+         "detections/cloud/gcp_multi_factor_authentication_disabled.yml",
+         "detections/cloud/o365_applicationimpersonation_role_assigned.yml",
+         "detections/cloud/o365_email_access_by_security_administrator.yml",
+         "detections/cloud/o365_email_reported_by_admin_found_malicious.yml",
+         "detections/cloud/o365_email_reported_by_user_found_malicious.yml",
+         "detections/cloud/o365_external_guest_user_invited.yml",
+         "detections/cloud/o365_privileged_role_assigned.yml",
+         "detections/cloud/o365_privileged_role_assigned_to_service_principal.yml",
+         "detections/cloud/o365_service_principal_new_client_credentials.yml",
+         "detections/endpoint/windows_ad_adminsdholder_acl_modified.yml",
+         "detections/endpoint/windows_ad_cross_domain_sid_history_addition.yml",
+         "detections/endpoint/windows_ad_dangerous_deny_acl_modification.yml",
+         "detections/endpoint/windows_ad_dangerous_group_acl_modification.yml",
+         "detections/endpoint/windows_ad_dangerous_user_acl_modification.yml",
+         "detections/endpoint/windows_ad_dcshadow_privileges_acl_addition.yml",
+         "detections/endpoint/windows_ad_domain_replication_acl_addition.yml",
+         "detections/endpoint/windows_ad_domain_root_acl_deletion.yml",
+         "detections/endpoint/windows_ad_domain_root_acl_modification.yml",
+         "detections/endpoint/windows_ad_hidden_ou_creation.yml",
+         "detections/endpoint/windows_ad_object_owner_updated.yml",
+         "detections/endpoint/windows_ad_same_domain_sid_history_addition.yml",
+         "detections/endpoint/windows_ad_serviceprincipalname_added_to_domain_account.yml",
+         "detections/endpoint/windows_privilege_escalation_suspicious_process_elevation.yml",
+         "detections/endpoint/windows_steal_authentication_certificates___esc1_authentication.yml"
+      ],
+      "This detection is missing a data_source: section.  Even if it has value 'data_source: []', every detection MUST include the data_source key/value.": [
+         "detections/cloud/o365_bec_email_hiding_rule_created.yml"
+      ],
+      "The following error was found while validating the intermediate finding message: 1 validation error for EsTokenString\n  Value error, Unbalanced $ delimiter in token string: 'Root logged in on ESXi host $dest$ from $SrcIpAddr.'. Each $ must be part of a $field_name$ token pair. [type=value_error, input_value='Root logged in on ESXi h...$dest$ from $SrcIpAddr.', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error": [
+         "detections/application/esxi_external_root_login_activity.yml",
+         "detections/application/esxi_external_root_login_activity.yml"
+      ]
+   }
+}

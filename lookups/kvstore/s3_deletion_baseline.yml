@@ -1,0 +1,15 @@
+name: s3_deletion_baseline
+id: 45e5d266-f80b-43f8-b4a7-87e070da4e70
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A placeholder for the baseline information for AWS S3 deletions
+fields:
+    - _key
+    - arn
+    - latestCount
+    - numDataPoints
+    - avgApiCalls
+    - stdevApiCalls

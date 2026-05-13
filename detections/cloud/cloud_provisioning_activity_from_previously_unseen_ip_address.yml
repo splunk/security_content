@@ -1,7 +1,8 @@
 name: Cloud Provisioning Activity From Previously Unseen IP Address
 id: f86a8ec9-b042-45eb-92f4-e9ed1d781078
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2020-11-30'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: production
 type: Anomaly
@@ -38,33 +39,38 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$object_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ is starting or creating an instance $object_id$ for the first time from IP address $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: object_id
           type: system
           score: 20
+          message: User $user$ is starting or creating an instance $object_id$ for the first time from IP address $src$
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Suspicious Cloud Provisioning Activities
-    asset_type: AWS Instance
-    mitre_attack_id:
-        - T1078
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
-    manual_test: This search needs the baseline to be run first to create a lookup
+          message: User $user$ is starting or creating an instance $object_id$ for the first time from IP address $src$
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Suspicious Cloud Provisioning Activities
+asset_type: AWS Instance
+mitre_attack_id:
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
+baselines:
+    - Previously Seen Cloud Provisioning Activity Sources - Initial
+    - Previously Seen Cloud Provisioning Activity Sources - Update
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      description: PORTED MANUAL TEST - This search needs the baseline to be run first to create a lookup
+      test_type: experimental

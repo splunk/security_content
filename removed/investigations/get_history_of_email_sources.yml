@@ -1,32 +1,30 @@
 name: Get History Of Email Sources
 id: ddc7af28-c34d-4392-af93-7f29a4e8806c
 version: 1
-date: '2019-02-21'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 type: Investigation
 status: removed
-description: This search returns a list of all email sources seen in the 48 hours
-  prior to the notable event to 24 hours after, and the number of emails from each
-  source.
-search: '|tstats `security_content_summariesonly` values(All_Email.dest) as dest values(All_Email.recipient)
-  as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email
-  by All_Email.src |`drop_dm_object_name(All_Email)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | search src=$src$'
-how_to_implement: To successfully implement this search you must ingest your email
-  logs or capture unencrypted email communications within network traffic, and populate
-  the Email data model.
+description: This search returns a list of all email sources seen in the 48 hours prior to the notable event to 24 hours after, and the number of emails from each source.
+search: '|tstats `security_content_summariesonly` values(All_Email.dest) as dest values(All_Email.recipient) as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email by All_Email.src |`drop_dm_object_name(All_Email)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search src=$src$'
+how_to_implement: To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - Emotet Malware DHS Report TA18-201A
-  - Hidden Cobra Malware
-  - Lateral Movement
-  - Malicious PowerShell
-  - Orangeworm Attack Group
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-  - Ransomware
-  - SamSam Ransomware
-  product:
-  - Splunk Phantom
-  security_domain: network
+    analytic_story:
+        - Emotet Malware DHS Report TA18-201A
+        - Hidden Cobra Malware
+        - Lateral Movement
+        - Malicious PowerShell
+        - Orangeworm Attack Group
+        - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+        - Ransomware
+        - SamSam Ransomware
+    product:
+        - Splunk Phantom
+    security_domain: network
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

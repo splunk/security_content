@@ -1,13 +1,14 @@
 name: Windows Process Injection into Commonly Abused Processes
 id: 1e1dedc6-f6f3-41a0-9dd7-a1245904fe75
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2023-02-24'
+modification_date: '2026-05-13'
 author: 0xC0FFEEEE, Github Community
-type: Anomaly
 status: production
+type: Anomaly
+description: The following analytic detects process injection into executables that are commonly abused using Sysmon EventCode 10. It identifies suspicious GrantedAccess requests (0x40 and 0x1fffff) to processes such as notepad.exe, wordpad.exe and calc.exe, excluding common system paths like System32, Syswow64, and Program Files. This behavior is often associated with the SliverC2 framework by BishopFox. Monitoring this activity is crucial as it may indicate an initial payload attempting to execute malicious code. If confirmed malicious, this could allow attackers to execute arbitrary code, potentially leading to privilege escalation or persistent access within the environment.
 data_source:
     - Sysmon EventID 10
-description: The following analytic detects process injection into executables that are commonly abused using Sysmon EventCode 10. It identifies suspicious GrantedAccess requests (0x40 and 0x1fffff) to processes such as notepad.exe, wordpad.exe and calc.exe, excluding common system paths like System32, Syswow64, and Program Files. This behavior is often associated with the SliverC2 framework by BishopFox. Monitoring this activity is crucial as it may indicate an initial payload attempting to execute malicious code. If confirmed malicious, this could allow attackers to execute arbitrary code, potentially leading to privilege escalation or persistent access within the environment.
 search: |-
     `sysmon`
     EventCode=10
@@ -72,34 +73,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $SourceImage$ injecting into $TargetImage$ was identified on endpoint $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: SourceImage
-          type: process
-        - field: TargetImage
-          type: process
-tags:
-    analytic_story:
-        - BishopFox Sliver Adversary Emulation Framework
-        - Earth Alux
-        - SAP NetWeaver Exploitation
-        - APT37 Rustonotto and FadeStealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1055.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $SourceImage$ injecting into $TargetImage$ was identified on endpoint $dest$.
+threat_objects:
+    - field: SourceImage
+      type: process
+    - field: TargetImage
+      type: process
+analytic_story:
+    - BishopFox Sliver Adversary Emulation Framework
+    - Earth Alux
+    - SAP NetWeaver Exploitation
+    - APT37 Rustonotto and FadeStealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1055.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/T1055_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

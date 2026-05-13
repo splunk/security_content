@@ -1,7 +1,8 @@
 name: Windows Detect Network Scanner Behavior
 id: 78e678d2-bf64-4fe6-aa52-2f7b11dddee7
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-12-26'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -22,34 +23,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A process exhibiting network scanning behavior [$process_name$] was detected on $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
+          message: A process exhibiting network scanning behavior [$process_name$] was detected on $src$
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Network Discovery
-        - Windows Discovery Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1595.001
-        - T1595.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: A process exhibiting network scanning behavior [$process_name$] was detected on $src$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Network Discovery
+    - Windows Discovery Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1595.001
+    - T1595.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/sysmon_scanning_events/sysmon_scanning_events.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,68 +1,68 @@
 name: Windows Event Log Printservice 808
 id: e3a26785-4389-4830-8d7b-3dad4252719e
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs an event when the print spooler service fails to load a printer
-  plug-in module.
+description: Logs an event when the print spooler service fails to load a printer plug-in module.
 mitre_components:
-- Module Load
-- Application Log Content
-- Service Metadata
+    - Module Load
+    - Application Log Content
+    - Service Metadata
 source: WinEventLog:Microsoft-Windows-PrintService/Admin
 sourcetype: WinEventLog
 separator: EventCode
 separator_value: '808'
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 10.0.1
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 10.0.1
 fields:
-- _time
-- ComputerName
-- EventCode
-- EventType
-- Keywords
-- LogName
-- Message
-- OpCode
-- RecordNumber
-- Sid
-- SidType
-- SourceName
-- TaskCategory
-- Type
-- User
-- category
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dvc
-- dvc_nt_host
-- event_id
-- eventtype
-- host
-- id
-- index
-- linecount
-- name
-- punct
-- severity
-- severity_id
-- signature
-- signature_id
-- source
-- sourcetype
-- splunk_server
-- subject
-- tag
-- tag::eventtype
-- timeendpos
-- timestartpos
-- vendor_product
+    - _time
+    - ComputerName
+    - EventCode
+    - EventType
+    - Keywords
+    - LogName
+    - Message
+    - OpCode
+    - RecordNumber
+    - Sid
+    - SidType
+    - SourceName
+    - TaskCategory
+    - Type
+    - User
+    - category
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - eventtype
+    - host
+    - id
+    - index
+    - linecount
+    - name
+    - punct
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - subject
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - vendor_product
 example_log: 07/01/2021 04:20:47 PM

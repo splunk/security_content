@@ -1,7 +1,8 @@
 name: Detect attackers scanning for vulnerable JBoss servers
 id: 104658f4-afdc-499e-9719-17243f982681
-version: 7
-date: '2026-03-10'
+version: 8
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -24,23 +25,31 @@ search: |-
 how_to_implement: You must be ingesting data from the web server or network traffic that contains web specific information, and populating the Web data model.
 known_false_positives: It's possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
 references: []
-rba:
-    message: Potential Scanning for Vulnerable JBoss Servers
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - JBoss Vulnerability
-        - SamSam Ransomware
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1082
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Potential Scanning for Vulnerable JBoss Servers
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - JBoss Vulnerability
+    - SamSam Ransomware
+asset_type: Web Server
+mitre_attack_id:
+    - T1082
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+MANUAL_REVIEW:
+    rba:
+        message: Potential Scanning for Vulnerable JBoss Servers
+        risk_objects:
+            - field: dest
+              type: system
+              score: 50
+        threat_objects: []
+    manual_review_rationale: "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential Scanning for Vulnerable JBoss Servers'. At least one token is required. [type=value_error, input_value='Potential Scanning for Vulnerable JBoss Servers', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

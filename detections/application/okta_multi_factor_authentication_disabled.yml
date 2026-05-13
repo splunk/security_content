@@ -1,13 +1,14 @@
 name: Okta Multi-Factor Authentication Disabled
 id: 7c0348ce-bdf9-45f6-8a57-c18b5976f00a
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies an attempt to disable multi-factor authentication (MFA) for an Okta user. It leverages OktaIM2 logs to detect when the 'user.mfa.factor.deactivate' command is executed. This activity is significant because disabling MFA can allow an adversary to maintain persistence within the environment using a compromised valid account. If confirmed malicious, this action could enable attackers to bypass additional security layers, potentially leading to unauthorized access to sensitive information and prolonged undetected presence in the network.
 data_source:
     - Okta
-type: TTP
-status: production
-description: The following analytic identifies an attempt to disable multi-factor authentication (MFA) for an Okta user. It leverages OktaIM2 logs to detect when the 'user.mfa.factor.deactivate' command is executed. This activity is significant because disabling MFA can allow an adversary to maintain persistence within the environment using a compromised valid account. If confirmed malicious, this action could enable attackers to bypass additional security layers, potentially leading to unauthorized access to sensitive information and prolonged undetected presence in the network.
 search: |-
     | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime FROM datamodel=Change
       WHERE sourcetype="OktaIM2:log" All_Changes.object_category=User
@@ -33,30 +34,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: MFA was disabled for User [$user$] initiated by [$src$]. Investigate further to determine if this was authorized.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Okta Account Takeover
-        - Scattered Lapsus$ Hunters
-    asset_type: Okta Tenant
-    mitre_attack_id:
-        - T1556.006
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: MFA was disabled for User [$user$] initiated by [$src$]. Investigate further to determine if this was authorized.
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Okta Account Takeover
+    - Scattered Lapsus$ Hunters
+asset_type: Okta Tenant
+mitre_attack_id:
+    - T1556.006
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/okta_mfa_method_disabled/okta_mfa_method_disabled.log
           source: Okta
           sourcetype: OktaIM2:log
+      test_type: unit

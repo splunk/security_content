@@ -1,150 +1,137 @@
 name: AWS CloudTrail DescribeSnapshotAttribute
 id: f054c99b-63b8-4236-8a62-b52fbbabacba
-version: 1
-date: '2025-02-21'
+version: 2
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for AWS CloudTrail DescribeSnapshotAttribute
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
 separator: eventName
 supported_TA:
-- name: Splunk Add-on for AWS
-  url: https://splunkbase.splunk.com/app/1876
-  version: 8.1.1
+    - name: Splunk Add-on for AWS
+      url: https://splunkbase.splunk.com/app/1876
+      version: 8.1.1
 fields:
-- action
-- app
-- authentication_method
-- awsRegion
-- aws_account_id
-- change_type
-- command
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- desc
-- dest
-- dest_ip_range
-- dest_port_range
-- direction
-- dvc
-- errorCode
-- errorMessage
-- eventCategory
-- eventID
-- eventName
-- eventSource
-- eventTime
-- eventType
-- eventVersion
-- eventtype
-- host
-- image_id
-- index
-- instance_type
-- linecount
-- managementEvent
-- msg
-- object
-- object_attrs
-- object_category
-- object_id
-- product
-- protocol
-- protocol_code
-- punct
-- readOnly
-- reason
-- recipientAccountId
-- region
-- requestID
-- requestParameters.attributeType
-- requestParameters.snapshotId
-- responseElements
-- result
-- result_id
-- rule_action
-- signature
-- source
-- sourceIPAddress
-- sourcetype
-- splunk_server
-- splunk_server_group
-- src
-- src_ip
-- src_ip_range
-- src_port_range
-- src_user
-- src_user_id
-- src_user_name
-- src_user_role
-- src_user_type
-- start_time
-- status
-- tag
-- tag::action
-- tag::app
-- tag::eventtype
-- tag::object_category
-- temp_access_key
-- timeendpos
-- timestartpos
-- tlsDetails.cipherSuite
-- tlsDetails.clientProvidedHostHeader
-- tlsDetails.tlsVersion
-- user
-- userAgent
-- userIdentity.accessKeyId
-- userIdentity.accountId
-- userIdentity.arn
-- userIdentity.principalId
-- userIdentity.sessionContext.attributes.creationDate
-- userIdentity.sessionContext.attributes.mfaAuthenticated
-- userIdentity.sessionContext.sessionIssuer.accountId
-- userIdentity.sessionContext.sessionIssuer.arn
-- userIdentity.sessionContext.sessionIssuer.principalId
-- userIdentity.sessionContext.sessionIssuer.type
-- userIdentity.sessionContext.sessionIssuer.userName
-- userIdentity.type
-- userName
-- user_access_key
-- user_agent
-- user_arn
-- user_group_id
-- user_id
-- user_name
-- user_role
-- user_type
-- vendor
-- vendor_account
-- vendor_product
-- vendor_region
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _time
-example_log: '{"eventVersion": "1.10", "userIdentity": {"type": "AssumedRole", "principalId":
-  "AROAYTOGP2RLBXYPYUKBH:aws-go-sdk-1740131590946446551", "arn": "arn:aws:sts::111111111111111:assumed-role/DAFTPUNK-cloud-security-audit/aws-go-sdk-1740131590946446551",
-  "accountId": "111111111111111", "accessKeyId": "DAFTPUNK", "sessionContext": {"sessionIssuer":
-  {"type": "Role", "principalId": "AROAYTOGP2RLBXYPYUKBH", "arn": "arn:aws:iam::111111111111111:role/DAFTPUNK-cloud-security-audit",
-  "accountId": "111111111111111", "userName": "DAFTPUNK-cloud-security-audit"}, "attributes":
-  {"creationDate": "2025-02-21T10:48:43Z", "mfaAuthenticated": "false"}}}, "eventTime":
-  "2025-02-21T11:29:27Z", "eventSource": "ec2.amazonaws.com", "eventName": "DescribeSnapshotAttribute",
-  "awsRegion": "eu-central-1", "sourceIPAddress": "54.203.114.197", "userAgent": "m/E
-  aws-sdk-go-v2/1.30.5 os/linux lang/go#1.22.4 md/GOOS#linux md/GOARCH#amd64 api/ec2#1.177.3",
-  "requestParameters": {"snapshotId": "snap-082bd5016636bbd94", "attributeType": "PRODUCT_CODES"},
-  "responseElements": null, "requestID": "70339070-6038-40b7-9acf-5ecb85cda843", "eventID":
-  "bcc65c3f-a997-4a01-90bf-3b85f7268e70", "readOnly": true, "eventType": "AwsApiCall",
-  "managementEvent": true, "recipientAccountId": "111111111111111", "eventCategory":
-  "Management", "tlsDetails": {"tlsVersion": "TLSv1.3", "cipherSuite": "TLS_AES_128_GCM_SHA256",
-  "clientProvidedHostHeader": "ec2.eu-central-1.amazonaws.com"}}'
+    - action
+    - app
+    - authentication_method
+    - awsRegion
+    - aws_account_id
+    - change_type
+    - command
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - desc
+    - dest
+    - dest_ip_range
+    - dest_port_range
+    - direction
+    - dvc
+    - errorCode
+    - errorMessage
+    - eventCategory
+    - eventID
+    - eventName
+    - eventSource
+    - eventTime
+    - eventType
+    - eventVersion
+    - eventtype
+    - host
+    - image_id
+    - index
+    - instance_type
+    - linecount
+    - managementEvent
+    - msg
+    - object
+    - object_attrs
+    - object_category
+    - object_id
+    - product
+    - protocol
+    - protocol_code
+    - punct
+    - readOnly
+    - reason
+    - recipientAccountId
+    - region
+    - requestID
+    - requestParameters.attributeType
+    - requestParameters.snapshotId
+    - responseElements
+    - result
+    - result_id
+    - rule_action
+    - signature
+    - source
+    - sourceIPAddress
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - src
+    - src_ip
+    - src_ip_range
+    - src_port_range
+    - src_user
+    - src_user_id
+    - src_user_name
+    - src_user_role
+    - src_user_type
+    - start_time
+    - status
+    - tag
+    - tag::action
+    - tag::app
+    - tag::eventtype
+    - tag::object_category
+    - temp_access_key
+    - timeendpos
+    - timestartpos
+    - tlsDetails.cipherSuite
+    - tlsDetails.clientProvidedHostHeader
+    - tlsDetails.tlsVersion
+    - user
+    - userAgent
+    - userIdentity.accessKeyId
+    - userIdentity.accountId
+    - userIdentity.arn
+    - userIdentity.principalId
+    - userIdentity.sessionContext.attributes.creationDate
+    - userIdentity.sessionContext.attributes.mfaAuthenticated
+    - userIdentity.sessionContext.sessionIssuer.accountId
+    - userIdentity.sessionContext.sessionIssuer.arn
+    - userIdentity.sessionContext.sessionIssuer.principalId
+    - userIdentity.sessionContext.sessionIssuer.type
+    - userIdentity.sessionContext.sessionIssuer.userName
+    - userIdentity.type
+    - userName
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_id
+    - user_name
+    - user_role
+    - user_type
+    - vendor
+    - vendor_account
+    - vendor_product
+    - vendor_region
+    - _bkt
+    - _cd
+    - _eventtype_color
+    - _indextime
+    - _raw
+    - _serial
+    - _si
+    - _sourcetype
+    - _time
+example_log: '{"eventVersion": "1.10", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLBXYPYUKBH:aws-go-sdk-1740131590946446551", "arn": "arn:aws:sts::111111111111111:assumed-role/DAFTPUNK-cloud-security-audit/aws-go-sdk-1740131590946446551", "accountId": "111111111111111", "accessKeyId": "DAFTPUNK", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLBXYPYUKBH", "arn": "arn:aws:iam::111111111111111:role/DAFTPUNK-cloud-security-audit", "accountId": "111111111111111", "userName": "DAFTPUNK-cloud-security-audit"}, "attributes": {"creationDate": "2025-02-21T10:48:43Z", "mfaAuthenticated": "false"}}}, "eventTime": "2025-02-21T11:29:27Z", "eventSource": "ec2.amazonaws.com", "eventName": "DescribeSnapshotAttribute", "awsRegion": "eu-central-1", "sourceIPAddress": "54.203.114.197", "userAgent": "m/E aws-sdk-go-v2/1.30.5 os/linux lang/go#1.22.4 md/GOOS#linux md/GOARCH#amd64 api/ec2#1.177.3", "requestParameters": {"snapshotId": "snap-082bd5016636bbd94", "attributeType": "PRODUCT_CODES"}, "responseElements": null, "requestID": "70339070-6038-40b7-9acf-5ecb85cda843", "eventID": "bcc65c3f-a997-4a01-90bf-3b85f7268e70", "readOnly": true, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.3", "cipherSuite": "TLS_AES_128_GCM_SHA256", "clientProvidedHostHeader": "ec2.eu-central-1.amazonaws.com"}}'

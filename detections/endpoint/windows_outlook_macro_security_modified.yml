@@ -1,7 +1,8 @@
 name: Windows Outlook Macro Security Modified
 id: 47872bb4-9987-4c33-a897-4d2d1ac7d4c2
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -23,29 +24,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Outlook Macro Security Level registry modified on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - NotDoor Malware
-        - Windows Registry Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1137
-        - T1008
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Outlook Macro Security Level registry modified on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - NotDoor Malware
+    - Windows Registry Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1137
+    - T1008
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/notdoor/macro_security_level/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

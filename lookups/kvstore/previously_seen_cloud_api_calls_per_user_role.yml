@@ -1,0 +1,15 @@
+name: previously_seen_cloud_api_calls_per_user_role
+id: 3684fed6-6f6a-4830-a3b3-453898fc2a46
+version: 3
+creation_date: '2020-09-04'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A table of users, commands, and the first and last time that they have been seen
+fields:
+    - _key
+    - user
+    - command
+    - firstTimeSeen
+    - lastTimeSeen
+    - enough_data

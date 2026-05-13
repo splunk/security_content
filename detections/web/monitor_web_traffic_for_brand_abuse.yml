@@ -1,7 +1,8 @@
 name: Monitor Web Traffic For Brand Abuse
 id: 134da869-e264-4a8f-8d7e-fcd0ec88f301
-version: 9
-date: '2026-03-10'
+version: 10
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
@@ -21,19 +22,30 @@ search: |
 how_to_implement: You need to ingest data from your web traffic. This can be accomplished by indexing data from a web proxy, or using a network traffic analysis tool, such as Bro or Splunk Stream. You also need to have run the search "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that will be checked for.
 known_false_positives: No false positives have been identified at this time.
 references: []
-rba:
-    message: Potential Brand Abus discovered in web logs
-    risk_objects:
-        - field: src
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Brand Monitoring
-    asset_type: Endpoint
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Potential Brand Abus discovered in web logs
+    entity:
+        field: src
+        type: system
+        score: 50
+analytic_story:
+    - Brand Monitoring
+asset_type: Endpoint
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+baselines:
+    - DNSTwist Domain Names
+MANUAL_REVIEW:
+    rba:
+        message: Potential Brand Abus discovered in web logs
+        risk_objects:
+            - field: src
+              type: system
+              score: 50
+        threat_objects: []
+    manual_review_rationale: "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential Brand Abus discovered in web logs'. At least one token is required. [type=value_error, input_value='Potential Brand Abus discovered in web logs', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error AND Detection references baseline(s) flagged for manual review: DNSTwist Domain Names"

@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - SSH Connection to Non-Standard Port
 id: 9b0c2d3e-4f5a-6b7c-8d9e-0f1a2b3c4d5e
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2026-01-12'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -55,30 +56,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Inbound SSH connection to non-standard port $dest_port$ detected from $src$ to network device $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Salt Typhoon
-    asset_type: Network
-    mitre_attack_id:
-        - T1021.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Inbound SSH connection to non-standard port $dest_port$ detected from $src$ to network device $dest$
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1021.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

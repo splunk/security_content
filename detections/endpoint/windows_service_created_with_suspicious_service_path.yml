@@ -1,7 +1,8 @@
 name: Windows Service Created with Suspicious Service Path
 id: 429141be-8311-11eb-adb6-acde48001122
-version: 19
-date: '2026-04-15'
+version: 20
+creation_date: '2022-08-26'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -23,42 +24,43 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A service $ImagePath$ was created from a non-standard path using $ServiceName$ on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: ImagePath
-          type: service
-tags:
-    analytic_story:
-        - PlugX
-        - Qakbot
-        - China-Nexus Threat Activity
-        - CISA AA23-347A
-        - Flax Typhoon
-        - Derusbi
-        - Salt Typhoon
-        - Active Directory Lateral Movement
-        - Snake Malware
-        - Clop Ransomware
-        - Crypto Stealer
-        - Brute Ratel C4
-        - APT37 Rustonotto and FadeStealer
-        - Gh0st RAT
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1569.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A service $ImagePath$ was created from a non-standard path using $ServiceName$ on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: ImagePath
+      type: service
+analytic_story:
+    - PlugX
+    - Qakbot
+    - China-Nexus Threat Activity
+    - CISA AA23-347A
+    - Flax Typhoon
+    - Derusbi
+    - Salt Typhoon
+    - Active Directory Lateral Movement
+    - Snake Malware
+    - Clop Ransomware
+    - Crypto Stealer
+    - Brute Ratel C4
+    - APT37 Rustonotto and FadeStealer
+    - Gh0st RAT
+asset_type: Endpoint
+mitre_attack_id:
+    - T1569.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/windows_service_created_with_suspicious_service_path/windows-xml.log
           source: XmlWinEventLog:System
           sourcetype: XmlWinEventLog
+      test_type: unit

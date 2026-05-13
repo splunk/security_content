@@ -1,7 +1,8 @@
 name: Windows AI Platform DNS Query
 id: 1ad89d24-c856-4a0e-8fdf-c20c7b9febe1
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-08-28'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -33,31 +34,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a process $process_name$ made a DNS query for $query$ from host $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - LAMEHUG
-        - SesameOp
-        - PromptFlux
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1071.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a process $process_name$ made a DNS query for $query$ from host $dest$.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - LAMEHUG
+    - SesameOp
+    - PromptFlux
+asset_type: Endpoint
+mitre_attack_id:
+    - T1071.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/lamehug/T1071.004/hugging_face/huggingface.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,0 +1,11 @@
+name: brandMonitoring_lookup
+id: 6fff763a-d654-42dc-8e56-92c8e255ac55
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A file that contains look-a-like domains for brands that you want to monitor
+match_type:
+    - WILDCARD(domain)
+min_matches: 1

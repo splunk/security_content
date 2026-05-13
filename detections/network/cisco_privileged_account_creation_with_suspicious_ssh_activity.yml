@@ -1,7 +1,8 @@
 name: Cisco Privileged Account Creation with Suspicious SSH Activity
 id: 7f8e2b4c-9a3d-4e1f-8c5b-6d7e8f9a0b1c
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2026-01-12'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Correlation
@@ -72,23 +73,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$normalized_risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Salt Typhoon
-    asset_type: Network
-    mitre_attack_id:
-        - T1021.004
-        - T1136
-        - T1078
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1021.004
+    - T1136
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_correlation.log
           source: not_applicable
           sourcetype: stash
+      test_type: unit
+MANUAL_REVIEW:
+    rba: {}
+    manual_review_rationale: Legacy Correlation detections have no rba section (and therefore no entities), but the new format requires a finding with at least one entity. A content author must supply the finding entity for each Correlation detection. Additionally, evaluate whether any Threat Objects are appropriate.

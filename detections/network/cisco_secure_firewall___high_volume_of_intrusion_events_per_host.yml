@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - High Volume of Intrusion Events Per Host
 id: 9f2295a0-0dcb-4a5f-b013-8a6f2a3c11f6
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2025-04-16'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -44,31 +45,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A high number [$TotalEvents$] of Snort intrusion detections for [$signature$] were triggered by [$src$] in a 30-minute time window.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: signature
-          type: signature
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Network
-    security_domain: network
-    mitre_attack_id:
-        - T1059 # Command and Scripting Interpreter
-        - T1071 # Application Layer Protocol
-        - T1595.002 # Active Scanning: Vulnerability Scanning
-    product:
-        - Splunk Enterprise
-        - Splunk Cloud
-        - Splunk Enterprise Security
+          message: A high number [$TotalEvents$] of Snort intrusion detections for [$signature$] were triggered by [$src$] in a 30-minute time window.
+threat_objects:
+    - field: signature
+      type: signature
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Network
+mitre_attack_id:
+    - T1059     # Command and Scripting Interpreter
+    - T1071     # Application Layer Protocol
+    - T1595.002     # Active Scanning: Vulnerability Scanning
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

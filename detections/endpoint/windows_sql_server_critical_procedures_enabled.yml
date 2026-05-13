@@ -1,7 +1,8 @@
 name: Windows SQL Server Critical Procedures Enabled
 id: d0434864-b043-41e3-8c08-30e53605e9cb
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: TTP
@@ -41,31 +42,46 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: SQL Server critical procedure "$config_name$" was $change_type$ on host $dest$, which could indicate an attempt to gain code execution or perform reconnaissance
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
+finding:
+    title: SQL Server critical procedure "$config_name$" was $change_type$ on host $dest$, which could indicate an attempt to gain code execution or perform reconnaissance
+    entity:
+        field: dest
+        type: system
+        score: 50
+intermediate_findings:
+    entities:
         - field: config_name
           type: other
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - SQL Server Abuse
-    asset_type: Windows
-    mitre_attack_id:
-        - T1505.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
+          message: SQL Server critical procedure "$config_name$" was $change_type$ on host $dest$, which could indicate an attempt to gain code execution or perform reconnaissance
+analytic_story:
+    - SQL Server Abuse
+asset_type: Windows
+mitre_attack_id:
+    - T1505.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/adhocdq_windows_application.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Application
+      description: PORTED MANUAL TEST - The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
+      test_type: experimental
+MANUAL_REVIEW:
+    rba:
+        message: SQL Server critical procedure "$config_name$" was $change_type$ on host $dest$, which could indicate an attempt to gain code execution or perform reconnaissance
+        risk_objects:
+            - field: dest
+              type: system
+              score: 50
+            - field: config_name
+              type: other
+              score: 50
+        threat_objects: []
+    manual_review_rationale: Multiple non-user-type entities found, but no user-type entities. We have picked the first non-user type entity and flagged this detection for manual review.

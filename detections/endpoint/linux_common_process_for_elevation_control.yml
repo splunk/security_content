@@ -1,7 +1,8 @@
 name: Linux Common Process For Elevation Control
 id: 66ab15c0-63d0-11ec-9e70-acde48001122
-version: 11
-date: '2026-03-31'
+version: 12
+creation_date: '2022-01-10'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -31,25 +32,26 @@ references:
     - https://github.com/Neo23x0/auditd/blob/master/audit.rules#L285-L297
     - https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules#L269-L270
     - https://github.com/microsoft/MSTIC-Sysmon/blob/main/linux/configs/attack-based/privilege_escalation/T1548.001_ElevationControl_CommonProcesses.xml
-tags:
-    analytic_story:
-        - Linux Persistence Techniques
-        - China-Nexus Threat Activity
-        - Linux Living Off The Land
-        - Salt Typhoon
-        - Linux Privilege Escalation
-        - Axios Supply Chain Post Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1548.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Linux Persistence Techniques
+    - China-Nexus Threat Activity
+    - Linux Living Off The Land
+    - Salt Typhoon
+    - Linux Privilege Escalation
+    - Axios Supply Chain Post Compromise
+asset_type: Endpoint
+mitre_attack_id:
+    - T1548.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

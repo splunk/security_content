@@ -1,16 +1,17 @@
 name: AWS CloudTrail DeleteRuleGroup
 id: 21c9b538-fa11-4bdf-9138-0dfe06b4d730
-version: 1
-date: '2025-02-21'
+version: 2
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for AWS CloudTrail DeleteRuleGroup
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
 separator: eventName
 supported_TA:
-- name: Splunk Add-on for AWS
-  url: https://splunkbase.splunk.com/app/1876
-  version: 8.1.1
+    - name: Splunk Add-on for AWS
+      url: https://splunkbase.splunk.com/app/1876
+      version: 8.1.1
 fields:
-- _time
+    - _time
 example_log: ''

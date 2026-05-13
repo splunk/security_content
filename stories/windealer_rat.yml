@@ -1,18 +1,18 @@
 name: WinDealer RAT
 id: 94fdd8b7-ae39-454a-85e8-9f0148eddea6
-version: 1
-date: '2025-01-27'
+version: 2
+creation_date: '2025-01-27'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: Leverage searches that allow you to detect and investigate unusual activities that might relate to Windealer Remote Access Trojan (RAT), a versatile malware used for data theft and unauthorized system control. Monitor for signs such as unexpected process token adjustment, abnormal file activity, and unauthorized process execution. Investigate indicators of command-and-control (C2) communications, particularly encrypted or obfuscated traffic patterns. Behavioral analysis and endpoint monitoring can help identify suspicious activities linked to this RAT. Early detection and thorough investigation are essential to mitigate the risks posed by Windealer.
 narrative: Windealer is a Remote Access Trojan (RAT) designed for stealthy infiltration and control of compromised systems. Often used in cyberespionage and data theft campaigns, it enables attackers to execute commands, exfiltrate sensitive information, and manipulate system functions remotely. Windealer is known for its ability to maintain persistence and communicate with command-and-control (C2) servers using encrypted or obfuscated protocols, making detection challenging. Its deployment often involves phishing, software exploits, or supply chain attacks. Effective detection requires advanced endpoint monitoring and analysis of unusual network behaviors to identify its covert operations.
 references:
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.windealer
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.windealer
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection
