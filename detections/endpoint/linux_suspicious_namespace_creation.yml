@@ -1,0 +1,113 @@
+name: Linux Suspicious Namespace Creation
+id: 039dbee4-39d8-4ad0-a43a-df4db3a41990
+version: 1
+date: '2026-05-12'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The follow analytic detects an unprivileged user invoking the unshare syscall with user namespace flags followed within 120 seconds by a root-owned shell or interpreter spawning under the same parent process, correlating auditd syscall telemetry with Sysmon process creation events to identify the two-step sequence characteristic of user-namespace-based Linux kernel privilege escalation exploits such as DirtyFrag.
+data_source:
+    - Linux Auditd Syscall
+    - Sysmon for Linux EventID 1
+search: |
+    type=SYSCALL SYSCALL=unshare
+    | where uid != "0" AND uid != "4294967295"
+    | where a0 IN ("10000000","50000000","70000000","10020000","50020000","70020000")
+    | eval unshare_time=_time,
+          unshare_pid=pid,
+          unshare_ppid=ppid,
+          trigger_uid=uid,
+          trigger_auid=auid,
+          trigger_exe=exe,
+          ns_flags=a0
+    | table host, unshare_time, comm, syscall, unshare_pid, unshare_ppid,
+            trigger_uid, trigger_auid, trigger_exe, ns_flags
+    | join type=inner host unshare_ppid [
+        search `sysmon` EventID=1 User=root
+        | where match(Image, "/(su|sudo|pkexec|passwd|chsh|newgrp|doas|run0|sg|dash|sh|bash|zsh|fish|ksh|csh|tcsh|ash|mksh|busybox|tmux|screen|node|python[^/]*|perl[^/]*|ruby[^/]*|php[^/]*|lua[^/]*)$")
+        | eval root_spawn_time=_time, root_pid=ProcessId,
+              root_exe=Image, root_cmdline=CommandLine, root_parent=ParentProcessId
+        | rename ParentProcessId AS unshare_ppid
+        | table host, unshare_ppid, root_spawn_time, root_pid,
+                root_exe, root_cmdline, root_parent, unshare_time,
+                action, original_file_name, parent_process, parent_process_exec,
+                parent_process_guid, parent_process_id, parent_process_name,
+                parent_process_path, process, process_exec, process_guid,
+                process_hash, process_id, process_integrity_level,
+                process_name, process_path, user, user_id, vendor_product
+    ]
+    | where (root_spawn_time - unshare_time) >= 0
+    | where (root_spawn_time - unshare_time) <= 120
+    | eval elapsed_sec=round(root_spawn_time - unshare_time, 2)
+    | eval ioc_match=case(
+        ns_flags="50000000", "dirtyfrag (CLONE_NEWUSER|CLONE_NEWNET)",
+        ns_flags="10000000", "CLONE_NEWUSER only",
+        ns_flags="70000000", "CLONE_NEWUSER|CLONE_NEWNET|CLONE_NEWPID",
+        1=1, "namespace flags="+ns_flags
+      )
+    | rename host as dest
+    | stats
+        count                              AS count,
+        min(unshare_time)                  AS firstTime,
+        max(unshare_time)                  AS lastTime,
+        values(trigger_uid)                AS trigger_uid,
+        values(trigger_auid)               AS trigger_auid,
+        values(trigger_exe)                AS trigger_exe,
+        values(ns_flags)                   AS ns_flags,
+        values(ioc_match)                  AS ioc_match,
+        values(unshare_pid)                AS unshare_pid,
+        values(unshare_ppid)               AS unshare_ppid,
+        values(root_exe)                   AS root_exe,
+        values(root_cmdline)               AS root_cmdline,
+        values(root_pid)                   AS root_pid,
+        values(elapsed_sec)                AS elapsed_sec,
+        values(process_hash)               AS process_hash,
+        values(vendor_product)             AS vendor_product
+        by dest, comm, syscall
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_suspicious_namespace_creation_filter`
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data.  The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling and make sure the type=CWD record type is activate in your auditd configuration. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.
+known_false_positives: No false positives have been identified at this time.
+references:
+    - https://www.elastic.co/security-labs/copy-fail-dirtyfrag-linux-page-bugs-in-the-wild
+    - https://www.elastic.co/security-labs/copy-fail-dirtyfrag-linux-page-bugs-in-the-wild
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: Suspicious namespace created on $dest$ indicating possible privilege escalation via DirtyFrag.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Linux Privilege Escalation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1068
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2026-43284
+        - CVE-2026-43500
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: http://localhost/T1068/linux_dirtyfrag/audit.log
+          source: auditd
+          sourcetype: auditd
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_dirtyfrag/linux_sysmon.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux
