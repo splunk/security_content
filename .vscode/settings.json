@@ -6,5 +6,17 @@
     "python.testing.pytestEnabled": true,
     "python.terminal.activateEnvironment": true,
     "python.envFile": "${workspaceFolder}/.env",
-    "python.testing.cwd": "${workspaceFolder}"
+    "python.testing.cwd": "${workspaceFolder}",
+    "yaml.schemas": {
+        "./schemas/RemovedContent.schema.json": "removed/*/*.yml",
+        "./schemas/Baseline.schema.json": ["baselines/*.yml", "!removed/baselines/*.yml"],
+        "./schemas/CSVLookup.schema.json": "lookups/csv/*.yml",
+        "./schemas/Dashboard.schema.json": "dashboards/*.yml",
+        "./schemas/DataSource.schema.json": "data_sources/*.yml",
+        "./schemas/EventBasedDetection.schema.json": ["detections/*.yml", "!removed/detections/*.yml"],
+        "./schemas/KVStoreLookup.schema.json": "lookups/kvstore/*.yml",
+        "./schemas/Macro.schema.json": "macros/*.yml",
+        "./schemas/Schedule.schema.json": "schedules/*.yml",
+        "./schemas/Story.schema.json": ["stories/*.yml", "!removed/stories/*.yml"]
+    }
 }
