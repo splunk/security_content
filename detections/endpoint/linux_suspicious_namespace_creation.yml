@@ -105,7 +105,7 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: http://localhost/T1068/linux_dirtyfrag/audit.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_dirtyfrag/audit.log
           source: auditd
           sourcetype: auditd
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_dirtyfrag/linux_sysmon.log
