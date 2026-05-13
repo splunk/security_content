@@ -13,10 +13,10 @@
         "./schemas/CSVLookup.schema.json": "lookups/csv/*.yml",
         "./schemas/Dashboard.schema.json": "dashboards/*.yml",
         "./schemas/DataSource.schema.json": "data_sources/*.yml",
-        "./schemas/EventBasedDetection.schema.json": ["detections/*.yml", "!removed/detections/*.yml"],
+        "./schemas/EventBasedDetection.schema.json": ["detections/**/*.yml", "!removed/detections/*.yml"],
         "./schemas/KVStoreLookup.schema.json": "lookups/kvstore/*.yml",
-        "./schemas/Macro.schema.json": "macros/*.yml",
-        "./schemas/Schedule.schema.json": "schedules/*.yml",
+        "./schemas/FilebackedMacro.schema.json": "macros/*.yml",
+        "./schemas/FilebackedSchedule.schema.json": "schedules/*.yml",
         "./schemas/Story.schema.json": ["stories/*.yml", "!removed/stories/*.yml"]
     }
 }
