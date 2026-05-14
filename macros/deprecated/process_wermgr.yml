@@ -1,3 +1,8 @@
-definition: (Processes.process_name=wermgr.exe OR Processes.original_file_name=wermgr.EXE)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_wermgr
+id: 8caa45ca-beee-458d-8691-5dfecdb80509
+version: 1
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=wermgr.exe OR Processes.original_file_name=wermgr.EXE)

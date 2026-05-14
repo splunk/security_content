@@ -1,8 +1,8 @@
-definition: lookup update=true dynamic_dns_providers_default dynamic_dns_domains as
-  query OUTPUTNEW isDynDNS_default | lookup update=true dynamic_dns_providers_local
-  dynamic_dns_domains as query OUTPUTNEW isDynDNS_local| eval isDynDNS = coalesce(isDynDNS_local,isDynDNS_default)
-  |fields - isDynDNS_default, isDynDNS_local| search isDynDNS=True
-description: This macro limits the output of the query field to dynamic dns domains.
-  It looks up the domains in a file provided by Splunk and one intended to be updated
-  by the end user.
 name: dynamic_dns_providers
+id: 7db64b51-3751-4add-a5d4-955c1f73685d
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro limits the output of the query field to dynamic dns domains. It looks up the domains in a file provided by Splunk and one intended to be updated by the end user.
+definition: lookup update=true dynamic_dns_providers_default dynamic_dns_domains as query OUTPUTNEW isDynDNS_default | lookup update=true dynamic_dns_providers_local dynamic_dns_domains as query OUTPUTNEW isDynDNS_local| eval isDynDNS = coalesce(isDynDNS_local,isDynDNS_default) |fields - isDynDNS_default, isDynDNS_local| search isDynDNS=True
