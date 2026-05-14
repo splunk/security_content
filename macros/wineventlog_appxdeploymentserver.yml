@@ -1,4 +1,8 @@
-definition: (source="XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational")
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk environment.
 name: wineventlog_appxdeploymentserver
+id: ec4b5aa6-8e66-47cf-9000-7250b8efb07b
+version: 1
+creation_date: '2019-12-18'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk environment.
+definition: (source="XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational")

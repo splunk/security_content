@@ -1,4 +1,8 @@
-definition: '| eval rule_number=attackName | eval app=app_name | eval action=attackOutcome | eval view=blockedReason | eval product=btName | eval ids_type=eventType | eval process=jvmId | eval cve=matchedCveName | eval record_type=ptype | eval ip=socketAddr | eval package_title=tierName | eval signature_id=vulnerableMethod | eval url=webTransactionUrl | eval location=applicationId | eval package=tierId | eval rule_number=attackId | eval mode=attackStatus'
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: secureapp_es_field_mappings
+id: 6feb2b98-3da5-478b-8f97-c85b29c98885
+version: 1
+creation_date: '2025-08-04'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: '| eval rule_number=attackName | eval app=app_name | eval action=attackOutcome | eval view=blockedReason | eval product=btName | eval ids_type=eventType | eval process=jvmId | eval cve=matchedCveName | eval record_type=ptype | eval ip=socketAddr | eval package_title=tierName | eval signature_id=vulnerableMethod | eval url=webTransactionUrl | eval location=applicationId | eval package=tierId | eval rule_number=attackId | eval mode=attackStatus'

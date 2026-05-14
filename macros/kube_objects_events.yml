@@ -1,4 +1,8 @@
-definition: sourcetype=kube:objects:events
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: kube_objects_events
+id: e1512d11-d9bf-421d-ab1c-aad8ef6669c6
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=kube:objects:events

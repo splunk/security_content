@@ -1,4 +1,8 @@
-definition: sourcetype=mscs:azure:audit
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: azure_audit
+id: 61af3b50-d482-4cd2-b9ae-6d1e3d655932
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=mscs:azure:audit

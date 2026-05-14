@@ -1,3 +1,8 @@
-definition: objectRef.name IN (*splunk*, *falco*)
-description: Define your images which are allowed to connect to your kubernetes cluster.
 name: kube_allowed_images
+id: 40155b19-d05b-4c98-bbe1-ad6a66ac2e06
+version: 1
+creation_date: '2023-12-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Define your images which are allowed to connect to your kubernetes cluster.
+definition: objectRef.name IN (*splunk*, *falco*)
