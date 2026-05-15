@@ -8,7 +8,24 @@ type: Anomaly
 description: Detects Windows Defender engine (mpengine.dll) or signature database files (*.vdm) being created by any process that is not a Windows Defender component. BlueHammer extracts these files from the downloaded mpam-fe update package into a UUID-named subdirectory of %TEMP% as part of staging the TOCTOU privilege escalation.
 data_source:
     - Sysmon EventID 11
-search: '`sysmon` EventID="11" TargetFilename IN ("*mpengine.dll*", "*mpavbase.vdm*", "*mpavdlta.vdm*", "*mpasbase.vdm*", "*mpasdlta.vdm*") NOT (Image IN ("C:\\ProgramData\\Microsoft\\Windows Defender\\*", "C:\\Program Files\\Windows Defender\\*")) | fillnull | stats count by Computer, TargetFilename, Image, EventID, action, file_name, file_path, process_guid, process_id, user, vendor_product | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_suspicious_defender_engine_or_signature_files_created_filter`'
+search: |-
+    `sysmon` EventID="11" TargetFilename IN (
+        "*mpengine.dll*",
+        "*mpavbase.vdm*",
+        "*mpavdlta.vdm*",
+        "*mpasbase.vdm*",
+        "*mpasdlta.vdm*"
+        )
+    NOT Image IN (
+        "C:\\ProgramData\\Microsoft\\Windows Defender\\*",
+        "C:\\Program Files\\Windows Defender\\*"
+        )
+    | fillnull
+    | rename Computer as dest
+    | stats count by dest, TargetFilename, Image, EventID, action, file_name, file_path, process_guid, process_id, user, vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_suspicious_defender_engine_or_signature_files_created_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate software updates or security tools may create Windows Defender engine or signature files in user temp folders during scanning or updating processes. Filter detections for trusted update utilities and system maintenance tasks.
 references:

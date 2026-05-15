@@ -8,7 +8,12 @@ type: TTP
 description: Detects a non-system process causing creation of CldFlt0.etl under C:\Windows\System32\LogFiles\CloudFiles\. This path is initialised by the CldFlt driver when a process calls CfRegisterSyncRoot() or CfConnectSyncRoot(). In the RedSun exploit this is a side-effect of the DoCloudStuff() function that registers a fake sync provider to create the cloud-tagged bait file. Legitimate cloud providers (OneDrive etc.) register sync roots from SYSTEM-level service processes, not from user-context executables.
 data_source:
     - Sysmon EventID 11
-search: '`sysmon` EventCode=11 (TargetFilename = "*\\Windows\\System32\\LogFiles\\CloudFiles\\*" NOT Image IN ("*\\Windows\\System32*", "*\\Windows\\SysWOW64*","*\\Program Files\\WindowsApps*")) | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name file_path Image process_guid process_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`  | `windows_cloud_files_filter_log_created_by_non_system_process_filter`'
+search: |-
+    `sysmon` EventCode=11 (TargetFilename = "*\\Windows\\System32\\LogFiles\\CloudFiles\\*" NOT Image IN ("*\\Windows\\System32*", "*\\Windows\\SysWOW64*","*\\Program Files\\WindowsApps*"))
+    | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name file_path Image process_guid process_id user_id vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_cloud_files_filter_log_created_by_non_system_process_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: No false positives have been identified at this time.
 references:

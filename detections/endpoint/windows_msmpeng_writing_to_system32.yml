@@ -9,7 +9,13 @@ description: "Detects MsMpEng.exe creating a file in C:\\Windows\\System32\\ . T
 data_source:
     - Sysmon EventID 15
     - Sysmon EventID 11
-search: '`sysmon` (EventID=15 OR EventID=11) Image="*\\MsMpEng.exe" TargetFilename="C:\\Windows\\System32\\*" | fillnull | stats count by Computer, Image, TargetFilename, EventID, dest, dvc, file_hash, file_name, file_path, action, process_exec, process_guid, process_id, process_name, process_path, signature, signature_id, user_id, vendor_product| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_msmpeng_writing_to_system32_filter`'
+search: |-
+    `sysmon` (EventID=15 OR EventID=11) Image="*\\MsMpEng.exe" TargetFilename="C:\\Windows\\System32\\*"
+    | fillnull
+    | stats count by Computer, Image, TargetFilename, EventID, dest, dvc, file_hash, file_name, file_path, action, process_exec, process_guid, process_id, process_name, process_path, signature, signature_id, user_id, vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_msmpeng_writing_to_system32_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate system processes or antivirus updates may momentarily create files in the drivers directory during patching or maintenance. Verify with approved update activities before alerting.
 references:
