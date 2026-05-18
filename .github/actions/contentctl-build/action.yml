@@ -1,10 +1,6 @@
 name: contentctl-build
-description: Set up Python, install build dependencies, and run contentctl-ng build.
+description: Install contentctl-ng and run contentctl-ng build.
 inputs:
-  python-version:
-    description: Python version used for setup.
-    required: false
-    default: '3.14'
   build-tarball-path:
     description: Path to the built content tarball produced by contentctl-ng build.
     required: false
@@ -12,19 +8,8 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: ${{ inputs.python-version }}
-        architecture: x64
-        cache: pip
-        cache-dependency-path: requirements.txt
-
-    - name: Install build tool
-      shell: bash
-      run: |
-        echo "- Build Tool Version - $(cat requirements.txt)"
-        pip install -r requirements.txt
+    - name: Install contentctl-ng
+      uses: ./.github/actions/contentctl-install
 
     - name: Run build
       shell: bash
