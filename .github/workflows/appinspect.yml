@@ -1,45 +1,39 @@
+# This workflow performs a simple build action.
+# It is intentionally separate from the build
+# workflow to provide granular feedback and insight
+# into when a build passes but an appinspect fails.
 name: appinspect
+
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+
 jobs:
   appinspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository (PR)
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Check out the repository code
         uses: actions/checkout@v6
-        with:
-          ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-          architecture: 'x64'
+      - name: Install dependencies and run build
+        uses: ./.github/actions/contentctl-build
+        
 
-      - name: Install Python Dependencies and ContentCTL and Atomic Red Team
-        run: |
-          echo "- Contentctl version - $(cat requirements.txt)"
-          pip install -r requirements.txt
-          git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git external_repos/atomic-red-team
-          git clone --depth=1 --single-branch --branch="master" https://github.com/mitre-attack/attack-stix-data external_repos/cti
-
-      - name: Running appinspect with enrichments
+      - name: Run appinspect with enrichments
         env:
           APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
           APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"
         run: |
-          echo $APPINSPECTUSERNAME
-          contentctl inspect --splunk-api-username "$APPINSPECTUSERNAME" --splunk-api-password "$APPINSPECTPASSWORD" --enrichments --enable-metadata-validation --suppress-missing-content-exceptions --enforce-deprecation-mapping-requirement
-          echo "done appinspect"
+        echo $APPINSPECTUSERNAME  
+        contentctl-ng inspect --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD"
           mkdir -p artifacts/app_inspect_report
           cp -r dist/*.html artifacts/app_inspect_report
           cp -r dist/*.tar.gz artifacts/
 
-      - name: store_artifacts
+      - name: Store artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: content-latest
+          name: content-latest-with-appinspect-report
           path: |
             artifacts/DA-ESS-ContentUpdate-latest.tar.gz
             artifacts/app_inspect_report
