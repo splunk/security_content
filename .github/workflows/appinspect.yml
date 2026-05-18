@@ -24,8 +24,7 @@ jobs:
           APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
           APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"
         run: |
-        echo $APPINSPECTUSERNAME  
-        contentctl-ng inspect --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD"
+          contentctl-ng inspect --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD"
           mkdir -p artifacts/app_inspect_report
           cp -r dist/*.html artifacts/app_inspect_report
           cp -r dist/*.tar.gz artifacts/
