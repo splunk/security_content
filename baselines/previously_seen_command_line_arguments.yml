@@ -16,6 +16,3 @@ product:
     - Splunk Cloud
 security_domain: endpoint
 schedule: Default Baseline
-MANUAL_REVIEW:
-    rba: {}
-    manual_review_rationale: 'Baseline references detections that do not exist in the corpus: First time seen command line argument'

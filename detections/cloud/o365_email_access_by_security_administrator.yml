@@ -36,12 +36,12 @@ drilldown_searches:
 finding:
     title: A security administrator $src_user$ accessed email messages for $user$
     entity:
-        field: user
+        field: src_user
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: src_user
+        - field: user
           type: user
           score: 50
           message: A security administrator $src_user$ accessed email messages for $user$
@@ -66,15 +66,3 @@ tests:
           sourcetype: o365:management:activity
           source: o365
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: A security administrator $src_user$ accessed email messages for $user$
-        risk_objects:
-            - field: user
-              type: user
-              score: 50
-            - field: src_user
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

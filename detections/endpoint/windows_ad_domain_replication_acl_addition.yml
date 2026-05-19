@@ -50,12 +50,12 @@ drilldown_searches:
 finding:
     title: $src_user$ has granted $user$ permission to replicate AD objects
     entity:
-        field: user
+        field: src_user
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: src_user
+        - field: user
           type: user
           score: 50
           message: $src_user$ has granted $user$ permission to replicate AD objects
@@ -79,15 +79,3 @@ tests:
           sourcetype: XmlWinEventLog
       description: PORTED MANUAL TEST - This search uses a lookup provided by Enterprise Security and needs to be manually tested.
       test_type: experimental
-MANUAL_REVIEW:
-    rba:
-        message: $src_user$ has granted $user$ permission to replicate AD objects
-        risk_objects:
-            - field: user
-              type: user
-              score: 50
-            - field: src_user
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

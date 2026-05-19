@@ -36,12 +36,12 @@ drilldown_searches:
 finding:
     title: MFA disabled for User $user$ initiated by $actor.email$
     entity:
-        field: user
+        field: actor.email
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: actor.email
+        - field: user
           type: user
           score: 50
           message: MFA disabled for User $user$ initiated by $actor.email$
@@ -65,15 +65,3 @@ tests:
           source: gws:reports:admin
           sourcetype: gws:reports:admin
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: MFA disabled for User $user$ initiated by $actor.email$
-        risk_objects:
-            - field: user
-              type: user
-              score: 50
-            - field: actor.email
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

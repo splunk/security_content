@@ -26,7 +26,7 @@ how_to_implement: You must be ingesting data from the web server or network traf
 known_false_positives: It's possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
 references: []
 finding:
-    title: Potential Scanning for Vulnerable JBoss Servers
+    title: Potential Scanning for Vulnerable JBoss Servers - $dest$
     entity:
         field: dest
         type: system
@@ -44,12 +44,3 @@ product:
     - Splunk Cloud
 category: web
 security_domain: network
-MANUAL_REVIEW:
-    rba:
-        message: Potential Scanning for Vulnerable JBoss Servers
-        risk_objects:
-            - field: dest
-              type: system
-              score: 50
-        threat_objects: []
-    manual_review_rationale: "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential Scanning for Vulnerable JBoss Servers'. At least one token is required. [type=value_error, input_value='Potential Scanning for Vulnerable JBoss Servers', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

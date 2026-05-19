@@ -43,6 +43,3 @@ category: application
 security_domain: network
 baselines:
     - DNSTwist Domain Names
-MANUAL_REVIEW:
-    rba: {}
-    manual_review_rationale: 'Detection references baseline(s) flagged for manual review: DNSTwist Domain Names'
