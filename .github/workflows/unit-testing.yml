@@ -42,7 +42,9 @@ jobs:
             APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
             APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"  
           run : |
-            contentctl-ng install --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD"
+            # Get the most recent release from GitHub
+            curl -o DA-ESS-ContentUpdate-latest-github-release.tar.gz https://github.com/splunk/security_content/releases/latest/download/DA-ESS-ContentUpdate-latest.tar.gz
+            contentctl-ng inspect --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD" --old-app-path DA-ESS-ContentUpdate-latest-github-release.tar.gz
         
         - name: Test content which has changed between this branch and the target branch
           run: |
