@@ -48,12 +48,6 @@ finding:
         field: dest
         type: system
         score: 50
-intermediate_findings:
-    entities:
-        - field: config_name
-          type: other
-          score: 50
-          message: SQL Server critical procedure "$config_name$" was $change_type$ on host $dest$, which could indicate an attempt to gain code execution or perform reconnaissance
 analytic_story:
     - SQL Server Abuse
 asset_type: Windows
@@ -73,15 +67,3 @@ tests:
           source: XmlWinEventLog:Application
       description: PORTED MANUAL TEST - The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
       test_type: experimental
-MANUAL_REVIEW:
-    rba:
-        message: SQL Server critical procedure "$config_name$" was $change_type$ on host $dest$, which could indicate an attempt to gain code execution or perform reconnaissance
-        risk_objects:
-            - field: dest
-              type: system
-              score: 50
-            - field: config_name
-              type: other
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple non-user-type entities found, but no user-type entities. We have picked the first non-user type entity and flagged this detection for manual review.
