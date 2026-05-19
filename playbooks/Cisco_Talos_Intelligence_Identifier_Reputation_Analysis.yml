@@ -1,29 +1,29 @@
 name: Cisco Talos Intelligence Identifier Reputation Analysis
 id: 9cea2ec7-9e6c-4861-b828-336410cdc1cc
-version: 1
-date: '2025-01-17'
+version: 2
+creation_date: '2025-01-17'
+modification_date: '2026-05-19'
 author: Kelby Shelton, Tapish Jain, Splunk
 type: Investigation
 description: "Accepts a URL, IP or Domain and provides intelligence on the objects. Generates a per observable report that includes the objects threat level, threat categories, acceptable use categories and score."
 playbook: CiscoTalosIntelligence_Identifier_Reputation_Analysis
-how_to_implement: This input playbook requires the Cisco Talos Intelligence connector to be configured and a Splunk SOAR cloud license. 
+how_to_implement: This input playbook requires the Cisco Talos Intelligence connector to be configured and a Splunk SOAR cloud license.
 references:
-  - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
-app_list: 
-  - Cisco Talos Intelligence
-tags:
-  defend_technique_id:
-  - D3-IRA
-  platform_tags:
-    - reputation 
-    - url
-    - ip 
-    - domain 
+    - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
+app_list:
     - Cisco Talos Intelligence
-  playbook_type: Input
-  vpe_type: Modern
-  playbook_fields: []
-  product:
-  - Splunk SOAR
-  use_cases:
-  - Enrichment
+platform_tags:
+    - reputation
+    - url
+    - ip
+    - domain
+    - Cisco Talos Intelligence
+playbook_type: Input
+vpe_type: Modern
+playbook_fields: []
+product:
+    - Splunk SOAR
+use_cases:
+    - Enrichment
+defend_technique_id:
+    - D3-IRA
