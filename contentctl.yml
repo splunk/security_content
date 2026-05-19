@@ -167,9 +167,9 @@ apps:
 - uid: 3110
   title: Splunk Add-on for Microsoft Cloud Services
   appid: SPLUNK_TA_MICROSOFT_CLOUD_SERVICES
-  version: 6.1.1
+  version: 6.1.2
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-cloud-services_611.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-cloud-services_612.tgz
 - uid: 4055
   title: Splunk Add-on for Microsoft Office 365
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365
