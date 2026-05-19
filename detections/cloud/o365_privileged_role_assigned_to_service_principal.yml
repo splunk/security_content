@@ -29,12 +29,12 @@ drilldown_searches:
 finding:
     title: A privileged Azure AD role [$object_name$] was assigned to the Service Principal $user$ initiated by $src_user$
     entity:
-        field: user
+        field: src_user
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: src_user
+        - field: user
           type: user
           score: 50
           message: A privileged Azure AD role [$object_name$] was assigned to the Service Principal $user$ initiated by $src_user$
@@ -57,15 +57,3 @@ tests:
           sourcetype: o365:management:activity
           source: o365
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: A privileged Azure AD role [$object_name$] was assigned to the Service Principal $user$ initiated by $src_user$
-        risk_objects:
-            - field: user
-              type: user
-              score: 50
-            - field: src_user
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

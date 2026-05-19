@@ -94,11 +94,9 @@ intermediate_findings:
           score: 50
           message: Possible AD CS ESC1 authentication on $dest$
 threat_objects:
-    - &id001
-      field: ssl_hash
+    - field: ssl_hash
       type: tls_hash
-    - &id002
-      field: ssl_serial
+    - field: ssl_serial
       type: certificate_serial
 analytic_story:
     - Windows Certificate Services
@@ -120,23 +118,3 @@ tests:
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: Possible AD CS ESC1 authentication on $dest$
-        risk_objects:
-            - field: src
-              type: system
-              score: 50
-            - field: dest
-              type: system
-              score: 50
-            - field: src_user
-              type: user
-              score: 50
-            - field: user
-              type: user
-              score: 50
-        threat_objects:
-            - *id001
-            - *id002
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

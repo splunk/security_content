@@ -43,12 +43,12 @@ drilldown_searches:
 finding:
     title: Global Administrator Role assigned for User $user$ initiated by $initiatedBy$
     entity:
-        field: user
+        field: initiatedBy
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: initiatedBy
+        - field: user
           type: user
           score: 50
           message: Global Administrator Role assigned for User $user$ initiated by $initiatedBy$
@@ -72,15 +72,3 @@ tests:
           source: Azure AD
           sourcetype: azure:monitor:aad
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: Global Administrator Role assigned for User $user$ initiated by $initiatedBy$
-        risk_objects:
-            - field: user
-              type: user
-              score: 50
-            - field: initiatedBy
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

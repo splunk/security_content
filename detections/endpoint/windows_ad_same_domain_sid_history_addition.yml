@@ -59,15 +59,3 @@ tests:
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: Active Directory SID History Attribute was added to $user$ by $src_user$
-        risk_objects:
-            - field: src_user
-              type: user
-              score: 50
-            - field: user
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.
