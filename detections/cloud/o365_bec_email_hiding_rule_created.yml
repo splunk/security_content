@@ -7,6 +7,7 @@ author: '0xC0FFEEEE, Github Community'
 status: production
 type: TTP
 description: This analytic detects mailbox rule creation, a common technique used in Business Email Compromise. It uses a scoring mechanism to identify a combination of attributes often featured in mailbox rules created by attackers. This may indicate that an attacker has gained access to the account.
+data_source: []
 search: |-
     `o365_management_activity` Workload=Exchange Operation IN ("New-InboxRule", "Set-InboxRule")
     | stats min(_time) as firstTime, max(_time) as lastTime, values(Operation) as Operation, latest(Name) as Name, latest(MarkAsRead) as MarkAsRead, latest(MoveToFolder) as MoveToFolder by object_id user
@@ -40,8 +41,7 @@ finding:
         type: user
         score: 50
 threat_objects:
-    - &id001
-      field: Name
+    - field: Name
       type: signature
 analytic_story:
     - Office 365 Account Takeover
@@ -61,13 +61,3 @@ tests:
           sourcetype: o365:management:activity
           source: o365
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: Potential BEC mailbox rule - $Name$ was created by user - $user$
-        risk_objects:
-            - field: user
-              type: user
-              score: 50
-        threat_objects:
-            - *id001
-    manual_review_rationale: "This detection is missing a data_source: section.  Even if it has value 'data_source: []', every detection MUST include the data_source key/value."

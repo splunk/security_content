@@ -23,7 +23,7 @@ references:
     - https://msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-319a
 finding:
-    title: Potential Zerologon activity detected
+    title: Potential Zerologon activity detected [ $dest_ip$ ]
     entity:
         field: dest_ip
         type: system
@@ -43,12 +43,3 @@ product:
     - Splunk Cloud
 category: network
 security_domain: network
-MANUAL_REVIEW:
-    rba:
-        message: Potential Zerologon activity detected
-        risk_objects:
-            - field: dest_ip
-              type: system
-              score: 50
-        threat_objects: []
-    manual_review_rationale: "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential Zerologon activity detected'. At least one token is required. [type=value_error, input_value='Potential Zerologon activity detected', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

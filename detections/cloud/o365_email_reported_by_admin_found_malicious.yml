@@ -41,15 +41,8 @@ finding:
         field: src_user
         type: user
         score: 50
-intermediate_findings:
-    entities:
-        - field: user
-          type: user
-          score: 50
-          message: O365 security admin $user$ manually reported a suspicious email from $src_user$
 threat_objects:
-    - &id001
-      field: Subject
+    - field: Subject
       type: email_subject
 analytic_story:
     - Spearphishing Attachments
@@ -71,16 +64,3 @@ tests:
           sourcetype: o365:management:activity
           source: o365
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: O365 security admin $user$ manually reported a suspicious email from $src_user$
-        risk_objects:
-            - field: src_user
-              type: user
-              score: 50
-            - field: user
-              type: user
-              score: 50
-        threat_objects:
-            - *id001
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

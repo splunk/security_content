@@ -42,12 +42,12 @@ drilldown_searches:
 finding:
     title: A new owner was added for service principal $displayName$ by $initiatedBy$
     entity:
-        field: displayName
+        field: initiatedBy
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: initiatedBy
+        - field: displayName
           type: user
           score: 50
           message: A new owner was added for service principal $displayName$ by $initiatedBy$
@@ -71,15 +71,3 @@ tests:
           source: Azure AD
           sourcetype: azure:monitor:aad
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: A new owner was added for service principal $displayName$ by $initiatedBy$
-        risk_objects:
-            - field: displayName
-              type: user
-              score: 50
-            - field: initiatedBy
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

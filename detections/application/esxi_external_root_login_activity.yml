@@ -26,11 +26,11 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Root logged in on ESXi host $dest$ from $SrcIpAddr.
+          message: Root logged in on ESXi host $dest$ from $SrcIpAddr$.
         - field: SrcIpAddr
           type: system
           score: 20
-          message: Root logged in on ESXi host $dest$ from $SrcIpAddr.
+          message: Root logged in on ESXi host $dest$ from $SrcIpAddr$.
 analytic_story:
     - ESXi Post Compromise
     - Black Basta Ransomware
@@ -50,15 +50,3 @@ tests:
           source: vmware:esxlog
           sourcetype: vmw-syslog
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: Root logged in on ESXi host $dest$ from $SrcIpAddr.
-        risk_objects:
-            - field: dest
-              type: system
-              score: 20
-            - field: SrcIpAddr
-              type: system
-              score: 20
-        threat_objects: []
-    manual_review_rationale: "The following error was found while validating the intermediate finding message: 1 validation error for EsTokenString\n  Value error, Unbalanced $ delimiter in token string: 'Root logged in on ESXi host $dest$ from $SrcIpAddr.'. Each $ must be part of a $field_name$ token pair. [type=value_error, input_value='Root logged in on ESXi h...$dest$ from $SrcIpAddr.', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

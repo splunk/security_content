@@ -61,10 +61,9 @@ intermediate_findings:
         - field: src_ip
           type: system
           score: 20
-          message: Port or Protocol Traffic Mismatch
+          message: Port or Protocol Traffic Mismatch [ $src_ip$ ]
 threat_objects:
-    - &id001
-      field: dest_ip
+    - field: dest_ip
       type: ip_address
 analytic_story:
     - Prohibited Traffic Allowed or Protocol Mismatch
@@ -86,13 +85,3 @@ tests:
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: Port or Protocol Traffic Mismatch
-        risk_objects:
-            - field: src_ip
-              type: system
-              score: 20
-        threat_objects:
-            - *id001
-    manual_review_rationale: "The following error was found while validating the intermediate finding message: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Port or Protocol Traffic Mismatch'. At least one token is required. [type=value_error, input_value='Port or Protocol Traffic Mismatch', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

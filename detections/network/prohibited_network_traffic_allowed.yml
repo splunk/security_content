@@ -35,14 +35,13 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Potentially Prohibited Network Traffic allowed
+    title: Potentially Prohibited Network Traffic allowed from $src_ip$
     entity:
         field: src_ip
         type: system
         score: 50
 threat_objects:
-    - &id001
-      field: dest_ip
+    - field: dest_ip
       type: ip_address
 analytic_story:
     - Prohibited Traffic Allowed or Protocol Mismatch
@@ -68,13 +67,3 @@ tests:
           sourcetype: cisco:sfw:estreamer
       description: PORTED MANUAL TEST - This detection uses a builtin lookup from Enterprise Security.
       test_type: experimental
-MANUAL_REVIEW:
-    rba:
-        message: Potentially Prohibited Network Traffic allowed
-        risk_objects:
-            - field: src_ip
-              type: system
-              score: 50
-        threat_objects:
-            - *id001
-    manual_review_rationale: "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potentially Prohibited Network Traffic allowed'. At least one token is required. [type=value_error, input_value='Potentially Prohibited Network Traffic allowed', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

@@ -33,12 +33,12 @@ drilldown_searches:
 finding:
     title: The AdminSDHolder domain object $ObjectDN$ has been modified by $src_user$
     entity:
-        field: user
+        field: src_user
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: src_user
+        - field: user
           type: user
           score: 50
           message: The AdminSDHolder domain object $ObjectDN$ has been modified by $src_user$
@@ -60,15 +60,3 @@ tests:
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: The AdminSDHolder domain object $ObjectDN$ has been modified by $src_user$
-        risk_objects:
-            - field: user
-              type: user
-              score: 50
-            - field: src_user
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.
