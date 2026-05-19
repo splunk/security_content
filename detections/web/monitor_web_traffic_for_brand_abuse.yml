@@ -23,7 +23,7 @@ how_to_implement: You need to ingest data from your web traffic. This can be acc
 known_false_positives: No false positives have been identified at this time.
 references: []
 finding:
-    title: Potential Brand Abus discovered in web logs from $src$
+    title: Potential brand abuse discovered in web logs from $src$
     entity:
         field: src
         type: system
