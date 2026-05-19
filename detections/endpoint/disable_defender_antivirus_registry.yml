@@ -1,14 +1,26 @@
 name: Disable Defender AntiVirus Registry
 id: aa4f695a-3024-11ec-9987-acde48001122
-version: 17
-date: '2026-05-04'
+version: 18
+date: '2026-05-19'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: The following analytic detects the modification of Windows Defender registry settings to disable antivirus and antispyware protections. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to registry paths associated with Windows Defender policies. This activity is significant because disabling antivirus protections is a common tactic used by adversaries to evade detection and maintain persistence on compromised systems. If confirmed malicious, this action could allow attackers to execute further malicious activities undetected, leading to potential data breaches, system compromise, and further propagation of malware within the network.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" Registry.registry_value_name IN ("DisableAntiSpyware","DisableAntiVirus") Registry.registry_value_data = 0x00000001) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_defender_antivirus_registry_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
+      WHERE (
+          Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" AND
+          Registry.registry_value_name IN ("DisableAntiSpyware","DisableAntiVirus") AND
+          Registry.registry_value_data IN (1, *0x00000001*)
+          )
+          by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
+    | `drop_dm_object_name(Registry)`
+    | where isnotnull(registry_value_data)
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `disable_defender_antivirus_registry_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: admin or user may choose to disable windows defender product
 references:
@@ -40,6 +52,7 @@ tags:
         - IcedID
         - Black Basta Ransomware
         - Cactus Ransomware
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1685

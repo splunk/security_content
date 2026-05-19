@@ -1,7 +1,7 @@
 name: Windows Process Execution From ProgramData
 id: 237016fa-d8e6-47b4-80f9-70c4d42c72c0
-version: 8
-date: '2026-03-31'
+version: 9
+date: '2026-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -50,6 +50,7 @@ tags:
         - APT37 Rustonotto and FadeStealer
         - GhostRedirector IIS Module and Rungan Backdoor
         - Axios Supply Chain Post Compromise
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1036.005

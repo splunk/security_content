@@ -1,7 +1,7 @@
 name: Powershell Processing Stream Of Data
 id: 0d718b52-c9f1-11eb-bc61-acde48001122
-version: 16
-date: '2026-04-15'
+version: 17
+date: '2026-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -63,6 +63,7 @@ tags:
         - XWorm
         - MoonPeak
         - MuddyWater
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1059.001

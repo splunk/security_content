@@ -1,7 +1,7 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 31
-date: '2026-04-16'
+version: 32
+date: '2026-05-19'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
@@ -79,6 +79,7 @@ tags:
         - MuddyWater
         - Gh0st RAT
         - Axios Supply Chain Post Compromise
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1547.001

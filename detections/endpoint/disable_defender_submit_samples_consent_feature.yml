@@ -8,7 +8,19 @@ type: TTP
 description: The following analytic detects the modification of the Windows registry to disable the Windows Defender Submit Samples Consent feature. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path associated with Windows Defender SpyNet and the SubmitSamplesConsent value set to 0x00000000. This activity is significant as it indicates an attempt to bypass or evade detection by preventing Windows Defender from submitting samples for further analysis. If confirmed malicious, this could allow an attacker to execute malicious code without being detected by Windows Defender, leading to potential system compromise.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name = SubmitSamplesConsent Registry.registry_value_data = 0x00000000) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_defender_submit_samples_consent_feature_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
+       WHERE (
+              Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" AND
+              Registry.registry_value_name = SubmitSamplesConsent AND
+              Registry.registry_value_data IN (0, *0x00000000*)
+             )
+       by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
+       | `drop_dm_object_name(Registry)`
+       | where isnotnull(registry_value_data)
+       | `security_content_ctime(firstTime)`
+       | `security_content_ctime(lastTime)`
+       | `disable_defender_submit_samples_consent_feature_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: admin or user may choose to disable windows defender product
 references:

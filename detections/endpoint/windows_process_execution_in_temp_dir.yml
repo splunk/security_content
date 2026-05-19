@@ -1,7 +1,7 @@
 name: Windows Process Execution in Temp Dir
 id: f6fbe929-4187-4ba4-901e-8a34be838443
-version: 10
-date: '2026-04-16'
+version: 11
+date: '2026-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -53,6 +53,7 @@ tags:
         - SesameOp
         - Gh0st RAT
         - Axios Supply Chain Post Compromise
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1543

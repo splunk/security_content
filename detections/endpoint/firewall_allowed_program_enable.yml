@@ -1,7 +1,7 @@
 name: Firewall Allowed Program Enable
 id: 9a8f63a8-43ac-11ec-904c-acde48001122
-version: 11
-date: '2026-05-04'
+version: 12
+date: '2026-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -52,6 +52,7 @@ tags:
         - Windows Defense Evasion Tactics
         - Medusa Ransomware
         - Azorult
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1686

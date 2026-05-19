@@ -1,0 +1,32 @@
+name: Salat Stealer
+id: d4f2a1b3-5c6e-4d7f-8e9a-1b2c3d4e5f60
+version: 1
+date: '2026-05-12'
+author: Teoderick Contreras, Splunk
+status: production
+description: |
+    Salat Stealer is a Windows-based information-stealing malware associated with the UAC-0252 threat activity group, which has been observed delivering it alongside the ShadowSniff credential harvester.
+    Once deployed, Salat Stealer targets sensitive data stored on the victim endpoint, including browser-saved passwords, cookies, autofill entries, and session tokens from popular Chromium and Gecko-based browsers.
+    To ensure persistence and avoid interruption, the malware actively tampers with Windows Defender by modifying threat-action policies through PowerShell Set-MpPreference commands, allowing malicious files and processes to bypass antivirus enforcement.
+    Salat Stealer typically arrives via phishing campaigns or trojanized software packages, then operates stealthily within user-context directories to minimize its footprint.
+    Collected data is packaged and exfiltrated to attacker-controlled command-and-control infrastructure, often over encrypted channels.
+    Detection requires monitoring for unauthorized Windows Defender configuration changes, suspicious PowerShell execution, abnormal access to browser credential stores, and outbound connections to known Salat Stealer C2 endpoints.
+narrative: |
+    Salat Stealer surfaces as part of the UAC-0252 campaign, a threat cluster observed distributing multiple credential-harvesting tools targeting organizations primarily in Ukraine and surrounding regions.
+    The infection chain typically begins with a phishing email carrying a malicious attachment or a link to a trojanized installer, luring victims into executing the payload under the guise of a legitimate file.
+    Once running, Salat Stealer immediately moves to disable or weaken Windows Defender by issuing PowerShell Set-MpPreference commands that set high-, moderate-, low-, and severe-threat default actions to allow, effectively granting all detected threats a free pass.
+    With defenses lowered, the malware enumerates the system and harvests browser-stored credentials, cookies, and session data from Chromium-based and Firefox-derived browsers.
+    The stolen information is compressed and transmitted to remote command-and-control servers, where operators can monetize it through credential sales, account takeover, or use it to facilitate deeper intrusion into corporate networks.
+    Security teams investigating Salat Stealer activity should correlate PowerShell-based Defender tampering events with unusual process access to browser SQLite databases and anomalous outbound HTTPS traffic, as these together form a reliable behavioral fingerprint for the malware.
+references:
+    - https://www.broadcom.com/support/security-center/protection-bulletin/uac-0252-activity-delivering-shadowsniff-and-salatstealer-malware
+    - https://bazaar.abuse.ch/browse/tag/SalatStealer/
+tags:
+    category:
+        - Malware
+        - Adversary Tactics
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    usecase: Advanced Threat Detection

@@ -1,7 +1,7 @@
 name: Non Chrome Process Accessing Chrome Default Dir
 id: 81263de4-160a-11ec-944f-acde48001122
-version: 17
-date: '2026-04-21'
+version: 18
+date: '2026-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -50,6 +50,7 @@ tags:
         - Lokibot
         - BlankGrabber Stealer
         - VIP Keylogger
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1555.003

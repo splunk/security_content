@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 23
-date: '2026-04-21'
+version: 24
+date: '2026-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -130,6 +130,7 @@ tags:
         - Void Manticore
         - Axios Supply Chain Post Compromise
         - VIP Keylogger
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1036

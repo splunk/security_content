@@ -1,7 +1,7 @@
 name: PowerShell 4104 Hunting
 id: d6f2b006-0041-11ec-8885-acde48001122
-version: 24
-date: '2026-03-31'
+version: 25
+date: '2026-05-19'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -239,6 +239,7 @@ tags:
         - Microsoft WSUS CVE-2025-59287
         - MuddyWater
         - Axios Supply Chain Post Compromise
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1059.001

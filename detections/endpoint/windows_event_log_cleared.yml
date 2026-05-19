@@ -1,7 +1,7 @@
 name: Windows Event Log Cleared
 id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-version: 19
-date: '2026-05-04'
+version: 20
+date: '2026-05-19'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -49,6 +49,7 @@ tags:
         - CISA AA22-264A
         - Compromised Windows Host
         - Clop Ransomware
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1685.005

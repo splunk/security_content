@@ -1,8 +1,8 @@
 name: Powershell Disable Security Monitoring
 id: c148a894-dd93-11eb-bf2a-acde48001122
-version: 15
-date: '2026-05-04'
-author: Michael Haag, Nasreddine Bencherchali, Splunk
+version: 16
+date: '2026-05-19'
+author: Michael Haag, Nasreddine Bencherchali, Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: |
@@ -60,7 +60,7 @@ search: |
     )
     OR
     (
-      Processes.process = "*CloudBlockLevel*"
+      Processes.process IN ("*CloudBlockLevel*", *MAPSReporting*)
       Processes.process IN (
         "* $false*",
         "* 0*"
@@ -71,7 +71,6 @@ search: |
        Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
        Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
        Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -113,6 +112,7 @@ tags:
         - Revil Ransomware
         - CISA AA24-241A
         - BlankGrabber Stealer
+        - Salat Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1685
