@@ -1,4 +1,4 @@
-name: Cisco Talos Intelligence Identifier Reputation Analysis
+name: CiscoTalosIntelligence Identifier Reputation Analysis
 id: 9cea2ec7-9e6c-4861-b828-336410cdc1cc
 version: 2
 creation_date: '2025-01-17'
@@ -27,3 +27,6 @@ use_cases:
     - Enrichment
 defend_technique_id:
     - D3-IRA
+# MANUAL_REVIEW:
+#     rationale: This filename was changed from Cisco Talos Intelligence Identifier Reputation Analysis to 
+#       CiscoTalosIntelligence Identifier Reputation Analysis in line with how it exists in the source of truth.
