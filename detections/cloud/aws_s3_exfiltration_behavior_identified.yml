@@ -20,7 +20,7 @@ search: |-
     | where source_count >= 2 and mitre_tactic_id_count>=2
     | `aws_s3_exfiltration_behavior_identified_filter`
 how_to_implement: You must enable all the detection searches in the Data Exfiltration Analytic story to create risk events in Enterprise Security.
-known_false_positives: alse positives may be present based on automated tooling or system administrators. Filter as needed.
+known_false_positives: False positives may be present based on automated tooling or system administrators. Filter as needed.
 references:
     - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
     - https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.ec2-share-ebs-snapshot/
@@ -53,6 +53,9 @@ tests:
           sourcetype: stash
           source: aws_exfil
       test_type: unit
-MANUAL_REVIEW:
-    rba: {}
-    manual_review_rationale: Legacy Correlation detections have no rba section (and therefore no entities), but the new format requires a finding with at least one entity. A content author must supply the finding entity for each Correlation detection. Additionally, evaluate whether any Threat Objects are appropriate.
+finding:
+    title: Suspicious AWS S3 exfiltration behavior identified - $risk_object$
+    entity:
+        field: risk_object
+        type: other
+        score: 0

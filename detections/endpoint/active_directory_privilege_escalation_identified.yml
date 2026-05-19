@@ -42,6 +42,9 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-MANUAL_REVIEW:
-    rba: {}
-    manual_review_rationale: Legacy Correlation detections have no rba section (and therefore no entities), but the new format requires a finding with at least one entity. A content author must supply the finding entity for each Correlation detection. Additionally, evaluate whether any Threat Objects are appropriate.
+finding:
+    title: Active Directory Privilege Escalation Identified - $risk_object$
+    entity:
+        field: risk_object
+        type: system
+        score: 0
