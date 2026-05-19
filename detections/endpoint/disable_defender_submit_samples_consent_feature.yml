@@ -1,7 +1,7 @@
 name: Disable Defender Submit Samples Consent Feature
 id: 73922ff8-3022-11ec-bf5e-acde48001122
-version: 14
-date: '2026-05-04'
+version: 15
+date: '2026-05-19'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
