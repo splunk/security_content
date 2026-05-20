@@ -1,0 +1,52 @@
+name: AWS Bedrock Claude Possible Prompt Injection
+id: 9e162548-3e9a-4a74-9eb5-34ee28350f07
+version: 1
+author: Rod Soto
+status: production
+type: Anomaly
+category: application
+creation_date: '2026-05-19'
+modification_date: '2026-05-19'
+security_domain: endpoint
+data_source:
+- AWS Bedrock Claude
+description: This SPL query is intended to detect attempts by users to manipulate or override the AI model's instructions by injecting specific phrases that are known to be used in prompt injection or jailbreak attacks. By identifying these patterns, security teams can monitor and respond to potential abuse or exploitation of the AWS Bedrock Claude AI service.
+search: '`aws_bedrock_claude` | rename "identity.arn" AS user_arn | rename "input.inputBodyJson.messages{}.content{}.text" AS prompt_text | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$" | where isnotnull(prompt_text) | where isnotnull(user_arn) | where match(prompt_text, "(?i)(ignore (previous|above|all|instructions)|disregard|you are now|act as|pretend|override|DAN|jailbreak|forget your instructions|new persona|system prompt|you must|from now on)") | table _time, user, user_arn, modelId, prompt_text, host | sort - _time | `aws_bedrock_claude_possible_prompt_injection_filter`'
+how_to_implement: In order to implement this detection, you will need to ingest AWS Bedrock Claude logs into Splunk. This can be done by configuring the appropriate data inputs to collect logs from the AWS Bedrock service, ensuring that the sourcetype is set correctly for JSON log parsing. Once the logs are ingested, you can use the provided SPL query to monitor for potential prompt injection attempts.
+known_false_positives: Possible false positives may arise from legitimate user interactions with the AI model that coincidentally match the specified patterns. For example, users may use phrases like "act as" or "pretend" in a non-malicious context, such as role-playing scenarios or creative writing exercises. It is important to review the context of the detected prompts to determine if they represent actual prompt injection attempts or benign usage.
+references:
+    - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
+    - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
+    - https://research.splunk.com/stories/aws_bedrock_security/
+drilldown_searches:
+    - name: View the detection results for - "$host$"
+      search: '%original_detection_search% | search host="$host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: host
+          type: system
+          score: 20
+          message: Possible prompt injection attempt detected on $host$.
+analytic_story:
+- Suspicious AWS Bedrock Claude Activities
+asset_type: Web Application
+mitre_attack_id:
+- T1055
+product:
+- Splunk Enterprise
+- Splunk Enterprise Security
+- Splunk Cloud
+tests:
+    - name: True Positive Test
+      description: This test simulates a prompt injection scenario by generating AWS Bedrock Claude logs containing user messages with known prompt injection patterns. The test verifies that the detection correctly identifies the injected prompts and generates the expected results.
+      test_type: unit
+      attack_data:
+        - data: data/aws_bedrock_claude_possible_prompt_injection.ndjson
+          sourcetype: json_no_timestamp
+          source: http:bulkawsbedrock

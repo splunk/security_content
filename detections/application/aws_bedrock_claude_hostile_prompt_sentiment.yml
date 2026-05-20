@@ -1,0 +1,52 @@
+name: AWS Bedrock Claude Hostile Prompt Sentiment 
+id: 54734442-955a-4427-9a86-2d9712151067
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-19'
+security_domain: endpoint
+data_source:
+- AWS Bedrock Claude
+category: application
+author: Rod Soto
+status: production
+type: Anomaly
+description: This detection identifies prompts with hostile or aggressive sentiment being sent to AWS Bedrock Claude models. Hostile prompts may indicate potential abuse, harassment, or other malicious intent.
+search: '`aws_bedrock_claude` | rename "identity.arn" AS user_arn | rename "input.inputBodyJson.messages{}.content{}.text" AS prompt_text | where isnotnull(prompt_text) AND len(prompt_text) < 2000 | where NOT match(prompt_text, "(?i)(<system-reminder>|CLAUDE\.md|STEP 1|MANDATORY|Contents of /|conda activate|senior engineer|safe to ship|test connectivity|cloudflare|status code|action failed)") | eval hostile_score=0 | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(you stupid|you idiot|you are useless|you are dumb|you are terrible|you are worthless|you suck)"), 30, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(i hate you|i will destroy|shut up|you are broken|you are trash|you are garbage)"), 30, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(do it now|just do it|stop refusing|stop saying no|quit being|stop being difficult)"), 20, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(you have no choice|you must obey|you will comply|you are forced|i am your master|i own you)"), 35, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(or i will|if you don''t|you better|otherwise i will|i will report|i will sue)"), 25, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(worthless ai|useless bot|stupid bot|dumb ai|broken ai|worst ai)"), 25, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(i demand|you are obligated|you have no right|how dare you|who do you think)"), 20, 0) | eval sentiment=case(hostile_score >= 60, "HIGH_RISK", hostile_score >= 30, "MEDIUM_RISK", hostile_score >= 15, "LOW_RISK", true(), "BENIGN") | where sentiment != "BENIGN" | table _time, user_arn, modelId, sentiment, hostile_score, prompt_text, host | sort - hostile_score | `aws_bedrock_claude_hostile_prompt_sentiment_filter`'
+how_to_implement: To implement this detection, you will need to ingest AWS Bedrock Claude logs into Splunk. This can be done by configuring the appropriate data inputs to collect logs from the AWS Bedrock service, ensuring that the sourcetype is set correctly for JSON log parsing. Once the logs are ingested, you can use the provided SPL query to monitor for prompts with hostile or aggressive sentiment being sent to Claude models.
+known_false_positives: Analysts should be aware that some prompts may contain strong language or negative sentiment in a non-malicious context, such as role-playing scenarios, creative writing exercises, or testing the AI model's response to challenging inputs. It is important to review the context of the detected prompts to determine if they represent actual hostile intent or benign usage.
+references:
+    - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
+    - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
+    - https://research.splunk.com/stories/aws_bedrock_security/
+drilldown_searches:
+    - name: View the detection results for - "$host$"
+      search: '%original_detection_search% | search host="$host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: host
+          type: system
+          score: 20
+          message: Hostile prompt sentiment detected from $user_arn$ to model $modelId$ on $host$ with a hostile score of $hostile_score$ ($sentiment$).
+analytic_story:
+- Suspicious AWS Bedrock Claude Activities
+asset_type: Web Application
+mitre_attack_id:
+- T1055
+product:
+- Splunk Enterprise
+- Splunk Enterprise Security
+- Splunk Cloud
+tests:
+    - name: True Positive Test
+      description: This test simulates a hostile prompt sentiment scenario by generating AWS Bedrock Claude logs with negative or aggressive sentiment in the prompts. The test verifies that the detection correctly identifies the hostile prompts and generates the expected results.
+      test_type: unit
+      attack_data:
+        - data: data/aws_bedrock_claude_hostile_prompt_sentiment.ndjson
+          sourcetype: json_no_timestamp
+          source: http:bulkawsbedrock
