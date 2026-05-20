@@ -4,7 +4,7 @@ on:
     types: [opened, reopened, synchronize]
 jobs:
   unit-testing:
-    runs-on: ubuntu-latest
+    runs-on: large-ubuntu-22.04-32core
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
     steps:
         #For fork PRs, always check out security_content and the PR target in security content!
