@@ -47,6 +47,6 @@ tests:
       description: This test simulates a prompt injection scenario by generating AWS Bedrock Claude logs containing user messages with known prompt injection patterns. The test verifies that the detection correctly identifies the injected prompts and generates the expected results.
       test_type: unit
       attack_data:
-        - data: data/aws_bedrock_claude_possible_prompt_injection.ndjson
+        - data: https://github.com/splunk/attack_data/blob/master/datasets/aws_bedrock_claude/aws_bedrock_claude_possible_prompt_injection.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock

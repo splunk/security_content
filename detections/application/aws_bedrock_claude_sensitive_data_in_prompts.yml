@@ -47,6 +47,6 @@ tests:
       test_type: unit
       description: This test simulates a scenario where sensitive data is included in prompts sent to AWS Bedrock Claude models. The test generates logs containing prompts with patterns that match sensitive data such as SS
       attack_data:
-        - data: data/aws_bedrock_claude_sensitive_data_in_prompts.ndjson
+        - data: https://github.com/splunk/attack_data/blob/master/datasets/aws_bedrock_claude/aws_bedrock_claude_sensitive_data_in_prompts.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
