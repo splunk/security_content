@@ -16,7 +16,7 @@ separator_value: Invite external user
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services
   url: https://splunkbase.splunk.com/app/3110
-  version: 6.1.1
+  version: 6.1.2
 fields:
 - _time
 - Level
