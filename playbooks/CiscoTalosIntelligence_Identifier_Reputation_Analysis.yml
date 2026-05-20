@@ -27,6 +27,3 @@ use_cases:
     - Enrichment
 defend_technique_id:
     - D3-IRA
-# MANUAL_REVIEW:
-#     rationale: This filename was changed from Cisco Talos Intelligence Identifier Reputation Analysis to 
-#       CiscoTalosIntelligence Identifier Reputation Analysis in line with how it exists in the source of truth.
