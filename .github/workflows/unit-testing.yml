@@ -22,7 +22,7 @@ jobs:
         # Check out the PR, even if it lives in a fork.
         # Instructions for pulling a PR were taken from: 
         # https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally
-        - name: Run ContentCTL test for changes against target branch
+        - name: Checkout the PR branch and the target to calculate changed files for testing
           run: |
             
             echo "Current Branch (Head Ref): ${{ github.head_ref }}"
@@ -37,18 +37,22 @@ jobs:
         - name: Run a contentctl-ng build to ensure that the branch in syntactically correct
           uses: ./.github/actions/contentctl-build
         
+        - name: Start the test environment
+          run: |
+            docker run -d --platform linux/amd64 -p 8088:8088 -p 8089:8089 -p 8000:8000 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com' -e 'SPLUNK_PASSWORD=Chang3d!' --name splunk splunk/splunk:latest
+            # Wait some time for this environment to be ready
+            sleep 180
+            
         - name: Run a contentctl-ng install to configure the testing environment
           env:
             APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
             APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"  
           run : |
-            # Get the most recent release from GitHub
-            curl -o DA-ESS-ContentUpdate-latest-github-release.tar.gz https://github.com/splunk/security_content/releases/latest/download/DA-ESS-ContentUpdate-latest.tar.gz
-            contentctl-ng inspect --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD" --old-app-path DA-ESS-ContentUpdate-latest-github-release.tar.gz
+            contentctl-ng install --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD" 
         
         - name: Test content which has changed between this branch and the target branch
           run: |
-            contentctl-ng test --verbose --test-type UNIT --post-test-behavior NEVER_PAUSE --mode CHANGED --git-ref ${{ github.base_ref }}
+            contentctl-ng test --verbose --post-test-behavior NEVER_PAUSE --mode CHANGED --git-ref ${{ github.base_ref }}
             echo "contentctl test - COMPLETED"
 
         # Store test_results/summary.yml and dist/DA-ESS-ContentUpdate-latest.tar.gz to job artifact-test_summary_results.zip
