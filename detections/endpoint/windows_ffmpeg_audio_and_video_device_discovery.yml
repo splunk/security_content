@@ -1,0 +1,80 @@
+name: Windows FFmpeg Audio and Video Device Discovery
+id: 6394c389-3863-4677-bcbd-07d1519b34d2
+version: 1
+date: '2026-05-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic detects the use of FFmpeg (ffmpeg.exe) to enumerate connected audio and video devices on a Windows endpoint. Adversaries and stealers such as SalatStealer abuse FFmpeg's DirectShow (dshow) input interface by invoking it with the -list_devices true and -hide_banner flags from a temporary directory, allowing them to silently discover available webcams, microphones, and capture cards without triggering obvious user-facing activity. Device discovery of this kind maps to MITRE ATT&CK T1125 (Video Capture), where threat actors profile the system's multimedia capabilities as a precursor to covert audio or video surveillance. The combination of an unusual process path (temp), the dshow input filter, and the device-listing arguments is a strong indicator of malicious reconnaissance rather than legitimate administrative use.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+      WHERE (
+              (
+                Processes.process_name = ffmpeg.exe OR
+                Processes.original_file_name = ffmpeg.exe
+               ) AND
+
+              Processes.process_path IN ("*\\temp\\*") AND
+              Processes.process = "*-list_devices*" AND
+              Processes.process = "*-hide_banner*" AND
+              Processes.process = "* dshow *"
+            )
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_ffmpeg_audio_and_video_device_discovery_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrators or administrative scripts may use this application. Filter as needed.
+references:
+    - https://www.broadcom.com/support/security-center/protection-bulletin/uac-0252-activity-delivering-shadowsniff-and-salatstealer-malware
+    - https://bazaar.abuse.ch/browse/tag/SalatStealer/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: a ffmpeg.exe process [$process_path$] list video and audio devices on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+        - field: process_name
+          type: process_name
+        - field: process
+          type: process
+tags:
+    analytic_story:
+        - Salat Stealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1125
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1125/salat_stealer_ffmpeg/ffmpeg_event.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
