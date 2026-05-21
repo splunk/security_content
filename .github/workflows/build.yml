@@ -19,8 +19,18 @@ jobs:
       - name: Check out the repository code
         uses: actions/checkout@v6
 
-      - name: Install contentctl-ng tool
-        uses: ./.github/actions/contentctl-ng-install-tool
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.14
+          architecture: x64
+
+      - name: Install contentctl-ng
+        shell: bash
+        run: |
+          echo "- Build Tool Version - $(cat requirements.txt)"
+          pip install -r requirements.txt
+
 
       - name: Run a contentctl-ng build
         run: |
