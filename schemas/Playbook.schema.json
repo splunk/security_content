@@ -2361,7 +2361,8 @@
          "description": "PlayBook Type field.\n\nThis is intentionally different than the Type Enum\nabove due to legacy naming in the playbook files.",
          "enum": [
             "Automation",
-            "Input"
+            "Input",
+            "Enterprise Security"
          ],
          "title": "PlaybookType",
          "type": "string"
