@@ -15,7 +15,7 @@ references:
     - https://www.ptsecurity.com/ww-en/about/news/f5-fixes-critical-vulnerability-discovered-by-positive-technologies-in-big-ip-application-delivery-controller/
     - https://support.f5.com/csp/article/K52145254
 finding:
-    title: Potential F5 TMUI RCE traffic
+    title: Potential F5 TMUI RCE traffic [ $dest$ ]
     entity:
         field: dest
         type: system
@@ -33,12 +33,3 @@ product:
     - Splunk Cloud
 category: web
 security_domain: network
-MANUAL_REVIEW:
-    rba:
-        message: Potential F5 TMUI RCE traffic
-        risk_objects:
-            - field: dest
-              type: system
-              score: 50
-        threat_objects: []
-    manual_review_rationale: "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potential F5 TMUI RCE traffic'. At least one token is required. [type=value_error, input_value='Potential F5 TMUI RCE traffic', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

@@ -24,9 +24,9 @@ how_to_implement: This search uses the Network_Sessions data model shipped with 
 known_false_positives: This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
 references: []
 finding:
-    title: Potentially Unauthorized Device observed
+    title: Potentially Unauthorized Device observed [ $dest_ip$ ]
     entity:
-        field: dest
+        field: dest_ip
         type: system
         score: 50
 analytic_story:
@@ -41,12 +41,3 @@ category: network
 security_domain: network
 baselines:
     - Count of assets by category
-MANUAL_REVIEW:
-    rba:
-        message: Potentially Unauthorized Device observed
-        risk_objects:
-            - field: dest
-              type: system
-              score: 50
-        threat_objects: []
-    manual_review_rationale: "The following error was found while validating the finding title: 1 validation error for EsTokenString\n  Value error, No $field_name$ tokens found in token string: 'Potentially Unauthorized Device observed'. At least one token is required. [type=value_error, input_value='Potentially Unauthorized Device observed', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"

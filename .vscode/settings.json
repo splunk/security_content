@@ -17,6 +17,7 @@
         "./schemas/KVStoreLookup.schema.json": "lookups/kvstore/*.yml",
         "./schemas/FilebackedMacro.schema.json": "macros/*.yml",
         "./schemas/FilebackedSchedule.schema.json": "schedules/*.yml",
+        "./schemas/Playbook.schema.json": "playbooks/*.yml",
         "./schemas/Story.schema.json": ["stories/*.yml", "!removed/stories/*.yml"]
     }
 }

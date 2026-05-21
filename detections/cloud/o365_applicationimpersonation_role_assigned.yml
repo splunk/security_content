@@ -37,12 +37,12 @@ drilldown_searches:
 finding:
     title: $user$ granted the ApplicationImpersonation role to $target_user$
     entity:
-        field: target_user
+        field: user
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: user
+        - field: target_user
           type: user
           score: 50
           message: $user$ granted the ApplicationImpersonation role to $target_user$
@@ -66,15 +66,3 @@ tests:
           source: O365
           sourcetype: o365:management:activity
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: $user$ granted the ApplicationImpersonation role to $target_user$
-        risk_objects:
-            - field: target_user
-              type: user
-              score: 50
-            - field: user
-              type: user
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

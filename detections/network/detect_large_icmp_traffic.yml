@@ -59,12 +59,12 @@ drilldown_searches:
 finding:
     title: Large ICMP traffic greater than a 1000 bytes detected from $src_ip$ to $dest_ip$
     entity:
-        field: dest_ip
+        field: src_ip
         type: system
         score: 50
 intermediate_findings:
     entities:
-        - field: src_ip
+        - field: dest_ip
           type: system
           score: 50
           message: Large ICMP traffic greater than a 1000 bytes detected from $src_ip$ to $dest_ip$
@@ -95,15 +95,3 @@ tests:
           source: cisco_cloud_security_addon
           sourcetype: cisco:cloud_security:firewall
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: Large ICMP traffic greater than a 1000 bytes detected from $src_ip$ to $dest_ip$
-        risk_objects:
-            - field: dest_ip
-              type: system
-              score: 50
-            - field: src_ip
-              type: system
-              score: 50
-        threat_objects: []
-    manual_review_rationale: Multiple non-user-type entities found, but no user-type entities. We have picked the first non-user type entity and flagged this detection for manual review.

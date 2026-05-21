@@ -138,22 +138,17 @@ drilldown_searches:
 finding:
     title: The user $src_user$ launched a process [$parent_process_name$] which spawned a suspicious elevated integrity process [$process_name$].
     entity:
-        field: user
+        field: src_user
         type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: src_user
-          type: user
-          score: 50
-          message: The user $src_user$ launched a process [$parent_process_name$] which spawned a suspicious elevated integrity process [$process_name$].
         - field: dest
           type: system
           score: 50
           message: The user $src_user$ launched a process [$parent_process_name$] which spawned a suspicious elevated integrity process [$process_name$].
 threat_objects:
-    - &id001
-      field: process_name
+    - field: process_name
       type: process_name
 analytic_story:
     - Windows Privilege Escalation
@@ -177,19 +172,3 @@ tests:
           sourcetype: XmlWinEventLog
       name: True Positive Test
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: The user $src_user$ launched a process [$parent_process_name$] which spawned a suspicious elevated integrity process [$process_name$].
-        risk_objects:
-            - field: dest
-              type: system
-              score: 50
-            - field: user
-              type: user
-              score: 50
-            - field: src_user
-              type: user
-              score: 50
-        threat_objects:
-            - *id001
-    manual_review_rationale: Multiple user-type entities found. We have picked the first one and flagged this detection for manual review.

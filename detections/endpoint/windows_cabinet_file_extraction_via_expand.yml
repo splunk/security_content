@@ -44,29 +44,28 @@ drilldown_searches:
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: |
-          | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$","$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name"
-            values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories"
-            values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-            by normalized_risk_object
-          | `security_content_ctime(firstTime)`
-          | `security_content_ctime(lastTime)`
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$","$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name"
+          values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories"
+          values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+          by normalized_risk_object
+        | `security_content_ctime(firstTime)`
+        | `security_content_ctime(lastTime)`
       earliest_offset: 7d
       latest_offset: "0"
 finding:
     title: expand.exe extracted cabinet contents on $dest$ executed by $user$.
     entity:
-        field: dest
-        type: system
+        field: user
+        type: user
         score: 50
 intermediate_findings:
     entities:
-        - field: user
+        - field: dest
           type: system
           score: 50
           message: expand.exe extracted cabinet contents on $dest$ executed by $user$.
 threat_objects:
-    - &id001
-      field: process_name
+    - field: process_name
       type: process_name
 analytic_story:
     - APT37 Rustonotto and FadeStealer
@@ -87,16 +86,3 @@ tests:
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
-MANUAL_REVIEW:
-    rba:
-        message: expand.exe extracted cabinet contents on $dest$ executed by $user$.
-        risk_objects:
-            - field: dest
-              type: system
-              score: 50
-            - field: user
-              type: system
-              score: 50
-        threat_objects:
-            - *id001
-    manual_review_rationale: Multiple non-user-type entities found, but no user-type entities. We have picked the first non-user type entity and flagged this detection for manual review.
