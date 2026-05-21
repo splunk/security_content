@@ -1,0 +1,22 @@
+name: contentctl-ng-install-tool
+description: Set up Python and install contentctl-ng from requirements.txt.
+inputs:
+  python-version:
+    description: Python version used for setup.
+    required: false
+    default: '3.14'
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ inputs.python-version }}
+        architecture: x64
+
+    - name: Install contentctl-ng
+      shell: bash
+      run: |
+        echo "- Build Tool Version - $(cat requirements.txt)"
+        pip install -r requirements.txt

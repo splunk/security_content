@@ -1,10 +1,17 @@
+# This workflow performs a simple build action.
+# It is intentionally separate from the appinspect
+# workflow to provide granular feedback and insight
+# into when a build passes but an appinspect fails.
 name: build
+
 on:
   pull_request:
     types: [opened, reopened, synchronize]
   push:
     branches:
       - develop
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,28 +19,18 @@ jobs:
       - name: Check out the repository code
         uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-          architecture: 'x64'
+      - name: Install contentctl-ng tool
+        uses: ./.github/actions/contentctl-ng-install-tool
 
-      - name: Install Python Dependencies and ContentCTL and Atomic Red Team
+      - name: Run a contentctl-ng build
         run: |
-          echo "- Contentctl version - $(cat requirements.txt)"
-          pip install -r requirements.txt
-          git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git external_repos/atomic-red-team
-          git clone --depth=1 --single-branch --branch="master" https://github.com/mitre-attack/attack-stix-data external_repos/cti
-
-      - name: Running build with enrichments
-        run: |
-          contentctl build --enrichments --enforce_deprecation_mapping_requirement
-          mkdir artifacts
-          mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
-
+          contentctl-ng build
+      
+      # Store build artifact
       - name: store_artifacts
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: content-latest
           path: |
-            artifacts/DA-ESS-ContentUpdate-latest.tar.gz
-            dist/api
+            dist/*.tar.gz
