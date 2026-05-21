@@ -14,6 +14,14 @@ jobs:
             repository: 'splunk/security_content' #this should be the TARGET repo of the PR. we hardcode it for now
             ref: ${{ github.base_ref }}
         
+        - name: Print out information abour PR target
+          run: |
+            echo "The PR target branch is: ${{ github.base_ref }}"
+            echo "The PR head branch is: ${{ github.head_ref }}"
+            echo "My current branch is"
+            git branch --show-current
+            git rev-parse HEAD
+        
             
         - name: Set up Python
           uses: actions/setup-python@v6
