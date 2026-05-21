@@ -1,45 +1,51 @@
+# This workflow performs a simple build action.
+# It is intentionally separate from the build
+# workflow to provide granular feedback and insight
+# into when a build passes but an appinspect fails.
 name: appinspect
+
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+
 jobs:
   appinspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository (PR)
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Check out the repository code
         uses: actions/checkout@v6
-        with:
-          ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-          architecture: 'x64'
-
-      - name: Install Python Dependencies and ContentCTL and Atomic Red Team
+      - name: Install contentctl-ng
+        uses: ./.github/actions/contentctl-ng-install-tool
+      
+      - name: Run a contentctl-ng build
         run: |
-          echo "- Contentctl version - $(cat requirements.txt)"
-          pip install -r requirements.txt
-          git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git external_repos/atomic-red-team
-          git clone --depth=1 --single-branch --branch="master" https://github.com/mitre-attack/attack-stix-data external_repos/cti
+          contentctl-ng build
 
-      - name: Running appinspect with enrichments
+      - name: Run appinspect with enrichments
         env:
           APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
           APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"
         run: |
-          echo $APPINSPECTUSERNAME
-          contentctl inspect --splunk-api-username "$APPINSPECTUSERNAME" --splunk-api-password "$APPINSPECTPASSWORD" --enrichments --enable-metadata-validation --suppress-missing-content-exceptions --enforce-deprecation-mapping-requirement
-          echo "done appinspect"
+          # Download the most recent Release in order to enforce metadata validation
+          # --location flag required to follow redirects from the "latest" URL
+          curl --location -o  DA-ESS-ContentUpdate-latest.tar.gz https://github.com/splunk/security_content/releases/latest/download/DA-ESS-ContentUpdate-latest.tar.gz
+          
+          # Inspect, using the release we downloaded above
+          # Also, we intentionally ignore missing content exceptions - private content is 
+          # not expected to be present when running this check in GitHub
+          contentctl-ng inspect --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD" --old-app-path DA-ESS-ContentUpdate-latest.tar.gz --ignore-missing-content-exceptions
           mkdir -p artifacts/app_inspect_report
           cp -r dist/*.html artifacts/app_inspect_report
           cp -r dist/*.tar.gz artifacts/
 
+      # Store inspect artifacts
       - name: store_artifacts
+        if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: content-latest
+          name: appinspect_results
           path: |
-            artifacts/DA-ESS-ContentUpdate-latest.tar.gz
-            artifacts/app_inspect_report
+            dist/*.html
+            dist/*.tar.gz
+            
