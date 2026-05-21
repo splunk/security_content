@@ -29,7 +29,9 @@ jobs:
           curl --location -o  DA-ESS-ContentUpdate-latest.tar.gz https://github.com/splunk/security_content/releases/latest/download/DA-ESS-ContentUpdate-latest.tar.gz
           
           # Inspect, using the release we downloaded above
-          contentctl-ng inspect --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD" --old-app-path DA-ESS-ContentUpdate-latest.tar.gz
+          # Also, we intentionally ignore missing content exceptions - private content is 
+          # not expected to be present when running this check in GitHub
+          contentctl-ng inspect --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD" --old-app-path DA-ESS-ContentUpdate-latest.tar.gz --ignore-missing-content-exceptions
           mkdir -p artifacts/app_inspect_report
           cp -r dist/*.html artifacts/app_inspect_report
           cp -r dist/*.tar.gz artifacts/

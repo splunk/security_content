@@ -1,1 +1,1 @@
-contentctl-ng==0.3.0
+contentctl-ng==0.4.0
