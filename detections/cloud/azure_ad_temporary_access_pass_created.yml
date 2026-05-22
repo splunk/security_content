@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: The following analytic detects the creation of a Temporary Access Pass (TAP) for an Azure AD user. It leverages Azure Active Directory AuditLogs to identify the "Create Temporary Access Pass method for user" operation. TAPs are time-limited passcodes that bypass all authentication requirements including MFA and FIDO2 - an attacker who creates a TAP for a compromised account can sign in from any location without any additional factor. If confirmed malicious, this activity provides an attacker with an unchallenged authentication path into the affected account.
 data_source:
-    - Azure Active Directory Create Temporary Access Pass method for user
+    - Azure Active Directory Update user
 search: |-
     `azure_monitor_aad` category=AuditLogs operationName="Create Temporary Access Pass method for user"
       | rename properties.* as *
