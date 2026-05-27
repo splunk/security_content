@@ -18,7 +18,7 @@ search: |
           Registry.registry_path= "*\\Real-Time Protection\\DisableIntrusionPreventionSystem" OR
           Registry.registry_path= "*\\Real-Time Protection\\DisableIOAVProtection" OR
           Registry.registry_path= "*\\Real-Time Protection\\DisableScriptScanning" AND
-          Registry.registry_value_data IN (1, "*0x00000001*"))
+          Registry.registry_value_data IN (1, 0x00000001))
           by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
           | `drop_dm_object_name(Registry)`
           | where isnotnull(registry_value_data)
