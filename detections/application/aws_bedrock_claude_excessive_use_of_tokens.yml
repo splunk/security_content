@@ -1,0 +1,72 @@
+name: AWS Bedrock Claude excessive use of tokens
+id: a839a6f7-aaac-438b-9d99-be0b49481e17
+version: 1
+date: '2026-05-28'
+author: Rod Soto
+status: production
+type: Anomaly
+description: Detects identities generating anomalously large model responses relative to their own historical baseline. For each identity, computes the average, maximum, and standard deviation of output token counts across all invocations, then flags any identity whose single largest response exceeds three standard deviations above their own mean. A statistically significant output spike from a single identity may indicate bulk data extraction, successful prompt injection producing verbose output, or a runaway agentic loop hitting context limits.
+data_source:
+    - AWS Bedrock Claude
+search: |-
+    `aws_bedrock_claude`
+    | spath output="out_tokens" path="output.outputBodyJson.usage.output_tokens"
+    | eval user = replace('identity.arn', ".*/", "")
+    | stats count           AS invocations,
+            avg(out_tokens) AS avg_out,
+            max(out_tokens) AS max_out,
+            stdev(out_tokens) AS stdev_out
+      BY user, identity.arn
+    | eval stdev_out  = coalesce(stdev_out, 0)
+    | eval threshold  = avg_out + (2 * stdev_out)
+    | where max_out > threshold
+    | table
+        user,
+        identity.arn,
+        invocations,
+        avg_out,
+        max_out,
+        stdev_out,
+        threshold
+    | sort -max_out
+    | `aws_bedrock_claude_excessive_use_of_tokens_filter`
+how_to_implement: You must install and configure the Splunk Add-on for AWS. Enable AWS Bedrock Claude logging and configure the `aws_bedrock_claude` macro to point to the appropriate index and sourcetype.
+known_false_positives: This detection may produce false positives for identities with low invocation history, legitimate large document summarization tasks, or automated pipeline sessions with naturally variable output token counts.
+references:
+    - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
+    - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
+    - https://research.splunk.com/stories/aws_bedrock_security/
+drilldown_searches:
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search user="$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+rba:
+    message: Identity $user$ has generated an anomalously large model response via AWS Bedrock Claude exceeding 2 standard deviations above their own baseline output token average. This may indicate bulk data extraction, successful prompt injection, or a runaway agentic loop. Investigate recent invocations for $user$.
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+tags:
+    analytic_story:
+        - Suspicious AWS Bedrock Claude Activities
+    asset_type: Web Application
+    mitre_attack_id:
+        - T1055
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://github.com/splunk/attack_data/blob/master/datasets/aws_bedrock_claude/aws_bedrock_claude_excessive_use_of_tokens.ndjson
+          sourcetype: json_no_timestamp
+          source: http:bulkawsbedrock
+
+
