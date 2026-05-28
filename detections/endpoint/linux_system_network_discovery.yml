@@ -1,7 +1,8 @@
 name: Linux System Network Discovery
 id: 535cb214-8b47-11ec-a2c7-acde48001122
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2022-02-14'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -73,31 +74,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Network discovery process $process$ executed on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-        - field: process
-          type: command
-tags:
-    analytic_story:
-        - Data Destruction
-        - Network Discovery
-        - Industroyer2
-        - VoidLink Cloud-Native Linux Malware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1016
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Network discovery process $process$ executed on $dest$
+threat_objects:
+    - field: process
+      type: command
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Data Destruction
+    - Network Discovery
+    - Industroyer2
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1016
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
@@ -107,3 +108,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_network_discovery.log
           sourcetype: osquery:results
           source: osquery
+      test_type: unit

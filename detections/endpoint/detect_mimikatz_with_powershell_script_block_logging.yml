@@ -1,7 +1,8 @@
 name: Detect Mimikatz With PowerShell Script Block Logging
 id: 8148c29c-c952-11eb-9255-acde48001122
-version: 14
-date: '2026-04-15'
+version: 15
+creation_date: '2021-06-09'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,39 +38,42 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The following behavior was identified and typically related to MimiKatz being loaded within the context of PowerShell on $dest$ by $user_id$.
-    risk_objects:
-        - field: user_id
-          type: user
-          score: 50
+finding:
+    title: The following behavior was identified and typically related to MimiKatz being loaded within the context of PowerShell on $dest$ by $user_id$.
+    entity:
+        field: user_id
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Hellcat Ransomware
-        - Malicious PowerShell
-        - Hermetic Wiper
-        - Sandworm Tools
-        - CISA AA22-264A
-        - CISA AA22-320A
-        - CISA AA23-347A
-        - Data Destruction
-        - Scattered Spider
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1003
-        - T1059.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The following behavior was identified and typically related to MimiKatz being loaded within the context of PowerShell on $dest$ by $user_id$.
+analytic_story:
+    - Hellcat Ransomware
+    - Malicious PowerShell
+    - Hermetic Wiper
+    - Sandworm Tools
+    - CISA AA22-264A
+    - CISA AA22-320A
+    - CISA AA23-347A
+    - Data Destruction
+    - Scattered Spider
+asset_type: Endpoint
+mitre_attack_id:
+    - T1003
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/credaccess-powershell.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

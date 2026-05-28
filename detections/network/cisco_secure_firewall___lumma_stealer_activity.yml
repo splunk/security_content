@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Lumma Stealer Activity
 id: 96bce783-c22e-4e48-8cf1-3eb2794c5083
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-04-16'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP
@@ -55,35 +56,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Lumma Stealer Activity on host $dest$ origniating from $src$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: signature
-          type: signature
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Lumma Stealer
-    asset_type: Network
-    security_domain: network
-    mitre_attack_id:
-        - T1190
-        - T1210
-        - T1027
-        - T1204
-    product:
-        - Splunk Enterprise
-        - Splunk Cloud
-        - Splunk Enterprise Security
+finding:
+    title: Lumma Stealer Activity on host $dest$ origniating from $src$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: signature
+      type: signature
+    - field: src
+      type: ip_address
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Lumma Stealer
+asset_type: Network
+mitre_attack_id:
+    - T1190
+    - T1210
+    - T1027
+    - T1204
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/lumma_stealer/lumma_stealer_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

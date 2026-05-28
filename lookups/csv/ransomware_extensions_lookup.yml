@@ -1,0 +1,12 @@
+name: ransomware_extensions_lookup
+id: eaf9e6bb-55fa-4bab-89a5-b0229638c526
+version: 6
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of file extensions that are associated with ransomware
+match_type:
+    - WILDCARD(Extensions)
+min_matches: 1
+case_sensitive_match: false

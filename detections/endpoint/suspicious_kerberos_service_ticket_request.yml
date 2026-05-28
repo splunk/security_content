@@ -1,7 +1,8 @@
 name: Suspicious Kerberos Service Ticket Request
 id: 8b1297bc-6204-11ec-b7c4-acde48001122
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-12-20'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -32,32 +33,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A suspicious Kerberos Service Ticket was requested by $user$ on host $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - sAMAccountName Spoofing and Domain Controller Impersonation
-        - Active Directory Kerberos Attacks
-        - Active Directory Privilege Escalation
-    asset_type: Endpoint
-    cve:
-        - CVE-2021-42287
-        - CVE-2021-42278
-    mitre_attack_id:
-        - T1078.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A suspicious Kerberos Service Ticket was requested by $user$ on host $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - sAMAccountName Spoofing and Domain Controller Impersonation
+    - Active Directory Kerberos Attacks
+    - Active Directory Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2021-42287
+    - CVE-2021-42278
+mitre_attack_id:
+    - T1078.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_kerberos_service_ticket_request/windows-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

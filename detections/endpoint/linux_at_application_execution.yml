@@ -1,7 +1,8 @@
 name: Linux At Application Execution
 id: bf0a378e-5f3c-11ec-a6de-acde48001122
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2021-12-21'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -38,38 +39,39 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: At application was executed on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Privilege Escalation
-        - Linux Persistence Techniques
-        - Linux Living Off The Land
-        - Scheduled Tasks
-        - Cisco Isovalent Suspicious Activity
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.002
-    atomic_guid:
-        - 9ddf2e5e-7e2c-46c2-9940-3c2ff29c7213
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: At application was executed on $dest$
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Persistence Techniques
+    - Linux Living Off The Land
+    - Scheduled Tasks
+    - Cisco Isovalent Suspicious Activity
+asset_type: Endpoint
+atomic_guid:
+    - 9ddf2e5e-7e2c-46c2-9940-3c2ff29c7213
+mitre_attack_id:
+    - T1053.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit
     - name: True Positive Test - Cisco Isovalent
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
           source: not_applicable
           sourcetype: cisco:isovalent:processExec
+      test_type: unit

@@ -1,9 +1,14 @@
 name: Sc exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-version: 15
-date: '2026-03-26'
+version: 16
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: deprecated
+deprecation_info:
+    reason: Detection is deprecated as the usage of sc.exe by itself is often used for legitimate purposes.
+    removed_in_version: 6.1.0
+    replacement_content: []
 type: TTP
 description: The following analytic detects the creation or modification of Windows services using the sc.exe command. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because manipulating Windows services can be a method for attackers to establish persistence, escalate privileges, or execute arbitrary code. If confirmed malicious, this behavior could allow an attacker to maintain long-term access, disrupt services, or gain control over critical system functions, posing a severe threat to the environment.
 data_source:
@@ -39,39 +44,42 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$
-    risk_objects:
+finding:
+    title: A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Azorult
-        - Orangeworm Attack Group
-        - Windows Drivers
-        - NOBELIUM Group
-        - Windows Persistence Techniques
-        - Disabling Security Tools
-        - Windows Service Abuse
-        - DHS Report TA18-074A
-        - Crypto Stealer
-        - Scattered Spider
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$
+analytic_story:
+    - Azorult
+    - Orangeworm Attack Group
+    - Windows Drivers
+    - NOBELIUM Group
+    - Windows Persistence Techniques
+    - Disabling Security Tools
+    - Windows Service Abuse
+    - DHS Report TA18-074A
+    - Crypto Stealer
+    - Scattered Spider
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: deprecated
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

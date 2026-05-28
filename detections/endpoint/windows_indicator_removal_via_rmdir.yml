@@ -1,15 +1,16 @@
 name: Windows Indicator Removal Via Rmdir
 id: c4566d2c-b094-48a1-9c59-d66e22065560
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2022-12-06'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+description: The following analytic detects the execution of the 'rmdir' command with '/s' and '/q' options to delete files and directory trees. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process metadata. This activity is significant as it may indicate malware attempting to remove traces or components during cleanup operations. If confirmed malicious, this behavior could allow attackers to eliminate forensic evidence, hinder incident response efforts, and maintain persistence by removing indicators of compromise.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic detects the execution of the 'rmdir' command with '/s' and '/q' options to delete files and directory trees. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process metadata. This activity is significant as it may indicate malware attempting to remove traces or components during cleanup operations. If confirmed malicious, this behavior could allow attackers to eliminate forensic evidence, hinder incident response efforts, and maintain persistence by removing indicators of compromise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*rmdir*" Processes.process = "* /s *" Processes.process = "* /q *" NOT Processes.parent_process_name IN ("explorer.exe", "*HPDock*") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_indicator_removal_via_rmdir_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: user and network administrator can execute this command.
@@ -24,29 +25,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a process execute rmdir command to delete files and directory tree on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - DarkGate Malware
-        - APT37 Rustonotto and FadeStealer
-        - ZOVWiper
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1070
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a process execute rmdir command to delete files and directory tree on $dest$.
+analytic_story:
+    - DarkGate Malware
+    - APT37 Rustonotto and FadeStealer
+    - ZOVWiper
+asset_type: Endpoint
+mitre_attack_id:
+    - T1070
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/rmdir_delete_files_and_dir/rmdir.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

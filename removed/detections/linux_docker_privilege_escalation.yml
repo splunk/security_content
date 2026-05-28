@@ -1,7 +1,8 @@
 name: Linux Docker Privilege Escalation
 id: 2e7bfb78-85f6-47b5-bc2f-15813a4ef2b3
 version: 11
-date: '2026-03-03'
+creation_date: '2022-08-02'
+modification_date: '2026-05-13'
 author: Gowthamaraj Rajendran, Splunk
 status: removed
 type: Anomaly
@@ -63,6 +64,12 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/docker/sysmon_linux.log
-          source: Syslog:Linux-Sysmon/Operational
-          sourcetype: sysmon:linux
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/docker/sysmon_linux.log
+            source: Syslog:Linux-Sysmon/Operational
+            sourcetype: sysmon:linux
+deprecation_info:
+    reason: Detection has been deprecated in favor of two scoped detections that aims to reduce overhead and ease management
+    removed_in_version: 5.26.0
+    replacement_content:
+        - Linux Docker Root Directory Mount
+        - Linux Docker Shell Execution

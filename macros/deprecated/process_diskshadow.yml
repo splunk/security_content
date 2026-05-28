@@ -1,3 +1,8 @@
-definition: (Processes.process_name=diskshadow.exe OR Processes.original_file_name=diskshadow.exe)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_diskshadow
+id: f39cfa7d-4c6f-498f-95c4-3e4b4451c2bd
+version: 1
+creation_date: '2022-02-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=diskshadow.exe OR Processes.original_file_name=diskshadow.exe)

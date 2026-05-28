@@ -1,7 +1,8 @@
 name: Linux Auditd Install Kernel Module Using Modprobe Utility
 id: 95165985-ace5-4d42-9c42-93a89a5af901
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-08-09'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -33,31 +34,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to install a Linux kernel module using the modprobe utility.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Privilege Escalation
-        - Linux Rootkit
-        - Linux Persistence Techniques
-        - Compromised Linux Host
-        - China-Nexus Threat Activity
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1547.006
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to install a Linux kernel module using the modprobe utility.
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Rootkit
+    - Linux Persistence Techniques
+    - Compromised Linux Host
+    - China-Nexus Threat Activity
+asset_type: Endpoint
+mitre_attack_id:
+    - T1547.006
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/linux_auditd_modprobe_new/linux_auditd_new_modprobe.log
           source: auditd
           sourcetype: auditd
+      test_type: unit

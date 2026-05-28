@@ -1,15 +1,16 @@
 name: Windows PaperCut NG Spawn Shell
 id: a602d9a2-aaea-45f8-bf0f-d851168d61ca
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2022-06-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+description: The following analytic detects instances where the PaperCut NG application (pc-app.exe) spawns a Windows shell, such as cmd.exe or PowerShell. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process creation events where the parent process is pc-app.exe. This activity is significant as it may indicate an attacker attempting to gain unauthorized access or execute malicious commands on the system. If confirmed malicious, this could lead to unauthorized code execution, privilege escalation, or further compromise of the affected environment.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic detects instances where the PaperCut NG application (pc-app.exe) spawns a Windows shell, such as cmd.exe or PowerShell. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process creation events where the parent process is pc-app.exe. This activity is significant as it may indicate an attacker attempting to gain unauthorized access or execute malicious commands on the system. If confirmed malicious, this could lead to unauthorized code execution, privilege escalation, or further compromise of the affected environment.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.parent_process_name=pc-app.exe `process_cmd`
@@ -42,36 +43,39 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The PaperCut NG application has spawned a shell $process_name$ on endpoint $dest$ by $user$.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: The PaperCut NG application has spawned a shell $process_name$ on endpoint $dest$ by $user$.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - PaperCut MF NG Vulnerability
-        - Compromised Windows Host
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id:
-        - T1059
-        - T1190
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The PaperCut NG application has spawned a shell $process_name$ on endpoint $dest$ by $user$.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - PaperCut MF NG Vulnerability
+    - Compromised Windows Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059
+    - T1190
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/papercut/papercutng-app-spawn_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

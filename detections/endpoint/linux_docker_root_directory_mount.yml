@@ -1,7 +1,8 @@
 name: Linux Docker Root Directory Mount
 id: aa049566-f76a-43b9-908c-3c27e079fd43
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2026-03-10'
+modification_date: '2026-05-13'
 author: Gowthamaraj Rajendran, Splunk, Emil Elsetrønning
 status: production
 type: TTP
@@ -49,33 +50,37 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $process_name$ spawned by $user$ on endpoint $dest$, tried to mount the root directory via the command $process$
-    risk_objects:
+finding:
+    title: An instance of $process_name$ spawned by $user$ on endpoint $dest$, tried to mount the root directory via the command $process$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: process
-          type: process
-tags:
-    analytic_story:
-        - Linux Privilege Escalation
-        - Linux Living Off The Land
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1611
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $process_name$ spawned by $user$ on endpoint $dest$, tried to mount the root directory via the command $process$
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Living Off The Land
+asset_type: Endpoint
+mitre_attack_id:
+    - T1611
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/docker/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Windows Hunting System Account Targeting Lsass
 id: 1c6abb08-73d1-11ec-9ca0-acde48001122
-version: 11
-date: '2026-02-25'
+version: 12
+creation_date: '2022-01-11'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -32,23 +33,24 @@ references:
     - https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for_22.html
     - https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1
     - https://docs.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights?redirectedfrom=MSDN
-tags:
-    analytic_story:
-        - CISA AA23-347A
-        - Credential Dumping
-        - Lokibot
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1003.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - CISA AA23-347A
+    - Credential Dumping
+    - Lokibot
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id:
+    - T1003.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

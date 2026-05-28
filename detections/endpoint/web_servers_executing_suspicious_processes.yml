@@ -1,7 +1,8 @@
 name: Web Servers Executing Suspicious Processes
 id: ec3b7601-689a-4463-94e0-c9f45638efb9
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
@@ -37,24 +38,26 @@ search: |-
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some of these processes may be used legitimately on web servers during maintenance or other administrative tasks.
 references: []
-rba:
-    message: Suspicious Processes observed on web server $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Suspicious Processes observed on web server $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Apache Struts Vulnerability
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1082
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious Processes observed on web server $dest$
+analytic_story:
+    - Apache Struts Vulnerability
+asset_type: Web Server
+mitre_attack_id:
+    - T1082
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

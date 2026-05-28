@@ -1,12 +1,13 @@
 name: Crowdstrike Medium Severity Alert
 id: 7e80d92a-6ec3-4eb1-a444-1480acfe2d14
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-07-31'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
-data_source: []
-type: Anomaly
 status: production
+type: Anomaly
 description: The following analytic detects a CrowdStrike alert with MEDIUM severity indicates a potential threat that requires prompt attention. This alert level suggests suspicious activity that may compromise security but is not immediately critical. It typically involves detectable but non-imminent risks, such as unusual behavior or attempted policy violations, which should be investigated further and mitigated quickly to prevent escalation of attacks.
+data_source: []
 search: |-
     `crowdstrike_stream`
       | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
@@ -31,28 +32,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A MEDIUM Severity Crowdstrike Alert found in $src_host$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Windows Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1110
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    manual_test: This detection is marked manual test because the attack_data file and TA do not provide the event.EndpointIp and event.EndpointName fields.  event.EndpointName is required to be present for the Risk Message Validation Integration Testing. This will be investigated and is a tracked issue.
+          message: A MEDIUM Severity Crowdstrike Alert found in $src_host$
+analytic_story:
+    - Compromised Windows Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1110
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/medium_alert/crowdstrike_medium_clean.log
           sourcetype: CrowdStrike:Event:Streams:JSON
           source: CrowdStrike:Event:Streams
+      description: PORTED MANUAL TEST - This detection is marked manual test because the attack_data file and TA do not provide the event.EndpointIp and event.EndpointName fields.  event.EndpointName is required to be present for the Risk Message Validation Integration Testing. This will be investigated and is a tracked issue.
+      test_type: experimental

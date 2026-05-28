@@ -1,13 +1,14 @@
 name: Windows SIP WinVerifyTrust Failed Trust Validation
 id: 6ffc7f88-415b-4278-a80d-b957d6539e1a
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2023-10-10'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
+description: The following analytic detects failed trust validation attempts using Windows Event Log - CAPI2 (CryptoAPI 2). It specifically triggers on EventID 81, which indicates that "The digital signature of the object did not verify." This detection leverages the CAPI2 Operational log to identify instances where digital signatures fail to validate. Monitoring this activity is crucial as it can indicate attempts to execute untrusted or potentially malicious binaries. If confirmed malicious, this activity could allow attackers to bypass security controls and execute unauthorized code, leading to potential system compromise.
 data_source:
     - Windows Event Log CAPI2 81
-description: The following analytic detects failed trust validation attempts using Windows Event Log - CAPI2 (CryptoAPI 2). It specifically triggers on EventID 81, which indicates that "The digital signature of the object did not verify." This detection leverages the CAPI2 Operational log to identify instances where digital signatures fail to validate. Monitoring this activity is crucial as it can indicate attempts to execute untrusted or potentially malicious binaries. If confirmed malicious, this activity could allow attackers to bypass security controls and execute unauthorized code, leading to potential system compromise.
 search: |-
     `capi2_operational` EventID=81 "The digital signature of the object did not verify."
       | xmlkv UserData_Xml
@@ -32,28 +33,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Failed trust validation via the CryptoAPI 2 on $dest$ for a binary.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Subvert Trust Controls SIP and Trust Provider Hijacking
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id:
-        - T1553.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Failed trust validation via the CryptoAPI 2 on $dest$ for a binary.
+analytic_story:
+    - Subvert Trust Controls SIP and Trust Provider Hijacking
+asset_type: Endpoint
+mitre_attack_id:
+    - T1553.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.003/sip/capi2-operational.log
           source: XmlWinEventLog:Microsoft-Windows-CAPI2/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,13 +1,14 @@
 name: Okta IDP Lifecycle Modifications
 id: e0be2c83-5526-4219-a14f-c3db2e763d15
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies modifications to Okta Identity Provider (IDP) lifecycle events, including creation, activation, deactivation, and deletion of IDP configurations. It uses OktaIm2 logs ingested via the Splunk Add-on for Okta Identity Cloud. Monitoring these events is crucial for maintaining the integrity and security of authentication mechanisms. Unauthorized or anomalous changes could indicate potential security breaches or misconfigurations. If confirmed malicious, attackers could manipulate authentication processes, potentially gaining unauthorized access or disrupting identity management systems.
 data_source:
     - Okta
-type: Anomaly
-status: production
-description: The following analytic identifies modifications to Okta Identity Provider (IDP) lifecycle events, including creation, activation, deactivation, and deletion of IDP configurations. It uses OktaIm2 logs ingested via the Splunk Add-on for Okta Identity Cloud. Monitoring these events is crucial for maintaining the integrity and security of authentication mechanisms. Unauthorized or anomalous changes could indicate potential security breaches or misconfigurations. If confirmed malicious, attackers could manipulate authentication processes, potentially gaining unauthorized access or disrupting identity management systems.
 search: |-
     `okta` eventType IN ("system.idp.lifecycle.activate","system.idp.lifecycle.create","system.idp.lifecycle.delete","system.idp.lifecycle.deactivate")
       | stats count  min(_time) as firstTime max(_time) as lastTime values(target{}.id) as target_id values(target{}.type) as target_modified
@@ -31,29 +32,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A user [$user$] is attempting IDP lifecycle modification - [$description$] from IP Address - [$src$]"
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Suspicious Okta Activity
-    asset_type: Okta Tenant
-    mitre_attack_id:
-        - T1087.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+          message: A user [$user$] is attempting IDP lifecycle modification - [$description$] from IP Address - [$src$]"
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Suspicious Okta Activity
+asset_type: Okta Tenant
+mitre_attack_id:
+    - T1087.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/okta_idp/okta.log
           source: Okta
           sourcetype: OktaIM2:log
+      test_type: unit

@@ -1,19 +1,19 @@
 name: Bro ocsp
 id: d20909ab-70be-409a-8909-ab70be609af1
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2025-01-21'
+modification_date: '2026-05-13'
 author: Jacob Delgado, SnapAttack
-description: Logs Online Certificate Status Protocol (OCSP) activity captured by Zeek
-  (formerly Bro), including details such as certificate validation requests and responses.
+description: Logs Online Certificate Status Protocol (OCSP) activity captured by Zeek (formerly Bro), including details such as certificate validation requests and responses.
 mitre_components:
-- Certificate Registration
-- Network Traffic Flow
-- Network Traffic Content
-- Response Metadata
-- Application Log Content
+    - Certificate Registration
+    - Network Traffic Flow
+    - Network Traffic Content
+    - Response Metadata
+    - Application Log Content
 source: bro:ocsp:json
 sourcetype: bro:ocsp:json
 supported_TA:
-- name: TA for Zeek
-  url: https://splunkbase.splunk.com/app/5466
-  version: 1.0.11
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11

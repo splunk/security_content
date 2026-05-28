@@ -1,7 +1,8 @@
 name: CrushFTP Max Simultaneous Users From IP
 id: 75dfd9f4-ca64-45d0-9422-4bde6d26a59e
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-04-14'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -24,30 +25,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential brute force or automated attack against CrushFTP detected from IP $src_ip$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src_ip
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - CrushFTP Vulnerabilities
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1110.001
-        - T1110.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2025-31161
+          message: Potential brute force or automated attack against CrushFTP detected from IP $src_ip$
+analytic_story:
+    - CrushFTP Vulnerabilities
+asset_type: Web Server
+cve:
+    - CVE-2025-31161
+mitre_attack_id:
+    - T1110.001
+    - T1110.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/crushftp/crushftp11_session.log
           sourcetype: crushftp:sessionlogs
           source: crushftp
+      test_type: unit

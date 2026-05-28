@@ -1,7 +1,8 @@
 name: Detect Remote Access Software Usage URL
 id: 9296f515-073c-43a5-88ec-eda5a4626654
-version: 15
-date: '2026-04-15'
+version: 16
+creation_date: '2024-03-06'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -60,41 +61,43 @@ drilldown_searches:
       search: '| from datamodel:Web | search src=$src$ url_domain=$url_domain$'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A domain for a known remote access software $url_domain$ was contacted by $src$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
+          message: A domain for a known remote access software $url_domain$ was contacted by $src$.
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: url_domain
-          type: domain
-        - field: signature
-          type: signature
-tags:
-    analytic_story:
-        - Insider Threat
-        - Command And Control
-        - Ransomware
-        - CISA AA24-241A
-        - Remote Monitoring and Management Software
-        - Interlock Ransomware
-        - Scattered Lapsus$ Hunters
-    asset_type: Network
-    mitre_attack_id:
-        - T1219
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    manual_test: This detection uses A&I lookups from Enterprise Security.
+          message: A domain for a known remote access software $url_domain$ was contacted by $src$.
+threat_objects:
+    - field: signature
+      type: signature
+    - field: url_domain
+      type: domain
+analytic_story:
+    - Insider Threat
+    - Command And Control
+    - Ransomware
+    - CISA AA24-241A
+    - Remote Monitoring and Management Software
+    - Interlock Ransomware
+    - Scattered Lapsus$ Hunters
+asset_type: Network
+mitre_attack_id:
+    - T1219
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo.log
           source: not_applicable
           sourcetype: pan:threat
+      description: PORTED MANUAL TEST - This detection uses A&I lookups from Enterprise Security.
+      test_type: experimental

@@ -1,7 +1,8 @@
 name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
-version: 27
-date: '2026-04-15'
+version: 28
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -68,71 +69,73 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A parent process [$parent_process_name$] with commandline [$parent_process$] spawned a schedule task process [$process_name$] with create or delete commandline [$process$] on host [$dest$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: A parent process [$parent_process_name$] with commandline [$parent_process$] spawned a schedule task process [$process_name$] with create or delete commandline [$process$] on host [$dest$]
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process
-          type: process
-tags:
-    analytic_story:
-        - SolarWinds WHD RCE Post Exploitation
-        - ShrinkLocker
-        - AgentTesla
-        - CISA AA24-241A
-        - Winter Vivern
-        - Quasar RAT
-        - Rhysida Ransomware
-        - Sandworm Tools
-        - DarkCrystal RAT
-        - Qakbot
-        - China-Nexus Threat Activity
-        - XWorm
-        - CISA AA23-347A
-        - Azorult
-        - Living Off The Land
-        - Salt Typhoon
-        - Trickbot
-        - NOBELIUM Group
-        - CISA AA22-257A
-        - Medusa Ransomware
-        - Phemedrone Stealer
-        - NjRAT
-        - DHS Report TA18-074A
-        - Scheduled Tasks
-        - Prestige Ransomware
-        - Amadey
-        - AsyncRAT
-        - RedLine Stealer
-        - Windows Persistence Techniques
-        - MoonPeak
-        - Scattered Spider
-        - 0bj3ctivity Stealer
-        - APT37 Rustonotto and FadeStealer
-        - Lokibot
-        - NetSupport RMM Tool Abuse
-        - ValleyRAT
-        - PlugX
-        - Remcos
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A parent process [$parent_process_name$] with commandline [$parent_process$] spawned a schedule task process [$process_name$] with create or delete commandline [$process$] on host [$dest$]
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process
+      type: process
+analytic_story:
+    - SolarWinds WHD RCE Post Exploitation
+    - ShrinkLocker
+    - AgentTesla
+    - CISA AA24-241A
+    - Winter Vivern
+    - Quasar RAT
+    - Rhysida Ransomware
+    - Sandworm Tools
+    - DarkCrystal RAT
+    - Qakbot
+    - China-Nexus Threat Activity
+    - XWorm
+    - CISA AA23-347A
+    - Azorult
+    - Living Off The Land
+    - Salt Typhoon
+    - Trickbot
+    - NOBELIUM Group
+    - CISA AA22-257A
+    - Medusa Ransomware
+    - Phemedrone Stealer
+    - NjRAT
+    - DHS Report TA18-074A
+    - Scheduled Tasks
+    - Prestige Ransomware
+    - Amadey
+    - AsyncRAT
+    - RedLine Stealer
+    - Windows Persistence Techniques
+    - MoonPeak
+    - Scattered Spider
+    - 0bj3ctivity Stealer
+    - APT37 Rustonotto and FadeStealer
+    - Lokibot
+    - NetSupport RMM Tool Abuse
+    - ValleyRAT
+    - PlugX
+    - Remcos
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

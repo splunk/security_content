@@ -1,7 +1,8 @@
 name: Suspicious PlistBuddy Usage via OSquery
 id: 20ba6c32-c733-4a32-b64e-2688cf231399
-version: 11
-date: '2026-04-13'
+version: 12
+creation_date: '2021-02-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -15,21 +16,20 @@ how_to_implement: OSQuery must be installed and configured to pick up process ev
 known_false_positives: Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.
 references:
     - https://www.marcosantadev.com/manage-plist-files-plistbuddy/
-rba:
-    message: Suspicious usage of plistbuddy on $host$
-    risk_objects:
-        - field: host
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Silver Sparrow
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Suspicious usage of plistbuddy on $host$
+    entity:
+        field: host
+        type: system
+        score: 50
+analytic_story:
+    - Silver Sparrow
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

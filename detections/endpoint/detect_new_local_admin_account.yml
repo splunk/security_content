@@ -1,7 +1,8 @@
 name: Detect New Local Admin account
 id: b25f6f62-0712-43c1-b203-083231ffd97d
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -45,31 +46,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - DHS Report TA18-074A
-        - HAFNIUM Group
-        - CISA AA22-257A
-        - CISA AA24-241A
-        - Scattered Lapsus$ Hunters
-    asset_type: Windows
-    mitre_attack_id:
-        - T1136.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: access
+          message: A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not.
+analytic_story:
+    - DHS Report TA18-074A
+    - HAFNIUM Group
+    - CISA AA22-257A
+    - CISA AA24-241A
+    - Scattered Lapsus$ Hunters
+asset_type: Windows
+mitre_attack_id:
+    - T1136.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: access
 tests:
     - name: True Positive Test
       attack_data:
@@ -82,3 +85,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

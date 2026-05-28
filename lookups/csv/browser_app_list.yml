@@ -1,0 +1,14 @@
+name: browser_app_list
+id: a80ccd19-e46f-4a12-9ad7-e653ad646347
+version: 4
+creation_date: '2024-03-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of known browser application being targeted for credential extraction.
+default_match: 'false'
+match_type:
+    - WILDCARD(browser_process_name)
+    - WILDCARD(browser_object_path)
+min_matches: 1
+case_sensitive_match: false

@@ -1,187 +1,160 @@
 name: Cisco Secure Firewall Threat Defense Intrusion Event
 id: d11b67ec-1cb2-4f6f-a2d8-a099c7e15b29
-version: 1
-date: '2025-04-16'
+version: 2
+creation_date: '2025-04-16'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
-description: Data source object for raw intrusion events from Cisco Secure Firewall
-  Threat Defense
+description: Data source object for raw intrusion events from Cisco Secure Firewall Threat Defense
 source: not_applicable
 sourcetype: cisco:sfw:estreamer
 supported_TA:
-- name: Cisco Security Cloud
-  url: https://splunkbase.splunk.com/app/7404
-  version: 3.6.5
+    - name: Cisco Security Cloud
+      url: https://splunkbase.splunk.com/app/7404
+      version: 3.6.5
 fields:
-- Application
-- Classification
-- ClientApplication
-- EgressZone
-- EventType
-- Impact
-- IngressZone
-- IntrusionRuleMessage
-- WebApplication
-- impact_desc
-- ApplicationID
-- ApplicationProductivityIndex
-- ApplicationRiskIndex
-- ClientApplicationID
-- ClientApplicationProductivityIndex
-- ClientApplicationRiskIndex
-- ConnectionID
-- Device
-- DeviceIP
-- DeviceSerialNumber
-- DeviceUUID
-- EgressInterface
-- EgressInterfaceUUID
-- EgressVRF
-- EgressZoneUUID
-- EventID
-- EventMicrosecond
-- EventSecond
-- FirewallPolicy
-- FirewallPolicyUUID
-- FirewallRule
-- FirewallRuleID
-- FirstPacketSecond
-- GeneratorID
-- HTTP_Hostname
-- HTTP_URI
-- Hostname
-- ICMP_Code
-- ICMP_Type
-- IngressInterface
-- IngressInterfaceUUID
-- IngressVRF
-- IngressZoneUUID
-- InitiatorContinent
-- InitiatorContinentCode
-- InitiatorCountry
-- InitiatorCountryCode
-- InitiatorCountryID
-- InitiatorIP
-- InitiatorPort
-- InlineResult
-- InlineResultID
-- InlineResultReason
-- InlineResultReasonID
-- InstanceID
-- IntrusionPolicy
-- IntrusionPolicyRevUUID
-- IntrusionPolicyUUID
-- MitreAttackGroups
-- NAP_Policy
-- NAP_PolicyUUID
-- PriorityID
-- Protocol
-- ProtocolID
-- RealmID
-- RealmName
-- ResponderContinent
-- ResponderContinentCode
-- ResponderCountry
-- ResponderCountryCode
-- ResponderCountryID
-- ResponderIP
-- ResponderPort
-- SSL_ActualAction
-- SSL_ActualActionID
-- SSL_Cert
-- SSL_CertFingerprint
-- SSL_FlowStatus
-- SSL_FlowStatusID
-- SensorID
-- SignatureID
-- SignatureRevision
-- SnortRuleGroups
-- SnortVersionID
-- UserID
-- WebApplicationHTTP
-- WebApplicationID
-- WebApplicationProductivityIndex
-- app
-- class_desc
-- connection_id
-- date
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dest_interface
-- dest_ip
-- dest_port
-- dest_zone
-- device_id
-- dvc
-- event_id
-- eventtype
-- host
-- http_referrer
-- id
-- index
-- instance_id
-- linecount
-- punct
-- rule
-- sensor_name
-- severity_id
-- signature
-- signature_id
-- signature_version
-- source
-- sourcetype
-- splunk_server
-- src_interface
-- src_ip
-- src_port
-- src_zone
-- ssl_hash
-- tag
-- tag::eventtype
-- timeendpos
-- timestartpos
-- transport
-- vendor_product
+    - Application
+    - Classification
+    - ClientApplication
+    - EgressZone
+    - EventType
+    - Impact
+    - IngressZone
+    - IntrusionRuleMessage
+    - WebApplication
+    - impact_desc
+    - ApplicationID
+    - ApplicationProductivityIndex
+    - ApplicationRiskIndex
+    - ClientApplicationID
+    - ClientApplicationProductivityIndex
+    - ClientApplicationRiskIndex
+    - ConnectionID
+    - Device
+    - DeviceIP
+    - DeviceSerialNumber
+    - DeviceUUID
+    - EgressInterface
+    - EgressInterfaceUUID
+    - EgressVRF
+    - EgressZoneUUID
+    - EventID
+    - EventMicrosecond
+    - EventSecond
+    - FirewallPolicy
+    - FirewallPolicyUUID
+    - FirewallRule
+    - FirewallRuleID
+    - FirstPacketSecond
+    - GeneratorID
+    - HTTP_Hostname
+    - HTTP_URI
+    - Hostname
+    - ICMP_Code
+    - ICMP_Type
+    - IngressInterface
+    - IngressInterfaceUUID
+    - IngressVRF
+    - IngressZoneUUID
+    - InitiatorContinent
+    - InitiatorContinentCode
+    - InitiatorCountry
+    - InitiatorCountryCode
+    - InitiatorCountryID
+    - InitiatorIP
+    - InitiatorPort
+    - InlineResult
+    - InlineResultID
+    - InlineResultReason
+    - InlineResultReasonID
+    - InstanceID
+    - IntrusionPolicy
+    - IntrusionPolicyRevUUID
+    - IntrusionPolicyUUID
+    - MitreAttackGroups
+    - NAP_Policy
+    - NAP_PolicyUUID
+    - PriorityID
+    - Protocol
+    - ProtocolID
+    - RealmID
+    - RealmName
+    - ResponderContinent
+    - ResponderContinentCode
+    - ResponderCountry
+    - ResponderCountryCode
+    - ResponderCountryID
+    - ResponderIP
+    - ResponderPort
+    - SSL_ActualAction
+    - SSL_ActualActionID
+    - SSL_Cert
+    - SSL_CertFingerprint
+    - SSL_FlowStatus
+    - SSL_FlowStatusID
+    - SensorID
+    - SignatureID
+    - SignatureRevision
+    - SnortRuleGroups
+    - SnortVersionID
+    - UserID
+    - WebApplicationHTTP
+    - WebApplicationID
+    - WebApplicationProductivityIndex
+    - app
+    - class_desc
+    - connection_id
+    - date
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dest_interface
+    - dest_ip
+    - dest_port
+    - dest_zone
+    - device_id
+    - dvc
+    - event_id
+    - eventtype
+    - host
+    - http_referrer
+    - id
+    - index
+    - instance_id
+    - linecount
+    - punct
+    - rule
+    - sensor_name
+    - severity_id
+    - signature
+    - signature_id
+    - signature_version
+    - source
+    - sourcetype
+    - splunk_server
+    - src_interface
+    - src_ip
+    - src_port
+    - src_zone
+    - ssl_hash
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - transport
+    - vendor_product
 output_fields:
-- src
-- dest
-- dest_port
-- signature
-- signature_id
-- rule
-- transport
-- app
-example_log: '"EventType":"IntrusionEvent", "EventSecond":1744752707, "EventMicrosecond":709756,
-  "DeviceUUID":"11bc8e94-f604-11ef-bcfe-eeb1de9c8a63", "InstanceID":1, "FirstPacketSecond":1744752707,
-  "ConnectionID":27798, "InitiatorIP":"146.75.78.172", "ResponderIP":"172.16.3.110",
-  "InitiatorPort":80, "ResponderPort":2604, "Protocol":"tcp", "IngressInterface":"outside",
-  "EgressInterface":"inside", "IngressZone":"outside", "EgressZone":"inside", "PriorityID":1,
-  "GeneratorID":1, "SignatureID":11192, "SignatureRevision":20, "Impact":5, "IntrusionRuleMessage":"FILE-EXECUTABLE
-  download of executable content", "Classification":"Potential Corporate Policy Violation",
-  "WebApplication":"Microsoft Update", "ClientApplication":"Parallels", "Application":"HTTP",
-  "IntrusionPolicy":"default", "FirewallPolicy":"default", "FirewallRule":"Permit
-  Outbound", "NAP_Policy":"Balanced Security and Connectivity", "InlineResult":"Would
-  block", "InlineResultReason":"Intrusion Policy in \"Detection\" Inspection Mode",
-  "IngressVRF":"Global", "EgressVRF":"Global", "HTTP_Hostname":"au.download.windowsupdate.com",
-  "HTTP_URI":"/d/msdownload/update/software/defu/2025/04/am_delta_patch_1.427.242.0_5ac0bd95663c4357097204f23072019d82f2e8ce.exe",
-  "SnortRuleGroups":"Rule Categories>File>Executable", "MitreAttackGroups":"MITRE>ATT&CK
-  Framework>Enterprise>Execution>User Execution>Malicious File", "ApplicationID":676,
-  "ApplicationProductivityIndex":3, "ApplicationRiskIndex":1, "ClientApplicationID":2802,
-  "ClientApplicationProductivityIndex":4, "ClientApplicationRiskIndex":2, "Device":"172.16.0.10",
-  "DeviceIP":"172.16.0.10", "DeviceSerialNumber":"9AD5V8FSS0D", "EgressInterfaceUUID":"efbb6160-f60a-11ef-a955-43d7eeccc024",
-  "EgressZoneUUID":"efbcd7ac-f60a-11ef-a955-43d7eeccc024", "EventID":195, "FirewallPolicyUUID":"00000000-0000-0000-0000-000067fece37",
-  "FirewallRuleID":268434433, "Hostname":"ip-172-16-0-50.us-east-2.compute.internal",
-  "IngressInterfaceUUID":"ef9a2180-f60a-11ef-a955-43d7eeccc024", "IngressZoneUUID":"ef9c7c64-f60a-11ef-a955-43d7eeccc024",
-  "InitiatorContinent":"North America", "InitiatorContinentCode":"na", "InitiatorCountry":"United
-  States", "InitiatorCountryCode":"usa", "InitiatorCountryID":840, "InlineResultID":5,
-  "InlineResultReasonID":2, "IntrusionPolicyRevUUID":"c1fab45a-f615-11ef-bd70-44d7eeccc024",
-  "IntrusionPolicyUUID":"0210b9f5-95a7-0ed3-0000-004294971142", "NAP_PolicyUUID":"a6738542-f604-11ef-8765-a4eeeeccc024",
-  "ProtocolID":6, "RealmID":0, "RealmName":"Invalid ID", "SensorID":2, "SnortVersionID":3,
-  "UserID":9999997, "WebApplicationHTTP":"Microsoft Update", "WebApplicationID":731,
-  "WebApplicationProductivityIndex":2}'
+    - src
+    - dest
+    - dest_port
+    - signature
+    - signature_id
+    - rule
+    - transport
+    - app
+example_log: '"EventType":"IntrusionEvent", "EventSecond":1744752707, "EventMicrosecond":709756, "DeviceUUID":"11bc8e94-f604-11ef-bcfe-eeb1de9c8a63", "InstanceID":1, "FirstPacketSecond":1744752707, "ConnectionID":27798, "InitiatorIP":"146.75.78.172", "ResponderIP":"172.16.3.110", "InitiatorPort":80, "ResponderPort":2604, "Protocol":"tcp", "IngressInterface":"outside", "EgressInterface":"inside", "IngressZone":"outside", "EgressZone":"inside", "PriorityID":1, "GeneratorID":1, "SignatureID":11192, "SignatureRevision":20, "Impact":5, "IntrusionRuleMessage":"FILE-EXECUTABLE download of executable content", "Classification":"Potential Corporate Policy Violation", "WebApplication":"Microsoft Update", "ClientApplication":"Parallels", "Application":"HTTP", "IntrusionPolicy":"default", "FirewallPolicy":"default", "FirewallRule":"Permit Outbound", "NAP_Policy":"Balanced Security and Connectivity", "InlineResult":"Would block", "InlineResultReason":"Intrusion Policy in \"Detection\" Inspection Mode", "IngressVRF":"Global", "EgressVRF":"Global", "HTTP_Hostname":"au.download.windowsupdate.com", "HTTP_URI":"/d/msdownload/update/software/defu/2025/04/am_delta_patch_1.427.242.0_5ac0bd95663c4357097204f23072019d82f2e8ce.exe", "SnortRuleGroups":"Rule Categories>File>Executable", "MitreAttackGroups":"MITRE>ATT&CK Framework>Enterprise>Execution>User Execution>Malicious File", "ApplicationID":676, "ApplicationProductivityIndex":3, "ApplicationRiskIndex":1, "ClientApplicationID":2802, "ClientApplicationProductivityIndex":4, "ClientApplicationRiskIndex":2, "Device":"172.16.0.10", "DeviceIP":"172.16.0.10", "DeviceSerialNumber":"9AD5V8FSS0D", "EgressInterfaceUUID":"efbb6160-f60a-11ef-a955-43d7eeccc024", "EgressZoneUUID":"efbcd7ac-f60a-11ef-a955-43d7eeccc024", "EventID":195, "FirewallPolicyUUID":"00000000-0000-0000-0000-000067fece37", "FirewallRuleID":268434433, "Hostname":"ip-172-16-0-50.us-east-2.compute.internal", "IngressInterfaceUUID":"ef9a2180-f60a-11ef-a955-43d7eeccc024", "IngressZoneUUID":"ef9c7c64-f60a-11ef-a955-43d7eeccc024", "InitiatorContinent":"North America", "InitiatorContinentCode":"na", "InitiatorCountry":"United States", "InitiatorCountryCode":"usa", "InitiatorCountryID":840, "InlineResultID":5, "InlineResultReasonID":2, "IntrusionPolicyRevUUID":"c1fab45a-f615-11ef-bd70-44d7eeccc024", "IntrusionPolicyUUID":"0210b9f5-95a7-0ed3-0000-004294971142", "NAP_PolicyUUID":"a6738542-f604-11ef-8765-a4eeeeccc024", "ProtocolID":6, "RealmID":0, "RealmName":"Invalid ID", "SensorID":2, "SnortVersionID":3, "UserID":9999997, "WebApplicationHTTP":"Microsoft Update", "WebApplicationID":731, "WebApplicationProductivityIndex":2}'

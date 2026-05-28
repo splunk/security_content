@@ -1,13 +1,14 @@
 name: Windows Mark Of The Web Bypass
 id: 8ca13343-7405-4916-a2d1-ae34ce0c28ae
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-08-14'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
+description: The following analytic identifies a suspicious process that deletes the Mark-of-the-Web (MOTW) data stream. It leverages Sysmon EventCode 23 to detect when a file's Zone.Identifier stream is removed. This activity is significant because it is a common technique used by malware, such as Ave Maria RAT, to bypass security restrictions on files downloaded from the internet. If confirmed malicious, this behavior could allow an attacker to execute potentially harmful files without triggering security warnings, leading to further compromise of the system.
 data_source:
     - Sysmon EventID 23
-description: The following analytic identifies a suspicious process that deletes the Mark-of-the-Web (MOTW) data stream. It leverages Sysmon EventCode 23 to detect when a file's Zone.Identifier stream is removed. This activity is significant because it is a common technique used by malware, such as Ave Maria RAT, to bypass security restrictions on files downloaded from the internet. If confirmed malicious, this behavior could allow an attacker to execute potentially harmful files without triggering security warnings, leading to further compromise of the system.
 search: |-
     `sysmon` EventCode=23 TargetFilename = "*:Zone.Identifier"
       | stats count min(_time) as firstTime, max(_time) as lastTime
@@ -34,31 +35,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A mark-of-the-web data stream is deleted on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: A mark-of-the-web data stream is deleted on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Quasar RAT
-        - Warzone RAT
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1553.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A mark-of-the-web data stream is deleted on $dest$
+analytic_story:
+    - Quasar RAT
+    - Warzone RAT
+asset_type: Endpoint
+mitre_attack_id:
+    - T1553.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.005/mark_of_the_web_bypass/possible-motw-deletion.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

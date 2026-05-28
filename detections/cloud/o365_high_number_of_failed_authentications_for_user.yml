@@ -1,13 +1,14 @@
 name: O365 High Number Of Failed Authentications for User
 id: 31641378-2fa9-42b1-948e-25e281cb98f7
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic identifies an O365 account experiencing more than 20 failed authentication attempts within 5 minutes. It uses O365 Unified Audit Logs, specifically "UserLoginFailed" events, to monitor and flag accounts exceeding this threshold. This activity is significant as it may indicate a brute force attack or password guessing attempt. If confirmed malicious, an attacker could gain unauthorized access to the O365 environment, potentially compromising sensitive emails, documents, and other data. Prompt investigation and action are crucial to prevent unauthorized access and data breaches.
 data_source:
     - O365 UserLoginFailed
-description: The following analytic identifies an O365 account experiencing more than 20 failed authentication attempts within 5 minutes. It uses O365 Unified Audit Logs, specifically "UserLoginFailed" events, to monitor and flag accounts exceeding this threshold. This activity is significant as it may indicate a brute force attack or password guessing attempt. If confirmed malicious, an attacker could gain unauthorized access to the O365 environment, potentially compromising sensitive emails, documents, and other data. Prompt investigation and action are crucial to prevent unauthorized access and data breaches.
 search: |-
     `o365_management_activity` Operation=UserLoginFailed record_type=AzureActiveDirectoryStsLogon Workload=AzureActiveDirectory
       | bucket span=5m _time
@@ -31,29 +32,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ failed to authenticate more than 10 times in the span of 5 minutes.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1110.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: User $user$ failed to authenticate more than 10 times in the span of 5 minutes.
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Office 365 Account Takeover
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1110.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/o365_high_number_authentications_for_user/o365_high_number_authentications_for_user.log
           source: o365:management:activity
           sourcetype: o365:management:activity
+      test_type: unit

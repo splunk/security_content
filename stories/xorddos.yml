@@ -1,21 +1,21 @@
 name: XorDDos
 id: 0958965b-82ea-48d0-bc00-01f1457bc93f
-version: 1
-date: '2024-12-17'
+version: 2
+creation_date: '2024-12-17'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
-description: XorDdos is a sophisticated Linux malware that compromises devices to conduct high-capacity Distributed Denial of Service (DDoS) attacks. It employs XOR-based encryption to conceal its communications and utilizes rootkit capabilities to evade detection. The malware typically infiltrates systems through brute-force attacks on SSH services, enabling unauthorized access. Once installed, it can launch DDoS attacks exceeding 150 Gbps. To detect XorDdos, monitor for unusual network traffic patterns, unexpected processes, and unauthorized access attempts. Implementing strong, unique passwords and regularly updating system security measures are essential to mitigate the risk of infection. 
+description: XorDdos is a sophisticated Linux malware that compromises devices to conduct high-capacity Distributed Denial of Service (DDoS) attacks. It employs XOR-based encryption to conceal its communications and utilizes rootkit capabilities to evade detection. The malware typically infiltrates systems through brute-force attacks on SSH services, enabling unauthorized access. Once installed, it can launch DDoS attacks exceeding 150 Gbps. To detect XorDdos, monitor for unusual network traffic patterns, unexpected processes, and unauthorized access attempts. Implementing strong, unique passwords and regularly updating system security measures are essential to mitigate the risk of infection.
 narrative: XorDdos is a sophisticated Linux malware strain known for leveraging infected devices to launch high-capacity Distributed Denial of Service (DDoS) attacks. First identified in 2014, XorDdos has evolved with advanced techniques to maintain stealth and effectiveness. The malware primarily targets Linux-based systems, infiltrating them through brute-force attacks on SSH services. Once compromised, it uses XOR-based encryption to mask its malicious activities and rootkit capabilities to evade detection. Detection involves monitoring for unusual system behavior, such as spikes in CPU usage, unexpected network traffic, and unauthorized SSH access attempts. Preventative measures include implementing strong passwords, disabling unused services, and ensuring systems are patched with the latest security updates. As this malware continues to adapt, maintaining robust cybersecurity practices is essential to defend against its growing threat.
 references:
-- https://www.securityweek.com/linux-xor-ddos-botnet-flexes-muscles-150-gbps-attacks/
-- https://www.microsoft.com/en-us/security/blog/2022/05/19/rise-in-xorddos-a-deeper-look-at-the-stealthy-ddos-malware-targeting-linux-devices/
-- https://securityintelligence.com/news/xor-ddos-attack-tool-being-used-to-launch-over-20-daily-attacks/?utm_source=chatgpt.com
-- https://unit42.paloaltonetworks.com/new-linux-xorddos-trojan-campaign-delivers-malware/
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.securityweek.com/linux-xor-ddos-botnet-flexes-muscles-150-gbps-attacks/
+    - https://www.microsoft.com/en-us/security/blog/2022/05/19/rise-in-xorddos-a-deeper-look-at-the-stealthy-ddos-malware-targeting-linux-devices/
+    - https://securityintelligence.com/news/xor-ddos-attack-tool-being-used-to-launch-over-20-daily-attacks/?utm_source=chatgpt.com
+    - https://unit42.paloaltonetworks.com/new-linux-xorddos-trojan-campaign-delivers-malware/
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

@@ -1,7 +1,8 @@
 name: Linux Hardware Addition SwapOff
 id: c1eea697-99ed-44c2-9b70-d8935464c499
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-02-08'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -34,32 +35,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a $process_name$ swap off paging device on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: a $process_name$ swap off paging device on $dest$
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - AwfulShred
-        - Data Destruction
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1200
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a $process_name$ swap off paging device on $dest$
+analytic_story:
+    - AwfulShred
+    - Data Destruction
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id:
+    - T1200
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

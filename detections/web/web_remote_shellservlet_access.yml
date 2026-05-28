@@ -1,13 +1,14 @@
 name: Web Remote ShellServlet Access
 id: c2a332c3-24a2-4e24-9455-0e80332e6746
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+description: The following analytic identifies attempts to access the Remote ShellServlet on a web server, specifically targeting Confluence servers vulnerable to CVE-2023-22518 and CVE-2023-22515. It leverages web data to detect URLs containing "*plugins/servlet/com.jsos.shell/*" with a status code of 200. This activity is significant as it is commonly associated with web shells and other malicious behaviors, potentially leading to unauthorized command execution. If confirmed malicious, attackers could gain remote code execution capabilities, compromising the server and potentially the entire network.
 data_source:
     - Nginx Access
-description: The following analytic identifies attempts to access the Remote ShellServlet on a web server, specifically targeting Confluence servers vulnerable to CVE-2023-22518 and CVE-2023-22515. It leverages web data to detect URLs containing "*plugins/servlet/com.jsos.shell/*" with a status code of 200. This activity is significant as it is commonly associated with web shells and other malicious behaviors, potentially leading to unauthorized command execution. If confirmed malicious, attackers could gain remote code execution capabilities, compromising the server and potentially the entire network.
 search: |-
     | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.url IN ("*plugins/servlet/com.jsos.shell/*") Web.status=200
@@ -31,31 +32,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An attempt to access the Remote ShellServlet on a web server was detected. The source IP is $src$ and the destination hostname is $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - CVE-2023-22515 Privilege Escalation Vulnerability Confluence Data Center and Server
-        - GhostRedirector IIS Module and Rungan Backdoor
-    asset_type: Web Server
-    atomic_guid: []
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: An attempt to access the Remote ShellServlet on a web server was detected. The source IP is $src$ and the destination hostname is $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - CVE-2023-22515 Privilege Escalation Vulnerability Confluence Data Center and Server
+    - GhostRedirector IIS Module and Rungan Backdoor
+asset_type: Web Server
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/nginx_shellservlet.log
           source: /var/log/nginx/access.log
           sourcetype: nginx:plus:kv
+      test_type: unit

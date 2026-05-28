@@ -1,19 +1,19 @@
 name: Bro weird
 id: e03762c5-c4b8-44e3-b762-c5c4b8e4e3b6
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2025-01-21'
+modification_date: '2026-05-13'
 author: Jacob Delgado, SnapAttack
-description: Logs anomalous or unexpected network behaviors identified by Zeek (formerly
-  Bro), including protocol violations and unusual traffic patterns.
+description: Logs anomalous or unexpected network behaviors identified by Zeek (formerly Bro), including protocol violations and unusual traffic patterns.
 mitre_components:
-- Network Traffic Flow
-- Network Traffic Content
-- Response Metadata
-- Application Log Content
-- Host Status
+    - Network Traffic Flow
+    - Network Traffic Content
+    - Response Metadata
+    - Application Log Content
+    - Host Status
 source: bro:weird:json
 sourcetype: bro:weird:json
 supported_TA:
-- name: TA for Zeek
-  url: https://splunkbase.splunk.com/app/5466
-  version: 1.0.11
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11

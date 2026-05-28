@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Wget or Curl Download
 id: 173a1cb9-1814-4128-a9dc-f29dade89957
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2025-04-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -47,34 +48,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The process $EVE_Process$ initiated an allowed connection to download content using a command-line utility ($ClientApplication$) from $url$. This behavior may indicate tool staging or payload retrieval via curl or wget.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: EVE_Process
-          type: process_name
-        - field: url
-          type: url
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Network
-    mitre_attack_id:
-        - T1053.003
-        - T1059
-        - T1071.001
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: The process $EVE_Process$ initiated an allowed connection to download content using a command-line utility ($ClientApplication$) from $url$. This behavior may indicate tool staging or payload retrieval via curl or wget.
+threat_objects:
+    - field: EVE_Process
+      type: process_name
+    - field: url
+      type: url
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Network
+mitre_attack_id:
+    - T1053.003
+    - T1059
+    - T1071.001
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

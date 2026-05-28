@@ -1,7 +1,8 @@
 name: Automated Enrichment
 id: fc0edc96-ff1b-65e0-9a4d-64da6783fd64
-version: 2
-date: '2023-03-06'
+version: 3
+creation_date: '2023-03-06'
+modification_date: '2026-05-19'
 author: Kelby Shelton, Patrick Bareiss, Teoderick Contreras, Lou Stella Splunk
 type: Investigation
 description: "Moves the event status to open and then launches the Dispatch playbooks for Reputation Analysis, Attribute Lookup, and Related Tickets."
@@ -9,11 +10,10 @@ playbook: Automated_Enrichment
 how_to_implement: 1. Ensure you have a reputation analysis playbook (e.g. VirusTotal v3), an attribute lookup playbook (e.g. Azure AD), and a related ticket search playbook (e.g. ServiceNow).\n2. Download local versions of Identifier Reputation Analysis Dispatch, Attribute Lookup Dispatch, and Related Tickets Search Dispatch playbooks.
 references: []
 app_list: []
-tags:
-  platform_tags:
+platform_tags:
     - Enrichment
-  playbook_type: Automation
-  vpe_type: Modern
-  playbook_fields: []
-  product:
-  - Splunk SOAR
+playbook_type: Automation
+vpe_type: Modern
+playbook_fields: []
+product:
+    - Splunk SOAR

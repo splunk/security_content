@@ -1,7 +1,8 @@
 name: Cisco ASA - Logging Message Suppression
 id: 4e6c9d2a-8f3b-4c7e-9a5f-2d8b6e1c4a9f
-version: 5
-date: '2026-05-04'
+version: 6
+creation_date: '2025-11-21'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -51,34 +52,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ executed command $command$ to suppress specific logging message ID on Cisco ASA host $host$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: host
           type: system
           score: 20
+          message: User $user$ executed command $command$ to suppress specific logging message ID on Cisco ASA host $host$.
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: command
-          type: process
-tags:
-    analytic_story:
-        - Suspicious Cisco Adaptive Security Appliance Activity
-        - ArcaneDoor
-    asset_type: Network
-    mitre_attack_id:
-        - T1685.001
-        - T1070
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: User $user$ executed command $command$ to suppress specific logging message ID on Cisco ASA host $host$.
+threat_objects:
+    - field: command
+      type: process
+analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+    - ArcaneDoor
+asset_type: Network
+mitre_attack_id:
+    - T1685.001
+    - T1070
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
           source: not_applicable
           sourcetype: cisco:asa
+      test_type: unit

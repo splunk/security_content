@@ -1,4 +1,8 @@
-definition: (source="XmlWinEventLog:Microsoft-Windows-AppxPackaging/Operational")
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk environment.
 name: wineventlog_appxpackaging
+id: eae90b7b-e094-4311-a8ba-7158f93a9e35
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk environment.
+definition: (source="XmlWinEventLog:Microsoft-Windows-AppxPackaging/Operational")

@@ -1,7 +1,8 @@
 name: Detect Certify Command Line Arguments
 id: e6d2dc61-a8b9-4b03-906c-da0ca75d71b8
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-07-28'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -41,34 +42,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Certify/Certipy arguments detected on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - Windows Certificate Services
-        - Ingress Tool Transfer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1649
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Certify/Certipy arguments detected on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process_name
+      type: process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Compromised Windows Host
+    - Windows Certificate Services
+    - Ingress Tool Transfer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1649
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

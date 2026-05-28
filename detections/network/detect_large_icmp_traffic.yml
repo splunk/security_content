@@ -1,7 +1,8 @@
 name: Detect Large ICMP Traffic
 id: 9cd6d066-94d5-4ccd-a8b9-28c03ca91be8
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2020-01-19'
+modification_date: '2026-05-13'
 author: Rico Valdez, Dean Luxton, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -55,38 +56,42 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$", "$dest_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Large ICMP traffic greater than a 1000 bytes detected from $src_ip$ to $dest_ip$
-    risk_objects:
+finding:
+    title: Large ICMP traffic greater than a 1000 bytes detected from $src_ip$ to $dest_ip$
+    entity:
+        field: src_ip
+        type: system
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest_ip
           type: system
           score: 50
-        - field: src_ip
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Command And Control
-        - China-Nexus Threat Activity
-        - Backdoor Pingpong
-        - Cisco Secure Access Analytics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1095
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Large ICMP traffic greater than a 1000 bytes detected from $src_ip$ to $dest_ip$
+analytic_story:
+    - Command And Control
+    - China-Nexus Threat Activity
+    - Backdoor Pingpong
+    - Cisco Secure Access Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1095
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1095/palologs/large_icmp.log
           sourcetype: pan:traffic
           source: not_applicable
+      test_type: unit
     - name: Cisco Secure Access Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/large_icmp.log
           source: cisco_cloud_security_addon
           sourcetype: cisco:cloud_security:firewall
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Suspicious Java Classes
 id: 6ed33786-5e87-4f55-b62c-cb5f1168b831
-version: 8
-date: '2026-03-25'
+version: 9
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: Jose Hernandez, Splunk
 status: experimental
 type: Anomaly
@@ -32,24 +33,24 @@ how_to_implement: |-
 known_false_positives: |-
     No false positives have been identified at this time.
 references: []
-rba:
-    message: Suspicious Java Classes in HTTP requests involving $src$ and $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
+          message: Suspicious Java Classes in HTTP requests involving $src$ and $dest$
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Apache Struts Vulnerability
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: Suspicious Java Classes in HTTP requests involving $src$ and $dest$
+analytic_story:
+    - Apache Struts Vulnerability
+asset_type: Endpoint
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: threat

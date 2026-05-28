@@ -1,13 +1,14 @@
 name: Windows Account Access Removal via Logoff Exec
 id: 223572ab-8768-4e20-9b39-c38707af80dc
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-12-13'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: "The following analytic detects the process of logging off a user through the use of the quser and logoff commands. By monitoring for these commands, the analytic identifies actions where a user session is forcibly terminated, which could be part of an administrative task or a potentially unauthorized access attempt. This detection helps identify potential misuse or malicious activity where a user’s access is revoked without proper authorization, providing insight into potential security incidents involving account management or session manipulation."
 data_source:
     - Sysmon EventID 1
-type: Anomaly
-status: production
-description: "The following analytic detects the process of logging off a user through the use of the quser and logoff commands. By monitoring for these commands, the analytic identifies actions where a user session is forcibly terminated, which could be part of an administrative task or a potentially unauthorized access attempt. This detection helps identify potential misuse or malicious activity where a user’s access is revoked without proper authorization, providing insight into potential security incidents involving account management or session manipulation."
 search: |-
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name = logoff.exe Processes.parent_process_name IN ("cmd.exe", "powershell.exe", "pwsh.exe")
@@ -35,31 +36,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Process having child process [$process_name$] used to logoff user on [$dest$].
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: Process having child process [$process_name$] used to logoff user on [$dest$].
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Crypto Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.001
-        - T1531
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Process having child process [$process_name$] used to logoff user on [$dest$].
+analytic_story:
+    - Crypto Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+    - T1531
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1531/powershell_log_process_tree/powershell_logoff.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
