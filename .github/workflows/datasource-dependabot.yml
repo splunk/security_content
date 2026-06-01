@@ -19,8 +19,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
-          architecture: 'x64'  # or the version your script requires
+          python-version: 3.14
+          architecture: x64  # or the version your script requires
 
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
