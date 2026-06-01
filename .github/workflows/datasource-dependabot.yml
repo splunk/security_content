@@ -24,14 +24,14 @@ jobs:
 
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
-          echo "- Contentctl version - $(cat requirements.txt)"
+          echo "- Contentctl-ng version - $(cat requirements.txt)"
           pip install -r requirements.txt
     
       - name: Run ContentCTL Data source TA validation
         id: validate
         run: |
           pwd
-          contentctl validate --data-source-TA-validation 2>&1 | tee data_source_validation.log
+          contentctl-ng validate --data-source-TA-validation 2>&1 | tee data_source_validation.log
         continue-on-error: true 
       
       - name: Print Validation Log
