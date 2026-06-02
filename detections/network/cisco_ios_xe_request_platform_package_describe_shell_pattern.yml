@@ -36,16 +36,18 @@ drilldown_searches:
       search: '%original_detection_search% | search dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
+finding:
+    title: User $user$ executed a suspicious request platform package describe command on $dest$.
+    entity:
+        field: user
+        type: user
+        score: 50
 intermediate_findings:
     entities:
         - field: dest
           type: system
           score: 45
           message: Cisco IOS-XE device $dest$ received a suspicious request platform package describe command.
-        - field: user
-          type: user
-          score: 45
-          message: User $user$ executed a suspicious request platform package describe command on $dest$.
 threat_objects:
     - field: commands
       type: command

@@ -76,11 +76,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 35
-          message: Cisco IOS-XE device $dest$ had guestshell enabled and destroyed by $user$ within a short period.
-        - field: user
-          type: user
-          score: 35
-          message: User $user$ enabled and destroyed guestshell on $dest$ within a short period.
+          message: Cisco IOS-XE device $dest$ had guestshell enabled and destroyed within a short period.
 analytic_story:
     - Salt Typhoon
 asset_type: Network
