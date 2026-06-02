@@ -1,0 +1,70 @@
+name: Cisco IOS XE Request Platform Package Describe Shell Pattern
+id: a113a8be-7386-46e0-a079-d9fd46f9631f
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-20'
+author: Nasreddine Bencherchali
+status: production
+type: TTP
+description: |
+    This analytic detects Cisco IOS-XE "request platform software package describe" commands containing suspicious shell-style filename patterns. Indicative of Slat Typhoon tradecraft.
+data_source:
+    - Cisco IOS Logs
+search: |-
+    `cisco_ios`
+    facility IN ("AAA", "HA_EM")
+    mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG")
+    message_text="*request platform software package describe*"
+    message_text IN ("*--filename=/(bash)n*", "*--filename=$(bash)n*")
+
+    | eval dest=coalesce(host, dvc, dest, "unknown")
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(message_text) as message
+      by dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_request_platform_package_describe_shell_pattern_filter`
+how_to_implement: |
+    Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios". Command visibility requires AAA command accounting or EEM catchall command logging.
+known_false_positives: |
+    No common administrative use is expected for these filename patterns. Validate lab testing before suppressing.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+drilldown_searches:
+    - name: View request platform package describe events for $dest$
+      search: '%original_detection_search% | search dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 45
+          message: Cisco IOS-XE device $dest$ received a suspicious request platform package describe command.
+        - field: user
+          type: user
+          score: 45
+          message: User $user$ executed a suspicious request platform package describe command on $dest$.
+threat_objects:
+    - field: commands
+      type: command
+analytic_story:
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1059
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_cisco.log
+          source: ctb:catalyst:syslog
+          sourcetype: cisco:ios
+      test_type: unit

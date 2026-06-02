@@ -1,0 +1,63 @@
+name: Cisco IOS XE WebUI Programmatic Configuration
+id: f9686576-a23d-4c4d-bfad-a45499dc448a
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-19'
+author: Nasreddine Bencherchali
+status: production
+type: Anomaly
+description: |
+    This analytic detects Cisco IOS-XE configuration changes performed by the WebUI WSMA process.
+data_source:
+    - Cisco IOS Logs
+search: |-
+    `cisco_ios`
+    facility="SYS"
+    mnemonic="CONFIG_P"
+    message_text="*Configured programmatically by process SEP_webui_wsma_http*"
+    | rex field=_raw "process\s(?<process>\S+)\sfrom.*as\s(?<user>\S+)\son\s(?<vty>\S+)"
+    | eval dest=coalesce(host, dvc, dest, "unknown")
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(process) as process
+                  values(vty) as vty
+      by dest user
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_webui_programmatic_configuration_filter`
+how_to_implement: |
+    Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios". This requires WebUI activity to be logged by IOS-XE and forwarded to Splunk. In the lab, enable WebUI only long enough to generate controlled events.
+known_false_positives: |
+    Legitimate WebUI administrative configuration changes may trigger this analytic. Filter approved administrators and maintenance windows.
+references:
+    - https://blog.talosintelligence.com/salt-typhoon-analysis/
+drilldown_searches:
+    - name: View WebUI programmatic configuration events for $dest$
+      search: '%original_detection_search% | search dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 30
+          message: User $user$ performed Cisco IOS-XE WebUI programmatic configuration on $dest$.
+analytic_story:
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1190
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_cisco.log
+          source: ctb:catalyst:syslog
+          sourcetype: cisco:ios
+      test_type: unit

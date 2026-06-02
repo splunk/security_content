@@ -1,0 +1,88 @@
+name: Cisco IOS XE Log Clearing Sequence With Loopback Removal
+id: e20a6709-5f2c-4508-83fb-b3af6f705717
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-20'
+author: Nasreddine Bencherchali
+status: production
+type: Anomaly
+description: |
+    This analytic detects Cisco IOS-XE command sequences where show logging, clear logging, and exit occur within a short period.
+    It also detects the pattern where a loopback interface is removed before clearing logs and exiting.
+data_source:
+    - Cisco IOS Logs
+search: |-
+    `cisco_ios`
+    facility IN ("AAA", "HA_EM", "PARSER")
+    mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG", "CFGLOG_LOGGEDCMD")
+    message_text IN ("*show logging*", "*clear logging*", "*exit*", "*no interface Loopback*")
+
+    | eval event_type=case(
+        like(command, "show logging%"), "show_logging",
+        like(command, "clear logging%"), "clear_logging",
+        command="exit", "exit",
+        like(command, "no interface loopback%"), "remove_loopback",
+        true(), null())
+    | where isnotnull(event_type)
+    | eval dest=coalesce(host, dvc, dest, "unknown")
+    | bin _time span=2m
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(event_type) as event_types
+                  values(message_text) as message_text
+      by _time dest
+    | where mvfind(event_types, "clear_logging") >= 0
+            AND
+            mvfind(event_types, "exit") >= 0
+            AND
+            (
+                mvfind(event_types, "show_logging") >= 0
+                OR
+                mvfind(event_types, "remove_loopback") >= 0
+            )
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_log_clearing_sequence_filter`
+how_to_implement: |
+    Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios". Command visibility requires AAA command accounting, archive/config logging for configuration commands, or EEM catchall logging.
+known_false_positives: |
+    Administrators may clear logs during lab work or maintenance. This should be rare in production and should be validated against change control.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+drilldown_searches:
+    - name: View log clearing sequence for $dest$ and $user$
+      search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 35
+          message: Cisco IOS-XE log clearing sequence was observed on $dest$ by $user$.
+        - field: user
+          type: user
+          score: 35
+          message: User $user$ executed a Cisco IOS-XE log clearing sequence on $dest$.
+threat_objects:
+    - field: commands
+      type: command
+analytic_story:
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1070.001
+    - T1562
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_cisco.log
+          source: ctb:catalyst:syslog
+          sourcetype: cisco:ios
+      test_type: unit

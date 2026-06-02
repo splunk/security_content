@@ -1,0 +1,85 @@
+name: Cisco IOS XE Remote Access Probe Burst
+id: efb20922-17bc-4fb0-880c-be50cfc100dd
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-20'
+author: Nasreddine Bencherchali
+status: production
+type: Anomaly
+description: |
+    This analytic detects bursts of ping, SSH, and Telnet commands issued from Cisco IOS or NX-OS devices. The Salt Typhoon notes describe repeated SSH, Telnet-to-port-22, and ping activity across multiple IP addresses in a short time window.
+data_source:
+    - Cisco IOS Logs
+search: |-
+    `cisco_ios`
+    facility IN ("AAA", "HA_EM")
+    mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG")
+    message_text IN ("*ssh *", "*telnet *", "*ping *")
+    | rex field=message_text "^\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\s+\((?<aaa_result>SUCCESS|FAILURE)\))?$"
+    | rex field=message_text "^(?:[^:]+:\s+)?(?:catchall:\s+)?(?<eem_command>.+?)\s*$"
+    | eval command=lower(trim(coalesce(aaa_command, eem_command, "")))
+    | where match(command, "^(ssh|telnet|ping)\s+")
+    | rex field=command "(?i)^(?:ssh(?:\s+-l\s+\S+)?|telnet|ping)\s+(?<target_ip>\d{1,3}(?:\.\d{1,3}){3})"
+    | eval command_type=case(match(command, "^ssh\s+"), "ssh", match(command, "^telnet\s+"), "telnet", match(command, "^ping\s+"), "ping")
+    | eval user=coalesce(aaa_user, user, "unknown")
+    | eval src_ip=coalesce(aaa_src, src_ip, "unknown")
+    | eval dest=coalesce(host, dvc, dest, "unknown")
+    | bin _time span=10m
+    | stats count as command_count
+            min(_time) as firstTime
+            max(_time) as lastTime
+            dc(target_ip) as distinct_targets
+            values(target_ip) as target_ips
+            values(command_type) as command_types
+            values(command) as commands
+      by _time dest user src_ip
+    | where command_count >= 8 OR distinct_targets >= 5
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_remote_access_probe_burst_filter`
+how_to_implement: |
+    Ingest Cisco IOS/NX-OS command logs with sourcetype "cisco:ios". Command visibility requires Nexus accounting, Catalyst TACACS+ accounting, or the Catalyst EEM catchall logger used in the lab.
+known_false_positives: |
+    Network reachability testing, migration validation, and troubleshooting can generate repeated ping, SSH, or Telnet commands.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+drilldown_searches:
+    - name: View remote access probe commands for $dest$ and $user$
+      search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 25
+          message: User $user$ issued $command_count$ ping, SSH, or Telnet commands from Cisco device $dest$ across $distinct_targets$ targets.
+        - field: user
+          type: user
+          score: 25
+          message: User $user$ issued a Cisco remote access probe burst from $dest$.
+threat_objects:
+    - field: target_ips
+      type: ip_address
+    - field: commands
+      type: command
+analytic_story:
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1018
+    - T1021.004
+    - T1046
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_cisco.log
+          source: ctb:nexus:syslog
+          sourcetype: cisco:ios
+      test_type: unit

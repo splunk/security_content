@@ -1,0 +1,95 @@
+name: Cisco IOS XE VTY Access Class Tampering
+id: a01ca274-16cb-476d-a814-d2ffe29d8905
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-20'
+author: Nasreddine Bencherchali
+status: production
+type: Anomaly
+description: |
+    This analytic detects rapid modification of Cisco IOS-XE VTY access-class settings. The Salt Typhoon notes describe configure HTTP activity followed by line vty changes and removal/re-application of an access-class within 60 seconds.
+data_source:
+    - Cisco IOS Logs
+search: |-
+    `cisco_ios`
+    facility IN ("HA_EM", "PARSER")
+    mnemonic IN ("LOG", "CFGLOG_LOGGEDCMD")
+    message_text IN (
+        "*access-class*",
+        "*configure http*",
+        "*line vty*"
+    )
+    | rex field=message_text "^(?:[^:]+:\s+)?(?:catchall:\s+)?(?<eem_command>.+?)\s*$"
+    | rex field=message_text "<enteredCommand><cli>(?<parser_command>.*?)</cli>"
+    | rex field=message_text "<user>(?<parser_user>[^<]+)</user>"
+    | rex field=message_text "<srcIP>(?<parser_src_ip>[^<]+)</srcIP>"
+    | eval command=lower(trim(coalesce(parser_command, eem_command, "")))
+    | eval event_type=case(
+        like(command, "configure http%") OR like(command, "ip http secure-server%"), "http_config",
+        like(command, "line vty%"), "line_vty",
+        like(command, "no access-class%"), "remove_access_class",
+        like(command, "access-class%"), "add_access_class",
+        true(), null())
+    | where isnotnull(event_type)
+    | eval user=coalesce(parser_user, user, "unknown")
+    | eval src_ip=coalesce(parser_src_ip, src_ip, "unknown")
+    | eval dest=coalesce(host, dvc, dest, "unknown")
+    | bin _time span=1m
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(event_type) as event_types
+                  values(user) as user
+                  values(src_ip) as src_ip
+                  values(command) as commands
+      by _time dest
+    | where mvfind(event_types, "line_vty") >= 0
+            AND
+            mvfind(event_types, "remove_access_class") >= 0
+            AND
+            mvfind(event_types, "add_access_class") >= 0
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_vty_access_class_tampering_filter`
+how_to_implement: |
+    Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios" and enable archive/config command logging. EEM catchall logging can also provide command visibility in the lab.
+known_false_positives: |
+    VTY ACL changes occur during legitimate management access updates. Filter approved maintenance windows and known administrators.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+drilldown_searches:
+    - name: View VTY access-class changes for $dest$ and $user$
+      search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 30
+          message: Cisco IOS-XE VTY access-class settings were removed and reapplied on $dest$ by $user$.
+        - field: user
+          type: user
+          score: 30
+          message: User $user$ modified Cisco IOS-XE VTY access-class settings on $dest$.
+threat_objects:
+    - field: commands
+      type: command
+analytic_story:
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1562
+    - T1021
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_cisco.log
+          source: ctb:catalyst:syslog
+          sourcetype: cisco:ios
+      test_type: unit
