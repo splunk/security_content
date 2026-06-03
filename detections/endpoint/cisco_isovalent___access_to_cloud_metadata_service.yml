@@ -1,13 +1,14 @@
 name: Cisco Isovalent - Access To Cloud Metadata Service
 id: 7f2e1a9a-1e8e-4d2e-8b7c-5f2c3d6a9b21
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
 type: Anomaly
+description: The following analytic detects workloads accessing the cloud instance metadata service at 169.254.169.254. This IP is used by AWS, GCP and Azure metadata endpoints and is frequently abused in SSRF or lateral movement scenarios to obtain credentials and sensitive environment details. Monitor unexpected access to this service from application pods or namespaces where such behavior is atypical.
 data_source:
     - Cisco Isovalent Process Connect
-status: production
-description: The following analytic detects workloads accessing the cloud instance metadata service at 169.254.169.254. This IP is used by AWS, GCP and Azure metadata endpoints and is frequently abused in SSRF or lateral movement scenarios to obtain credentials and sensitive environment details. Monitor unexpected access to this service from application pods or namespaces where such behavior is atypical.
 search: |
     `cisco_isovalent_process_connect` | rename process_connect.parent.binary as binary | `excluded_cloud_binaries`
     | stats count
@@ -34,30 +35,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Pod [$pod_name$] accessed the cloud metadata service [$dest_ip$] in cluster [$cluster_name$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: pod_name
           type: system
           score: 20
-    threat_objects:
-        - field: src_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Cisco Isovalent Suspicious Activity
-        - VoidLink Cloud-Native Linux Malware
-    asset_type: Kubernetes
-    mitre_attack_id:
-        - T1552.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Pod [$pod_name$] accessed the cloud metadata service [$dest_ip$] in cluster [$cluster_name$]
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Kubernetes
+mitre_attack_id:
+    - T1552.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.005/isovalent_cloud_metadata/process_connect.log
           source: not_applicable
           sourcetype: cisco:isovalent:processConnect
+      test_type: unit

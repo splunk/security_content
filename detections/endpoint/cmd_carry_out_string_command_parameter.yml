@@ -1,7 +1,8 @@
 name: CMD Carry Out String Command Parameter
 id: 54a6ed00-3256-11ec-b031-acde48001122
-version: 18
-date: '2026-03-26'
+version: 19
+creation_date: '2021-10-21'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
@@ -31,48 +32,49 @@ known_false_positives: False positives may be high based on legitimate scripted 
 references:
     - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
-tags:
-    analytic_story:
-        - StealC Stealer
-        - PlugX
-        - Warzone RAT
-        - Data Destruction
-        - Winter Vivern
-        - WhisperGate
-        - ProxyNotShell
-        - DarkGate Malware
-        - Chaos Ransomware
-        - Hermetic Wiper
-        - Quasar RAT
-        - Rhysida Ransomware
-        - DarkCrystal RAT
-        - Qakbot
-        - IcedID
-        - CISA AA23-347A
-        - Azorult
-        - Living Off The Land
-        - Crypto Stealer
-        - Malicious Inno Setup Loader
-        - NjRAT
-        - AsyncRAT
-        - RedLine Stealer
-        - Log4Shell CVE-2021-44228
-        - Interlock Rat
-        - 0bj3ctivity Stealer
-        - Gh0st RAT
-    asset_type: Endpoint
-    cve:
-        - CVE-2021-44228
-    mitre_attack_id:
-        - T1059.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - StealC Stealer
+    - PlugX
+    - Warzone RAT
+    - Data Destruction
+    - Winter Vivern
+    - WhisperGate
+    - ProxyNotShell
+    - DarkGate Malware
+    - Chaos Ransomware
+    - Hermetic Wiper
+    - Quasar RAT
+    - Rhysida Ransomware
+    - DarkCrystal RAT
+    - Qakbot
+    - IcedID
+    - CISA AA23-347A
+    - Azorult
+    - Living Off The Land
+    - Crypto Stealer
+    - Malicious Inno Setup Loader
+    - NjRAT
+    - AsyncRAT
+    - RedLine Stealer
+    - Log4Shell CVE-2021-44228
+    - Interlock Rat
+    - 0bj3ctivity Stealer
+    - Gh0st RAT
+asset_type: Endpoint
+cve:
+    - CVE-2021-44228
+mitre_attack_id:
+    - T1059.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

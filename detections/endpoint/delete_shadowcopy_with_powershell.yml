@@ -1,7 +1,8 @@
 name: Delete ShadowCopy With PowerShell
 id: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2021-05-12'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -34,35 +35,38 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An attempt to delete ShadowCopy was performed using PowerShell on $dest$ by $user_id$.
-    risk_objects:
-        - field: user_id
-          type: user
-          score: 50
+finding:
+    title: An attempt to delete ShadowCopy was performed using PowerShell on $dest$ by $user_id$.
+    entity:
+        field: user_id
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - DarkSide Ransomware
-        - Ransomware
-        - Revil Ransomware
-        - DarkGate Malware
-        - Cactus Ransomware
-        - VanHelsing Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1490
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An attempt to delete ShadowCopy was performed using PowerShell on $dest$ by $user_id$.
+analytic_story:
+    - DarkSide Ransomware
+    - Ransomware
+    - Revil Ransomware
+    - DarkGate Malware
+    - Cactus Ransomware
+    - VanHelsing Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1490
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/single_event_delete_shadowcopy.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,103 +1,94 @@
 name: Cisco Secure Firewall Threat Defense File Event
 id: 19878597-8f8a-4bca-a805-bfbe35e00032
-version: 1
-date: '2025-04-07'
+version: 2
+creation_date: '2025-04-09'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
-description: Data source object for raw file events from Cisco Secure Firewall Threat
-  Defense
+description: Data source object for raw file events from Cisco Secure Firewall Threat Defense
 source: not_applicable
 sourcetype: cisco:sfw:estreamer
 supported_TA:
-- name: Cisco Security Cloud
-  url: https://splunkbase.splunk.com/app/7404
-  version: 3.6.4
+    - name: Cisco Security Cloud
+      url: https://splunkbase.splunk.com/app/7404
+      version: 3.6.5
 fields:
-- app
-- Application
-- ClientApplication
-- connection_id
-- ConnectionID
-- date
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dest_ip
-- dest_port
-- Device
-- device_id
-- DeviceIP
-- DeviceSerialNumber
-- DeviceUUID
-- dvc
-- EgressVRF
-- EventSecond
-- eventtype
-- EventType
-- file_hash
-- file_name
-- file_size
-- FileAction
-- FileDirection
-- FileName
-- FilePolicy
-- FileSandboxStatus
-- FileSHA256
-- FileSize
-- FileStorageStatus
-- FileType
-- FirstPacketSecond
-- host
-- index
-- IngressVRF
-- InitiatorIP
-- InitiatorPort
-- instance_id
-- InstanceID
-- linecount
-- Protocol
-- punct
-- ResponderIP
-- ResponderPort
-- sensor_name
-- SHA_Disposition
-- source
-- sourcetype
-- SperoDisposition
-- splunk_server
-- src_ip
-- src_port
-- tag
-- tag::eventtype
-- ThreatName
-- ThreatScore
-- timeendpos
-- timestartpos
-- transport
-- uri
-- URI
-- vendor_product
-- WebApplication
+    - app
+    - Application
+    - ClientApplication
+    - connection_id
+    - ConnectionID
+    - date
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dest_ip
+    - dest_port
+    - Device
+    - device_id
+    - DeviceIP
+    - DeviceSerialNumber
+    - DeviceUUID
+    - dvc
+    - EgressVRF
+    - EventSecond
+    - eventtype
+    - EventType
+    - file_hash
+    - file_name
+    - file_size
+    - FileAction
+    - FileDirection
+    - FileName
+    - FilePolicy
+    - FileSandboxStatus
+    - FileSHA256
+    - FileSize
+    - FileStorageStatus
+    - FileType
+    - FirstPacketSecond
+    - host
+    - index
+    - IngressVRF
+    - InitiatorIP
+    - InitiatorPort
+    - instance_id
+    - InstanceID
+    - linecount
+    - Protocol
+    - punct
+    - ResponderIP
+    - ResponderPort
+    - sensor_name
+    - SHA_Disposition
+    - source
+    - sourcetype
+    - SperoDisposition
+    - splunk_server
+    - src_ip
+    - src_port
+    - tag
+    - tag::eventtype
+    - ThreatName
+    - ThreatScore
+    - timeendpos
+    - timestartpos
+    - transport
+    - uri
+    - URI
+    - vendor_product
+    - WebApplication
 output_fields:
-- src
-- dest
-- dest_port
-- FileDirection
-- FileType
-- file_hash
-- SHA_Disposition
-example_log: '{"EventType":"FileEvent", "EventSecond":1741199882, "DeviceUUID":"11bc8e94-f604-11ef-bcfe-eeb1de9c8a63",
-  "InstanceID":1, "FirstPacketSecond":1741199881, "ConnectionID":10092, "InitiatorIP":"172.16.3.158",
-  "ResponderIP":"85.215.35.144", "InitiatorPort":55988, "ResponderPort":80, "Protocol":"tcp",
-  "FileDirection":"Download", "FileAction":"Malware Cloud Lookup", "FileSHA256":"275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
-  "SHA_Disposition":"Malware", "SperoDisposition":"Spero detection not performed on
-  file", "ThreatName":"EICAR", "ThreatScore":76, "FileName":"csm-eicar.gif", "FileType":"EICAR",
-  "FileSize":68, "Application":"HTTP", "ClientApplication":"Wget", "WebApplication":"Web
-  Browsing", "FilePolicy":"Test", "FileStorageStatus":"File Size Is Too Small", "FileSandboxStatus":"File
-  Size Is Too Small", "URI":"/csm-eicar.gif", "IngressVRF":"Global", "EgressVRF":"Global",
-  "Device":"172.16.0.10", "DeviceIP":"172.16.0.10", "DeviceSerialNumber":"9AD5V8FSS0D"}'
+    - src
+    - dest
+    - dest_port
+    - FileDirection
+    - FileType
+    - file_hash
+    - SHA_Disposition
+example_log: '{"EventType":"FileEvent", "EventSecond":1741199882, "DeviceUUID":"11bc8e94-f604-11ef-bcfe-eeb1de9c8a63", "InstanceID":1, "FirstPacketSecond":1741199881, "ConnectionID":10092, "InitiatorIP":"172.16.3.158", "ResponderIP":"85.215.35.144", "InitiatorPort":55988, "ResponderPort":80, "Protocol":"tcp", "FileDirection":"Download", "FileAction":"Malware Cloud Lookup", "FileSHA256":"275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f", "SHA_Disposition":"Malware", "SperoDisposition":"Spero detection not performed on file", "ThreatName":"EICAR", "ThreatScore":76, "FileName":"csm-eicar.gif", "FileType":"EICAR", "FileSize":68, "Application":"HTTP", "ClientApplication":"Wget", "WebApplication":"Web Browsing", "FilePolicy":"Test", "FileStorageStatus":"File Size Is Too Small", "FileSandboxStatus":"File Size Is Too Small", "URI":"/csm-eicar.gif", "IngressVRF":"Global", "EgressVRF":"Global", "Device":"172.16.0.10", "DeviceIP":"172.16.0.10", "DeviceSerialNumber":"9AD5V8FSS0D"}'

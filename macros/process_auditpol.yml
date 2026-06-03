@@ -1,3 +1,8 @@
-definition: (Processes.process_name="auditpol.exe" OR Processes.original_file_name="AUDITPOL.EXE")
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_auditpol
+id: 9f1ecfc3-98d2-4925-946d-6b661efde31b
+version: 1
+creation_date: '2025-02-19'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name="auditpol.exe" OR Processes.original_file_name="AUDITPOL.EXE")

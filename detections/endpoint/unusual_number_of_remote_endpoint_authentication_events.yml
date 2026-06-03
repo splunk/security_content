@@ -1,7 +1,8 @@
 name: Unusual Number of Remote Endpoint Authentication Events
 id: acb5dc74-5324-11ec-a36d-acde48001122
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2021-12-03'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
@@ -23,15 +24,15 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: An single endpoint authenticating to a large number of hosts is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, jump servers and missconfigured systems.
 references:
     - https://attack.mitre.org/techniques/T1078/
-tags:
-    analytic_story:
-        - Active Directory Lateral Movement
-        - Active Directory Privilege Escalation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1078
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Lateral Movement
+    - Active Directory Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

@@ -1,6 +1,8 @@
-definition: lookup update=true lookup_rare_process_allow_list_default process as process
-  OUTPUTNEW allow_list | where allow_list="false" | lookup update=true lookup_rare_process_allow_list_local
-  process as process OUTPUT allow_list | where allow_list="false"
-description: This macro is intended to allow_list processes that have been definied
-  as rare
 name: filter_rare_process_allow_list
+id: ab21f8fa-0af0-4901-8b8d-3cb37fa09e70
+version: 1
+creation_date: '2021-01-21'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro is intended to allow_list processes that have been definied as rare
+definition: lookup update=true lookup_rare_process_allow_list_default process as process OUTPUTNEW allow_list | where allow_list="false" | lookup update=true lookup_rare_process_allow_list_local process as process OUTPUT allow_list | where allow_list="false"

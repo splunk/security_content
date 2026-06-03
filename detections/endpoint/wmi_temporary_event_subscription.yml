@@ -1,7 +1,8 @@
 name: WMI Temporary Event Subscription
 id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
-version: 9
-date: '2026-04-07'
+version: 10
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
@@ -25,21 +26,20 @@ search: |-
 how_to_implement: To successfully implement this search, you must be ingesting the Windows WMI activity logs. This can be done by adding a stanza to inputs.conf on the system generating logs with a title of [WinEventLog://Microsoft-Windows-WMI-Activity/Operational].
 known_false_positives: Some software may create WMI temporary event subscriptions for various purposes. The included search contains an exception for two of these that occur by default on Windows 10 systems. You may need to modify the search to create exceptions for other legitimate events.
 references: []
-rba:
-    message: WMI Temporary event subscription detected on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious WMI Use
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1047
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: WMI Temporary event subscription detected on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Suspicious WMI Use
+asset_type: Endpoint
+mitre_attack_id:
+    - T1047
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

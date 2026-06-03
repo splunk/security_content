@@ -1,7 +1,8 @@
 name: Windows Compatibility Telemetry Suspicious Child Process
 id: 56fe46ca-ffef-46fe-8f0e-5cd4b7b4cc0c
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -45,30 +46,31 @@ drilldown_searches:
       search: '| from datamodel Endpoint.Processes | search dest = "$dest$" AND process_name = "$process_name$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The process $process_name$ was launched in a suspicious manner by $parent_process_name$ on host $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: process_name
-          type: process
-tags:
-    analytic_story:
-        - Windows Persistence Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1546
-        - T1053.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: The process $process_name$ was launched in a suspicious manner by $parent_process_name$ on host $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process_name
+      type: process
+analytic_story:
+    - Windows Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1546
+    - T1053.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546/compattelrunner_abuse/compattelrunner_abuse.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

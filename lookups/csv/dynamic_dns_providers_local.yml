@@ -1,0 +1,12 @@
+name: dynamic_dns_providers_local
+id: b3313546-95ec-4e0e-91ab-b87009c600a4
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of dynammic dns providers that can be modified
+match_type:
+    - WILDCARD(dynamic_dns_domains)
+
+case_sensitive_match: false

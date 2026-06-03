@@ -1,7 +1,8 @@
 name: MacOS Network Share Discovery
 id: a5f5fe52-8e50-4fb0-ad1b-780be6c0d857
-version: 2
-date: '2026-04-15'
+version: 3
+creation_date: '2026-04-14'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -47,32 +48,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Network share information enumerated on $dest$ by $user$ via $process$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: Network share information enumerated on $dest$ by $user$ via $process$
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process
-          type: process
-tags:
-    analytic_story:
-        - MacOS Post-Exploitation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1135
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Network share information enumerated on $dest$ by $user$ via $process$
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - MacOS Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1135
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/osquery_share_discovery/osquery.log
           source: osquery
           sourcetype: osquery:results
+      test_type: unit

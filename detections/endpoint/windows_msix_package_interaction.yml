@@ -1,7 +1,8 @@
 name: Windows MSIX Package Interaction
 id: 1a06689d-814e-4db2-b2c7-5a174f8c2d6d
-version: 2
-date: '2026-02-25'
+version: 3
+creation_date: '2025-08-18'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -22,21 +23,21 @@ references:
     - https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
     - https://www.advancedinstaller.com/msix-installation-or-launching-errors-and-fixes.html
     - https://redcanary.com/blog/msix-installers/
-tags:
-    analytic_story:
-        - MSIX Package Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+analytic_story:
+    - MSIX Package Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/appx/windows-appxpackaging.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-AppxPackaging/Operational
+      test_type: unit

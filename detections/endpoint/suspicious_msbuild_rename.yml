@@ -1,7 +1,8 @@
 name: Suspicious MSBuild Rename
 id: 4006adac-5937-11eb-ae93-0242ac130002
-version: 13
-date: '2026-05-04'
+version: 14
+creation_date: '2021-01-15'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -32,27 +33,28 @@ references:
     - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
     - https://github.com/infosecn1nja/MaliciousMacroMSBuild/
-tags:
-    analytic_story:
-        - Trusted Developer Utilities Proxy Execution MSBuild
-        - Masquerading - Rename System Utilities
-        - Living Off The Land
-        - Cobalt Strike
-        - BlackByte Ransomware
-        - Graceful Wipe Out Attack
-        - Storm-2460 CLFS Zero Day Exploitation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1036.003
-        - T1127.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Trusted Developer Utilities Proxy Execution MSBuild
+    - Masquerading - Rename System Utilities
+    - Living Off The Land
+    - Cobalt Strike
+    - BlackByte Ransomware
+    - Graceful Wipe Out Attack
+    - Storm-2460 CLFS Zero Day Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1036.003
+    - T1127.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

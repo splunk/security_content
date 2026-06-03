@@ -1,13 +1,14 @@
 name: O365 Multi-Source Failed Authentications Spike
 id: ea4e2c41-dbfb-4f5f-a7b6-9ac1b7f104aa
-version: 9
-date: '2026-02-25'
+version: 10
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
+description: The following analytic identifies a spike in failed authentication attempts within an Office 365 environment, indicative of a potential distributed password spraying attack. It leverages UserLoginFailed events from O365 Management Activity logs, focusing on ErrorNumber 50126. This detection is significant as it highlights attempts to bypass security controls using multiple IP addresses and user agents. If confirmed malicious, this activity could lead to unauthorized access, data breaches, privilege escalation, and lateral movement within the organization. Early detection is crucial to prevent account takeovers and mitigate subsequent threats.
 data_source:
     - O365 UserLoginFailed
-description: The following analytic identifies a spike in failed authentication attempts within an Office 365 environment, indicative of a potential distributed password spraying attack. It leverages UserLoginFailed events from O365 Management Activity logs, focusing on ErrorNumber 50126. This detection is significant as it highlights attempts to bypass security controls using multiple IP addresses and user agents. If confirmed malicious, this activity could lead to unauthorized access, data breaches, privilege escalation, and lateral movement within the organization. Early detection is crucial to prevent account takeovers and mitigate subsequent threats.
 search: |-
     `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126
       | bucket span=5m _time
@@ -26,24 +27,24 @@ references:
     - https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
     - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
     - https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-        - NOBELIUM Group
-    asset_type: O365 Tenant
-    atomic_guid: []
-    mitre_attack_id:
-        - T1110.003
-        - T1110.004
-        - T1586.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+analytic_story:
+    - Office 365 Account Takeover
+    - NOBELIUM Group
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1110.003
+    - T1110.004
+    - T1586.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/o365_distributed_spray/o365_distributed_spray.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

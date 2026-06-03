@@ -1,13 +1,25 @@
 name: Windows Unusual Count Of Invalid Users Fail To Auth Using Kerberos
 id: f122cb2e-d773-4f11-8399-62a3572d8dd7
-type: Anomaly
-version: 10
-date: '2026-04-15'
-status: production
+version: 11
+creation_date: '2021-04-14'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies a source endpoint failing to authenticate with multiple invalid domain users using the Kerberos protocol. It leverages Event ID 4768, which is generated when the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT) and detects failure code 0x6, indicating the user is not found in the Kerberos database. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges. If confirmed malicious, this activity could lead to unauthorized access and potential privilege escalation within the Active Directory environment.
 data_source:
     - Windows Event Log Security 4768
-description: The following analytic identifies a source endpoint failing to authenticate with multiple invalid domain users using the Kerberos protocol. It leverages Event ID 4768, which is generated when the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT) and detects failure code 0x6, indicating the user is not found in the Kerberos database. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges. If confirmed malicious, this activity could lead to unauthorized access and potential privilege escalation within the Active Directory environment.
+search: |-
+    `wineventlog_security` EventCode=4768 TargetUserName!=*$ Status=0x6
+      | bucket span=5m _time
+      | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as user values(dest) as dest
+        BY _time, IpAddress
+      | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std
+        BY IpAddress
+      | eval upperBound=(comp_avg+comp_std*3)
+      | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+      | search isOutlier=1
+      | `windows_unusual_count_of_invalid_users_fail_to_auth_using_kerberos_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, multi-user systems and missconfigured systems.
 references:
@@ -21,42 +33,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-search: |-
-    `wineventlog_security` EventCode=4768 TargetUserName!=*$ Status=0x6
-      | bucket span=5m _time
-      | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as user values(dest) as dest
-        BY _time, IpAddress
-      | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std
-        BY IpAddress
-      | eval upperBound=(comp_avg+comp_std*3)
-      | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-      | search isOutlier=1
-      | `windows_unusual_count_of_invalid_users_fail_to_auth_using_kerberos_filter`
-rba:
-    message: Potential Kerberos based password spraying attack from $IpAddress$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: IpAddress
-          type: ip_address
-tags:
-    analytic_story:
-        - Active Directory Password Spraying
-        - Active Directory Kerberos Attacks
-        - Volt Typhoon
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1110.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Potential Kerberos based password spraying attack from $IpAddress$
+threat_objects:
+    - field: IpAddress
+      type: ip_address
+analytic_story:
+    - Active Directory Password Spraying
+    - Active Directory Kerberos Attacks
+    - Volt Typhoon
+asset_type: Endpoint
+mitre_attack_id:
+    - T1110.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos_xml/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
       name: True Positive Test
+      test_type: unit

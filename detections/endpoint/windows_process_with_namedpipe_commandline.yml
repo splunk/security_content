@@ -1,7 +1,8 @@
 name: Windows Process With NamedPipe CommandLine
 id: e64399d4-94a8-11ec-a9da-acde48001122
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2022-02-23'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -24,27 +25,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Process with named pipe in $process$ on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Windows Defense Evasion Tactics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1055
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Process with named pipe in $process$ on $dest$
+analytic_story:
+    - Windows Defense Evasion Tactics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1055
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/olympic_destroyer/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

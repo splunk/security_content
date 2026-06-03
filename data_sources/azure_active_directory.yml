@@ -1,19 +1,20 @@
 name: Azure Active Directory
 id: 51ca21e5-bda2-4652-bb29-27c7bc18a81c
-version: 1
-date: '2024-07-18'
+version: 2
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 description: All Azure Active Directory events
 source: Azure AD
 sourcetype: azure:monitor:aad
 separator: operationName
 supported_TA:
-- name: Splunk Add-on for Microsoft Cloud Services
-  url: https://splunkbase.splunk.com/app/3110
-  version: 6.1.1
+    - name: Splunk Add-on for Microsoft Cloud Services
+      url: https://splunkbase.splunk.com/app/3110
+      version: 6.1.1
 output_fields:
-- dest
-- user
-- src
-- vendor_account
-- vendor_product
+    - dest
+    - user
+    - src
+    - vendor_account
+    - vendor_product

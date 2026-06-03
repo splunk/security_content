@@ -1,3 +1,8 @@
-definition: 'BitlockerWizardElev.exe,cliconfg.exe,clipup.exe,cmstp.exe,CompMgmtLauncher.exe,consent.exe,control.exe,credwiz.exe,dccw.exe,dismhost.exe,EventVwr.exe,fodhelper.exe,GWXUXWorker.exe,inetmgr.exe,iscsicli.exe,mcx2prov.exe,migwiz.exe,mmc.exe,msconfig.exe,oobe.exe,osk.exe,pkgmgr.exe,recdisc.exe,rstrui.exe,sdclt.exe,setupsqm.exe,slui.exe,sysprep.exe,SystemPropertiesAdvanced.exe,taskhost.exe,TpmInit.exe,tzsync.exe,w32tm.exe,WerFault.exe,WSReset.exe,wusa.exe'
-description: A listing of processes known to be abused for User Account Control bypass exploitation.
 name: uacbypass_process_name
+id: b8aa07b5-c6a5-48c1-8460-569ce42290c8
+version: 1
+creation_date: '2024-01-10'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: A listing of processes known to be abused for User Account Control bypass exploitation.
+definition: 'BitlockerWizardElev.exe,cliconfg.exe,clipup.exe,cmstp.exe,CompMgmtLauncher.exe,consent.exe,control.exe,credwiz.exe,dccw.exe,dismhost.exe,EventVwr.exe,fodhelper.exe,GWXUXWorker.exe,inetmgr.exe,iscsicli.exe,mcx2prov.exe,migwiz.exe,mmc.exe,msconfig.exe,oobe.exe,osk.exe,pkgmgr.exe,recdisc.exe,rstrui.exe,sdclt.exe,setupsqm.exe,slui.exe,sysprep.exe,SystemPropertiesAdvanced.exe,taskhost.exe,TpmInit.exe,tzsync.exe,w32tm.exe,WerFault.exe,WSReset.exe,wusa.exe'

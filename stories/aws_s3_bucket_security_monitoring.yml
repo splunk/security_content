@@ -1,31 +1,26 @@
 name: AWS S3 Bucket Security Monitoring
 id: 8d74f258-d69e-4e4f-b7b3-57c0bdc772b5
-version: 1
-date: '2025-02-12'
+version: 2
+creation_date: '2025-02-12'
+modification_date: '2026-05-13'
 author: Jose Hernandez, Splunk
 status: production
 description: This analytic story contains detections that monitor AWS S3 bucket configurations, access patterns, and potential security risks, with a specific focus on tracking decommissioned public buckets to prevent bucket hijacking attempts.
 narrative: 'Amazon Simple Storage Service (S3) is a widely used object storage service that allows organizations to store and retrieve any amount of data. While S3 buckets are private by default, they can be configured for public access through bucket policies or static website hosting. This flexibility, while useful for legitimate purposes, can also lead to security risks if not properly managed.
 
-  A particularly concerning attack vector is the hijacking of decommissioned S3 buckets. When a public S3 bucket is deleted, its unique name becomes available for anyone to claim. Attackers can monitor for deleted buckets that were previously public and attempt to recreate them, potentially intercepting data from applications that still reference these buckets or using them to host malicious content.
+    A particularly concerning attack vector is the hijacking of decommissioned S3 buckets. When a public S3 bucket is deleted, its unique name becomes available for anyone to claim. Attackers can monitor for deleted buckets that were previously public and attempt to recreate them, potentially intercepting data from applications that still reference these buckets or using them to host malicious content.
 
-  This analytic story focuses on:
-  1. Tracking S3 buckets that were public (via policy or website hosting) before deletion
-  2. Detecting attempts to access or query these decommissioned bucket names
-  3. Identifying potential bucket hijacking attempts
-  4. Helping organizations maintain proper S3 bucket hygiene and prevent security incidents related to bucket name reuse
+    This analytic story focuses on: 1. Tracking S3 buckets that were public (via policy or website hosting) before deletion 2. Detecting attempts to access or query these decommissioned bucket names 3. Identifying potential bucket hijacking attempts 4. Helping organizations maintain proper S3 bucket hygiene and prevent security incidents related to bucket name reuse
 
-  The detections in this story leverage AWS CloudTrail logs, DNS queries, and web proxy data to provide comprehensive monitoring of S3 bucket lifecycle and access patterns.'
+    The detections in this story leverage AWS CloudTrail logs, DNS queries, and web proxy data to provide comprehensive monitoring of S3 bucket lifecycle and access patterns.'
 references:
-- https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
-- https://labs.watchtowr.com/8-million-requests-later-we-made-the-solarwinds-supply-chain-attack-look-amateur/
-- https://aws.amazon.com/premiumsupport/knowledge-center/secure-s3-resources/
-tags:
-  category:
-  - Cloud Security
-  product:
-  - Splunk Security Analytics for AWS
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Security Monitoring 
+    - https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
+    - https://labs.watchtowr.com/8-million-requests-later-we-made-the-solarwinds-supply-chain-attack-look-amateur/
+    - https://aws.amazon.com/premiumsupport/knowledge-center/secure-s3-resources/
+category:
+    - Cloud Security
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Security Monitoring

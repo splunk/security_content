@@ -1,13 +1,14 @@
 name: Windows Vulnerable 3CX Software
 id: f2cc1584-46ee-485b-b905-977c067f36de
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-03-30'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
-type: TTP
 status: production
+type: TTP
+description: The following analytic detects instances of the 3CXDesktopApp.exe with a FileVersion of 18.12.x, leveraging Sysmon logs. This detection focuses on identifying vulnerable versions 18.12.407 and 18.12.416 of the 3CX desktop app. Monitoring this activity is crucial as these specific versions have known vulnerabilities that could be exploited by attackers. If confirmed malicious, exploitation of this vulnerability could lead to unauthorized access, code execution, or further compromise of the affected system, posing significant security risks.
 data_source:
     - Sysmon EventID 1
-description: The following analytic detects instances of the 3CXDesktopApp.exe with a FileVersion of 18.12.x, leveraging Sysmon logs. This detection focuses on identifying vulnerable versions 18.12.407 and 18.12.416 of the 3CX desktop app. Monitoring this activity is crucial as these specific versions have known vulnerabilities that could be exploited by attackers. If confirmed malicious, exploitation of this vulnerability could lead to unauthorized access, code execution, or further compromise of the affected system, posing significant security risks.
 search: |-
     `sysmon` (process_name=3CXDesktopApp.exe OR OriginalFileName=3CXDesktopApp.exe)  FileVersion=18.12.*
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -38,31 +39,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A known vulnerable instance of 3CX Software $process_name$ ran on $dest$, related to a supply chain attack.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - 3CX Supply Chain Attack
-    asset_type: Endpoint
-    cve:
-        - CVE-2023-29059
-    mitre_attack_id:
-        - T1195.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A known vulnerable instance of 3CX Software $process_name$ ran on $dest$, related to a supply chain attack.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - 3CX Supply Chain Attack
+asset_type: Endpoint
+cve:
+    - CVE-2023-29059
+mitre_attack_id:
+    - T1195.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

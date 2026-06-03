@@ -1,13 +1,14 @@
 name: Windows WinLogon with Public Network Connection
 id: 65615b3a-62ea-4d65-bb9f-6f07c17df4ea
-version: 10
-date: '2026-02-25'
+version: 11
+creation_date: '2023-05-11'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
+description: The following analytic detects instances of Winlogon.exe, a critical Windows process, connecting to public IP addresses. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on network connections made by Winlogon.exe. Under normal circumstances, Winlogon.exe should not connect to public IPs, and such activity may indicate a compromise, such as the BlackLotus bootkit attack. This detection is significant as it highlights potential system integrity breaches. If confirmed malicious, attackers could maintain persistence, bypass security measures, and compromise the system at a fundamental level.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 3
-description: The following analytic detects instances of Winlogon.exe, a critical Windows process, connecting to public IP addresses. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on network connections made by Winlogon.exe. Under normal circumstances, Winlogon.exe should not connect to public IPs, and such activity may indicate a compromise, such as the BlackLotus bootkit attack. This detection is significant as it highlights potential system integrity breaches. If confirmed malicious, attackers could maintain persistence, bypass security measures, and compromise the system at a fundamental level.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name IN (winlogon.exe) Processes.process!=unknown
@@ -33,21 +34,21 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: False positives will be present and filtering will be required. Legitimate IPs will be present and need to be filtered.
 references:
     - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
-tags:
-    analytic_story:
-        - BlackLotus Campaign
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id:
-        - T1542.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - BlackLotus Campaign
+asset_type: Endpoint
+mitre_attack_id:
+    - T1542.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1542.003/bootkits/network-winlogon-windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Windows Process Execution in Temp Dir
 id: f6fbe929-4187-4ba4-901e-8a34be838443
-version: 10
-date: '2026-04-16'
+version: 11
+creation_date: '2021-05-07'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -28,43 +29,44 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: '0'
-rba:
-    message: Suspicious process $process_name$ running from temp directory- $process_path$ on host- $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_path
-          type: process_name
-tags:
-    analytic_story:
-        - AgentTesla
-        - XWorm
-        - NjRAT
-        - Remcos
-        - Ryuk Ransomware
-        - Ransomware
-        - Qakbot
-        - Trickbot
-        - PathWiper
-        - PromptLock
-        - Lokibot
-        - SesameOp
-        - Gh0st RAT
-        - Axios Supply Chain Post Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543
-        - T1036.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious process $process_name$ running from temp directory- $process_path$ on host- $dest$
+threat_objects:
+    - field: process_path
+      type: process_name
+analytic_story:
+    - AgentTesla
+    - XWorm
+    - NjRAT
+    - Remcos
+    - Ryuk Ransomware
+    - Ransomware
+    - Qakbot
+    - Trickbot
+    - PathWiper
+    - PromptLock
+    - Lokibot
+    - SesameOp
+    - Gh0st RAT
+    - Axios Supply Chain Post Compromise
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543
+    - T1036.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/process_temp_path/process_temp_path.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 31
-date: '2026-04-16'
+version: 32
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
@@ -21,75 +22,78 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: '0'
-rba:
-    message: A registry activity in $registry_path$ related to persistence in host $dest$
-    risk_objects:
+finding:
+    title: A registry activity in $registry_path$ related to persistence in host $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Warzone RAT
-        - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-        - Sneaky Active Directory Persistence Tricks
-        - Windows Registry Abuse
-        - Chaos Ransomware
-        - DarkGate Malware
-        - Remcos
-        - Quasar RAT
-        - Braodo Stealer
-        - Qakbot
-        - Snake Keylogger
-        - China-Nexus Threat Activity
-        - IcedID
-        - CISA AA23-347A
-        - Ransomware
-        - XWorm
-        - Azorult
-        - Salt Typhoon
-        - Cactus Ransomware
-        - BlackSuit Ransomware
-        - BlackByte Ransomware
-        - SystemBC
-        - NjRAT
-        - DHS Report TA18-074A
-        - Derusbi
-        - Amadey
-        - Suspicious MSHTA Activity
-        - Suspicious Windows Registry Activities
-        - Emotet Malware DHS Report TA18-201A
-        - WinDealer RAT
-        - AsyncRAT
-        - RedLine Stealer
-        - SnappyBee
-        - Windows Persistence Techniques
-        - MoonPeak
-        - Interlock Ransomware
-        - 0bj3ctivity Stealer
-        - APT37 Rustonotto and FadeStealer
-        - NetSupport RMM Tool Abuse
-        - DarkCrystal RAT
-        - Lokibot
-        - ValleyRAT
-        - Castle RAT
-        - MuddyWater
-        - Gh0st RAT
-        - Axios Supply Chain Post Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1547.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A registry activity in $registry_path$ related to persistence in host $dest$
+analytic_story:
+    - Warzone RAT
+    - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+    - Sneaky Active Directory Persistence Tricks
+    - Windows Registry Abuse
+    - Chaos Ransomware
+    - DarkGate Malware
+    - Remcos
+    - Quasar RAT
+    - Braodo Stealer
+    - Qakbot
+    - Snake Keylogger
+    - China-Nexus Threat Activity
+    - IcedID
+    - CISA AA23-347A
+    - Ransomware
+    - XWorm
+    - Azorult
+    - Salt Typhoon
+    - Cactus Ransomware
+    - BlackSuit Ransomware
+    - BlackByte Ransomware
+    - SystemBC
+    - NjRAT
+    - DHS Report TA18-074A
+    - Derusbi
+    - Amadey
+    - Suspicious MSHTA Activity
+    - Suspicious Windows Registry Activities
+    - Emotet Malware DHS Report TA18-201A
+    - WinDealer RAT
+    - AsyncRAT
+    - RedLine Stealer
+    - SnappyBee
+    - Windows Persistence Techniques
+    - MoonPeak
+    - Interlock Ransomware
+    - 0bj3ctivity Stealer
+    - APT37 Rustonotto and FadeStealer
+    - NetSupport RMM Tool Abuse
+    - DarkCrystal RAT
+    - Lokibot
+    - ValleyRAT
+    - Castle RAT
+    - MuddyWater
+    - Gh0st RAT
+    - Axios Supply Chain Post Compromise
+asset_type: Endpoint
+mitre_attack_id:
+    - T1547.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

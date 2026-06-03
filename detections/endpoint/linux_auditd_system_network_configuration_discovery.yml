@@ -1,7 +1,8 @@
 name: Linux Auditd System Network Configuration Discovery
 id: 5db16825-81bd-4923-a8d6-d6a13a59832a
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-08-12'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -31,30 +32,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to discover system network configuration.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Living Off The Land
-        - Linux Privilege Escalation
-        - Linux Persistence Techniques
-        - Compromised Linux Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1016
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to discover system network configuration.
+analytic_story:
+    - Linux Living Off The Land
+    - Linux Privilege Escalation
+    - Linux Persistence Techniques
+    - Compromised Linux Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1016
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/linux_auditd_net_tool_new/linux_auditd_net_tool_bucket_new.log
           source: auditd
           sourcetype: auditd
+      test_type: unit

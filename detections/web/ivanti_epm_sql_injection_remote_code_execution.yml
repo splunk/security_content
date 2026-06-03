@@ -1,12 +1,11 @@
 name: Ivanti EPM SQL Injection Remote Code Execution
 id: e20564ca-c86c-4e30-acdb-a8486673426f
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-07-25'
+modification_date: '2026-05-13'
 author: Michael Haag
-type: TTP
 status: production
-data_source:
-    - Suricata
+type: TTP
 description: |-
     This detection identifies potential exploitation of a critical SQL injection vulnerability in Ivanti Endpoint Manager (EPM), identified as CVE-2024-29824.
     The vulnerability, which has a CVSS score of 9.8, allows for remote code execution through the `RecordGoodApp` function in the `PatchBiz.dll` file.
@@ -14,6 +13,8 @@ description: |-
     Monitoring for unusual SQL commands and HTTP requests to this endpoint can help identify exploitation attempts.
     Note that, the detection is focused on the URI path, HTTP method and status code of 200, indicating potential exploitation.
     To properly identify if this was successful, TLS inspection and additional network traffic analysis is required as the xp_cmdshell comes in via the request body.
+data_source:
+    - Suricata
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -49,31 +50,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential exploitation of a critical SQL injection vulnerability in Ivanti Endpoint Manager (EPM), identified as CVE-2024-29824 against $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Ivanti EPM Vulnerabilities
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Hellcat Ransomware
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2024-29824
+finding:
+    title: Potential exploitation of a critical SQL injection vulnerability in Ivanti Endpoint Manager (EPM), identified as CVE-2024-29824 against $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Ivanti EPM Vulnerabilities
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Hellcat Ransomware
+asset_type: Web Server
+cve:
+    - CVE-2024-29824
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_epm.log
           sourcetype: suricata
           source: not_applicable
+      test_type: unit

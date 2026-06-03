@@ -1,7 +1,8 @@
 name: Windows PowerShell Process Implementing Manual Base64 Decoder
 id: 08d67349-0808-4f55-b431-1037269fa517
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-10-24'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali
 status: production
 type: Anomaly
@@ -64,36 +65,38 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $process_name$ executing a manual Base64 decoding routine $process$ was identified on endpoint $dest$ by user $user$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: An instance of $process_name$ executing a manual Base64 decoding routine $process$ was identified on endpoint $dest$ by user $user$.
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-        - field: process
-          type: process_name
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - Deobfuscate-Decode Files or Information
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1027.010
-        - T1059.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $process_name$ executing a manual Base64 decoding routine $process$ was identified on endpoint $dest$ by user $user$.
+threat_objects:
+    - field: process
+      type: process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Compromised Windows Host
+    - Deobfuscate-Decode Files or Information
+asset_type: Endpoint
+mitre_attack_id:
+    - T1027.010
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.010/manual_b64_decode_pwsh/manual_b64_decode_pwsh.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: MCP Github Suspicious Operation
 id: 3348aefd-9ed8-451f-9993-1e9fa04b5530
-version: 2
-date: '2026-02-25'
+version: 3
+creation_date: '2026-02-17'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: production
 type: Hunting
@@ -43,20 +44,21 @@ references:
     - https://splunkbase.splunk.com/app/8377
     - https://www.docker.com/blog/mcp-horror-stories-github-prompt-injection/
     - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
-tags:
-    analytic_story:
-        - Suspicious MCP Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1552.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Suspicious MCP Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1552.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
           sourcetype: mcp:jsonrpc
           source: mcp.log
+      test_type: unit

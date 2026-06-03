@@ -1,17 +1,18 @@
 name: Microsoft SharePoint Server Elevation of Privilege
 id: fcf4bd3f-a79f-4b7a-83bf-2692d60b859d
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-10-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-data_source:
-    - Suricata
 description: |-
     The following analytic detects potential exploitation attempts against Microsoft SharePoint Server vulnerability CVE-2023-29357.
     It leverages the Web datamodel to monitor for specific API calls and HTTP methods indicative of privilege escalation attempts.
     This activity is significant as it may indicate an attacker is trying to gain unauthorized privileged access to the SharePoint environment.
     If confirmed malicious, the impact could include unauthorized access to sensitive data, potential data theft, and further compromise of the SharePoint server, leading to a broader security breach.
+data_source:
+    - Suricata
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -47,32 +48,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Possible exploitation of CVE-2023-29357 against $dest$ from $src$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    cve:
-        - CVE-2023-29357
-    analytic_story:
-        - Microsoft SharePoint Server Elevation of Privilege CVE-2023-29357
-    asset_type: Web Server
-    atomic_guid: []
-    mitre_attack_id:
-        - T1068
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Possible exploitation of CVE-2023-29357 against $dest$ from $src$.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Microsoft SharePoint Server Elevation of Privilege CVE-2023-29357
+asset_type: Web Server
+cve:
+    - CVE-2023-29357
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/sharepoint/sharepointeop.log
           source: not_applicable
           sourcetype: suricata
+      test_type: unit

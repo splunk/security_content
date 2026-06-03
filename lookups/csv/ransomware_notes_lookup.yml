@@ -1,0 +1,12 @@
+name: ransomware_notes_lookup
+id: 93d9fb06-035e-496c-91d5-7a79543ce1e1
+version: 5
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of file names that are ransomware note files
+match_type:
+    - WILDCARD(ransomware_notes)
+min_matches: 1
+case_sensitive_match: false

@@ -1,32 +1,21 @@
 name: Previously Seen Cloud Compute Creations By User - Initial
 id: dd4ced8a-15a9-4285-94ac-7e4134673bf8
-version: 2
-date: '2026-01-14'
+version: 3
+creation_date: '2020-08-18'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
-type: Baseline
 status: production
-description: This search builds a table of previously seen users that have launched
-  a cloud compute instance.
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where All_Changes.action=created AND All_Changes.object_category=instance
-  by All_Changes.user | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_compute_creations_by_user
-  | stats count'
-how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
-  and have the proper TAs installed.
+description: This search builds a table of previously seen users that have launched a cloud compute instance.
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created AND All_Changes.object_category=instance by All_Changes.user | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_compute_creations_by_user | stats count'
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs and have the proper TAs installed.
 known_false_positives: No false positives have been identified at this time.
 references: []
-tags:
-  analytic_story:
-  - Cloud Cryptomining
-  detections:
-  - Cloud Compute Instance Created By Previously Unseen User
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-deployment:
-  scheduling:
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+security_domain: network
+custom_schedule:
     cron_schedule: 0 2 * * 0
     earliest_time: -90d@d
     latest_time: -1d@d

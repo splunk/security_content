@@ -1,13 +1,14 @@
 name: Windows PowerSploit GPP Discovery
 id: 0130a0df-83a1-4647-9011-841e950ff302
-version: 14
-date: '2026-04-15'
+version: 15
+creation_date: '2023-03-16'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects the execution of the Get-GPPPassword PowerShell cmdlet, which is used to search for unsecured credentials in Group Policy Preferences (GPP). This detection leverages PowerShell Script Block Logging to identify specific script block text associated with this cmdlet. Monitoring this activity is crucial as it can indicate an attempt to retrieve and decrypt stored credentials from SYSVOL, potentially leading to unauthorized access. If confirmed malicious, this activity could allow an attacker to escalate privileges or move laterally within the network by exploiting exposed credentials.
 data_source:
     - Powershell Script Block Logging 4104
-description: The following analytic detects the execution of the Get-GPPPassword PowerShell cmdlet, which is used to search for unsecured credentials in Group Policy Preferences (GPP). This detection leverages PowerShell Script Block Logging to identify specific script block text associated with this cmdlet. Monitoring this activity is crucial as it can indicate an attempt to retrieve and decrypt stored credentials from SYSVOL, potentially leading to unauthorized access. If confirmed malicious, this activity could allow an attacker to escalate privileges or move laterally within the network by exploiting exposed credentials.
 search: |-
     `powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
       | fillnull
@@ -38,30 +39,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Commandlets leveraged to discover GPP credentials were executed on $dest$
-    risk_objects:
+finding:
+    title: Commandlets leveraged to discover GPP credentials were executed on $dest$
+    entity:
+        field: user_id
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user_id
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Active Directory Privilege Escalation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1552.006
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Commandlets leveraged to discover GPP credentials were executed on $dest$
+analytic_story:
+    - Active Directory Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1552.006
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

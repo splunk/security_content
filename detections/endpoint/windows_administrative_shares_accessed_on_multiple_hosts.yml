@@ -1,14 +1,15 @@
 name: Windows Administrative Shares Accessed On Multiple Hosts
 id: d92f2d95-05fb-48a7-910f-4d3d61ab8655
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-03-23'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
-type: TTP
 status: production
+type: TTP
+description: The following analytic detects a source computer accessing Windows administrative shares (C$, Admin$, IPC$) on 30 or more remote endpoints within a 5-minute window. It leverages Event IDs 5140 and 5145 from file share events. This behavior is significant as it may indicate an adversary enumerating network shares to locate sensitive files, a common tactic used by threat actors. If confirmed malicious, this activity could lead to unauthorized access to critical data, lateral movement, and potential compromise of multiple systems within the network.
 data_source:
     - Windows Event Log Security 5140
     - Windows Event Log Security 5145
-description: The following analytic detects a source computer accessing Windows administrative shares (C$, Admin$, IPC$) on 30 or more remote endpoints within a 5-minute window. It leverages Event IDs 5140 and 5145 from file share events. This behavior is significant as it may indicate an adversary enumerating network shares to locate sensitive files, a common tactic used by threat actors. If confirmed malicious, this activity could lead to unauthorized access to critical data, lateral movement, and potential compromise of multiple systems within the network.
 search: '`wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$" OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$") | bucket span=5m _time | stats dc(Computer) AS unique_targets values(Computer) as host_targets values(ShareName) as shares values(dest) as dest by _time, IpAddress, SubjectUserName, EventCode | where unique_targets > 30 | `windows_administrative_shares_accessed_on_multiple_hosts_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting file share events. The Advanced Security Audit policy setting `Audit Detailed File Share` or `Audit File Share` within `Object Access` need to be enabled.
 known_false_positives: An single endpoint accessing windows administrative shares across a large number of endpoints is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, administration systems and missconfigured systems.
@@ -27,30 +28,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host_targets$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $IpAddress$ accessed the IPC share on more than 30 endpoints in a timespan of 5 minutes.
-    risk_objects:
-        - field: host_targets
-          type: system
-          score: 50
-    threat_objects:
-        - field: IpAddress
-          type: ip_address
-tags:
-    analytic_story:
-        - Active Directory Privilege Escalation
-        - Active Directory Lateral Movement
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1135
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: $IpAddress$ accessed the IPC share on more than 30 endpoints in a timespan of 5 minutes.
+    entity:
+        field: host_targets
+        type: system
+        score: 50
+threat_objects:
+    - field: IpAddress
+      type: ip_address
+analytic_story:
+    - Active Directory Privilege Escalation
+    - Active Directory Lateral Movement
+asset_type: Endpoint
+mitre_attack_id:
+    - T1135
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/ipc_share_accessed/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

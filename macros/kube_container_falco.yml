@@ -1,3 +1,8 @@
-definition: sourcetype="kube:container:falco"
-description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes audit data. Replace the macro definition with configurations for your Splunk Environment.
 name: kube_container_falco
+id: 730ea8ce-0fc0-44d1-9340-31d450ad18d3
+version: 1
+creation_date: '2023-12-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes audit data. Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="kube:container:falco"

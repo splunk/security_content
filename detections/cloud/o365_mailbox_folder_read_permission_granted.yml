@@ -1,13 +1,14 @@
 name: O365 Mailbox Folder Read Permission Granted
 id: cd15c0a8-470e-4b12-9517-046e4927db30
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies instances where read permissions are granted to mailbox folders within an Office 365 environment. It detects this activity by monitoring the `o365_management_activity` data source for the `Set-MailboxFolderPermission` and `Add-MailboxFolderPermission` operations. This behavior is significant as it may indicate unauthorized access or changes to mailbox folder permissions, potentially exposing sensitive email content. If confirmed malicious, an attacker could gain unauthorized access to read email communications, leading to data breaches or information leakage.
 data_source:
     - O365 ModifyFolderPermissions
-type: TTP
-status: production
-description: The following analytic identifies instances where read permissions are granted to mailbox folders within an Office 365 environment. It detects this activity by monitoring the `o365_management_activity` data source for the `Set-MailboxFolderPermission` and `Add-MailboxFolderPermission` operations. This behavior is significant as it may indicate unauthorized access or changes to mailbox folder permissions, potentially exposing sensitive email content. If confirmed malicious, an attacker could gain unauthorized access to read email communications, leading to data breaches or information leakage.
 search: |-
     `o365_management_activity`
     Workload=Exchange
@@ -37,27 +38,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A folder was granted read permission by $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Collection Techniques
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1098.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: audit
+finding:
+    title: A folder was granted read permission by $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Office 365 Collection Techniques
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1098.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: audit
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_mailbox_folder_read_granted/o365_mailbox_folder_read_granted.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

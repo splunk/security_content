@@ -1,19 +1,19 @@
 name: Splunk Stream TCP
 id: 4b1233d1-f80a-4da1-ab27-a5b10ea8a4ce
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs TCP traffic captured by Splunk Stream, including details about source
-  and destination IPs, ports, connection states, and packet-level metadata.
+description: Logs TCP traffic captured by Splunk Stream, including details about source and destination IPs, ports, connection states, and packet-level metadata.
 mitre_components:
-- Network Traffic Content
-- Network Traffic Flow
-- Network Connection Creation
-- Response Metadata
-- Application Log Content
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Network Connection Creation
+    - Response Metadata
+    - Application Log Content
 source: stream:tcp
 sourcetype: stream:tcp
 supported_TA:
-- name: Splunk Add-on for Stream Wire Data
-  url: https://splunkbase.splunk.com/app/5234
-  version: 8.1.6
+    - name: Splunk Add-on for Stream Wire Data
+      url: https://splunkbase.splunk.com/app/5234
+      version: 8.1.6

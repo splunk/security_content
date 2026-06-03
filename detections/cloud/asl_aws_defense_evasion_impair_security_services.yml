@@ -1,7 +1,8 @@
 name: ASL AWS Defense Evasion Impair Security Services
 id: 5029b681-0462-47b7-82e7-f7e3d37f5a2d
-version: 10
-date: '2026-05-04'
+version: 11
+creation_date: '2022-07-26'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Bhavin Patel, Gowthamaraj Rajendran, Splunk
 status: production
 type: Hunting
@@ -25,20 +26,21 @@ references:
     - https://docs.aws.amazon.com/cli/latest/reference/guardduty/index.html
     - https://docs.aws.amazon.com/cli/latest/reference/waf/index.html
     - https://www.elastic.co/guide/en/security/current/prebuilt-rules.html
-tags:
-    analytic_story:
-        - AWS Defense Evasion
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1685.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+analytic_story:
+    - AWS Defense Evasion
+asset_type: AWS Account
+mitre_attack_id:
+    - T1685.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/aws_delete_security_services/asl_ocsf_cloudtrail.json
           sourcetype: aws:asl
           source: aws_asl
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Sysmon EventID 26
 id: 77f946e0-4afb-4789-8d9e-c29c1658f501
-version: 2
-date: '2025-07-10'
+version: 3
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Sysmon EventID 26
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
@@ -9,27 +10,27 @@ sourcetype: XmlWinEventLog
 separator: EventID
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
-- name: Splunk Add-on for Sysmon
-  url: https://splunkbase.splunk.com/app/5709
-  version: 5.0.0
+    - name: Splunk Add-on for Sysmon
+      url: https://splunkbase.splunk.com/app/5709
+      version: 5.0.0
 fields:
-- _time
+    - _time
 output_fields:
-- action
-- dest
-- dvc
-- file_path
-- file_hash
-- file_name
-- file_modify_time
-- process_exec
-- process_guid
-- process_id
-- process_name
-- process_path
-- signature
-- signature_id
-- user
-- user_id
-- vendor_product
+    - action
+    - dest
+    - dvc
+    - file_path
+    - file_hash
+    - file_name
+    - file_modify_time
+    - process_exec
+    - process_guid
+    - process_id
+    - process_name
+    - process_path
+    - signature
+    - signature_id
+    - user
+    - user_id
+    - vendor_product
 example_log: ''

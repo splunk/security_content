@@ -1,7 +1,8 @@
 name: Email files written outside of the Outlook directory
 id: 8d52cf03-ba25-4101-aa78-07994aed4f74
-version: 11
-date: '2026-03-10'
+version: 12
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -28,21 +29,20 @@ search: |-
 how_to_implement: To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or by other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
 known_false_positives: Administrators and users sometimes prefer backing up their email data by moving the email files into a different folder. These attempts will be detected by the search.
 references: []
-rba:
-    message: Email files written outside of Outlook's Directory on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Collection and Staging
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1114.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Email files written outside of Outlook's Directory on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Collection and Staging
+asset_type: Endpoint
+mitre_attack_id:
+    - T1114.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint

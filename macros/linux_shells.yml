@@ -1,4 +1,8 @@
-definition: (Processes.process_name IN ("sh", "ksh", "zsh", "bash", "dash", "rbash", "fish", "csh", "tcsh", "ion", "eshell"))
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: linux_shells
+id: 7c9a4499-6bee-488a-8dcb-75138c77054e
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: (Processes.process_name IN ("sh", "ksh", "zsh", "bash", "dash", "rbash", "fish", "csh", "tcsh", "ion", "eshell"))

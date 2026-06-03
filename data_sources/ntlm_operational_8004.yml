@@ -1,104 +1,99 @@
 name: NTLM Operational 8004
 id: fd08cb77-c26e-464c-a43e-2867e232127e
-version: 1
-date: '2025-02-21'
+version: 2
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for NTLM Operational 8004
 source: XmlWinEventLog:Microsoft-Windows-NTLM/Operational
 sourcetype: XmlWinEventLog:Microsoft-Windows-NTLM/Operational
 separator: EventCode
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 10.0.1
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 10.0.1
 fields:
-- CategoryString
-- Channel
-- Computer
-- DomainName
-- EventCode
-- EventData_Xml
-- EventID
-- EventRecordID
-- Guid
-- Image_File_Name
-- Keywords
-- Level
-- Name
-- Opcode
-- ProcessID
-- RecordNumber
-- RenderingInfo_Xml
-- SChannelName
-- SChannelType
-- SourceName
-- SubStatus
-- SystemTime
-- System_Props_Xml
-- Task
-- TaskCategory
-- ThreadID
-- UserID
-- UserName
-- Version
-- WorkstationName
-- action
-- category
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dvc
-- dvc_nt_host
-- event_id
-- eventtype
-- host
-- id
-- index
-- linecount
-- name
-- parent_process
-- process_name
-- punct
-- result
-- service
-- service_id
-- service_name
-- severity
-- severity_id
-- signature
-- signature_id
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- subject
-- tag
-- tag::action
-- tag::eventtype
-- timeendpos
-- timestartpos
-- user_group_id
-- user_id
-- vendor_product
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _subsecond
-- _time
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Netlogon' Guid='{E5BA83F6-07D0-46B1-8BC7-7E669A1D31DC}'/><EventID>8004</EventID><Version>0</Version><Level>4</Level><Task>2</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated
-  SystemTime='2024-01-18T05:04:59.727635000Z'/><EventRecordID>2728229667</EventRecordID><Correlation/><Execution
-  ProcessID='812' ThreadID='3684'/><Channel>Microsoft-Windows-NTLM/Operational</Channel><Computer>attack_dc.attack_range.lan</Computer><Security
-  UserID='S-1-5-18'/></System><EventData><Data Name='SChannelName'>VICTIM_PC</Data><Data
-  Name='UserName'>backup</Data><Data Name='DomainName'>NULL</Data><Data Name='WorkstationName'>WIN-SHKRDLDI338</Data><Data
-  Name='SChannelType'>2</Data></EventData></Event>
+    - CategoryString
+    - Channel
+    - Computer
+    - DomainName
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - Guid
+    - Image_File_Name
+    - Keywords
+    - Level
+    - Name
+    - Opcode
+    - ProcessID
+    - RecordNumber
+    - RenderingInfo_Xml
+    - SChannelName
+    - SChannelType
+    - SourceName
+    - SubStatus
+    - SystemTime
+    - System_Props_Xml
+    - Task
+    - TaskCategory
+    - ThreadID
+    - UserID
+    - UserName
+    - Version
+    - WorkstationName
+    - action
+    - category
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - eventtype
+    - host
+    - id
+    - index
+    - linecount
+    - name
+    - parent_process
+    - process_name
+    - punct
+    - result
+    - service
+    - service_id
+    - service_name
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - subject
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - user_group_id
+    - user_id
+    - vendor_product
+    - _bkt
+    - _cd
+    - _eventtype_color
+    - _indextime
+    - _raw
+    - _serial
+    - _si
+    - _sourcetype
+    - _subsecond
+    - _time
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Netlogon' Guid='{E5BA83F6-07D0-46B1-8BC7-7E669A1D31DC}'/><EventID>8004</EventID><Version>0</Version><Level>4</Level><Task>2</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2024-01-18T05:04:59.727635000Z'/><EventRecordID>2728229667</EventRecordID><Correlation/><Execution ProcessID='812' ThreadID='3684'/><Channel>Microsoft-Windows-NTLM/Operational</Channel><Computer>attack_dc.attack_range.lan</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='SChannelName'>VICTIM_PC</Data><Data Name='UserName'>backup</Data><Data Name='DomainName'>NULL</Data><Data Name='WorkstationName'>WIN-SHKRDLDI338</Data><Data Name='SChannelType'>2</Data></EventData></Event>

@@ -1,3 +1,8 @@
+name: previously_seen_cloud_compute_creations_by_user_search_window_begin_offset
+id: 1c4c0c4b-6dbf-46be-980d-751923cba558
+version: 1
+creation_date: '2019-10-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
 description: Use this macro to determine how far into the past the window should be to determine if the user is new or not
 definition: '"-70m@m"'
-name: previously_seen_cloud_compute_creations_by_user_search_window_begin_offset

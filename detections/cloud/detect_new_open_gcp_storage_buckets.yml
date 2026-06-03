@@ -1,7 +1,8 @@
 name: Detect New Open GCP Storage Buckets
 id: f6ea3466-d6bb-11ea-87d0-0242ac130003
-version: 7
-date: '2026-03-12'
+version: 8
+creation_date: '2020-08-19'
+modification_date: '2026-05-13'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -22,22 +23,21 @@ search: |-
 how_to_implement: This search relies on the Splunk Add-on for Google Cloud Platform, setting up a Cloud Pub/Sub input, along with the relevant GCP PubSub topics and logging sink to capture GCP Storage Bucket events (https://cloud.google.com/logging/docs/routing/overview).
 known_false_positives: While this search has no known false positives, it is possible that a GCP admin has legitimately created a public bucket for a specific purpose. That said, GCP strongly advises against granting full control to the "allUsers" group.
 references: []
-rba:
-    message: |
+finding:
+    title: |
         "allUser" member added to $bucketName$ by $user$ making the bucket available to the public
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious GCP Storage Activities
-    asset_type: GCP Storage Bucket
-    mitre_attack_id:
-        - T1530
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Suspicious GCP Storage Activities
+asset_type: GCP Storage Bucket
+mitre_attack_id:
+    - T1530
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: network

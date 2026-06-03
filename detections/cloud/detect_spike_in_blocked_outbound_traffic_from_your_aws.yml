@@ -1,7 +1,8 @@
 name: Detect Spike in blocked Outbound Traffic from your AWS
 id: d3fffa37-492f-487b-a35d-c60fcb2acf01
-version: 7
-date: '2026-03-12'
+version: 8
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -31,21 +32,23 @@ search: |-
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your VPC Flow logs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the number of data points required to meet the definition of "spike." The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the "Baseline of Blocked Outbound Connection" support search once to create a history of previously seen blocked outbound connections.
 known_false_positives: The false-positive rate may vary based on the values of`dataPointThreshold` and `deviationThreshold`. Additionally, false positives may result when AWS administrators roll out policies enforcing network blocks, causing sudden increases in the number of blocked outbound connections.
 references: []
-rba:
-    message: Blocked $numberOfBlockedConnections$ outbound connections from your AWS VPC $src_ip$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src_ip
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - AWS Network ACL Activity
-        - Suspicious AWS Traffic
-        - Command And Control
-    asset_type: AWS Instance
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Blocked $numberOfBlockedConnections$ outbound connections from your AWS VPC $src_ip$
+analytic_story:
+    - AWS Network ACL Activity
+    - Suspicious AWS Traffic
+    - Command And Control
+asset_type: AWS Instance
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: network
+baselines:
+    - Baseline of blocked outbound traffic from AWS

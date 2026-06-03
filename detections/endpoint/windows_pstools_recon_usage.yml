@@ -1,7 +1,8 @@
 name: Windows PsTools Recon Usage
 id: 9a5f4b3e-1d2b-4c6f-9a8e-3b7d2f5c1a6e
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-10-24'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali
 status: production
 type: Anomaly
@@ -90,34 +91,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: PsTools binary $process_name$ was executed on host $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: PsTools binary $process_name$ was executed on host $dest$.
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Compromised Windows Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1082
-        - T1046
-        - T1018
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: PsTools binary $process_name$ was executed on host $dest$.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Compromised Windows Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1082
+    - T1046
+    - T1018
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/sysinternals_pstools/sysinternals_pstools.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

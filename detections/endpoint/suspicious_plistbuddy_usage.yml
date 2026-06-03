@@ -1,7 +1,8 @@
 name: Suspicious PlistBuddy Usage
 id: c3194009-e0eb-4f84-87a9-4070f8688f00
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2021-02-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -28,24 +29,26 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.
 references:
     - https://www.marcosantadev.com/manage-plist-files-plistbuddy/
-rba:
-    message: Suspicious usage of plistbuddy on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Suspicious usage of plistbuddy on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Silver Sparrow
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious usage of plistbuddy on $dest$
+analytic_story:
+    - Silver Sparrow
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

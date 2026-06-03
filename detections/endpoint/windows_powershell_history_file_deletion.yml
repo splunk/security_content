@@ -1,7 +1,8 @@
 name: Windows Powershell History File Deletion
 id: f1369394-48e1-4327-bf6d-14377f4b8687
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2024-01-10'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -32,28 +33,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A PowerShell related to deleting commandline history file deletion was executed on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Medusa Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.003
-        - T1070.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A PowerShell related to deleting commandline history file deletion was executed on $dest$.
+analytic_story:
+    - Medusa Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.003
+    - T1070.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.003/ConsoleHost_History_deletion/HistorySavePath_powershell.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

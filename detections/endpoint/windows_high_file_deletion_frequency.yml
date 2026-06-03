@@ -1,7 +1,8 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
-version: 14
-date: '2026-04-15'
+version: 15
+creation_date: '2021-03-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -25,46 +26,48 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Elevated file deletion rate observed from process [$process_name$] on machine $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: Elevated file deletion rate observed from process [$process_name$] on machine $dest$
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Sandworm Tools
-        - Handala Wiper
-        - Data Destruction
-        - WhisperGate
-        - Swift Slicer
-        - Medusa Ransomware
-        - DarkCrystal RAT
-        - Black Basta Ransomware
-        - Clop Ransomware
-        - Interlock Ransomware
-        - NailaoLocker Ransomware
-        - APT37 Rustonotto and FadeStealer
-        - DynoWiper
-        - ZOVWiper
-        - Void Manticore
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1485
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Elevated file deletion rate observed from process [$process_name$] on machine $dest$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Sandworm Tools
+    - Handala Wiper
+    - Data Destruction
+    - WhisperGate
+    - Swift Slicer
+    - Medusa Ransomware
+    - DarkCrystal RAT
+    - Black Basta Ransomware
+    - Clop Ransomware
+    - Interlock Ransomware
+    - NailaoLocker Ransomware
+    - APT37 Rustonotto and FadeStealer
+    - DynoWiper
+    - ZOVWiper
+    - Void Manticore
+asset_type: Endpoint
+mitre_attack_id:
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

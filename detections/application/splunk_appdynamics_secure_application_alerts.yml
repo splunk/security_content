@@ -1,7 +1,8 @@
 name: Splunk AppDynamics Secure Application Alerts
 id: d1a45d84-8dd1-4b31-8854-62b0b1d5da0b
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-02-04'
+modification_date: '2026-05-13'
 author: Ryan Long, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -56,29 +57,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$app_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $risk_message$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: app_name
           type: other
           score: 20
-    threat_objects:
-        - field: src_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Critical Alerts
-    asset_type: Web Application
-    mitre_attack_id: []
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
-    manual_test: We are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection. Setting these to manual test since otherwise we fail integration testing. The detection is also failing on unit-testing as some of the fields set in the observables are empty.
+          message: $risk_message$
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - Critical Alerts
+asset_type: Web Application
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/cisco_secure_app_alerts.log
           sourcetype: appdynamics_security
           source: AppDynamics Security
+      description: PORTED MANUAL TEST - We are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection. Setting these to manual test since otherwise we fail integration testing. The detection is also failing on unit-testing as some of the fields set in the observables are empty.
+      test_type: experimental

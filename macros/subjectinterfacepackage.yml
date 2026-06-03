@@ -1,4 +1,8 @@
-definition: sourcetype="PwSh:SubjectInterfacePackage"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: subjectinterfacepackage
+id: 1de9f9d4-e367-4b2c-9784-5dc521055cec
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="PwSh:SubjectInterfacePackage"

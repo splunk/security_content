@@ -1,18 +1,18 @@
 name: Bro loaded_scripts
 id: 81e08a21-a735-42b1-a08a-21a73582b1bf
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2025-01-21'
+modification_date: '2026-05-13'
 author: Jacob Delgado, SnapAttack
-description: Logs details about the scripts loaded by Zeek (formerly Bro) during initialization,
-  including script names and paths.
+description: Logs details about the scripts loaded by Zeek (formerly Bro) during initialization, including script names and paths.
 mitre_components:
-- Application Log Content
-- Configuration Modification
-- Script Execution
-- OS API Execution
+    - Application Log Content
+    - Configuration Modification
+    - Script Execution
+    - OS API Execution
 source: bro:loaded_scripts:json
 sourcetype: bro:loaded_scripts:json
 supported_TA:
-- name: TA for Zeek
-  url: https://splunkbase.splunk.com/app/5466
-  version: 1.0.11
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11

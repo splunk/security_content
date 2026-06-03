@@ -1,4 +1,8 @@
-definition:  sourcetype=ms365:defender:incident:alerts
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: ms365_defender_incident_alerts
+id: 649bfacb-81d2-4af3-86d0-d86622dd2f3e
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=ms365:defender:incident:alerts

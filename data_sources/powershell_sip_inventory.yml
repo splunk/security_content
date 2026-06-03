@@ -1,15 +1,15 @@
 name: Powershell SIP Inventory
 id: 5ef5cb5d-1fa8-4567-b48f-27317662cd73
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs the inventory of System Integrity Policies (SIP) on a system retrieved
-  via PowerShell, including details about policy configurations and statuses.
+description: Logs the inventory of System Integrity Policies (SIP) on a system retrieved via PowerShell, including details about policy configurations and statuses.
 mitre_components:
-- Configuration Modification
-- Host Status
-- Application Log Content
-- OS API Execution
+    - Configuration Modification
+    - Host Status
+    - Application Log Content
+    - OS API Execution
 source: powershell://SubjectInterfacePackage
 sourcetype: PwSh:SubjectInterfacePackage
 supported_TA: []

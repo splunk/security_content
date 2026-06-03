@@ -1,13 +1,14 @@
 name: O365 Advanced Audit Disabled
 id: 49862dd4-9cb2-4c48-a542-8c8a588d9361
-version: 10
-date: '2026-05-04'
+version: 11
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
+description: The following analytic detects instances where the O365 advanced audit is disabled for a specific user within the Office 365 tenant. It uses O365 audit logs, focusing on events related to audit license changes in AzureActiveDirectory workloads. This activity is significant because the O365 advanced audit provides critical logging and insights into user and administrator activities. Disabling it can blind security teams to potential malicious actions. If confirmed malicious, attackers could operate within the user's mailbox or account with reduced risk of detection, leading to unauthorized data access, data exfiltration, or account compromise.
 data_source:
     - O365 Change user license.
-description: The following analytic detects instances where the O365 advanced audit is disabled for a specific user within the Office 365 tenant. It uses O365 audit logs, focusing on events related to audit license changes in AzureActiveDirectory workloads. This activity is significant because the O365 advanced audit provides critical logging and insights into user and administrator activities. Disabling it can blind security teams to potential malicious actions. If confirmed malicious, attackers could operate within the user's mailbox or account with reduced risk of detection, leading to unauthorized data access, data exfiltration, or account compromise.
 search: "`o365_management_activity` Operation=\"Change user license.\" | eval property_name = mvindex ('ExtendedProperties{}.Name', 1) | search property_name = \"extendedAuditEventCategory\" | eval additionalDetails = mvindex('ExtendedProperties{}.Value',0) | eval split_value=split(additionalDetails,\"NewValue\") | eval possible_plan=mvindex(split_value, 1) | rex field=\"possible_plan\" \"DisabledPlans=\\[(?P<DisabledPlans>[^\\]]+)\\]\" | search DisabledPlans IN (\"*M365_ADVANCED_AUDITING*\") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product DisabledPlans object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_advanced_audit_disabled_filter`"
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Administrators might temporarily disable the advanced audit for troubleshooting, performance reasons, or other administrative tasks. Filter as needed.
@@ -24,27 +25,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Advanced auditing for user $object$ was disabled by $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Persistence Mechanisms
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1685.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: Advanced auditing for user $object$ was disabled by $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Office 365 Persistence Mechanisms
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1685.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/o365_advanced_audit_disabled/o365_advanced_audit_disabled.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

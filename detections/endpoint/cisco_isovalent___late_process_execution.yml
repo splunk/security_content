@@ -1,17 +1,18 @@
 name: Cisco Isovalent - Late Process Execution
 id: 7f4b9b8e-5d6a-4a21-9e3f-0f1e8f2d1c3a
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
-type: Anomaly
-data_source:
-    - Cisco Isovalent Process Exec
 status: production
+type: Anomaly
 description: |
     Detects process executions that occur well after a container has initialized, which can indicate
     suspicious activity (e.g., interactive shells, injected binaries, or post-compromise tooling).
     The analytic compares the process start time to the container start time and flags processes
     launched more than 5 minutes (300 seconds) after initialization.
+data_source:
+    - Cisco Isovalent Process Exec
 search: |
     `cisco_isovalent_process_exec` process_name="sh"
     | rename process_exec.process.start_time as ProcessStartTime
@@ -36,29 +37,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Late process execution [$process_name$] detected in pod [$pod_name$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: pod_name
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Cisco Isovalent Suspicious Activity
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Late process execution [$process_name$] detected in pod [$pod_name$]
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent_process_exec_delayed_shell.log
           source: not_applicable
           sourcetype: cisco:isovalent:processExec
+      test_type: unit

@@ -1,5 +1,8 @@
-definition: sourcetype="gws:reports:drive"
-description:
-  customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: gsuite_drive
+id: adc69cc0-5c3c-43b9-9d00-ff3d823210d5
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="gws:reports:drive"

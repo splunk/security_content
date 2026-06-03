@@ -1,7 +1,8 @@
 name: ASL AWS Defense Evasion Stop Logging Cloudtrail
 id: 0b78a8f9-1d31-4d23-85c8-56ad13d5b4c1
-version: 11
-date: '2026-05-04'
+version: 12
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -32,29 +33,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ has stopped Cloudtrail logging for account id $vendor_account$ from IP $src$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - AWS Defense Evasion
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1685.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: User $user$ has stopped Cloudtrail logging for account id $vendor_account$ from IP $src$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - AWS Defense Evasion
+asset_type: AWS Account
+mitre_attack_id:
+    - T1685.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/asl_ocsf_cloudtrail_2.json
           sourcetype: aws:asl
           source: aws_asl
+      test_type: unit

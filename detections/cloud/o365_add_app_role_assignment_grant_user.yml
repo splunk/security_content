@@ -1,7 +1,8 @@
 name: O365 Add App Role Assignment Grant User
 id: b2c81cc6-6040-11eb-ae93-0242ac130002
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-01-26'
+modification_date: '2026-05-13'
 author: Rod Soto, Splunk
 status: production
 type: TTP
@@ -31,31 +32,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ added a new app role assignment
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: User $user$ added a new app role assignment
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Persistence Mechanisms
-        - Cloud Federated Credential Abuse
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1136.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: User $user$ added a new app role assignment
+analytic_story:
+    - Office 365 Persistence Mechanisms
+    - Cloud Federated Credential Abuse
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1136.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json
           sourcetype: o365:management:activity
           source: o365
+      test_type: unit

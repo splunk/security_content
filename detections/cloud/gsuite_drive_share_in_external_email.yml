@@ -1,7 +1,8 @@
 name: Gsuite Drive Share In External Email
 id: f6ee02d6-fea0-11eb-b2c2-acde48001122
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-08-16'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: experimental
 type: Anomaly
@@ -40,32 +41,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious share gdrive from $user$ to $dst_email_list$ namely as $doc_title$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dst_email_list
           type: user
           score: 20
+          message: Suspicious share gdrive from $user$ to $dst_email_list$ namely as $doc_title$
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Scattered Lapsus$ Hunters
-        - Dev Sec Ops
-        - Insider Threat
-    asset_type: GSuite
-    mitre_attack_id:
-        - T1567.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious share gdrive from $user$ to $dst_email_list$ namely as $doc_title$
+analytic_story:
+    - Scattered Lapsus$ Hunters
+    - Dev Sec Ops
+    - Insider Threat
+asset_type: GSuite
+mitre_attack_id:
+    - T1567.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
           source: http:gsuite
           sourcetype: gws:reports:drive
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

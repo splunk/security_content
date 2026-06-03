@@ -1,13 +1,14 @@
 name: Windows AD Suspicious Attribute Modification
 id: 5682052e-ce55-4f9f-8d28-59191420b7e0
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2024-07-01'
+modification_date: '2026-05-13'
 author: Dean Luxton
 status: production
 type: TTP
+description: 'This detection monitors changes to the following Active Directory attributes: "msDS-AllowedToDelegateTo", "msDS-AllowedToActOnBehalfOfOtherIdentity", "msDS-KeyCredentialLink", "scriptPath", and "msTSInitialProgram".  Modifications to these attributes can indicate potential malicious activity or privilege escalation attempts. Immediate investigation is recommended upon alert.'
 data_source:
     - Windows Event Log Security 5136
-description: 'This detection monitors changes to the following Active Directory attributes: "msDS-AllowedToDelegateTo", "msDS-AllowedToActOnBehalfOfOtherIdentity", "msDS-KeyCredentialLink", "scriptPath", and "msTSInitialProgram".  Modifications to these attributes can indicate potential malicious activity or privilege escalation attempts. Immediate investigation is recommended upon alert.'
 search: |-
     `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","scriptPath","msTSInitialProgram") OperationType=%%14674  ```Changes to the attribute "msDS-KeyCredentialLink" are also worth moniroting, however tuning will need to be applied```
       | table _time ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId DSName AttributeValue AttributeLDAPDisplayName
@@ -34,31 +35,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $src_user$ has added $AttributeLDAPDisplayName$ ACL rights to $ObjectClass$ $ObjectDN$
-    risk_objects:
-        - field: src_user
-          type: user
-          score: 50
+finding:
+    title: $src_user$ has added $AttributeLDAPDisplayName$ ACL rights to $ObjectClass$ $ObjectDN$
+    entity:
+        field: src_user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1222.001
-        - T1550
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: $src_user$ has added $AttributeLDAPDisplayName$ ACL rights to $ObjectClass$ $ObjectDN$
+analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1222.001
+    - T1550
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/dacl_abuse/suspicious_acl_modification-windows-security-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit
