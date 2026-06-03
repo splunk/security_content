@@ -50,7 +50,7 @@ how_to_implement: |
 known_false_positives: |
     No known false positives for this detection. If alerts are noisy, tune this detection with the `_filter` macro or configure the originating tool.
 references:
-    - https://lantern.splunk.com/Observability_Use_Cases/Detect_Vulnerabilities/Integrating_Secure_Application_and_Enterprise_Security%2C_for_hybrid_applications_security
+    - https://lantern.splunk.com/@go/page/10379
     - https://help.splunk.com/en/splunk-observability-cloud/monitor-application-security/set-up-secure-application/step-1-set-up-notifications-for-vulnerabilities
 drilldown_searches:
     - name: View the detection results for - "$app$"
