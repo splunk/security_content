@@ -1,7 +1,8 @@
 name: Linux Adding Crontab Using List Parameter
 id: 52f6d751-1fd4-4c74-a4c9-777ecfeb5c58
-version: 10
-date: '2026-02-25'
+version: 11
+creation_date: '2021-12-21'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
@@ -27,33 +28,35 @@ known_false_positives: Administrator or network operator can use this applicatio
 references:
     - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
     - https://cert.gov.ua/article/39518
-tags:
-    analytic_story:
-        - Cisco Isovalent Suspicious Activity
-        - Industroyer2
-        - Linux Privilege Escalation
-        - Linux Living Off The Land
-        - Data Destruction
-        - Linux Persistence Techniques
-        - Scheduled Tasks
-        - Gomir
-        - VoidLink Cloud-Native Linux Malware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+    - Industroyer2
+    - Linux Privilege Escalation
+    - Linux Living Off The Land
+    - Data Destruction
+    - Linux Persistence Techniques
+    - Scheduled Tasks
+    - Gomir
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_list_parameter/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit
     - name: True Positive Test - Cisco Isovalent
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
           source: not_applicable
           sourcetype: cisco:isovalent:processExec
+      test_type: unit

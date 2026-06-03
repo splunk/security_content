@@ -1,4 +1,8 @@
-definition: sourcetype=vmw-syslog OR sourcetype=vmware:esxlog*
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: esxi_syslog
+id: a6fc907f-9f05-493c-83fb-d6e0f8a8eadf
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=vmw-syslog OR sourcetype=vmware:esxlog*

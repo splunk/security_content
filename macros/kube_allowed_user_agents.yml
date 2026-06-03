@@ -1,3 +1,8 @@
-definition: userAgent=Helm/3.13.2
-description: Define your user agents which are allowed to connect to your kubernetes cluster.
 name: kube_allowed_user_agents
+id: d58071e8-115a-465e-be2c-7e2526b36aaf
+version: 1
+creation_date: '2023-12-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Define your user agents which are allowed to connect to your kubernetes cluster.
+definition: userAgent=Helm/3.13.2

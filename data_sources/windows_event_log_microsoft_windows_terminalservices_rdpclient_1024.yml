@@ -1,55 +1,50 @@
 name: Windows Event Log Microsoft Windows TerminalServices RDPClient 1024
 id: 2490537e-5e0c-46f7-9209-f56f852aa217
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-11-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
-description: Logs an event when a Remote Desktop Protocol (RDP) client successfully
-  connects to a remote host.
+description: Logs an event when a Remote Desktop Protocol (RDP) client successfully connects to a remote host.
 mitre_components:
-- Network Connection Creation
-- Logon Session Creation
+    - Network Connection Creation
+    - Logon Session Creation
 source: WinEventLog:Microsoft-Windows-TerminalServices-RDPClient/Operational
 sourcetype: WinEventLog
 separator: EventCode
 supported_TA: []
 fields:
-- _time
-- Channel
-- Computer
-- EventCode
-- EventData
-- EventID
-- EventRecordID
-- EventType
-- Keywords
-- Level
-- Message
-- Opcode
-- ProcessID
-- RecordNumber
-- Security_ID
-- Src
-- Src_Host
-- Src_NT_Domain
-- Src_User
-- System_TimeCreated
-- Task
-- ThreadID
-- Type
-- User
-- UserID
-- Version
-- dest
-- dvc
-- event_id
-- host
-- source
-- sourcetype
-- tag
-- user
-example_log: 11/21/2024 06:09:16 PM LogName=Microsoft-Windows-TerminalServices-RDPClient/Operational
-  EventCode=1024 EventType=4 ComputerName=ar-win-5.attackrange.local User=NOT_TRANSLATED
-  Sid=S-1-5-21-1731938146-2314223186-1848411941-500 SidType=0 SourceName=Microsoft-Windows-TerminalServices-ClientActiveXCore
-  Type=Information RecordNumber=95 Keywords=None TaskCategory=Connection Sequence
-  OpCode=This event is raised during the connection process Message=RDP ClientActiveX
-  is trying to connect to the server (34.221.50.57)
+    - _time
+    - Channel
+    - Computer
+    - EventCode
+    - EventData
+    - EventID
+    - EventRecordID
+    - EventType
+    - Keywords
+    - Level
+    - Message
+    - Opcode
+    - ProcessID
+    - RecordNumber
+    - Security_ID
+    - Src
+    - Src_Host
+    - Src_NT_Domain
+    - Src_User
+    - System_TimeCreated
+    - Task
+    - ThreadID
+    - Type
+    - User
+    - UserID
+    - Version
+    - dest
+    - dvc
+    - event_id
+    - host
+    - source
+    - sourcetype
+    - tag
+    - user
+example_log: 11/21/2024 06:09:16 PM LogName=Microsoft-Windows-TerminalServices-RDPClient/Operational EventCode=1024 EventType=4 ComputerName=ar-win-5.attackrange.local User=NOT_TRANSLATED Sid=S-1-5-21-1731938146-2314223186-1848411941-500 SidType=0 SourceName=Microsoft-Windows-TerminalServices-ClientActiveXCore Type=Information RecordNumber=95 Keywords=None TaskCategory=Connection Sequence OpCode=This event is raised during the connection process Message=RDP ClientActiveX is trying to connect to the server (34.221.50.57)

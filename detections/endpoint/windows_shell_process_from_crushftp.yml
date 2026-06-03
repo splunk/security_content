@@ -1,7 +1,8 @@
 name: Windows Shell Process from CrushFTP
 id: 459628e3-1b00-4e9b-9e5b-7da8961aea35
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-04-14'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -42,32 +43,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Possible CrushFTP exploitation detected on $dest$ related to CVE-2025-31161.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - CrushFTP Vulnerabilities
-    asset_type: Endpoint
-    cve:
-        - CVE-2025-31161
-    mitre_attack_id:
-        - T1059.001
-        - T1059.003
-        - T1190
-        - T1505
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Possible CrushFTP exploitation detected on $dest$ related to CVE-2025-31161.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - CrushFTP Vulnerabilities
+asset_type: Endpoint
+cve:
+    - CVE-2025-31161
+mitre_attack_id:
+    - T1059.001
+    - T1059.003
+    - T1190
+    - T1505
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/crushftp/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

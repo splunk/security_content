@@ -1,0 +1,96 @@
+{
+   "additionalProperties": false,
+   "description": "Represents a Schedule object.\n\nThis is an inline object with additional enrichments for tracking\nas a piece of content in the content repository.",
+   "properties": {
+      "cron_schedule": {
+         "description": "The cron schedule for the schedule.  Validating this with a regex (and JsonSchema) is extremely difficult, so this is intentionally validated with a field_validator function.",
+         "title": "Cron Schedule",
+         "type": "string"
+      },
+      "schedule_window": {
+         "description": "The schedule window to use for the search. It is highly recommended to use 'auto' for this field. Alternatively, an integer may be used according to the following documentation: https://docs.splunk.com/Documentation/Splunk/9.4.2/Admin/Savedsearchesconf",
+         "pattern": "^(auto|\\d+)$",
+         "title": "Schedule Window",
+         "type": "string"
+      },
+      "earliest_time": {
+         "description": "Beginning of the time window to search against. Note that this is artificially constrained from the broader set of time values available here: https://help.splunk.com/en/splunk-cloud-platform/search/spl2-search-manual/dates-and-time/specifying-relative-time. Please contact the contentctl-ng team if additional time formats must be supported.",
+         "pattern": "^[+-]\\d+(s|m|h|d|w|mon|q|y)(@(s|m|h|d|w|mon|q|y))?$",
+         "title": "Earliest Time",
+         "type": "string"
+      },
+      "latest_time": {
+         "description": "End of the time window to search against. Note that this is artificially constrained from the broader set of time values available here: https://help.splunk.com/en/splunk-cloud-platform/search/spl2-search-manual/dates-and-time/specifying-relative-time. Please contact the contentctl-ng team if additional time formats must be supported.",
+         "pattern": "^[+-]\\d+(s|m|h|d|w|mon|q|y)(@(s|m|h|d|w|mon|q|y))?$",
+         "title": "Latest Time",
+         "type": "string"
+      },
+      "name": {
+         "description": "Each Security Content Object must have a unique name. Due to issues with how local/default stanzas are merged in the Splunk products, these names MUST NOT change between subsequent releases of content packs.",
+         "title": "Name",
+         "type": "string"
+      },
+      "id": {
+         "description": "Each Security Content Object must have a unique identifier. This is particularly important when leveraging many of the Content Versioning features built into Enterprise Security 8+. Unique ids may be generated with a python command such as `uuid.uuid4()` or similar.",
+         "format": "uuid",
+         "title": "Id",
+         "type": "string"
+      },
+      "version": {
+         "description": "The version of this object. This number MUST be incremented in the following circumstances:\n1. Any time the object in this file is modified\n2. Any time that the serialization logic for this object changes, changing what is written in its conf file stanza(s)\n3. Any time that an object this object references, for example via enrichment, causes a change in its associated conf file stanzas(s).\nThis final determination is challenging to make manually, so the `contentctl inspect command` will help identify when this a version increment is required.",
+         "exclusiveMinimum": 0,
+         "title": "Version",
+         "type": "integer"
+      },
+      "creation_date": {
+         "description": "The date that this object was created. This should NEVER be updated.",
+         "format": "date",
+         "title": "Creation Date",
+         "type": "string"
+      },
+      "modification_date": {
+         "description": "The date that this object was last modified. This should be updated whenever the object is modified.",
+         "format": "date",
+         "title": "Modification Date",
+         "type": "string"
+      },
+      "author": {
+         "description": "The author of this object. This is a freeform string that can be used to identify the author of the object. It will eventually be replaced by a more detailed Contributors list.",
+         "title": "Author",
+         "type": "string"
+      },
+      "description": {
+         "description": "A description of the Security Content Object. This should be a human-readable description of the object, including its purpose.",
+         "title": "Description",
+         "type": "string"
+      },
+      "references": {
+         "description": "A list of references to external resources that are relevant to this object. This can include links to documentation, blog posts, or other resources that provide additional context or information about the object.",
+         "items": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "type": "string"
+         },
+         "minItems": 0,
+         "title": "References",
+         "type": "array",
+         "uniqueItems": true
+      }
+   },
+   "required": [
+      "cron_schedule",
+      "schedule_window",
+      "earliest_time",
+      "latest_time",
+      "name",
+      "id",
+      "version",
+      "creation_date",
+      "modification_date",
+      "author",
+      "description"
+   ],
+   "title": "FilebackedSchedule",
+   "type": "object"
+}

@@ -1,3 +1,8 @@
-definition: userName IN (user)
-description: specify the user allowed to push Images to AWS ECR.
 name: aws_ecr_users
+id: 5774a0e0-ad59-4df0-89a1-40843ca7ca24
+version: 1
+creation_date: '2021-08-19'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: specify the user allowed to push Images to AWS ECR.
+definition: userName IN (user)

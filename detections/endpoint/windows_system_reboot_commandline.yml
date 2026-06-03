@@ -1,7 +1,8 @@
 name: Windows System Reboot CommandLine
 id: 97fc2b60-c8eb-4711-93f7-d26fade3686f
-version: 12
-date: '2026-03-24'
+version: 13
+creation_date: '2022-07-27'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -34,27 +35,28 @@ known_false_positives: Administrator may execute this commandline to trigger shu
 references:
     - https://attack.mitre.org/techniques/T1529/
     - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
-tags:
-    analytic_story:
-        - XWorm
-        - DarkGate Malware
-        - NjRAT
-        - Quasar RAT
-        - DarkCrystal RAT
-        - MoonPeak
-        - Scattered Lapsus$ Hunters
-        - MuddyWater
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1529
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - XWorm
+    - DarkGate Malware
+    - NjRAT
+    - Quasar RAT
+    - DarkCrystal RAT
+    - MoonPeak
+    - Scattered Lapsus$ Hunters
+    - MuddyWater
+asset_type: Endpoint
+mitre_attack_id:
+    - T1529
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/reboot_logoff_commandline/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

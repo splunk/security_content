@@ -1,7 +1,8 @@
 name: Gsuite Email Suspicious Subject With Attachment
 id: 8ef3971e-00f2-11ec-b54f-acde48001122
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2021-08-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -36,29 +37,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$destination{}.address$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious email from $source.address$ to $destination{}.address$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: destination{}.address
           type: user
           score: 20
-    threat_objects:
-        - field: source.address
-          type: email_address
-tags:
-    analytic_story:
-        - Dev Sec Ops
-    asset_type: GSuite
-    mitre_attack_id:
-        - T1566.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious email from $source.address$ to $destination{}.address$
+threat_objects:
+    - field: source.address
+      type: email_address
+analytic_story:
+    - Dev Sec Ops
+asset_type: GSuite
+mitre_attack_id:
+    - T1566.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log
           source: http:gsuite
           sourcetype: gsuite:gmail:bigquery
+      test_type: unit

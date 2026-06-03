@@ -1,0 +1,11 @@
+name: Default Baseline
+id: d25d113c-0e3d-45a0-9066-6c9b534bc1e3
+version: 1
+creation_date: '2026-05-13'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This configuration file applies to all detections of type Baseline.
+cron_schedule: 10 0 * * *
+earliest_time: -1450m@m
+latest_time: -10m@m
+schedule_window: auto

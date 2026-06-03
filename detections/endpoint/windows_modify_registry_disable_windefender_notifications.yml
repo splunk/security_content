@@ -1,13 +1,14 @@
 name: Windows Modify Registry Disable WinDefender Notifications
 id: 8e207707-ad40-4eb3-b865-3a52aec91f26
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-04-26'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
+description: The following analytic detects a suspicious registry modification aimed at disabling Windows Defender notifications. It leverages data from the Endpoint.Registry data model, specifically looking for changes to the registry path "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\\DisableNotifications" with a value of "0x00000001". This activity is significant as it indicates an attempt to evade detection by disabling security alerts, a technique used by adversaries and malware like RedLine Stealer. If confirmed malicious, this could allow attackers to operate undetected, increasing the risk of further compromise and data exfiltration.
 data_source:
     - Sysmon EventID 13
-description: The following analytic detects a suspicious registry modification aimed at disabling Windows Defender notifications. It leverages data from the Endpoint.Registry data model, specifically looking for changes to the registry path "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\\DisableNotifications" with a value of "0x00000001". This activity is significant as it indicates an attempt to evade detection by disabling security alerts, a technique used by adversaries and malware like RedLine Stealer. If confirmed malicious, this could allow attackers to operate undetected, increasing the risk of further compromise and data exfiltration.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\\DisableNotifications" AND Registry.registry_value_data="0x00000001" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_modify_registry_disable_windefender_notifications_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: administrators may enable or disable this feature that may cause some false positive.
@@ -22,31 +23,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A registry modification to disable Windows Defender notification on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - CISA AA23-347A
-        - RedLine Stealer
-        - SolarWinds WHD RCE Post Exploitation
-    asset_type: Endpoint
-    atomic_guid:
-        - 12e03af7-79f9-4f95-af48-d3f12f28a260
-    mitre_attack_id:
-        - T1112
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A registry modification to disable Windows Defender notification on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - CISA AA23-347A
+    - RedLine Stealer
+    - SolarWinds WHD RCE Post Exploitation
+asset_type: Endpoint
+atomic_guid:
+    - 12e03af7-79f9-4f95-af48-d3f12f28a260
+mitre_attack_id:
+    - T1112
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

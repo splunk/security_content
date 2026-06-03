@@ -1,7 +1,8 @@
 name: Windows WSUS Spawning Shell
 id: 76ea28ac-6f10-43fd-b5fe-340022ad0fd3
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2021-03-04'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -43,35 +44,39 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: WSUS service process wsusservice.exe spawned shell process $process_name$ on $dest$ by $user$, indicating possible CVE-2025-59287 exploitation
-    risk_objects:
+finding:
+    title: WSUS service process wsusservice.exe spawned shell process $process_name$ on $dest$ by $user$, indicating possible CVE-2025-59287 exploitation
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Microsoft WSUS CVE-2025-59287
-    asset_type: Endpoint
-    cve:
-        - CVE-2025-59287
-    mitre_attack_id:
-        - T1190
-        - T1505.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: WSUS service process wsusservice.exe spawned shell process $process_name$ on $dest$ by $user$, indicating possible CVE-2025-59287 exploitation
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Microsoft WSUS CVE-2025-59287
+asset_type: Endpoint
+cve:
+    - CVE-2025-59287
+mitre_attack_id:
+    - T1190
+    - T1505.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/wsus-windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit

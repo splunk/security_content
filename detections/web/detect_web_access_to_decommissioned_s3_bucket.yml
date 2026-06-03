@@ -1,7 +1,8 @@
 name: Detect Web Access to Decommissioned S3 Bucket
 id: 3a1d8f62-5b9c-4e7d-b8f3-9d6a8e2f5e1f
-version: 4
-date: '2026-03-10'
+version: 5
+creation_date: '2025-02-12'
+modification_date: '2026-05-13'
 author: Jose Hernandez, Splunk
 status: experimental
 type: Anomaly
@@ -33,35 +34,41 @@ drilldown_searches:
       search: '| from datamodel:Web | search src="$src$" url_domain="$url_domain$"'
       earliest_offset: -7d@d
       latest_offset: now
-rba:
-    message: A web request to decommissioned S3 bucket domain $url_domain$ was detected from host $src$ by user $user$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: url_domain
-          type: domain
-tags:
-    analytic_story:
-        - AWS S3 Bucket Security Monitoring
-        - Data Destruction
-    asset_type: S3 Bucket
-    mitre_attack_id:
-        - T1485
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: A web request to decommissioned S3 bucket domain $url_domain$ was detected from host $src$ by user $user$
+threat_objects:
+    - field: url_domain
+      type: domain
+analytic_story:
+    - AWS S3 Bucket Security Monitoring
+    - Data Destruction
+asset_type: S3 Bucket
+mitre_attack_id:
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+baselines:
+    - Baseline Of Open S3 Bucket Decommissioning
 tests:
     - name: Baseline Dataset Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/cloudtrail.json
           source: cloudtrail
           sourcetype: aws:cloudtrail
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/web_cloudfront_access.log
           source: aws_cloudfront_accesslogs
           sourcetype: aws:cloudfront:accesslogs
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

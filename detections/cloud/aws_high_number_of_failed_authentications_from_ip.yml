@@ -1,7 +1,8 @@
 name: AWS High Number Of Failed Authentications From Ip
 id: f75b7f1a-b8eb-4975-a214-ff3e0a944757
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-01-30'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -35,29 +36,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: 'Multiple failed console login attempts (Count: $failed_attempts$) against users from IP Address - $src$'
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - AWS Identity and Access Management Account Takeover
-        - Compromised User Account
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1110.003
-        - T1110.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: 'Multiple failed console login attempts (Count: $failed_attempts$) against users from IP Address - $src$'
+analytic_story:
+    - AWS Identity and Access Management Account Takeover
+    - Compromised User Account
+asset_type: AWS Account
+mitre_attack_id:
+    - T1110.003
+    - T1110.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
           source: aws_cloudtrail
           sourcetype: aws:cloudtrail
+      test_type: unit

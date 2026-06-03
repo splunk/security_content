@@ -1,4 +1,8 @@
-definition: (source=XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational OR source=XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-User/Operational)
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: certificateservices_lifecycle
+id: 7295bf5e-ae4b-4fd6-a53d-e25953e09870
+version: 1
+creation_date: '2023-02-03'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: (source=XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational OR source=XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-User/Operational)

@@ -1,0 +1,12 @@
+name: lookup_rare_process_allow_list_default
+id: fc0c452e-47b1-4931-ba41-de5b7c6ed92b
+version: 3
+creation_date: '2021-01-22'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of rare processes that are legitimate that is provided by Splunk
+match_type:
+    - WILDCARD(process)
+min_matches: 1
+case_sensitive_match: false

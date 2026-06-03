@@ -1,7 +1,8 @@
 name: O365 Email Transport Rule Changed
 id: 11ebb7c2-46bd-41c9-81e1-d0b4b34583a2
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-01-15'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -35,33 +36,34 @@ drilldown_searches:
       search: '`o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") AND Operation="*Transport*" UserId=$user$'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The user [$user$] altered the exchange transport rule id [$object_name$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: object_id
-          type: signature
-        - field: object_name
-          type: signature
-tags:
-    analytic_story:
-        - Data Exfiltration
-        - Office 365 Account Takeover
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1114.003
-        - T1564.008
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: The user [$user$] altered the exchange transport rule id [$object_name$]
+threat_objects:
+    - field: object_id
+      type: signature
+    - field: object_name
+      type: signature
+analytic_story:
+    - Data Exfiltration
+    - Office 365 Account Takeover
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1114.003
+    - T1564.008
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/transport_rule_change/transport_rule_change.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

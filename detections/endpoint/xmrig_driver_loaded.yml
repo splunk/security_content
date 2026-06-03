@@ -1,7 +1,8 @@
 name: XMRIG Driver Loaded
 id: 90080fa6-a8df-11eb-91e4-acde48001122
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2021-05-07'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -22,29 +23,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A driver $ImageLoaded$ related to xmrig crytominer loaded in host $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - CISA AA22-320A
-        - Crypto Stealer
-        - XMRig
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A driver $ImageLoaded$ related to xmrig crytominer loaded in host $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - CISA AA22-320A
+    - Crypto Stealer
+    - XMRig
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

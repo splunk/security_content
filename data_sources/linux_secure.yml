@@ -1,57 +1,56 @@
 name: Linux Secure
 id: 9a47d88b-1b17-49ce-a0ef-b440ddbd98bb
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs authentication and authorization events on a Linux system, including
-  login attempts, SSH connections, and privilege escalation activities.
+description: Logs authentication and authorization events on a Linux system, including login attempts, SSH connections, and privilege escalation activities.
 mitre_components:
-- User Account Authentication
-- Logon Session Creation
-- Logon Session Metadata
-- User Account Metadata
-- Application Log Content
+    - User Account Authentication
+    - Logon Session Creation
+    - Logon Session Metadata
+    - User Account Metadata
+    - Application Log Content
 source: /var/log/secure
 sourcetype: linux_secure
 supported_TA:
-- name: Splunk Add-on for Unix and Linux
-  url: https://splunkbase.splunk.com/app/833
-  version: 10.2.0
+    - name: Splunk Add-on for Unix and Linux
+      url: https://splunkbase.splunk.com/app/833
+      version: 10.2.0
 fields:
-- _time
-- action
-- app
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dvc
-- eventtype
-- host
-- index
-- linecount
-- pid
-- process
-- punct
-- source
-- sourcetype
-- splunk_server
-- src
-- src_port
-- sshd_protocol
-- tag
-- tag::action
-- tag::eventtype
-- timeendpos
-- timestartpos
-- user
-- user_name
-- vendor_action
-- vendor_product
-example_log: 'May 27 09:28:36 ip-172-31-24-46 sshd[5617]: Accepted password for mikael
-  from 84.202.159.161 port 63487 ssh2'
+    - _time
+    - action
+    - app
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc
+    - eventtype
+    - host
+    - index
+    - linecount
+    - pid
+    - process
+    - punct
+    - source
+    - sourcetype
+    - splunk_server
+    - src
+    - src_port
+    - sshd_protocol
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - user
+    - user_name
+    - vendor_action
+    - vendor_product
+example_log: 'May 27 09:28:36 ip-172-31-24-46 sshd[5617]: Accepted password for mikael from 84.202.159.161 port 63487 ssh2'

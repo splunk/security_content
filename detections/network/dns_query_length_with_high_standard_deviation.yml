@@ -1,7 +1,8 @@
 name: DNS Query Length With High Standard Deviation
 id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-version: 15
-date: '2026-04-15'
+version: 16
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -41,31 +42,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potentially suspicious DNS query [$query$] with high standard deviation from src - [$src$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: query
-          type: url
-tags:
-    analytic_story:
-        - Hidden Cobra Malware
-        - Suspicious DNS Traffic
-        - Command And Control
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1048.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Potentially suspicious DNS query [$query$] with high standard deviation from src - [$src$]
+threat_objects:
+    - field: query
+      type: url
+analytic_story:
+    - Hidden Cobra Malware
+    - Suspicious DNS Traffic
+    - Command And Control
+asset_type: Endpoint
+mitre_attack_id:
+    - T1048.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/long_dns_query/dns-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

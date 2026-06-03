@@ -1,7 +1,8 @@
 name: GitHub Organizations Disable Dependabot
 id: 69078d8c-0de6-45de-bb00-14e78e042fd6
-version: 8
-date: '2026-05-04'
+version: 9
+creation_date: '2025-01-15'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -34,30 +35,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Dependabot security features are disabled in repository $repo$ by $user$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: user_agent
-          type: http_user_agent
-tags:
-    analytic_story:
-        - GitHub Malicious Activity
-    asset_type: GitHub
-    mitre_attack_id:
-        - T1685
-        - T1195
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Dependabot security features are disabled in repository $repo$ by $user$
+threat_objects:
+    - field: user_agent
+      type: http_user_agent
+analytic_story:
+    - GitHub Malicious Activity
+asset_type: GitHub
+mitre_attack_id:
+    - T1685
+    - T1195
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_dependabot/github.json
           source: github
           sourcetype: github:cloud:audit
+      test_type: unit

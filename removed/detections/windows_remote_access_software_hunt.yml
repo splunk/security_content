@@ -1,66 +1,45 @@
 name: Windows Remote Access Software Hunt
 id: 8bd22c9f-05a2-4db1-b131-29271f28cb0a
 version: 8
-date: '2025-05-02'
+creation_date: '2022-08-22'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: removed
 type: Hunting
-description: This search is deprecated in favor of the new detection - Detect Remote Access Software Usage Process. The following analytic identifies the use of remote access software within
-  the environment. It leverages data from Endpoint Detection and Response (EDR) agents,
-  focusing on process execution logs. This detection is significant as unauthorized
-  remote access tools can be used by adversaries to maintain persistent access to
-  compromised systems. If confirmed malicious, this activity could allow attackers
-  to remotely control systems, exfiltrate data, or further infiltrate the network.
-  Review the identified software to ensure it is authorized and take action against
-  any unauthorized utilities.
+description: This search is deprecated in favor of the new detection - Detect Remote Access Software Usage Process. The following analytic identifies the use of remote access software within the environment. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs. This detection is significant as unauthorized remote access tools can be used by adversaries to maintain persistent access to compromised systems. If confirmed malicious, this activity could allow attackers to remotely control systems, exfiltrate data, or further infiltrate the network. Review the identified software to ensure it is authorized and take action against any unauthorized utilities.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Processes.process) as process values(Processes.parent_process)
-  as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown
-  Processes.user!=unknown by Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup
-  remote_access_software remote_utility AS process_name OUTPUT isutility | search
-  isutility = True | `windows_remote_access_software_hunt_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives will be found. Filter as needed and create
-  higher fidelity analytics based off banned remote access software.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.user!=unknown by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup remote_access_software remote_utility AS process_name OUTPUT isutility | search isutility = True | `windows_remote_access_software_hunt_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives will be found. Filter as needed and create higher fidelity analytics based off banned remote access software.
 references:
-- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1219/T1219.md
-- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+    - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1219/T1219.md
+    - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
 tags:
-  analytic_story:
-  - Insider Threat
-  - Command And Control
-  - Ransomware
-  - Cactus Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1219
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Insider Threat
+        - Command And Control
+        - Ransomware
+        - Cactus Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1219
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/atomic_red_team/windows-sysmon.log
+            source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+            sourcetype: XmlWinEventLog
+deprecation_info:
+    reason: Detection has been replaced by a new detection with a more specific name and logic
+    removed_in_version: 5.8.0
+    replacement_content:
+        - Detect Remote Access Software Usage Process

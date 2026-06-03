@@ -1,7 +1,8 @@
 name: AWS CreateLoginProfile
 id: 2a9b80d3-6340-4345-11ad-212bf444d111
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-03-02'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -39,29 +40,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ is attempting to create a login profile for $new_login_profile$ and did a console login from this IP $src_ip$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - AWS IAM Privilege Escalation
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1136.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: User $user$ is attempting to create a login profile for $new_login_profile$ and did a console login from this IP $src_ip$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - AWS IAM Privilege Escalation
+asset_type: AWS Account
+mitre_attack_id:
+    - T1136.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

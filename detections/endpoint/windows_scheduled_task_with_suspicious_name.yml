@@ -1,7 +1,8 @@
 name: Windows Scheduled Task with Suspicious Name
 id: 9e9ab4e3-c9d0-4967-a197-6d755e8a7e6e
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2025-02-07'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -41,38 +42,42 @@ drilldown_searches:
       search: '`wineventlog_security` EventCode IN (4698,4700,4702) | xmlkv TaskContent | search dest="$dest$" AND TaskName = "$TaskName$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A windows scheduled task was created with known suspicious task name [$TaskName$] on $dest$, this may be a [$tool$] indicator
-    risk_objects:
+finding:
+    title: A windows scheduled task was created with known suspicious task name [$TaskName$] on $dest$, this may be a [$tool$] indicator
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: Command
-          type: signature
-tags:
-    analytic_story:
-        - Scheduled Tasks
-        - Windows Persistence Techniques
-        - Ransomware
-        - Ryuk Ransomware
-        - 0bj3ctivity Stealer
-        - APT37 Rustonotto and FadeStealer
-        - Castle RAT
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A windows scheduled task was created with known suspicious task name [$TaskName$] on $dest$, this may be a [$tool$] indicator
+threat_objects:
+    - field: Command
+      type: signature
+analytic_story:
+    - Scheduled Tasks
+    - Windows Persistence Techniques
+    - Ransomware
+    - Ryuk Ransomware
+    - 0bj3ctivity Stealer
+    - APT37 Rustonotto and FadeStealer
+    - Castle RAT
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_scheduled_task_with_suspect_name/windows-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

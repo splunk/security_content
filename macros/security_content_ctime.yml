@@ -1,5 +1,10 @@
-arguments:
-  - field
-definition: 'convert timeformat="%Y-%m-%dT%H:%M:%S" ctime($field$)'
-description: convert epoch time to string
 name: security_content_ctime
+id: 832ca4f6-6dc6-4043-9d90-f159169795e8
+version: 1
+creation_date: '2019-12-11'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: convert epoch time to string
+definition: 'convert timeformat="%Y-%m-%dT%H:%M:%S" ctime($field$)'
+arguments:
+    - field

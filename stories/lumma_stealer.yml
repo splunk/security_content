@@ -1,17 +1,12 @@
 name: Lumma Stealer
 id: 6c8f76f6-1272-4c0e-afbd-5a9f58947fa5
-version: 1
-date: '2024-11-13'
+version: 2
+creation_date: '2024-11-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 description: Lumma Stealer is a sophisticated information-stealing malware that has been operating as a Malware-as-a-Service (MaaS) platform since 2022. Recent campaigns in 2024 have shown increased sophistication in distribution methods, particularly through fake CAPTCHA verification pages, cracked game downloads, and phishing emails targeting GitHub users. The malware is designed to steal sensitive information including browser credentials, cryptocurrency wallet data, and password manager archives.
-narrative: As of late 2024, Lumma Stealer has emerged as one of the most prominent information stealers in the threat landscape, employing increasingly sophisticated distribution techniques. The malware's primary infection vector involves a deceptive CAPTCHA campaign where attackers create convincing phishing sites featuring fake Google CAPTCHA verification pages. When users interact with these pages by clicking "I'm not a robot," malicious code is automatically copied to their clipboard. Users are then socially engineered to paste this code into the Windows Run dialog (Win+R), triggering PowerShell commands that download and execute the Lumma Stealer payload. /
-
-    The malware's distribution infrastructure is highly sophisticated, leveraging various hosting platforms including Amazon S3 buckets and Content Delivery Networks (CDNs). To evade detection, the operators employ multiple obfuscation techniques, including base64 encoding and clipboard manipulation. The malware is frequently distributed through malvertising campaigns on adult sites, file-sharing services, betting platforms, and anime websites. /
-
-    Recent intelligence has revealed several concerning developments in Lumma Stealer's operations. The malware has been observed working in conjunction with other threat families, notably the Amadey botnet, expanding its reach and capabilities. Its geographic targeting has broadened, with significant activity reported in Brazil, Spain, Italy, and Russia. The threat actors behind Lumma have also demonstrated increased prowess in social engineering, making it one of the top-ranked malware threats in recent global threat indexes. /
-
-    Effective detection strategies should focus on monitoring PowerShell execution patterns, suspicious Run dialog usage, and unauthorized access attempts to credential stores and cryptocurrency wallets. Organizations should implement comprehensive monitoring of these attack vectors to detect and respond to Lumma Stealer campaigns effectively.
+narrative: "As of late 2024, Lumma Stealer has emerged as one of the most prominent information stealers in the threat landscape, employing increasingly sophisticated distribution techniques. The malware's primary infection vector involves a deceptive CAPTCHA campaign where attackers create convincing phishing sites featuring fake Google CAPTCHA verification pages. When users interact with these pages by clicking \"I'm not a robot,\" malicious code is automatically copied to their clipboard. Users are then socially engineered to paste this code into the Windows Run dialog (Win+R), triggering PowerShell commands that download and execute the Lumma Stealer payload. /\nThe malware's distribution infrastructure is highly sophisticated, leveraging various hosting platforms including Amazon S3 buckets and Content Delivery Networks (CDNs). To evade detection, the operators employ multiple obfuscation techniques, including base64 encoding and clipboard manipulation. The malware is frequently distributed through malvertising campaigns on adult sites, file-sharing services, betting platforms, and anime websites. /\nRecent intelligence has revealed several concerning developments in Lumma Stealer's operations. The malware has been observed working in conjunction with other threat families, notably the Amadey botnet, expanding its reach and capabilities. Its geographic targeting has broadened, with significant activity reported in Brazil, Spain, Italy, and Russia. The threat actors behind Lumma have also demonstrated increased prowess in social engineering, making it one of the top-ranked malware threats in recent global threat indexes. /\nEffective detection strategies should focus on monitoring PowerShell execution patterns, suspicious Run dialog usage, and unauthorized access attempts to credential stores and cryptocurrency wallets. Organizations should implement comprehensive monitoring of these attack vectors to detect and respond to Lumma Stealer campaigns effectively."
 references:
     - https://www.cloudsek.com/blog/unmasking-the-danger-lumma-stealer-malware-exploits-fake-captcha-pages
     - https://medium.com/@shaherzakaria8/downloading-trojan-lumma-infostealer-through-capatcha-1f25255a0e71
@@ -24,12 +19,10 @@ references:
     - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/behind-the-captcha-a-clever-gateway-of-malware/
     - https://denwp.com/dissecting-lumma-malware/
     - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/behind-the-captcha-a-clever-gateway-of-malware/
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
-  cve: []
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

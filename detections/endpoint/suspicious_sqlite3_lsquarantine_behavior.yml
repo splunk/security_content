@@ -1,7 +1,8 @@
 name: Suspicious SQLite3 LSQuarantine Behavior
 id: e1997b2e-655f-4561-82fd-aeba8e1c1a86
-version: 9
-date: '2026-03-10'
+version: 10
+creation_date: '2021-03-01'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -29,24 +30,26 @@ known_false_positives: No false positives have been identified at this time.
 references:
     - https://redcanary.com/blog/clipping-silver-sparrows-wings/
     - https://www.marcosantadev.com/manage-plist-files-plistbuddy/
-rba:
-    message: Suspicious sqlite LSQuarantine activity on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Suspicious sqlite LSQuarantine activity on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Silver Sparrow
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1074
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious sqlite LSQuarantine activity on $dest$
+analytic_story:
+    - Silver Sparrow
+asset_type: Endpoint
+mitre_attack_id:
+    - T1074
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

@@ -1,7 +1,8 @@
 name: Windows Scheduled Task Created Via XML
 id: 7e03b682-3965-4598-8e91-a60a40a3f7e4
-version: 14
-date: '2026-04-15'
+version: 15
+creation_date: '2023-04-05'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -48,35 +49,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A scheduled task was created via $process$, based on an XML file by user $user$ on host $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: A scheduled task was created via $process$, based on an XML file by user $user$ on host $dest$
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Winter Vivern
-        - Malicious Inno Setup Loader
-        - CISA AA23-347A
-        - Scheduled Tasks
-        - MoonPeak
-        - Lokibot
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A scheduled task was created via $process$, based on an XML file by user $user$ on host $dest$
+analytic_story:
+    - Winter Vivern
+    - Malicious Inno Setup Loader
+    - CISA AA23-347A
+    - Scheduled Tasks
+    - MoonPeak
+    - Lokibot
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/scheduledtask/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

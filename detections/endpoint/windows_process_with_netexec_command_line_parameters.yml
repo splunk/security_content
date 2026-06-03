@@ -1,7 +1,8 @@
 name: Windows Process With NetExec Command Line Parameters
 id: adbff89c-c1f2-4a2e-88a4-b5e645856510
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-12-27'
+modification_date: '2026-05-13'
 author: Steven Dick, Github Community
 status: production
 type: TTP
@@ -53,35 +54,39 @@ drilldown_searches:
       search: '| from datamodel:Endpoint.Processes | search dest=$dest$ process_name = $process_name$'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: NetExec command line parameters were used on $dest$ by $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: NetExec command line parameters were used on $dest$ by $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-tags:
-    analytic_story:
-        - Active Directory Kerberos Attacks
-        - Active Directory Privilege Escalation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1550.003
-        - T1558.003
-        - T1558.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: NetExec command line parameters were used on $dest$ by $user$
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - Active Directory Kerberos Attacks
+    - Active Directory Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1550.003
+    - T1558.003
+    - T1558.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/netexec_toolkit_usage/netexec_toolkit_usage.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

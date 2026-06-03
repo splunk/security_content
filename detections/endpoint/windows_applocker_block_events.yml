@@ -1,12 +1,13 @@
 name: Windows AppLocker Block Events
 id: e369afe8-cd35-47a3-9c1e-d813efc1f7dd
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
-data_source: []
-type: Anomaly
 status: production
+type: Anomaly
 description: The following analytic detects attempts to bypass application restrictions by identifying Windows AppLocker policy violations. It leverages Windows AppLocker event logs, specifically EventCodes 8007, 8004, 8022, 8025, 8029, and 8040, to pinpoint blocked actions. This activity is significant for a SOC as it highlights potential unauthorized application executions, which could indicate malicious intent or policy circumvention. If confirmed malicious, this activity could allow an attacker to execute unauthorized applications, potentially leading to further system compromise or data exfiltration.
+data_source: []
 search: |-
     `applocker`  EventCode IN (8007, 8004, 8022, 8025, 8029, 8040)
       | spath input=UserData_Xml
@@ -34,28 +35,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of AppLocker policy violation has been detected on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Windows AppLocker
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+          message: An instance of AppLocker policy violation has been detected on $dest$.
+analytic_story:
+    - Windows AppLocker
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-AppLocker/MSI and Script
+      test_type: unit

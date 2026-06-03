@@ -1,13 +1,14 @@
 name: M365 Copilot Impersonation Jailbreak Attack
 id: cc26aba8-7f4a-4078-b91a-052d6a53cb13
-version: 4
-date: '2026-05-04'
+version: 5
+creation_date: '2025-10-13'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: experimental
 type: TTP
+description: Detects M365 Copilot impersonation and roleplay jailbreak attempts where users try to manipulate the AI into adopting alternate personas, behaving as unrestricted entities, or impersonating malicious AI systems to bypass safety controls. The detection searches exported eDiscovery prompt logs for roleplay keywords like "pretend you are," "act as," "you are now," "amoral," and "roleplay as" in the Subject_Title field. Prompts are categorized into specific impersonation types (AI_Impersonation, Malicious_AI_Persona, Unrestricted_AI_Persona, etc.) to identify attempts to override the AI's safety guardrails through persona injection attacks.
 data_source:
     - M365 Exported eDiscovery Prompts
-description: Detects M365 Copilot impersonation and roleplay jailbreak attempts where users try to manipulate the AI into adopting alternate personas, behaving as unrestricted entities, or impersonating malicious AI systems to bypass safety controls. The detection searches exported eDiscovery prompt logs for roleplay keywords like "pretend you are," "act as," "you are now," "amoral," and "roleplay as" in the Subject_Title field. Prompts are categorized into specific impersonation types (AI_Impersonation, Malicious_AI_Persona, Unrestricted_AI_Persona, etc.) to identify attempts to override the AI's safety guardrails through persona injection attacks.
 search: |-
     `m365_exported_ediscovery_prompt_logs`
       | search Subject_Title="*Pretend you are*" OR Subject_Title="*act as*" OR Subject_Title="*you are now*" OR Subject_Title="*amoral*" OR Subject_Title="*being*" OR Subject_Title="*roleplay as*" OR Subject_Title="*imagine you are*" OR Subject_Title="*behave like*"
@@ -37,27 +38,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: User $user$ attempted M365 Copilot impersonation jailbreak with impersonation type $impersonation_type$, trying to manipulate the AI into adopting alternate personas or unrestricted behaviors that could bypass safety controls and violate acceptable use policies.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious Microsoft 365 Copilot Activities
-    asset_type: Web Proxy
-    mitre_attack_id:
-        - T1685
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: User $user$ attempted M365 Copilot impersonation jailbreak with impersonation type $impersonation_type$, trying to manipulate the AI into adopting alternate personas or unrestricted behaviors that could bypass safety controls and violate acceptable use policies.
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Suspicious Microsoft 365 Copilot Activities
+asset_type: Web Proxy
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
           sourcetype: csv
           source: csv
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

@@ -1,13 +1,14 @@
 name: Ivanti Connect Secure System Information Access via Auth Bypass
 id: d51c13dd-a232-4c83-a2bb-72ab36233c5d
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-01-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
+description: The following analytic identifies attempts to exploit the CVE-2023-46805 and CVE-2024-21887 vulnerabilities in Ivanti Connect Secure. It detects GET requests to the /api/v1/totp/user-backup-code/../../system/system-information URI, which leverage an authentication bypass to access system information. The detection uses the Web datamodel to identify requests with a 200 OK response, indicating a successful exploit attempt. This activity is significant as it reveals potential unauthorized access to sensitive system information. If confirmed malicious, attackers could gain critical insights into the system, facilitating further exploitation and compromise.
 data_source:
     - Suricata
-description: The following analytic identifies attempts to exploit the CVE-2023-46805 and CVE-2024-21887 vulnerabilities in Ivanti Connect Secure. It detects GET requests to the /api/v1/totp/user-backup-code/../../system/system-information URI, which leverage an authentication bypass to access system information. The detection uses the Web datamodel to identify requests with a 200 OK response, indicating a successful exploit attempt. This activity is significant as it reveals potential unauthorized access to sensitive system information. If confirmed malicious, attackers could gain critical insights into the system, facilitating further exploitation and compromise.
 search: |-
     | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.url="*/api/v1/totp/user-backup-code/../../system/system-information*" Web.http_method=GET Web.status=200
@@ -32,32 +33,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Possible exploitation of CVE-2023-46805 and CVE-2024-21887 against $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    cve:
-        - CVE-2023-46805
-        - CVE-2024-21887
-    analytic_story:
-        - Ivanti Connect Secure VPN Vulnerabilities
-        - CISA AA24-241A
-    asset_type: VPN Appliance
-    atomic_guid: []
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Possible exploitation of CVE-2023-46805 and CVE-2024-21887 against $dest$.
+analytic_story:
+    - Ivanti Connect Secure VPN Vulnerabilities
+    - CISA AA24-241A
+asset_type: VPN Appliance
+cve:
+    - CVE-2023-46805
+    - CVE-2024-21887
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_secure_connect_checkphase.log
           source: not_applicable
           sourcetype: suricata
+      test_type: unit

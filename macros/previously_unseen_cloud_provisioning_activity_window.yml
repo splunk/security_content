@@ -1,3 +1,8 @@
+name: previously_unseen_cloud_provisioning_activity_window
+id: 2a571970-5197-4e21-8e19-ce100fc4ce5e
+version: 1
+creation_date: '2020-08-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
 description: Use this macro to determine how far back you should be checking for new provisioning activities
 definition: '"-70m@m"'
-name: previously_unseen_cloud_provisioning_activity_window

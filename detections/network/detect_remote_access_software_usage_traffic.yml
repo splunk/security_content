@@ -1,7 +1,8 @@
 name: Detect Remote Access Software Usage Traffic
 id: 885ea672-07ee-475a-879e-60d28aa5dd42
-version: 15
-date: '2026-04-15'
+version: 16
+creation_date: '2024-03-06'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -53,39 +54,41 @@ drilldown_searches:
       search: '| from datamodel:Network_Traffic.All_Traffic | search src=$src$ app=$app$'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: Application traffic for a known remote access software [$signature$] was detected from $src$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
+          message: Application traffic for a known remote access software [$signature$] was detected from $src$.
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: signature
-          type: signature
-tags:
-    analytic_story:
-        - Insider Threat
-        - Command And Control
-        - Ransomware
-        - Remote Monitoring and Management Software
-        - Scattered Spider
-        - Interlock Ransomware
-        - Scattered Lapsus$ Hunters
-    asset_type: Network
-    mitre_attack_id:
-        - T1219
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    manual_test: This detection uses A&I lookups from Enterprise Security.
+          message: Application traffic for a known remote access software [$signature$] was detected from $src$.
+threat_objects:
+    - field: signature
+      type: signature
+analytic_story:
+    - Insider Threat
+    - Command And Control
+    - Ransomware
+    - Remote Monitoring and Management Software
+    - Scattered Spider
+    - Interlock Ransomware
+    - Scattered Lapsus$ Hunters
+asset_type: Network
+mitre_attack_id:
+    - T1219
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo_traffic.log
           source: not_applicable
           sourcetype: pan:traffic
+      description: PORTED MANUAL TEST - This detection uses A&I lookups from Enterprise Security.
+      test_type: experimental

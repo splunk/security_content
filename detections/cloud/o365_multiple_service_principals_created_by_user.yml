@@ -1,13 +1,14 @@
 name: O365 Multiple Service Principals Created by User
 id: a34e65d0-54de-4b02-9db8-5a04522067f6
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-02-14'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies instances where a single user creates more than three unique OAuth applications within a 10-minute window in the Office 365 environment. It leverages O365 logs from the Unified Audit Log, focusing on the 'Add service principal' operation in Azure Active Directory. This activity is significant as it may indicate a compromised user account or unauthorized actions, potentially leading to broader network infiltration or privilege escalation. If confirmed malicious, this behavior could allow attackers to gain persistent access, escalate privileges, or exfiltrate sensitive information.
 data_source:
     - O365 Add service principal.
-type: Anomaly
-status: production
-description: The following analytic identifies instances where a single user creates more than three unique OAuth applications within a 10-minute window in the Office 365 environment. It leverages O365 logs from the Unified Audit Log, focusing on the 'Add service principal' operation in Azure Active Directory. This activity is significant as it may indicate a compromised user account or unauthorized actions, potentially leading to broader network infiltration or privilege escalation. If confirmed malicious, this behavior could allow attackers to gain persistent access, escalate privileges, or exfiltrate sensitive information.
 search: "`o365_management_activity` Workload=AzureActiveDirectory Operation=\"Add service principal.\" | bucket span=10m _time | eval len=mvcount('Actor{}.ID') | eval userType = mvindex('Actor{}.ID',len-1) | search userType = \"User\" | eval displayName = object | stats count earliest(_time) as firstTime latest(_time) as lastTime values(displayName) as displayName dc(displayName) as unique_apps values(user) as user values(src) as src by src_user vendor_account vendor_product dest signature | where unique_apps > 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_multiple_service_principals_created_by_user_filter`"
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Certain users or applications may create multiple service principals in a short period of time for legitimate purposes. Filter as needed.
@@ -23,28 +24,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Multiple OAuth applications were created by $src_user$ in a short period of time
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src_user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Persistence Mechanisms
-        - NOBELIUM Group
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1136.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+          message: Multiple OAuth applications were created by $src_user$ in a short period of time
+analytic_story:
+    - Office 365 Persistence Mechanisms
+    - NOBELIUM Group
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1136.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_multiple_service_principals_created/o365_multiple_service_principals_created.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

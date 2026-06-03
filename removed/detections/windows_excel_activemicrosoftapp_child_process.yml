@@ -1,7 +1,8 @@
 name: Windows Excel ActiveMicrosoftApp Child Process
 id: 4dfd6a58-93b2-4012-bb33-038bb63652b3
 version: 3
-date: '2026-03-16'
+creation_date: '2025-08-21'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: removed
 type: Anomaly
@@ -60,6 +61,11 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/excel_activemicrosoftapp/sysmon_winprojexe.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-          sourcetype: XmlWinEventLog
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/excel_activemicrosoftapp/sysmon_winprojexe.log
+            source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+            sourcetype: XmlWinEventLog
+deprecation_info:
+    reason: Detection has been renamed to a more accurate name that reflects the detection logic.
+    removed_in_version: 5.26.0
+    replacement_content:
+        - Windows Excel Spawning Microsoft Project Application

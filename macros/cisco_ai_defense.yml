@@ -1,4 +1,8 @@
-definition: sourcetype=cisco:ai:defense
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: cisco_ai_defense
+id: 6cf4f0d5-e27a-4807-8e9c-81ff12177f40
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=cisco:ai:defense

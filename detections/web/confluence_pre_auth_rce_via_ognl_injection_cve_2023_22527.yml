@@ -1,13 +1,14 @@
 name: Confluence Pre-Auth RCE via OGNL Injection CVE-2023-22527
 id: f56936c0-ae6f-4eeb-91ff-ecc1448c6105
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-01-24'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+description: The following analytic identifies attempts to exploit a critical template injection vulnerability (CVE-2023-22527) in outdated Confluence Data Center and Server versions. It detects POST requests to the "/template/aui/text-inline.vm" endpoint with HTTP status codes 200 or 202, indicating potential OGNL injection attacks. This activity is significant as it allows unauthenticated attackers to execute arbitrary code remotely. If confirmed malicious, attackers could gain full control over the affected Confluence instance, leading to data breaches, system compromise, and further network infiltration. Immediate patching is essential to mitigate this threat.
 data_source:
     - Suricata
-description: The following analytic identifies attempts to exploit a critical template injection vulnerability (CVE-2023-22527) in outdated Confluence Data Center and Server versions. It detects POST requests to the "/template/aui/text-inline.vm" endpoint with HTTP status codes 200 or 202, indicating potential OGNL injection attacks. This activity is significant as it allows unauthenticated attackers to execute arbitrary code remotely. If confirmed malicious, attackers could gain full control over the affected Confluence instance, leading to data breaches, system compromise, and further network infiltration. Immediate patching is essential to mitigate this threat.
 search: |-
     | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.url="*/template/aui/text-inline.vm*" Web.http_method=POST Web.status IN (200, 202)
@@ -31,32 +32,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Exploitation attempts on a known vulnerability in Atlassian Confluence detected. The source IP is $src$ and the destination hostname is $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    cve:
-        - CVE-2023-22527
-    analytic_story:
-        - Confluence Data Center and Confluence Server Vulnerabilities
-    asset_type: Web Application
-    atomic_guid: []
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Exploitation attempts on a known vulnerability in Atlassian Confluence detected. The source IP is $src$ and the destination hostname is $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Confluence Data Center and Confluence Server Vulnerabilities
+asset_type: Web Application
+cve:
+    - CVE-2023-22527
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/suricata_confluence_cve-2023-22527.log
           source: not_applicable
           sourcetype: suricata
+      test_type: unit

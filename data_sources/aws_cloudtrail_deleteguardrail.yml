@@ -1,120 +1,109 @@
 name: AWS CloudTrail DeleteGuardrail
 id: 2f6e9d7a-1c53-48b1-be57-33a91e0f8c42
-version: 1
-date: '2023-10-15'
+version: 2
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Logs an event when a guardrail is deleted within the AWS CloudTrail.
 mitre_components:
-- Cloud Service Modification
+    - Cloud Service Modification
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
 separator: eventName
 separator_value: DeleteGuardrail
 supported_TA:
-- name: Splunk Add-on for AWS
-  url: https://splunkbase.splunk.com/app/1876
-  version: 8.1.1
+    - name: Splunk Add-on for AWS
+      url: https://splunkbase.splunk.com/app/1876
+      version: 8.1.2
 fields:
-- _time
-- action
-- app
-- awsRegion
-- aws_account_id
-- change_type
-- command
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- direction
-- dvc
-- errorCode
-- eventCategory
-- eventID
-- eventName
-- eventSource
-- eventTime
-- eventType
-- eventVersion
-- eventtype
-- host
-- index
-- linecount
-- managementEvent
-- msg
-- object_category
-- product
-- protocol
-- protocol_code
-- punct
-- readOnly
-- recipientAccountId
-- region
-- requestID
-- requestParameters.guardrailId
-- responseElements.requestId
-- signature
-- source
-- sourceIPAddress
-- sourcetype
-- splunk_server
-- src
-- src_ip
-- src_ip_range
-- start_time
-- status
-- tag
-- tag::eventtype
-- timeendpos
-- timestartpos
-- user
-- userAgent
-- userIdentity.accessKeyId
-- userIdentity.accountId
-- userIdentity.arn
-- userIdentity.principalId
-- userIdentity.sessionContext.attributes.creationDate
-- userIdentity.sessionContext.attributes.mfaAuthenticated
-- userIdentity.sessionContext.sessionIssuer.accountId
-- userIdentity.sessionContext.sessionIssuer.arn
-- userIdentity.sessionContext.sessionIssuer.principalId
-- userIdentity.sessionContext.sessionIssuer.type
-- userIdentity.sessionContext.sessionIssuer.userName
-- userIdentity.type
-- userName
-- user_access_key
-- user_agent
-- user_arn
-- user_group_id
-- user_id
-- user_name
-- user_type
-- vendor
-- vendor_account
-- vendor_product
-- vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
-  "AROAIJIESMXKGCJRCTPR6:user@example.com", "arn": "arn:aws:sts::111111111111:assumed-role/admin_role/user@example.com",
-  "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLXXXXXXXX", "sessionContext":
-  {"sessionIssuer": {"type": "Role", "principalId": "AROAIJIESMXKGCJRCTPR6", "arn":
-  "arn:aws:iam::111111111111:role/admin_role", "accountId": "111111111111", "userName":
-  "admin_role"}, "webIdFederationData": {}, "attributes": {"mfaAuthenticated": "false",
-  "creationDate": "2023-10-15T08:36:15Z"}}}, "eventTime": "2023-10-15T08:49:49Z",
-  "eventSource": "bedrock.amazonaws.com", "eventName": "DeleteGuardrail", "awsRegion":
-  "us-east-1", "sourceIPAddress": "192.0.2.1", "userAgent": "aws-cli/2.9.15", "requestParameters":
-  {"guardrailId": "grail-12345abcdef"}, "responseElements": {"requestId": "97b40da9-9291-4a92-8e9e-892b6887ffc9"},
-  "requestID": "97b40da9-9291-4a92-8e9e-892b6887ffc9", "eventID": "46fe04b8-d007-4933-8bb8-c8b65c1121fa",
-  "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory":
-  "Management", "recipientAccountId": "111111111111"}'
+    - _time
+    - action
+    - app
+    - awsRegion
+    - aws_account_id
+    - change_type
+    - command
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - direction
+    - dvc
+    - errorCode
+    - eventCategory
+    - eventID
+    - eventName
+    - eventSource
+    - eventTime
+    - eventType
+    - eventVersion
+    - eventtype
+    - host
+    - index
+    - linecount
+    - managementEvent
+    - msg
+    - object_category
+    - product
+    - protocol
+    - protocol_code
+    - punct
+    - readOnly
+    - recipientAccountId
+    - region
+    - requestID
+    - requestParameters.guardrailId
+    - responseElements.requestId
+    - signature
+    - source
+    - sourceIPAddress
+    - sourcetype
+    - splunk_server
+    - src
+    - src_ip
+    - src_ip_range
+    - start_time
+    - status
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - user
+    - userAgent
+    - userIdentity.accessKeyId
+    - userIdentity.accountId
+    - userIdentity.arn
+    - userIdentity.principalId
+    - userIdentity.sessionContext.attributes.creationDate
+    - userIdentity.sessionContext.attributes.mfaAuthenticated
+    - userIdentity.sessionContext.sessionIssuer.accountId
+    - userIdentity.sessionContext.sessionIssuer.arn
+    - userIdentity.sessionContext.sessionIssuer.principalId
+    - userIdentity.sessionContext.sessionIssuer.type
+    - userIdentity.sessionContext.sessionIssuer.userName
+    - userIdentity.type
+    - userName
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_id
+    - user_name
+    - user_type
+    - vendor
+    - vendor_account
+    - vendor_product
+    - vendor_region
 output_fields:
-- dest
-- user
-- user_agent
-- src
-- vendor_account
-- vendor_region
-- vendor_product
+    - dest
+    - user
+    - user_agent
+    - src
+    - vendor_account
+    - vendor_region
+    - vendor_product
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAIJIESMXKGCJRCTPR6:user@example.com", "arn": "arn:aws:sts::111111111111:assumed-role/admin_role/user@example.com", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLXXXXXXXX", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAIJIESMXKGCJRCTPR6", "arn": "arn:aws:iam::111111111111:role/admin_role", "accountId": "111111111111", "userName": "admin_role"}, "webIdFederationData": {}, "attributes": {"mfaAuthenticated": "false", "creationDate": "2023-10-15T08:36:15Z"}}}, "eventTime": "2023-10-15T08:49:49Z", "eventSource": "bedrock.amazonaws.com", "eventName": "DeleteGuardrail", "awsRegion": "us-east-1", "sourceIPAddress": "192.0.2.1", "userAgent": "aws-cli/2.9.15", "requestParameters": {"guardrailId": "grail-12345abcdef"}, "responseElements": {"requestId": "97b40da9-9291-4a92-8e9e-892b6887ffc9"}, "requestID": "97b40da9-9291-4a92-8e9e-892b6887ffc9", "eventID": "46fe04b8-d007-4933-8bb8-c8b65c1121fa", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'

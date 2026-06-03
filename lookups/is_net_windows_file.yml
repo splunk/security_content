@@ -1,9 +1,0 @@
-name: is_net_windows_file
-date: 2024-12-23
-version: 2
-id: 891cfb79-06cd-455d-9cf8-b4d4de2bff25
-author: Splunk Threat Research Team
-lookup_type: csv
-description: A full baseline of executable files in \Windows\, including sub-directories from Server 2016 and Windows 11. Certain .net binaries may not have been captured due to different Windows SDK's or developer utilities not installed during baseline.
-min_matches: 1
-case_sensitive_match: false

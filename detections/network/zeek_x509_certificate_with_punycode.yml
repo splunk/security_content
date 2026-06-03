@@ -1,7 +1,8 @@
 name: Zeek x509 Certificate with Punycode
 id: 029d6fe4-a5fe-43af-827e-c78c50e81d81
-version: 6
-date: '2026-02-25'
+version: 7
+creation_date: '2022-12-19'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting
@@ -23,14 +24,14 @@ references:
     - https://www.splunk.com/en_us/blog/security/nothing-puny-about-cve-2022-3602.html
     - https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
     - https://docs.zeek.org/en/master/scripts/base/init-bare.zeek.html#type-X509::SubjectAlternativeName
-tags:
-    analytic_story:
-        - OpenSSL CVE-2022-3602
-    asset_type: Network
-    mitre_attack_id:
-        - T1573
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+analytic_story:
+    - OpenSSL CVE-2022-3602
+asset_type: Network
+mitre_attack_id:
+    - T1573
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network

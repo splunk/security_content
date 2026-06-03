@@ -1,101 +1,102 @@
 name: Windows Event Log Defender 1131
 id: 638f884e-439a-4328-923c-ec5a2679f450
-version: 2
-date: '2025-07-10'
+version: 3
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Windows Event Log Defender 1131
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
 separator: EventCode
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 10.0.1
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 10.0.1
 fields:
-- ActivityID
-- CategoryString
-- Channel
-- Computer
-- Detection_Time
-- Engine_Version
-- EventCode
-- EventData_Xml
-- EventID
-- EventRecordID
-- Guid
-- ID
-- Image_File_Name
-- Inhertiance_Flags
-- Involved_File
-- Keywords
-- Level
-- Message
-- Name
-- Opcode
-- Parent_Commandline
-- Path
-- ProcessID
-- Process_Name
-- Product_Name
-- Product_Version
-- RecordNumber
-- RenderingInfo_Xml
-- RuleType
-- Security_intelligence_Version
-- SourceName
-- SubStatus
-- SystemTime
-- System_Props_Xml
-- Target_Commandline
-- Task
-- TaskCategory
-- ThreadID
-- Unused
-- User
-- UserID
-- Version
-- action
-- category
-- dvc
-- dvc_nt_host
-- event_id
-- eventtype
-- host
-- id
-- index
-- linecount
-- name
-- parent_process
-- process_name
-- punct
-- result
-- service
-- service_id
-- service_name
-- severity
-- severity_id
-- signature
-- signature_id
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- subject
-- tag
-- tag::action
-- tag::eventtype
-- timestamp
-- user_group_id
-- user_id
-- vendor_product
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _pre_msg
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _time
+    - ActivityID
+    - CategoryString
+    - Channel
+    - Computer
+    - Detection_Time
+    - Engine_Version
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - Guid
+    - ID
+    - Image_File_Name
+    - Inhertiance_Flags
+    - Involved_File
+    - Keywords
+    - Level
+    - Message
+    - Name
+    - Opcode
+    - Parent_Commandline
+    - Path
+    - ProcessID
+    - Process_Name
+    - Product_Name
+    - Product_Version
+    - RecordNumber
+    - RenderingInfo_Xml
+    - RuleType
+    - Security_intelligence_Version
+    - SourceName
+    - SubStatus
+    - SystemTime
+    - System_Props_Xml
+    - Target_Commandline
+    - Task
+    - TaskCategory
+    - ThreadID
+    - Unused
+    - User
+    - UserID
+    - Version
+    - action
+    - category
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - eventtype
+    - host
+    - id
+    - index
+    - linecount
+    - name
+    - parent_process
+    - process_name
+    - punct
+    - result
+    - service
+    - service_id
+    - service_name
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - subject
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timestamp
+    - user_group_id
+    - user_id
+    - vendor_product
+    - _bkt
+    - _cd
+    - _eventtype_color
+    - _indextime
+    - _pre_msg
+    - _raw
+    - _serial
+    - _si
+    - _sourcetype
+    - _time
 example_log: ''

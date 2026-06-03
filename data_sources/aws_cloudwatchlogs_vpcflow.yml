@@ -1,81 +1,79 @@
 name: AWS CloudWatchLogs VPCflow
 id: 38a34fc4-e128-4478-a8f4-7835d51d5135
-version: 2
+version: 3
+creation_date: '2024-07-31'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
-date: '2025-01-23'
-description: Logs an event when network traffic flow information such as source and
-  destination IPs, ports, protocol, and action (allow/deny) is captured for VPC in
-  AWS.
+description: Logs an event when network traffic flow information such as source and destination IPs, ports, protocol, and action (allow/deny) is captured for VPC in AWS.
 mitre_components:
-- Network Traffic Flow
-- Network Connection Creation
+    - Network Traffic Flow
+    - Network Connection Creation
 source: aws_cloudwatchlogs_vpcflow
 sourcetype: aws:cloudwatchlogs:vpcflow
 supported_TA:
-- name: Splunk Add-on for AWS
-  version: 8.1.1
-  url: https://splunkbase.splunk.com/app/1876
+    - name: Splunk Add-on for AWS
+      version: 8.1.2
+      url: https://splunkbase.splunk.com/app/1876
 fields:
-- _raw
-- _time
-- account_id
-- action
-- app
-- aws_account_id
-- bytes
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dest_ip
-- dest_port
-- duration
-- dvc
-- end_time
-- eventtype
-- host
-- index
-- interface_id
-- linecount
-- log_status
-- packets
-- protocol
-- protocol_code
-- protocol_full_name
-- protocol_version
-- punct
-- region
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- src
-- src_ip
-- src_port
-- start_time
-- tag
-- tag::action
-- tag::eventtype
-- timeendpos
-- timestartpos
-- transport
-- user_id
-- vendor_account
-- vendor_product
-- version
-- vpcflow_action
+    - _raw
+    - _time
+    - account_id
+    - action
+    - app
+    - aws_account_id
+    - bytes
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dest_ip
+    - dest_port
+    - duration
+    - dvc
+    - end_time
+    - eventtype
+    - host
+    - index
+    - interface_id
+    - linecount
+    - log_status
+    - packets
+    - protocol
+    - protocol_code
+    - protocol_full_name
+    - protocol_version
+    - punct
+    - region
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - src
+    - src_ip
+    - src_port
+    - start_time
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - transport
+    - user_id
+    - vendor_account
+    - vendor_product
+    - version
+    - vpcflow_action
 output_fields:
-- action
-- src
-- src_ip
-- dest
-- dest_ip
-- dest_port
-- transport
-example_log: 2 123397614277 eni-0b0f9f261f45e6489 10.0.1.30 10.0.1.1 47254 22 17 2
-  98 1697608042 1697608070 ACCEPT OK
+    - action
+    - src
+    - src_ip
+    - dest
+    - dest_ip
+    - dest_port
+    - transport
+example_log: 2 123397614277 eni-0b0f9f261f45e6489 10.0.1.30 10.0.1.1 47254 22 17 2 98 1697608042 1697608070 ACCEPT OK

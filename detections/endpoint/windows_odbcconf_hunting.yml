@@ -1,7 +1,8 @@
 name: Windows Odbcconf Hunting
 id: 0562ad4b-fdaa-4882-b12f-7b8e0034cd72
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2022-06-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -29,20 +30,21 @@ known_false_positives: False positives will be present as this is meant to assis
 references:
     - https://strontic.github.io/xcyclopedia/library/odbcconf.exe-07FBA12552331355C103999806627314.html
     - https://twitter.com/redcanary/status/1541838407894171650?s=20&t=kp3WBPtfnyA3xW7D7wx0uw
-tags:
-    analytic_story:
-        - Living Off The Land
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218.008
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Living Off The Land
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218.008
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.008/atomic_red_team/windows-sysmon-odbc-regsvr.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

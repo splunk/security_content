@@ -1,7 +1,8 @@
 name: Cisco SD-WAN - Uncommon User-Agent Multi-URI Activity
 id: 201022d7-a35c-470a-93ff-ae335c42e69d
-version: 1
-date: '2026-03-09'
+version: 2
+creation_date: '2026-03-12'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
@@ -35,20 +36,21 @@ known_false_positives: |
 references:
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-authbp-qwCX8D4v
     - https://github.com/zerozenxlabs/CVE-2026-20127---Cisco-SD-WAN-Preauth-RCE
-tags:
-    analytic_story:
-        - Cisco Catalyst SD-WAN Analytics
-    asset_type: Network
-    mitre_attack_id:
-        - T1595
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+analytic_story:
+    - Cisco Catalyst SD-WAN Analytics
+asset_type: Network
+mitre_attack_id:
+    - T1595
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_sd_wan/service_proxy_access/serviceproxy_access.log
           source: /var/log/nms/containers/service-proxy/serviceproxy-access.log
           sourcetype: cisco:sdwan:access
+      test_type: unit

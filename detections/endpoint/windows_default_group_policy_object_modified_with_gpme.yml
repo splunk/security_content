@@ -1,15 +1,16 @@
 name: Windows Default Group Policy Object Modified with GPME
 id: eaf688b3-bb8f-454d-b105-920a862cd8cb
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2023-04-24'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects modifications to default Group Policy Objects (GPOs) using the Group Policy Management Editor (GPME). It leverages the Endpoint data model to identify processes where `mmc.exe` executes `gpme.msc` with specific GUIDs related to default GPOs. This activity is significant because default GPOs, such as the `Default Domain Controllers Policy` and `Default Domain Policy`, are critical for enforcing security policies across the domain. If malicious, such modifications could allow an attacker to gain further access, establish persistence, or deploy malware across numerous hosts, severely compromising the network's security.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic detects modifications to default Group Policy Objects (GPOs) using the Group Policy Management Editor (GPME). It leverages the Endpoint data model to identify processes where `mmc.exe` executes `gpme.msc` with specific GUIDs related to default GPOs. This activity is significant because default GPOs, such as the `Default Domain Controllers Policy` and `Default Domain Policy`, are critical for enforcing security policies across the domain. If malicious, such modifications could allow an attacker to gain further access, establish persistence, or deploy malware across numerous hosts, severely compromising the network's security.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name=mmc.exe (Processes.process =*gpme.msc*)
@@ -45,32 +46,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A default group policy object was opened with Group Policy Manage Editor on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Active Directory Privilege Escalation
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1484.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A default group policy object was opened with Group Policy Manage Editor on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Active Directory Privilege Escalation
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1484.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

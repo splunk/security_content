@@ -1,0 +1,14 @@
+name: previously_seen_cloud_compute_instance_types
+id: ae42b151-d5cd-4010-a414-af307f210726
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A place holder for a list of used cloud compute instance types
+fields:
+    - _key
+    - firstTimeSeen
+    - lastTimeSeen
+    - instance_type
+    - enough_data

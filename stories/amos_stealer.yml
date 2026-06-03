@@ -1,18 +1,18 @@
 name: AMOS Stealer
 id: b12e5c84-75a0-3a79-9403-e35c9fe3485c
-version: 1
-date: '2025-05-05'
+version: 2
+creation_date: '2025-05-05'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 description: The AMOS Stealer analytic story provides detection and investigation content for identifying and responding to threats associated with the AMOS information stealer on Mac systems. AMOS (Atomic macOS Stealer) is a known malware family designed specifically for MacOS, capable of stealing credentials, system information, and browser data. This story leverages analytics using osquery data to detect suspicious behavior consistent with AMOS, including VM detection commands used to evade analysis environments. Security teams can use the searches in this story to identify and respond to signs of AMOS compromise in their MacOS fleet.
 narrative: AMOS Stealer (Atomic macOS Stealer) is an active threat targeting macOS users, capable of harvesting sensitive data, executing scripts, and conducting system reconnaissance to evade detection. It is typically distributed through malicious downloads or phishing campaigns. Once executed, AMOS performs a variety of checks to determine whether it is running in a virtualized environment before proceeding with its payload. One notable technique involves using `osascript` with AppleScript commands to enumerate virtualization indicators like VMware and QEMU. This analytic story focuses on detecting these early-stage behaviors using `osquery` data. Detecting AMOS behavior early in its execution phase gives defenders the opportunity to isolate affected hosts, investigate lateral movement or privilege escalation attempts, and mitigate data exfiltration risk.
 references:
-- https://malpedia.caad.fkie.fraunhofer.de/details/osx.amos
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://malpedia.caad.fkie.fraunhofer.de/details/osx.amos
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

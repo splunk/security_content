@@ -1,70 +1,67 @@
 name: Palo Alto Network Traffic
 id: 182a83bc-c31a-4817-8c7a-263744cec52a
-version: 4
-date: '2026-03-31'
+version: 5
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs network traffic events captured by Palo Alto Networks devices, including
-  details about sessions, protocols, and source and destination IPs.
+description: Logs network traffic events captured by Palo Alto Networks devices, including details about sessions, protocols, and source and destination IPs.
 mitre_components:
-- Network Traffic Content
-- Network Traffic Flow
-- Network Connection Creation
-- Response Metadata
-- Application Log Content
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Network Connection Creation
+    - Response Metadata
+    - Application Log Content
 source: not_applicable
 sourcetype: pan:traffic
 supported_TA:
-- name: Palo Alto Networks Add-on
-  url: https://splunkbase.splunk.com/app/7523
-  version: 3.0.1
+    - name: Palo Alto Networks Add-on
+      url: https://splunkbase.splunk.com/app/7523
+      version: 3.0.1
 fields:
-- _time
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- host
-- index
-- linecount
-- punct
-- source
-- sourcetype
-- splunk_server
-- timeendpos
-- timestartpos
+    - _time
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - host
+    - index
+    - linecount
+    - punct
+    - source
+    - sourcetype
+    - splunk_server
+    - timeendpos
+    - timestartpos
 output_fields:
-- action 
-- app 
-- bytes 
-- bytes_in 
-- bytes_out 
-- dest 
-- dest_ip 
-- dest_port 
-- dvc 
-- protocol 
-- protocol_version
-- src 
-- src_ip 
-- src_port 
-- transport 
-- user 
-- vendor_product
+    - action
+    - app
+    - bytes
+    - bytes_in
+    - bytes_out
+    - dest
+    - dest_ip
+    - dest_port
+    - dvc
+    - protocol
+    - protocol_version
+    - src
+    - src_ip
+    - src_port
+    - transport
+    - user
+    - vendor_product
 field_mappings:
-- data_model: cim
-  data_set: All_Traffic
-  mapping:
-    app: All_Traffic.app
-    action: All_Traffic.action
-    dest_ip: All_Traffic.dest_ip
-    dest_port: All_Traffic.dest_port
-    src_ip: All_Traffic.src_ip
-    src_port: All_Traffic.src_port
-example_log: 577 <14>1 2024-02-22T12:33:50-05:00 PALO220.ATTACK_RANGE.LAN - - - -
-  1,2024/02/22 12:33:50,012801036556,TRAFFIC,end,2305,2024/02/22 12:33:50,192.168.1.205,147.28.146.44,201.17.96.104,147.28.146.44,No_Vuln_Filtering_OUT,,,screenconnect,vsys1,Trust,Untrust,ethernet1/2,ethernet1/1,splunk_range,2024/02/22
-  12:33:50,14740,1,50624,443,11024,443,0x40005e,tcp,allow,7419,6609,810,25,2024/02/22
-  12:32:29,65,any,0,376156893,0x0,192.168.0.0-192.168.255.255,United States,0,14,11,tcp-fin,0,0,0,0,,PALO220,from-policy,,,0,,0,,N/A,0,0,0,0,0862e58b-4a54-436b-b3ac-ea3eccf8403b,0,0,,,,,,,
+    - data_model: cim
+      data_set: All_Traffic
+      mapping:
+          app: All_Traffic.app
+          action: All_Traffic.action
+          dest_ip: All_Traffic.dest_ip
+          dest_port: All_Traffic.dest_port
+          src_ip: All_Traffic.src_ip
+          src_port: All_Traffic.src_port
+example_log: 577 <14>1 2024-02-22T12:33:50-05:00 PALO220.ATTACK_RANGE.LAN - - - - 1,2024/02/22 12:33:50,012801036556,TRAFFIC,end,2305,2024/02/22 12:33:50,192.168.1.205,147.28.146.44,201.17.96.104,147.28.146.44,No_Vuln_Filtering_OUT,,,screenconnect,vsys1,Trust,Untrust,ethernet1/2,ethernet1/1,splunk_range,2024/02/22 12:33:50,14740,1,50624,443,11024,443,0x40005e,tcp,allow,7419,6609,810,25,2024/02/22 12:32:29,65,any,0,376156893,0x0,192.168.0.0-192.168.255.255,United States,0,14,11,tcp-fin,0,0,0,0,,PALO220,from-policy,,,0,,0,,N/A,0,0,0,0,0862e58b-4a54-436b-b3ac-ea3eccf8403b,0,0,,,,,,,

@@ -1,7 +1,8 @@
 name: Windows WMIC Shadowcopy Delete
 id: 0a8c4b26-a4e2-4ef1-b0d9-62af6d36bdc8
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-03-18'
+modification_date: '2026-05-13'
 author: Michael Haag, AJ King, Splunk
 status: production
 type: Anomaly
@@ -28,33 +29,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$process_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A WMIC command, $process_name$, was detected attempting to delete volume shadow copies spawned off of $parent_process_name$ on $dest$. This is a common ransomware technique used to prevent system recovery.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Cactus Ransomware
-        - Volt Typhoon
-        - Suspicious WMI Use
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1490
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A WMIC command, $process_name$, was detected attempting to delete volume shadow copies spawned off of $parent_process_name$ on $dest$. This is a common ransomware technique used to prevent system recovery.
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Cactus Ransomware
+    - Volt Typhoon
+    - Suspicious WMI Use
+asset_type: Endpoint
+mitre_attack_id:
+    - T1490
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/shadowcopy_del/wmicshadowcopydelete_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Snort Rule Triggered Across Multiple Hosts
 id: a4c76d0a-56b6-44be-814b-939746c4d406
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2025-04-16'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -45,30 +46,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$signature_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The Snort rule $signature$ was triggered by $unique_src_ips$ unique internal hosts within a one-hour window, indicating potential widespread exploitation or coordinated targeting activity.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: signature
-          type: signature
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Network
-    security_domain: network
-    mitre_attack_id:
-        - T1105
-        - T1027
-    product:
-        - Splunk Enterprise
-        - Splunk Cloud
-        - Splunk Enterprise Security
+          message: The Snort rule $signature$ was triggered by $unique_src_ips$ unique internal hosts within a one-hour window, indicating potential widespread exploitation or coordinated targeting activity.
+threat_objects:
+    - field: signature
+      type: signature
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Network
+mitre_attack_id:
+    - T1105
+    - T1027
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit
