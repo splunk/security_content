@@ -1,7 +1,8 @@
 name: Cisco SA - Automated Web Reconnaissance via HTTP Access Errors
 id: 4cd44520-d404-4ca8-b736-c9d6b86ecf31
-version: 1
-date: '2026-05-08'
+version: 2
+creation_date: '2026-05-08'
+modification_date: '2026-05-13'
 author: Mahamudul Chowdhury, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -12,7 +13,7 @@ description: |
     Activity is mapped to MITRE ATT&CK T1595 (Active Scanning).
 data_source:
     - Cisco Secure Access Proxy
-search: |
+search: |-
     `cisco_secure_access_proxy`
     | eval src_ip=coalesce(src_ip, src)
     | eval host=coalesce(hostname, host)
@@ -37,37 +38,39 @@ known_false_positives: |
 references:
     - https://attack.mitre.org/techniques/T1595/
 drilldown_searches:
-    - name: View the detection results for source $src_ip$ and domain $domain$
-      search: '%original_detection_search% | search src_ip = "$src_ip$" domain = "$domain$"'
+    - name: View the detection results for - "$src_ip$"
+      search: '%original_detection_search% | search src_ip = "$src_ip$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for $src_ip$
+    - name: View risk events for the last 7 days for - "$src_ip$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Source $src_ip$ triggered probable automated web reconnaissance on $domain$ with $errors$ HTTP access errors across $unique_urls$ unique URLs.
-    risk_objects:
-        - field: src_ip
-          type: system
-          score: 70
-    threat_objects:
-        - field: domain
-          type: domain
-tags:
-    analytic_story:
-        - Cisco Secure Access Analytics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1595
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 20
+          message: Source $src_ip$ triggered probable automated web reconnaissance on $domain$ with $errors$ HTTP access errors across $unique_urls$ unique URLs.
+threat_objects:
+    - field: domain
+      type: domain
+analytic_story:
+    - Cisco Secure Access Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1595
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: threat
 tests:
     - name: Cisco Secure Access Proxy True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/proxy/automated_web_recon_http_errors.log
           source: cisco_cloud_security_addon
           sourcetype: cisco:cloud_security:proxy
+      description: This test scenario covers true positive activity, simulating a high error count reconnaissance from a single src_ip against a domain. Review the filter macro to tune this detection for your environment.
+      test_type: unit

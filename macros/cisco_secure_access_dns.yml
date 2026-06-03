@@ -1,5 +1,8 @@
-definition: sourcetype="cisco:cloud_security:dns"
-description: |
-  Customer-specific Splunk configurations (for example index, source, or sourcetype) for Cisco Secure Access DNS telemetry from the Splunk Add-on for Cisco Security Cloud.
-  Replace the macro definition with settings that match your deployment. The default targets index `sse` and the `cisco:cloud_security:dns` sourcetype.
 name: cisco_secure_access_dns
+id: 3955995e-60b7-4e42-8177-70367d363902
+version: 1
+creation_date: '2026-06-03'
+modification_date: '2026-06-03'
+author: Mahamudul Chowdhury, Bhavin Patel, Splunk
+description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="cisco:cloud_security:dns"
