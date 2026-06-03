@@ -1,7 +1,8 @@
 name: Kubernetes Nginx Ingress RFI
 id: fc5531ae-62fd-4de6-9c36-b4afdae8ca95
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2021-08-23'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -22,29 +23,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Remote File Inclusion Attack detected on $host$
-    risk_objects:
-        - field: host
-          type: system
-          score: 50
-    threat_objects:
-        - field: src_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Dev Sec Ops
-    asset_type: Kubernetes
-    mitre_attack_id:
-        - T1212
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Remote File Inclusion Attack detected on $host$
+    entity:
+        field: host
+        type: system
+        score: 50
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - Dev Sec Ops
+asset_type: Kubernetes
+mitre_attack_id:
+    - T1212
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kuberntest_nginx_rfi_attack/kubernetes_nginx_rfi_attack.log
           sourcetype: kube:container:controller
           source: kubernetes
+      test_type: unit

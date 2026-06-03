@@ -1,7 +1,8 @@
 name: AWS Defense Evasion Delete Cloudtrail
 id: 82092925-9ca1-4e06-98b8-85a2d3889552
-version: 11
-date: '2026-05-04'
+version: 12
+creation_date: '2022-07-12'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -31,29 +32,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ has delete a CloudTrail logging for account id $vendor_account$ from IP $src$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - AWS Defense Evasion
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1685.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: User $user$ has delete a CloudTrail logging for account id $vendor_account$ from IP $src$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - AWS Defense Evasion
+asset_type: AWS Account
+mitre_attack_id:
+    - T1685.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/aws_cloudtrail_events.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

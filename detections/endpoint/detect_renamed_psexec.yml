@@ -1,7 +1,8 @@
 name: Detect Renamed PSExec
 id: 683e6196-b8e8-11eb-9a79-acde48001122
-version: 16
-date: '2026-02-25'
+version: 17
+creation_date: '2021-06-03'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk, Alex Oberkircher, Github Community
 status: production
 type: Hunting
@@ -34,34 +35,35 @@ known_false_positives: Limited false positives should be present. It is possible
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
     - https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
-tags:
-    analytic_story:
-        - Active Directory Lateral Movement
-        - BlackByte Ransomware
-        - Cactus Ransomware
-        - China-Nexus Threat Activity
-        - CISA AA22-320A
-        - DarkGate Malware
-        - DarkSide Ransomware
-        - DHS Report TA18-074A
-        - HAFNIUM Group
-        - Medusa Ransomware
-        - Rhysida Ransomware
-        - Salt Typhoon
-        - SamSam Ransomware
-        - Sandworm Tools
-        - VanHelsing Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1569.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Lateral Movement
+    - BlackByte Ransomware
+    - Cactus Ransomware
+    - China-Nexus Threat Activity
+    - CISA AA22-320A
+    - DarkGate Malware
+    - DarkSide Ransomware
+    - DHS Report TA18-074A
+    - HAFNIUM Group
+    - Medusa Ransomware
+    - Rhysida Ransomware
+    - Salt Typhoon
+    - SamSam Ransomware
+    - Sandworm Tools
+    - VanHelsing Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1569.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

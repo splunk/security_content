@@ -1,7 +1,8 @@
 name: Large Volume of DNS ANY Queries
 id: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -17,21 +18,20 @@ search: |-
 how_to_implement: To successfully implement this search you must ensure that DNS data is populating the Network_Resolution data model.
 known_false_positives: Legitimate ANY requests may trigger this search, however it is unusual to see a large volume of them under typical circumstances. You may modify the threshold in the search to better suit your environment.
 references: []
-rba:
-    message: Large Volume of DNS ANY Queries by $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - DNS Amplification Attacks
-    asset_type: DNS Servers
-    mitre_attack_id:
-        - T1498.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Large Volume of DNS ANY Queries by $dest$
+analytic_story:
+    - DNS Amplification Attacks
+asset_type: DNS Servers
+mitre_attack_id:
+    - T1498.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network

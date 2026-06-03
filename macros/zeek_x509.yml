@@ -1,4 +1,8 @@
-definition: sourcetype="zeek:x509:json"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: zeek_x509
+id: af29977e-8c16-43ab-92d5-9e3ba8bc6526
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="zeek:x509:json"

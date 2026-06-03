@@ -1,7 +1,8 @@
 name: O365 Email Send Attachments Excessive Volume
 id: 70a050a2-8537-488a-a628-b60a9558d96a
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-01-23'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -51,28 +52,28 @@ drilldown_searches:
       search: '`o365_management_activity` Workload=Exchange (Operation IN ("Send*")) AND Item.Attachments=* AND UserId = "$user$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The user $user$ sent an excessive number of email attachments [$count$] to external recipient(s) within a short timeframe
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: recipient
-          type: email_address
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-        - Suspicious Emails
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1070.008
-        - T1485
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: The user $user$ sent an excessive number of email attachments [$count$] to external recipient(s) within a short timeframe
+threat_objects:
+    - field: recipient
+      type: email_address
+analytic_story:
+    - Office 365 Account Takeover
+    - Suspicious Emails
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1070.008
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
@@ -82,3 +83,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_messagetrace_suspect_events.log
           source: o365_messagetrace
           sourcetype: o365:reporting:messagetrace
+      test_type: unit

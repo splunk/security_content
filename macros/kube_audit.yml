@@ -1,3 +1,8 @@
-definition: source="kubernetes"
-description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes audit data. Replace the macro definition with configurations for your Splunk Environment.
 name: kube_audit
+id: e276c180-88c9-4c09-99c5-c8b2f064d5d3
+version: 1
+creation_date: '2023-12-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes audit data. Replace the macro definition with configurations for your Splunk Environment.
+definition: source="kubernetes"

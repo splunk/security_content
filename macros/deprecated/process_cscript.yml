@@ -1,3 +1,8 @@
-definition: (Processes.process_name=cscript.exe OR Processes.original_file_name=cscript.exe)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_cscript
+id: 6ee382a5-28b0-492e-9c74-064a0de014a9
+version: 1
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=cscript.exe OR Processes.original_file_name=cscript.exe)

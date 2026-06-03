@@ -1,13 +1,14 @@
 name: Windows Default Group Policy Object Modified
 id: fe6a6cc4-9e0d-4d66-bcf4-2c7f44860876
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2023-03-28'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects modifications to default Group Policy Objects (GPOs) using Event ID 5136. It monitors changes to the `Default Domain Controllers Policy` and `Default Domain Policy`, which are critical for enforcing security settings across domain controllers and all users/computers, respectively. This activity is significant because unauthorized changes to these GPOs can indicate an adversary with privileged access attempting to deploy persistence mechanisms or execute malware across the network. If confirmed malicious, such modifications could lead to widespread compromise, allowing attackers to maintain control and execute arbitrary code on numerous hosts.
 data_source:
     - Windows Event Log Security 5136
-description: The following analytic detects modifications to default Group Policy Objects (GPOs) using Event ID 5136. It monitors changes to the `Default Domain Controllers Policy` and `Default Domain Policy`, which are critical for enforcing security settings across domain controllers and all users/computers, respectively. This activity is significant because unauthorized changes to these GPOs can indicate an adversary with privileged access attempting to deploy persistence mechanisms or execute malware across the network. If confirmed malicious, such modifications could lead to widespread compromise, allowing attackers to maintain control and execute arbitrary code on numerous hosts.
 search: |-
     `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=versionNumber (ObjectDN="CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM,DC=*" OR ObjectDN="CN={6AC1786C-016F-11D2-945F-00C04fB984F9},CN=POLICIES,CN=SYSTEM,DC=*")
       | stats min(_time) as firstTime max(_time) as lastTime
@@ -33,31 +34,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A default group policy object was modified on $Computer$ by $SubjectUserSid$
-    risk_objects:
+finding:
+    title: A default group policy object was modified on $Computer$ by $SubjectUserSid$
+    entity:
+        field: SubjectUserSid
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: Computer
           type: system
           score: 50
-        - field: SubjectUserSid
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Active Directory Privilege Escalation
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1484.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A default group policy object was modified on $Computer$ by $SubjectUserSid$
+analytic_story:
+    - Active Directory Privilege Escalation
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1484.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

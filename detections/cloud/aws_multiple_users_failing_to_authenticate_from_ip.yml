@@ -1,7 +1,8 @@
 name: AWS Multiple Users Failing To Authenticate From Ip
 id: 71e1fb89-dd5f-4691-8523-575420de4630
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2022-09-26'
+modification_date: '2026-05-13'
 author: Bhavin Patel
 status: production
 type: Anomaly
@@ -35,32 +36,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: 'Multiple failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src$'
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - AWS Identity and Access Management Account Takeover
-        - Compromised User Account
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1110.003
-        - T1110.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
-    manual_test: This search needs a specific number of events in a time window for the alert to trigger and events split up in CI testing while updating timestamp.
+          message: 'Multiple failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src$'
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - AWS Identity and Access Management Account Takeover
+    - Compromised User Account
+asset_type: AWS Account
+mitre_attack_id:
+    - T1110.003
+    - T1110.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
           source: aws_cloudtrail
           sourcetype: aws:cloudtrail
+      description: PORTED MANUAL TEST - This search needs a specific number of events in a time window for the alert to trigger and events split up in CI testing while updating timestamp.
+      test_type: experimental

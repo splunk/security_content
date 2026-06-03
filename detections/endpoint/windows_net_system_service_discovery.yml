@@ -1,7 +1,8 @@
 name: Windows Net System Service Discovery
 id: dd7da098-83b8-4c48-b09d-e51aeb621e81
-version: 4
-date: '2026-03-26'
+version: 5
+creation_date: '2021-05-07'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -30,21 +31,22 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
     - https://cert.gov.ua/article/6284730
-tags:
-    analytic_story:
-        - LAMEHUG
-        - Gh0st RAT
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1007
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - LAMEHUG
+    - Gh0st RAT
+asset_type: Endpoint
+mitre_attack_id:
+    - T1007
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/lamehug/T1007/net_start/net_start.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

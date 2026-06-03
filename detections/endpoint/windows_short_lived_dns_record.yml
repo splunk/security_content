@@ -1,7 +1,8 @@
 name: Windows Short Lived DNS Record
 id: d585e253-1859-4170-977d-09376c731f74
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-11-18'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -35,37 +36,40 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A short-lived DNS object was created and deleted on $dest$
-    risk_objects:
+finding:
+    title: A short-lived DNS object was created and deleted on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - Suspicious DNS Traffic
-        - Local Privilege Escalation With KrbRelayUp
-        - Kerberos Coercion with DNS
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1071.004
-        - T1557.001
-        - T1187
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve:
-        - CVE-2025-33073
+          message: A short-lived DNS object was created and deleted on $dest$
+analytic_story:
+    - Compromised Windows Host
+    - Suspicious DNS Traffic
+    - Local Privilege Escalation With KrbRelayUp
+    - Kerberos Coercion with DNS
+asset_type: Endpoint
+cve:
+    - CVE-2025-33073
+mitre_attack_id:
+    - T1071.004
+    - T1557.001
+    - T1187
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/windows-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

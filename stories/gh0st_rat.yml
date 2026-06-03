@@ -1,7 +1,8 @@
 name: Gh0st RAT
 id: 5810ebaa-e4a6-4650-9f62-ac96f94bcdee
-version: 1
-date: '2026-03-24'
+version: 2
+creation_date: '2026-03-30'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: |-
@@ -29,11 +30,10 @@ references:
     - https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf
     - https://www.sentinelone.com/blog/the-curious-case-of-gh0st-malware/
     - https://cloud.google.com/blog/topics/threat-intelligence/demonstrating-hustle/
-tags:
-    category:
-        - Adversary Tactics
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    usecase: Advanced Threat Detection
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

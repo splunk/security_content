@@ -1,7 +1,8 @@
 name: GCP Unusual Number of Failed Authentications From Ip
 id: bd8097ed-958a-4873-87d9-44f2b4d85705
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2022-09-26'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -35,31 +36,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$tried_accounts$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: 'Unusual number of failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src$'
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: tried_accounts
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - GCP Account Takeover
-    asset_type: Google Cloud Platform tenant
-    mitre_attack_id:
-        - T1110.003
-        - T1110.004
-        - T1586.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: 'Unusual number of failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src$'
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - GCP Account Takeover
+asset_type: Google Cloud Platform tenant
+mitre_attack_id:
+    - T1110.003
+    - T1110.004
+    - T1586.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
           source: gws_login
           sourcetype: gws:reports:login
+      test_type: unit

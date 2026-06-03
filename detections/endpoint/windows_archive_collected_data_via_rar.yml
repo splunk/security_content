@@ -1,15 +1,16 @@
 name: Windows Archive Collected Data via Rar
 id: 2015de95-fe91-413d-9d62-2fe011b67e82
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2022-12-06'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+description: The following analytic identifies the execution of RAR utilities to archive files on a system. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, GUIDs, and command-line arguments. This activity is significant as threat actors, including red-teamers and malware like DarkGate, use RAR archiving to compress and exfiltrate collected data from compromised hosts. If confirmed malicious, this behavior could lead to the unauthorized transfer of sensitive information to command and control servers, posing a severe risk to data confidentiality and integrity.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic identifies the execution of RAR utilities to archive files on a system. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, GUIDs, and command-line arguments. This activity is significant as threat actors, including red-teamers and malware like DarkGate, use RAR archiving to compress and exfiltrate collected data from compromised hosts. If confirmed malicious, this behavior could lead to the unauthorized transfer of sensitive information to command and control servers, posing a severe risk to data confidentiality and integrity.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name="Rar.exe"
@@ -41,30 +42,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a Rar.exe commandline used in archiving collected data on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - DarkGate Malware
-        - Salt Typhoon
-        - China-Nexus Threat Activity
-        - APT37 Rustonotto and FadeStealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1560.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a Rar.exe commandline used in archiving collected data on $dest$.
+analytic_story:
+    - DarkGate Malware
+    - Salt Typhoon
+    - China-Nexus Threat Activity
+    - APT37 Rustonotto and FadeStealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1560.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility_darkgate/rar_sys.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

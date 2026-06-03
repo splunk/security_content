@@ -1,27 +1,27 @@
 name: Powershell Installed IIS Modules
 id: 4f2ccf42-3503-4417-a684-bfccf7f0d7b4
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs the list of installed IIS modules retrieved using PowerShell, including
-  details about their names and statuses.
+description: Logs the list of installed IIS modules retrieved using PowerShell, including details about their names and statuses.
 mitre_components:
-- Service Metadata
-- Configuration Modification
-- OS API Execution
-- Application Log Content
+    - Service Metadata
+    - Configuration Modification
+    - OS API Execution
+    - Application Log Content
 source: powershell://AppCmdModules
 sourcetype: Pwsh:InstalledIISModules
 supported_TA: []
 fields:
-- _time
-- Schema
-- host
-- index
-- linecount
-- punct
-- source
-- sourcetype
-- splunk_server
-- timestamp
+    - _time
+    - Schema
+    - host
+    - index
+    - linecount
+    - punct
+    - source
+    - sourcetype
+    - splunk_server
+    - timestamp
 example_log: Schema="Microsoft.IIs.PowerShell.Framework.ConfigurationElementSchema"

@@ -1,7 +1,8 @@
 name: O365 Email Receive and Hard Delete Takeover Behavior
 id: b66aeaa4-586f-428b-8a2b-c4fd3039d8d3
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-01-23'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -49,33 +50,33 @@ drilldown_searches:
       search: '`o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*") AND RecipientAddress = "$user$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The user $user$ received and deleted an email within a short timeframe titled [$subject$] which may contain password or banking information
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: subject
-          type: email_subject
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-        - Office 365 Collection Techniques
-        - Suspicious Emails
-        - Data Destruction
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1070.008
-        - T1485
-        - T1114.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: The user $user$ received and deleted an email within a short timeframe titled [$subject$] which may contain password or banking information
+threat_objects:
+    - field: src
+      type: ip_address
+    - field: subject
+      type: email_subject
+analytic_story:
+    - Office 365 Account Takeover
+    - Office 365 Collection Techniques
+    - Suspicious Emails
+    - Data Destruction
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1070.008
+    - T1485
+    - T1114.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
@@ -85,3 +86,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_messagetrace_suspect_events.log
           source: o365_messagetrace
           sourcetype: o365:reporting:messagetrace
+      test_type: unit

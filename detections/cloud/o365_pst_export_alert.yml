@@ -1,7 +1,8 @@
 name: O365 PST export alert
 id: 5f694cc4-a678-4a60-9410-bffca1b647dc
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2020-12-16'
+modification_date: '2026-05-13'
 author: Rod Soto, Splunk
 status: production
 type: TTP
@@ -32,28 +33,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ has exported a PST file from the search using this operation- $signature$ with a severity of $Severity$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Collection Techniques
-        - Data Exfiltration
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1114
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: User $user$ has exported a PST file from the search using this operation- $signature$ with a severity of $Severity$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Office 365 Collection Techniques
+    - Data Exfiltration
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1114
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json
           sourcetype: o365:management:activity
           source: o365
+      test_type: unit

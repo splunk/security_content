@@ -1,7 +1,8 @@
 name: Windows Suspect Process With Authentication Traffic
 id: 953322db-128a-4ce9-8e89-56e039e33d98
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-07-28'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -23,36 +24,39 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The process $process_name$ on $src$ has been communicating with $dest$ on $dest_port$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
+          message: The process $process_name$ on $src$ has been communicating with $dest$ on $dest_port$.
         - field: dest
           type: system
           score: 20
+          message: The process $process_name$ on $src$ has been communicating with $dest$ on $dest_port$.
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Active Directory Discovery
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1087.002
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The process $process_name$ on $src$ has been communicating with $dest$ on $dest_port$.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Active Directory Discovery
+asset_type: Endpoint
+mitre_attack_id:
+    - T1087.002
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

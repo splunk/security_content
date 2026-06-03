@@ -1,7 +1,8 @@
 name: LLM Model File Creation
 id: 23e5b797-378d-45d6-ab3e-d034ca12a99b
-version: 1
-date: '2025-11-12'
+version: 2
+creation_date: '2025-11-24'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: production
 type: Hunting
@@ -44,20 +45,21 @@ references:
     - https://www.ibm.com/think/topics/shadow-ai
     - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
     - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
-tags:
-    analytic_story:
-        - Suspicious Local LLM Frameworks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Suspicious Local LLM Frameworks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

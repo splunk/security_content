@@ -1,7 +1,8 @@
 name: Windows Process Injection With Public Source Path
 id: 492f09cf-5d60-4d87-99dd-0bc325532dda
-version: 9
-date: '2025-05-02'
+version: 10
+creation_date: '2022-09-05'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -13,21 +14,22 @@ how_to_implement: To successfully implement this search, you must be ingesting d
 known_false_positives: Some security products or third party applications may utilize CreateRemoteThread, filter as needed.
 references:
     - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
-tags:
-    analytic_story:
-        - Brute Ratel C4
-        - Earth Alux
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1055.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Brute Ratel C4
+    - Earth Alux
+asset_type: Endpoint
+mitre_attack_id:
+    - T1055.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/create_remote_thread/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

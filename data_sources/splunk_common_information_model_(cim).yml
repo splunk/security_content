@@ -1,12 +1,13 @@
 name: Splunk Common Information Model (CIM)
 id: d3dd8270-7e1c-4bcd-8f3a-e5ec4a0e740a
-version: 1
-date: '2025-01-14'
+version: 2
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Splunk CIM
 source: not_applicable
 sourcetype: not_applicable
 supported_TA:
-- name: Splunk Common Information Model (CIM)
-  url: https://splunkbase.splunk.com/app/1621
-  version: 8.5.0
+    - name: Splunk Common Information Model (CIM)
+      url: https://splunkbase.splunk.com/app/1621
+      version: 8.5.0

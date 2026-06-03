@@ -1,7 +1,8 @@
 name: PowerShell - Connect To Internet With Hidden Window
 id: ee18ed37-0802-4268-9435-b3b91aaa18db
-version: 15
-date: '2026-02-25'
+version: 16
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Michael Haag Splunk
 status: production
 type: Hunting
@@ -37,28 +38,29 @@ references:
     - https://ss64.com/ps/powershell.html
     - https://twitter.com/M_haggis/status/1440758396534214658?s=20
     - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
-tags:
-    analytic_story:
-        - AgentTesla
-        - HAFNIUM Group
-        - Hermetic Wiper
-        - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-        - Malicious PowerShell
-        - Data Destruction
-        - Log4Shell CVE-2021-44228
-    asset_type: Endpoint
-    cve:
-        - CVE-2021-44228
-    mitre_attack_id:
-        - T1059.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - AgentTesla
+    - HAFNIUM Group
+    - Hermetic Wiper
+    - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+    - Malicious PowerShell
+    - Data Destruction
+    - Log4Shell CVE-2021-44228
+asset_type: Endpoint
+cve:
+    - CVE-2021-44228
+mitre_attack_id:
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

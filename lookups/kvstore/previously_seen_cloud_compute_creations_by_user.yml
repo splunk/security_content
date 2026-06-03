@@ -1,0 +1,14 @@
+name: previously_seen_cloud_compute_creations_by_user
+id: cfd1a79b-0b98-42b9-bc0d-2464f74321e5
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A table of previously seen users creating cloud instances
+fields:
+    - _key
+    - firstTimeSeen
+    - lastTimeSeen
+    - user
+    - enough_data

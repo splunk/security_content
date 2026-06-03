@@ -1,4 +1,8 @@
-definition: (source="WinEventLog:Microsoft-Windows-Windows Defender/Operational" OR source="XmlWinEventLog:Microsoft-Windows-Windows Defender/Operational")
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: ms_defender
+id: 05615ae3-0056-41d3-addf-03133a1287d1
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: (source="WinEventLog:Microsoft-Windows-Windows Defender/Operational" OR source="XmlWinEventLog:Microsoft-Windows-Windows Defender/Operational")

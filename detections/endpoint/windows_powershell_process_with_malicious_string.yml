@@ -1,7 +1,8 @@
 name: Windows PowerShell Process With Malicious String
 id: 5df35d50-e1a3-4a52-a337-92e69d9b1b8a
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2025-01-13'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -46,32 +47,36 @@ drilldown_searches:
       search: '| from datamodel:Endpoint.Processes | search dest=$dest|s$ process_name=$process_name$ "*$match$*"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The user $user$ ran a known malicious PowerShell string matching *$match$* on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: The user $user$ ran a known malicious PowerShell string matching *$match$* on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Malicious PowerShell
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: The user $user$ ran a known malicious PowerShell string matching *$match$* on $dest$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Malicious PowerShell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

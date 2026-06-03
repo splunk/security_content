@@ -1,7 +1,8 @@
 name: Windows Hidden Schedule Task Settings
 id: 0b730470-5fe8-4b13-93a7-fe0ad014d0cc
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2022-04-27'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -31,35 +32,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A schedule task with hidden setting enable in host $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - CISA AA22-257A
-        - Active Directory Discovery
-        - Malicious Inno Setup Loader
-        - Compromised Windows Host
-        - Data Destruction
-        - Industroyer2
-        - Cactus Ransomware
-        - Scheduled Tasks
-        - Hellcat Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A schedule task with hidden setting enable in host $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - CISA AA22-257A
+    - Active Directory Discovery
+    - Malicious Inno Setup Loader
+    - Compromised Windows Host
+    - Data Destruction
+    - Industroyer2
+    - Cactus Ransomware
+    - Scheduled Tasks
+    - Hellcat Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/hidden_schedule_task/inno_schtask.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

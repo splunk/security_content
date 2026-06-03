@@ -1,7 +1,8 @@
 name: Windows AppX Deployment Unsigned Package Installation
 id: 9b5e7c14-f8d2-4a3b-b1a7-e5c9f2a8d123
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-08-18'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,31 +38,31 @@ drilldown_searches:
       search: '`powershell` EventCode=4104 dest="$dest$" ScriptBlockText="*Add-AppxPackage*" OR ScriptBlockText="*Add-AppPackage*" | stats count by ScriptBlockText'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: Unsigned MSIX/AppX package $file_name$ installation attempted on $dest$ by user $user_id$ using $CallingProcess$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: file_name
-          type: file_name
-tags:
-    analytic_story:
-        - MSIX Package Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1553.005
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+finding:
+    title: Unsigned MSIX/AppX package $file_name$ installation attempted on $dest$ by user $user_id$ using $CallingProcess$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: file_name
+      type: file_name
+analytic_story:
+    - MSIX Package Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1553.005
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/appx/windows_appxdeploymentserver.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational
+      test_type: unit

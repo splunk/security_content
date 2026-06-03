@@ -1,7 +1,8 @@
 name: Windows USBSTOR Registry Key Modification
 id: a345980a-417d-4ed3-9fb4-cac30c9405a0
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2025-01-17'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -43,34 +44,35 @@ drilldown_searches:
       search: '| from datamodel:Endpoint.Registry | search dest=$dest$ registry_path IN ("HKLM\\System\\CurrentControlSet\\Enum\\USBSTOR\\*")'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A removable storage device named [$object_name$] with drive letter [$object_handle$] was attached to $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: object_name
-          type: registry_value_name
-        - field: object_handle
-          type: registry_value_text
-tags:
-    analytic_story:
-        - Data Protection
-        - APT37 Rustonotto and FadeStealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1200
-        - T1025
-        - T1091
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A removable storage device named [$object_name$] with drive letter [$object_handle$] was attached to $dest$
+threat_objects:
+    - field: object_handle
+      type: registry_value_text
+    - field: object_name
+      type: registry_value_name
+analytic_story:
+    - Data Protection
+    - APT37 Rustonotto and FadeStealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1200
+    - T1025
+    - T1091
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1200/sysmon_usb_use_execution/sysmon_usb_use_execution.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

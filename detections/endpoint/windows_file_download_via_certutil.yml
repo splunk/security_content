@@ -1,7 +1,8 @@
 name: Windows File Download Via CertUtil
 id: 7fac8d40-e370-45ea-a4a3-031bbcc18b02
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2021-03-24'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: TTP
@@ -49,47 +50,52 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Living Off The Land
-        - Ingress Tool Transfer
-        - ProxyNotShell
-        - DarkSide Ransomware
-        - Forest Blizzard
-        - Flax Typhoon
-        - Compromised Windows Host
-        - CISA AA22-277A
-        - Cisco Network Visibility Module Analytics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file.
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Living Off The Land
+    - Ingress Tool Transfer
+    - ProxyNotShell
+    - DarkSide Ransomware
+    - Forest Blizzard
+    - Flax Typhoon
+    - Compromised Windows Host
+    - CISA AA22-277A
+    - Cisco Network Visibility Module Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Sysmon
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
     - name: True Positive Test - Cisco NVM
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata
+      test_type: unit

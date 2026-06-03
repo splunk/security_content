@@ -1,35 +1,25 @@
 name: SystemBC
 id: ddc2801b-a881-4458-8f9d-c20e95daebea
-version: 1
-date: '2025-02-28'
+version: 2
+creation_date: '2025-02-28'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
-description: Leverage searches for Dropped Files anomalies,  and registry modification to detect SystemBC malware. 
-  This threat acts as a backdoor proxy that enables attackers to maintain persistence, evade detection, and facilitate ransomware operations. 
-  It often uses SOCKS5 proxies to disguise malicious traffic, making traditional network monitoring less effective. 
-  Look for unusual outbound connections, especially to known threat actor infrastructure. Additionally, analyze PowerShell scripts, 
-  scheduled tasks, and process injections that may indicate SystemBC deployment. Proactive threat hunting and endpoint monitoring are 
-  essential to detecting and mitigating this malware.
-narrative: SystemBC is a stealthy malware strain known for its proxy and backdoor capabilities, 
-  often used by cybercriminals to facilitate ransomware attacks. First reported in 2019, it operates as a SOCKS5 proxy, 
-  allowing attackers to route malicious traffic through infected systems while evading detection. 
-  The malware is typically delivered via exploit kits, phishing emails, or secondary payloads from other malware families. 
-  It enables persistent remote access, executes encrypted commands from a C2 server, and helps adversaries maintain control 
-  over compromised networks. SystemBC has been linked to major ransomware operations, making it a significant threat in modern cyberattacks.
+description: Leverage searches for Dropped Files anomalies,  and registry modification to detect SystemBC malware. This threat acts as a backdoor proxy that enables attackers to maintain persistence, evade detection, and facilitate ransomware operations. It often uses SOCKS5 proxies to disguise malicious traffic, making traditional network monitoring less effective. Look for unusual outbound connections, especially to known threat actor infrastructure. Additionally, analyze PowerShell scripts, scheduled tasks, and process injections that may indicate SystemBC deployment. Proactive threat hunting and endpoint monitoring are essential to detecting and mitigating this malware.
+narrative: SystemBC is a stealthy malware strain known for its proxy and backdoor capabilities, often used by cybercriminals to facilitate ransomware attacks. First reported in 2019, it operates as a SOCKS5 proxy, allowing attackers to route malicious traffic through infected systems while evading detection. The malware is typically delivered via exploit kits, phishing emails, or secondary payloads from other malware families. It enables persistent remote access, executes encrypted commands from a C2 server, and helps adversaries maintain control over compromised networks. SystemBC has been linked to major ransomware operations, making it a significant threat in modern cyberattacks.
 references:
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.systembc
-- https://thedfirreport.com/2025/01/27/cobalt-strike-and-a-pair-of-socks-lead-to-lockbit-ransomware/
-- https://hackread.com/systembc-rat-targets-linux-ransomware-infostealers/
-- https://hackread.com/infostealers-breach-us-security-military-fbi-hit/
-- https://www.kroll.com/en/insights/publications/cyber/inside-the-systembc-malware-server
-- https://medium.com/walmartglobaltech/systembc-powershell-version-68c9aad0f85c
-- https://securelist.com/focus-on-droxidat-systembc/110302/
-- https://blogs.blackberry.com/en/2021/06/threat-thursday-systembc-a-rat-in-the-pipeline
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.systembc
+    - https://thedfirreport.com/2025/01/27/cobalt-strike-and-a-pair-of-socks-lead-to-lockbit-ransomware/
+    - https://hackread.com/systembc-rat-targets-linux-ransomware-infostealers/
+    - https://hackread.com/infostealers-breach-us-security-military-fbi-hit/
+    - https://www.kroll.com/en/insights/publications/cyber/inside-the-systembc-malware-server
+    - https://medium.com/walmartglobaltech/systembc-powershell-version-68c9aad0f85c
+    - https://securelist.com/focus-on-droxidat-systembc/110302/
+    - https://blogs.blackberry.com/en/2021/06/threat-thursday-systembc-a-rat-in-the-pipeline
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

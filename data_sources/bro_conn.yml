@@ -1,18 +1,18 @@
 name: Bro conn
 id: c5a7e93b-2172-45a7-a7e9-3b217255a7f5
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2025-01-21'
+modification_date: '2026-05-13'
 author: Jacob Delgado, SnapAttack
-description: Logs network connection metadata captured by Zeek (formerly Bro), including
-  details such as source and destination IPs, ports, connection state, and protocol.
+description: Logs network connection metadata captured by Zeek (formerly Bro), including details such as source and destination IPs, ports, connection state, and protocol.
 mitre_components:
-- Network Connection Creation
-- Network Traffic Flow
-- Response Metadata
-- Application Log Content
+    - Network Connection Creation
+    - Network Traffic Flow
+    - Response Metadata
+    - Application Log Content
 source: bro:conn:json
 sourcetype: bro:conn:json
 supported_TA:
-- name: TA for Zeek
-  url: https://splunkbase.splunk.com/app/5466
-  version: 1.0.11
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11

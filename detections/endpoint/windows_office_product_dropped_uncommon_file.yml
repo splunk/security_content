@@ -1,7 +1,8 @@
 name: Windows Office Product Dropped Uncommon File
 id: 7ac0fced-9eae-4381-a748-90dcd1aa9393
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2021-09-14'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Michael Haag, Splunk, TheLawsOfChaos, Github
 status: production
 type: Anomaly
@@ -47,34 +48,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: process $process_name$ drops a file $file_name$ in host $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - CVE-2023-21716 Word RTF Heap Corruption
-        - Warzone RAT
-        - FIN7
-        - Compromised Windows Host
-        - AgentTesla
-        - PlugX
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1566.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: process $process_name$ drops a file $file_name$ in host $dest$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - CVE-2023-21716 Word RTF Heap Corruption
+    - Warzone RAT
+    - FIN7
+    - Compromised Windows Host
+    - AgentTesla
+    - PlugX
+asset_type: Endpoint
+mitre_attack_id:
+    - T1566.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

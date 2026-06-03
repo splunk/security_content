@@ -1,7 +1,8 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 23
-date: '2026-04-21'
+version: 24
+creation_date: '2021-05-07'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -66,81 +67,82 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: '0'
-rba:
-    message: Executable or script with file name $file_name$ located $file_path$ and process_id $process_id$ was created in temporary folder by $user$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: file_name
-          type: file_name
-        - field: file_path
-          type: file_path
-tags:
-    analytic_story:
-        - Snake Keylogger
-        - China-Nexus Threat Activity
-        - Remcos
-        - LockBit Ransomware
-        - AsyncRAT
-        - DarkCrystal RAT
-        - Derusbi
-        - WinDealer RAT
-        - DarkGate Malware
-        - AcidPour
-        - ValleyRAT
-        - Crypto Stealer
-        - PlugX
-        - Data Destruction
-        - Qakbot
-        - CISA AA23-347A
-        - Hermetic Wiper
-        - Volt Typhoon
-        - Double Zero Destructor
-        - NjRAT
-        - Trickbot
-        - Meduza Stealer
-        - AgentTesla
-        - SnappyBee
-        - Azorult
-        - WhisperGate
-        - Warzone RAT
-        - Swift Slicer
-        - Rhysida Ransomware
-        - Brute Ratel C4
-        - BlackByte Ransomware
-        - Graceful Wipe Out Attack
-        - Chaos Ransomware
-        - Handala Wiper
-        - RedLine Stealer
-        - Salt Typhoon
-        - XMRig
-        - MoonPeak
-        - Industroyer2
-        - Amadey
-        - IcedID
-        - Interlock Rat
-        - APT37 Rustonotto and FadeStealer
-        - PromptLock
-        - Lokibot
-        - SesameOp
-        - PromptFlux
-        - XML Runner Loader
-        - Void Manticore
-        - Axios Supply Chain Post Compromise
-        - VIP Keylogger
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1036
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Executable or script with file name $file_name$ located $file_path$ and process_id $process_id$ was created in temporary folder by $user$
+threat_objects:
+    - field: file_name
+      type: file_name
+    - field: file_path
+      type: file_path
+analytic_story:
+    - Snake Keylogger
+    - China-Nexus Threat Activity
+    - Remcos
+    - LockBit Ransomware
+    - AsyncRAT
+    - DarkCrystal RAT
+    - Derusbi
+    - WinDealer RAT
+    - DarkGate Malware
+    - AcidPour
+    - ValleyRAT
+    - Crypto Stealer
+    - PlugX
+    - Data Destruction
+    - Qakbot
+    - CISA AA23-347A
+    - Hermetic Wiper
+    - Volt Typhoon
+    - Double Zero Destructor
+    - NjRAT
+    - Trickbot
+    - Meduza Stealer
+    - AgentTesla
+    - SnappyBee
+    - Azorult
+    - WhisperGate
+    - Warzone RAT
+    - Swift Slicer
+    - Rhysida Ransomware
+    - Brute Ratel C4
+    - BlackByte Ransomware
+    - Graceful Wipe Out Attack
+    - Chaos Ransomware
+    - Handala Wiper
+    - RedLine Stealer
+    - Salt Typhoon
+    - XMRig
+    - MoonPeak
+    - Industroyer2
+    - Amadey
+    - IcedID
+    - Interlock Rat
+    - APT37 Rustonotto and FadeStealer
+    - PromptLock
+    - Lokibot
+    - SesameOp
+    - PromptFlux
+    - XML Runner Loader
+    - Void Manticore
+    - Axios Supply Chain Post Compromise
+    - VIP Keylogger
+asset_type: Endpoint
+mitre_attack_id:
+    - T1036
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

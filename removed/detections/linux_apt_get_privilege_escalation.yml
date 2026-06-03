@@ -1,7 +1,8 @@
 name: Linux apt-get Privilege Escalation
 id: d870ce3b-e796-402f-b2af-cab4da1223f2
 version: 11
-date: '2026-02-10'
+creation_date: '2022-08-10'
+modification_date: '2026-05-13'
 author: Gowthamaraj Rajendran, Bhavin Patel, Splunk
 status: removed
 type: Anomaly
@@ -51,11 +52,16 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/sysmon_linux.log
-          source: Syslog:Linux-Sysmon/Operational
-          sourcetype: sysmon:linux
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/sysmon_linux.log
+            source: Syslog:Linux-Sysmon/Operational
+            sourcetype: sysmon:linux
     - name: True Positive Test - Cisco Isovalent
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/cisco_isovalent.log
-          source: not_applicable
-          sourcetype: cisco:isovalent:processExec
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/cisco_isovalent.log
+            source: not_applicable
+            sourcetype: cisco:isovalent:processExec
+deprecation_info:
+    reason: Detection has been deprecated in favor of a more broad and generic logic that aims to reduce overhead and increase coverage.
+    removed_in_version: 5.24.0
+    replacement_content:
+        - Linux APT Privilege Escalation

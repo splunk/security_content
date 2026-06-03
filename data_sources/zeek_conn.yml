@@ -1,73 +1,74 @@
 name: Zeek Conn
 id: 01dff429-9c29-4181-87ae-ea19cde20031
-version: 1
-date: '2025-03-12'
+version: 2
+creation_date: '2025-03-13'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 description: Data source object for Zeek connection logs
 source: bro:conn:json
 sourcetype: bro:conn:json
 supported_TA:
-- name: TA for Zeek
-  url: https://splunkbase.splunk.com/app/5466
-  version: 1.0.11
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11
 fields:
-- action
-- bytes
-- bytes_in
-- bytes_out
-- conn_state
-- conn_state_meaning
-- dest
-- dest_host
-- dest_ip
-- dest_port
-- duration
-- dvc
-- flow_id
-- history
-- id.orig_h
-- id.orig_p
-- id.resp_h
-- id.resp_p
-- id_orig_h
-- id_orig_p
-- id_resp_h
-- id_resp_p
-- is_broadcast
-- is_dest_internal_ip
-- is_src_internal_ip
-- local_orig
-- local_resp
-- missed_bytes
-- orig_bytes
-- orig_ip_bytes
-- orig_pkts
-- packets
-- packets_in
-- packets_out
-- product
-- proto
-- resp_bytes
-- resp_ip_bytes
-- resp_pkts
-- sensor_name
-- src
-- src_ip
-- src_port
-- tcp_flag
-- transport
-- ts
-- tunnel_parents
-- uid
-- vendor
-- vendor_product
+    - action
+    - bytes
+    - bytes_in
+    - bytes_out
+    - conn_state
+    - conn_state_meaning
+    - dest
+    - dest_host
+    - dest_ip
+    - dest_port
+    - duration
+    - dvc
+    - flow_id
+    - history
+    - id.orig_h
+    - id.orig_p
+    - id.resp_h
+    - id.resp_p
+    - id_orig_h
+    - id_orig_p
+    - id_resp_h
+    - id_resp_p
+    - is_broadcast
+    - is_dest_internal_ip
+    - is_src_internal_ip
+    - local_orig
+    - local_resp
+    - missed_bytes
+    - orig_bytes
+    - orig_ip_bytes
+    - orig_pkts
+    - packets
+    - packets_in
+    - packets_out
+    - product
+    - proto
+    - resp_bytes
+    - resp_ip_bytes
+    - resp_pkts
+    - sensor_name
+    - src
+    - src_ip
+    - src_port
+    - tcp_flag
+    - transport
+    - ts
+    - tunnel_parents
+    - uid
+    - vendor
+    - vendor_product
 output_fields:
-- action
-- dest
-- dest_ip
-- dest_port
-- dvc
-- src
-- src_ip
-- src_port
-- vendor_product
+    - action
+    - dest
+    - dest_ip
+    - dest_port
+    - dvc
+    - src
+    - src_ip
+    - src_port
+    - vendor_product

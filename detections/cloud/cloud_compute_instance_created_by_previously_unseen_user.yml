@@ -1,7 +1,8 @@
 name: Cloud Compute Instance Created By Previously Unseen User
 id: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: production
 type: Anomaly
@@ -33,31 +34,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ is creating a new instance $dest$ for the first time
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: User $user$ is creating a new instance $dest$ for the first time
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Cloud Cryptomining
-    asset_type: Cloud Compute Instance
-    mitre_attack_id:
-        - T1078.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
-    manual_test: This search needs the baseline `Previously Seen Cloud Compute Creations By User` to be run first.
+          message: User $user$ is creating a new instance $dest$ for the first time
+analytic_story:
+    - Cloud Cryptomining
+asset_type: Cloud Compute Instance
+mitre_attack_id:
+    - T1078.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
+baselines:
+    - Previously Seen Cloud Compute Creations By User - Initial
+    - Previously Seen Cloud Compute Creations By User - Update
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      description: PORTED MANUAL TEST - This search needs the baseline `Previously Seen Cloud Compute Creations By User` to be run first.
+      test_type: experimental

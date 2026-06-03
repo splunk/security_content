@@ -1,23 +1,24 @@
 name: Get Sysmon WMI Activity for Host
 id: 155e0571-7db6-42f2-aa62-9a3a4cf35c94
 version: 1
-date: '2018-10-23'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 type: Investigation
 status: removed
 description: This search queries Sysmon WMI events for the host of interest.
-search: '`sysmon` EventCode>18 EventCode<22 | rename host as dest | search dest=$dest$|
-  table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter'
-how_to_implement: To successfully implement this search, you must be collecting Sysmon
-  data using Sysmon version 6.1 or greater and have Sysmon configured to generate
-  events for WMI activity. In addition, you must have at least version 6.0.4 of the
-  Sysmon TA installed to properly parse the fields.
+search: '`sysmon` EventCode>18 EventCode<22 | rename host as dest | search dest=$dest$| table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter'
+how_to_implement: To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate events for WMI activity. In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - Ransomware
-  - Suspicious WMI Use
-  product:
-  - Splunk Phantom
-  security_domain: endpoint
+    analytic_story:
+        - Ransomware
+        - Suspicious WMI Use
+    product:
+        - Splunk Phantom
+    security_domain: endpoint
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

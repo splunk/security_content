@@ -1,8 +1,0 @@
-name: network_acl_activity_baseline
-date: 2024-12-23
-version: 2
-id: 779e0050-a97a-49d2-8aa0-3640d4829b30
-author: Splunk Threat Research Team
-description: A lookup file that will contain the baseline information for number of
-  AWS Network ACL Activity
-lookup_type: csv

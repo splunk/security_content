@@ -1,7 +1,8 @@
 name: Cloud Compute Instance Created With Previously Unseen Instance Type
 id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -47,31 +48,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ is creating an instance $dest$ with an instance type $instance_type$ that has not been previously seen.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: User $user$ is creating an instance $dest$ with an instance type $instance_type$ that has not been previously seen.
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Cloud Cryptomining
-    asset_type: Cloud Compute Instance
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
-    mitre_attack_id:
-        - T1578.002
-    manual_test: This search needs the baseline `Previously Seen Cloud Compute Instance Types - Initial` to be run first.
+          message: User $user$ is creating an instance $dest$ with an instance type $instance_type$ that has not been previously seen.
+analytic_story:
+    - Cloud Cryptomining
+asset_type: Cloud Compute Instance
+mitre_attack_id:
+    - T1578.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
+baselines:
+    - Previously Seen Cloud Compute Instance Types - Update
+    - Previously Seen Cloud Compute Instance Types - Initial
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      description: PORTED MANUAL TEST - This search needs the baseline `Previously Seen Cloud Compute Instance Types - Initial` to be run first.
+      test_type: experimental

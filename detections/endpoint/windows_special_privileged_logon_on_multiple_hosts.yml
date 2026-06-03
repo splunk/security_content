@@ -1,13 +1,14 @@
 name: Windows Special Privileged Logon On Multiple Hosts
 id: 4c461f5a-c2cc-4e86-b132-c262fc9edca7
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-03-23'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
-type: TTP
 status: production
+type: TTP
+description: The following analytic detects a user authenticating with special privileges on 30 or more remote endpoints within a 5-minute window. It leverages Event ID 4672 from Windows Security logs to identify this behavior. This activity is significant as it may indicate lateral movement or remote code execution by an adversary. If confirmed malicious, the attacker could gain extensive control over the network, potentially leading to privilege escalation, data exfiltration, or further compromise of the environment. Security teams should adjust detection thresholds based on their specific environment.
 data_source:
     - Windows Event Log Security 4672
-description: The following analytic detects a user authenticating with special privileges on 30 or more remote endpoints within a 5-minute window. It leverages Event ID 4672 from Windows Security logs to identify this behavior. This activity is significant as it may indicate lateral movement or remote code execution by an adversary. If confirmed malicious, the attacker could gain extensive control over the network, potentially leading to privilege escalation, data exfiltration, or further compromise of the environment. Security teams should adjust detection thresholds based on their specific environment.
 search: |-
     `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL SERVICE","NETWORK SERVICE","SYSTEM","*$"))
       | bucket span=5m _time
@@ -32,31 +33,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: 'A user $user$ obtained special privileges on a large number of endpoints (Count: $unique_targets$) within 5 minutes.'
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Active Directory Privilege Escalation
-        - Active Directory Lateral Movement
-        - Compromised Windows Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1087
-        - T1021.002
-        - T1135
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: 'A user $user$ obtained special privileges on a large number of endpoints (Count: $unique_targets$) within 5 minutes.'
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Active Directory Privilege Escalation
+    - Active Directory Lateral Movement
+    - Compromised Windows Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1087
+    - T1021.002
+    - T1135
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/special_logon_on_mulitple_hosts/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

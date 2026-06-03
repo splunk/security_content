@@ -1,0 +1,12 @@
+name: suspicious_c2_named_pipes
+id: 9ccc2cd8-bc62-48d0-bb27-5dc249c55edb
+version: 2
+creation_date: '2025-12-08'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+lookup_type: csv
+description: A list of named pipes used with known C2 frameworks and toolings.
+match_type:
+    - WILDCARD(suspicious_pipe_name)
+min_matches: 1
+case_sensitive_match: false

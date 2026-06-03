@@ -1,7 +1,8 @@
 name: Cisco NVM - Webserver Download From File Sharing Website
 id: 1984f997-3b49-4d4b-a7e9-dc5dbf88370e
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-07-01'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -61,15 +62,6 @@ references:
     - https://www.cisa.gov/news-events/alerts/2023/04/13/cisa-adds-3-known-exploited-vulnerabilities-kev-catalog
     - https://www.microsoft.com/en-us/security/blog/2024/01/17/new-ttps-observed-in-mint-sandstorm-campaign-targeting-high-profile-individuals-at-universities-and-research-orgs/
     - https://research.splunk.com/endpoint/4e8391eb-527e-4e39-9a17-c5bde2f89158/
-rba:
-    message: The host $src$ ran web server process $process_path$ which downloaded content from $dest_hostname$ over port $dest_port$
-    risk_objects:
-        - field: src
-          type: system
-          score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
 drilldown_searches:
     - name: View the detection results for - "$src$"
       search: '%original_detection_search% | search  src = "$src$"'
@@ -79,22 +71,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-tags:
-    analytic_story:
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Cisco Network Visibility Module Analytics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1105
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: The host $src$ ran web server process $process_path$ which downloaded content from $dest_hostname$ over port $dest_port$
+    entity:
+        field: src
+        type: system
+        score: 50
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Cisco Network Visibility Module Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Cisco NVM
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata
+      test_type: unit

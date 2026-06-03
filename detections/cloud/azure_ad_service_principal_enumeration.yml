@@ -1,15 +1,16 @@
 name: Azure AD Service Principal Enumeration
 id: 3f0647ce-add5-4436-8039-cbd1abe74563
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2025-01-05'
+modification_date: '2026-05-13'
 author: Dean Luxton
-data_source:
-    - Azure Active Directory MicrosoftGraphActivityLogs
-type: TTP
 status: production
+type: TTP
 description: >-
     This detection leverages azure graph activity logs to identify when graph APIs have been used to identify 10 or more service principals.
     This type of behaviour is associated with tools such as Azure enumberation tools such as AzureHound or ROADtools.
+data_source:
+    - Azure Active Directory MicrosoftGraphActivityLogs
 search: |-
     `azure_monitor_aad` category IN (MicrosoftGraphActivityLogs) TERM(servicePrincipals)
       | fillnull
@@ -40,31 +41,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $spn_count$ Service Principals have been enumerated by $user_id$ from IP $src$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Azure Active Directory Privilege Escalation
-        - Compromised User Account
-    asset_type: Azure Tenant
-    mitre_attack_id:
-        - T1087.004
-        - T1526
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: $spn_count$ Service Principals have been enumerated by $user_id$ from IP $src$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Azure Active Directory Privilege Escalation
+    - Compromised User Account
+asset_type: Azure Tenant
+mitre_attack_id:
+    - T1087.004
+    - T1526
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/azurehound/azurehound.log
           sourcetype: azure:monitor:aad
           source: Azure AD
+      test_type: unit

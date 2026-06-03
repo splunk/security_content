@@ -1,13 +1,14 @@
 name: ASL AWS Disable Bucket Versioning
 id: f32598bb-fa5f-4afd-8ab3-0263cc28efbc
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2022-10-04'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
+description: The following analytic detects when AWS S3 bucket versioning is suspended by a user. It leverages AWS CloudTrail logs to identify `PutBucketVersioning` events with the `VersioningConfiguration.Status` set to `Suspended`. This activity is significant because disabling versioning can prevent recovery of deleted or modified data, which is a common tactic in ransomware attacks. If confirmed malicious, this action could lead to data loss and hinder recovery efforts, severely impacting data integrity and availability.
 data_source:
     - ASL AWS CloudTrail
-description: The following analytic detects when AWS S3 bucket versioning is suspended by a user. It leverages AWS CloudTrail logs to identify `PutBucketVersioning` events with the `VersioningConfiguration.Status` set to `Suspended`. This activity is significant because disabling versioning can prevent recovery of deleted or modified data, which is a common tactic in ransomware attacks. If confirmed malicious, this action could lead to data loss and hinder recovery efforts, severely impacting data integrity and availability.
 search: |-
     `amazon_security_lake` api.operation=PutBucketVersioning
       | spath input=api.request.data path=VersioningConfiguration.Status output=Status
@@ -37,30 +38,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Bucket Versioning is suspended for S3 buckets- $bucketName$ by user $user$ from IP address $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Suspicious AWS S3 Activities
-        - Data Exfiltration
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1490
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: Bucket Versioning is suspended for S3 buckets- $bucketName$ by user $user$ from IP address $src$
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Suspicious AWS S3 Activities
+    - Data Exfiltration
+asset_type: AWS Account
+mitre_attack_id:
+    - T1490
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json
           sourcetype: aws:asl
           source: aws_asl
+      test_type: unit

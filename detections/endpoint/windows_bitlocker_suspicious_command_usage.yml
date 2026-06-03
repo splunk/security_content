@@ -1,7 +1,8 @@
 name: Windows BitLocker Suspicious Command Usage
 id: d0e6ec70-6e40-41a2-8b93-8d9ff077a746
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-02-10'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -46,33 +47,37 @@ drilldown_searches:
       search: '| from datamodel Endpoint.Processes | search process_name = $process_name$ AND dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A suspicious Windows BitLocker command was run by $user$ detected on $dest$
-    risk_objects:
+finding:
+    title: A suspicious Windows BitLocker command was run by $user$ detected on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: parent_process
-          type: process
-tags:
-    analytic_story:
-        - ShrinkLocker
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1486
-        - T1490
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A suspicious Windows BitLocker command was run by $user$ detected on $dest$
+threat_objects:
+    - field: parent_process
+      type: process
+analytic_story:
+    - ShrinkLocker
+asset_type: Endpoint
+mitre_attack_id:
+    - T1486
+    - T1490
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/bitlocker_sus_commands/bitlocker_sus_commands.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

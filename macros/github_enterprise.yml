@@ -1,4 +1,8 @@
-definition: source=http:github sourcetype=httpevent
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: github_enterprise
+id: db7727e5-16cf-4d9e-9606-6a12dc740707
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: source=http:github sourcetype=httpevent

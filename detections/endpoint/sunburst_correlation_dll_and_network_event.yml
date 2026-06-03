@@ -1,7 +1,8 @@
 name: Sunburst Correlation DLL and Network Event
 id: 701a8740-e8db-40df-9190-5516d3819787
-version: 10
-date: '2026-04-07'
+version: 11
+creation_date: '2020-12-14'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: TTP
@@ -37,21 +38,20 @@ how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driv
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://www.mandiant.com/resources/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor
-rba:
-    message: Possible Sunburst activity on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - NOBELIUM Group
-    asset_type: Windows
-    mitre_attack_id:
-        - T1203
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Possible Sunburst activity on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - NOBELIUM Group
+asset_type: Windows
+mitre_attack_id:
+    - T1203
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

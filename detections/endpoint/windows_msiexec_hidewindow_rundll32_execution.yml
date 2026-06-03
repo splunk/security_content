@@ -1,15 +1,16 @@
 name: Windows MsiExec HideWindow Rundll32 Execution
 id: 9683271d-92e4-43b5-a907-1983bfb9f7fd
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-10-06'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
+description: The following analytic detects the execution of the msiexec.exe process with the /HideWindow and rundll32 command-line parameters. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line arguments. This activity is significant because it is a known tactic used by malware like QakBot to mask malicious operations under legitimate system processes. If confirmed malicious, this behavior could allow an attacker to download additional payloads, execute malicious code, or establish communication with remote servers, thereby evading detection and maintaining persistence.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic detects the execution of the msiexec.exe process with the /HideWindow and rundll32 command-line parameters. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line arguments. This activity is significant because it is a known tactic used by malware like QakBot to mask malicious operations under legitimate system processes. If confirmed malicious, this behavior could allow an attacker to download additional payloads, execute malicious code, or establish communication with remote servers, thereby evading detection and maintaining persistence.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.parent_process_name = msiexec.exe  Processes.process = "* /HideWindow *" Processes.process = "* rundll32*"
@@ -38,28 +39,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a msiexec parent process with /hidewindow rundll32 process commandline on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Qakbot
-        - Water Gamayun
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218.007
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: a msiexec parent process with /hidewindow rundll32 process commandline on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Qakbot
+    - Water Gamayun
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218.007
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/msiexec-hidewindow-rundll32/hidewndw-rundll32.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

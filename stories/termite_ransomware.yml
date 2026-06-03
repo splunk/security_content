@@ -1,32 +1,19 @@
 name: Termite Ransomware
 id: 3dec6aec-3d1a-44f0-affc-31bb201eaec5
-version: 1
-date: '2025-04-01'
+version: 2
+creation_date: '2025-04-01'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
-description: Termite Ransomware is a malicious software strain that recently targeted the supply chain management platform Blue Yonder. 
-  It is a sophisticated threat that employs a multi-stage attack strategy. It typically initiates infection via phishing campaigns or 
-  compromised websites, exploiting system vulnerabilities to gain access. Once inside the network, Termite Ransomware escalates privileges 
-  and deploys robust encryption algorithms to lock down critical files, rendering them inaccessible. A ransom note is then left, 
-  instructing victims to pay, even though payment does not guarantee data recovery. The malware is engineered with 
-  defense evasion techniques, such as anti-analysis and anti-virtual machine features, complicating detection and forensic analysis. 
-narrative: Termite Ransomware is a malicious software strain designed to infiltrate computer systems, encrypt files, 
-  and demand ransom payments from victims. Like a colony of termites silently eating away at wood, this ransomware 
-  spreads stealthily, often spreading through phishing emails, malicious attachments, or exploit kits. 
-  Once activated, Termite Ransomware locks critical files using strong encryption, 
-  rendering them inaccessible to users. Victims typically receive a ransom note demanding payment—usually in 
-  cryptocurrency—to regain access to their files. However, paying the ransom does not guarantee file recovery, 
-  and it often funds further cybercrime. To mitigate risks, users should maintain regular backups, avoid suspicious links, 
-  and employ robust security measures such as antivirus software and endpoint protection. 
-  Cybersecurity experts recommend not paying the ransom and instead seeking professional assistance to attempt data recovery.
+description: Termite Ransomware is a malicious software strain that recently targeted the supply chain management platform Blue Yonder. It is a sophisticated threat that employs a multi-stage attack strategy. It typically initiates infection via phishing campaigns or compromised websites, exploiting system vulnerabilities to gain access. Once inside the network, Termite Ransomware escalates privileges and deploys robust encryption algorithms to lock down critical files, rendering them inaccessible. A ransom note is then left, instructing victims to pay, even though payment does not guarantee data recovery. The malware is engineered with defense evasion techniques, such as anti-analysis and anti-virtual machine features, complicating detection and forensic analysis.
+narrative: Termite Ransomware is a malicious software strain designed to infiltrate computer systems, encrypt files, and demand ransom payments from victims. Like a colony of termites silently eating away at wood, this ransomware spreads stealthily, often spreading through phishing emails, malicious attachments, or exploit kits. Once activated, Termite Ransomware locks critical files using strong encryption, rendering them inaccessible to users. Victims typically receive a ransom note demanding payment—usually in cryptocurrency—to regain access to their files. However, paying the ransom does not guarantee file recovery, and it often funds further cybercrime. To mitigate risks, users should maintain regular backups, avoid suspicious links, and employ robust security measures such as antivirus software and endpoint protection. Cybersecurity experts recommend not paying the ransom and instead seeking professional assistance to attempt data recovery.
 references:
-- https://www.bleepingcomputer.com/news/security/cisa-confirms-critical-cleo-bug-exploitation-in-ransomware-attacks/
-- https://www.darkreading.com/cyberattacks-data-breaches/termite-ransomware-behind-cleo-zero-day-attacks
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.bleepingcomputer.com/news/security/cisa-confirms-critical-cleo-bug-exploitation-in-ransomware-attacks/
+    - https://www.darkreading.com/cyberattacks-data-breaches/termite-ransomware-behind-cleo-zero-day-attacks
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

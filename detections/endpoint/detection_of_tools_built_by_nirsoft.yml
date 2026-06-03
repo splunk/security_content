@@ -1,7 +1,8 @@
 name: Detection of tools built by NirSoft
 id: 3d8d201c-aa03-422d-b0ee-2e5ecf9718c0
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -31,24 +32,24 @@ search: |-
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: While legitimate, these NirSoft tools are prone to abuse. You should verify that the tool was used for a legitimate purpose.
 references: []
-rba:
-    message: NirSoft tool detected on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: NirSoft tool detected on $dest$
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Emotet Malware DHS Report TA18-201A
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1072
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: NirSoft tool detected on $dest$
+analytic_story:
+    - Emotet Malware DHS Report TA18-201A
+asset_type: Endpoint
+mitre_attack_id:
+    - T1072
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

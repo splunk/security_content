@@ -1,7 +1,8 @@
 name: Windows Routing and Remote Access Service Registry Key Change
 id: a93df51e-e612-40b7-a105-33e288160575
-version: 2
-date: '2026-04-15'
+version: 3
+creation_date: '2022-04-18'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -51,29 +52,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Routing and Remote Access Service registry key [$registry_path$] was modified with the value [$registry_value_data$] by [$user$] on [$dest$].
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: registry_path
-          type: registry_path
-tags:
-    analytic_story:
-        - Gh0st RAT
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1112
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Routing and Remote Access Service registry key [$registry_path$] was modified with the value [$registry_value_data$] by [$user$] on [$dest$].
+threat_objects:
+    - field: registry_path
+      type: registry_path
+analytic_story:
+    - Gh0st RAT
+asset_type: Endpoint
+mitre_attack_id:
+    - T1112
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/remote_access_reg/remote_access_reg.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

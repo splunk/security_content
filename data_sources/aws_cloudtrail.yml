@@ -1,13 +1,14 @@
 name: AWS CloudTrail
 id: e8ace6db-1dbd-4c72-a1fb-334684619a38
-version: 1
-date: '2024-07-24'
+version: 2
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 description: All AWS CloudTrail events
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
 separator: eventName
 supported_TA:
-- name: Splunk Add-on for AWS
-  url: https://splunkbase.splunk.com/app/1876
-  version: 8.1.1
+    - name: Splunk Add-on for AWS
+      url: https://splunkbase.splunk.com/app/1876
+      version: 8.1.2

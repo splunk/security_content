@@ -1,7 +1,8 @@
 name: Windows Suspicious React or Next.js Child Process
 id: baa80bc8-7c9c-4395-b458-b69feb92830a
-version: 4
-date: '2026-04-09'
+version: 5
+creation_date: '2025-12-08'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -117,38 +118,42 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A Node-based server process ($parent_process_name$) spawned the child process $process_name$ with command-line $process$ on host $dest$ by user $user$, which may indicate remote code execution via React Server Components (CVE-2025-55182 / React2Shell) or abuse of a similar Node.js RCE vector.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: A Node-based server process ($parent_process_name$) spawned the child process $process_name$ with command-line $process$ on host $dest$ by user $user$, which may indicate remote code execution via React Server Components (CVE-2025-55182 / React2Shell) or abuse of a similar Node.js RCE vector.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: process
-        - field: process_name
-          type: process
-        - field: process
-          type: process
-tags:
-    analytic_story:
-        - React2Shell
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1190
-        - T1059.003
-        - T1059.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A Node-based server process ($parent_process_name$) spawned the child process $process_name$ with command-line $process$ on host $dest$ by user $user$, which may indicate remote code execution via React Server Components (CVE-2025-55182 / React2Shell) or abuse of a similar Node.js RCE vector.
+threat_objects:
+    - field: parent_process_name
+      type: process
+    - field: process
+      type: process
+    - field: process_name
+      type: process
+analytic_story:
+    - React2Shell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1190
+    - T1059.003
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/react2shell/react2shell_windows.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

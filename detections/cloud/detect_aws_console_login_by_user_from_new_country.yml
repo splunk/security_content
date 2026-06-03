@@ -1,7 +1,8 @@
 name: Detect AWS Console Login by User from New Country
 id: 67bd3def-c41c-4bf6-837b-ae196b4257c6
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Eric McGinnis Splunk
 status: production
 type: Hunting
@@ -31,25 +32,29 @@ search: |-
 how_to_implement: You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in AWS CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in AWS CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_country_filter` macro.
 known_false_positives: When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 references: []
-tags:
-    analytic_story:
-        - Suspicious AWS Login Activities
-        - Suspicious Cloud Authentication Activities
-        - AWS Identity and Access Management Account Takeover
-        - Compromised User Account
-    asset_type: AWS Instance
-    mitre_attack_id:
-        - T1535
-        - T1586.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
-    manual_test: This search needs the baseline to be run first to create a lookup. It also requires that the timestamps in the dataset be updated.
+analytic_story:
+    - Suspicious AWS Login Activities
+    - Suspicious Cloud Authentication Activities
+    - AWS Identity and Access Management Account Takeover
+    - Compromised User Account
+asset_type: AWS Instance
+mitre_attack_id:
+    - T1535
+    - T1586.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
+baselines:
+    - Previously Seen Users in CloudTrail - Initial
+    - Previously Seen Users In CloudTrail - Update
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      description: PORTED MANUAL TEST - This search needs the baseline to be run first to create a lookup. It also requires that the timestamps in the dataset be updated.
+      test_type: experimental

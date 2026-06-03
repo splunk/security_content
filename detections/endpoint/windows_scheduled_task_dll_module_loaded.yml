@@ -1,13 +1,14 @@
 name: Windows Scheduled Task DLL Module Loaded
 id: bc5b2304-f241-419b-874a-e927f667b7b6
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-09-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects instances where the taskschd.dll is loaded by processes running in suspicious or writable directories. This activity is unusual, as legitimate processes that load taskschd.dll typically reside in protected system locations. Malware or threat actors may attempt to load this DLL from writable or non-standard directories to manipulate the Task Scheduler and execute malicious tasks. By identifying processes that load taskschd.dll in these unsafe locations, this detection helps security analysts flag potentially malicious activity and investigate further to prevent unauthorized system modifications.
 data_source:
     - Sysmon EventID 7
-type: TTP
-status: production
-description: The following analytic detects instances where the taskschd.dll is loaded by processes running in suspicious or writable directories. This activity is unusual, as legitimate processes that load taskschd.dll typically reside in protected system locations. Malware or threat actors may attempt to load this DLL from writable or non-standard directories to manipulate the Task Scheduler and execute malicious tasks. By identifying processes that load taskschd.dll in these unsafe locations, this detection helps security analysts flag potentially malicious activity and investigate further to prevent unauthorized system modifications.
 search: '`sysmon` EventCode=7 Image IN ("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "\\Windows\\repair\\*", "*\\temp\\*", "*\\PerfLogs\\*") ImageLoaded = "*\\taskschd.dll" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_scheduled_task_dll_module_loaded_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: Third party Legitimate application may load this task schedule dll module.
@@ -23,27 +24,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A taskschd.dll was loaded by a process - [$Image$] on [$dest$]
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ValleyRAT
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A taskschd.dll was loaded by a process - [$Image$] on [$dest$]
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - ValleyRAT
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/taskschd_dll/taskschd_dll.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

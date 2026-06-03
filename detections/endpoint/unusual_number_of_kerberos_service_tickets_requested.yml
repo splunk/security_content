@@ -1,7 +1,8 @@
 name: Unusual Number of Kerberos Service Tickets Requested
 id: eb3e6702-8936-11ec-98fe-acde48001122
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2022-02-16'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Dean Luxton, Splunk
 status: production
 type: Anomaly
@@ -33,30 +34,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ requested a service ticket for $unique_services$ services indicating a potential kerberoasting attack
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
+          message: User $user$ requested a service ticket for $unique_services$ services indicating a potential kerberoasting attack
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Active Directory Kerberos Attacks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1558.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: User $user$ requested a service ticket for $unique_services$ services indicating a potential kerberoasting attack
+analytic_story:
+    - Active Directory Kerberos Attacks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1558.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/unusual_number_of_kerberos_service_tickets_requested/windows-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

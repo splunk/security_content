@@ -1,29 +1,25 @@
 name: Investigate Successful Remote Desktop Authentications
 id: b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc
 version: 2
-date: '2024-09-24'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Jose Hernandez, Splunk
 type: Investigation
 status: removed
-description: This search returns the source, destination, and user for all successful
-  remote-desktop authentications. A successful authentication after a brute-force
-  attack on a destination machine is suspicious behavior.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Authentication where Authentication.signature_id=4624
-  Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app
-  Authentication.user Authentication.signature Authentication.src_nt_domain | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `drop_dm_object_name("Authentication")`
-  | search dest=$dest$ | table firstTime lastTime src src_nt_domain dest user app
-  count | sort count'
-how_to_implement: You must be populating the Authentication data model with security
-  events from your Windows event logs.
+description: This search returns the source, destination, and user for all successful remote-desktop authentications. A successful authentication after a brute-force attack on a destination machine is suspicious behavior.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication where Authentication.signature_id=4624 Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app Authentication.user Authentication.signature Authentication.src_nt_domain | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name("Authentication")` | search dest=$dest$ | table firstTime lastTime src src_nt_domain dest user app count | sort count'
+how_to_implement: You must be populating the Authentication data model with security events from your Windows event logs.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - Hidden Cobra Malware
-  - Active Directory Lateral Movement
-  - SamSam Ransomware
-  product:
-  - Splunk Phantom
-  security_domain: endpoint
+    analytic_story:
+        - Hidden Cobra Malware
+        - Active Directory Lateral Movement
+        - SamSam Ransomware
+    product:
+        - Splunk Phantom
+    security_domain: endpoint
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

@@ -1,14 +1,15 @@
 name: Cisco Isovalent - Potential Escape to Host
 id: 2b8a7a21-bec6-4e1f-84c4-7b319f45d2ab
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
-type: Anomaly
-data_source:
-    - Cisco Isovalent Process Exec
 status: production
+type: Anomaly
 description: |
     This analytic detects potential container escape or reconnaissance attempts by monitoring for the rapid execution of multiple suspicious Linux commands (nsenter, mount, ps aux, and ls) within a short time window. The search aggregates process execution logs into 5-minute buckets and identifies when two or more distinct commands occur in quick succession. This behavior is noteworthy because attackers often chain these commands together to pivot from a container into the host, enumerate processes, or browse filesystems. For a SOC, catching these clustered command executions is important because it highlights possible adversary activity attempting to break isolation and escalate privileges inside a Kubernetes environment.
+data_source:
+    - Cisco Isovalent Process Exec
 search: |
     `cisco_isovalent_process_exec`
 
@@ -54,31 +55,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Escape-to-host attempt detected in pod $pod_name$ on cluster $cluster_name$ using a command - [$process$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: pod_name
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Cisco Isovalent Suspicious Activity
-        - VoidLink Cloud-Native Linux Malware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1611
-    atomic_guid: []
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Escape-to-host attempt detected in pod $pod_name$ on cluster $cluster_name$ using a command - [$process$]
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1611
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1611/cisco_isovalent_k8_escape/cisco_isovalent.log
           source: not_applicable
           sourcetype: cisco:isovalent:processExec
+      test_type: unit

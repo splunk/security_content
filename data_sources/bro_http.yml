@@ -1,19 +1,19 @@
 name: Bro http
 id: c5d9612b-0ffd-44d3-8247-3cf3486ec5e2
-version: 3
-date: '2025-01-23'
+version: 4
+creation_date: '2025-01-21'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs HTTP traffic analyzed by Zeek (formerly Bro), including details
-  such as request methods, URLs, user agents, response codes, and headers.
+description: Logs HTTP traffic analyzed by Zeek (formerly Bro), including details such as request methods, URLs, user agents, response codes, and headers.
 mitre_components:
-- Network Traffic Content
-- Network Traffic Flow
-- Response Content
-- Response Metadata
-- Application Log Content
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Response Content
+    - Response Metadata
+    - Application Log Content
 source: bro:http:json
 sourcetype: bro:http:json
 supported_TA:
-- name: TA for Zeek
-  url: https://splunkbase.splunk.com/app/5466
-  version: 1.0.11
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11

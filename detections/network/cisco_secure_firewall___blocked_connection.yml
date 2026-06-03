@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Blocked Connection
 id: 17e9b764-3a2b-4d36-9751-32d13ce4718b
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2025-04-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -35,35 +36,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A connection request from $src$ to $dest$ has been blocked according to the configured firewall rule $rule$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: EVE_Process
-          type: process_name
-        - field: url
-          type: url
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Network
-    mitre_attack_id:
-        - T1018
-        - T1046
-        - T1110
-        - T1203
-        - T1595.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: A connection request from $src$ to $dest$ has been blocked according to the configured firewall rule $rule$
+threat_objects:
+    - field: EVE_Process
+      type: process_name
+    - field: url
+      type: url
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Network
+mitre_attack_id:
+    - T1018
+    - T1046
+    - T1110
+    - T1203
+    - T1595.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit
