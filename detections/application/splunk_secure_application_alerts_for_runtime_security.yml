@@ -46,7 +46,7 @@ search: |-
     )
     | `splunk_secure_application_alerts_for_runtime_security_filter`
 how_to_implement: |
-    To run this search, ingest alerts data from O11y Cloud Secure Application using HEC, ensuring the data is routed to the `secureapp_attack` sourcetype.
+    Create the secureapp_attack sourcetype in Splunk Enterprise Security. Configure Splunk Enterprise Security to receive alerts for Observability Cloud via HEC. Configure Secure Application Alerts in Observability Cloud to send alerts to Enterprise Security. Full details can be found in the referenced lantern article. 
 known_false_positives: |
     No known false positives for this detection. If alerts are noisy, tune this detection with the `_filter` macro or configure the originating tool.
 references:
