@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-05-27'
 modification_date: '2026-06-03'
 author: Ryan Long, Bhavin Patel, Bryan Pluta, Splunk
-status: production
+status: experimental
 type: Anomaly
 description: |
     The following analytic leverages alerts from Splunk Secure Application, which identifies and monitors exploit attempts targeting business applications. Attacks observed include exploiting vulnerabilities in web applications, such as injection attacks (SQL, API abuse), deserialization vulnerabilities, remote code execution, LOG4J, and zero-day attacks. These events are typically aimed at gaining unauthorized access, exfiltrating sensitive data, or disrupting application functionality.
@@ -83,7 +83,7 @@ security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/secure_application_alerts.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/secure_app_alerts_runtime_security.log
           sourcetype: secureapp_attack
           source: not_applicable
       description: |
