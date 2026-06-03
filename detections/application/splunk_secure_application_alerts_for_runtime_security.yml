@@ -63,7 +63,7 @@ drilldown_searches:
       latest_offset: "0"
 intermediate_findings:
     entities:
-        - field: app
+        - field: dest_ip
           type: system
           score: 50
           message: $rule_description$
