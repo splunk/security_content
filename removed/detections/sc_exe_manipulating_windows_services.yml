@@ -1,10 +1,10 @@
 name: Sc exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-version: 16
+version: 17
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-06-03'
 author: Rico Valdez, Splunk
-status: deprecated
+status: removed
 deprecation_info:
     reason: Detection is deprecated as the usage of sc.exe by itself is often used for legitimate purposes.
     removed_in_version: 6.1.0

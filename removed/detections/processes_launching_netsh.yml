@@ -1,10 +1,10 @@
 name: Processes launching netsh
 id: b89919ed-fe5f-492c-b139-95dbb162040e
-version: 16
+version: 17
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-06-03'
 author: Michael Haag, Josef Kuepker, Splunk
-status: deprecated
+status: removed
 deprecation_info:
     reason: Detection is deprecated as the usage of netsh.exe by itself is often used for legitimate purposes.
     removed_in_version: 6.1.0

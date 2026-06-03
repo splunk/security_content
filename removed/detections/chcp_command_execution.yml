@@ -1,10 +1,10 @@
 name: CHCP Command Execution
 id: 21d236ec-eec1-11eb-b23e-acde48001122
-version: 13
+version: 14
 creation_date: '2021-08-05'
-modification_date: '2026-05-13'
+modification_date: '2026-06-03'
 author: Teoderick Contreras, Splunk
-status: deprecated
+status: removed
 deprecation_info:
     reason: Detection is deprecated as the usage of chcp.com by itself is not malicious.
     removed_in_version: 6.1.0
