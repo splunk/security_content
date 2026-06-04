@@ -20,7 +20,7 @@ search: |-
     | eval status=tonumber(status)
     | eval domain=replace(url, "^https?://([^/]+).*$", "\\1")
     | eval user_agent=coalesce(http_user_agent, user_agent)
-    | where status IN (401, 403, 404)
+    | where status IN (400, 401, 403, 404, 405, 407, 414, 429, 431)
     | bucket _time span=10m
     | stats count as errors dc(url) as unique_urls values(status) as statuses values(user_agent) as user_agent values(host) as host values(user) as user by src_ip domain _time
     | where errors > 100 AND unique_urls > 50
