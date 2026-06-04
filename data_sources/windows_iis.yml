@@ -1,19 +1,19 @@
 name: Windows IIS
 id: 469335b3-b6ad-49e2-bbe6-47e15c1464a7
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs changes to IIS server configuration, including updates to settings,
-  modules, authentication methods, and site bindings.
+description: Logs changes to IIS server configuration, including updates to settings, modules, authentication methods, and site bindings.
 mitre_components:
-- Service Modification
-- Cloud Service Modification
-- Configuration Modification
-- Application Log Content
+    - Service Modification
+    - Cloud Service Modification
+    - Configuration Modification
+    - Application Log Content
 source: IIS:Configuration:Operational
 sourcetype: IIS:Configuration:Operational
 separator: EventID
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 10.0.1
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 10.0.1

@@ -1,18 +1,19 @@
 name: Windows Time Based Evasion
 id: 34502357-deb1-499a-8261-ffe144abf561
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2023-09-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-data_source:
-    - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 description: |-
     The following analytic detects potentially malicious processes that initiate a ping delay using an invalid IP address.
     It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving "ping 0 -n".
     Malware like NJRAT was observed using this technique to introduce time delays for evasion tactics, such as delaying self-deletion.
     If confirmed malicious, this activity could indicate an active infection attempting to evade detection, potentially leading to further compromise and persistence within the environment.
+data_source:
+    - Sysmon EventID 1
+    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -65,28 +66,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A $process_name$ did a suspicious ping to invalid IP address on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - NjRAT
-        - BlankGrabber Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1497.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A $process_name$ did a suspicious ping to invalid IP address on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - NjRAT
+    - BlankGrabber Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1497.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/njrat_ping_delay_before_delete/ping_0.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

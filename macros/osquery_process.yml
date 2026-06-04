@@ -1,4 +1,8 @@
-definition: eventtype="osquery-process"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: osquery_process
+id: b54cf331-4f7b-40c4-bd31-e71608ab17cb
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: eventtype="osquery-process"

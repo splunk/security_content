@@ -1,23 +1,23 @@
 name: Apache Tomcat Session Deserialization Attacks
 id: 1a0f125a-0f65-44fc-a96f-576d53d69478
-version: 1
-status: production
-date: '2025-03-25'
+version: 2
+creation_date: '2025-03-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
 description: This analytic story addresses critical vulnerabilities in Apache Tomcat that allow attackers to achieve remote code execution through session deserialization attacks. These attacks exploit path equivalence issues in Tomcat's session handling mechanisms, particularly when configured with writable DefaultServlet and file-based session persistence, enabling attackers to upload and execute malicious serialized objects through manipulated session files.
 narrative: 'Apache Tomcat''s session management functionality can be exploited when specific configurations are present, particularly involving the DefaultServlet and file-based session persistence. Attackers leverage this by first uploading a malicious serialized object disguised as a session file through an HTTP PUT request. Once the file is uploaded, they manipulate the JSESSIONID cookie to reference this malicious file, forcing Tomcat to deserialize the content and potentially execute arbitrary code. The attack typically manifests in two stages: an initial PUT request that successfully creates a .session file, followed by a GET request with a specially crafted JSESSIONID cookie that triggers the deserialization. This technique has been observed in real-world attacks where threat actors exploit vulnerable Tomcat installations to establish persistent access and execute malicious code on the target system. The detections in this story focus on identifying both stages of this attack pattern, allowing defenders to detect and respond to exploitation attempts before they succeed.'
 references:
-- https://lists.apache.org/thread/j5fkjv2k477os90nczf2v9l61fb0kkgq
-- https://nvd.nist.gov/vuln/detail/CVE-2025-24813
-- https://github.com/vulhub/vulhub/tree/master/tomcat/CVE-2025-24813
-- https://www.rapid7.com/db/vulnerabilities/apache-tomcat-cve-2025-24813/
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
-  cve:
-  - CVE-2025-24813
+    - https://lists.apache.org/thread/j5fkjv2k477os90nczf2v9l61fb0kkgq
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-24813
+    - https://github.com/vulhub/vulhub/tree/master/tomcat/CVE-2025-24813
+    - https://www.rapid7.com/db/vulnerabilities/apache-tomcat-cve-2025-24813/
+cve:
+    - CVE-2025-24813
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

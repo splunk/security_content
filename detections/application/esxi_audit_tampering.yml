@@ -1,7 +1,8 @@
 name: ESXi Audit Tampering
 id: c48a155b-2861-417a-813c-220f5272cf01
-version: 4
-date: '2026-05-04'
+version: 5
+creation_date: '2025-07-11'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -22,29 +23,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Audit tampering activity on ESXi host $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ESXi Post Compromise
-        - Black Basta Ransomware
-    asset_type: Infrastructure
-    mitre_attack_id:
-        - T1690
-        - T1070
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Audit tampering activity on ESXi host $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - ESXi Post Compromise
+    - Black Basta Ransomware
+asset_type: Infrastructure
+mitre_attack_id:
+    - T1690
+    - T1070
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.003/esxi_audit_tampering/esxi_audit_tampering.log
           source: vmware:esxlog
           sourcetype: vmw-syslog
+      test_type: unit

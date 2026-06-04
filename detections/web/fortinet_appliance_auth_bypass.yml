@@ -1,7 +1,8 @@
 name: Fortinet Appliance Auth bypass
 id: a83122f2-fa09-4868-a230-544dbc54bc1c
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2022-10-14'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -52,30 +53,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential CVE-2022-40684 against a Fortinet appliance may be occurring against $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - CVE-2022-40684 Fortinet Appliance Auth bypass
-    asset_type: Network
-    cve:
-        - CVE-2022-40684
-    mitre_attack_id:
-        - T1190
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Potential CVE-2022-40684 against a Fortinet appliance may be occurring against $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - CVE-2022-40684 Fortinet Appliance Auth bypass
+asset_type: Network
+cve:
+    - CVE-2022-40684
+mitre_attack_id:
+    - T1190
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/fortigate/fortinetcve202240684.log
           source: not_applicable
           sourcetype: pan:threat
+      test_type: unit

@@ -1,4 +1,8 @@
-definition: sourcetype=stream:dns
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: stream_dns
+id: 9a2d07b9-70c2-4bbc-8ce2-2495f1e900ee
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=stream:dns

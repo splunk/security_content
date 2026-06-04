@@ -1,7 +1,8 @@
 name: Cisco NVM - Suspicious Download From File Sharing Website
 id: 94ebc001-35e7-4ae8-9b0e-52766b2f99c7
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-07-01'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -81,31 +82,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The host $src$ used $process_path$ to download content from the file-sharing domain $dest_hostname$ over port $dest_port$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - APT37 Rustonotto and FadeStealer
-        - Cisco Network Visibility Module Analytics
-        - BlankGrabber Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1197
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The host $src$ used $process_path$ to download content from the file-sharing domain $dest_hostname$ over port $dest_port$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - APT37 Rustonotto and FadeStealer
+    - Cisco Network Visibility Module Analytics
+    - BlankGrabber Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1197
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Cisco NVM
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata
+      test_type: unit

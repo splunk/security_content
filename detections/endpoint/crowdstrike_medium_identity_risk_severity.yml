@@ -1,12 +1,13 @@
 name: Crowdstrike Medium Identity Risk Severity
 id: c23b425c-9024-4bd7-b526-c18a4a51d93e
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-07-31'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
-data_source: []
-type: TTP
 status: production
+type: TTP
 description: The following analytic detects CrowdStrike alerts for Medium Identity Risk Severity with a risk score of 55 or higher. These alerts indicate significant vulnerabilities in user identities, such as suspicious behavior or compromised credentials. Promptly investigating and addressing these alerts is crucial to prevent potential security breaches and ensure the integrity and protection of sensitive information and systems.
+data_source: []
 search: |-
     `crowdstrike_identities` riskScoreSeverity = "MEDIUM" OR riskScore >= 0.55 AND riskScore < 0.70
       | rename riskFactors{}.severity as severity, riskFactors{}.type as risk_type, roles{}.type as role_type, accounts{}.domain as domain, accounts{}.dn as dn, accounts{}.samAccountName as user
@@ -30,27 +31,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Medium Identity Risk Score Severity found on $domain$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Windows Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1110
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Medium Identity Risk Score Severity found on $domain$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Compromised Windows Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1110
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/riskscore/crowdstrike_riskscore_cleaned.log
           sourcetype: crowdstrike:identities
           source: crowdstrike:identities
+      test_type: unit

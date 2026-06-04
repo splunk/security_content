@@ -1,7 +1,8 @@
 name: Windows Binary Execution from an Archive
 id: 1516a16f-391e-457f-b9a3-a81dfdf218a6
-version: 1
-date: '2026-04-13'
+version: 2
+creation_date: '2026-05-05'
+modification_date: '2026-05-13'
 author: Raven Tait, Nasreddine Bencherchali, Splunk
 status: experimental
 type: Anomaly
@@ -57,32 +58,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $process_name$ executed from an archive-related Temp path $process_path$ by $parent_process_name$ on $dest$ using command line $process$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: $process_name$ executed from an archive-related Temp path $process_path$ by $parent_process_name$ on $dest$ using command line $process$.
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-        - field: process_path
-          type: file_path
-        - field: process
-          type: process
-        - field: parent_process_name
-          type: parent_process_name
-tags:
-    analytic_story:
-        - Spearphishing Attachments
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: $process_name$ executed from an archive-related Temp path $process_path$ by $parent_process_name$ on $dest$ using command line $process$.
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process
+      type: process
+    - field: process_name
+      type: process_name
+    - field: process_path
+      type: file_path
+analytic_story:
+    - Spearphishing Attachments
+asset_type: Endpoint
+mitre_attack_id:
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

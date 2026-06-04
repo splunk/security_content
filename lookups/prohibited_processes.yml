@@ -1,7 +1,0 @@
-name: prohibited_processes
-date: 2024-12-23
-version: 2
-id: 310910fe-5158-4f87-8e45-9a307b6ffa8c
-author: Splunk Threat Research Team
-lookup_type: csv
-description: A list of processes that have been marked as prohibited

@@ -1,13 +1,14 @@
 name: CrushFTP Server Side Template Injection
 id: ccf6b7a3-bd39-4bc9-a949-143a8d640dbc
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2024-06-05'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
+type: TTP
+description: This analytic is designed to identify attempts to exploit a server-side template injection vulnerability in CrushFTP, designated as CVE-2024-4040. This severe vulnerability enables unauthenticated remote attackers to access and read files beyond the VFS Sandbox, circumvent authentication protocols, and execute arbitrary commands on the affected server. The issue impacts all versions of CrushFTP up to 10.7.1 and 11.1.0 on all supported platforms. It is highly recommended to apply patches immediately to prevent unauthorized access to the system and avoid potential data compromises. The search specifically looks for patterns in the raw log data that match the exploitation attempts, including READ or WRITE actions, and extracts relevant information such as the protocol, session ID, user, IP address, HTTP method, and the URI queried. It then evaluates these logs to confirm traces of exploitation based on the presence of specific keywords and the originating IP address, counting and sorting these events for further analysis.
 data_source:
     - CrushFTP
-type: TTP
-status: production
-description: This analytic is designed to identify attempts to exploit a server-side template injection vulnerability in CrushFTP, designated as CVE-2024-4040. This severe vulnerability enables unauthenticated remote attackers to access and read files beyond the VFS Sandbox, circumvent authentication protocols, and execute arbitrary commands on the affected server. The issue impacts all versions of CrushFTP up to 10.7.1 and 11.1.0 on all supported platforms. It is highly recommended to apply patches immediately to prevent unauthorized access to the system and avoid potential data compromises. The search specifically looks for patterns in the raw log data that match the exploitation attempts, including READ or WRITE actions, and extracts relevant information such as the protocol, session ID, user, IP address, HTTP method, and the URI queried. It then evaluates these logs to confirm traces of exploitation based on the presence of specific keywords and the originating IP address, counting and sorting these events for further analysis.
 search: '`crushftp` | rex field=_raw "\[(?<protocol>HTTPS|HTTP):(?<session_id>[^\:]+):(?<user>[^\:]+):(?<src_ip>\d+\.\d+\.\d+\.\d+)\] (?<action>READ|WROTE): \*(?<http_method>[A-Z]+) (?<uri_query>[^\s]+) HTTP/[^\*]+\*" | eval message=if(match(_raw, "INCLUDE") and isnotnull(src_ip), "traces of exploitation by " . src_ip, "false") | search message!=false | rename host as dest | stats count by _time, dest, source, message, src_ip, http_method, uri_query, user, action | sort -_time| `crushftp_server_side_template_injection_filter`'
 how_to_implement: CrushFTP Session logs, from Windows or Linux, must be ingested to Splunk. Currently, there is no TA for CrushFTP, so the data must be extracted from the raw logs.
 known_false_positives: False positives should be limited, however tune or filter as needed.
@@ -23,32 +24,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential exploitation of CrushFTP Server Side Template Injection Vulnerability on $dest$ by $src_ip$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - CrushFTP Vulnerabilities
-        - Hellcat Ransomware
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2024-4040
+finding:
+    title: Potential exploitation of CrushFTP Server Side Template Injection Vulnerability on $dest$ by $src_ip$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - CrushFTP Vulnerabilities
+    - Hellcat Ransomware
+asset_type: Web Application
+cve:
+    - CVE-2024-4040
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/crushftp/crushftp.log
           sourcetype: crushftp:sessionlogs
           source: crushftp
+      test_type: unit

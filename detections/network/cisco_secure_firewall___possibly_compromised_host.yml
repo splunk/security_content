@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Possibly Compromised Host
 id: 244a77bb-3b2a-46f1-bf2c-b4f7cd29276d
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2025-04-16'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: experimental
 type: Anomaly
@@ -41,25 +42,25 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A high impact IntrusionEvent was detected from $src$ to $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: signature
-          type: signature
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Network
-    security_domain: network
-    mitre_attack_id:
-        - T1203
-        - T1059
-        - T1587.001
-    product:
-        - Splunk Enterprise
-        - Splunk Cloud
-        - Splunk Enterprise Security
+          message: A high impact IntrusionEvent was detected from $src$ to $dest$.
+threat_objects:
+    - field: signature
+      type: signature
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Network
+mitre_attack_id:
+    - T1203
+    - T1059
+    - T1587.001
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network

@@ -1,22 +1,23 @@
 name: Get Logon Rights Modifications For User
 id: 552bc86c-f72c-4d44-b3f2-06ede13af7bb
 version: 2
-date: '2019-02-27'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 type: Investigation
 status: removed
-description: This search allows you to retrieve any modifications to logon rights
-  for a specific user account.
-search: '`wineventlog_security` (signature_id=4718 OR signature_id=4717) user=$user$
-  | rename user as "Account Modified" | table _time, dest, "Account Modified", Access_Right,
-  signature'
-how_to_implement: To successfully implement this search you must be ingesting your
-  Windows event logs
+description: This search allows you to retrieve any modifications to logon rights for a specific user account.
+search: '`wineventlog_security` (signature_id=4718 OR signature_id=4717) user=$user$ | rename user as "Account Modified" | table _time, dest, "Account Modified", Access_Right, signature'
+how_to_implement: To successfully implement this search you must be ingesting your Windows event logs
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - AWS Cryptomining
-  product:
-  - Splunk Phantom
-  security_domain: endpoint
+    analytic_story:
+        - AWS Cryptomining
+    product:
+        - Splunk Phantom
+    security_domain: endpoint
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

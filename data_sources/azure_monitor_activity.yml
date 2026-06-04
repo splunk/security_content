@@ -1,118 +1,104 @@
 name: Azure Monitor Activity
 id: 1997a515-a61a-4f78-ada9-54af34c764f2
-version: 1
-date: '2025-01-13'
+version: 2
+creation_date: '2025-01-13'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
-description: Data source object for Azure Monitor Activity.  The Splunk Add-on for
-  Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure
-  EventHub.  To configure this logging, visit Intune > Tenant administration > Diagnostic
-  settings > Add diagnostic settings & send events to the activity audit event hub.
+description: Data source object for Azure Monitor Activity.  The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.  To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
 source: Azure AD
 sourcetype: azure:monitor:activity
 separator: operationName
 supported_TA:
-- name: Splunk Add-on for Microsoft Cloud Services
-  url: https://splunkbase.splunk.com/app/3110
-  version: 6.1.1
+    - name: Splunk Add-on for Microsoft Cloud Services
+      url: https://splunkbase.splunk.com/app/3110
+      version: 6.1.1
 fields:
-- column
-- action
-- category
-- change_type
-- command
-- correlationId
-- dataset_name
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dvc
-- eventtype
-- host
-- identity
-- image_id
-- index
-- instance_type
-- linecount
-- object
-- object_attrs
-- object_category
-- object_id
-- object_path
-- operationName
-- properties.ActivityDate
-- properties.ActivityResultStatus
-- properties.ActivityType
-- properties.Actor.ActorType
-- properties.Actor.Application
-- properties.Actor.ApplicationName
-- properties.Actor.IsDelegatedAdmin
-- properties.Actor.Name
-- properties.Actor.ObjectId
-- properties.Actor.PartnerTenantId
-- properties.Actor.UPN
-- properties.Actor.UserPermissions{}
-- properties.AdditionalDetails
-- properties.AuditEventId
-- properties.Category
-- properties.RelationId
-- properties.TargetDisplayNames{}
-- properties.TargetObjectIds{}
-- properties.Targets{}.ModifiedProperties{}.Name
-- properties.Targets{}.ModifiedProperties{}.New
-- properties.Targets{}.ModifiedProperties{}.Old
-- properties.Targets{}.Name
-- punct
-- resourceId
-- resource_provider
-- response_body
-- result
-- resultDescription
-- resultType
-- result_id
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- src
-- status
-- tag
-- tag::action
-- tag::eventtype
-- tag::object_category
-- tenantId
-- time
-- timeendpos
-- timestartpos
-- user
-- user_name
-- user_type
-- vendor_account
-- vendor_product
-- vendor_region
-- _time
-example_log: '{"time": "2024-04-29T13:30:28.8622000Z", "tenantId": "26db52ee-c1b5-4c96-a0d4-129e25dc0388",
-  "category": "AuditLogs", "operationName": "createDeviceHealthScript DeviceHealthScript",
-  "properties": {"ActivityDate": "4/29/2024 1:30:28 PM", "ActivityResultStatus": 1,
-  "ActivityType": 0, "Actor": {"ActorType": 1, "Application": "5926fc8e-304e-4f59-8bed-58ca97cc39a4",
-  "ApplicationName": "Microsoft Intune portal extension", "IsDelegatedAdmin": false,
-  "Name": null, "ObjectId": "cf2ef473-7d3b-4f14-961c-2e470e9a70f2", "PartnerTenantId":
-  "00000000-0000-0000-0000-000000000000", "UserPermissions": ["*"], "UPN": "brian.cove@frothlydev.onmicrosoft.com"},
-  "AdditionalDetails": "", "AuditEventId": "3e7e790e-f15a-4c2c-a91a-516483bb4e37",
-  "Category": 3, "RelationId": null, "TargetDisplayNames": ["<null>"], "TargetObjectIds":
-  ["b16fcad4-b9f5-46fe-9bf0-841cd9be7bc9"], "Targets": [{"ModifiedProperties": [{"Name":
-  "DeviceManagementAPIVersion", "Old": null, "New": "5024-02-13"}], "Name": null}]},
-  "resultType": "Success", "resultDescription": "None", "correlationId": "949ac544-b4e5-4576-a117-915c47c0ee00",
-  "identity": "brian.cove@frothlydev.onmicrosoft.com"}'
+    - column
+    - action
+    - category
+    - change_type
+    - command
+    - correlationId
+    - dataset_name
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc
+    - eventtype
+    - host
+    - identity
+    - image_id
+    - index
+    - instance_type
+    - linecount
+    - object
+    - object_attrs
+    - object_category
+    - object_id
+    - object_path
+    - operationName
+    - properties.ActivityDate
+    - properties.ActivityResultStatus
+    - properties.ActivityType
+    - properties.Actor.ActorType
+    - properties.Actor.Application
+    - properties.Actor.ApplicationName
+    - properties.Actor.IsDelegatedAdmin
+    - properties.Actor.Name
+    - properties.Actor.ObjectId
+    - properties.Actor.PartnerTenantId
+    - properties.Actor.UPN
+    - properties.Actor.UserPermissions{}
+    - properties.AdditionalDetails
+    - properties.AuditEventId
+    - properties.Category
+    - properties.RelationId
+    - properties.TargetDisplayNames{}
+    - properties.TargetObjectIds{}
+    - properties.Targets{}.ModifiedProperties{}.Name
+    - properties.Targets{}.ModifiedProperties{}.New
+    - properties.Targets{}.ModifiedProperties{}.Old
+    - properties.Targets{}.Name
+    - punct
+    - resourceId
+    - resource_provider
+    - response_body
+    - result
+    - resultDescription
+    - resultType
+    - result_id
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - src
+    - status
+    - tag
+    - tag::action
+    - tag::eventtype
+    - tag::object_category
+    - tenantId
+    - time
+    - timeendpos
+    - timestartpos
+    - user
+    - user_name
+    - user_type
+    - vendor_account
+    - vendor_product
+    - vendor_region
+    - _time
 output_fields:
-- action
-- dest
-- user
-- src
-- vendor_account
-- vendor_product
+    - action
+    - dest
+    - user
+    - src
+    - vendor_account
+    - vendor_product
+example_log: '{"time": "2024-04-29T13:30:28.8622000Z", "tenantId": "26db52ee-c1b5-4c96-a0d4-129e25dc0388", "category": "AuditLogs", "operationName": "createDeviceHealthScript DeviceHealthScript", "properties": {"ActivityDate": "4/29/2024 1:30:28 PM", "ActivityResultStatus": 1, "ActivityType": 0, "Actor": {"ActorType": 1, "Application": "5926fc8e-304e-4f59-8bed-58ca97cc39a4", "ApplicationName": "Microsoft Intune portal extension", "IsDelegatedAdmin": false, "Name": null, "ObjectId": "cf2ef473-7d3b-4f14-961c-2e470e9a70f2", "PartnerTenantId": "00000000-0000-0000-0000-000000000000", "UserPermissions": ["*"], "UPN": "brian.cove@frothlydev.onmicrosoft.com"}, "AdditionalDetails": "", "AuditEventId": "3e7e790e-f15a-4c2c-a91a-516483bb4e37", "Category": 3, "RelationId": null, "TargetDisplayNames": ["<null>"], "TargetObjectIds": ["b16fcad4-b9f5-46fe-9bf0-841cd9be7bc9"], "Targets": [{"ModifiedProperties": [{"Name": "DeviceManagementAPIVersion", "Old": null, "New": "5024-02-13"}], "Name": null}]}, "resultType": "Success", "resultDescription": "None", "correlationId": "949ac544-b4e5-4576-a117-915c47c0ee00", "identity": "brian.cove@frothlydev.onmicrosoft.com"}'

@@ -1,10 +1,11 @@
 name: Windows RDP File Execution
 id: 0b6b12b9-8ba9-48fe-b3b8-b4e3e1cd22b4
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-11-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
-type: TTP
 status: production
+type: TTP
 description: The following analytic detects when a Windows RDP client attempts to execute an RDP file from a temporary directory, downloads directory, or Outlook directories. This detection is significant as it can indicate an attempt for an adversary to deliver a .rdp file, which may be leveraged by attackers to control or exfiltrate data. If confirmed malicious, this activity could lead to unauthorized access, data theft, or further lateral movement within the network.
 data_source:
     - Sysmon EventID 1
@@ -24,31 +25,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A Windows RDP client attempted to execute an RDP file from a temporary directory, downloads directory, or Outlook directories on the endpoint $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Spearphishing Attachments
-        - Windows RDP Artifacts and Defense Evasion
-        - Interlock Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1598.002
-        - T1021.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+finding:
+    title: A Windows RDP client attempted to execute an RDP file from a temporary directory, downloads directory, or Outlook directories on the endpoint $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Spearphishing Attachments
+    - Windows RDP Artifacts and Defense Evasion
+    - Interlock Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1598.002
+    - T1021.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1598.002/rdp/mstsc_rdpfile-windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit

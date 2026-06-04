@@ -1,0 +1,3 @@
+apps:
+    - appid: DA-ESS-ContentUpdate
+      hardcoded_path: dist/DA-ESS-ContentUpdate.tar.gz

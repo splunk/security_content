@@ -1,7 +1,8 @@
 name: Azure Runbook Webhook Created
 id: e98944a9-92e4-443c-81b8-a322e33ce75a
-version: 14
-date: '2026-04-15'
+version: 15
+creation_date: '2022-08-23'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Brian Serocki, Splunk
 status: production
 type: TTP
@@ -38,27 +39,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A new Azure Runbook Webhook $object$ was created by $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Azure Active Directory Persistence
-    asset_type: Azure Tenant
-    mitre_attack_id:
-        - T1078.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: A new Azure Runbook Webhook $object$ was created by $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Azure Active Directory Persistence
+asset_type: Azure Tenant
+mitre_attack_id:
+    - T1078.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_runbook_webhook/azure-activity.log
           source: mscs:azure:audit
           sourcetype: mscs:azure:audit
+      test_type: unit

@@ -1,22 +1,22 @@
 name: Malicious Inno Setup Loader
 id: ef8b2f11-fb0b-4acd-828c-83345e171b61
-version: 1
-date: '2025-05-25'
+version: 2
+creation_date: '2025-05-26'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: |
-  Leverage searches that allow you to detect and investigate unusual activities that might relate to malicious Inno Setup-based loaders include monitoring unexpected process trees, script execution, and memory injection patterns originating from installer executables. Inno Setup is a widely used legitimate packaging tool, but its popularity and flexibility make it an attractive vehicle for malware delivery. Malicious actors abuse this framework to create installers that appear benign while hiding and executing embedded payloads. These loaders typically drop encrypted or obfuscated binaries to disk or inject them directly into memory without user consent. These components are typically executed via scripting (e.g., embedded PowerShell, VBScript) or injected directly into memory using process injection techniques like Process Hollowing, Thread Hijacking, or DLL Side-Loading. Some loaders include anti-analysis features such as sandbox evasion, VM detection, or delaying execution to avoid early sandbox detection. Their payloads can range from commodity malware (infostealers, keyloggers, remote access trojans) to custom backdoors.
+    Leverage searches that allow you to detect and investigate unusual activities that might relate to malicious Inno Setup-based loaders include monitoring unexpected process trees, script execution, and memory injection patterns originating from installer executables. Inno Setup is a widely used legitimate packaging tool, but its popularity and flexibility make it an attractive vehicle for malware delivery. Malicious actors abuse this framework to create installers that appear benign while hiding and executing embedded payloads. These loaders typically drop encrypted or obfuscated binaries to disk or inject them directly into memory without user consent. These components are typically executed via scripting (e.g., embedded PowerShell, VBScript) or injected directly into memory using process injection techniques like Process Hollowing, Thread Hijacking, or DLL Side-Loading. Some loaders include anti-analysis features such as sandbox evasion, VM detection, or delaying execution to avoid early sandbox detection. Their payloads can range from commodity malware (infostealers, keyloggers, remote access trojans) to custom backdoors.
 narrative: |
-  Detecting malicious Inno Setup-based loaders involves identifying deviations from typical installer behavior. While legitimate Inno Setup binaries follow predictable installation patterns, malicious variants exhibit suspicious child process activity—such as launching cmd.exe, powershell.exe, or performing in-memory execution without dropping a visible payload. Analysts may observe payloads being written to temporary directories like %APPDATA%, %TEMP%, or %ProgramData%, followed by obfuscated execution mechanisms. Static analysis of the installer may reveal high-entropy sections, encrypted blobs, or anomalous script content embedded in the setup script. Behavioral analysis through EDR or sandboxing can further expose delayed execution, anti-VM logic, or environment fingerprinting techniques. Threat intelligence correlations—such as hashes, command-and-control domains, or loader-specific strings—can assist in clustering related loader campaigns. Detecting these loaders early is crucial, as they often serve as the initial access vector in multi-stage infection chains, enabling more severe intrusions or ransomware deployment.
+    Detecting malicious Inno Setup-based loaders involves identifying deviations from typical installer behavior. While legitimate Inno Setup binaries follow predictable installation patterns, malicious variants exhibit suspicious child process activity—such as launching cmd.exe, powershell.exe, or performing in-memory execution without dropping a visible payload. Analysts may observe payloads being written to temporary directories like %APPDATA%, %TEMP%, or %ProgramData%, followed by obfuscated execution mechanisms. Static analysis of the installer may reveal high-entropy sections, encrypted blobs, or anomalous script content embedded in the setup script. Behavioral analysis through EDR or sandboxing can further expose delayed execution, anti-VM logic, or environment fingerprinting techniques. Threat intelligence correlations—such as hashes, command-and-control domains, or loader-specific strings—can assist in clustering related loader campaigns. Detecting these loaders early is crucial, as they often serve as the initial access vector in multi-stage infection chains, enabling more severe intrusions or ransomware deployment.
 references:
-  - https://x.com/Unit42_Intel/status/1919418143476199869
-  - https://www.esentire.com/blog/d3f-ck-loader-the-new-maas-loader
-  - https://tria.ge/241129-lgghqaxqgz
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://x.com/Unit42_Intel/status/1919418143476199869
+    - https://www.esentire.com/blog/d3f-ck-loader-the-new-maas-loader
+    - https://tria.ge/241129-lgghqaxqgz
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

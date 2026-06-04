@@ -1,18 +1,18 @@
 name: Compromised User Account
 id: 19669154-e9d1-4a01-b144-e6592a078092
-version: 1
-date: '2023-01-19'
+version: 2
+creation_date: '2023-01-19'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Bhavin Patel, Splunk
 status: production
 description: Monitor for activities and techniques associated with Compromised User Account attacks.
 narrative: Compromised User Account occurs when cybercriminals gain unauthorized access to accounts by using different techniques like brute force, social engineering, phishing & spear phishing, credential stuffing, etc. By posing as the real user, cyber-criminals can change account details, send out phishing emails, steal financial information or sensitive data, or use any stolen information to access further accounts within the organization. This analytic story groups detections that can help security operations teams identify the potential signs of Compromised User Accounts.
 references:
-- https://www.proofpoint.com/us/threat-reference/compromised-account
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.proofpoint.com/us/threat-reference/compromised-account
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

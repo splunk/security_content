@@ -1,7 +1,8 @@
 name: MS Exchange Mailbox Replication service writing Active Server Pages
 id: 985f322c-57a5-11ec-b9ac-acde48001122
-version: 7
-date: '2026-03-10'
+version: 8
+creation_date: '2021-03-18'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -13,30 +14,33 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
 references:
     - https://redcanary.com/blog/blackbyte-ransomware/
-rba:
-    message: A file - $file_name$ was written to disk that is related to IIS exploitation related to ProxyShell. Review further file modifications on endpoint $dest$ by user $user$.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: A file - $file_name$ was written to disk that is related to IIS exploitation related to ProxyShell. Review further file modifications on endpoint $dest$ by user $user$.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: file_name
-          type: file_name
-tags:
-    analytic_story:
-        - ProxyShell
-        - Ransomware
-        - BlackByte Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1133
-        - T1190
-        - T1505.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A file - $file_name$ was written to disk that is related to IIS exploitation related to ProxyShell. Review further file modifications on endpoint $dest$ by user $user$.
+threat_objects:
+    - field: file_name
+      type: file_name
+analytic_story:
+    - ProxyShell
+    - Ransomware
+    - BlackByte Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1133
+    - T1190
+    - T1505.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

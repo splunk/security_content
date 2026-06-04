@@ -1,75 +1,70 @@
 name: Linux Auditd Syscall
 id: 4dff7047-0d43-4096-bb3f-b756c889bbad
-version: 2
-date: '2025-02-20'
+version: 3
+creation_date: '2024-08-08'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
-description: Logs system calls made by processes on a Linux system, including details
-  about the syscall number, arguments, return values, and associated process metadata.
+description: Logs system calls made by processes on a Linux system, including details about the syscall number, arguments, return values, and associated process metadata.
 mitre_components:
-- OS API Execution
-- Process Metadata
-- Application Log Content
-- Host Status
+    - OS API Execution
+    - Process Metadata
+    - Application Log Content
+    - Host Status
 source: auditd
 sourcetype: auditd
 separator: type
 separator_value: syscall
 configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules
 supported_TA:
-- name: Splunk Add-on for Unix and Linux
-  url: https://splunkbase.splunk.com/app/833
-  version: 10.2.0
+    - name: Splunk Add-on for Unix and Linux
+      url: https://splunkbase.splunk.com/app/833
+      version: 10.2.0
 fields:
-- msg
-- type
-- msg
-- arch
-- syscall
-- success
-- exit
-- a1
-- a2
-- a3
-- items
-- ppid
-- pid
-- auid
-- uid
-- gid
-- euid
-- suid
-- fsuid
-- egid
-- sgid
-- fsgid
-- tty
-- ses
-- comm
-- exe
-- subj
-- key
-- ARCH
-- SYSCALL
-- AUID
-- UID
-- GID
-- EUID
-- SUID
-- FSUID
-- EGID
-- SGID
-- FSGID
+    - msg
+    - type
+    - msg
+    - arch
+    - syscall
+    - success
+    - exit
+    - a1
+    - a2
+    - a3
+    - items
+    - ppid
+    - pid
+    - auid
+    - uid
+    - gid
+    - euid
+    - suid
+    - fsuid
+    - egid
+    - sgid
+    - fsgid
+    - tty
+    - ses
+    - comm
+    - exe
+    - subj
+    - key
+    - ARCH
+    - SYSCALL
+    - AUID
+    - UID
+    - GID
+    - EUID
+    - SUID
+    - FSUID
+    - EGID
+    - SGID
+    - FSGID
 output_fields:
-- comm
-- exe
-- syscall
-- uid
-- ppid
-- pid
-- dest
-example_log: 'type=SYSCALL msg=audit(1723035666.627:3663): arch=c000003e syscall=59
-  success=yes exit=0 a0=556a6d697a58 a1=556a6d68ad00 a2=556a6d69c980 a3=0 items=2
-  ppid=1300 pid=1301 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0
-  tty=pts1 ses=1 comm="lsmod" exe="/usr/bin/kmod" subj=unconfined key="rootcmd" ARCH=x86_64
-  SYSCALL=execve AUID="ubuntu" UID="root" GID="root" EUID="root" SUID="root" FSUID="root"
-  EGID="root" SGID="root" FSGID="root"'
+    - comm
+    - exe
+    - syscall
+    - uid
+    - ppid
+    - pid
+    - dest
+example_log: 'type=SYSCALL msg=audit(1723035666.627:3663): arch=c000003e syscall=59 success=yes exit=0 a0=556a6d697a58 a1=556a6d68ad00 a2=556a6d69c980 a3=0 items=2 ppid=1300 pid=1301 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts1 ses=1 comm="lsmod" exe="/usr/bin/kmod" subj=unconfined key="rootcmd" ARCH=x86_64 SYSCALL=execve AUID="ubuntu" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"'

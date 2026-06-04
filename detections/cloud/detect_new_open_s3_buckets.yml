@@ -1,7 +1,8 @@
 name: Detect New Open S3 buckets
 id: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -37,27 +38,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_arn$", "$bucketName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user_arn$ has created an open/public bucket $bucketName$ with the following permissions $permission$
-    risk_objects:
-        - field: user_arn
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious AWS S3 Activities
-    asset_type: S3 Bucket
-    mitre_attack_id:
-        - T1530
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: User $user_arn$ has created an open/public bucket $bucketName$ with the following permissions $permission$
+    entity:
+        field: user_arn
+        type: user
+        score: 50
+analytic_story:
+    - Suspicious AWS S3 Activities
+asset_type: S3 Bucket
+mitre_attack_id:
+    - T1530
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

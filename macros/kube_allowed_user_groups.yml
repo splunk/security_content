@@ -1,3 +1,8 @@
-definition: user.groups{} IN (admin)
-description: Define your user groups which are allowed to connect to your kubernetes cluster.
 name: kube_allowed_user_groups
+id: b74aed9d-22a2-4f92-b56c-188a8ebeb3da
+version: 1
+creation_date: '2023-12-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Define your user groups which are allowed to connect to your kubernetes cluster.
+definition: user.groups{} IN (admin)

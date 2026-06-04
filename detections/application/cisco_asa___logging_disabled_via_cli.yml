@@ -1,7 +1,8 @@
 name: Cisco ASA - Logging Disabled via CLI
 id: 7b4c9f3e-5a88-4b7b-9c4b-94d8e5d67201
-version: 7
-date: '2026-05-04'
+version: 8
+creation_date: '2025-09-25'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Micheal Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -58,29 +59,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ executed command $command$ to disable logging on the Cisco ASA host $host$.
-    risk_objects:
-        - field: host
-          type: system
-          score: 50
-    threat_objects:
-        - field: src_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Suspicious Cisco Adaptive Security Appliance Activity
-    asset_type: Network
-    mitre_attack_id:
-        - T1685
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: User $user$ executed command $command$ to disable logging on the Cisco ASA host $host$.
+    entity:
+        field: host
+        type: system
+        score: 50
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+asset_type: Network
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
           source: not_applicable
           sourcetype: cisco:asa
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Windows RMM Named Pipe
 id: c07c7138-edf5-4a16-8b24-3842599235bf
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-12-08'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -60,42 +61,43 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $process_name$ located in $process_path$ was identified on endpoint $dest$ accessing known RMM named pipe $pipe_name$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Cactus Ransomware
-        - CISA AA24-241A
-        - Command And Control
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Gozi Malware
-        - Insider Threat
-        - Interlock Ransomware
-        - Ransomware
-        - Remote Monitoring and Management Software
-        - Scattered Lapsus$ Hunters
-        - Scattered Spider
-        - Seashell Blizzard
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1559
-        - T1021.002
-        - T1055
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $process_name$ located in $process_path$ was identified on endpoint $dest$ accessing known RMM named pipe $pipe_name$.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Cactus Ransomware
+    - CISA AA24-241A
+    - Command And Control
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Gozi Malware
+    - Insider Threat
+    - Interlock Ransomware
+    - Ransomware
+    - Remote Monitoring and Management Software
+    - Scattered Lapsus$ Hunters
+    - Scattered Spider
+    - Seashell Blizzard
+asset_type: Endpoint
+mitre_attack_id:
+    - T1559
+    - T1021.002
+    - T1055
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/named_pipes/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

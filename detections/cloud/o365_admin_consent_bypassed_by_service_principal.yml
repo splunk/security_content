@@ -1,13 +1,14 @@
 name: O365 Admin Consent Bypassed by Service Principal
 id: 8a1b22eb-50ce-4e26-a691-97ff52349569
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-02-14'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies instances where a service principal in Office 365 Azure Active Directory assigns app roles without standard admin consent. It leverages `o365_management_activity` logs, specifically focusing on the 'Add app role assignment to service principal' operation. This activity is significant for SOCs as it may indicate a bypass of critical administrative controls, potentially leading to unauthorized access or privilege escalation. If confirmed malicious, this could allow an attacker to misuse automated processes to assign sensitive permissions, compromising the security of the environment.
 data_source:
     - O365 Add app role assignment to service principal.
-type: TTP
-status: production
-description: The following analytic identifies instances where a service principal in Office 365 Azure Active Directory assigns app roles without standard admin consent. It leverages `o365_management_activity` logs, specifically focusing on the 'Add app role assignment to service principal' operation. This activity is significant for SOCs as it may indicate a bypass of critical administrative controls, potentially leading to unauthorized access or privilege escalation. If confirmed malicious, this could allow an attacker to misuse automated processes to assign sensitive permissions, compromising the security of the environment.
 search: "`o365_management_activity` Workload=AzureActiveDirectory Operation=\"Add app role assignment to service principal.\" | eval len=mvcount('Actor{}.ID') | eval userType = mvindex('Actor{}.ID',len-1) | eval roleId = mvindex('ModifiedProperties{}.NewValue', 0) | eval roleValue = mvindex('ModifiedProperties{}.NewValue', 1) | eval roleDescription = mvindex('ModifiedProperties{}.NewValue', 2) | eval dest_user = mvindex('Target{}.ID', 0) | search userType = \"ServicePrincipal\" | eval src_user = user | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product dest_user roleId roleValue roleDescription | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_admin_consent_bypassed_by_service_principal_filter`"
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Service Principals are sometimes configured to legitimately bypass the consent process for purposes of automation. Filter as needed.
@@ -27,27 +28,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Service principal $user$ bypassed the admin consent process and granted permissions to $dest_user$
-    risk_objects:
-        - field: dest_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Persistence Mechanisms
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1098.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: Service principal $user$ bypassed the admin consent process and granted permissions to $dest_user$
+    entity:
+        field: dest_user
+        type: user
+        score: 50
+analytic_story:
+    - Office 365 Persistence Mechanisms
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1098.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_bypass_admin_consent/o365_bypass_admin_consent.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

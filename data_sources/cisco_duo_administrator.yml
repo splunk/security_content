@@ -1,31 +1,28 @@
 name: Cisco Duo Administrator
 id: 38e22de6-8b6b-449c-ae26-a640c88ff7f9
-version: 1
-date: '2025-07-10'
+version: 2
+creation_date: '2025-07-10'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 description: Data source object for Cisco Duo Administrator
 source: cisco_duo
 sourcetype: cisco:duo:administrator
-separator: null
+separator:
 supported_TA:
-- name: Cisco Security Cloud
-  url: https://splunkbase.splunk.com/app/7404
-  version: 3.6.5
+    - name: Cisco Security Cloud
+      url: https://splunkbase.splunk.com/app/7404
+      version: 3.6.5
 fields:
-- action
-- actionlabel
-- ctime
-- description
-- eventtype
-- extracted_eventtype
-- isotimestamp
-- object
-- timestamp
-- username
+    - action
+    - actionlabel
+    - ctime
+    - description
+    - eventtype
+    - extracted_eventtype
+    - isotimestamp
+    - object
+    - timestamp
+    - username
 output_fields:
-- user
-example_log: '{"ctime": "Tue Jul  8 12:28:47 2025", "action": "policy_create", "description":
-  "{\"enroll_policy\": \"Allow Access\", \"name\": \"test4\", \"pretty_trusted_devices\":
-  \"\", \"admin_email\": \"test@test.com\"}", "isotimestamp": "2025-07-08T12:28:47+00:00",
-  "object": "test4", "timestamp": 1751977727, "username": "Test Test", "host": "api-41e72ada.duosecurity.com",
-  "extracted_eventtype": "administrator", "actionlabel": "Added policy"}'
+    - user
+example_log: '{"ctime": "Tue Jul  8 12:28:47 2025", "action": "policy_create", "description": "{\"enroll_policy\": \"Allow Access\", \"name\": \"test4\", \"pretty_trusted_devices\": \"\", \"admin_email\": \"test@test.com\"}", "isotimestamp": "2025-07-08T12:28:47+00:00", "object": "test4", "timestamp": 1751977727, "username": "Test Test", "host": "api-41e72ada.duosecurity.com", "extracted_eventtype": "administrator", "actionlabel": "Added policy"}'

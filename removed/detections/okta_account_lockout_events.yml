@@ -1,58 +1,47 @@
 name: Okta Account Lockout Events
 id: 62b70968-a0a5-4724-8ac4-67871e6f544d
 version: 5
-date: '2025-02-10'
+creation_date: '2022-12-19'
+modification_date: '2026-05-13'
 author: Michael Haag, Rico Valdez, Splunk
 status: removed
 type: Anomaly
-description: '**DEPRECATION NOTE** - This search has been deprecated and replaced
-  with `Okta Multiple Accounts Locked Out`. The following anomaly will generate based
-  on account lockout events utilizing Okta eventTypes of user.account.lock.limit or
-  user.account.lock. Per the Okta docs site, this event is fired when a user account
-  has reached the lockout limit. The account will not auto-unlock and a user or client
-  cannot gain access to the account. This event indicates an account that will not
-  be able to log in until remedial action is taken by the account admin. This event
-  can be used to understand the specifics of an account lockout. Often this indicates
-  a client application that is repeatedly attempting to authenticate with invalid
-  credentials such as an old password.'
+description: '**DEPRECATION NOTE** - This search has been deprecated and replaced with `Okta Multiple Accounts Locked Out`. The following anomaly will generate based on account lockout events utilizing Okta eventTypes of user.account.lock.limit or user.account.lock. Per the Okta docs site, this event is fired when a user account has reached the lockout limit. The account will not auto-unlock and a user or client cannot gain access to the account. This event indicates an account that will not be able to log in until remedial action is taken by the account admin. This event can be used to understand the specifics of an account lockout. Often this indicates a client application that is repeatedly attempting to authenticate with invalid credentials such as an old password.'
 data_source: []
-search: '`okta` eventType IN (user.account.lock.limit,user.account.lock) | rename
-  client.geographicalContext.country as country, client.geographicalContext.state
-  as state, client.geographicalContext.city as city | stats count min(_time) as firstTime
-  max(_time) as lastTime values(src_user) as users by displayMessage, country, state,
-  city, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `okta_account_lockout_events_filter`'
+search: '`okta` eventType IN (user.account.lock.limit,user.account.lock) | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | stats count min(_time) as firstTime max(_time) as lastTime values(src_user) as users by displayMessage, country, state, city, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_account_lockout_events_filter`'
 how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested.
-known_false_positives: None. Account lockouts should be followed up on to determine
-  if the actual user was the one who caused the lockout, or if it was an unauthorized
-  actor.
+known_false_positives: None. Account lockouts should be followed up on to determine if the actual user was the one who caused the lockout, or if it was an unauthorized actor.
 references:
-- https://developer.okta.com/docs/reference/api/event-types/#catalog
-- https://developer.okta.com/docs/reference/api/event-types/?q=user.account.lock
+    - https://developer.okta.com/docs/reference/api/event-types/#catalog
+    - https://developer.okta.com/docs/reference/api/event-types/?q=user.account.lock
 rba:
-  message: The following user $users$ has locked out their account within Okta.
-  risk_objects:
-  - field: users
-    type: user
-    score: 25
-  threat_objects:
-  - field: src_ip
-    type: ip_address
+    message: The following user $users$ has locked out their account within Okta.
+    risk_objects:
+        - field: users
+          type: user
+          score: 25
+    threat_objects:
+        - field: src_ip
+          type: ip_address
 tags:
-  analytic_story:
-  - Suspicious Okta Activity
-  asset_type: Infrastructure
-  mitre_attack_id:
-  - T1078.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: access
+    analytic_story:
+        - Suspicious Okta Activity
+    asset_type: Infrastructure
+    mitre_attack_id:
+        - T1078.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: access
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/okta_multiple_accounts_lockout/okta_multiple_accounts_lockout.log
-    source: Okta
-    sourcetype: OktaIM2:log
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/okta_multiple_accounts_lockout/okta_multiple_accounts_lockout.log
+            source: Okta
+            sourcetype: OktaIM2:log
+deprecation_info:
+    reason: Detections updated to use the new search logic and field names due to the TA update
+    removed_in_version: 5.2.0
+    replacement_content:
+        - Okta Multiple Accounts Locked Out

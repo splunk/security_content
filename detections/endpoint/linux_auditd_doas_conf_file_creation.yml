@@ -1,7 +1,8 @@
 name: Linux Auditd Doas Conf File Creation
 id: 61059783-574b-40d2-ac2f-69b898afd6b4
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-08-09'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -76,29 +77,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A $reconstructed_path$ file was created on host - [$dest$]
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Privilege Escalation
-        - Linux Persistence Techniques
-        - Compromised Linux Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1548.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A $reconstructed_path$ file was created on host - [$dest$]
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Persistence Techniques
+    - Compromised Linux Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1548.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/auditd_path_cwd_doas_conf/path_doas.log
           source: auditd
           sourcetype: auditd
+      test_type: unit

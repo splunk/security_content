@@ -1,7 +1,8 @@
 name: Detect Outbound SMB Traffic
 id: 1bed7774-304a-4e8f-9d72-d80e45ff492b
-version: 16
-date: '2026-04-15'
+version: 17
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Stuart Hopkins, Patrick Bareiss
 status: production
 type: TTP
@@ -44,38 +45,40 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An outbound SMB connection from $src_ip$ in your infrastructure connecting to dest ip $dest_ip$
-    risk_objects:
-        - field: src_ip
-          type: system
-          score: 50
-    threat_objects:
-        - field: dest_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Hidden Cobra Malware
-        - DHS Report TA18-074A
-        - NOBELIUM Group
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Cisco Secure Access Analytics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1071.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: An outbound SMB connection from $src_ip$ in your infrastructure connecting to dest ip $dest_ip$
+    entity:
+        field: src_ip
+        type: system
+        score: 50
+threat_objects:
+    - field: dest_ip
+      type: ip_address
+analytic_story:
+    - Hidden Cobra Malware
+    - DHS Report TA18-074A
+    - NOBELIUM Group
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Cisco Secure Access Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1071.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: Cisco Secure Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit
     - name: Cisco Secure Access Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/smb.log
           source: cisco_cloud_security_addon
           sourcetype: cisco:cloud_security:firewall
+      test_type: unit

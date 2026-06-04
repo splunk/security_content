@@ -1,7 +1,8 @@
 name: O365 Bypass MFA via Trusted IP
 id: c783dd98-c703-4252-9e8a-f19d9f66949e
-version: 12
-date: '2026-05-04'
+version: 13
+creation_date: '2021-01-13'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -24,27 +25,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ has added new IP addresses $ip_addresses_new_added$ to a list of trusted IPs to bypass MFA
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Persistence Mechanisms
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1686.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: User $user$ has added new IP addresses $ip_addresses_new_added$ to a list of trusted IPs to bypass MFA
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Office 365 Persistence Mechanisms
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1686.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/o365_bypass_mfa_via_trusted_ip/o365_bypass_mfa_via_trusted_ip.json
           sourcetype: o365:management:activity
           source: o365
+      test_type: unit

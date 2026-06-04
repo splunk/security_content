@@ -1,0 +1,13 @@
+name: privileged_azure_ad_roles
+id: 4dbf0357-b5fc-4be2-9058-804d6a60b126
+version: 3
+creation_date: '2022-08-29'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of privileged Azure Active Directory roles, includes updates for 2024 and template IDs.
+match_type:
+    - WILDCARD(azureadrole)
+    - WILDCARD(azuretemplateid)
+min_matches: 1
+case_sensitive_match: false

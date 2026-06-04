@@ -1,4 +1,8 @@
-definition: sourcetype=crowdstrike:identities 
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: crowdstrike_identities
+id: ce8b0382-c5b1-4732-a398-2ef1c61f18d2
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=crowdstrike:identities

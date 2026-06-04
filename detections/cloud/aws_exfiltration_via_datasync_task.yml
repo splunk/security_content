@@ -1,13 +1,14 @@
 name: AWS Exfiltration via DataSync Task
 id: 05c4b09f-ea28-4c7c-a7aa-a246f665c8a2
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-04-10'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
+description: The following analytic detects the creation of an AWS DataSync task, which could indicate potential data exfiltration. It leverages AWS CloudTrail logs to identify the `CreateTask` event from the DataSync service. This activity is significant because attackers can misuse DataSync to transfer sensitive data from a private AWS location to a public one, leading to data compromise. If confirmed malicious, this could result in unauthorized access to sensitive information, causing severe data breaches and compliance violations.
 data_source:
     - AWS CloudTrail CreateTask
-description: The following analytic detects the creation of an AWS DataSync task, which could indicate potential data exfiltration. It leverages AWS CloudTrail logs to identify the `CreateTask` event from the DataSync service. This activity is significant because attackers can misuse DataSync to transfer sensitive data from a private AWS location to a public one, leading to data compromise. If confirmed malicious, this could result in unauthorized access to sensitive information, causing severe data breaches and compliance violations.
 search: |-
     `cloudtrail` eventName = CreateTask eventSource="datasync.amazonaws.com"
       | rename  requestParameters.*  as *
@@ -34,31 +35,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: DataSync task created on account id - $vendor_account$ by user $user$ from src_ip $src$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Suspicious AWS S3 Activities
-        - Data Exfiltration
-        - Hellcat Ransomware
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1119
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: DataSync task created on account id - $vendor_account$ by user $user$ from src_ip $src$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Suspicious AWS S3 Activities
+    - Data Exfiltration
+    - Hellcat Ransomware
+asset_type: AWS Account
+mitre_attack_id:
+    - T1119
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

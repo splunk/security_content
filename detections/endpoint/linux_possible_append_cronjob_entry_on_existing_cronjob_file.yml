@@ -1,7 +1,8 @@
 name: Linux Possible Append Cronjob Entry on Existing Cronjob File
 id: b5b91200-5f27-11ec-bb4e-acde48001122
-version: 9
-date: '2026-02-25'
+version: 10
+creation_date: '2021-12-21'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -30,24 +31,25 @@ references:
     - https://attack.mitre.org/techniques/T1053/003/
     - https://blog.aquasec.com/threat-alert-kinsing-malware-container-vulnerability
     - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
-tags:
-    analytic_story:
-        - XorDDos
-        - Linux Living Off The Land
-        - Linux Privilege Escalation
-        - Scheduled Tasks
-        - Linux Persistence Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - XorDDos
+    - Linux Living Off The Land
+    - Linux Privilege Escalation
+    - Scheduled Tasks
+    - Linux Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

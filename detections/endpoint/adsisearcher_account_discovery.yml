@@ -1,7 +1,8 @@
 name: AdsiSearcher Account Discovery
 id: de7fcadc-04f3-11ec-a241-acde48001122
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2021-08-25'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -35,34 +36,37 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Powershell process have been used for user enumeration on $dest$
-    risk_objects:
+finding:
+    title: Powershell process have been used for user enumeration on $dest$
+    entity:
+        field: user_id
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user_id
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Industroyer2
-        - Active Directory Discovery
-        - CISA AA23-347A
-        - Data Destruction
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1087.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Powershell process have been used for user enumeration on $dest$
+analytic_story:
+    - Industroyer2
+    - Active Directory Discovery
+    - CISA AA23-347A
+    - Data Destruction
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id:
+    - T1087.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/adsisearcher_powershell.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

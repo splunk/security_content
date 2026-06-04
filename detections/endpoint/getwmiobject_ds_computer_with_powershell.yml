@@ -1,7 +1,8 @@
 name: GetWmiObject Ds Computer with PowerShell
 id: 7141122c-3bc2-4aaa-ab3b-7a85a0bbefc3
-version: 8
-date: '2026-04-13'
+version: 9
+creation_date: '2021-09-01'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -62,31 +63,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Remote system discovery enumeration using WMI via the command $process$ on $dest$ by $user$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process
-          type: command
-tags:
-    analytic_story:
-        - Active Directory Discovery
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1018
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Remote system discovery enumeration using WMI via the command $process$ on $dest$ by $user$
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process
+      type: command
+analytic_story:
+    - Active Directory Discovery
+asset_type: Endpoint
+mitre_attack_id:
+    - T1018
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

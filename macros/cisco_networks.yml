@@ -1,4 +1,8 @@
-definition: eventtype=cisco_ios
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: cisco_networks
+id: 98b7c8e9-db86-4fdc-bfeb-ca7ddeb09655
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: eventtype=cisco_ios

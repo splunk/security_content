@@ -1,7 +1,8 @@
 name: Unusually Long Command Line - MLTK
 id: 57edaefa-a73b-45e5-bbae-f39c1473f941
 version: 9
-date: '2026-03-10'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: removed
 type: Anomaly
@@ -54,3 +55,7 @@ tags:
         - Splunk Enterprise Security
         - Splunk Cloud
     security_domain: endpoint
+deprecation_info:
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+    removed_in_version: 5.26.0
+    replacement_content: []

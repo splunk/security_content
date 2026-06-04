@@ -1,15 +1,16 @@
 name: Windows Proxy Via Netsh
 id: c137bfe8-6036-4cff-b77b-4e327dd0a1cf
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+description: The following analytic identifies the use of netsh.exe to configure a connection proxy, which can be leveraged for persistence by executing a helper DLL. It detects this activity by analyzing process creation events from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving "portproxy" and "v4tov4" parameters. This activity is significant because it indicates potential unauthorized network configuration changes, which could be used to maintain persistence or redirect network traffic. If confirmed malicious, this could allow an attacker to maintain covert access or manipulate network communications, posing a significant security risk.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic identifies the use of netsh.exe to configure a connection proxy, which can be leveraged for persistence by executing a helper DLL. It detects this activity by analyzing process creation events from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving "portproxy" and "v4tov4" parameters. This activity is significant because it indicates potential unauthorized network configuration changes, which could be used to maintain persistence or redirect network traffic. If confirmed malicious, this could allow an attacker to maintain covert access or manipulate network communications, posing a significant security risk.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_netsh` Processes.process = "* portproxy *" Processes.process = "* v4tov4 *"
@@ -37,32 +38,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A process $process_name$ has launched netsh with command-line $process$ on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: A process $process_name$ has launched netsh with command-line $process$ on $dest$.
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Volt Typhoon
-    asset_type: Endpoint
-    atomic_guid:
-        - b8223ea9-4be2-44a6-b50a-9657a3d4e72a
-    mitre_attack_id:
-        - T1090.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A process $process_name$ has launched netsh with command-line $process$ on $dest$.
+analytic_story:
+    - Volt Typhoon
+asset_type: Endpoint
+atomic_guid:
+    - b8223ea9-4be2-44a6-b50a-9657a3d4e72a
+mitre_attack_id:
+    - T1090.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1090.001/netsh_portproxy/volt_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

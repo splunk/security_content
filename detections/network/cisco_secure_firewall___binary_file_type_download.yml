@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Binary File Type Download
 id: 24b2c2e3-2ff7-4a23-b814-87f8a62028cd
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2025-04-09'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -47,32 +48,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The host $src$ downloaded a file $file_name$ of type $FileType$ from $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: file_name
-          type: file_name
-        - field: file_hash
-          type: file_hash
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1203
-        - T1059
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The host $src$ downloaded a file $file_name$ of type $FileType$ from $dest$.
+threat_objects:
+    - field: file_hash
+      type: file_hash
+    - field: file_name
+      type: file_name
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1203
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/file_event/file_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

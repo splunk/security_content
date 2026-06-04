@@ -1,12 +1,13 @@
 name: Windows AppLocker Execution from Uncommon Locations
 id: d57ce957-151a-4aec-ada5-5fb1eb555b6b
-version: 6
-date: '2026-02-25'
+version: 7
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
-data_source: []
-type: Hunting
 status: production
+type: Hunting
 description: The following analytic identifies the execution of applications or scripts from uncommon or suspicious file paths, potentially indicating malware or unauthorized activity. It leverages Windows AppLocker event logs and uses statistical analysis to detect anomalies. By calculating the average and standard deviation of execution counts per file path, it flags paths with execution counts significantly higher than expected. This behavior is significant as it can uncover malicious activities or policy violations. If confirmed malicious, this activity could allow attackers to execute unauthorized code, leading to potential system compromise or data breaches.
+data_source: []
 search: |-
     `applocker`
       | spath input=UserData_Xml
@@ -26,21 +27,21 @@ known_false_positives: False positives are possible if legitimate users are exec
 references:
     - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/operations/querying-application-control-events-centrally-using-advanced-hunting
     - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/applocker/using-event-viewer-with-applocker
-tags:
-    analytic_story:
-        - Windows AppLocker
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+analytic_story:
+    - Windows AppLocker
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-AppLocker/MSI and Script
+      test_type: unit

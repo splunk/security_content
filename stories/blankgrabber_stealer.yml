@@ -1,7 +1,8 @@
 name: BlankGrabber Stealer
 id: 19342670-28e0-4efa-89d9-e709ba5534a4
-version: 1
-date: '2026-03-03'
+version: 2
+creation_date: '2026-03-16'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: |
@@ -16,11 +17,10 @@ narrative: |
     With subtle persistence and basic anti-analysis tricks, BlankGrabber enables account takeovers, financial theft, and deeper compromise before the victim realizes anything is wrong.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/py.blankgrabber
-tags:
-    category:
-        - Malware
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    usecase: Advanced Threat Detection
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

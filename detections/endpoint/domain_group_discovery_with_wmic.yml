@@ -1,7 +1,8 @@
 name: Domain Group Discovery With Wmic
 id: a87736a6-95cd-4728-8689-3c64d5026b3e
-version: 8
-date: '2025-05-02'
+version: 9
+creation_date: '2021-08-26'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -15,20 +16,21 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
     - https://attack.mitre.org/techniques/T1069/002/
-tags:
-    analytic_story:
-        - Active Directory Discovery
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1069.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Discovery
+asset_type: Endpoint
+mitre_attack_id:
+    - T1069.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

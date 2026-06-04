@@ -1,3 +1,8 @@
-definition: sourcetype="aws:cloudwatchlogs:eks"
-description: customer specific splunk configurations(eg- index, source, sourcetype) for AWS cloudwatch eks logs. Replace the macro definition with configurations for your Splunk Environment.
 name: cloudwatch_eks
+id: 16c38950-13af-4636-b6aa-bcbdfeda1f69
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype) for AWS cloudwatch eks logs. Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="aws:cloudwatchlogs:eks"

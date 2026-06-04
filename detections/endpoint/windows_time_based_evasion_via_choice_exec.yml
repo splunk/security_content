@@ -1,15 +1,16 @@
 name: Windows Time Based Evasion via Choice Exec
 id: d5f54b38-10bf-4b3a-b6fc-85949862ed50
-version: 12
-date: '2026-04-21'
+version: 13
+creation_date: '2021-08-24'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+description: The following analytic detects the use of choice.exe in batch files as a delay tactic, a technique observed in SnakeKeylogger malware. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it indicates potential time-based evasion techniques used by malware to avoid detection. If confirmed malicious, this behavior could allow attackers to execute code stealthily, delete malicious files, and persist on compromised hosts, making it crucial for SOC analysts to investigate promptly.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic detects the use of choice.exe in batch files as a delay tactic, a technique observed in SnakeKeylogger malware. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it indicates potential time-based evasion techniques used by malware to avoid detection. If confirmed malicious, this behavior could allow attackers to execute code stealthily, delete malicious files, and persist on compromised hosts, making it crucial for SOC analysts to investigate promptly.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name =choice.exe  Processes.process = "*/T*"  Processes.process = "*/N*"
@@ -38,29 +39,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A $process_name$ has a choice time delay commandline on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Snake Keylogger
-        - 0bj3ctivity Stealer
-        - VIP Keylogger
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1497.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A $process_name$ has a choice time delay commandline on $dest$
+analytic_story:
+    - Snake Keylogger
+    - 0bj3ctivity Stealer
+    - VIP Keylogger
+asset_type: Endpoint
+mitre_attack_id:
+    - T1497.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/time_delay_using_choice_exe/snakekeylogger_choice.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Intrusion Events by Threat Activity
 id: b71e57e8-c571-4ff1-ae13-bc4384a9e891
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2025-05-12'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -69,31 +70,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential $threat$ activity detected on $dest$ originating from $src$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: signature
-          type: signature
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-        - ArcaneDoor
-    asset_type: Network
-    security_domain: network
-    mitre_attack_id:
-        - T1041
-        - T1573.002
-    product:
-        - Splunk Enterprise
-        - Splunk Cloud
-        - Splunk Enterprise Security
+          message: Potential $threat$ activity detected on $dest$ originating from $src$.
+threat_objects:
+    - field: signature
+      type: signature
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - ArcaneDoor
+asset_type: Network
+mitre_attack_id:
+    - T1041
+    - T1573.002
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/lumma_stealer/lumma_stealer_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

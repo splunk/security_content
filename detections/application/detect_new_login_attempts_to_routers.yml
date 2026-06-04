@@ -1,7 +1,8 @@
 name: Detect New Login Attempts to Routers
 id: bce3ed7c-9b1f-42a0-abdf-d8b123a34836
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -20,23 +21,26 @@ search: |-
 how_to_implement: To successfully implement this search, you must ensure the network router devices are categorized as "router" in the Assets and identity table. You must also populate the Authentication data model with logs related to users authenticating to routing infrastructure.
 known_false_positives: Legitimate router connections may appear as new connections
 references: []
-rba:
-    message: New login on $dest$ from $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: New login on $dest$ from $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Router and Infrastructure Security
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: New login on $dest$ from $user$
+analytic_story:
+    - Router and Infrastructure Security
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network

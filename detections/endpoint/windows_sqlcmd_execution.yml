@@ -1,7 +1,8 @@
 name: Windows SQLCMD Execution
 id: 4e7c2f85-8f02-4bd2-a48b-5ec98a2c5f72
-version: 4
-date: '2025-12-15'
+version: 5
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -27,22 +28,22 @@ references:
     - https://attack.mitre.org/techniques/T1213/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1105/T1105.md#atomic-test-32---file-download-with-sqlcmdexe
     - https://unit42.paloaltonetworks.com/espionage-campaign-targets-south-asian-entities/
-tags:
-    analytic_story:
-        - SQL Server Abuse
-        - GhostRedirector IIS Module and Rungan Backdoor
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+analytic_story:
+    - SQL Server Abuse
+    - GhostRedirector IIS Module and Rungan Backdoor
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/atomic_red_team/sqlcmd_windows_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

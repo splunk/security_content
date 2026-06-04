@@ -1,13 +1,14 @@
 name: Windows Modify Registry LongPathsEnabled
 id: 36f9626c-4272-4808-aadd-267acce681c0
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-07-10'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+description: The following analytic detects a modification to the Windows registry setting "LongPathsEnabled," which allows file paths longer than 260 characters. This detection leverages data from the Endpoint.Registry datamodel, focusing on changes to the specific registry path and value. This activity is significant because adversaries, including malware like BlackByte, exploit this setting to bypass file path limitations, potentially aiding in evasion techniques. If confirmed malicious, this modification could facilitate the execution of long-path payloads, aiding in persistence and further system compromise.
 data_source:
     - Sysmon EventID 13
-description: The following analytic detects a modification to the Windows registry setting "LongPathsEnabled," which allows file paths longer than 260 characters. This detection leverages data from the Endpoint.Registry datamodel, focusing on changes to the specific registry path and value. This activity is significant because adversaries, including malware like BlackByte, exploit this setting to bypass file path limitations, potentially aiding in evasion techniques. If confirmed malicious, this modification could facilitate the execution of long-path payloads, aiding in persistence and further system compromise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\CurrentControlSet\\Control\\FileSystem\\LongPathsEnabled" Registry.registry_value_data = "0x00000001") by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_longpathsenabled_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
 known_false_positives: Administrators may enable or disable this feature that may cause some false positive.
@@ -22,29 +23,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A registry modification in Windows LongPathEnable configuration on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - BlackByte Ransomware
-    asset_type: Endpoint
-    atomic_guid:
-        - 4f4e2f9f-6209-4fcf-9b15-3b7455706f5b
-    mitre_attack_id:
-        - T1112
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A registry modification in Windows LongPathEnable configuration on $dest$
+analytic_story:
+    - BlackByte Ransomware
+asset_type: Endpoint
+atomic_guid:
+    - 4f4e2f9f-6209-4fcf-9b15-3b7455706f5b
+mitre_attack_id:
+    - T1112
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/blackbyte/longpathsenabled/longpath_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

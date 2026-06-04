@@ -1,13 +1,14 @@
 name: Windows Process Injection into Notepad
 id: b8340d0f-ba48-4391-bea7-9e793c5aae36
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2023-02-24'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
-type: Anomaly
 status: production
+type: Anomaly
+description: The following analytic detects process injection into Notepad.exe using Sysmon EventCode 10. It identifies suspicious GrantedAccess requests (0x40 and 0x1fffff) to Notepad.exe, excluding common system paths like System32, Syswow64, and Program Files. This behavior is often associated with the SliverC2 framework by BishopFox. Monitoring this activity is crucial as it may indicate an initial payload attempting to execute malicious code within Notepad.exe. If confirmed malicious, this could allow attackers to execute arbitrary code, potentially leading to privilege escalation or persistent access within the environment.
 data_source:
     - Sysmon EventID 10
-description: The following analytic detects process injection into Notepad.exe using Sysmon EventCode 10. It identifies suspicious GrantedAccess requests (0x40 and 0x1fffff) to Notepad.exe, excluding common system paths like System32, Syswow64, and Program Files. This behavior is often associated with the SliverC2 framework by BishopFox. Monitoring this activity is crucial as it may indicate an initial payload attempting to execute malicious code within Notepad.exe. If confirmed malicious, this could allow attackers to execute arbitrary code, potentially leading to privilege escalation or persistent access within the environment.
 search: '`sysmon` EventCode=10 TargetImage IN (*\\notepad.exe) NOT (SourceImage IN ("*\\system32\\*","*\\syswow64\\*","*\\Program Files\\*")) GrantedAccess IN ("0x40","0x1fffff") | stats count min(_time) as firstTime max(_time) as lastTime by CallTrace EventID GrantedAccess Guid Opcode ProcessID SecurityID SourceImage SourceProcessGUID SourceProcessId TargetImage TargetProcessGUID TargetProcessId UserID dest granted_access parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_injection_into_notepad_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: False positives may be present based on SourceImage paths. If removing the paths is important, realize svchost and many native binaries inject into notepad consistently. Restrict or tune as needed.
@@ -23,33 +24,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $SourceImage$ injecting into $TargetImage$ was identified on endpoint $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: SourceImage
-          type: process
-        - field: TargetImage
-          type: process
-tags:
-    analytic_story:
-        - BishopFox Sliver Adversary Emulation Framework
-        - Earth Alux
-        - APT37 Rustonotto and FadeStealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1055.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $SourceImage$ injecting into $TargetImage$ was identified on endpoint $dest$.
+threat_objects:
+    - field: SourceImage
+      type: process
+    - field: TargetImage
+      type: process
+analytic_story:
+    - BishopFox Sliver Adversary Emulation Framework
+    - Earth Alux
+    - APT37 Rustonotto and FadeStealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1055.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/T1055_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

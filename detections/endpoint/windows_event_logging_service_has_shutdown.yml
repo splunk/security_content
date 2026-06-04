@@ -1,7 +1,8 @@
 name: Windows Event Logging Service Has Shutdown
 id: d696f622-6b08-4336-b456-696cb5b43ba0
-version: 6
-date: '2026-05-04'
+version: 7
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -26,23 +27,24 @@ references:
     - https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
     - https://attack.mitre.org/techniques/T1070/001/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
-tags:
-    analytic_story:
-        - Windows Log Manipulation
-        - Ransomware
-        - Clop Ransomware
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1685.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Windows Log Manipulation
+    - Ransomware
+    - Clop Ransomware
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_event_log_service_behavior/windows-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

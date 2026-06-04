@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Connection to File Sharing Domain
 id: f7e5e792-d907-46c1-a58e-4ff974dc462a
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2025-04-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -46,34 +47,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The host $src$ initiated a connection to the file sharing or pastebin domain $url$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: url
-          type: url
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Scattered Lapsus$ Hunters
-    asset_type: Network
-    mitre_attack_id:
-        - T1071.001
-        - T1090.002
-        - T1105
-        - T1567.002
-        - T1588.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: The host $src$ initiated a connection to the file sharing or pastebin domain $url$.
+threat_objects:
+    - field: url
+      type: url
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Scattered Lapsus$ Hunters
+asset_type: Network
+mitre_attack_id:
+    - T1071.001
+    - T1090.002
+    - T1105
+    - T1567.002
+    - T1588.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

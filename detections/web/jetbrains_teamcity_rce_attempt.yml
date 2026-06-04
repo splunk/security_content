@@ -1,17 +1,18 @@
 name: JetBrains TeamCity RCE Attempt
 id: 89a58e5f-1365-4793-b45c-770abbb32b6c
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-10-01'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source:
-    - Suricata
 description: |-
     The following analytic detects attempts to exploit the CVE-2023-42793 vulnerability in JetBrains TeamCity On-Premises.
     It identifies suspicious POST requests to /app/rest/users/id:1/tokens/RPC2, leveraging the Web datamodel to monitor specific URL patterns and HTTP methods.
     This activity is significant as it may indicate an unauthenticated attacker attempting to gain administrative access via Remote Code Execution (RCE).
     If confirmed malicious, this could allow the attacker to execute arbitrary code, potentially compromising the entire TeamCity environment and leading to further unauthorized access and data breaches.
+data_source:
+    - Suricata
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -48,34 +49,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential JetBrains TeamCity RCE Attempt detected against URL $url$ on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    cve:
-        - CVE-2023-42793
-    analytic_story:
-        - JetBrains TeamCity Unauthenticated RCE
-        - CISA AA23-347A
-        - JetBrains TeamCity Vulnerabilities
-    asset_type: Web Server
-    atomic_guid: []
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Potential JetBrains TeamCity RCE Attempt detected against URL $url$ on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - JetBrains TeamCity Unauthenticated RCE
+    - CISA AA23-347A
+    - JetBrains TeamCity Vulnerabilities
+asset_type: Web Server
+cve:
+    - CVE-2023-42793
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity.log
           source: not_applicable
           sourcetype: suricata
+      test_type: unit

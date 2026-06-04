@@ -1,7 +1,8 @@
 name: Ryuk Test Files Detected
 id: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2020-11-06'
+modification_date: '2026-05-13'
 author: Rod Soto, Jose Hernandez, Splunk
 status: production
 type: TTP
@@ -21,30 +22,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A creation of ryuk test file $file_path$ in host $dest$
-    risk_objects:
+finding:
+    title: A creation of ryuk test file $file_path$ in host $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Ryuk Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1486
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A creation of ryuk test file $file_path$ in host $dest$
+analytic_story:
+    - Ryuk Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1486
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

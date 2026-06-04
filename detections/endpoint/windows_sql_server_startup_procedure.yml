@@ -1,7 +1,8 @@
 name: Windows SQL Server Startup Procedure
 id: 7bec7c5c-2262-4adb-ba56-c8028512bc58
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -24,32 +25,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A SQL Server startup procedure "$startup_procedure$" was executed on host $dest$, which could indicate an attempt to establish persistence
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: A SQL Server startup procedure "$startup_procedure$" was executed on host $dest$, which could indicate an attempt to establish persistence
         - field: startup_procedure
           type: other
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - SQL Server Abuse
-        - Hellcat Ransomware
-    asset_type: Windows
-    mitre_attack_id:
-        - T1505.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
+          message: A SQL Server startup procedure "$startup_procedure$" was executed on host $dest$, which could indicate an attempt to establish persistence
+analytic_story:
+    - SQL Server Abuse
+    - Hellcat Ransomware
+asset_type: Windows
+mitre_attack_id:
+    - T1505.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/sql_startupprocedure_widows-application.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Application
+      description: PORTED MANUAL TEST - The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
+      test_type: experimental

@@ -1,15 +1,16 @@
 name: Headless Browser Usage
 id: 869ba261-c272-47d7-affe-5c0aa85c93d6
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-09-11'
+modification_date: '2026-05-13'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+description: The following analytic detects the usage of headless browsers within an organization. It identifies processes containing the "--headless" and "--disable-gpu" command line arguments, which are indicative of headless browsing. This detection leverages data from the Endpoint.Processes datamodel to identify such processes. Monitoring headless browser usage is significant as these tools can be exploited by adversaries for malicious activities like web scraping, automated testing, and undetected web interactions. If confirmed malicious, this activity could lead to unauthorized data extraction, automated attacks, or other covert operations on web applications.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic detects the usage of headless browsers within an organization. It identifies processes containing the "--headless" and "--disable-gpu" command line arguments, which are indicative of headless browsing. This detection leverages data from the Endpoint.Processes datamodel to identify such processes. Monitoring headless browser usage is significant as these tools can be exploited by adversaries for malicious activities like web scraping, automated testing, and undetected web interactions. If confirmed malicious, this activity could lead to unauthorized data extraction, automated attacks, or other covert operations on web applications.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("Chrome.exe","Brave.exe", "Opera.exe", "Vivaldi.exe", "msedge.exe") (Processes.process="*--headless*" AND Processes.process="*--disable-gpu*")
 
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `headless_browser_usage_filter`'
@@ -27,35 +28,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A Chromium-based browser process $process_name$ was launched by $parent_process_name$ on $dest$ by user $user$ with the command-line $process$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: A Chromium-based browser process $process_name$ was launched by $parent_process_name$ on $dest$ by user $user$ with the command-line $process$.
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process
-          type: process
-        - field: parent_process
-          type: parent_process
-tags:
-    analytic_story:
-        - Browser Hijacking
-        - Forest Blizzard
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1497
-        - T1564.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A Chromium-based browser process $process_name$ was launched by $parent_process_name$ on $dest$ by user $user$ with the command-line $process$.
+threat_objects:
+    - field: parent_process
+      type: parent_process
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process
+      type: process
+analytic_story:
+    - Browser Hijacking
+    - Forest Blizzard
+asset_type: Endpoint
+mitre_attack_id:
+    - T1497
+    - T1564.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
@@ -65,3 +67,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497/headless_browser/headless_chrome.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

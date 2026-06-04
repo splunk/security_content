@@ -1,13 +1,14 @@
 name: AWS AMI Attribute Modification for Exfiltration
 id: f2132d74-cf81-4c5e-8799-ab069e67dc9f
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-03-31'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
+description: The following analytic detects suspicious modifications to AWS AMI attributes, such as sharing an AMI with another AWS account or making it publicly accessible. It leverages AWS CloudTrail logs to identify these changes by monitoring specific API calls. This activity is significant because adversaries can exploit these modifications to exfiltrate sensitive data stored in AWS resources. If confirmed malicious, this could lead to unauthorized access and potential data breaches, compromising the confidentiality and integrity of organizational information.
 data_source:
     - AWS CloudTrail ModifyImageAttribute
-description: The following analytic detects suspicious modifications to AWS AMI attributes, such as sharing an AMI with another AWS account or making it publicly accessible. It leverages AWS CloudTrail logs to identify these changes by monitoring specific API calls. This activity is significant because adversaries can exploit these modifications to exfiltrate sensitive data stored in AWS resources. If confirmed malicious, this could lead to unauthorized access and potential data breaches, compromising the confidentiality and integrity of organizational information.
 search: |-
     `cloudtrail` eventName=ModifyImageAttribute (requestParameters.launchPermission.add.items{}.userId = * OR requestParameters.launchPermission.add.items{}.group = all)
       | rename requestParameters.launchPermission.add.items{}.group as group_added
@@ -36,30 +37,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: AWS AMI from account $vendor_account$ is shared externally with $accounts_added$ from $src$ or AMI made is made Public.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Suspicious Cloud Instance Activities
-        - Data Exfiltration
-    asset_type: EC2 Snapshot
-    mitre_attack_id:
-        - T1537
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: AWS AMI from account $vendor_account$ is shared externally with $accounts_added$ from $src$ or AMI made is made Public.
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Suspicious Cloud Instance Activities
+    - Data Exfiltration
+asset_type: EC2 Snapshot
+mitre_attack_id:
+    - T1537
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_ami_shared_public/aws_cloudtrail_events.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

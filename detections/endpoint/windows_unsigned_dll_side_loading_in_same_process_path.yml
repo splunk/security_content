@@ -1,10 +1,11 @@
 name: Windows Unsigned DLL Side-Loading In Same Process Path
 id: 3cf85c02-f9d6-4186-bf3c-e70ee99fbc7f
-version: 19
-date: '2026-04-15'
+version: 20
+creation_date: '2024-06-26'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
-type: TTP
 status: production
+type: TTP
 description: This detection identifies unsigned DLLs loaded through DLL side-loading with same file path with the process loaded the DLL, a technique observed in DarkGate malware. This detection monitors DLL loading, verifies signatures, and flags unsigned DLLs. Suspicious file paths and known executable associations are checked. Detecting such suspicious DLLs is crucial in preventing privilege escalation attacks and other potential security breaches. Regular security assessments, thorough monitoring, and implementing security best practices are essential in safeguarding systems from such threats.
 data_source:
     - Sysmon EventID 7
@@ -23,37 +24,37 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An unsigned dll module was loaded on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - PlugX
-        - DarkGate Malware
-        - Derusbi
-        - China-Nexus Threat Activity
-        - Malicious Inno Setup Loader
-        - Salt Typhoon
-        - XWorm
-        - SnappyBee
-        - NailaoLocker Ransomware
-        - Lokibot
-        - SolarWinds WHD RCE Post Exploitation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1574.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: An unsigned dll module was loaded on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - PlugX
+    - DarkGate Malware
+    - Derusbi
+    - China-Nexus Threat Activity
+    - Malicious Inno Setup Loader
+    - Salt Typhoon
+    - XWorm
+    - SnappyBee
+    - NailaoLocker Ransomware
+    - Lokibot
+    - SolarWinds WHD RCE Post Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1574.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/unsigned_dll_loaded_same_process_path/unsigned_dll_process_path.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

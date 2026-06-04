@@ -1,13 +1,14 @@
 name: Windows MSHTA Writing to World Writable Path
 id: efbcf8ee-bc75-47f1-8985-a5c638c4faf0
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-04-04'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies instances of `mshta.exe` writing files to world-writable directories. It leverages Sysmon EventCode 11 logs to detect file write operations by `mshta.exe` to directories like `C:\Windows\Tasks` and `C:\Windows\Temp`. This activity is significant as it often indicates an attempt to establish persistence or execute malicious code, deviating from the utility's legitimate use. If confirmed malicious, this behavior could lead to the execution of multi-stage payloads, potentially resulting in full system compromise and unauthorized access to sensitive information.
 data_source:
     - Sysmon EventID 11
-type: TTP
-status: production
-description: The following analytic identifies instances of `mshta.exe` writing files to world-writable directories. It leverages Sysmon EventCode 11 logs to detect file write operations by `mshta.exe` to directories like `C:\Windows\Tasks` and `C:\Windows\Temp`. This activity is significant as it often indicates an attempt to establish persistence or execute malicious code, deviating from the utility's legitimate use. If confirmed malicious, this behavior could lead to the execution of multi-stage payloads, potentially resulting in full system compromise and unauthorized access to sensitive information.
 search: |
     `sysmon`
     EventCode=11
@@ -53,36 +54,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $Image$ writing to $TargetFilename$ was detected on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: Image
-          type: file_name
-tags:
-    analytic_story:
-        - APT29 Diplomatic Deceptions with WINELOADER
-        - Suspicious MSHTA Activity
-        - XWorm
-    group:
-        - APT29
-        - Cozy Bear
-        - Midnight Blizzard
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+finding:
+    title: An instance of $Image$ writing to $TargetFilename$ was detected on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: Image
+      type: file_name
+analytic_story:
+    - APT29 Diplomatic Deceptions with WINELOADER
+    - Suspicious MSHTA Activity
+    - XWorm
+threat_group:
+    - APT29
+    - Cozy Bear
+    - Midnight Blizzard
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/mshta_tasks_windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit
