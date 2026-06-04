@@ -1,8 +1,8 @@
 name: PowerShell - Connect To Internet With Hidden Window
 id: ee18ed37-0802-4268-9435-b3b91aaa18db
-version: 16
+version: 17
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-06-04'
 author: David Dorsey, Michael Haag Splunk
 status: production
 type: Hunting
@@ -24,11 +24,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | where match(process,"(?i)[\-
-    | \/
-    | –
-    | —
-    | ―]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]")
+    | where match(process,"(?i)[\-\/–—―]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]")
     | `powershell___connect_to_internet_with_hidden_window_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate process can have this combination of command-line options, but it's not common.
