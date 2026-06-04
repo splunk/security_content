@@ -10,7 +10,6 @@ description: |
     This analytic detects attempts to access proxy-evasion or anonymizer services using Cisco Secure Access DNS and secure web proxy telemetry.
     Users who reach anonymizer or proxy-evasion infrastructure are often trying to bypass corporate controls such as secure web gateway inspection, DLP monitoring, CASB visibility, and threat-detection systems. These services frequently establish encrypted tunnels that hide subsequent traffic from inspection.
     Early identification helps security teams spot circumvention attempts before potential data exfiltration or follow-on malicious activity. Correlating DNS resolution and proxy session data strengthens confidence that access was intentional.
-    Activity is mapped to MITRE ATT&CK T1562.001 (Impair Defenses) when categories indicate anonymizer or proxy-evasion infrastructure.
 data_source:
     - Cisco Secure Access DNS
 search: |-
