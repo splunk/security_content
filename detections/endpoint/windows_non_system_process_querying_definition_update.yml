@@ -42,10 +42,9 @@ intermediate_findings:
           type: system
           score: 20
           message: Non-System process queried Windows Defender Definition Updates on $dest$.
-        - field: process_name
-          type: process_name
-          score: 20
-          message: Non-System process queried Windows Defender Definition Updates on $dest$.
+threat_objects:
+    - field: process_name
+      type: process_name
 analytic_story:
     - Windows Privilege Escalation
     - BlueHammer

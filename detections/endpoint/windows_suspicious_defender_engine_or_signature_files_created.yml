@@ -46,10 +46,9 @@ intermediate_findings:
           type: system
           score: 20
           message: Defender Engine or Signature files created by Non-Defender Process on $dest$.
-        - field: Image
-          type: process
-          score: 20
-          message: Defender Engine or Signature files created by Non-Defender Process on $dest$.
+threat_objects:
+    - field: Image
+      type: process
 analytic_story:
     - Windows Privilege Escalation
     - BlueHammer

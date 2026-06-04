@@ -36,12 +36,9 @@ finding:
         field: dest
         type: system
         score: 50
-intermediate_findings:
-    entities:
-        - field: Image
-          type: process
-          score: 50
-          message: MsMpEng wrote driver to System32 on $dest$.
+threat_objects:
+    - field: Image
+      type: process
 analytic_story:
     - Windows Drivers
     - Windows Privilege Escalation

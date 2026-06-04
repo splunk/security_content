@@ -43,12 +43,9 @@ finding:
         field: dest
         type: system
         score: 50
-intermediate_findings:
-    entities:
-        - field: parent_process_name
-          type: parent_process_name
-          score: 50
-          message: Possible RedSun Privilege escalation on $dest$
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
 analytic_story:
     - RedSun
     - Windows Privilege Escalation

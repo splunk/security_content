@@ -41,10 +41,9 @@ intermediate_findings:
           type: system
           score: 20
           message: Defender Update package downloaded to INetCache by unexpected process observed on $dest$.
-        - field: Image
-          type: process
-          score: 20
-          message: Defender Update package downloaded to INetCache by unexpected process observed on $dest$.
+threat_objects:
+    - field: Image
+      type: process
 analytic_story:
     - Windows Persistence Techniques
     - BlueHammer
