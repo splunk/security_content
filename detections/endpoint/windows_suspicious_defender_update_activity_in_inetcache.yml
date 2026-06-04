@@ -1,7 +1,8 @@
 name: Windows Suspicious Defender Update Activity in INetCache
 id: 3e25f906-6319-44ad-ab9a-22d162eb3925
 version: 1
-date: '2026-04-27'
+creation_date: '2026-04-27'
+modification_date: '2026-04-27'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -34,33 +35,35 @@ drilldown_searches:
       latest_offset: $info_max_time$
       name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-rba:
-    message: Defender Update package downloaded to INetCache by unexpected process observed on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
+          message: Defender Update package downloaded to INetCache by unexpected process observed on $dest$.
         - field: Image
           type: process
-tags:
-    analytic_story:
-        - Windows Persistence Techniques
-        - BlueHammer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1068
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve:
-        - CVE-2026-33825
+          score: 20
+          message: Defender Update package downloaded to INetCache by unexpected process observed on $dest$.
+analytic_story:
+    - Windows Persistence Techniques
+    - BlueHammer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+cve:
+    - CVE-2026-33825
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/bluehammer/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
