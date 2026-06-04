@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Remote Access Software Usage Traffic
 id: ac54d39e-a75d-4f42-971d-006db3a0423a
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2025-05-28'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -55,37 +56,38 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Traffic to known remote access software [$ClientApplication$] was detected from $src$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: ClientApplication
-          type: signature
-tags:
-    analytic_story:
-        - Insider Threat
-        - Command And Control
-        - Ransomware
-        - Remote Monitoring and Management Software
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Scattered Spider
-        - Interlock Ransomware
-        - Scattered Lapsus$ Hunters
-    asset_type: Network
-    mitre_attack_id:
-        - T1219
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    manual_test: This detection uses A&I lookups from Enterprise Security.
+          message: Traffic to known remote access software [$ClientApplication$] was detected from $src$.
+threat_objects:
+    - field: ClientApplication
+      type: signature
+analytic_story:
+    - Insider Threat
+    - Command And Control
+    - Ransomware
+    - Remote Monitoring and Management Software
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Scattered Spider
+    - Interlock Ransomware
+    - Scattered Lapsus$ Hunters
+asset_type: Network
+mitre_attack_id:
+    - T1219
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      description: PORTED MANUAL TEST - This detection uses A&I lookups from Enterprise Security.
+      test_type: experimental

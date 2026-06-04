@@ -1,7 +1,8 @@
 name: Detect Unauthorized Assets by MAC address
 id: dcfd6b40-42f9-469d-a433-2e53f7489ff4
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -22,19 +23,21 @@ search: |-
 how_to_implement: This search uses the Network_Sessions data model shipped with Enterprise Security. It leverages the Assets and Identity framework to populate the assets_by_str.csv file located in SA-IdentityManagement, which will contain a list of known authorized organizational assets including their MAC addresses. Ensure that all inventoried systems have their MAC address populated.
 known_false_positives: This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
 references: []
-rba:
-    message: Potentially Unauthorized Device observed
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Asset Tracking
-    asset_type: Infrastructure
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Potentially Unauthorized Device observed [ $dest_ip$ ]
+    entity:
+        field: dest_ip
+        type: system
+        score: 50
+analytic_story:
+    - Asset Tracking
+asset_type: Infrastructure
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+baselines:
+    - Count of assets by category

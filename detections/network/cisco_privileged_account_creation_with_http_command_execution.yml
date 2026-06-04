@@ -1,7 +1,8 @@
 name: Cisco Privileged Account Creation with HTTP Command Execution
 id: 2c9d4f5a-8b6e-4c7f-9d8e-1a2b3c4d5e6f
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2026-01-12'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Correlation
@@ -60,23 +61,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Salt Typhoon
-    asset_type: Network
-    mitre_attack_id:
-        - T1021.004
-        - T1136
-        - T1078
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Cisco Privileged Account Creation with HTTP Command Execution - $risk_object$
+    entity:
+        field: risk_object
+        type: other
+        score: 0
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1021.004
+    - T1136
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_correlation.log
           source: not_applicable
           sourcetype: stash
+      test_type: unit

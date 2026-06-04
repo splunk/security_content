@@ -1,9 +1,14 @@
 name: Processes launching netsh
 id: b89919ed-fe5f-492c-b139-95dbb162040e
-version: 15
-date: '2026-05-04'
+version: 16
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Michael Haag, Josef Kuepker, Splunk
 status: deprecated
+deprecation_info:
+    reason: Detection is deprecated as the usage of netsh.exe by itself is often used for legitimate purposes.
+    removed_in_version: 6.1.0
+    replacement_content: []
 type: Anomaly
 description: The following analytic identifies processes launching netsh.exe, a command-line utility used to modify network configurations. It detects this activity by analyzing data from Endpoint Detection and Response (EDR) agents, focusing on process GUIDs, names, parent processes, and command-line executions. This behavior is significant because netsh.exe can be exploited to execute malicious helper DLLs, serving as a persistence mechanism. If confirmed malicious, an attacker could gain persistent access, modify network settings, and potentially escalate privileges, posing a severe threat to the network's integrity and security.
 data_source:
@@ -37,37 +42,38 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A process $process_name$ has launched netsh with command-line $process$ on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: A process $process_name$ has launched netsh with command-line $process$ on $dest$.
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Netsh Abuse
-        - Disabling Security Tools
-        - DHS Report TA18-074A
-        - Azorult
-        - Volt Typhoon
-        - Snake Keylogger
-        - ShrinkLocker
-        - Hellcat Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1686
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A process $process_name$ has launched netsh with command-line $process$ on $dest$.
+analytic_story:
+    - Netsh Abuse
+    - Disabling Security Tools
+    - DHS Report TA18-074A
+    - Azorult
+    - Volt Typhoon
+    - Snake Keylogger
+    - ShrinkLocker
+    - Hellcat Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1686
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: deprecated
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

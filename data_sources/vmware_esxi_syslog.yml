@@ -1,21 +1,22 @@
 name: VMWare ESXi Syslog
 id: f91c5ad1-2a44-4be3-93df-43150fa243e5
-version: 2
-date: '2025-11-04'
+version: 3
+creation_date: '2025-07-16'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 description: Data source object for syslog data from VMWare ESXi
 source: vmware:esxlog
 sourcetype: vmw-syslog
 supported_TA:
-- name: Add-on for VMware ESXi Logs
-  url: https://splunkbase.splunk.com/app/5603
-  version: 4.2.2
+    - name: Add-on for VMware ESXi Logs
+      url: https://splunkbase.splunk.com/app/5603
+      version: 4.2.2
 fields:
-- _time
-- host
-- Message
-example_log: |
-  Jul  1 14:30:23 192.168.8.233 2025-07-01T14:29:11.508Z localhost.localdomain shell[1627100]: [root]: esxcli system auditrecords local set
-  Jul  1 14:30:21 192.168.8.233 2025-07-01T14:29:09.506Z localhost.localdomain shell[1627100]: [root]: esxcli system auditrecords local delete
+    - _time
+    - host
+    - Message
 output_fields:
-- dest
+    - dest
+example_log: |
+    Jul  1 14:30:23 192.168.8.233 2025-07-01T14:29:11.508Z localhost.localdomain shell[1627100]: [root]: esxcli system auditrecords local set
+    Jul  1 14:30:21 192.168.8.233 2025-07-01T14:29:09.506Z localhost.localdomain shell[1627100]: [root]: esxcli system auditrecords local delete

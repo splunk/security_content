@@ -1,0 +1,14 @@
+name: hijacklibs_loaded
+id: 0a58a703-3a7a-4b27-a82b-f5a61acd3f1a
+version: 4
+creation_date: '2021-07-12'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of potentially abused libraries in Windows
+default_match: 'false'
+match_type:
+    - WILDCARD(library)
+    - WILDCARD(excludes)
+min_matches: 1
+case_sensitive_match: false

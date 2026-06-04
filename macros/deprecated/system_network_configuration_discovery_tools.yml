@@ -1,3 +1,8 @@
-definition: (process_name="arp.exe" OR process_name="dsquery.exe" OR process_name="hostname.exe" OR process_name="ipconfig.exe" OR process_name="nbstat.exe" OR process_name="net.exe" OR process_name="netsh.exe" OR process_name="nslookup.exe" OR process_name= "ping.exe" OR process_name= "quser.exe" OR process_name="qwinsta.exe" OR process_name= "telnet.exe" OR process_name= "tracert.exe")
-description: This macro is a list of processes that can be used to discover the network configuration
 name: system_network_configuration_discovery_tools
+id: 79260f9c-ec5c-40b4-afcb-be2b7e2cf8e3
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro is a list of processes that can be used to discover the network configuration
+definition: (process_name="arp.exe" OR process_name="dsquery.exe" OR process_name="hostname.exe" OR process_name="ipconfig.exe" OR process_name="nbstat.exe" OR process_name="net.exe" OR process_name="netsh.exe" OR process_name="nslookup.exe" OR process_name= "ping.exe" OR process_name= "quser.exe" OR process_name="qwinsta.exe" OR process_name= "telnet.exe" OR process_name= "tracert.exe")

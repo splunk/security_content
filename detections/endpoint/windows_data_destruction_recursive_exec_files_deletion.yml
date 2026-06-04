@@ -1,7 +1,8 @@
 name: Windows Data Destruction Recursive Exec Files Deletion
 id: 3596a799-6320-4a2f-8772-a9e98ddb2960
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2023-02-03'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -33,34 +34,37 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The process $process_name$ has removed a significant quantity of executable files, totaling [$count$], from the destination $dest$.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: The process $process_name$ has removed a significant quantity of executable files, totaling [$count$], from the destination $dest$.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Swift Slicer
-        - Data Destruction
-        - Handala Wiper
-        - Disk Wiper
-        - Void Manticore
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1485
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The process $process_name$ has removed a significant quantity of executable files, totaling [$count$], from the destination $dest$.
+analytic_story:
+    - Swift Slicer
+    - Data Destruction
+    - Handala Wiper
+    - Disk Wiper
+    - Void Manticore
+asset_type: Endpoint
+mitre_attack_id:
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/swift_slicer/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

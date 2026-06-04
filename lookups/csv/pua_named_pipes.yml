@@ -1,0 +1,12 @@
+name: pua_named_pipes
+id: 24f562cc-9696-4d4a-9ff7-7dd5585758cc
+version: 2
+creation_date: '2025-12-08'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+lookup_type: csv
+description: A list of named pipes used with known PUA tooling.
+match_type:
+    - WILDCARD(pua_pipe_name)
+min_matches: 1
+case_sensitive_match: false

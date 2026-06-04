@@ -1,7 +1,8 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
-version: 16
-date: '2026-04-15'
+version: 17
+creation_date: '2021-08-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -41,32 +42,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious Exchange PowerShell module usaged was identified on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ProxyNotShell
-        - CISA AA22-277A
-        - ProxyShell
-        - BlackByte Ransomware
-        - CISA AA22-264A
-        - Scattered Spider
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Suspicious Exchange PowerShell module usaged was identified on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - ProxyNotShell
+    - CISA AA22-277A
+    - ProxyShell
+    - BlackByte Ransomware
+    - CISA AA22-264A
+    - Scattered Spider
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,12 +1,13 @@
 name: Windows Common Abused Cmd Shell Risk Behavior
 id: e99fcc4f-c6b0-4443-aa2a-e3c85126ec9a
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-06-14'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Correlation
-data_source: []
 description: The following analytic identifies instances where four or more distinct detection analytics are associated with malicious command line behavior on a specific host. This detection leverages the Command Line Interface (CLI) data from various sources to identify suspicious activities. This behavior is significant as it often indicates attempts to execute malicious commands, access sensitive data, install backdoors, or perform other nefarious actions. If confirmed malicious, attackers could gain unauthorized control, exfiltrate information, escalate privileges, or launch further attacks within the network, leading to severe compromise.
+data_source: []
 search: |-
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score) as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source, dc(source) as source_count FROM datamodel=Risk.All_Risk
       WHERE source IN ("*Windows Cmdline Tool Execution From Non-Shell Process*", "*Windows System Network Config Discovery Display DNS*", "*Local Account Discovery With Wmic*", "*Windows Group Discovery Via Net*", "*Windows Create Local Administrator Account Via Net*", "*Windows User Discovery Via Net*", "*Icacls Deny Command*", "*ICACLS Grant Command*", "*Windows Proxy Via Netsh*", "*Processes launching netsh*", "*Disabling Firewall with Netsh*", "*Windows System Network Connections Discovery Netsh*", "*Network Connection Discovery With Arp*", "*Windows System Discovery Using ldap Nslookup*", "*Windows System Shutdown CommandLine*")
@@ -30,36 +31,43 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-tags:
-    analytic_story:
-        - Azorult
-        - Volt Typhoon
-        - Sandworm Tools
-        - Windows Post-Exploitation
-        - FIN7
-        - Qakbot
-        - Netsh Abuse
-        - DarkCrystal RAT
-        - Windows Defense Evasion Tactics
-        - CISA AA23-347A
-        - Disabling Security Tools
-        - Microsoft WSUS CVE-2025-59287
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1222
-        - T1049
-        - T1033
-        - T1529
-        - T1016
-        - T1059
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Windows Common Abused Cmd Shell Risk Behavior - $risk_object$
+    entity:
+        field: risk_object
+        type: system
+        score: 0
+analytic_story:
+    - Azorult
+    - Volt Typhoon
+    - Sandworm Tools
+    - Windows Post-Exploitation
+    - FIN7
+    - Qakbot
+    - Netsh Abuse
+    - DarkCrystal RAT
+    - Windows Defense Evasion Tactics
+    - CISA AA23-347A
+    - Disabling Security Tools
+    - Microsoft WSUS CVE-2025-59287
+asset_type: Endpoint
+mitre_attack_id:
+    - T1222
+    - T1049
+    - T1033
+    - T1529
+    - T1016
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/risk_behavior/abused_commandline/risk_recon.log
           source: risk
           sourcetype: stash
+      test_type: unit

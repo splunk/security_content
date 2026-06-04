@@ -1,7 +1,8 @@
 name: 3CX Supply Chain Attack Network Indicators
 id: 791b727c-deec-4fbe-a732-756131b3c5a1
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-04-11'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -41,31 +42,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Indicators related to 3CX supply chain attack have been identified on $src$.
-    risk_objects:
-        - field: src
-          type: system
-          score: 50
-    threat_objects:
-        - field: query
-          type: domain
-tags:
-    analytic_story:
-        - 3CX Supply Chain Attack
-    asset_type: Network
-    cve:
-        - CVE-2023-29059
-    mitre_attack_id:
-        - T1195.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Indicators related to 3CX supply chain attack have been identified on $src$.
+    entity:
+        field: src
+        type: system
+        score: 50
+threat_objects:
+    - field: query
+      type: domain
+analytic_story:
+    - 3CX Supply Chain Attack
+asset_type: Network
+cve:
+    - CVE-2023-29059
+mitre_attack_id:
+    - T1195.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_network-windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

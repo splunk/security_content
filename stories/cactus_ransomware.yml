@@ -1,29 +1,23 @@
 name: Cactus Ransomware
 id: 4798d58a-9191-461f-bec1-467a87e245a0
-version: 1
-status: production
-date: '2025-03-18'
+version: 2
+creation_date: '2025-03-18'
+modification_date: '2026-05-13'
 author: Michael Haag, AJ King, Splunk
+status: production
 description: Cactus ransomware is a sophisticated ransomware-as-a-service (RaaS) operation that emerged in March 2023, targeting large enterprises across various industries including finance, manufacturing, IT, and healthcare. The malware is known for its self-encrypting payload, double extortion tactics, and use of living-off-the-land techniques. Cactus operators employ a combination of legitimate remote access tools and malicious frameworks to maximize damage, often using custom encryption techniques and sophisticated persistence mechanisms.
-narrative: Cactus ransomware represents a significant threat to enterprise environments due to its sophisticated attack chain and use of legitimate system tools. The attack typically begins with initial access through compromised credentials or exploited vulnerabilities. Once inside the network, Cactus operators use legitimate remote access tools like AnyDesk and Splashtop, combined with malicious frameworks like Cobalt Strike and Brute Ratel for privilege escalation and lateral movement.
-
-  The ransomware employs a sophisticated set of techniques to ensure successful encryption and prevent recovery. It begins by deleting volume shadow copies using WMIC commands to prevent system recovery, followed by the use of PowerShell scripts to modify system settings and disable security tools. The malware establishes persistence through the creation of scheduled tasks and registry keys, while leveraging legitimate Windows tools (LOLBins) for execution and evasion. Before encryption, Cactus operators exfiltrate data using tools like Rclone and MegaSync to support their double extortion strategy.
-
-  Several high-profile organizations have fallen victim to Cactus ransomware attacks. In January 2024, Schneider Electric experienced a significant disruption to their Sustainability Business division. The Housing Authority of the City of Los Angeles suffered a breach in November 2024 that compromised sensitive information. CIE Automotive, a prominent automotive supplier, was targeted in August 2023. Most recently, in April 2024, Cactus operators exploited vulnerabilities in Qlik Sense servers (CVE-2023-41265 and CVE-2023-41266) to gain unauthorized access to corporate networks.
-
-  The ransomware uses AES-RSA hybrid encryption to lock files, appending .cts or .cactus extensions to encrypted files. After completing the encryption process, it drops a ransom note in each affected directory and attempts to delete itself using CMD commands with delayed execution. This sophisticated approach to file encryption and cleanup makes Cactus a particularly challenging threat to detect and remediate.
+narrative: "Cactus ransomware represents a significant threat to enterprise environments due to its sophisticated attack chain and use of legitimate system tools. The attack typically begins with initial access through compromised credentials or exploited vulnerabilities. Once inside the network, Cactus operators use legitimate remote access tools like AnyDesk and Splashtop, combined with malicious frameworks like Cobalt Strike and Brute Ratel for privilege escalation and lateral movement.\nThe ransomware employs a sophisticated set of techniques to ensure successful encryption and prevent recovery. It begins by deleting volume shadow copies using WMIC commands to prevent system recovery, followed by the use of PowerShell scripts to modify system settings and disable security tools. The malware establishes persistence through the creation of scheduled tasks and registry keys, while leveraging legitimate Windows tools (LOLBins) for execution and evasion. Before encryption, Cactus operators exfiltrate data using tools like Rclone and MegaSync to support their double extortion strategy.\nSeveral high-profile organizations have fallen victim to Cactus ransomware attacks. In January 2024, Schneider Electric experienced a significant disruption to their Sustainability Business division. The Housing Authority of the City of Los Angeles suffered a breach in November 2024 that compromised sensitive information. CIE Automotive, a prominent automotive supplier, was targeted in August 2023. Most recently, in April 2024, Cactus operators exploited vulnerabilities in Qlik Sense servers (CVE-2023-41265 and CVE-2023-41266) to gain unauthorized access to corporate networks.\nThe ransomware uses AES-RSA hybrid encryption to lock files, appending .cts or .cactus extensions to encrypted files. After completing the encryption process, it drops a ransom note in each affected directory and attempts to delete itself using CMD commands with delayed execution. This sophisticated approach to file encryption and cleanup makes Cactus a particularly challenging threat to detect and remediate."
 
 references:
-- https://any.run/malware-trends/cactus
-- https://attack.mitre.org/techniques/T1490/
-tags:
-  category:
-  - Ransomware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
-  cve:
-  - CVE-2023-41265
-  - CVE-2023-41266
+    - https://any.run/malware-trends/cactus
+    - https://attack.mitre.org/techniques/T1490/
+cve:
+    - CVE-2023-41265
+    - CVE-2023-41266
+category:
+    - Ransomware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

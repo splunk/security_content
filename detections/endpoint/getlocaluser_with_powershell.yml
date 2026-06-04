@@ -1,7 +1,8 @@
 name: GetLocalUser with PowerShell
 id: 85fae8fa-0427-11ec-8b78-acde48001122
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2021-08-24'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -31,20 +32,21 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:
     - https://attack.mitre.org/techniques/T1087/001/
-tags:
-    analytic_story:
-        - Active Directory Discovery
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1087.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Discovery
+asset_type: Endpoint
+mitre_attack_id:
+    - T1087.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

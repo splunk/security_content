@@ -1,0 +1,16 @@
+name: k8s_container_network_io_baseline
+id: ce26ec18-c6da-4110-ac3f-8bd239d045b3
+version: 3
+creation_date: '2024-01-10'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A place holder for a list of used Kuberntes Container Network IO
+fields:
+    - _key
+    - avg_outbound_network_io
+    - avg_inbound_network_io
+    - stdev_outbound_network_io
+    - stdev_inbound_network_io
+    - count
+    - last_seen

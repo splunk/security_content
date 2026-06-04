@@ -1,132 +1,118 @@
 name: Cisco Secure Firewall Threat Defense Connection Event
 id: 18878597-8f8a-4bca-a805-bfbe35e00032
-version: 2
-date: '2025-05-22'
+version: 3
+creation_date: '2025-04-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
-description: Data source object for raw connection events from Cisco Secure Firewall
-  Threat Defense
+description: Data source object for raw connection events from Cisco Secure Firewall Threat Defense
 source: not_applicable
 sourcetype: cisco:sfw:estreamer
 supported_TA:
-- name: Cisco Security Cloud
-  url: https://splunkbase.splunk.com/app/7404
-  version: 3.6.5
+    - name: Cisco Security Cloud
+      url: https://splunkbase.splunk.com/app/7404
+      version: 3.6.5
 fields:
-- AC_RuleAction
-- action
-- app
-- Application
-- bytes_in
-- bytes_out
-- ClientAppDetector
-- ClientApplication
-- connection_id
-- ConnectionDuration
-- ConnectionID
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dest_interface
-- dest_ip
-- dest_port
-- dest_zone
-- device_id
-- DeviceUUID
-- dvc
-- EgressInterface
-- EgressVRF
-- EgressZone
-- EVE_Fingerprint
-- EVE_Process
-- EVE_ProcessConfidencePct
-- EVE_ThreatConfidenceIndex
-- EVE_ThreatConfidencePct
-- eventtype
-- EventType
-- FirewallPolicy
-- FirewallRule
-- FirstPacketSecond
-- host
-- index
-- IngressInterface
-- IngressVRF
-- IngressZone
-- InitiatorBytes
-- InitiatorIP
-- InitiatorPackets
-- InitiatorPort
-- instance_id
-- InstanceID
-- LastPacketSecond
-- linecount
-- NAP_Policy
-- NAT_InitiatorIP
-- NAT_InitiatorPort
-- NAT_ResponderIP
-- NAT_ResponderPort
-- packets_in
-- packets_out
-- PrefilterPolicy
-- Protocol
-- punct
-- ResponderBytes
-- ResponderIP
-- ResponderPackets
-- ResponderPort
-- rule
-- source
-- sourcetype
-- splunk_server
-- src_interface
-- src_ip
-- src_port
-- src_zone
-- SSL_ActualAction
-- SSL_CertFingerprint
-- SSL_CipherSuite
-- SSL_ExpectedAction
-- SSL_FlowStatus
-- ssl_hash
-- ssl_policies
-- SSL_Policy
-- SSL_ServerCertStatus
-- ssl_signature_algorithm
-- ssl_version
-- SSL_Version
-- tag
-- tag::eventtype
-- timeendpos
-- timestartpos
-- transport
-- url
-- URL
-- vendor_product
-- WebApplication
+    - AC_RuleAction
+    - action
+    - app
+    - Application
+    - bytes_in
+    - bytes_out
+    - ClientAppDetector
+    - ClientApplication
+    - connection_id
+    - ConnectionDuration
+    - ConnectionID
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dest_interface
+    - dest_ip
+    - dest_port
+    - dest_zone
+    - device_id
+    - DeviceUUID
+    - dvc
+    - EgressInterface
+    - EgressVRF
+    - EgressZone
+    - EVE_Fingerprint
+    - EVE_Process
+    - EVE_ProcessConfidencePct
+    - EVE_ThreatConfidenceIndex
+    - EVE_ThreatConfidencePct
+    - eventtype
+    - EventType
+    - FirewallPolicy
+    - FirewallRule
+    - FirstPacketSecond
+    - host
+    - index
+    - IngressInterface
+    - IngressVRF
+    - IngressZone
+    - InitiatorBytes
+    - InitiatorIP
+    - InitiatorPackets
+    - InitiatorPort
+    - instance_id
+    - InstanceID
+    - LastPacketSecond
+    - linecount
+    - NAP_Policy
+    - NAT_InitiatorIP
+    - NAT_InitiatorPort
+    - NAT_ResponderIP
+    - NAT_ResponderPort
+    - packets_in
+    - packets_out
+    - PrefilterPolicy
+    - Protocol
+    - punct
+    - ResponderBytes
+    - ResponderIP
+    - ResponderPackets
+    - ResponderPort
+    - rule
+    - source
+    - sourcetype
+    - splunk_server
+    - src_interface
+    - src_ip
+    - src_port
+    - src_zone
+    - SSL_ActualAction
+    - SSL_CertFingerprint
+    - SSL_CipherSuite
+    - SSL_ExpectedAction
+    - SSL_FlowStatus
+    - ssl_hash
+    - ssl_policies
+    - SSL_Policy
+    - SSL_ServerCertStatus
+    - ssl_signature_algorithm
+    - ssl_version
+    - SSL_Version
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - transport
+    - url
+    - URL
+    - vendor_product
+    - WebApplication
 output_fields:
-- src
-- dest
-- dest_port
-- transport
-- rule
-- action
-example_log: '{"EventType":"ConnectionEvent", "FirstPacketSecond":1743500734, "DeviceUUID":"11bc8e94-f604-11ef-bcfe-eeb1de9c8a63",
-  "InstanceID":1, "ConnectionID":259, "AC_RuleAction":"Block", "InitiatorIP":"172.16.3.110",
-  "ResponderIP":"142.250.191.196", "InitiatorPort":62296, "ResponderPort":443, "Protocol":"tcp",
-  "IngressInterface":"inside", "EgressInterface":"outside", "IngressZone":"inside",
-  "EgressZone":"outside", "IngressVRF":"Global", "EgressVRF":"Global", "FirewallPolicy":"default",
-  "FirewallRule":"NasBlock", "PrefilterPolicy":"Default Prefilter Policy", "ClientApplication":"Firefox",
-  "Application":"HTTPS", "WebApplication":"Google", "InitiatorPackets":3, "ResponderPackets":1,
-  "InitiatorBytes":840, "ResponderBytes":66, "NAP_Policy":"Balanced Security and Connectivity",
-  "SSL_Policy":"None", "SSL_FlowStatus":"Success", "SSL_CipherSuite":"Unknown", "SSL_CertFingerprint":"2fcc05c514c4cda4260531f967407cd33974340c",
-  "SSL_Version":"Unknown", "SSL_ServerCertStatus":"Not Checked", "SSL_ActualAction":"Do
-  Not Decrypt", "SSL_ExpectedAction":"Do Not Decrypt", "URL":"https://www.google.com",
-  "NAT_InitiatorPort":62296, "NAT_ResponderPort":443, "NAT_InitiatorIP":"172.16.2.10",
-  "NAT_ResponderIP":"142.250.191.196", "EVE_Fingerprint":"tls/1/(0303)(130113031302c02bc02fcca9cca8c02cc030c00ac009c013c014009c009d002f0035)[(0000)(000500050100000000)(000a000e000c001d00170018001901000101)(000b00020100)(000d0018001604030503060308040805080604010501060102030201)(0010000e000c02683208687474702f312e31)(0012)(0017)(001c00024001)(0022)(0023)(002b00050403040303)(002d00020101)(0033)(fe0d)(ff01)]",
-  "EVE_Process":"firefox browser", "EVE_ProcessConfidencePct":100, "EVE_ThreatConfidencePct":0,
-  "EVE_ThreatConfidenceIndex":1, "ClientAppDetector":"Encrypted Visibility"}'
+    - src
+    - dest
+    - dest_port
+    - transport
+    - rule
+    - action
+example_log: '{"EventType":"ConnectionEvent", "FirstPacketSecond":1743500734, "DeviceUUID":"11bc8e94-f604-11ef-bcfe-eeb1de9c8a63", "InstanceID":1, "ConnectionID":259, "AC_RuleAction":"Block", "InitiatorIP":"172.16.3.110", "ResponderIP":"142.250.191.196", "InitiatorPort":62296, "ResponderPort":443, "Protocol":"tcp", "IngressInterface":"inside", "EgressInterface":"outside", "IngressZone":"inside", "EgressZone":"outside", "IngressVRF":"Global", "EgressVRF":"Global", "FirewallPolicy":"default", "FirewallRule":"NasBlock", "PrefilterPolicy":"Default Prefilter Policy", "ClientApplication":"Firefox", "Application":"HTTPS", "WebApplication":"Google", "InitiatorPackets":3, "ResponderPackets":1, "InitiatorBytes":840, "ResponderBytes":66, "NAP_Policy":"Balanced Security and Connectivity", "SSL_Policy":"None", "SSL_FlowStatus":"Success", "SSL_CipherSuite":"Unknown", "SSL_CertFingerprint":"2fcc05c514c4cda4260531f967407cd33974340c", "SSL_Version":"Unknown", "SSL_ServerCertStatus":"Not Checked", "SSL_ActualAction":"Do Not Decrypt", "SSL_ExpectedAction":"Do Not Decrypt", "URL":"https://www.google.com", "NAT_InitiatorPort":62296, "NAT_ResponderPort":443, "NAT_InitiatorIP":"172.16.2.10", "NAT_ResponderIP":"142.250.191.196", "EVE_Fingerprint":"tls/1/(0303)(130113031302c02bc02fcca9cca8c02cc030c00ac009c013c014009c009d002f0035)[(0000)(000500050100000000)(000a000e000c001d00170018001901000101)(000b00020100)(000d0018001604030503060308040805080604010501060102030201)(0010000e000c02683208687474702f312e31)(0012)(0017)(001c00024001)(0022)(0023)(002b00050403040303)(002d00020101)(0033)(fe0d)(ff01)]", "EVE_Process":"firefox browser", "EVE_ProcessConfidencePct":100, "EVE_ThreatConfidencePct":0, "EVE_ThreatConfidenceIndex":1, "ClientAppDetector":"Encrypted Visibility"}'

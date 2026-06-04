@@ -1,7 +1,8 @@
 name: Windows SQL Server xp_cmdshell Config Change
 id: 5eb76fe2-a869-4865-8c4c-8cff424b18b1
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: TTP
@@ -41,33 +42,30 @@ drilldown_searches:
       search: '`wineventlog_application` EventCode=15457 host="$dest$" | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>" | stats count values(config_name) as "Changed Settings" values(new_value) as "New Values" by _time dest'
       earliest_offset: -7d
       latest_offset: now
-rba:
-    message: SQL Server xp_cmdshell configuration was $change_type$ on host $dest$, which could indicate an attempt to gain operating system command execution capabilities
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-        - field: config_name
-          type: other
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - SQL Server Abuse
-        - Seashell Blizzard
-        - GhostRedirector IIS Module and Rungan Backdoor
-    asset_type: Windows
-    mitre_attack_id:
-        - T1505.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
+finding:
+    title: SQL Server xp_cmdshell configuration was $change_type$ on host $dest$, which could indicate an attempt to gain operating system command execution capabilities
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - SQL Server Abuse
+    - Seashell Blizzard
+    - GhostRedirector IIS Module and Rungan Backdoor
+asset_type: Windows
+mitre_attack_id:
+    - T1505.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/windows-application.log
           source: XmlWinEventLog:Application
           sourcetype: XmlWinEventLog
+      description: PORTED MANUAL TEST - The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
+      test_type: experimental

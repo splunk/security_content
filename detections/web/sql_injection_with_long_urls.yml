@@ -1,7 +1,8 @@
 name: SQL Injection with Long URLs
 id: e0aad4cf-0790-423b-8328-7564d0d938f9
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -24,22 +25,21 @@ search: |-
 how_to_implement: To successfully implement this search, you need to be monitoring network communications to your web servers or ingesting your HTTP logs and populating the Web data model. You must also identify your web servers in the Enterprise Security assets table.
 known_false_positives: It's possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
 references: []
-rba:
-    message: SQL injection attempt with url $url$ detected on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - SQL Injection
-        - GhostRedirector IIS Module and Rungan Backdoor
-    asset_type: Database Server
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: SQL injection attempt with url $url$ detected on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - SQL Injection
+    - GhostRedirector IIS Module and Rungan Backdoor
+asset_type: Database Server
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network

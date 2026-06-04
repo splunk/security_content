@@ -1,13 +1,14 @@
 name: Nginx ConnectWise ScreenConnect Authentication Bypass
 id: b3f7a803-e802-448b-8eb2-e796b223bccc
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-02-22'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1709 vulnerability, which allows attackers to bypass authentication via alternate paths or channels. It leverages Nginx access logs to identify web requests to the SetupWizard.aspx page, indicating potential exploitation. This activity is significant as it can lead to unauthorized administrative access and remote code execution. If confirmed malicious, attackers could create administrative users and gain full control over the affected ScreenConnect instance, posing severe security risks. Immediate remediation by updating to version 23.9.8 or above is recommended.
 data_source:
     - Nginx Access
-type: TTP
-status: production
-description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1709 vulnerability, which allows attackers to bypass authentication via alternate paths or channels. It leverages Nginx access logs to identify web requests to the SetupWizard.aspx page, indicating potential exploitation. This activity is significant as it can lead to unauthorized administrative access and remote code execution. If confirmed malicious, attackers could create administrative users and gain full control over the affected ScreenConnect instance, posing severe security risks. Immediate remediation by updating to version 23.9.8 or above is recommended.
 search: |-
     `nginx_access_logs` uri_path IN ("*/SetupWizard.aspx/*","*/SetupWizard/") status=200 http_method=POST
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -34,33 +35,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An authentication bypass attempt against ScreenConnect has been detected on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ConnectWise ScreenConnect Vulnerabilities
-        - Seashell Blizzard
-        - Scattered Lapsus$ Hunters
-        - Hellcat Ransomware
-    asset_type: Web Proxy
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2024-1708
-        - CVE-2024-1709
+finding:
+    title: An authentication bypass attempt against ScreenConnect has been detected on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - ConnectWise ScreenConnect Vulnerabilities
+    - Seashell Blizzard
+    - Scattered Lapsus$ Hunters
+    - Hellcat Ransomware
+asset_type: Web Proxy
+cve:
+    - CVE-2024-1708
+    - CVE-2024-1709
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/nginx_screenconnect.log
           sourcetype: nginx:plus:kv
           source: nginx:plus:kv
+      test_type: unit

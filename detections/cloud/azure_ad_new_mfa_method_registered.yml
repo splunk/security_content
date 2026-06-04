@@ -1,13 +1,14 @@
 name: Azure AD New MFA Method Registered
 id: 0488e814-eb81-42c3-9f1f-b2244973e3a3
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-11-16'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects the registration of a new Multi-Factor Authentication (MFA) method for a user account in Azure Active Directory. It leverages Azure AD audit logs to identify changes in MFA configurations. This activity is significant because adding a new MFA method can indicate an attacker's attempt to maintain persistence on a compromised account. If confirmed malicious, the attacker could bypass existing security measures, solidify their access, and potentially escalate privileges, access sensitive data, or make unauthorized changes. Immediate verification and remediation are required to secure the affected account.
 data_source:
     - Azure Active Directory Update user
-description: The following analytic detects the registration of a new Multi-Factor Authentication (MFA) method for a user account in Azure Active Directory. It leverages Azure AD audit logs to identify changes in MFA configurations. This activity is significant because adding a new MFA method can indicate an attacker's attempt to maintain persistence on a compromised account. If confirmed malicious, the attacker could bypass existing security measures, solidify their access, and potentially escalate privileges, access sensitive data, or make unauthorized changes. Immediate verification and remediation are required to secure the affected account.
 search: "`azure_monitor_aad` operationName=\"Update user\" | rename properties.* as * | eval propertyName = mvindex('targetResources{}.modifiedProperties{}.displayName',0) | search propertyName = StrongAuthenticationMethod | eval oldvalue = mvindex('targetResources{}.modifiedProperties{}.oldValue',0) | eval newvalue = mvindex('targetResources{}.modifiedProperties{}.newValue',0) | rex field=newvalue max_match=0 \"(?i)(?<new_method_type>\\\"MethodType\\\")\" | rex field=oldvalue max_match=0 \"(?i)(?<old_method_type>\\\"MethodType\\\")\" | eval count_new_method_type = coalesce(mvcount(new_method_type), 0) | eval count_old_method_type = coalesce(mvcount(old_method_type), 0) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product newvalue oldvalue signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_new_mfa_method_registered_filter`"
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: Users may register MFA methods legitimally, investigate and filter as needed.
@@ -24,28 +25,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A new MFA method was registered for user $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Azure Active Directory Persistence
-        - Scattered Lapsus$ Hunters
-    asset_type: Azure Tenant
-    mitre_attack_id:
-        - T1098.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: A new MFA method was registered for user $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Azure Active Directory Persistence
+    - Scattered Lapsus$ Hunters
+asset_type: Azure Tenant
+mitre_attack_id:
+    - T1098.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/azure_ad_register_new_mfa_method/azure_ad_register_new_mfa_method.log
           source: Azure AD
           sourcetype: azure:monitor:aad
+      test_type: unit

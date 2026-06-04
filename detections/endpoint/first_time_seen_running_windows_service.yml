@@ -1,7 +1,8 @@
 name: First Time Seen Running Windows Service
 id: 823136f2-d755-4b6d-ae04-372b486a5808
-version: 11
-date: '2026-03-10'
+version: 12
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -19,23 +20,25 @@ search: |-
 how_to_implement: While this search does not require you to adhere to Splunk CIM, you must be ingesting your Windows system event logs in order for this search to execute successfully. You should run the baseline search `Previously Seen Running Windows Services - Initial` to build the initial table of child processes and hostnames for this search to work. You should also schedule at the same interval as this search the second baseline search `Previously Seen Running Windows Services - Update` to keep this table up to date and to age out old Windows Services. Please update the `previously_seen_windows_services_window` macro to adjust the time window. Please ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
 known_false_positives: A previously unseen service is not necessarily malicious. Verify that the service is legitimate and that was installed by a legitimate process.
 references: []
-rba:
-    message: Windows Service observed running for first time on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Windows Service Abuse
-        - Orangeworm Attack Group
-        - NOBELIUM Group
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1569.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Windows Service observed running for first time on $dest$
+analytic_story:
+    - Windows Service Abuse
+    - Orangeworm Attack Group
+    - NOBELIUM Group
+asset_type: Endpoint
+mitre_attack_id:
+    - T1569.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+baselines:
+    - Previously Seen Running Windows Services - Update
+    - Previously Seen Running Windows Services - Initial

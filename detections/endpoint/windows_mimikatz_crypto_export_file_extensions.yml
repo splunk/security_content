@@ -1,7 +1,8 @@
 name: Windows Mimikatz Crypto Export File Extensions
 id: 3a9a6806-16a8-4cda-8d73-b49d10a05b16
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-02-09'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -33,29 +34,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Certificate file extensions realted to Mimikatz were identified on disk on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sandworm Tools
-        - CISA AA23-347A
-        - Windows Certificate Services
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1649
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Certificate file extensions realted to Mimikatz were identified on disk on $dest$.
+analytic_story:
+    - Sandworm Tools
+    - CISA AA23-347A
+    - Windows Certificate Services
+asset_type: Endpoint
+mitre_attack_id:
+    - T1649
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certwrite_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Detect PsExec With accepteula Flag
 id: 27c3a83d-cada-47c6-9042-67baf19d2574
-version: 18
-date: '2026-04-15'
+version: 19
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -42,50 +43,54 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ running the utility for possibly the first time.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ running the utility for possibly the first time.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - DHS Report TA18-074A
-        - Active Directory Lateral Movement
-        - HAFNIUM Group
-        - Rhysida Ransomware
-        - Medusa Ransomware
-        - DarkSide Ransomware
-        - SamSam Ransomware
-        - CISA AA22-320A
-        - Sandworm Tools
-        - IcedID
-        - BlackByte Ransomware
-        - DarkGate Malware
-        - Cactus Ransomware
-        - Volt Typhoon
-        - Seashell Blizzard
-        - VanHelsing Ransomware
-        - Storm-0501 Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1021.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ running the utility for possibly the first time.
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - DHS Report TA18-074A
+    - Active Directory Lateral Movement
+    - HAFNIUM Group
+    - Rhysida Ransomware
+    - Medusa Ransomware
+    - DarkSide Ransomware
+    - SamSam Ransomware
+    - CISA AA22-320A
+    - Sandworm Tools
+    - IcedID
+    - BlackByte Ransomware
+    - DarkGate Malware
+    - Cactus Ransomware
+    - Volt Typhoon
+    - Seashell Blizzard
+    - VanHelsing Ransomware
+    - Storm-0501 Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1021.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.002/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

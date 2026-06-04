@@ -1,3 +1,8 @@
+name: previously_seen_zoom_child_processes_window
+id: 8afd29cb-fd8d-46d8-a277-4c8ffc3ba761
+version: 1
+creation_date: '2020-05-28'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
 description: Use this macro to determine how far back you should be checking for new zoom child processes
 definition: '"-70m@m"'
-name: previously_seen_zoom_child_processes_window

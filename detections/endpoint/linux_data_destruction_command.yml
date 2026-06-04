@@ -1,7 +1,8 @@
 name: Linux Data Destruction Command
 id: b11d3979-b2f7-411b-bb1a-bd00e642173b
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-02-08'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -39,31 +40,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a $process_name$ execute rm command with --no-preserve-root parmeter that can wipe root files on $dest$
-    risk_objects:
+finding:
+    title: a $process_name$ execute rm command with --no-preserve-root parmeter that can wipe root files on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - AwfulShred
-        - Data Destruction
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1485
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a $process_name$ execute rm command with --no-preserve-root parmeter that can wipe root files on $dest$
+analytic_story:
+    - AwfulShred
+    - Data Destruction
+asset_type: Endpoint
+mitre_attack_id:
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

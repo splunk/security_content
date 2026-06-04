@@ -1,7 +1,8 @@
 name: Windows Process Execution From ProgramData
 id: 237016fa-d8e6-47b4-80f9-70c4d42c72c0
-version: 8
-date: '2026-03-31'
+version: 9
+creation_date: '2021-05-07'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -39,28 +40,29 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 references:
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
-tags:
-    analytic_story:
-        - SolarWinds WHD RCE Post Exploitation
-        - StealC Stealer
-        - SnappyBee
-        - XWorm
-        - Salt Typhoon
-        - China-Nexus Threat Activity
-        - APT37 Rustonotto and FadeStealer
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Axios Supply Chain Post Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1036.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - SolarWinds WHD RCE Post Exploitation
+    - StealC Stealer
+    - SnappyBee
+    - XWorm
+    - Salt Typhoon
+    - China-Nexus Threat Activity
+    - APT37 Rustonotto and FadeStealer
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Axios Supply Chain Post Compromise
+asset_type: Endpoint
+mitre_attack_id:
+    - T1036.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.005/process_in_programdata/exec_programdata.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

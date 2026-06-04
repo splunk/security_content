@@ -1,3 +1,8 @@
-definition: (Processes.process_name=certutil.exe OR Processes.original_file_name=CertUtil.exe)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_certutil
+id: f3671663-53b9-4d17-a60d-295df6b2d337
+version: 1
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=certutil.exe OR Processes.original_file_name=CertUtil.exe)

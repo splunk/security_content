@@ -1,13 +1,14 @@
 name: Windows Disable or Stop Browser Process
 id: 220d34b7-b6c7-45fe-8dbb-c35cdd9fe6d5
-version: 11
-date: '2026-05-04'
+version: 12
+creation_date: '2024-10-18'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects the use of the taskkill command in a process command line to terminate several known browser processes, a technique commonly employed by the Braodo stealer malware to steal credentials. By forcefully closing browsers like Chrome, Edge, and Firefox, the malware can unlock files that store sensitive information, such as passwords and login data. This detection focuses on identifying taskkill commands targeting these browsers, signaling malicious intent. Early detection allows security teams to investigate and prevent further credential theft and system compromise.
 data_source:
     - Sysmon EventID 1
-type: TTP
-status: production
-description: The following analytic detects the use of the taskkill command in a process command line to terminate several known browser processes, a technique commonly employed by the Braodo stealer malware to steal credentials. By forcefully closing browsers like Chrome, Edge, and Firefox, the malware can unlock files that store sensitive information, such as passwords and login data. This detection focuses on identifying taskkill commands targeting these browsers, signaling malicious intent. Early detection allows security teams to investigate and prevent further credential theft and system compromise.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process = "*taskkill*" Processes.process IN("*chrome.exe","*firefox.exe","*brave.exe","*opera.exe","*msedge.exe","*chromium.exe")
@@ -36,34 +37,37 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A process commandline- [$process$] that tries to kill browser on [$dest$].
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: A process commandline- [$process$] that tries to kill browser on [$dest$].
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Braodo Stealer
-        - Scattered Lapsus$ Hunters
-        - Hellcat Ransomware
-        - Castle RAT
-        - BlankGrabber Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1685
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A process commandline- [$process$] that tries to kill browser on [$dest$].
+analytic_story:
+    - Braodo Stealer
+    - Scattered Lapsus$ Hunters
+    - Hellcat Ransomware
+    - Castle RAT
+    - BlankGrabber Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/taskkill_browser/braodo_taskkill.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,0 +1,9 @@
+name: msad_guid_lookup
+id: d8812c9c-9a4c-4b4b-9995-31db35c0b8cf
+version: 3
+creation_date: '2024-07-01'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A lookup file that will contain translations for AD object ace control access rights guids
+

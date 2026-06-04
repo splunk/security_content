@@ -1,15 +1,16 @@
 name: Windows ConHost with Headless Argument
 id: d5039508-998d-4cfc-8b5e-9dcd679d9a62
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-11-16'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+description: The following analytic detects the unusual invocation of the Windows Console Host process (conhost.exe) with the undocumented --headless parameter. This detection leverages Endpoint Detection and Response (EDR) telemetry, specifically monitoring for command-line executions where conhost.exe is executed with the --headless argument. This activity is significant for a SOC as it is not commonly used in legitimate operations and may indicate an attacker's attempt to execute commands stealthily. If confirmed malicious, this behavior could lead to persistence, lateral movement, or other malicious activities, potentially resulting in data exfiltration or system compromise.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic detects the unusual invocation of the Windows Console Host process (conhost.exe) with the undocumented --headless parameter. This detection leverages Endpoint Detection and Response (EDR) telemetry, specifically monitoring for command-line executions where conhost.exe is executed with the --headless argument. This activity is significant for a SOC as it is not commonly used in legitimate operations and may indicate an attacker's attempt to execute commands stealthily. If confirmed malicious, this behavior could lead to persistence, lateral movement, or other malicious activities, potentially resulting in data exfiltration or system compromise.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name=conhost.exe Processes.process="*--headless *"
@@ -38,33 +39,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Windows ConHost with Headless Argument detected on $dest$ by $user$.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Windows ConHost with Headless Argument detected on $dest$ by $user$.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Spearphishing Attachments
-        - Compromised Windows Host
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id:
-        - T1564.003
-        - T1564.006
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Windows ConHost with Headless Argument detected on $dest$ by $user$.
+analytic_story:
+    - Spearphishing Attachments
+    - Compromised Windows Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1564.003
+    - T1564.006
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.003/headless/4688_conhost_headless.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

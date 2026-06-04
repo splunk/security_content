@@ -1,0 +1,11 @@
+name: Default EventBasedDetection
+id: d7f3b81d-f0c0-468c-8bf2-de47a023ed51
+version: 1
+creation_date: '2026-05-13'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This configuration file applies to all detections of type EventBasedDetection.
+cron_schedule: 0 * * * *
+earliest_time: -70m@m
+latest_time: -10m@m
+schedule_window: auto

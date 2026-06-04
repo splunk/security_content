@@ -1,4 +1,8 @@
-definition: (query=login* AND query=www*)
-description: This limits the query fields to domains that are associated with evilginx
-  masquerading as Office 365
 name: evilginx_phishlets_0365
+id: 921ae5b1-b92b-47b8-9c89-ef08b9f96fe6
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This limits the query fields to domains that are associated with evilginx masquerading as Office 365
+definition: (query=login* AND query=www*)

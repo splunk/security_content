@@ -1,4 +1,8 @@
-definition: sourcetype=aws:s3:accesslogs
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: aws_s3_accesslogs
+id: b476100b-b0b3-4fdb-aa18-87eb91db5aea
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=aws:s3:accesslogs

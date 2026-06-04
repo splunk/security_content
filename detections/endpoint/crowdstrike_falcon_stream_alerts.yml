@@ -1,13 +1,14 @@
 name: CrowdStrike Falcon Stream Alerts
 id: cb6af2b3-29ab-441c-8d8d-679811c8b014
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-06-02'
+modification_date: '2026-05-13'
 author: Bryan Pluta, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+description: The following analytic is to leverage alerts from CrowdStrike Falcon Event Stream. This query aggregates and summarizes DetectionSummaryEvent and IdpDetectionSummaryEvent alerts from CrowdStrike Falcon Event Stream, providing details such as destination, user, severity, MITRE information, and Crowdstrike id and links. The evals in the search do multiple things to include align the severity, ensure the user, dest, title, description, MITRE fields are set properly, and the drilldowns are defined based on the type of alert. The search is highly dynamic to account for different alert types in which some fields may or may not be populated. Having all these fields properly set ensure the appropriate risk and analyst queue fields are correctly populated.
 data_source:
     - CrowdStrike Falcon Stream Alert
-description: The following analytic is to leverage alerts from CrowdStrike Falcon Event Stream. This query aggregates and summarizes DetectionSummaryEvent and IdpDetectionSummaryEvent alerts from CrowdStrike Falcon Event Stream, providing details such as destination, user, severity, MITRE information, and Crowdstrike id and links. The evals in the search do multiple things to include align the severity, ensure the user, dest, title, description, MITRE fields are set properly, and the drilldowns are defined based on the type of alert. The search is highly dynamic to account for different alert types in which some fields may or may not be populated. Having all these fields properly set ensure the appropriate risk and analyst queue fields are correctly populated.
 search: |
     `crowdstrike_stream` metadata.eventType IN (XdrDetectionSummaryEvent,IdpDetectionSummaryEvent,EppDetectionSummaryEvent)
     | rename event.* as *
@@ -53,43 +54,44 @@ drilldown_searches:
       search: '$annotations.drilldown_search$'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: $description$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: $description$
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: file_name
-          type: file_name
-        - field: process
-          type: process_name
-        - field: ip
-          type: ip_address
-        - field: file_hash
-          type: file_hash
-        - field: hash
-          type: file_hash
-        - field: signature
-          type: file_hash
-tags:
-    analytic_story:
-        - Critical Alerts
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id: []
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    manual_test: We are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection. Setting this detection to manual test since otherwise we fail integration testing. This detection is also based on the mitre_attack_lookup lookup table which is not available in the ESCU app
+          message: $description$
+threat_objects:
+    - field: file_hash
+      type: file_hash
+    - field: file_name
+      type: file_name
+    - field: hash
+      type: file_hash
+    - field: ip
+      type: ip_address
+    - field: process
+      type: process_name
+    - field: signature
+      type: file_hash
+analytic_story:
+    - Critical Alerts
+asset_type: Endpoint
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/event_stream_events/stream_events_2.log
           source: CrowdStrike:Event:Streams
           sourcetype: CrowdStrike:Event:Streams:JSON
+      description: PORTED MANUAL TEST - We are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection. Setting this detection to manual test since otherwise we fail integration testing. This detection is also based on the mitre_attack_lookup lookup table which is not available in the ESCU app
+      test_type: experimental

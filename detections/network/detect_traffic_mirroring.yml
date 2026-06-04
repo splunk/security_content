@@ -1,7 +1,8 @@
 name: Detect Traffic Mirroring
 id: 42b3b753-5925-49c5-9742-36fa40a73990
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2020-10-28'
+modification_date: '2026-05-13'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -18,23 +19,22 @@ search: |-
 how_to_implement: This search uses a standard SPL query on logs from Cisco Network devices. The network devices must log with a severity level of minimum "5 - notification". The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on. Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
 known_false_positives: This search will return false positives for any legitimate traffic captures by network administrators.
 references: []
-rba:
-    message: Traffic Mirroring Session observed on $host$
-    risk_objects:
-        - field: host
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Router and Infrastructure Security
-    asset_type: Infrastructure
-    mitre_attack_id:
-        - T1020.001
-        - T1200
-        - T1498
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Traffic Mirroring Session observed on $host$
+    entity:
+        field: host
+        type: system
+        score: 50
+analytic_story:
+    - Router and Infrastructure Security
+asset_type: Infrastructure
+mitre_attack_id:
+    - T1020.001
+    - T1200
+    - T1498
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network

@@ -1,7 +1,8 @@
 name: Detect Remote Access Software Usage File
 id: 3bf5541a-6a45-4fdc-b01d-59b899fff961
-version: 15
-date: '2026-04-15'
+version: 16
+creation_date: '2024-03-06'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -62,46 +63,48 @@ drilldown_searches:
       search: '| from datamodel:Endpoint.Filesystem | search dest=$dest$ file_name=$file_name$'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A file for known a remote access software [$file_name$] was created on $dest$ by $user$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: A file for known a remote access software [$file_name$] was created on $dest$ by $user$.
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: file_name
-          type: file_name
-        - field: signature
-          type: signature
-tags:
-    analytic_story:
-        - Cactus Ransomware
-        - CISA AA24-241A
-        - Command And Control
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Gozi Malware
-        - Insider Threat
-        - Interlock Ransomware
-        - Ransomware
-        - Remote Monitoring and Management Software
-        - Scattered Lapsus$ Hunters
-        - Scattered Spider
-        - Seashell Blizzard
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1219
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    manual_test: This detection uses A&I lookups from Enterprise Security.
+          message: A file for known a remote access software [$file_name$] was created on $dest$ by $user$.
+threat_objects:
+    - field: file_name
+      type: file_name
+    - field: signature
+      type: signature
+analytic_story:
+    - Cactus Ransomware
+    - CISA AA24-241A
+    - Command And Control
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Gozi Malware
+    - Insider Threat
+    - Interlock Ransomware
+    - Ransomware
+    - Remote Monitoring and Management Software
+    - Scattered Lapsus$ Hunters
+    - Scattered Spider
+    - Seashell Blizzard
+asset_type: Endpoint
+mitre_attack_id:
+    - T1219
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      description: PORTED MANUAL TEST - This detection uses A&I lookups from Enterprise Security.
+      test_type: experimental

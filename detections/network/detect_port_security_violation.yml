@@ -1,7 +1,8 @@
 name: Detect Port Security Violation
 id: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2020-10-28'
+modification_date: '2026-05-13'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -19,23 +20,22 @@ search: |-
 how_to_implement: This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with Port Security and Error Disable for this to work (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst4500/12-2/25ew/configuration/guide/conf/port_sec.html) and log with a severity level of minimum "5 - notification". The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
 known_false_positives: This search might be prone to high false positives if you have malfunctioning devices connected to your ethernet ports or if end users periodically connect physical devices to the network.
 references: []
-rba:
-    message: Port Securtiy Violation on $host$
-    risk_objects:
-        - field: host
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Router and Infrastructure Security
-    asset_type: Infrastructure
-    mitre_attack_id:
-        - T1200
-        - T1498
-        - T1557.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Port Securtiy Violation on $host$
+    entity:
+        field: host
+        type: system
+        score: 50
+analytic_story:
+    - Router and Infrastructure Security
+asset_type: Infrastructure
+mitre_attack_id:
+    - T1200
+    - T1498
+    - T1557.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network

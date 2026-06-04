@@ -1,24 +1,24 @@
 name: AWS Investigate User Activities By AccessKeyId
 id: 703b65a4-a0ae-4171-965d-45507506c64f
 version: 1
-date: '2018-06-08'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 type: Investigation
 status: removed
-description: This search retrieves the times, ARN, source IPs, AWS regions, event
-  names, and the result of the event for specific credentials.
-search: '`cloudtrail` | rename userIdentity.accessKeyId as accessKeyId| search accessKeyId=$accessKeyId$
-  | spath output=user path=userIdentity.arn  | rename sourceIPAddress as src_ip |
-  table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage'
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs.
+description: This search retrieves the times, ARN, source IPs, AWS regions, event names, and the result of the event for specific credentials.
+search: '`cloudtrail` | rename userIdentity.accessKeyId as accessKeyId| search accessKeyId=$accessKeyId$ | spath output=user path=userIdentity.arn  | rename sourceIPAddress as src_ip | table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - AWS Cross Account Activity
-  product:
-  - Splunk Phantom
-  - Splunk Security Analytics for AWS
-  security_domain: network
+    analytic_story:
+        - AWS Cross Account Activity
+    product:
+        - Splunk Phantom
+        - Splunk Security Analytics for AWS
+    security_domain: network
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

@@ -1,42 +1,39 @@
 name: Linux Auditd Service Stop
 id: 0643483c-bc62-455c-8d6e-1630e5f0e00d
-version: 2
-date: '2025-02-20'
+version: 3
+creation_date: '2024-08-08'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
-description: Logs events related to the stoppage of a service on a Linux system, including
-  details about the service name, the process initiating the stop, and associated
-  timestamps.
+description: Logs events related to the stoppage of a service on a Linux system, including details about the service name, the process initiating the stop, and associated timestamps.
 mitre_components:
-- Service Modification
-- Service Metadata
-- OS API Execution
-- Application Log Content
-separator: type
-separator_value: SERVICE_STOP
+    - Service Modification
+    - Service Metadata
+    - OS API Execution
+    - Application Log Content
 source: auditd
 sourcetype: auditd
+separator: type
+separator_value: SERVICE_STOP
 configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules
 supported_TA:
-- name: Splunk Add-on for Unix and Linux
-  url: https://splunkbase.splunk.com/app/833
-  version: 10.2.0
+    - name: Splunk Add-on for Unix and Linux
+      url: https://splunkbase.splunk.com/app/833
+      version: 10.2.0
 fields:
-- msg
-- type
-- pid
-- uid
-- auid
-- ses
-- subj
-- msg
-- comm
-- exe
-- hostname
-- addr
-- terminal
-- res
-- UID
-- AUID
-example_log: 'type=SERVICE_STOP msg=audit(1722957155.494:4802): pid=1 uid=0 auid=4294967295
-  ses=4294967295 subj=unconfined msg=''unit=atd comm="systemd" exe="/usr/lib/systemd/systemd"
-  hostname=? addr=? terminal=? res=success''UID="root" AUID="unset"'
+    - msg
+    - type
+    - pid
+    - uid
+    - auid
+    - ses
+    - subj
+    - msg
+    - comm
+    - exe
+    - hostname
+    - addr
+    - terminal
+    - res
+    - UID
+    - AUID
+example_log: 'type=SERVICE_STOP msg=audit(1722957155.494:4802): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg=''unit=atd comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success''UID="root" AUID="unset"'

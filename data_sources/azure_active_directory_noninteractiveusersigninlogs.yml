@@ -1,172 +1,137 @@
 name: Azure Active Directory NonInteractiveUserSignInLogs
 id: 11fe8a43-164d-47e4-b542-afc2f242068b
-version: 1
-date: '2025-02-21'
+version: 2
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Azure Active Directory NonInteractiveUserSignInLogs
 source: Azure AD
 sourcetype: azure:monitor:aad
 separator: operationName
 supported_TA:
-- name: Splunk Add-on for Microsoft Cloud Services
-  url: https://splunkbase.splunk.com/app/3110
-  version: 6.1.1
+    - name: Splunk Add-on for Microsoft Cloud Services
+      url: https://splunkbase.splunk.com/app/3110
+      version: 6.1.1
 fields:
-- action
-- additional_details
-- app
-- authentication_method
-- authentication_service
-- callerIpAddress
-- category
-- change_type
-- command
-- correlationId
-- dataset_name
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- description
-- dest
-- dest_type
-- duration
-- durationMs
-- dvc
-- enabled
-- eventtype
-- host
-- id
-- index
-- level
-- linecount
-- location
-- object
-- object_attrs
-- object_category
-- object_id
-- object_path
-- operationName
-- operationVersion
-- path_from_resourceId
-- properties.C_Iat
-- properties.C_Idtyp
-- properties.UserPrincipalObjectID
-- properties.__UDI_RequiredFields_EventTime
-- properties.__UDI_RequiredFields_RegionScope
-- properties.__UDI_RequiredFields_TenantId
-- properties.__UDI_RequiredFields_UniqueId
-- properties.apiVersion
-- properties.appId
-- properties.clientAuthMethod
-- properties.clientRequestId
-- properties.durationMs
-- properties.identityProvider
-- properties.ipAddress
-- properties.location
-- properties.operationId
-- properties.requestId
-- properties.requestMethod
-- properties.requestUri
-- properties.responseSizeBytes
-- properties.responseStatusCode
-- properties.resultReason
-- properties.roles
-- properties.scopes
-- properties.signInActivityId
-- properties.tenantId
-- properties.timeGenerated
-- properties.tokenIssuedAt
-- properties.userAgent
-- properties.userId
-- properties.wids
-- punct
-- reason
-- resourceId
-- response_time
-- result
-- resultSignature
-- result_id
-- severity
-- signature
-- signature_id
-- signinDateTime
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- src
-- src_ip
-- src_user
-- src_user_name
-- src_user_type
-- status
-- tag
-- tag::action
-- tag::app
-- tag::eventtype
-- tag::object_category
-- tenantId
-- time
-- timeendpos
-- timestartpos
-- user
-- user_agent
-- user_id
-- user_name
-- user_role
-- user_type
-- vendor_account
-- vendor_product
-- vendor_region
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _subsecond
-- _time
-example_log: '{"time": "2023-01-12T19:22:14.5285742Z", "resourceId": "/tenants/95d19bda-09de-4d93-b7ae-acecd1e68186/providers/Microsoft.aadiam",
-  "operationName": "Sign-in activity", "operationVersion": "1.0", "category": "NonInteractiveUserSignInLogs",
-  "tenantId": "95d19bda-09de-4d93-b7ae-acecd1e68186", "resultType": "0", "resultSignature":
-  "None", "durationMs": 0, "callerIpAddress": "34.1.3.194", "correlationId": "fc78e38c-1e61-4be3-b47d-f3e6a9724a65",
-  "identity": "User30", "Level": 4, "location": "US", "properties": {"id": "0f94f5fb-3583-4c46-9bfa-0390c1988800",
-  "createdDateTime": "2023-01-12T19:22:14.5285742+00:00", "userDisplayName": "User30",
-  "userPrincipalName": "user30@splunkresearch.com", "userId": "40b61050-e814-4ae5-8ffe-66b6f0c53998",
-  "appId": "4765445b-32c6-49b0-83e6-1d93765276ca", "appDisplayName": "OfficeHome",
-  "ipAddress": "34.1.3.194", "status": {"errorCode": 0, "additionalDetails": "MFA
-  requirement satisfied by claim in the token"}, "clientAppUsed": "Browser", "deviceDetail":
-  {"deviceId": "", "operatingSystem": "Windows", "browser": "Rich Client 4.43.0.0"},
-  "location": {"city": "Boardman", "state": "Oregon", "countryOrRegion": "US", "geoCoordinates":
-  {"latitude": 45.73722839355469, "longitude": -119.81143188476562}}, "mfaDetail":
-  {}, "correlationId": "fc78e38c-1e61-4be3-b47d-f3e6a9724a65", "conditionalAccessStatus":
-  "notApplied", "appliedConditionalAccessPolicies": [{"id": "SecurityDefaults", "displayName":
-  "Security Defaults", "enforcedGrantControls": [], "enforcedSessionControls": [],
-  "result": "success", "conditionsSatisfied": 3, "conditionsNotSatisfied": 0}], "authenticationContextClassReferences":
-  [], "originalRequestId": "0f94f5fb-3583-4c46-9bfa-0390c1988800", "isInteractive":
-  false, "tokenIssuerName": "", "tokenIssuerType": "AzureAD", "authenticationProcessingDetails":
-  [{"key": "Legacy TLS (TLS 1.0, 1.1, 3DES)", "value": "False"}, {"key": "Oauth Scope
-  Info", "value": "[\"OfficeHome.All\"]"}, {"key": "Is CAE Token", "value": "False"}],
-  "networkLocationDetails": [], "clientCredentialType": "none", "processingTimeInMilliseconds":
-  192, "riskDetail": "none", "riskLevelAggregated": "none", "riskLevelDuringSignIn":
-  "none", "riskState": "none", "riskEventTypes": [], "riskEventTypes_v2": [], "resourceDisplayName":
-  "OfficeHome", "resourceId": "4765445b-32c6-49b0-83e6-1d93765276ca", "resourceTenantId":
-  "95d19bda-09de-4d93-b7ae-acecd1e68186", "homeTenantId": "95d19bda-09de-4d93-b7ae-acecd1e68186",
-  "authenticationDetails": [{"authenticationStepDateTime": "2023-01-12T19:22:14.5285742+00:00",
-  "authenticationMethod": "Previously satisfied", "succeeded": true, "authenticationStepResultDetail":
-  "MFA requirement satisfied by claim in the token", "authenticationStepRequirement":
-  "Primary authentication"}], "authenticationRequirementPolicies": [{"requirementProvider":
-  "user", "detail": "Per-user MFA"}], "authenticationRequirement": "multiFactorAuthentication",
-  "servicePrincipalId": "", "userType": "Member", "flaggedForReview": false, "isTenantRestricted":
-  false, "autonomousSystemNumber": 16509, "crossTenantAccessType": "none", "privateLinkDetails":
-  {}, "ssoExtensionVersion": "", "uniqueTokenIdentifier": "-_WUD4M1Rkyb-gOQwZiIAA",
-  "authenticationStrengths": [], "incomingTokenType": "primaryRefreshToken", "authenticationProtocol":
-  "none", "appServicePrincipalId": null, "resourceServicePrincipalId": null, "rngcStatus":
-  0}}'
+    - action
+    - additional_details
+    - app
+    - authentication_method
+    - authentication_service
+    - callerIpAddress
+    - category
+    - change_type
+    - command
+    - correlationId
+    - dataset_name
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - description
+    - dest
+    - dest_type
+    - duration
+    - durationMs
+    - dvc
+    - enabled
+    - eventtype
+    - host
+    - id
+    - index
+    - level
+    - linecount
+    - location
+    - object
+    - object_attrs
+    - object_category
+    - object_id
+    - object_path
+    - operationName
+    - operationVersion
+    - path_from_resourceId
+    - properties.C_Iat
+    - properties.C_Idtyp
+    - properties.UserPrincipalObjectID
+    - properties.__UDI_RequiredFields_EventTime
+    - properties.__UDI_RequiredFields_RegionScope
+    - properties.__UDI_RequiredFields_TenantId
+    - properties.__UDI_RequiredFields_UniqueId
+    - properties.apiVersion
+    - properties.appId
+    - properties.clientAuthMethod
+    - properties.clientRequestId
+    - properties.durationMs
+    - properties.identityProvider
+    - properties.ipAddress
+    - properties.location
+    - properties.operationId
+    - properties.requestId
+    - properties.requestMethod
+    - properties.requestUri
+    - properties.responseSizeBytes
+    - properties.responseStatusCode
+    - properties.resultReason
+    - properties.roles
+    - properties.scopes
+    - properties.signInActivityId
+    - properties.tenantId
+    - properties.timeGenerated
+    - properties.tokenIssuedAt
+    - properties.userAgent
+    - properties.userId
+    - properties.wids
+    - punct
+    - reason
+    - resourceId
+    - response_time
+    - result
+    - resultSignature
+    - result_id
+    - severity
+    - signature
+    - signature_id
+    - signinDateTime
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - src
+    - src_ip
+    - src_user
+    - src_user_name
+    - src_user_type
+    - status
+    - tag
+    - tag::action
+    - tag::app
+    - tag::eventtype
+    - tag::object_category
+    - tenantId
+    - time
+    - timeendpos
+    - timestartpos
+    - user
+    - user_agent
+    - user_id
+    - user_name
+    - user_role
+    - user_type
+    - vendor_account
+    - vendor_product
+    - vendor_region
+    - _bkt
+    - _cd
+    - _eventtype_color
+    - _indextime
+    - _raw
+    - _serial
+    - _si
+    - _sourcetype
+    - _subsecond
+    - _time
+example_log: '{"time": "2023-01-12T19:22:14.5285742Z", "resourceId": "/tenants/95d19bda-09de-4d93-b7ae-acecd1e68186/providers/Microsoft.aadiam", "operationName": "Sign-in activity", "operationVersion": "1.0", "category": "NonInteractiveUserSignInLogs", "tenantId": "95d19bda-09de-4d93-b7ae-acecd1e68186", "resultType": "0", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "34.1.3.194", "correlationId": "fc78e38c-1e61-4be3-b47d-f3e6a9724a65", "identity": "User30", "Level": 4, "location": "US", "properties": {"id": "0f94f5fb-3583-4c46-9bfa-0390c1988800", "createdDateTime": "2023-01-12T19:22:14.5285742+00:00", "userDisplayName": "User30", "userPrincipalName": "user30@splunkresearch.com", "userId": "40b61050-e814-4ae5-8ffe-66b6f0c53998", "appId": "4765445b-32c6-49b0-83e6-1d93765276ca", "appDisplayName": "OfficeHome", "ipAddress": "34.1.3.194", "status": {"errorCode": 0, "additionalDetails": "MFA requirement satisfied by claim in the token"}, "clientAppUsed": "Browser", "deviceDetail": {"deviceId": "", "operatingSystem": "Windows", "browser": "Rich Client 4.43.0.0"}, "location": {"city": "Boardman", "state": "Oregon", "countryOrRegion": "US", "geoCoordinates": {"latitude": 45.73722839355469, "longitude": -119.81143188476562}}, "mfaDetail": {}, "correlationId": "fc78e38c-1e61-4be3-b47d-f3e6a9724a65", "conditionalAccessStatus": "notApplied", "appliedConditionalAccessPolicies": [{"id": "SecurityDefaults", "displayName": "Security Defaults", "enforcedGrantControls": [], "enforcedSessionControls": [], "result": "success", "conditionsSatisfied": 3, "conditionsNotSatisfied": 0}], "authenticationContextClassReferences": [], "originalRequestId": "0f94f5fb-3583-4c46-9bfa-0390c1988800", "isInteractive": false, "tokenIssuerName": "", "tokenIssuerType": "AzureAD", "authenticationProcessingDetails": [{"key": "Legacy TLS (TLS 1.0, 1.1, 3DES)", "value": "False"}, {"key": "Oauth Scope Info", "value": "[\"OfficeHome.All\"]"}, {"key": "Is CAE Token", "value": "False"}], "networkLocationDetails": [], "clientCredentialType": "none", "processingTimeInMilliseconds": 192, "riskDetail": "none", "riskLevelAggregated": "none", "riskLevelDuringSignIn": "none", "riskState": "none", "riskEventTypes": [], "riskEventTypes_v2": [], "resourceDisplayName": "OfficeHome", "resourceId": "4765445b-32c6-49b0-83e6-1d93765276ca", "resourceTenantId": "95d19bda-09de-4d93-b7ae-acecd1e68186", "homeTenantId": "95d19bda-09de-4d93-b7ae-acecd1e68186", "authenticationDetails": [{"authenticationStepDateTime": "2023-01-12T19:22:14.5285742+00:00", "authenticationMethod": "Previously satisfied", "succeeded": true, "authenticationStepResultDetail": "MFA requirement satisfied by claim in the token", "authenticationStepRequirement": "Primary authentication"}], "authenticationRequirementPolicies": [{"requirementProvider": "user", "detail": "Per-user MFA"}], "authenticationRequirement": "multiFactorAuthentication", "servicePrincipalId": "", "userType": "Member", "flaggedForReview": false, "isTenantRestricted": false, "autonomousSystemNumber": 16509, "crossTenantAccessType": "none", "privateLinkDetails": {}, "ssoExtensionVersion": "", "uniqueTokenIdentifier": "-_WUD4M1Rkyb-gOQwZiIAA", "authenticationStrengths": [], "incomingTokenType": "primaryRefreshToken", "authenticationProtocol": "none", "appServicePrincipalId": null, "resourceServicePrincipalId": null, "rngcStatus": 0}}'

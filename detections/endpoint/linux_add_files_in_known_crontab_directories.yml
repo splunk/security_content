@@ -1,7 +1,8 @@
 name: Linux Add Files In Known Crontab Directories
 id: 023f3452-5f27-11ec-bf00-acde48001122
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-12-21'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -34,31 +35,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a file $file_name$ is created in $file_path$ on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - XorDDos
-        - Linux Living Off The Land
-        - Linux Privilege Escalation
-        - Scheduled Tasks
-        - Linux Persistence Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a file $file_name$ is created in $file_path$ on $dest$
+analytic_story:
+    - XorDDos
+    - Linux Living Off The Land
+    - Linux Privilege Escalation
+    - Scheduled Tasks
+    - Linux Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

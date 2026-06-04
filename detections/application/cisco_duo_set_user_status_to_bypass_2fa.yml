@@ -1,12 +1,11 @@
 name: Cisco Duo Set User Status to Bypass 2FA
 id: 8728d224-9cd5-4aa7-b75f-f8520a569979
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-07-10'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-data_source:
-    - Cisco Duo Administrator
-type: TTP
 status: production
+type: TTP
 description: |
     The following analytic detects instances where a Duo user's status is changed to "Bypass" for 2FA, specifically when the
     previous status was "Active." This behavior is identified by analyzing Duo activity logs for user update actions, extracting
@@ -16,6 +15,8 @@ description: |
     disable strong authentication controls, increasing the risk of unauthorized access to sensitive systems and data. Early detection
     of such changes enables rapid investigation and response, helping to prevent potential breaches and limit the impact of
     credential-based attacks.
+data_source:
+    - Cisco Duo Administrator
 search: |-
     `cisco_duo_activity` action.name=user_update
       | spath input=target.details path=status output=status
@@ -45,29 +46,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A user $user$ has set their status to bypass 2FA from IP Address - $src_ip$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Cisco Duo Suspicious Activity
-    asset_type: Identity
-    mitre_attack_id:
-        - T1556
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: A user $user$ has set their status to bypass 2FA from IP Address - $src_ip$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - Cisco Duo Suspicious Activity
+asset_type: Identity
+mitre_attack_id:
+    - T1556
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_bypass_2FA/cisco_duo_activity.json
           source: duo
           sourcetype: cisco:duo:activity
+      test_type: unit

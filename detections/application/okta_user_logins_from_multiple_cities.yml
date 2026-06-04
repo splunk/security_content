@@ -1,13 +1,14 @@
 name: Okta User Logins from Multiple Cities
 id: a3d1df37-c2a9-41d0-aa8f-59f82d6192a8
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2020-04-02'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies instances where the same Okta user logs in from different cities within a 24-hour period. This detection leverages Okta Identity Management logs, analyzing login events and their geographic locations. Such behavior is significant as it may indicate a compromised account, with an attacker attempting unauthorized access from multiple locations. If confirmed malicious, this activity could lead to account takeovers and data breaches, allowing attackers to access sensitive information and potentially escalate their privileges within the environment.
 data_source:
     - Okta
-type: Anomaly
-status: production
-description: The following analytic identifies instances where the same Okta user logs in from different cities within a 24-hour period. This detection leverages Okta Identity Management logs, analyzing login events and their geographic locations. Such behavior is significant as it may indicate a compromised account, with an attacker attempting unauthorized access from multiple locations. If confirmed malicious, this activity could lead to account takeovers and data breaches, allowing attackers to access sensitive information and potentially escalate their privileges within the environment.
 search: |-
     | tstats  `security_content_summariesonly` values(Authentication.app) as app values(Authentication.action) as action values(Authentication.user) as user values(Authentication.reason) as reason values(Authentication.dest) as dest values(Authentication.signature) as signature  values(Authentication.method) as method FROM datamodel=Authentication
       WHERE Authentication.signature=user.session.start
@@ -33,29 +34,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A user [$user$] has logged in from multiple cities [$City$] from IP Address - [$src$]. Investigate further to determine if this was authorized.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Okta Account Takeover
-    asset_type: Okta Tenant
-    mitre_attack_id:
-        - T1586.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+          message: A user [$user$] has logged in from multiple cities [$City$] from IP Address - [$src$]. Investigate further to determine if this was authorized.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Okta Account Takeover
+asset_type: Okta Tenant
+mitre_attack_id:
+    - T1586.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/okta_multiple_city/okta_multiple_city_im2.log
           source: Okta
           sourcetype: OktaIM2:log
+      test_type: unit

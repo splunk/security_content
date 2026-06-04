@@ -1,7 +1,8 @@
 name: Ollama Abnormal Network Connectivity
 id: 19ec30ad-faa2-496a-a6a9-f2e5f778fbdb
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-10-13'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -34,29 +35,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$",) | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: 'Abnormal network activity detected on $host$ with $incidents$ incidents from $src$. Investigation needed for network errors: $warning_messages$.'
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: host
           type: system
           score: 20
-    threat_objects:
-        - field: src
-          type: system
-tags:
-    analytic_story:
-        - Suspicious Ollama Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1571
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: 'Abnormal network activity detected on $host$ with $incidents$ incidents from $src$. Investigation needed for network errors: $warning_messages$.'
+threat_objects:
+    - field: src
+      type: system
+analytic_story:
+    - Suspicious Ollama Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1571
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
           sourcetype: ollama:server
           source: app.log
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

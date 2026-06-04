@@ -1,7 +1,8 @@
 name: Windows SharePoint Spinstall0 GET Request
 id: ac490de2-ee39-421c-b61b-1c4005dde427
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-07-21'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,33 +35,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential access to SharePoint webshell (spinstall0.aspx) detected from $src$ targeting $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Microsoft SharePoint Vulnerabilities
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1190
-        - T1505.003
-        - T1552
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2025-53770
+finding:
+    title: Potential access to SharePoint webshell (spinstall0.aspx) detected from $src$ targeting $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Microsoft SharePoint Vulnerabilities
+asset_type: Web Server
+cve:
+    - CVE-2025-53770
+mitre_attack_id:
+    - T1190
+    - T1505.003
+    - T1552
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/sharepoint/spinstall0.log
           sourcetype: suricata
           source: not_applicable
+      test_type: unit

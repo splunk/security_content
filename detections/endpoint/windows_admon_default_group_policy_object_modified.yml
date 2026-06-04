@@ -1,13 +1,14 @@
 name: Windows Admon Default Group Policy Object Modified
 id: 83458004-db60-4170-857d-8572f16f070b
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-03-28'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects modifications to the default Group Policy Objects (GPOs) in an Active Directory environment. It leverages Splunk's Admon to monitor updates to the "Default Domain Policy" and "Default Domain Controllers Policy." This activity is significant because changes to these default GPOs can indicate an adversary with privileged access attempting to gain further control, establish persistence, or deploy malware across multiple hosts. If confirmed malicious, such modifications could lead to widespread policy enforcement changes, unauthorized access, and potential compromise of the entire domain environment.
 data_source:
     - Windows Active Directory Admon
-description: The following analytic detects modifications to the default Group Policy Objects (GPOs) in an Active Directory environment. It leverages Splunk's Admon to monitor updates to the "Default Domain Policy" and "Default Domain Controllers Policy." This activity is significant because changes to these default GPOs can indicate an adversary with privileged access attempting to gain further control, establish persistence, or deploy malware across multiple hosts. If confirmed malicious, such modifications could lead to widespread policy enforcement changes, unauthorized access, and potential compromise of the entire domain environment.
 search: |-
     `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*" (displayName="Default Domain Policy" OR displayName="Default Domain Controllers Policy")
       | stats min(_time) as firstTime max(_time) as lastTime values(gPCFileSysPath)
@@ -32,28 +33,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dcName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A default domain group policy was updated on $dcName$
-    risk_objects:
-        - field: dcName
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Active Directory Privilege Escalation
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1484.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A default domain group policy was updated on $dcName$
+    entity:
+        field: dcName
+        type: system
+        score: 50
+analytic_story:
+    - Active Directory Privilege Escalation
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1484.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
           source: ActiveDirectory
           sourcetype: ActiveDirectory
+      test_type: unit

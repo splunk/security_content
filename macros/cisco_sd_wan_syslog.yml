@@ -1,4 +1,8 @@
-definition: sourcetype=cisco:sdwan:syslog
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: cisco_sd_wan_syslog
+id: 237800de-db27-4500-9ce3-9651062eedf3
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=cisco:sdwan:syslog

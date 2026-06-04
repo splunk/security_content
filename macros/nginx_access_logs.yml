@@ -1,3 +1,8 @@
-definition: (sourcetype="nginx:plus:kv" OR sourcetype="nginx:plus:access")
-description: This is the base macro for Nginx sourcetypes
 name: nginx_access_logs
+id: 880acdeb-dff8-4d5e-ab90-39adb51ea234
+version: 1
+creation_date: '2024-03-06'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This is the base macro for Nginx sourcetypes
+definition: (sourcetype="nginx:plus:kv" OR sourcetype="nginx:plus:access")

@@ -1,7 +1,8 @@
 name: Windows PowerShell Script Block With Malicious String
 id: 0f09cedd-10f1-4b9f-bdea-7a8b06ea575d
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-01-13'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -25,29 +26,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The user $user_id$ ran a known malicious PowerShell string matching *$match$* on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: signature_id
-          type: signature
-tags:
-    analytic_story:
-        - Malicious PowerShell
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: The user $user_id$ ran a known malicious PowerShell string matching *$match$* on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: signature_id
+      type: signature
+analytic_story:
+    - Malicious PowerShell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

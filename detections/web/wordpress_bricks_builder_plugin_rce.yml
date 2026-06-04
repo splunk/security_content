@@ -1,13 +1,14 @@
 name: WordPress Bricks Builder plugin RCE
 id: 56a8771a-3fda-4959-b81d-2f266e2f679f
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2024-02-22'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability. It detects HTTP POST requests to the URL path "/wp-json/bricks/v1/render_element" with a status code of 200, leveraging the Web datamodel. This activity is significant as it indicates an attempt to exploit CVE-2024-25600, a known vulnerability that allows remote code execution. If confirmed malicious, an attacker could execute arbitrary commands on the target server, leading to potential full system compromise and unauthorized access to sensitive data.
 data_source:
     - Nginx Access
-type: TTP
-status: production
-description: The following analytic identifies potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability. It detects HTTP POST requests to the URL path "/wp-json/bricks/v1/render_element" with a status code of 200, leveraging the Web datamodel. This activity is significant as it indicates an attempt to exploit CVE-2024-25600, a known vulnerability that allows remote code execution. If confirmed malicious, an attacker could execute arbitrary commands on the target server, leading to potential full system compromise and unauthorized access to sensitive data.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.url IN ("*/wp-json/bricks/v1/render_element") Web.status=200 Web.http_method=POST
@@ -35,32 +36,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability on $dest$ by $src$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - WordPress Vulnerabilities
-        - Hellcat Ransomware
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2024-25600
+finding:
+    title: Potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability on $dest$ by $src$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - WordPress Vulnerabilities
+    - Hellcat Ransomware
+asset_type: Web Server
+cve:
+    - CVE-2024-25600
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/wordpress/bricks_cve_2024_25600.log
           source: nginx:plus:kv
           sourcetype: nginx:plus:kv
+      test_type: unit
