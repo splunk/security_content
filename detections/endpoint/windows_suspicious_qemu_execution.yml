@@ -1,0 +1,83 @@
+name: Windows Suspicious QEMU Execution
+id: c4c0a2d4-0675-4fde-97b7-115145ba257c
+version: 2
+creation_date: '2026-05-05'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: |-
+    Detects execution of the QEMU binary and an image file with the -nographic flag.
+    This causes it to run in the background without any display.
+    This has been observed as a persistence and initial access technique by some threat actors to install a rogue linux virtual machine
+data_source:
+    - Sysmon EventID 1
+search: |-
+    `sysmon`
+    EventID=1
+    CommandLine="*-nographic*"
+    CommandLine="*.img*"
+    (
+        Description="*QEMU machine*"
+        OR
+        Product="QEMU"
+        OR
+        Company="*qemu*"
+    )
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer EventID CommandLine Description Product Company action dest
+         original_file_name parent_process parent_process_exec parent_process_guid
+         parent_process_id parent_process_name parent_process_path process_hash
+         process_integrity_level user user_id vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_suspicious_qemu_execution_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate virtual machine setups or automated testing environments may run QEMU with the -nographic flag. Review and whitelist approved systems to reduce false alerts.
+references:
+    - https://www.securonix.com/blog/crontrap-emulated-linux-environments-as-the-latest-tactic-in-malware-staging/
+    - https://www.bleepingcomputer.com/news/security/windows-infected-with-backdoored-linux-vms-in-new-phishing-attacks/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Potential suspicious QEMU execution observed on $dest$ via $CommandLine$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Linux Post-Exploitation
+    - Compromised Linux Host
+    - Linux Privilege Escalation
+    - Linux Rootkit
+    - Linux Living Off The Land
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1204.002
+    - T1001
+    - T1036
+    - T1564.006
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

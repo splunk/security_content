@@ -1,7 +1,8 @@
 name: Windows Global Object Access Audit List Cleared Via Auditpol
 id: 802a0930-0a4a-4451-bf6c-6366c6b6d9e7
-version: 6
-date: '2026-04-15'
+version: 8
+creation_date: '2025-02-19'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -39,37 +40,42 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $parent_process_name$ spawning $process_name$ was identified attempting to clear the global object access audit policy on endpoint $dest$ by user $user$.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: An instance of $parent_process_name$ spawning $process_name$ was identified attempting to clear the global object access audit policy on endpoint $dest$ by user $user$.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Windows Audit Policy Tampering
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1562.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $parent_process_name$ spawning $process_name$ was identified attempting to clear the global object access audit policy on endpoint $dest$ by user $user$.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Windows Audit Policy Tampering
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Sysmon
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.002/auditpol_tampering/auditpol_tampering_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
     - name: True Positive Test - Security
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.002/auditpol_tampering/auditpol_tampering_security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

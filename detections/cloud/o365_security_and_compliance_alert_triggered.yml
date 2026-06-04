@@ -1,12 +1,13 @@
 name: O365 Security And Compliance Alert Triggered
 id: 5b367cdd-8dfc-49ac-a9b7-6406cf27f33e
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
-data_source: []
-type: TTP
 status: production
+type: TTP
 description: The following analytic identifies alerts triggered by the Office 365 Security and Compliance Center, indicating potential threats or policy violations. It leverages data from the `o365_management_activity` dataset, focusing on events where the workload is SecurityComplianceCenter and the operation is AlertTriggered. This activity is significant as it highlights security and compliance issues within the O365 environment, which are crucial for maintaining organizational security. If confirmed malicious, these alerts could indicate attempts to breach security policies, leading to unauthorized access, data exfiltration, or other malicious activities.
+data_source: []
 search: |-
     `o365_management_activity` Workload=SecurityComplianceCenter Category=ThreatManagement Operation=AlertTriggered
       | spath input=Data path=f3u output=user
@@ -41,27 +42,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Security and Compliance triggered an alert for $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1078.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: Security and Compliance triggered an alert for $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Office 365 Account Takeover
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1078.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/o365_security_and_compliance_alert_triggered/o365_security_and_compliance_alert_triggered.log
           sourcetype: o365:management:activity
           source: o365
+      test_type: unit

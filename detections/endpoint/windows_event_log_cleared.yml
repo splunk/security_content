@@ -1,7 +1,8 @@
 name: Windows Event Log Cleared
 id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-version: 18
-date: '2026-04-08'
+version: 20
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,37 +35,38 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Windows $object$ cleared on $dest$ via EventCode $EventCode$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ShrinkLocker
-        - Windows Log Manipulation
-        - Ransomware
-        - CISA AA22-264A
-        - Compromised Windows Host
-        - Clop Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1070.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Windows $object$ cleared on $dest$ via EventCode $EventCode$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - ShrinkLocker
+    - Windows Log Manipulation
+    - Ransomware
+    - CISA AA22-264A
+    - Compromised Windows Host
+    - Clop Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Security
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit
     - name: True Positive Test - System
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-system.log
           source: XmlWinEventLog:System
           sourcetype: XmlWinEventLog
+      test_type: unit

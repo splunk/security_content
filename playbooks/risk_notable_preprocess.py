@@ -58,7 +58,7 @@ def event_id_filter(action=None, success=None, container=None, results=None, han
 def artifact_update_notable(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("artifact_update_notable() called")
 
-    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_2:artifact:*.id"], scope="all")
+    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_2:artifact:*.id","filtered-data:event_id_filter:condition_2:artifact:*.id"], scope="all")
 
     parameters = []
 
@@ -95,7 +95,7 @@ def mark_evidence_artifact(action=None, success=None, container=None, results=No
     phantom.debug("mark_evidence_artifact() called")
 
     id_value = container.get("id", None)
-    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.id"], scope="all")
+    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.id","filtered-data:event_id_filter:condition_1:artifact:*.id"], scope="all")
 
     parameters = []
 
@@ -259,7 +259,7 @@ def update_notable(action=None, success=None, container=None, results=None, hand
     # Update the notable event  in Enterprise Security with a link back to this container
     ################################################################################
 
-    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.cef.event_id"], scope="all")
+    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.cef.event_id","filtered-data:event_id_filter:condition_1:artifact:*.id"], scope="all")
     format_es_note = phantom.get_format_data(name="format_es_note")
 
     parameters = []
@@ -271,6 +271,7 @@ def update_notable(action=None, success=None, container=None, results=None, hand
                 "status": "in progress",
                 "comment": format_es_note,
                 "event_ids": filtered_artifact_0_item_event_id_filter[0],
+                "context": {'artifact_id': filtered_artifact_0_item_event_id_filter[1]},
             })
 
     ################################################################################
@@ -324,7 +325,7 @@ def container_update_info(action=None, success=None, container=None, results=Non
     phantom.debug("container_update_info() called")
 
     id_value = container.get("id", None)
-    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.cef.urgency","filtered-data:event_id_filter:condition_1:artifact:*.cef.source"], scope="all")
+    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.cef.urgency","filtered-data:event_id_filter:condition_1:artifact:*.cef.source","filtered-data:event_id_filter:condition_1:artifact:*.id"], scope="all")
     format_event_name = phantom.get_format_data(name="format_event_name")
 
     parameters = []
@@ -362,7 +363,7 @@ def container_update_info(action=None, success=None, container=None, results=Non
 def artifact_update_severity(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("artifact_update_severity() called")
 
-    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.cef.urgency","filtered-data:event_id_filter:condition_1:artifact:*.id"], scope="all")
+    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.cef.urgency","filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object","filtered-data:event_id_filter:condition_1:artifact:*.id","filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object_type","filtered-data:event_id_filter:condition_1:artifact:*.id"], scope="all")
 
     parameters = []
 
@@ -373,11 +374,11 @@ def artifact_update_severity(action=None, success=None, container=None, results=
             "tags": None,
             "label": None,
             "severity": filtered_artifact_0_item_event_id_filter[0],
-            "cef_field": None,
-            "cef_value": None,
+            "cef_field": "risk_object",
+            "cef_value": filtered_artifact_0_item_event_id_filter[1],
             "input_json": None,
-            "artifact_id": filtered_artifact_0_item_event_id_filter[1],
-            "cef_data_type": None,
+            "artifact_id": filtered_artifact_0_item_event_id_filter[2],
+            "cef_data_type": filtered_artifact_0_item_event_id_filter[3],
         })
 
     ################################################################################

@@ -196,7 +196,7 @@
                     "targetPort": "48_in"
                 }
             ],
-            "hash": "7acc2672b81d95c82981ee3bd36f15ba62747876",
+            "hash": "5148c0af7d47ef68833d631403d1560c7b30daa6",
             "nodes": {
                 "0": {
                     "data": {
@@ -211,7 +211,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 120,
-                    "y": -460.0000000000003
+                    "y": -460.0000000000004
                 },
                 "1": {
                     "data": {
@@ -314,7 +314,7 @@
                                 "name": null,
                                 "playbook_type": "input",
                                 "repo": "local",
-                                "tags": "asset, protect, risk_notable"
+                                "tags": "asset, containment, risk_notable"
                             }
                         }
                     },
@@ -482,7 +482,7 @@
                         "connectorConfigs": [
                             "splunk"
                         ],
-                        "connectorId": 129,
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
                         "connectorVersion": "v1",
                         "functionId": 1,
                         "functionName": "run_identity_query",
@@ -492,7 +492,11 @@
                             "query": "format_identity_query:formatted_data"
                         },
                         "requiredParameters": [
-                            "query"
+                            {
+                                "data_type": "",
+                                "default": "",
+                                "field": "query"
+                            }
                         ],
                         "type": "action"
                     },
@@ -573,7 +577,7 @@
                         "connectorConfigs": [
                             "splunk"
                         ],
-                        "connectorId": 129,
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
                         "connectorVersion": "v1",
                         "functionId": 2,
                         "functionName": "run_asset_query",
@@ -583,7 +587,11 @@
                             "query": "format_asset_query:formatted_data"
                         },
                         "requiredParameters": [
-                            "query"
+                            {
+                                "data_type": "",
+                                "default": "",
+                                "field": "query"
+                            }
                         ],
                         "type": "action"
                     },
@@ -938,7 +946,7 @@
                                 "name": null,
                                 "playbook_type": "input",
                                 "repo": "local",
-                                "tags": "identity, protect, risk_notable"
+                                "tags": "identity, containment, risk_notable"
                             }
                         }
                     },
@@ -1147,11 +1155,11 @@
             }
         ],
         "playbook_type": "automation",
-        "python_version": "3",
-        "schema": "5.0.3",
-        "version": "5.0.1.66250"
+        "python_version": "3.13",
+        "schema": "5.0.6",
+        "version": "5.3.0.84310"
     },
-    "create_time": "2021-10-19T20:24:15.998858+00:00",
+    "create_time": "2022-06-15T20:20:55.521626+00:00",
     "draft_mode": false,
     "labels": [
         "risk_notable"

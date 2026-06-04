@@ -1,7 +1,8 @@
 name: Windows Drivers Loaded by Signature
 id: d2d4af6a-6c2b-4d79-80c5-fc2cf12a2f68
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2022-04-04'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -23,24 +24,25 @@ references:
     - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
     - https://attack.mitre.org/techniques/T1014/
     - https://www.fuzzysecurity.com/tutorials/28.html
-tags:
-    analytic_story:
-        - Windows Drivers
-        - CISA AA22-320A
-        - AgentTesla
-        - BlackByte Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1014
-        - T1068
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Windows Drivers
+    - CISA AA22-320A
+    - AgentTesla
+    - BlackByte Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1014
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

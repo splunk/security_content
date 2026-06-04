@@ -1,7 +1,8 @@
 name: Windows BitDefender Submission Wizard DLL Sideloading
 id: a1b2c3d4-e5f6-4789-a012-3456789abcde
-version: 2
-date: '2026-04-15'
+version: 3
+creation_date: '2026-03-16'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -57,29 +58,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$User$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Bitdefender Submission Wizard loaded $ImageLoaded$ from a non-standard path on $dest$ by user $User$, indicating potential DLL side-loading activity.
-    risk_objects:
+finding:
+    title: Bitdefender Submission Wizard loaded $ImageLoaded$ from a non-standard path on $dest$ by user $User$, indicating potential DLL side-loading activity.
+    entity:
+        field: User
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: User
-          type: user
-          score: 50
-    threat_objects:
-        - field: Image
-          type: process_name
-        - field: ImageLoaded
-          type: file_name
-tags:
-    analytic_story:
-        - Lotus Blossom Chrysalis Backdoor
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1574
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+          message: Bitdefender Submission Wizard loaded $ImageLoaded$ from a non-standard path on $dest$ by user $User$, indicating potential DLL side-loading activity.
+threat_objects:
+    - field: Image
+      type: process_name
+    - field: ImageLoaded
+      type: file_name
+analytic_story:
+    - Lotus Blossom Chrysalis Backdoor
+asset_type: Endpoint
+mitre_attack_id:
+    - T1574
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

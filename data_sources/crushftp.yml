@@ -1,22 +1,20 @@
 name: CrushFTP
 id: 8a42ace5-e4c8-4653-80cf-1b8e7e6024ef
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs activities related to file transfers and user interactions in CrushFTP,
-  including file uploads, downloads, user authentication, and session details.
+description: Logs activities related to file transfers and user interactions in CrushFTP, including file uploads, downloads, user authentication, and session details.
 mitre_components:
-- File Access
-- File Metadata
-- User Account Authentication
-- Logon Session Metadata
-- Network Traffic Content
+    - File Access
+    - File Metadata
+    - User Account Authentication
+    - Logon Session Metadata
+    - Network Traffic Content
 source: crushftp
 sourcetype: crushftp:sessionlogs
 supported_TA: []
 fields:
-- _time
-- _raw
-example_log: 'SESSION|05/14/2024 17:36:21.859|[HTTPS:169_52326_sMa:anonymous:10.0.1.30]
-  READ: *POST /WebInterface/function/?c2f=CmF1&command=zip&path=%3CINCLUDE%3Eusers/MainUsers/groups.XML%3C/INCLUDE%3E&names=/a
-  HTTP/1.1*'
+    - _time
+    - _raw
+example_log: 'SESSION|05/14/2024 17:36:21.859|[HTTPS:169_52326_sMa:anonymous:10.0.1.30] READ: *POST /WebInterface/function/?c2f=CmF1&command=zip&path=%3CINCLUDE%3Eusers/MainUsers/groups.XML%3C/INCLUDE%3E&names=/a HTTP/1.1*'

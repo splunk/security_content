@@ -1,13 +1,14 @@
 name: Cloud Security Groups Modifications by User
 id: cfe7cca7-2746-4bdf-b712-b01ed819b9de
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-03-06'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies unusual modifications to security groups in your cloud environment by users, focusing on actions such as modifications, deletions, or creations over 30-minute intervals. It leverages cloud infrastructure logs and calculates the standard deviation for each user, using the 3-sigma rule to detect anomalies. This activity is significant as it may indicate a compromised account or insider threat. If confirmed malicious, attackers could alter security group configurations, potentially exposing sensitive resources or disrupting services.
 data_source:
     - AWS CloudTrail
-type: Anomaly
-status: production
-description: The following analytic identifies unusual modifications to security groups in your cloud environment by users, focusing on actions such as modifications, deletions, or creations over 30-minute intervals. It leverages cloud infrastructure logs and calculates the standard deviation for each user, using the 3-sigma rule to detect anomalies. This activity is significant as it may indicate a compromised account or insider threat. If confirmed malicious, attackers could alter security group configurations, potentially exposing sensitive resources or disrupting services.
 search: |-
     | tstats dc(All_Changes.object) as unique_security_groups values(All_Changes.src) as src values(All_Changes.user_type) as user_type values(All_Changes.object_category) as object_category values(All_Changes.object) as objects values(All_Changes.action) as action  values(All_Changes.user_agent) as user_agent values(All_Changes.command) as command FROM datamodel=Change
       WHERE All_Changes.object_category = "security_group" (All_Changes.action = modified
@@ -36,27 +37,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Unsual number cloud security group modifications detected by user - $user$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious Cloud User Activities
-    asset_type: Cloud Instance
-    mitre_attack_id:
-        - T1578.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: Unsual number cloud security group modifications detected by user - $user$
+analytic_story:
+    - Suspicious Cloud User Activities
+asset_type: Cloud Instance
+mitre_attack_id:
+    - T1578.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1578.005/aws_authorize_security_group/aws_authorize_security_group.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

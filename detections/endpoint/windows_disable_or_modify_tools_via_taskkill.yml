@@ -1,15 +1,16 @@
 name: Windows Disable or Modify Tools Via Taskkill
 id: a43ae66f-c410-4b3d-8741-9ce1ad17ddb0
-version: 12
-date: '2026-04-15'
+version: 14
+creation_date: '2023-09-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+description: The following analytic identifies the use of taskkill.exe to forcibly terminate processes. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions that include specific taskkill parameters. This activity is significant because it can indicate attempts to disable security tools or disrupt legitimate applications, a common tactic in malware operations. If confirmed malicious, this behavior could allow attackers to evade detection, disrupt system stability, and potentially gain further control over the compromised system.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic identifies the use of taskkill.exe to forcibly terminate processes. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions that include specific taskkill parameters. This activity is significant because it can indicate attempts to disable security tools or disrupt legitimate applications, a common tactic in malware operations. If confirmed malicious, this behavior could allow attackers to evade detection, disrupt system stability, and potentially gain further control over the compromised system.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name = "taskkill.exe" Processes.process IN ("* /f*", "* /t*") Processes.process IN ("* /im*", "* /pid*")
@@ -37,32 +38,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A taskkill process to terminate process is executed on host- $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-tags:
-    analytic_story:
-        - PXA Stealer
-        - NjRAT
-        - Crypto Stealer
-        - BlankGrabber Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1562.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A taskkill process to terminate process is executed on host- $dest$
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - PXA Stealer
+    - NjRAT
+    - Crypto Stealer
+    - BlankGrabber Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/taskkill/taskkill_im.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

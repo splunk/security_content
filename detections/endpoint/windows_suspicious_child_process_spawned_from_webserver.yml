@@ -1,10 +1,11 @@
 name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
-version: 10
-date: '2026-04-15'
+version: 12
+creation_date: '2023-04-12'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
-type: TTP
+type: Anomaly
 description: The following analytic identifies the execution of suspicious processes typically associated with WebShell activity on web servers. It detects when processes like `cmd.exe`, `powershell.exe`, or `bash.exe` are spawned by web server processes such as `w3wp.exe` or `nginx.exe`. This behavior is significant as it may indicate an adversary exploiting a web application vulnerability to install a WebShell, providing persistent access and command execution capabilities. If confirmed malicious, this activity could allow attackers to maintain control over the compromised server, execute arbitrary commands, and potentially escalate privileges or exfiltrate sensitive data.
 data_source:
     - Sysmon EventID 1
@@ -43,46 +44,48 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Webshell Exploit Behavior - $parent_process_name$ spawned $process_name$ on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
-          score: 50
+          score: 10
+          message: Webshell Exploit Behavior - $parent_process_name$ spawned $process_name$ on $dest$.
         - field: dest
           type: system
-          score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Flax Typhoon
-        - BlackByte Ransomware
-        - CISA AA22-257A
-        - HAFNIUM Group
-        - CISA AA22-264A
-        - ProxyShell
-        - SysAid On-Prem Software CVE-2023-47246 Vulnerability
-        - ProxyNotShell
-        - Medusa Ransomware
-        - WS FTP Server Critical Vulnerabilities
-        - Compromised Windows Host
-        - Citrix ShareFile RCE CVE-2023-24489
-        - Microsoft SharePoint Vulnerabilities
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Microsoft WSUS CVE-2025-59287
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1505.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          score: 10
+          message: Webshell Exploit Behavior - $parent_process_name$ spawned $process_name$ on $dest$.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Flax Typhoon
+    - BlackByte Ransomware
+    - CISA AA22-257A
+    - HAFNIUM Group
+    - CISA AA22-264A
+    - ProxyShell
+    - SysAid On-Prem Software CVE-2023-47246 Vulnerability
+    - ProxyNotShell
+    - Medusa Ransomware
+    - WS FTP Server Critical Vulnerabilities
+    - Compromised Windows Host
+    - Citrix ShareFile RCE CVE-2023-24489
+    - Microsoft SharePoint Vulnerabilities
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Microsoft WSUS CVE-2025-59287
+asset_type: Endpoint
+mitre_attack_id:
+    - T1505.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/generic_webshell_exploit/generic_webshell_exploit.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

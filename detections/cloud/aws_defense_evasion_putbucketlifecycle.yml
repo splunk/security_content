@@ -1,7 +1,8 @@
 name: AWS Defense Evasion PutBucketLifecycle
 id: ce1c0e2b-9303-4903-818b-0d9002fc6ea4
-version: 8
-date: '2026-02-25'
+version: 10
+creation_date: '2022-07-25'
+modification_date: '2026-05-13'
 author: Bhavin Patel
 status: production
 type: Hunting
@@ -25,21 +26,22 @@ how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs 
 known_false_positives: While this search has no known false positives, it is possible that it is a legitimate admin activity. Please consider filtering out these noisy events using userAgent, user_arn field names.
 references:
     - https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-lifecycle-rule/
-tags:
-    analytic_story:
-        - AWS Defense Evasion
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1485.001
-        - T1562.008
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+analytic_story:
+    - AWS Defense Evasion
+asset_type: AWS Account
+mitre_attack_id:
+    - T1485.001
+    - T1685.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/put_bucketlifecycle/aws_cloudtrail_events.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

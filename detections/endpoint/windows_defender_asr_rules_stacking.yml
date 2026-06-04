@@ -1,10 +1,12 @@
 name: Windows Defender ASR Rules Stacking
 id: 425a6657-c5e4-4cbb-909e-fc9e5d326f01
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
+description: The following analytic identifies security events from Microsoft Defender, focusing on Exploit Guard and Attack Surface Reduction (ASR) features. It detects Event IDs 1121, 1126, 1131, and 1133 for blocked operations, and Event IDs 1122, 1125, 1132, and 1134 for audit logs. Event ID 1129 indicates user overrides, while Event ID 5007 signals configuration changes. This detection uses a lookup to correlate ASR rule GUIDs with descriptive names. Monitoring these events is crucial for identifying unauthorized operations, potential security breaches, and policy enforcement issues. If confirmed malicious, attackers could bypass security measures, execute unauthorized actions, or alter system configurations.
 data_source:
     - Windows Event Log Defender 1121
     - Windows Event Log Defender 1122
@@ -15,7 +17,6 @@ data_source:
     - Windows Event Log Defender 1133
     - Windows Event Log Defender 1134
     - Windows Event Log Defender 5007
-description: The following analytic identifies security events from Microsoft Defender, focusing on Exploit Guard and Attack Surface Reduction (ASR) features. It detects Event IDs 1121, 1126, 1131, and 1133 for blocked operations, and Event IDs 1122, 1125, 1132, and 1134 for audit logs. Event ID 1129 indicates user overrides, while Event ID 5007 signals configuration changes. This detection uses a lookup to correlate ASR rule GUIDs with descriptive names. Monitoring these events is crucial for identifying unauthorized operations, potential security breaches, and policy enforcement issues. If confirmed malicious, attackers could bypass security measures, execute unauthorized actions, or alter system configurations.
 search: |-
     `ms_defender` EventCode IN (1121, 1122, 1125, 1126, 1129, 1131, 1132, 1133, 1134, 5007)
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -32,23 +33,23 @@ known_false_positives: False positives are not expected with this analytic, sinc
 references:
     - https://asrgen.streamlit.app/
     - https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction?view=o365-worldwide
-tags:
-    analytic_story:
-        - Windows Attack Surface Reduction
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id:
-        - T1566.001
-        - T1566.002
-        - T1059
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Windows Attack Surface Reduction
+asset_type: Endpoint
+mitre_attack_id:
+    - T1566.001
+    - T1566.002
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/defender/asr_defender_operational.log
           source: WinEventLog:Microsoft-Windows-Windows Defender/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

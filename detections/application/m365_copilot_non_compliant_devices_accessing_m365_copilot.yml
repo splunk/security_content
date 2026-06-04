@@ -1,11 +1,14 @@
 name: M365 Copilot Non Compliant Devices Accessing M365 Copilot
 id: e26bc52d-9cbc-4743-9745-e8781d935042
-version: 4
-date: '2026-04-15'
+version: 6
+creation_date: '2025-10-13'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: production
 type: Anomaly
 description: Detects M365 Copilot access from non-compliant or unmanaged devices that violate corporate security policies, indicating potential shadow IT usage, BYOD policy violations, or compromised endpoint access. The detection filters M365 Copilot Graph API events where deviceDetail.isCompliant=false or deviceDetail.isManaged=false, then aggregates by user, operating system, and browser to calculate metrics including event counts, unique IPs and locations, and compliance/management status over time. Users accessing Copilot from non-compliant or unmanaged devices are flagged and sorted by activity volume and geographic spread, enabling security teams to identify unauthorized endpoints that may lack proper security controls, encryption, or MDM enrollment.
+data_source:
+    - M365 Copilot Graph API
 search: |-
     `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient") deviceDetail.isCompliant=false OR deviceDetail.isManaged=false
       | eval user = userPrincipalName
@@ -16,8 +19,6 @@ search: |-
       | eval last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
       | sort -events, -unique_countries
       | `m365_copilot_non_compliant_devices_accessing_m365_copilot_filter`
-data_source:
-    - M365 Copilot Graph API
 how_to_implement: This detection requires ingesting M365 Copilot access logs via the Splunk Add-on for Microsoft Office 365. Configure the add-on to collect Azure AD Sign-in logs (AuditLogs.SignIns) through the Graph API data input. Ensure proper authentication and permissions are configured to access sign-in audit logs. The `m365_copilot_graph_api` macro should be defined to filter for sourcetype o365:graph:api data containing Copilot application activity.
 known_false_positives: Legitimate employees using personal devices during emergencies, new hires awaiting device provisioning, temporary workers with unmanaged equipment, or users accessing Copilot from approved but temporarily non-compliant devices may trigger false positives.
 references:
@@ -31,27 +32,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ accessed M365 Copilot from non-compliant or unmanaged devices accross $unique_countries$ countries, violating corporate security policies and creating potential data exposure risks.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious Microsoft 365 Copilot Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1562
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: User $user$ accessed M365 Copilot from non-compliant or unmanaged devices accross $unique_countries$ countries, violating corporate security policies and creating potential data exposure risks.
+analytic_story:
+    - Suspicious Microsoft 365 Copilot Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/m365_copilot_access.log
           sourcetype: "o365:graph:api"
           source: "AuditLogs.SignIns"
+      test_type: unit

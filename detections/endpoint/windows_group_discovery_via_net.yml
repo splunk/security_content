@@ -1,7 +1,8 @@
 name: Windows Group Discovery Via Net
 id: c5c8e0f3-147a-43da-bf04-4cfaec27dc44
-version: 6
-date: '2026-02-09'
+version: 7
+creation_date: '2021-09-14'
+modification_date: '2026-05-13'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -19,38 +20,40 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
     - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
-tags:
-    analytic_story:
-        - SolarWinds WHD RCE Post Exploitation
-        - Windows Discovery Techniques
-        - Windows Post-Exploitation
-        - Graceful Wipe Out Attack
-        - Active Directory Discovery
-        - Prestige Ransomware
-        - Medusa Ransomware
-        - Azorult
-        - Cleo File Transfer Software
-        - Rhysida Ransomware
-        - IcedID
-        - Volt Typhoon
-        - Microsoft WSUS CVE-2025-59287
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1069.001
-        - T1069.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - SolarWinds WHD RCE Post Exploitation
+    - Windows Discovery Techniques
+    - Windows Post-Exploitation
+    - Graceful Wipe Out Attack
+    - Active Directory Discovery
+    - Prestige Ransomware
+    - Medusa Ransomware
+    - Azorult
+    - Cleo File Transfer Software
+    - Rhysida Ransomware
+    - IcedID
+    - Volt Typhoon
+    - Microsoft WSUS CVE-2025-59287
+asset_type: Endpoint
+mitre_attack_id:
+    - T1069.001
+    - T1069.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

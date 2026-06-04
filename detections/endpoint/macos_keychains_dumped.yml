@@ -1,35 +1,60 @@
 name: MacOS Keychains Dumped
 id: dcb45a09-5e6f-441e-b2f8-cbbf923e36d9
-version: 2
-date: '2026-04-15'
-author: Raven Tait, Splunk
+version: 4
+creation_date: '2026-04-14'
+modification_date: '2026-05-13'
+author: Raven Tait, Jamie Windley, Splunk
 status: production
 type: TTP
 description: |-
-    Detects command-line attempts to access or dump macOS Keychain files. Adversaries may use native utilities or direct file access to extract plaintext credentials from Keychain databases located in ~/Library/Keychains/ or /Library/Keychains/.
-    This technique is commonly associated with post-exploitation credential harvesting, where an attacker with local access seeks to escalate privileges or move laterally by obtaining stored credentials for applications, Wi-Fi networks, and system services.
+    Detects command-line attempts to access or dump macOS Keychain data using native utilities or direct file access.
+    This includes credential dumping via the `security` utility (e.g. `dump-keychain -d`), bulk certificate export using `security find-certificate`, and direct file copying of Keychain database files using utilities such as `cat`.
+    Keychain files are located in `~/Library/Keychains/`, `/Library/Keychains/`, and `/Network/Library/Keychains/`.
+    This technique is commonly associated with post-exploitation credential harvesting, where an attacker with local access seeks to escalate privileges or move laterally by obtaining stored credentials for applications, Wi-Fi networks, system services, and certificates.
 data_source:
     - Osquery Results
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
+            values(Processes.parent_process) AS parent_process
+            values(Processes.parent_process_exec) AS parent_process_exec
+            values(Processes.parent_process_id) AS parent_process_id
+            values(Processes.parent_process_name) AS parent_process_name
+            values(Processes.parent_process_path) AS parent_process_path
 
-    from datamodel=Endpoint.Processes where
-
-    Processes.process IN (
-        "*dump-keychain -d*",
-        "*keychaindump*"
+    FROM datamodel=Endpoint.Processes WHERE
+    (
+        Processes.process_path="/usr/bin/security"
+        AND
+        (
+            (
+                Processes.process="*dump-keychain*"
+                Processes.process="*-d*"
+            )
+            OR
+            (
+                Processes.process="*find-certificate*"
+                Processes.process="*-p*"
+            )
+        )
     )
-
-    Processes.process="*/library/keychains*"
-
-    by Processes.dest Processes.original_file_name Processes.parent_process_id
-       Processes.process Processes.process_exec Processes.process_guid
-       Processes.process_hash Processes.process_id
-       Processes.process_current_directory Processes.process_name
-       Processes.process_path Processes.user
-       Processes.user_id Processes.vendor_product
+    OR
+    Processes.process="*keychaindump*"
+    OR
+    (
+        Processes.process_name IN (
+            "cat",
+            "cp",
+            "dd",
+            "mv"
+        )
+        Processes.process="*Library/Keychains/*"
+        Processes.process="*.keychain*"
+    )
+    by Processes.action Processes.dest Processes.process Processes.process_hash
+    Processes.process_id Processes.process_name Processes.process_path
+    Processes.user Processes.vendor_product
 
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
@@ -44,6 +69,7 @@ references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://gist.github.com/hfeeki/88c12f01d00534e09a84
     - https://ss64.com/mac/security-keychain-settings.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1555.001/T1555.001.md
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -53,30 +79,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Keychains dumped on $dest$ by $user$ via $process$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Keychains dumped on $dest$ by $user$ via $process$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - MacOS Privilege Escalation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1555.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Keychains dumped on $dest$ by $user$ via $process$
+analytic_story:
+    - MacOS Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1555.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555.001/osquery_keychains/osquery.log
           source: osquery
           sourcetype: osquery:results
+      test_type: unit

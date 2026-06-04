@@ -1,7 +1,8 @@
 name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2020-12-17'
+modification_date: '2026-05-13'
 author: Jose Hernandez, Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -74,38 +75,38 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $user$ spawned $process$ indicative of Active Directory discovery on machine - [$dest$]
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Domain Trust Discovery
-        - IcedID
-        - NOBELIUM Group
-        - Graceful Wipe Out Attack
-        - BlackSuit Ransomware
-    asset_type: Endpoint
-    atomic_guid:
-        - 736b4f53-f400-4c22-855d-1a6b5a551600
-        - b95fd967-4e62-4109-b48d-265edfd28c3a
-        - e1ec8d20-509a-4b9a-b820-06c9b2da8eb7
-        - 5e2938fb-f919-47b6-8b29-2f6a1f718e99
-        - abf00f6c-9983-4d9a-afbc-6b1c6c6448e1
-        - 51a98f96-0269-4e09-a10f-e307779a8b05
-    mitre_attack_id:
-        - T1018
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: $user$ spawned $process$ indicative of Active Directory discovery on machine - [$dest$]
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Domain Trust Discovery
+    - IcedID
+    - NOBELIUM Group
+    - Graceful Wipe Out Attack
+    - BlackSuit Ransomware
+asset_type: Endpoint
+atomic_guid:
+    - 736b4f53-f400-4c22-855d-1a6b5a551600
+    - b95fd967-4e62-4109-b48d-265edfd28c3a
+    - e1ec8d20-509a-4b9a-b820-06c9b2da8eb7
+    - 5e2938fb-f919-47b6-8b29-2f6a1f718e99
+    - abf00f6c-9983-4d9a-afbc-6b1c6c6448e1
+    - 51a98f96-0269-4e09-a10f-e307779a8b05
+mitre_attack_id:
+    - T1018
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

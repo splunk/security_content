@@ -1,7 +1,8 @@
 name: Windows AppX Deployment Full Trust Package Installation
 id: 8560de46-ea2d-4c69-8ca3-5b78b90f1338
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2025-08-18'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -38,22 +39,22 @@ drilldown_searches:
       search: '`powershell` EventCode=4104 dest="$dest$" | stats count by ScriptBlockText'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-tags:
-    analytic_story:
-        - MSIX Package Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1553.005
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+analytic_story:
+    - MSIX Package Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1553.005
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/appx/windows_appxdeploymentserver.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational
+      test_type: unit

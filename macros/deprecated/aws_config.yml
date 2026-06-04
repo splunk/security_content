@@ -1,4 +1,8 @@
-definition: sourcetype=aws:config
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: aws_config
+id: f14bfb6b-7b06-4cb6-beef-59f584b3dffd
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=aws:config

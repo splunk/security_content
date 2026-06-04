@@ -1,3 +1,8 @@
-definition: lookup update=true is_net_windows_file filename as process_name OUTPUT netFile | lookup update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile | search netFile=true
-description: This macro limits the output to process names that are .net binaries on Windows Server 2016 and Windows 11.
 name: is_net_windows_file_macro
+id: e21d9ca8-8313-4f35-af83-a60a78b7c062
+version: 1
+creation_date: '2022-01-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro limits the output to process names that are .net binaries on Windows Server 2016 and Windows 11.
+definition: lookup update=true is_net_windows_file filename as process_name OUTPUT netFile | lookup update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile | search netFile=true

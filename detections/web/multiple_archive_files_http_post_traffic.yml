@@ -1,7 +1,8 @@
 name: Multiple Archive Files Http Post Traffic
 id: 4477f3ea-a28f-11eb-b762-acde48001122
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2021-04-22'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -36,32 +37,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A http post $http_method$ sending packet with possible archive bytes header in uri path $uri_path$
-    risk_objects:
-        - field: src_ip
-          type: system
-          score: 50
-    threat_objects:
-        - field: url
-          type: url
-tags:
-    analytic_story:
-        - Data Exfiltration
-        - Command And Control
-        - APT37 Rustonotto and FadeStealer
-        - Hellcat Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1048.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: A http post $http_method$ sending packet with possible archive bytes header in uri path $uri_path$
+    entity:
+        field: src_ip
+        type: system
+        score: 50
+threat_objects:
+    - field: url
+      type: url
+analytic_story:
+    - Data Exfiltration
+    - Command And Control
+    - APT37 Rustonotto and FadeStealer
+    - Hellcat Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1048.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log
           source: stream
           sourcetype: stream:http
+      test_type: unit

@@ -1,0 +1,66 @@
+name: Windows Computer Account Changed to Domain Controller
+id: f9df6250-fa45-4f62-bc9a-768c60bf99b2
+version: 2
+creation_date: '2026-05-05'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: |-
+    Detects a modification to the User Account Control flags for a computer account where the `SERVER_TRUST_ACCOUNT` flag is set.
+    This flag is normally associated with domain controller computer accounts.
+    This activity may indicate a legitimate domain controller promotion or, if unexpected, an attempt to grant a computer account domain controller-like trust within Active Directory.
+data_source:
+    - Windows Event Log Security 4742
+search: |-
+    `wineventlog_security`
+    EventID=4742
+    UserAccountControl="*%%2088*"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer TargetUserName UserAccountControl EventID
+
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_computer_account_changed_to_domain_controller_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate administrative activities during domain controller promotions or system updates may trigger this rule. Filter alerts originating from authorized IT personnel or approved change management processes.
+references:
+    - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4742
+    - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Computer account User Account Control flags changed to domain controller $UserAccountControl$ on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Active Directory Privilege Escalation
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1136.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.002/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Ollama Abnormal Service Crash Availability Attack
 id: 327fa152-9b56-4e4e-bc0b-2795d4068afa
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2025-10-13'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -22,27 +23,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: 'Abnormal Ollama service termination detected on host $host$ between $first_seen$ and $last_seen$. Service stopped $termination_count$ times with $unique_errors$ unique error types. Severity: $severity$. Potential cause: $attack_type$. Error messages: $error_messages$ require investigation.'
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: host
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious Ollama Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1489
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: 'Abnormal Ollama service termination detected on host $host$ between $first_seen$ and $last_seen$. Service stopped $termination_count$ times with $unique_errors$ unique error types. Severity: $severity$. Potential cause: $attack_type$. Error messages: $error_messages$ require investigation.'
+analytic_story:
+    - Suspicious Ollama Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1489
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
           sourcetype: ollama:server
           source: app.log
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

@@ -1,3 +1,8 @@
-definition: sourcetype=XmlWinEventLog:Microsoft-Windows-NTLM/Operational OR source=XmlWinEventLog:Microsoft-Windows-NTLM/Operational
-description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
 name: ntlm_audit
+id: 11c2bb73-ef58-4f62-8b83-2ee7feb33070
+version: 1
+creation_date: '2024-03-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=XmlWinEventLog:Microsoft-Windows-NTLM/Operational OR source=XmlWinEventLog:Microsoft-Windows-NTLM/Operational

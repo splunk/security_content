@@ -1,7 +1,8 @@
 name: Detect Renamed 7-Zip
 id: 4057291a-b8cf-11eb-95fe-acde48001122
-version: 11
-date: '2026-02-25'
+version: 12
+creation_date: '2021-06-03'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -32,21 +33,22 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Limited false positives, however this analytic will need to be modified for each environment if Sysmon is not used.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
-tags:
-    analytic_story:
-        - Collection and Staging
-        - Malicious Inno Setup Loader
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1560.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Collection and Staging
+    - Malicious Inno Setup Loader
+asset_type: Endpoint
+mitre_attack_id:
+    - T1560.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

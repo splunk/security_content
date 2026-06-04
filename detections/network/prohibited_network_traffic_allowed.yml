@@ -1,7 +1,8 @@
 name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
@@ -33,33 +34,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potentially Prohibited Network Traffic allowed
-    risk_objects:
-        - field: src_ip
-          type: system
-          score: 50
-    threat_objects:
-        - field: dest_ip
-          type: ip_address
-tags:
-    analytic_story:
-        - Prohibited Traffic Allowed or Protocol Mismatch
-        - Ransomware
-        - Command And Control
-        - Cisco Secure Firewall Threat Defense Analytics
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1048
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    manual_test: This detection uses a builtin lookup from Enterprise Security.
+finding:
+    title: Potentially Prohibited Network Traffic allowed from $src_ip$
+    entity:
+        field: src_ip
+        type: system
+        score: 50
+threat_objects:
+    - field: dest_ip
+      type: ip_address
+analytic_story:
+    - Prohibited Traffic Allowed or Protocol Mismatch
+    - Ransomware
+    - Command And Control
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1048
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+baselines:
+    - Count of Unique IPs Connecting to Ports
 tests:
     - name: Cisco Secure Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      description: PORTED MANUAL TEST - This detection uses a builtin lookup from Enterprise Security.
+      test_type: experimental

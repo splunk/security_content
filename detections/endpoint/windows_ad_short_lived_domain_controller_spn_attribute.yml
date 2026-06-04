@@ -1,14 +1,15 @@
 name: Windows AD Short Lived Domain Controller SPN Attribute
 id: 57e27f27-369c-4df8-af08-e8c7ee8373d4
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2022-09-01'
+modification_date: '2026-05-13'
 author: Dean Luxton
-type: TTP
 status: production
+type: TTP
+description: The following analytic detects the temporary addition of a global catalog SPN or a DRS RPC SPN to an Active Directory computer object, indicative of a potential DCShadow attack. This detection leverages EventCode 5136 from the `wineventlog_security` data source, focusing on specific SPN attribute changes. This activity is significant as DCShadow attacks allow attackers with privileged access to register rogue Domain Controllers, enabling unauthorized changes to the AD infrastructure. If confirmed malicious, this could lead to unauthorized replication of changes, including credentials and keys, compromising the entire domain's security.
 data_source:
     - Windows Event Log Security 5136
     - Windows Event Log Security 4624
-description: The following analytic detects the temporary addition of a global catalog SPN or a DRS RPC SPN to an Active Directory computer object, indicative of a potential DCShadow attack. This detection leverages EventCode 5136 from the `wineventlog_security` data source, focusing on specific SPN attribute changes. This activity is significant as DCShadow attacks allow attackers with privileged access to register rogue Domain Controllers, enabling unauthorized changes to the AD infrastructure. If confirmed malicious, this could lead to unauthorized replication of changes, including credentials and keys, compromising the entire domain's security.
 search: |-
     `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName (AttributeValue="GC/*" OR AttributeValue="E3514235-4B06-11D1-AB04-00C04FC2DCD2/*")
       | stats min(_time) as _time range(_time) as duration values(OperationType) as OperationType values(user) as user values(src_ip) as src_ip values(src_nt_domain) as src_nt_domain values(src_user) as src_user values(Computer) as dest, values(ObjectDN) as ObjectDN values(action) as action values(app) as app values(authentication_method) as authentication_method values(signature) as signature values(signature_id) as signature_id values(src) as src
@@ -37,28 +38,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Short Lived Domain Controller SPN AD Attribute Triggered by $src_user$
-    risk_objects:
-        - field: src_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1207
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Short Lived Domain Controller SPN AD Attribute Triggered by $src_user$
+    entity:
+        field: src_user
+        type: user
+        score: 50
+analytic_story:
+    - Compromised Windows Host
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1207
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/mimikatz/windows-security-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

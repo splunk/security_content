@@ -1,7 +1,8 @@
 name: Windows Sqlservr Spawning Shell
 id: d33aac9f-030c-4830-8701-0c2dd75bb6cb
-version: 6
-date: '2026-03-24'
+version: 7
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -30,21 +31,21 @@ known_false_positives: Legitimate administrative activities or monitoring tools 
 references:
     - https://attack.mitre.org/techniques/T1505/001/
     - https://github.com/MHaggis/notes/tree/master/utilities/SQLSSTT
-tags:
-    analytic_story:
-        - SQL Server Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1505.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+analytic_story:
+    - SQL Server Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1505.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/sqlservr-windows_sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit

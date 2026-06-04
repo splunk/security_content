@@ -1,7 +1,8 @@
 name: AWS EC2 Snapshot Shared Externally
 id: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-07-20'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -37,30 +38,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: AWS EC2 snapshot from account $vendor_account$ is shared with $requested_account_id$ by user $user$ from $src$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Suspicious Cloud Instance Activities
-        - Data Exfiltration
-    asset_type: EC2 Snapshot
-    mitre_attack_id:
-        - T1537
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: AWS EC2 snapshot from account $vendor_account$ is shared with $requested_account_id$ by user $user$ from $src$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Suspicious Cloud Instance Activities
+    - Data Exfiltration
+asset_type: EC2 Snapshot
+mitre_attack_id:
+    - T1537
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

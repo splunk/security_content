@@ -1,7 +1,8 @@
 name: Linux Auditd Service Restarted
 id: 8eb3e858-18d3-44a4-a514-52cfa39f154a
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2024-08-12'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,34 +30,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A [$proctitle$] event occurred on host - [$dest$] to restart or re-enable a service.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - AwfulShred
-        - Scheduled Tasks
-        - Linux Privilege Escalation
-        - Data Destruction
-        - Linux Persistence Techniques
-        - Linux Living Off The Land
-        - Gomir
-        - Compromised Linux Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.006
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A [$proctitle$] event occurred on host - [$dest$] to restart or re-enable a service.
+analytic_story:
+    - AwfulShred
+    - Scheduled Tasks
+    - Linux Privilege Escalation
+    - Data Destruction
+    - Linux Persistence Techniques
+    - Linux Living Off The Land
+    - Gomir
+    - Compromised Linux Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.006
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/linux_services_restart/auditd_proctitle_service_restart.log
           source: auditd
           sourcetype: auditd
+      test_type: unit

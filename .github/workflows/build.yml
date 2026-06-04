@@ -1,39 +1,46 @@
+# This workflow performs a simple build action.
+# It is intentionally separate from the appinspect
+# workflow to provide granular feedback and insight
+# into when a build passes but an appinspect fails.
 name: build
+
 on:
   pull_request:
     types: [opened, reopened, synchronize]
   push:
     branches:
       - develop
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository code
         uses: actions/checkout@v6
-       
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-          architecture: 'x64'
-          
-      - name: Install Python Dependencies and ContentCTL and Atomic Red Team
-        run: |
-          echo "- Contentctl version - $(cat requirements.txt)"
-          pip install -r requirements.txt
-          git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git external_repos/atomic-red-team
-          git clone --depth=1 --single-branch --branch=master https://github.com/mitre/cti external_repos/cti
-      
-      - name: Running build with enrichments
-        run: |
-          contentctl build --enrichments --enforce_deprecation_mapping_requirement
-          mkdir artifacts
-          mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.14
+          architecture: x64
+
+      - name: Install contentctl-ng
+        shell: bash
+        run: |
+          echo "- Build Tool Version - $(cat requirements.txt)"
+          pip install -r requirements.txt
+
+
+      - name: Run a contentctl-ng build
+        run: |
+          contentctl-ng build
+      
+      # Store build artifact
       - name: store_artifacts
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: content-latest
           path: |
-            artifacts/DA-ESS-ContentUpdate-latest.tar.gz
-            dist/api
+            dist/*.tar.gz

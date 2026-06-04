@@ -1,7 +1,0 @@
-name: previously_seen_ec2_modifications_by_user
-date: 2024-12-23
-version: 2
-id: 546fa1b4-02d4-4e53-96be-0825a9b95625
-author: Splunk Threat Research Team
-description: A place holder for a list of AWS EC2 modifications done by each user
-lookup_type: csv

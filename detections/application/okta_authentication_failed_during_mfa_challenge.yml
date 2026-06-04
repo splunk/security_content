@@ -1,13 +1,14 @@
 name: Okta Authentication Failed During MFA Challenge
 id: e2b99e7d-d956-411a-a120-2b14adfdde93
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
+type: TTP
+description: The following analytic identifies failed authentication attempts during the Multi-Factor Authentication (MFA) challenge in an Okta tenant. It uses the Authentication datamodel to detect specific failed events where the authentication signature is `user.authentication.auth_via_mfa`. This activity is significant as it may indicate an adversary attempting to authenticate with compromised credentials on an account with MFA enabled. If confirmed malicious, this could suggest an ongoing attempt to bypass MFA protections, potentially leading to unauthorized access and further compromise of the affected account.
 data_source:
     - Okta
-type: TTP
-status: production
-description: The following analytic identifies failed authentication attempts during the Multi-Factor Authentication (MFA) challenge in an Okta tenant. It uses the Authentication datamodel to detect specific failed events where the authentication signature is `user.authentication.auth_via_mfa`. This activity is significant as it may indicate an adversary attempting to authenticate with compromised credentials on an account with MFA enabled. If confirmed malicious, this could suggest an ongoing attempt to bypass MFA protections, potentially leading to unauthorized access and further compromise of the affected account.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime  values(Authentication.app) as app values(Authentication.reason) as reason values(Authentication.signature) as signature  values(Authentication.method) as method FROM datamodel=Authentication
       WHERE Authentication.signature=user.authentication.auth_via_mfa Authentication.action = failure
@@ -32,32 +33,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A user [$user$] has failed to authenticate via MFA from IP Address - [$src$]"
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Okta Account Takeover
-        - Scattered Lapsus$ Hunters
-    asset_type: Okta Tenant
-    mitre_attack_id:
-        - T1078.004
-        - T1586.003
-        - T1621
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: A user [$user$] has failed to authenticate via MFA from IP Address - [$src$]"
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Okta Account Takeover
+    - Scattered Lapsus$ Hunters
+asset_type: Okta Tenant
+mitre_attack_id:
+    - T1078.004
+    - T1586.003
+    - T1621
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_mfa_login_failed/okta_mfa_login_failed.log
           source: okta_log
           sourcetype: OktaIM2:log
+      test_type: unit

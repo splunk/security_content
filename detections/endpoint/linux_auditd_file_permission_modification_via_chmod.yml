@@ -1,7 +1,8 @@
 name: Linux Auditd File Permission Modification Via Chmod
 id: 5f1d2ea7-eec0-4790-8b24-6875312ad492
-version: 14
-date: '2026-04-16'
+version: 15
+creation_date: '2024-08-12'
+modification_date: '2026-05-13'
 author: "Teoderick Contreras, Splunk, Ivar Nygård"
 status: production
 type: Anomaly
@@ -22,34 +23,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: '0'
-rba:
-    message: A $proctitle$ event occurred on host $dest$ to modify file permissions using the "chmod" command.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Persistence Techniques
-        - Compromised Linux Host
-        - China-Nexus Threat Activity
-        - Linux Living Off The Land
-        - XorDDos
-        - Salt Typhoon
-        - Linux Privilege Escalation
-        - Axios Supply Chain Post Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1222.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A $proctitle$ event occurred on host $dest$ to modify file permissions using the "chmod" command.
+analytic_story:
+    - Linux Persistence Techniques
+    - Compromised Linux Host
+    - China-Nexus Threat Activity
+    - Linux Living Off The Land
+    - XorDDos
+    - Salt Typhoon
+    - Linux Privilege Escalation
+    - Axios Supply Chain Post Compromise
+asset_type: Endpoint
+mitre_attack_id:
+    - T1222.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.002/linux_auditd_chmod_exec_attrib/auditd_proctitle_chmod.log
           source: auditd
           sourcetype: auditd
+      test_type: unit

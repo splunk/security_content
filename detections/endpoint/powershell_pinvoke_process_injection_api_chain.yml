@@ -1,0 +1,127 @@
+name: PowerShell PInvoke Process Injection API Chain
+id: 3f1a2b4c-d5e6-7890-abcd-ef1234567890
+version: 2
+creation_date: '2026-04-29'
+modification_date: '2026-05-13'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: |
+    The following analytic detects PowerShell Script Block Logging (Event ID 4104) evidence of a complete P/Invoke process-injection API chain at either the compile phase or the execution phase.
+    Portions of this search were modified to retain the same functionality while preventing antivirus products from alerting on the detection itself
+data_source:
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell`
+    EventCode=4104
+    ScriptBlockText="*add-type*"
+    ScriptBlockText="*DllImport*"
+    ScriptBlockText IN (
+        "*extern IntPtr*",
+        "*extern bool*",
+        "*extern uint*",
+        "*extern int*"
+    )
+    | where
+        (
+            match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+            AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][p][r][o][t][e][c][t]")
+            AND match(ScriptBlockText, "(?i)[c][r][e][a][t][e][t][h][r][e][a][d]")
+        )
+        OR
+        (
+            match(ScriptBlockText, "(?i)[o][p][e][n][p][r][o][c][e][s][s]")
+            AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+            AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+            AND (
+                match(ScriptBlockText, "(?i)[c][r][e][a][t][e][r][e][m][o][t][e][t][h][r][e][a][d]")
+                OR
+                match(ScriptBlockText, "(?i)[q][u][e][u][e][u][s][e][r][a][p][c]")
+            )
+        )
+        OR
+        (
+            match(ScriptBlockText, "(?i)[o][p][e][n][t][h][r][e][a][d]")
+            AND match(ScriptBlockText, "(?i)[s][u][s][p][e][n][d][t][h][r][e][a][d]")
+            AND match(ScriptBlockText, "(?i)[g][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+            AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+            AND match(ScriptBlockText, "(?i)[s][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+            AND match(ScriptBlockText, "(?i)[r][e][s][u][m][e][t][h][r][e][a][d]")
+        )
+        OR
+        (
+            match(ScriptBlockText, "(?i)[c][r][e][a][t][e][p][r][o][c][e][s][s]")
+            AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+            AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+            AND match(ScriptBlockText, "(?i)[s][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+            AND ScriptBlockText = "*ResumeThread*"
+        )
+        OR
+        (
+            match(ScriptBlockText, "(?i)[n][t][c][r][e][a][t][e][s][e][c][t][i][o][n]")
+            AND match(ScriptBlockText, "(?i)[n][t][m][a][p][v][i][e][w][o][f][s][e][c][t][i][o][n]")
+            AND match(ScriptBlockText, "(?i)[c][r][e][a][t][e][r][e][m][o][t][e][t][h][r][e][a][d]")
+        )
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+       by dest signature signature_id user_id vendor_product EventID
+          Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `powershell_pinvoke_process_injection_api_chain_filter`
+how_to_implement: |-
+    The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: |-
+    No false positives have been identified at this time.
+references:
+    - https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.dllimportattribute
+    - https://www.ired.team/offensive-security/code-injection-process-injection
+    - https://www.broadcom.com/support/security-center/protection-bulletin/vip-keylogger-spreads-via-multi-org-impersonation-campaign
+    - https://attack.mitre.org/techniques/T1055/
+    - https://attack.mitre.org/techniques/T1620/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: A PowerShell script Script block ID [$ScriptBlockId$] contains a possible P-Invoke process injection API chain via either inline Add-Type class declaration or direct static method invocation on [$dest$]
+    entity:
+        field: user_id
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 50
+          message: A PowerShell script Script block ID [$ScriptBlockId$] contains a possible P-Invoke process injection API chain via either inline Add-Type class declaration or direct static method invocation on [$dest$]
+analytic_story:
+    - VIP Keylogger
+asset_type: Endpoint
+mitre_attack_id:
+    - T1055.001
+    - T1055.003
+    - T1055.004
+    - T1055.012
+    - T1055.013
+    - T1059.001
+    - T1620
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/vip_injection_pwh/pwh_net_inline.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

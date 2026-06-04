@@ -1,7 +1,8 @@
 name: O365 Multiple OS Vendors Authenticating From User
 id: 3451e58a-9457-4985-a600-b616b0cbfda1
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-01-06'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -39,29 +40,30 @@ drilldown_searches:
       search: '`o365_management_activity` Operation IN (UserLoginFailed,UserLoggedIn) "$user$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The user account $user$ authenticated with $os_count$ unique operating system types over a short period from $src$.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1110
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: The user account $user$ authenticated with $os_count$ unique operating system types over a short period from $src$.
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Office 365 Account Takeover
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1110
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/azure_mfasweep_events/azure_mfasweep_events.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

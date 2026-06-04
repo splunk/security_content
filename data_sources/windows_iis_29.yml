@@ -1,38 +1,38 @@
 name: Windows IIS 29
 id: 1d99ddd7-7fec-4dea-bf4f-1f4906142328
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs modifications to IIS server authentication settings, including updates
-  to client certificate requirements and authentication methods.
+description: Logs modifications to IIS server authentication settings, including updates to client certificate requirements and authentication methods.
 mitre_components:
-- Service Modification
-- Configuration Modification
-- Certificate Registration
-- Application Log Content
+    - Service Modification
+    - Configuration Modification
+    - Certificate Registration
+    - Application Log Content
 source: IIS:Configuration:Operational
 sourcetype: IIS:Configuration:Operational
 separator: EventID
 separator_value: '29'
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 10.0.1
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 10.0.1
 fields:
-- _time
-- ComputerName
-- EventCode
-- EventType
-- Keywords
-- LogName
-- Message
-- OpCode
-- RecordNumber
-- Sid
-- SidType
-- SourceName
-- TaskCategory
-- Type
-- User
-- name
+    - _time
+    - ComputerName
+    - EventCode
+    - EventType
+    - Keywords
+    - LogName
+    - Message
+    - OpCode
+    - RecordNumber
+    - Sid
+    - SidType
+    - SourceName
+    - TaskCategory
+    - Type
+    - User
+    - name
 example_log: ''

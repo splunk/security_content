@@ -1,7 +1,0 @@
-name: ace_flag_lookup
-date: 2024-12-23
-version: 2
-id: 1795f9f3-008a-4b6c-9d7b-9e79b15da9fc
-author: Splunk Threat Research Team
-lookup_type: csv
-description: A lookup file that will contain translations for AD object ace flags strings

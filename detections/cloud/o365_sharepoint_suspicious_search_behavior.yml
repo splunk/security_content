@@ -1,7 +1,8 @@
 name: O365 SharePoint Suspicious Search Behavior
 id: 6ca919db-52f3-4c95-a4e9-7b189e8a043d
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-01-08'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -38,33 +39,34 @@ drilldown_searches:
       search: '`o365_management_activity` (Workload=SharePoint Operation="SearchQueryPerformed" SearchQueryText=* EventData=*search* AND UserId = "$user$") OR (OR Operation=SearchQueryInitiatedSharepoint AND UserId = "$user$")'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The user $user$ searched SharePoint suspiciously, $count$ unique terms and $suspect_terms_count$ suspect terms were searched within a limited timeframe.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-        - Office 365 Collection Techniques
-        - Compromised User Account
-        - CISA AA22-320A
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1213.002
-        - T1552
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: The user $user$ searched SharePoint suspiciously, $count$ unique terms and $suspect_terms_count$ suspect terms were searched within a limited timeframe.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Office 365 Account Takeover
+    - Office 365 Collection Techniques
+    - Compromised User Account
+    - CISA AA22-320A
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1213.002
+    - T1552
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1213.002/o365_sus_sharepoint_search/o365_sus_sharepoint_search.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

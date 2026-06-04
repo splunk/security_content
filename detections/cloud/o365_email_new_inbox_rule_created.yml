@@ -1,7 +1,8 @@
 name: O365 Email New Inbox Rule Created
 id: 449f525a-7b42-47be-96a7-d9724e336c19
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-01-23'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -35,30 +36,31 @@ drilldown_searches:
       search: '`o365_management_activity` Workload=Exchange AND (Operation=New-InboxRule OR Operation=Set-InboxRule) AND UserId = "$user$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A new email inbox rule was created for $user$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: desc
-          type: signature
-tags:
-    analytic_story:
-        - Office 365 Collection Techniques
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1114.003
-        - T1564.008
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: audit
+          message: A new email inbox rule was created for $user$
+threat_objects:
+    - field: desc
+      type: signature
+analytic_story:
+    - Office 365 Collection Techniques
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1114.003
+    - T1564.008
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: audit
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

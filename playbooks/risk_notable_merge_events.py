@@ -31,7 +31,23 @@ def workbook_list(action=None, success=None, container=None, results=None, handl
     ## Custom Code End
     ################################################################################
 
-    phantom.custom_function(custom_function="community/workbook_list", parameters=parameters, name="workbook_list", callback=combine_related_fields)
+    phantom.custom_function(custom_function="community/workbook_list", parameters=parameters, name="workbook_list", callback=join_combine_related_fields)
+
+    return
+
+
+def join_combine_related_fields(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("join_combine_related_fields() called")
+
+    # if the joined function has already been called, do nothing
+    if phantom.get_run_data(key="join_combine_related_fields_called"):
+        return
+
+    # save the state that the joined function has now been called
+    phantom.save_run_data(key="join_combine_related_fields_called", value="combine_related_fields")
+
+    # call connected block "combine_related_fields"
+    combine_related_fields(container=container, handle=handle)
 
     return
 
@@ -40,10 +56,12 @@ def combine_related_fields(action=None, success=None, container=None, results=No
     phantom.debug("combine_related_fields() called")
 
     container_artifact_data = phantom.collect2(container=container, datapath=["artifact:*.cef.risk_object","artifact:*.cef.threat_object","artifact:*.cef.description","artifact:*.id"], scope="all")
+    deduplicate_threat_objects_data = phantom.collect2(container=container, datapath=["deduplicate_threat_objects:custom_function_result.data.*.item"], scope="all")
 
     container_artifact_cef_item_0 = [item[0] for item in container_artifact_data]
     container_artifact_cef_item_1 = [item[1] for item in container_artifact_data]
     container_artifact_cef_item_2 = [item[2] for item in container_artifact_data]
+    deduplicate_threat_objects_data___item = [item[0] for item in deduplicate_threat_objects_data]
 
     parameters = []
 
@@ -51,7 +69,7 @@ def combine_related_fields(action=None, success=None, container=None, results=No
         "input_1": container_artifact_cef_item_0,
         "input_2": container_artifact_cef_item_1,
         "input_3": container_artifact_cef_item_2,
-        "input_4": None,
+        "input_4": deduplicate_threat_objects_data___item,
         "input_5": None,
         "input_6": None,
         "input_7": None,
@@ -63,9 +81,7 @@ def combine_related_fields(action=None, success=None, container=None, results=No
     ################################################################################
     ## Custom Code Start
     ################################################################################
-
-    # Write your custom code here...
-
+    
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -205,7 +221,7 @@ def workbook_task_update_1(action=None, success=None, container=None, results=No
         "container": id_value,
         "task_name": "Investigate",
         "note_title": "[Auto-Generated] Find Related Events Summary",
-        "note_content": "No Related Events Found",
+        "note_content": "No related events based on input fields and minimum threshold.",
     })
 
     ################################################################################
@@ -240,7 +256,7 @@ def add_note_1(action=None, success=None, container=None, results=None, handle=N
     ## Custom Code End
     ################################################################################
 
-    phantom.add_note(container=container, content="No Related Events Found", note_format="markdown", note_type="general", title="[Auto-Generated] Find Related Events Summary")
+    phantom.add_note(container=container, content="No related events based on input fields and minimum threshold.", note_format="markdown", note_type="general", title="[Auto-Generated] Find Related Events Summary")
 
     return
 
@@ -300,7 +316,7 @@ def process_responses(action=None, success=None, container=None, results=None, h
     ## Custom Code Start
     ################################################################################
     
-    process_responses__should_merge = "false"
+    process_responses__should_merge = False
     responses = event_details_summary_responses[0]
     # Grab run_key and convert to list
     container_list = json.loads(phantom.get_run_data(key='container_list'))
@@ -309,7 +325,7 @@ def process_responses(action=None, success=None, container=None, results=None, h
         for container_id, response in zip(container_list, responses):
             if response.lower() == 'merge into case':
                 process_responses__container_list.append(container_id)
-                process_responses__should_merge = "true"
+                process_responses__should_merge = True
 
     ################################################################################
     ## Custom Code End
@@ -351,7 +367,7 @@ def decision_2(action=None, success=None, container=None, results=None, handle=N
         return
 
     # check for 'else' condition 3
-    format_end_note(action=action, success=success, container=container, results=results, handle=handle)
+    join_format_end_note(action=action, success=success, container=container, results=results, handle=handle)
 
     return
 
@@ -498,6 +514,22 @@ def workbook_task_update_2(action=None, success=None, container=None, results=No
     ################################################################################
 
     phantom.custom_function(custom_function="community/workbook_task_update", parameters=parameters, name="workbook_task_update_2")
+
+    return
+
+
+def join_format_end_note(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("join_format_end_note() called")
+
+    # if the joined function has already been called, do nothing
+    if phantom.get_run_data(key="join_format_end_note_called"):
+        return
+
+    # save the state that the joined function has now been called
+    phantom.save_run_data(key="join_format_end_note_called", value="format_end_note")
+
+    # call connected block "format_end_note"
+    format_end_note(container=container, handle=handle)
 
     return
 
@@ -654,7 +686,7 @@ def merge_selected_callback(action=None, success=None, container=None, results=N
 
     
     event_id_filter(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
-    join_merge_individual_format(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    merge_individual_format(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
 
 
     return
@@ -678,77 +710,7 @@ def event_id_filter(action=None, success=None, container=None, results=None, han
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        es_format(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
-
-    return
-
-
-def update_event(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("update_event() called")
-
-    # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
-
-    ################################################################################
-    # Update all notables with a link back to the parent case.
-    ################################################################################
-
-    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.cef.event_id"], scope="all")
-    es_format = phantom.get_format_data(name="es_format")
-
-    parameters = []
-
-    # build parameters list for 'update_event' call
-    for filtered_artifact_0_item_event_id_filter in filtered_artifact_0_data_event_id_filter:
-        if filtered_artifact_0_item_event_id_filter[0] is not None:
-            parameters.append({
-                "comment": es_format,
-                "event_ids": filtered_artifact_0_item_event_id_filter[0],
-            })
-
-    ################################################################################
-    ## Custom Code Start
-    ################################################################################
-
-    # Write your custom code here...
-
-    ################################################################################
-    ## Custom Code End
-    ################################################################################
-
-    phantom.act("update event", parameters=parameters, name="update_event", assets=["splunk"])
-
-    return
-
-
-def es_format(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("es_format() called")
-
-    ################################################################################
-    # Format a note with a link to the parent case.
-    ################################################################################
-
-    template = """Case created: {0}\n\nName: {1}\n\nURL: {2}/summary"""
-
-    # parameter list for template variable replacement
-    parameters = [
-        "container:id",
-        "container:name",
-        "container:url"
-    ]
-
-    ################################################################################
-    ## Custom Code Start
-    ################################################################################
-
-    # Write your custom code here...
-
-    ################################################################################
-    ## Custom Code End
-    ################################################################################
-
-    phantom.format(container=container, template=template, parameters=parameters, name="es_format", scope="all")
-
-    update_event(container=container)
+        update_notable(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
@@ -932,16 +894,6 @@ def add_note_4(action=None, success=None, container=None, results=None, handle=N
     return
 
 
-def join_merge_individual_format(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("join_merge_individual_format() called")
-
-    if phantom.completed(custom_function_names=["merge_selected"], action_names=["event_details"]):
-        # call connected block "merge_individual_format"
-        merge_individual_format(container=container, handle=handle)
-
-    return
-
-
 def merge_individual_format(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("merge_individual_format() called")
 
@@ -986,7 +938,7 @@ def merge_any_decision(action=None, success=None, container=None, results=None, 
     found_match_1 = phantom.decision(
         container=container,
         conditions=[
-            ["process_responses:custom_function:should_merge", "==", "true"]
+            ["process_responses:custom_function:should_merge", "==", True]
         ])
 
     # call connected blocks if condition 1 matched
@@ -995,7 +947,7 @@ def merge_any_decision(action=None, success=None, container=None, results=None, 
         return
 
     # check for 'else' condition 2
-    join_merge_individual_format(action=action, success=success, container=container, results=results, handle=handle)
+    join_format_end_note(action=action, success=success, container=container, results=results, handle=handle)
 
     return
 
@@ -1046,7 +998,82 @@ def decision_7(action=None, success=None, container=None, results=None, handle=N
     # call connected blocks if condition 1 matched
     if found_match_1:
         workbook_list(action=action, success=success, container=container, results=results, handle=handle)
+        deduplicate_threat_objects(action=action, success=success, container=container, results=results, handle=handle)
         return
+
+    return
+
+
+def update_notable(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("update_notable() called")
+
+    # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
+
+    comment_formatted_string = phantom.format(
+        container=container,
+        template="""Case created: {0}\n\nName: {1}\n\nURL: {2}/summary""",
+        parameters=[
+            "container:id",
+            "container:name",
+            "container:url"
+        ])
+
+    ################################################################################
+    # Update all Splunk Notables with a link to merged container. 
+    ################################################################################
+
+    filtered_artifact_0_data_event_id_filter = phantom.collect2(container=container, datapath=["filtered-data:event_id_filter:condition_1:artifact:*.cef.event_id","filtered-data:event_id_filter:condition_1:artifact:*.id"])
+
+    parameters = []
+
+    # build parameters list for 'update_notable' call
+    for filtered_artifact_0_item_event_id_filter in filtered_artifact_0_data_event_id_filter:
+        if filtered_artifact_0_item_event_id_filter[0] is not None:
+            parameters.append({
+                "comment": comment_formatted_string,
+                "event_ids": filtered_artifact_0_item_event_id_filter[0],
+                "context": {'artifact_id': filtered_artifact_0_item_event_id_filter[1]},
+            })
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.act("update event", parameters=parameters, name="update_notable", assets=["splunk"])
+
+    return
+
+
+def deduplicate_threat_objects(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("deduplicate_threat_objects() called")
+
+    container_artifact_data = phantom.collect2(container=container, datapath=["artifact:*.data.*.threat_object","artifact:*.id"])
+
+    container_artifact_header_item_0 = [item[0] for item in container_artifact_data]
+
+    parameters = []
+
+    parameters.append({
+        "input_list": container_artifact_header_item_0,
+    })
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.custom_function(custom_function="community/list_deduplicate", parameters=parameters, name="deduplicate_threat_objects", callback=join_combine_related_fields)
 
     return
 

@@ -1,18 +1,18 @@
 name: Salt Typhoon
 id: 7df800b1-af23-4f65-ac36-abe87374ee72
-version: 1
-date: '2025-03-19'
+version: 2
+creation_date: '2025-03-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: Leverage searches that allow you to detect and investigate unusual activities that might relate to Salt Typhoon, a sophisticated threat actor targeting various sectors with espionage-focused campaigns. Monitor for indicators such as spear-phishing emails, unauthorized access attempts, and lateral movement within your network. Investigate anomalous data exfiltration patterns and command-and-control (C2) traffic consistent with known tactics, techniques, and procedures (TTPs) of this group. Combining threat intelligence with advanced monitoring tools helps identify potential Salt Typhoon activity early, enabling swift response to mitigate risks effectively.
 narrative: Salt Typhoon is a highly capable threat actor known for conducting targeted espionage campaigns against diverse sectors, including government, technology, and critical infrastructure. This group leverages sophisticated tactics such as spear-phishing, credential theft, and exploiting software vulnerabilities to gain initial access. Once inside a network, Salt Typhoon demonstrates expertise in lateral movement, privilege escalation, and covert data exfiltration. Their use of custom malware and command-and-control (C2) infrastructures highlights their adaptability. Detecting their activity requires robust threat intelligence and proactive monitoring of unusual behaviors and network anomalies.
 references:
-- https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

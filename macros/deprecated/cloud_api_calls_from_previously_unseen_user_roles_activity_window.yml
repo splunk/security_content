@@ -1,3 +1,8 @@
+name: cloud_api_calls_from_previously_unseen_user_roles_activity_window
+id: 13fef53a-3ab4-4656-bda0-4c9183cb88be
+version: 1
+creation_date: '2020-08-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
 description: Use this macro to determine how far back you should be checking for new commands from user roles
 definition: '"-70m@m"'
-name: cloud_api_calls_from_previously_unseen_user_roles_activity_window

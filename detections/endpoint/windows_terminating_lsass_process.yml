@@ -1,7 +1,8 @@
 name: Windows Terminating Lsass Process
 id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
-version: 13
-date: '2026-04-15'
+version: 15
+creation_date: '2022-03-28'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -37,31 +38,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a process $SourceImage$ terminates Lsass process on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: TargetImage
-          type: process
-tags:
-    analytic_story:
-        - Data Destruction
-        - Double Zero Destructor
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1562.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a process $SourceImage$ terminates Lsass process on $dest$
+threat_objects:
+    - field: TargetImage
+      type: process
+analytic_story:
+    - Data Destruction
+    - Double Zero Destructor
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

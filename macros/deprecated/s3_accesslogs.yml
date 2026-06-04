@@ -1,3 +1,8 @@
-definition: sourcetype=aws:s3:accesslogs
-description: customer specific splunk configurations(eg- index, source, sourcetype) for AWS cloudwatch vpc logs. Replace the macro definition with configurations for your Splunk Environment.
 name: s3_accesslogs
+id: 31f573f5-bea4-47e2-b579-f3ff43616332
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype) for AWS cloudwatch vpc logs. Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=aws:s3:accesslogs

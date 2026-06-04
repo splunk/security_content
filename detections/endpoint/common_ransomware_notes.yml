@@ -1,7 +1,8 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 14
-date: '2026-01-16'
+version: 15
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
@@ -46,33 +47,34 @@ known_false_positives: |
     There could be cases where a legitimate file coincidentally matches a known ransomware note
     name. In such cases, further investigation is required to determine the nature of the file and its context.
 references: []
-tags:
-    analytic_story:
-        - Chaos Ransomware
-        - Rhysida Ransomware
-        - Ransomware
-        - LockBit Ransomware
-        - Medusa Ransomware
-        - SamSam Ransomware
-        - Clop Ransomware
-        - Ryuk Ransomware
-        - Black Basta Ransomware
-        - Termite Ransomware
-        - Interlock Ransomware
-        - NailaoLocker Ransomware
-        - Hellcat Ransomware
-        - Storm-0501 Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1485
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Chaos Ransomware
+    - Rhysida Ransomware
+    - Ransomware
+    - LockBit Ransomware
+    - Medusa Ransomware
+    - SamSam Ransomware
+    - Clop Ransomware
+    - Ryuk Ransomware
+    - Black Basta Ransomware
+    - Termite Ransomware
+    - Interlock Ransomware
+    - NailaoLocker Ransomware
+    - Hellcat Ransomware
+    - Storm-0501 Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

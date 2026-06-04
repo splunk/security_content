@@ -1,13 +1,14 @@
 name: Windows Defender ASR Rule Disabled
 id: 429d611b-3183-49a7-b235-fc4203c4e1cb
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+description: The following analytic identifies when a Windows Defender ASR rule disabled events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR rule disabled events that are generated when an ASR rule is disabled.
 data_source:
     - Windows Event Log Defender 5007
-description: The following analytic identifies when a Windows Defender ASR rule disabled events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR rule disabled events that are generated when an ASR rule is disabled.
 search: '`ms_defender` EventCode IN (5007) | rex field=New_Value "0x(?<New_Registry_Value>\\d+)$" | rex field=Old_Value "0x(?<Old_Registry_Value>\\d+)$" | rex field=New_Value "Rules\\\\(?<ASR_ID>[A-Fa-f0-9\\-]+)\\s*=" | eval New_Registry_Value=case(New_Registry_Value=="0", "Disabled", New_Registry_Value=="1", "Block", New_Registry_Value=="2", "Audit", New_Registry_Value=="6", "Warn") | eval Old_Registry_Value=case(Old_Registry_Value=="0", "Disabled", Old_Registry_Value=="1", "Block", Old_Registry_Value=="2", "Audit", Old_Registry_Value=="6", "Warn") | search New_Registry_Value="Disabled" | stats count min(_time) as firstTime max(_time) as lastTime by host, New_Value, Old_Value, Old_Registry_Value, New_Registry_Value, ASR_ID | lookup asr_rules ID AS ASR_ID OUTPUT ASR_Rule | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| rename host as dest | `windows_defender_asr_rule_disabled_filter`'
 how_to_implement: The following analytic requires collection of Windows Defender Operational logs in either XML or multi-line. To collect, setup a new input for the Windows Defender Operational logs. In addition, it does require a lookup that maps the ID to ASR Rule name.
 known_false_positives: False positives may occur if applications are typically disabling ASR rules in the environment. Monitor for changes to ASR rules to determine if this is a false positive.
@@ -22,28 +23,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: ASR rule disabled event, $ASR_Rule$, was triggered on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Windows Attack Surface Reduction
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id:
-        - T1112
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: ASR rule disabled event, $ASR_Rule$, was triggered on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Windows Attack Surface Reduction
+asset_type: Endpoint
+mitre_attack_id:
+    - T1112
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/defender/asr_disabled_registry.log
           source: WinEventLog:Microsoft-Windows-Windows Defender/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

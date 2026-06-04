@@ -78,7 +78,7 @@
                     "targetPort": "6_in"
                 }
             ],
-            "hash": "486d29f43a4378a9e142395cf537970427d36ce8",
+            "hash": "48f5f412c29d0300a8f4db0ad6bee43eef81f9fa",
             "nodes": {
                 "0": {
                     "data": {
@@ -93,7 +93,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 100,
-                    "y": 59.999999999999915
+                    "y": 59.99999999999986
                 },
                 "1": {
                     "data": {
@@ -327,7 +327,7 @@
                     "errors": {},
                     "id": "9",
                     "type": "code",
-                    "userCode": "\n    # Get current repo and playbook name\n    current_scm = phantom.get_playbook_info()[0]['repo_name']\n    current_playbook = phantom.get_playbook_info()[0]['name']\n    task_order = None\n    \n    # Iterate through tasks on the current container\n    for task in phantom.get_tasks(container=container):\n        playbooks = task.get('data').get('suggestions').get('playbooks')\n        if playbooks:\n            for playbook in playbooks:\n                # Check if the current container tasks contain a reference to this playbook.\n                # If so, this is the task phase you want to mark as current\n                if playbook['playbook'] == current_playbook and playbook['scm'] == current_scm:\n                    task_order = task['data']['order']\n                    status = task['data']['status']\n                    url = phantom.build_phantom_rest_url('workflow_task') + '/{}'.format(task['data']['id'])\n                    # If status is not started (statud id 0), move to in progress (status id 2) before moving to complete (status id 1)\n                    if status == 0:\n                        data = {'status': 2}\n                        phantom.requests.post(url, data=json.dumps(data), verify=False)\n                    data = {'status': 1}      \n                    phantom.set_phase(container=container, phase=task['data']['phase']) \n                    phantom.requests.post(url, data=json.dumps(data), verify=False)\n                    \n    # Iterate through the other tasks on the current container if a task was updated as indicated by the presence of \"task_order\"                \n    if task_order:\n        for task in phantom.get_tasks(container=container):\n            # If another task matches the updated task's order + 1, then update it as well\n            if task['data']['order'] == task_order + 1:\n                data = {'status': 2}\n                url = phantom.build_phantom_rest_url('workflow_task') + '/{}'.format(task['data']['id'])\n                phantom.requests.post(url, data=json.dumps(data), verify=False)\n\n\n",
+                    "userCode": "\n    # Get current repo and playbook name\n    current_scm = phantom.get_playbook_info()[0]['repo_name']\n    current_playbook = phantom.get_playbook_info()[0]['name']\n    task_order = None\n    \n    # Iterate through tasks on the current container\n    for task in phantom.get_tasks(container=container):\n        playbooks = task.get('data').get('suggestions').get('playbooks')\n        if playbooks:\n            for playbook in playbooks:\n                # Check if the current container tasks contain a reference to this playbook.\n                # If so, this is the task phase you want to mark as current\n                if playbook['playbook'] == current_playbook and playbook['scm'] == current_scm:\n                    task_order = task['data']['order']\n                    status = task['data']['status']\n                    url = phantom.build_phantom_rest_url('workbook_task') + '/{}'.format(task['data']['id'])\n                    # If status is not started (statud id 0), move to in progress (status id 2) before moving to complete (status id 1)\n                    if status == 0:\n                        data = {'status': 2}\n                        phantom.requests.post(url, data=json.dumps(data), verify=False)\n                    data = {'status': 1}      \n                    phantom.set_phase(container=container, phase=task['data']['phase']) \n                    phantom.requests.post(url, data=json.dumps(data), verify=False)\n                    \n    # Iterate through the other tasks on the current container if a task was updated as indicated by the presence of \"task_order\"                \n    if task_order:\n        for task in phantom.get_tasks(container=container):\n            # If another task matches the updated task's order + 1, then update it as well\n            if task['data']['order'] == task_order + 1:\n                data = {'status': 2}\n                url = phantom.build_phantom_rest_url('workbook_task') + '/{}'.format(task['data']['id'])\n                phantom.requests.post(url, data=json.dumps(data), verify=False)\n\n\n",
                     "x": 60,
                     "y": 920
                 }
@@ -337,11 +337,11 @@
         "input_spec": null,
         "output_spec": null,
         "playbook_type": "automation",
-        "python_version": "3",
-        "schema": "5.0.3",
-        "version": "5.0.1.66250"
+        "python_version": "3.13",
+        "schema": "5.0.5",
+        "version": "5.2.1.78411"
     },
-    "create_time": "2021-10-07T16:24:36.298613+00:00",
+    "create_time": "2022-03-24T15:13:55.108681+00:00",
     "draft_mode": false,
     "labels": [
         "*"

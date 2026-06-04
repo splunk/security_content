@@ -1,15 +1,16 @@
 name: Windows ESX Admins Group Creation Security Event
 id: 53b4c927-5ec4-47cd-8aed-d4b303304f87
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-07-30'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
+type: TTP
+description: This analytic detects creation, deletion, or modification of the "ESX Admins" group in Active Directory. These events may indicate attempts to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085).
 data_source:
     - Windows Event Log Security 4727
     - Windows Event Log Security 4730
     - Windows Event Log Security 4737
-type: TTP
-status: production
-description: This analytic detects creation, deletion, or modification of the "ESX Admins" group in Active Directory. These events may indicate attempts to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085).
 search: |-
     `wineventlog_security` EventCode IN (4727, 4730, 4737) (TargetUserName="ESX Admins" OR TargetUserName="*ESX Admins*")
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -35,33 +36,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: ESX Admins group $EventCodeDescription$ on $dest$ by user $SubjectUserName$.
-    risk_objects:
+finding:
+    title: ESX Admins group $EventCodeDescription$ on $dest$ by user $SubjectUserName$.
+    entity:
+        field: SubjectUserName
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: SubjectUserName
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1136.001
-        - T1136.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve:
-        - CVE-2024-37085
+          message: ESX Admins group $EventCodeDescription$ on $dest$ by user $SubjectUserName$.
+analytic_story:
+    - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
+asset_type: Endpoint
+cve:
+    - CVE-2024-37085
+mitre_attack_id:
+    - T1136.001
+    - T1136.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security-esxadmins.log
           sourcetype: XmlWinEventLog
           source: Security
+      test_type: unit

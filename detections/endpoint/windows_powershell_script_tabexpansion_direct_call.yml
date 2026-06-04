@@ -1,0 +1,69 @@
+name: Windows PowerShell Script TabExpansion Direct Call
+id: d36a09b3-35ac-4d6f-964a-39fd337abc2f
+version: 2
+creation_date: '2026-05-05'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    Detects specific indicators associated with the execution of the TabExpansion internal function in PowerShell.
+    Calling this function directly is not normal and can be indicative of malicious activity such as TabShell.
+    Due to the way PowerShell internals work it can be used in conjunction with directory transversal to load any PowerShell functions even in a sandboxed session.
+    False positives could include legitimate usage of the TabExpansion function but calling it directly is very rare.
+data_source:
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell`
+    EventID="4104"
+    ScriptBlockText="*$lastWord*"
+    ScriptBlockText="*$_val=' + $_expression*"
+    ScriptBlockText="*function Write-Members*"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer EventID ScriptBlockText signature signature_id user_id vendor_product Guid
+         Opcode Name Path ProcessID ScriptBlockId
+
+    | rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_powershell_script_tabexpansion_direct_call_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate use of the TabExpansion function is rare but possible. Filter alerts if direct calls are from trusted administrative or development activities.
+references:
+    - https://blog.viettelcybersecurity.com/tabshell-owassrf/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Potential PowerShell TabExpansion activity observed on $dest$ via script block $ScriptBlockId$.
+analytic_story:
+    - Malicious PowerShell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+    - T1129
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

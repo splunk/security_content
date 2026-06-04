@@ -1,17 +1,18 @@
 name: Adobe ColdFusion Access Control Bypass
 id: d6821c0b-fcdc-4c95-a77f-e10752fae41a
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-08-23'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-data_source:
-    - Suricata
 description: |-
     The following analytic detects potential exploitation attempts against Adobe ColdFusion vulnerabilities CVE-2023-29298 and CVE-2023-26360.
     It monitors requests to specific ColdFusion Administrator endpoints, especially those with an unexpected additional forward slash, using the Web datamodel.
     This activity is significant for a SOC as it indicates attempts to bypass access controls, which can lead to unauthorized access to ColdFusion administration endpoints.
     If confirmed malicious, this could result in data theft, brute force attacks, or further exploitation of other vulnerabilities, posing a serious security risk to the environment.
+data_source:
+    - Suricata
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -54,32 +55,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Possible exploitation of CVE-2023-29298 against $dest$ via $url$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    cve:
-        - CVE-2023-29298
-    analytic_story:
-        - Adobe ColdFusion Arbitrary Code Execution CVE-2023-29298 CVE-2023-26360
-    asset_type: Network
-    atomic_guid: []
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Possible exploitation of CVE-2023-29298 against $dest$ via $url$.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Adobe ColdFusion Arbitrary Code Execution CVE-2023-29298 CVE-2023-26360
+asset_type: Network
+cve:
+    - CVE-2023-29298
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/adobe/coldfusion_cve_2023_29298.log
           source: not_applicable
           sourcetype: suricata
+      test_type: unit

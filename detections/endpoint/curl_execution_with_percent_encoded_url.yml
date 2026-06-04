@@ -1,7 +1,8 @@
 name: Curl Execution with Percent Encoded URL
 id: 9a8d5516-4c5e-11ef-9d42-acde48001122
-version: 3
-date: '2026-04-15'
+version: 5
+creation_date: '2026-03-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -30,7 +31,7 @@ search: |
     )
     Processes.process IN (
       "* --output *",
-      "* -o *" /* Covers both options since the search is case insensitive */,
+      "* -o *"
     )
     Processes.process IN ("*%*")
     by Processes.action Processes.dest Processes.original_file_name
@@ -81,44 +82,47 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ with URL-encoded parameters $process$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ with URL-encoded parameters $process$.
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process_name
-          type: process_name
-        - field: process
-          type: process
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - Ingress Tool Transfer
-        - Living Off The Land
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1027
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ with URL-encoded parameters $process$.
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process
+      type: process
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Compromised Windows Host
+    - Ingress Tool Transfer
+    - Living Off The Land
+asset_type: Endpoint
+mitre_attack_id:
+    - T1027
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Sysmon Linux
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/url_encoded_curl/linux-sysmon.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit
     - name: True Positive Test - Sysmon Windows
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/url_encoded_curl/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

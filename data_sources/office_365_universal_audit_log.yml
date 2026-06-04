@@ -1,16 +1,17 @@
 name: Office 365 Universal Audit Log
 id: 86369e87-5b0b-46fe-8b96-310473dffe7f
-version: 1
-date: '2025-02-21'
+version: 2
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Office 365 Universal Audit Log
 source: o365
 sourcetype: o365:management:activity
 separator: Operation
 supported_TA:
-- name: Splunk Microsoft Office 365 Add-on
-  url: https://splunkbase.splunk.com/app/4055
-  version: 6.0.1
+    - name: Splunk Microsoft Office 365 Add-on
+      url: https://splunkbase.splunk.com/app/4055
+      version: 6.0.2
 fields:
-- _time
+    - _time
 example_log: ''

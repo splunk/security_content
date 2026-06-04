@@ -1,7 +1,8 @@
 name: Non Firefox Process Access Firefox Profile Dir
 id: e6fc13b0-1609-11ec-b533-acde48001122
-version: 16
-date: '2026-04-15'
+version: 18
+creation_date: '2021-09-15'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -21,47 +22,48 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a non firefox browser process $ProcessName$ accessing $ObjectName$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - StealC Stealer
-        - DarkGate Malware
-        - CISA AA23-347A
-        - NjRAT
-        - Phemedrone Stealer
-        - Azorult
-        - Salt Typhoon
-        - Remcos
-        - Warzone RAT
-        - Quasar RAT
-        - 3CX Supply Chain Attack
-        - AgentTesla
-        - RedLine Stealer
-        - SnappyBee
-        - Malicious Inno Setup Loader
-        - FIN7
-        - Snake Keylogger
-        - China-Nexus Threat Activity
-        - 0bj3ctivity Stealer
-        - Lokibot
-        - BlankGrabber Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1555.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a non firefox browser process $ProcessName$ accessing $ObjectName$
+analytic_story:
+    - StealC Stealer
+    - DarkGate Malware
+    - CISA AA23-347A
+    - NjRAT
+    - Phemedrone Stealer
+    - Azorult
+    - Salt Typhoon
+    - Remcos
+    - Warzone RAT
+    - Quasar RAT
+    - 3CX Supply Chain Attack
+    - AgentTesla
+    - RedLine Stealer
+    - SnappyBee
+    - Malicious Inno Setup Loader
+    - FIN7
+    - Snake Keylogger
+    - China-Nexus Threat Activity
+    - 0bj3ctivity Stealer
+    - Lokibot
+    - BlankGrabber Stealer
+    - VIP Keylogger
+asset_type: Endpoint
+mitre_attack_id:
+    - T1555.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/non_chrome_process_accessing_chrome_default_dir/windows-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

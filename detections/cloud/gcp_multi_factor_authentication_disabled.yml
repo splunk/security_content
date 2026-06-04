@@ -1,7 +1,8 @@
 name: GCP Multi-Factor Authentication Disabled
 id: b9bc5513-6fc1-4821-85a3-e1d81e451c83
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2022-10-14'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -32,32 +33,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: MFA disabled for User $user$ initiated by $actor.email$
-    risk_objects:
+finding:
+    title: MFA disabled for User $user$ initiated by $actor.email$
+    entity:
+        field: actor.email
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 50
-        - field: actor.email
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - GCP Account Takeover
-        - Scattered Lapsus$ Hunters
-    asset_type: GCP
-    mitre_attack_id:
-        - T1556.006
-        - T1586.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+          message: MFA disabled for User $user$ initiated by $actor.email$
+analytic_story:
+    - GCP Account Takeover
+    - Scattered Lapsus$ Hunters
+asset_type: GCP
+mitre_attack_id:
+    - T1556.006
+    - T1586.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/gcp_disable_mfa/gws_admin.log
           source: gws:reports:admin
           sourcetype: gws:reports:admin
+      test_type: unit

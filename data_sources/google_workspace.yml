@@ -1,106 +1,101 @@
 name: Google Workspace
 id: f1a044e3-113a-4e4d-84f2-b153ade83087
-version: 1
-date: '2025-02-21'
+version: 2
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Google Workspace
 source: google_workspace
 sourcetype: gws:reports:login
 supported_TA:
-- name: Splunk Add-on for Google Workspace
-  url: https://splunkbase.splunk.com/app/5556
-  version: 3.1.0
+    - name: Splunk Add-on for Google Workspace
+      url: https://splunkbase.splunk.com/app/5556
+      version: 3.1.1
 fields:
-- action
-- actor.callerType
-- actor.email
-- actor.profileId
-- app
-- change_type
-- command
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dest_name
-- dest_url
-- dvc
-- email
-- etag
-- event.name
-- event.parameters{}.name
-- event.parameters{}.value
-- event.type
-- eventtype
-- filter_action
-- host
-- id.applicationName
-- id.customerId
-- id.time
-- id.uniqueQualifier
-- index
-- internal_message_id
-- ipAddress
-- kind
-- linecount
-- message_id
-- object
-- object_attrs
-- object_category
-- object_id
-- object_path
-- owner
-- owner_email
-- protocol
-- punct
-- result
-- result_id
-- signature_extra
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- src
-- src_user
-- src_user_id
-- src_user_name
-- src_user_type
-- status
-- tag
-- tag::action
-- tag::app
-- tag::eventtype
-- tag::object_category
-- tenant_id
-- timeendpos
-- timestartpos
-- user
-- user_email
-- user_email_extracted
-- user_id
-- user_name
-- user_type
-- vendor_account
-- vendor_product
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _subsecond
-- _time
-example_log: '"kind": "admin#reports#activity", "id": {"time": "2022-10-12T18:00:23.093Z",
-  "uniqueQualifier": "-7844406841853338111", "applicationName": "admin", "customerId":
-  "C046r85ir"}, "etag": "\"JCPRxFaiNR1s5TJ6ecIH8OpGdY4efiOYXbIB65itOzY/afZBU3WDeiuPqFyleWyTnwyU3fE\"",
-  "actor": {"callerType": "USER", "email": "evil_admin@splunkresearch.com", "profileId":
-  "100059258581444193973"}, "ipAddress": "22.33.111.55", "event": {"type": "USER_SETTINGS",
-  "name": "UNENROLL_USER_FROM_STRONG_AUTH", "parameters": [{"name": "USER_EMAIL",
-  "value": "victim_user@splunkresearch.com"}]}}'
+    - action
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - app
+    - change_type
+    - command
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dest_name
+    - dest_url
+    - dvc
+    - email
+    - etag
+    - event.name
+    - event.parameters{}.name
+    - event.parameters{}.value
+    - event.type
+    - eventtype
+    - filter_action
+    - host
+    - id.applicationName
+    - id.customerId
+    - id.time
+    - id.uniqueQualifier
+    - index
+    - internal_message_id
+    - ipAddress
+    - kind
+    - linecount
+    - message_id
+    - object
+    - object_attrs
+    - object_category
+    - object_id
+    - object_path
+    - owner
+    - owner_email
+    - protocol
+    - punct
+    - result
+    - result_id
+    - signature_extra
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - src
+    - src_user
+    - src_user_id
+    - src_user_name
+    - src_user_type
+    - status
+    - tag
+    - tag::action
+    - tag::app
+    - tag::eventtype
+    - tag::object_category
+    - tenant_id
+    - timeendpos
+    - timestartpos
+    - user
+    - user_email
+    - user_email_extracted
+    - user_id
+    - user_name
+    - user_type
+    - vendor_account
+    - vendor_product
+    - _bkt
+    - _cd
+    - _eventtype_color
+    - _indextime
+    - _raw
+    - _serial
+    - _si
+    - _sourcetype
+    - _subsecond
+    - _time
+example_log: '"kind": "admin#reports#activity", "id": {"time": "2022-10-12T18:00:23.093Z", "uniqueQualifier": "-7844406841853338111", "applicationName": "admin", "customerId": "C046r85ir"}, "etag": "\"JCPRxFaiNR1s5TJ6ecIH8OpGdY4efiOYXbIB65itOzY/afZBU3WDeiuPqFyleWyTnwyU3fE\"", "actor": {"callerType": "USER", "email": "evil_admin@splunkresearch.com", "profileId": "100059258581444193973"}, "ipAddress": "22.33.111.55", "event": {"type": "USER_SETTINGS", "name": "UNENROLL_USER_FROM_STRONG_AUTH", "parameters": [{"name": "USER_EMAIL", "value": "victim_user@splunkresearch.com"}]}}'

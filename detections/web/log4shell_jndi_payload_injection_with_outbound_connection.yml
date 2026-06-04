@@ -1,7 +1,8 @@
 name: Log4Shell JNDI Payload Injection with Outbound Connection
 id: 69afee44-5c91-11ec-bf1f-497c9a704a72
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2021-12-13'
+modification_date: '2026-05-13'
 author: Jose Hernandez
 status: production
 type: Anomaly
@@ -26,31 +27,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: CVE-2021-44228 Log4Shell triggered for host $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: CVE-2021-44228 Log4Shell triggered for host $dest$
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Log4Shell CVE-2021-44228
-        - CISA AA22-320A
-    asset_type: Endpoint
-    cve:
-        - CVE-2021-44228
-    mitre_attack_id:
-        - T1190
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: CVE-2021-44228 Log4Shell triggered for host $dest$
+analytic_story:
+    - Log4Shell CVE-2021-44228
+    - CISA AA22-320A
+asset_type: Endpoint
+cve:
+    - CVE-2021-44228
+mitre_attack_id:
+    - T1190
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
@@ -60,3 +61,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_network_logs/log4j_network_logs.log
           source: stream:Splunk_IP
           sourcetype: stream:ip
+      test_type: unit

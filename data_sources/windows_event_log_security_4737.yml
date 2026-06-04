@@ -1,112 +1,105 @@
 name: Windows Event Log Security 4737
 id: 132fc609-17f0-4efd-8f7e-db12139c6690
-version: 2
-date: '2025-07-10'
+version: 3
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Windows Event Log Security 4737
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
 separator: EventCode
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 10.0.1
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 10.0.1
 fields:
-- CategoryString
-- Channel
-- Computer
-- EventCode
-- EventData_Xml
-- EventID
-- EventRecordID
-- Guid
-- Image_File_Name
-- Keywords
-- Level
-- Name
-- Opcode
-- PrivilegeList
-- ProcessID
-- RecordNumber
-- RenderingInfo_Xml
-- SamAccountName
-- SidHistory
-- SourceName
-- SubStatus
-- SubjectDomainName
-- SubjectLogonId
-- SubjectUserName
-- SubjectUserSid
-- SystemTime
-- System_Props_Xml
-- TargetDomainName
-- TargetSid
-- TargetUserName
-- Task
-- TaskCategory
-- ThreadID
-- Version
-- action
-- category
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dvc
-- dvc_nt_host
-- event_id
-- eventtype
-- host
-- id
-- index
-- linecount
-- name
-- parent_process
-- process_name
-- punct
-- result
-- service
-- service_id
-- service_name
-- severity
-- severity_id
-- signature
-- signature_id
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- subject
-- tag
-- tag::action
-- tag::eventtype
-- timeendpos
-- timestartpos
-- user_group_id
-- user_id
-- vendor_product
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _subsecond
-- _time
+    - CategoryString
+    - Channel
+    - Computer
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - Guid
+    - Image_File_Name
+    - Keywords
+    - Level
+    - Name
+    - Opcode
+    - PrivilegeList
+    - ProcessID
+    - RecordNumber
+    - RenderingInfo_Xml
+    - SamAccountName
+    - SidHistory
+    - SourceName
+    - SubStatus
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - SystemTime
+    - System_Props_Xml
+    - TargetDomainName
+    - TargetSid
+    - TargetUserName
+    - Task
+    - TaskCategory
+    - ThreadID
+    - Version
+    - action
+    - category
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - eventtype
+    - host
+    - id
+    - index
+    - linecount
+    - name
+    - parent_process
+    - process_name
+    - punct
+    - result
+    - service
+    - service_id
+    - service_name
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - subject
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - user_group_id
+    - user_id
+    - vendor_product
+    - _bkt
+    - _cd
+    - _eventtype_color
+    - _indextime
+    - _raw
+    - _serial
+    - _si
+    - _sourcetype
+    - _subsecond
+    - _time
 output_fields:
-- dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4737</EventID><Version>0</Version><Level>0</Level><Task>13826</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
-  SystemTime='2024-07-30T16:50:34.812948700Z'/><EventRecordID>183186860</EventRecordID><Correlation/><Execution
-  ProcessID='672' ThreadID='900'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='TargetUserName'>ESX Admins</Data><Data Name='TargetDomainName'>ATTACKRANGE</Data><Data
-  Name='TargetSid'>S-1-5-21-560616516-1175754387-3922768235-4211</Data><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data
-  Name='SubjectUserName'>administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data
-  Name='SubjectLogonId'>0xe32f0</Data><Data Name='PrivilegeList'>-</Data><Data Name='SamAccountName'>-</Data><Data
-  Name='SidHistory'>-</Data></EventData></Event>
+    - dest
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4737</EventID><Version>0</Version><Level>0</Level><Task>13826</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2024-07-30T16:50:34.812948700Z'/><EventRecordID>183186860</EventRecordID><Correlation/><Execution ProcessID='672' ThreadID='900'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='TargetUserName'>ESX Admins</Data><Data Name='TargetDomainName'>ATTACKRANGE</Data><Data Name='TargetSid'>S-1-5-21-560616516-1175754387-3922768235-4211</Data><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0xe32f0</Data><Data Name='PrivilegeList'>-</Data><Data Name='SamAccountName'>-</Data><Data Name='SidHistory'>-</Data></EventData></Event>

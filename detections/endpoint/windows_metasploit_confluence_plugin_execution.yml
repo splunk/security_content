@@ -1,0 +1,78 @@
+name: Windows Metasploit Confluence Plugin Execution
+id: 3a3d1f35-5985-4827-b2ad-965467303c59
+version: 2
+creation_date: '2021-09-02'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: |-
+    Detects the malicious java plugin execution used by metasploit for Atlassian Confluence exploitation.
+    This usually leads to the download of meterpreter giving the actor full control over the Confluence server.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process_path="*\\Atlassian\\Confluence\\jre\\bin\\java.exe"
+    Processes.process="*-classpath *"
+    Processes.process="*\\AppData\\Local\\Temp\\~spawn*"
+    Processes.process="*.Payload*"
+
+    by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
+       Processes.parent_process_name Processes.parent_process_exec Processes.action
+       Processes.dest Processes.process_current_directory Processes.process_path
+       Processes.process_integrity_level Processes.original_file_name Processes.parent_process
+       Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id
+       Processes.process_guid Processes.process_id Processes.user Processes.process_name
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_metasploit_confluence_plugin_execution_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate penetration testing tools or authorized security assessments may trigger this detection. Verify activity with your security team before taking action.
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Potential Metasploit Confluence plugin execution observed on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - Confluence Data Center and Confluence Server Vulnerabilities
+asset_type: Endpoint
+mitre_attack_id:
+    - T1608
+    - T1505.003
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1608/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: O365 Exfiltration via File Download
 id: 06b23921-bfe2-4576-89dd-616f06e129da
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-01-28'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -36,31 +37,32 @@ drilldown_searches:
       search: '`o365_management_activity` Operation IN ("filedownloaded") UserId="$UserId$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The user $user$ downloaded an excessive number of files [$count$] from $file_path$ using $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Data Exfiltration
-        - Office 365 Account Takeover
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1567
-        - T1530
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: The user $user$ downloaded an excessive number of files [$count$] from $file_path$ using $src$
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Data Exfiltration
+    - Office 365 Account Takeover
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1567
+    - T1530
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/o365_sus_file_activity/o365_sus_file_activity.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

@@ -1,13 +1,14 @@
 name: Windows AD GPO Deleted
 id: 0d41772b-35ab-4e1c-a2ba-d0b455481aee
-version: 10
-date: '2026-04-15'
+version: 12
+creation_date: '2024-07-01'
+modification_date: '2026-05-13'
 author: Dean Luxton
 status: production
 type: TTP
+description: This detection identifies when an Active Directory Group Policy is deleted using the Group Policy Management Console.
 data_source:
     - Windows Event Log Security 5136
-description: This detection identifies when an Active Directory Group Policy is deleted using the Group Policy Management Console.
 search: |-
     `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=gpLink
       | eval  ObjectDN=upper(ObjectDN)
@@ -39,25 +40,24 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: GPO $policyName$ was deleted by $src_user$
-    risk_objects:
-        - field: src_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1562.001
-        - T1484.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: GPO $policyName$ was deleted by $src_user$
+    entity:
+        field: src_user
+        type: user
+        score: 50
+analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+    - T1484.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
@@ -67,3 +67,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_deleted/windows-admon.log
           source: ActiveDirectory
           sourcetype: ActiveDirectory
+      test_type: unit

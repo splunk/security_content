@@ -1,85 +1,80 @@
 name: Windows Event Log System 7036
 id: a6e9b34f-1507-4fa1-a4ba-684d1b676a34
-version: 3
-date: '2025-07-10'
+version: 4
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs state changes of a Windows service, including details about the
-  service name and its new state (e.g., started or stopped).
+description: Logs state changes of a Windows service, including details about the service name and its new state (e.g., started or stopped).
 mitre_components:
-- Service Metadata
-- OS API Execution
-- Application Log Content
-- Host Status
+    - Service Metadata
+    - OS API Execution
+    - Application Log Content
+    - Host Status
 source: XmlWinEventLog:System
 sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '7036'
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 10.0.1
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 10.0.1
 fields:
-- _time
-- Channel
-- Computer
-- Error_Code
-- EventCode
-- EventData_Xml
-- EventRecordID
-- EventSourceName
-- Guid
-- Keywords
-- Level
-- Name
-- Opcode
-- ProcessID
-- Qualifiers
-- RecordNumber
-- ServiceName
-- SystemTime
-- System_Props_Xml
-- Task
-- ThreadID
-- Version
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dvc
-- dvc_nt_host
-- event_id
-- eventtype
-- host
-- id
-- index
-- linecount
-- param1
-- param2
-- product
-- punct
-- service
-- service_name
-- signature_id
-- source
-- sourcetype
-- splunk_server
-- status
-- tag
-- tag::eventtype
-- timeendpos
-- timestartpos
-- vendor
-- vendor_product
+    - _time
+    - Channel
+    - Computer
+    - Error_Code
+    - EventCode
+    - EventData_Xml
+    - EventRecordID
+    - EventSourceName
+    - Guid
+    - Keywords
+    - Level
+    - Name
+    - Opcode
+    - ProcessID
+    - Qualifiers
+    - RecordNumber
+    - ServiceName
+    - SystemTime
+    - System_Props_Xml
+    - Task
+    - ThreadID
+    - Version
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - eventtype
+    - host
+    - id
+    - index
+    - linecount
+    - param1
+    - param2
+    - product
+    - punct
+    - service
+    - service_name
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - status
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - vendor
+    - vendor_product
 output_fields:
-- dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service
-  Control Manager'/><EventID Qualifiers='16384'>7036</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated
-  SystemTime='2024-03-11T01:38:35.892897800Z'/><EventRecordID>168530</EventRecordID><Correlation/><Execution
-  ProcessID='588' ThreadID='2272'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='param1'>sppsvc</Data><Data Name='param2'>stopped</Data><Binary>7300700070007300760063002F0031000000</Binary></EventData></Event>
+    - dest
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service Control Manager'/><EventID Qualifiers='16384'>7036</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated SystemTime='2024-03-11T01:38:35.892897800Z'/><EventRecordID>168530</EventRecordID><Correlation/><Execution ProcessID='588' ThreadID='2272'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='param1'>sppsvc</Data><Data Name='param2'>stopped</Data><Binary>7300700070007300760063002F0031000000</Binary></EventData></Event>

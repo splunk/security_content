@@ -1,13 +1,18 @@
 name: Ivanti Sentry Authentication Bypass
 id: b8e0d1cf-e6a8-4d46-a5ae-aebe18ead8f8
-version: 8
-date: '2026-03-27'
+version: 9
+creation_date: '2023-08-24'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: deprecated
+deprecation_info:
+    reason: Detection is deprecated since it is not specific enough to identify the intended malicious activity and might produce false positives.
+    removed_in_version: 6.1.0
+    replacement_content: []
 type: TTP
+description: The following analytic identifies unauthenticated access attempts to the System Manager Portal in Ivanti Sentry, exploiting CVE-2023-38035. It detects this activity by monitoring HTTP requests to specific endpoints ("/mics/services/configservice/*", "/mics/services/*", "/mics/services/MICSLogService*") with a status code of 200. This behavior is significant for a SOC as it indicates potential unauthorized access, which could lead to OS command execution as root. If confirmed malicious, this activity could result in significant system compromise and data breaches, especially if port 8443 is exposed to the internet.
 data_source:
     - Suricata
-description: The following analytic identifies unauthenticated access attempts to the System Manager Portal in Ivanti Sentry, exploiting CVE-2023-38035. It detects this activity by monitoring HTTP requests to specific endpoints ("/mics/services/configservice/*", "/mics/services/*", "/mics/services/MICSLogService*") with a status code of 200. This behavior is significant for a SOC as it indicates potential unauthorized access, which could lead to OS command execution as root. If confirmed malicious, this activity could result in significant system compromise and data breaches, especially if port 8443 is exposed to the internet.
 search: |-
     | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.url IN ("/mics/services/configservice/*", "/mics/services/*","/mics/services/MICSLogService*") Web.status=200
@@ -33,32 +38,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: Possible exploitation of CVE-2023-38035 against $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Ivanti Sentry Authentication Bypass CVE-2023-38035
-    cve:
-        - CVE-2023-38035
-    asset_type: Network
-    atomic_guid: []
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Possible exploitation of CVE-2023-38035 against $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Ivanti Sentry Authentication Bypass CVE-2023-38035
+asset_type: Network
+cve:
+    - CVE-2023-38035
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: deprecated
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_sentry_CVE_2023_38035.log
           source: suricata
           sourcetype: suricata
+      test_type: unit

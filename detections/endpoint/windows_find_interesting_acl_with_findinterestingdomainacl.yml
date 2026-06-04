@@ -1,13 +1,14 @@
 name: Windows Find Interesting ACL with FindInterestingDomainAcl
 id: e4a96dfd-667a-4487-b942-ccef5a1e81e8
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-09-01'
+modification_date: '2026-05-13'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects the execution of the `Find-InterestingDomainAcl` cmdlet, part of the PowerView toolkit, using PowerShell Script Block Logging (EventCode=4104). This detection leverages logs to identify when this command is run, which is significant as adversaries may use it to find misconfigured or unusual Access Control Lists (ACLs) within a domain. If confirmed malicious, this activity could allow attackers to identify privilege escalation opportunities or weak security configurations in Active Directory, potentially leading to unauthorized access or further exploitation.
 data_source:
     - Powershell Script Block Logging 4104
-description: The following analytic detects the execution of the `Find-InterestingDomainAcl` cmdlet, part of the PowerView toolkit, using PowerShell Script Block Logging (EventCode=4104). This detection leverages logs to identify when this command is run, which is significant as adversaries may use it to find misconfigured or unusual Access Control Lists (ACLs) within a domain. If confirmed malicious, this activity could allow attackers to identify privilege escalation opportunities or weak security configurations in Active Directory, potentially leading to unauthorized access or further exploitation.
 search: |-
     `powershell` EventCode=4104 ScriptBlockText = "*Find-InterestingDomainAcl*"
       | fillnull
@@ -35,30 +36,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious PowerShell Find-InterestingDomainAcl was identified on endpoint $dest$ by user $user_id$.
-    risk_objects:
+finding:
+    title: Suspicious PowerShell Find-InterestingDomainAcl was identified on endpoint $dest$ by user $user_id$.
+    entity:
+        field: user_id
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user_id
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Active Directory Discovery
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1087.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious PowerShell Find-InterestingDomainAcl was identified on endpoint $dest$ by user $user_id$.
+analytic_story:
+    - Active Directory Discovery
+asset_type: Endpoint
+mitre_attack_id:
+    - T1087.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-interestingACL-xml.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

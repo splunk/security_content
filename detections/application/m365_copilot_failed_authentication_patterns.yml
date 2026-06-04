@@ -1,11 +1,14 @@
 name: M365 Copilot Failed Authentication Patterns
 id: 0ae94cdd-021a-4a62-a96d-9cec90b61530
-version: 3
-date: '2026-03-10'
+version: 4
+creation_date: '2025-10-13'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: production
 type: Anomaly
 description: Detects M365 Copilot users with failed authentication attempts, MFA failures, or multi-location access patterns indicating potential credential attacks or account compromise. The detection aggregates M365 Copilot Graph API authentication events per user, calculating metrics like distinct cities/countries accessed, unique IP addresses and browsers, failed login attempts (status containing "fail" or "error"), and MFA failures (error code 50074). Users are flagged when they access Copilot from multiple cities (cities_count > 1), experience any authentication failures (failed_attempts > 0), or encounter MFA errors (mfa_failures > 0), which are indicators of credential stuffing, brute force attacks, or compromised accounts attempting to bypass multi-factor authentication.
+data_source:
+    - M365 Copilot Graph API
 search: |-
     `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
       | eval user = userPrincipalName
@@ -16,8 +19,6 @@ search: |-
       | where cities_count > 1 OR failed_attempts > 0 OR mfa_failures > 0
       | sort -mfa_failures, -failed_attempts, -countries_count
       | `m365_copilot_failed_authentication_patterns_filter`
-data_source:
-    - M365 Copilot Graph API
 how_to_implement: This detection requires ingesting M365 Copilot access logs via the Splunk Add-on for Microsoft Office 365. Configure the add-on to collect Azure AD Sign-in logs (AuditLogs.SignIns) through the Graph API data input. Ensure proper authentication and permissions are configured to access sign-in audit logs. The `m365_copilot_graph_api` macro should be defined to filter for sourcetype o365:graph:api data containing Copilot application activity.
 known_false_positives: Legitimate users experiencing network connectivity issues, traveling employees with intermittent VPN connections, users in regions with unstable internet infrastructure, or password reset activities during business travel may trigger false positives.
 references:
@@ -31,27 +32,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" | where _time >= relative_time(now(), "-168h@h") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: User $user$ exhibited suspicious M365 Copilot authentication patterns with $failed_attempts$ failed login attempts, $mfa_failures$ MFA failures, and access from $cities_count$ different locations, indicating potential credential compromise or brute force attack.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious Microsoft 365 Copilot Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1110
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: User $user$ exhibited suspicious M365 Copilot authentication patterns with $failed_attempts$ failed login attempts, $mfa_failures$ MFA failures, and access from $cities_count$ different locations, indicating potential credential compromise or brute force attack.
+analytic_story:
+    - Suspicious Microsoft 365 Copilot Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1110
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/m365_copilot_access.log
           sourcetype: "o365:graph:api"
           source: "AuditLogs.SignIns"
+      test_type: unit

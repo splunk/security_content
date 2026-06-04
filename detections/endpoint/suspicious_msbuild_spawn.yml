@@ -1,7 +1,8 @@
 name: Suspicious MSBuild Spawn
 id: a115fba6-5514-11eb-ae93-0242ac130002
-version: 12
-date: '2026-04-15'
+version: 14
+creation_date: '2021-01-15'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -40,32 +41,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious msbuild.exe process executed on $dest$ by $user$
-    risk_objects:
+finding:
+    title: Suspicious msbuild.exe process executed on $dest$ by $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Trusted Developer Utilities Proxy Execution MSBuild
-        - Living Off The Land
-        - Storm-2460 CLFS Zero Day Exploitation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1127.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious msbuild.exe process executed on $dest$ by $user$
+analytic_story:
+    - Trusted Developer Utilities Proxy Execution MSBuild
+    - Living Off The Land
+    - Storm-2460 CLFS Zero Day Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1127.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,32 +1,38 @@
 name: PowerShell Loading DotNET into Memory via Reflection
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
-version: 16
-date: '2026-04-16'
+version: 18
+creation_date: '2021-06-15'
+modification_date: '2026-05-13'
 author: Michael Haag, Teoderick Contreras Splunk
 status: production
 type: Anomaly
+description: The following analytic detects the use of PowerShell scripts to load .NET assemblies into memory via reflection, a technique often used in malicious activities such as those by Empire and Cobalt Strike. It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command executed. This behavior is significant as it can indicate advanced attack techniques aiming to execute code in memory, bypassing traditional defenses. If confirmed malicious, this activity could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.
 data_source:
     - Powershell Script Block Logging 4104
-description: The following analytic detects the use of PowerShell scripts to load .NET assemblies into memory via reflection, a technique often used in malicious activities such as those by Empire and Cobalt Strike. It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command executed. This behavior is significant as it can indicate advanced attack techniques aiming to execute code in memory, bypassing traditional defenses. If confirmed malicious, this activity could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Reflection.Assembly]::Load*",
-
-    "*Reflection.Assembly.Load*", "*UnsafeLoadFrom*", "*.LoadFrom(*", "*.LoadModule(*",
-
-    "*.LoadWithPartialName*", "*ReflectionOnlyLoad*", "*Reflection.Assembly]::(''daoL''[-1..-4] -join '''')*")
+search: |-
+    `powershell` EventCode=4104
+    ScriptBlockText IN (
+        "*.LoadFrom(*",
+        "*.LoadModule(*",
+        "*.LoadWithPartialName*",
+        "*Reflection.Assembly.Load*",
+        "*Reflection.Assembly]::('daoL'[-1..-4] -join '')*",
+        "*Reflection.Assembly]::Load*",
+        "*ReflectionOnlyLoad*",
+        "*UnsafeLoadFrom*"
+    )
 
     | fillnull
-
-    | stats count min(_time) as firstTime max(_time) as lastTime
-
-    by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest signature signature_id user_id
+         vendor_product EventID Guid Opcode
+         Name Path ProcessID
+         ScriptBlockId ScriptBlockText
 
     | `security_content_ctime(firstTime)`
-
     | `security_content_ctime(lastTime)`
-
     | `powershell_loading_dotnet_into_memory_via_reflection_filter`
-
-'
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: False positives should be limited as day to day scripts do not use this method.
 references:
@@ -44,38 +50,40 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: '0'
-rba:
-    message: A suspicious powershell script contains reflective class assembly command in $ScriptBlockText$ to load .net code in memory in host $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: A suspicious powershell script contains reflective class assembly command in $ScriptBlockText$ to load .net code in memory in host $dest$
         - field: user_id
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Winter Vivern
-        - AgentTesla
-        - AsyncRAT
-        - Hermetic Wiper
-        - Malicious PowerShell
-        - Data Destruction
-        - 0bj3ctivity Stealer
-        - Hellcat Ransomware
-        - Axios Supply Chain Post Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A suspicious powershell script contains reflective class assembly command in $ScriptBlockText$ to load .net code in memory in host $dest$
+analytic_story:
+    - Winter Vivern
+    - AgentTesla
+    - AsyncRAT
+    - Hermetic Wiper
+    - Malicious PowerShell
+    - Data Destruction
+    - 0bj3ctivity Stealer
+    - Hellcat Ransomware
+    - Axios Supply Chain Post Compromise
+    - VIP Keylogger
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/reflection.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

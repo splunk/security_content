@@ -1,13 +1,14 @@
 name: O365 Service Principal Privilege Escalation
 id: b686d0bd-cca7-44ca-ae07-87f6465131d9
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2025-01-05'
+modification_date: '2026-05-13'
 author: Dean Luxton
+status: production
+type: TTP
+description: This detection identifies when an Azure Service Principal elevates privileges by adding themself to a new app role assignment.
 data_source:
     - O365 Add app role assignment grant to user.
-type: TTP
-status: production
-description: This detection identifies when an Azure Service Principal elevates privileges by adding themself to a new app role assignment.
 search: >-
     `o365_management_activity` Operation="Add app role assignment to service principal." "Actor{}.ID"=ServicePrincipal ResultStatus=Success
     | spath path=ModifiedProperties{} output=targetResources
@@ -37,30 +38,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$servicePrincipal$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Service Principal $servicePrincipal$ has elevated privileges by adding themself to app role $appRole$
-    risk_objects:
-        - field: servicePrincipal
-          type: user
-          score: 50
-    threat_objects:
-        - field: user_agent
-          type: http_user_agent
-tags:
-    analytic_story:
-        - Azure Active Directory Privilege Escalation
-        - Office 365 Account Takeover
-    asset_type: Azure Tenant
-    mitre_attack_id:
-        - T1098.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: Service Principal $servicePrincipal$ has elevated privileges by adding themself to app role $appRole$
+    entity:
+        field: servicePrincipal
+        type: user
+        score: 50
+threat_objects:
+    - field: user_agent
+      type: http_user_agent
+analytic_story:
+    - Azure Active Directory Privilege Escalation
+    - Office 365 Account Takeover
+asset_type: Azure Tenant
+mitre_attack_id:
+    - T1098.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_spn_privesc/o365_spn_privesc.log
           sourcetype: o365:management:activity
           source: Office 365
+      test_type: unit

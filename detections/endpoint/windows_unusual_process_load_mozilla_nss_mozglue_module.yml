@@ -1,7 +1,8 @@
 name: Windows Unusual Process Load Mozilla NSS-Mozglue Module
 id: 1a7e7650-b81d-492e-99d4-d5ab633afbdd
-version: 6
-date: '2026-04-15'
+version: 8
+creation_date: '2021-05-13'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -22,32 +23,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: a non Firefox or Thunderbird process $process_name$ with $process_id$ loaded the Mozilla NSS-Mozglue libraries on host $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - StealC Stealer
-        - Quasar RAT
-        - 0bj3ctivity Stealer
-        - Lokibot
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a non Firefox or Thunderbird process $process_name$ with $process_id$ loaded the Mozilla NSS-Mozglue libraries on host $dest$.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - StealC Stealer
+    - Quasar RAT
+    - 0bj3ctivity Stealer
+    - Lokibot
+    - VIP Keylogger
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.003/moz_lib_loaded/mozilla_lib.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

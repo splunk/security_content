@@ -1,7 +1,8 @@
 name: Hunting for Log4Shell
 id: 158b68fa-5d1a-11ec-aac8-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+creation_date: '2021-12-14'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -19,24 +20,25 @@ references:
     - https://news.sophos.com/en-us/2021/12/12/log4shell-hell-anatomy-of-an-exploit-outbreak/
     - https://gist.github.com/MHaggis/1899b8554f38c8692a9fb0ceba60b44c
     - https://twitter.com/sasi2103/status/1469764719850442760?s=20
-tags:
-    analytic_story:
-        - Log4Shell CVE-2021-44228
-        - CISA AA22-320A
-    asset_type: Web Server
-    cve:
-        - CVE-2021-44228
-    mitre_attack_id:
-        - T1190
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+analytic_story:
+    - Log4Shell CVE-2021-44228
+    - CISA AA22-320A
+asset_type: Web Server
+cve:
+    - CVE-2021-44228
+mitre_attack_id:
+    - T1190
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/log4shell-nginx.log
           source: /var/log/nginx/access.log
           sourcetype: nginx:plus:kv
+      test_type: unit

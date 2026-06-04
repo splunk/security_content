@@ -1,0 +1,15 @@
+name: windows_suspicious_tasks
+id: 928cba69-be80-4601-9b0d-3ec81f714338
+version: 2
+creation_date: '2025-02-07'
+modification_date: '2026-05-13'
+author: Steven Dick
+lookup_type: csv
+description: A list of suspicious Windows Scheduled Task names and locations
+match_type:
+    - WILDCARD(task_name)
+    - WILDCARD(task_command)
+    - WILDCARD(task_arguments)
+min_matches: 1
+max_matches: 1
+case_sensitive_match: false

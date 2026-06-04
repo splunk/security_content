@@ -1,7 +1,8 @@
 name: Windows Excel Spawning Microsoft Project Application
 id: ee54241e-0815-4423-9729-e1f5dfc402de
-version: 2
-date: '2026-04-15'
+version: 3
+creation_date: '2025-08-21'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -51,31 +52,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $parent_process_name$ spawned $process_name$ on $dest$, indicative of ActivateMicrosoftApp() use
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process
-          type: process
-tags:
-    analytic_story:
-        - PathWiper
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1021.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: $parent_process_name$ spawned $process_name$ on $dest$, indicative of ActivateMicrosoftApp() use
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process
+      type: process
+analytic_story:
+    - PathWiper
+asset_type: Endpoint
+mitre_attack_id:
+    - T1021.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/excel_activemicrosoftapp/sysmon_winprojexe.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

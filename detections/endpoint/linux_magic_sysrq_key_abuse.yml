@@ -1,7 +1,8 @@
 name: Linux Magic SysRq Key Abuse
 id: 22c03600-f84a-47fa-abaa-ffbe3e72c782
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-08-28'
+modification_date: '2026-05-13'
 author: Milad Cheraghi
 status: production
 type: TTP
@@ -70,30 +71,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Abuse of the Linux Magic System Request key detected on host - [$dest$]
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Linux Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.004
-        - T1529
-        - T1489
-        - T1499
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Abuse of the Linux Magic System Request key detected on host - [$dest$]
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Compromised Linux Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.004
+    - T1529
+    - T1489
+    - T1499
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1529/auditd_path_sysrq/path_sysrq.log
           source: auditd
           sourcetype: auditd
+      test_type: unit

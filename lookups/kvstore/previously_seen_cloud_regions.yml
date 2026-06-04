@@ -1,0 +1,14 @@
+name: previously_seen_cloud_regions
+id: 4a030fa6-a2eb-4058-9f65-fde1746d1bec
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A table of vendor_region values and the first and last time that they have been observed in cloud provisioning activities
+fields:
+    - _key
+    - firstTimeSeen
+    - lastTimeSeen
+    - vendor_region
+    - enough_data

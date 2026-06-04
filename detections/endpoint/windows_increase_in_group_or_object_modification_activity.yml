@@ -1,13 +1,14 @@
 name: Windows Increase in Group or Object Modification Activity
 id: 4f9564dd-a204-4f22-b375-4dfca3a68731
-version: 8
-date: '2026-04-15'
+version: 10
+creation_date: '2024-07-01'
+modification_date: '2026-05-13'
 author: Dean Luxton
 status: production
 type: TTP
+description: This analytic detects an increase in modifications to AD groups or objects. Frequent changes to AD groups or objects can indicate potential security risks, such as unauthorized access attempts, impairing defences or establishing persistence. By monitoring AD logs for unusual modification patterns, this detection helps identify suspicious behavior that could compromise the integrity and security of the AD environment.
 data_source:
     - Windows Event Log Security 4663
-description: This analytic detects an increase in modifications to AD groups or objects. Frequent changes to AD groups or objects can indicate potential security risks, such as unauthorized access attempts, impairing defences or establishing persistence. By monitoring AD logs for unusual modification patterns, this detection helps identify suspicious behavior that could compromise the integrity and security of the AD environment.
 search: |-
     `wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764)
       | bucket span=5m _time
@@ -32,28 +33,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Spike in Group or Object Modifications performed by $src_user$
-    risk_objects:
-        - field: src_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1098
-        - T1562
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: audit
+finding:
+    title: Spike in Group or Object Modifications performed by $src_user$
+    entity:
+        field: src_user
+        type: user
+        score: 50
+analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1098
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: audit
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/xml-windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

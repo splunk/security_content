@@ -1,0 +1,9 @@
+name: images_to_repository
+id: 68205e30-0097-4138-b01d-f4e4d21a86f6
+version: 3
+creation_date: '2021-09-06'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: Mapping images to repositories
+

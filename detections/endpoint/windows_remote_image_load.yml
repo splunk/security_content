@@ -1,0 +1,72 @@
+name: Windows Remote Image Load
+id: 041aaae4-03de-465c-b9cb-9ed0d1e10454
+version: 2
+creation_date: '2026-05-05'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects image load events where a process loads a file from a remote share path.
+    This activity is significant because remote DLL or image loading can be abused for execution, defense evasion, or lateral movement while leaving the payload hosted on another system.
+    If confirmed malicious, an attacker may be loading code into a local process from attacker-controlled infrastructure.
+data_source:
+    - Sysmon EventID 7
+search: |-
+    `sysmon`
+    EventID=7
+    ImageLoaded="\\\\*"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer ImageLoaded EventID dest loaded_file loaded_file_path process_exec
+         process_guid process_hash process_id process_name process_path
+         service_dll_signature_exists service_dll_signature_verified signature_id user_id
+         vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_remote_image_load_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate software updates or remote imaging tools may load images from shared folders. Filter these detections for approved applications to reduce false positives.
+references:
+    - https://thehackernews.com/2024/08/microsoft-reveals-four-openvpn-flaws.html
+    - https://www.microsoft.com/en-us/security/blog/2024/08/08/chained-for-attack-openvpn-vulnerabilities-discovered-leading-to-rce-and-lpe/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Potential remote image load activity observed on $dest$ via $ImageLoaded$.
+analytic_story:
+    - BlackByte Ransomware
+    - Ransomware
+    - LockBit Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1129
+    - T1059
+    - T1068
+    - T1203
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1129/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Windows Compatibility Telemetry Tampering Through Registry
 id: 43834687-cc48-4878-a2fa-f76e4271791f
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -44,33 +45,37 @@ drilldown_searches:
       search: '| from datamodel Endpoint.Registry | search registry_path = "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\TelemetryController*" AND dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The process $process$ was added to registry settings for the Compatibility Appraiser by $user$ on host $dest$
-    risk_objects:
+finding:
+    title: The process $process$ was added to registry settings for the Compatibility Appraiser by $user$ on host $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: process
-          type: process
-tags:
-    analytic_story:
-        - Windows Persistence Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1546
-        - T1053.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The process $process$ was added to registry settings for the Compatibility Appraiser by $user$ on host $dest$
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - Windows Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1546
+    - T1053.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546/compattelrunner_abuse/compattelrunner_abuse.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

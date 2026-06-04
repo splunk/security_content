@@ -1,7 +1,8 @@
 name: DNS Kerberos Coercion
 id: 8551252d-b5b6-4b6e-8a82-51460aeb29a3
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2025-11-18'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -35,31 +36,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A dns query $query$ with marshalled CREDENTIAL_TARGET_INFORMATION seen from $src$
-    risk_objects:
-        - field: src
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - Suspicious DNS Traffic
-        - Local Privilege Escalation With KrbRelayUp
-        - Kerberos Coercion with DNS
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1557.001
-        - T1187
-        - T1071.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2025-33073
+finding:
+    title: A dns query $query$ with marshalled CREDENTIAL_TARGET_INFORMATION seen from $src$
+    entity:
+        field: src
+        type: system
+        score: 50
+analytic_story:
+    - Compromised Windows Host
+    - Suspicious DNS Traffic
+    - Local Privilege Escalation With KrbRelayUp
+    - Kerberos Coercion with DNS
+asset_type: Endpoint
+cve:
+    - CVE-2025-33073
+mitre_attack_id:
+    - T1557.001
+    - T1187
+    - T1071.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
@@ -69,3 +69,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
