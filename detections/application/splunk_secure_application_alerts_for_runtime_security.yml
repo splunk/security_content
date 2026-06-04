@@ -46,7 +46,7 @@ search: |-
     )
     | `splunk_secure_application_alerts_for_runtime_security_filter`
 how_to_implement: |
-    Create the secureapp_attack sourcetype in Splunk Enterprise Security. Configure Splunk Enterprise Security to receive alerts for Observability Cloud via HEC. Configure Secure Application Alerts in Observability Cloud to send alerts to Enterprise Security. Full details can be found in the referenced lantern article. 
+    Create the secureapp_attack sourcetype in Splunk Enterprise Security. Configure Splunk Enterprise Security to receive alerts for Observability Cloud via HEC. Configure Secure Application Alerts in Observability Cloud to send alerts to Enterprise Security. Full details can be found in the referenced lantern article.
 known_false_positives: |
     No known false positives for this detection. If alerts are noisy, tune this detection with the `_filter` macro or configure the originating tool.
 references:
@@ -65,7 +65,7 @@ intermediate_findings:
     entities:
         - field: dest_ip
           type: system
-          score: 50
+          score: 20
           message: $rule_description$
 threat_objects:
     - field: src_ip
