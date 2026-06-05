@@ -1,7 +1,8 @@
 name: Linux Suspicious Namespace Creation
 id: 039dbee4-39d8-4ad0-a43a-df4db3a41990
 version: 1
-date: '2026-05-12'
+creation_date: '2026-05-12'
+modification_date: '2026-05-12'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -71,7 +72,6 @@ how_to_implement: To implement this detection, the process begins by ingesting a
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://www.elastic.co/security-labs/copy-fail-dirtyfrag-linux-page-bugs-in-the-wild
-    - https://www.elastic.co/security-labs/copy-fail-dirtyfrag-linux-page-bugs-in-the-wild
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -81,27 +81,26 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious namespace created on $dest$ indicating possible privilege escalation via DirtyFrag.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Privilege Escalation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1068
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve:
-        - CVE-2026-43284
-        - CVE-2026-43500
+finding:
+    title: Suspicious namespace created on $dest$ indicating possible privilege escalation via DirtyFrag.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+cve:
+    - CVE-2026-43284
+    - CVE-2026-43500
 tests:
     - name: True Positive Test
       attack_data:
@@ -111,3 +110,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_dirtyfrag/linux_sysmon.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

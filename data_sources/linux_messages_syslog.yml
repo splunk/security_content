@@ -1,8 +1,9 @@
 name: Linux Messages Syslog
 id: c9e3bbb5-e0a2-4bac-8457-227e71841bda
 version: 2
-date: '2025-01-23'
-author: Patrick Bareiss, Splunk
+creation_date: '2025-05-06'
+modification_date: '2025-05-06'
+author: Ravent Tait, Splunk
 description: Logs kernel events on a Linux system, including
   service starts/stops, hardware events, authentication notices, and other OS-level activity.
 mitre_components:
