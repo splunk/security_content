@@ -29,7 +29,7 @@ search: |-
       by dest user src_ip reason
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `cisco_ios_xe_webui_login_localport_21111_filter`
+    | `cisco_ios_xe_webui_login_from_iosd_local_port_filter`
 how_to_implement: |
     Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
     Login failure logging must be enabled with "login on-failure log".
