@@ -1,7 +1,8 @@
 name: AWS Bedrock Claude High Risk Filesystem and Exec Tool Invocation
 id: 989b3702-1df3-4076-9e2f-8dcbcc2b4bef
 version: 1
-date: '2026-05-28'
+creation_date: '2026-05-28'
+modification_date: '2026-06-08'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -118,26 +119,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Identity has invoked high-risk filesystem and execution tools $tools_invoked$ via AWS Bedrock Claude. Risk Score $risk_score$ - $risk_reason$ Investigate recent invocations from user $user$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 50
-tags:
-    analytic_story:
-        - Suspicious AWS Bedrock Claude Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1055
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Identity $user$ invoked high-risk filesystem and execution tools $tools_invoked$ via AWS Bedrock Claude with risk score $risk_score$ and reason $risk_reason$.
+analytic_story:
+    - Suspicious AWS Bedrock Claude Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1055
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://github.com/splunk/attack_data/blob/master/datasets/aws_bedrock_claude/aws_bedrock_claude_high_risk_filesystem_and_exec_tool_invocation.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

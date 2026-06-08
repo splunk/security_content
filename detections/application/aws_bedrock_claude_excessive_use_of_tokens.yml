@@ -1,7 +1,8 @@
 name: AWS Bedrock Claude excessive use of tokens
 id: a839a6f7-aaac-438b-9d99-be0b49481e17
 version: 1
-date: '2026-05-28'
+creation_date: '2026-05-28'
+modification_date: '2026-06-08'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -45,28 +46,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Identity $user$ has generated an anomalously large model response via AWS Bedrock Claude exceeding 2 standard deviations above their own baseline output token average. This may indicate bulk data extraction, successful prompt injection, or a runaway agentic loop. Investigate recent invocations for $user$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-tags:
-    analytic_story:
-        - Suspicious AWS Bedrock Claude Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1055
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Identity $user$ generated anomalously high output tokens in AWS Bedrock Claude with max output $max_out$ above threshold $threshold$.
+analytic_story:
+    - Suspicious AWS Bedrock Claude Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1055
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://github.com/splunk/attack_data/blob/master/datasets/aws_bedrock_claude/aws_bedrock_claude_excessive_use_of_tokens.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.
 
 
