@@ -1,4 +1,8 @@
-definition: sourcetype=mscs:azure:eventhub
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: azuread
+id: 69a46574-72f6-4d76-9502-619e5805f9c1
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=mscs:azure:eventhub

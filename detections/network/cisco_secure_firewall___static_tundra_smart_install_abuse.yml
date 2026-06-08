@@ -1,7 +1,8 @@
 name: Cisco Secure Firewall - Static Tundra Smart Install Abuse
 id: 7e9a5a2c-2f1a-4b6a-9a4b-9e7d9c8f5a21
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2025-04-16'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP
@@ -56,34 +57,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Smart Install exploitation or protocol abuse targeting $dest$ originating from $src$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-        - field: signature
-          type: signature
-tags:
-    analytic_story:
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Cisco Smart Install Remote Code Execution CVE-2018-0171
-    asset_type: Network
-    security_domain: network
-    mitre_attack_id:
-        - T1190
-        - T1210
-        - T1499
-    product:
-        - Splunk Enterprise
-        - Splunk Cloud
-        - Splunk Enterprise Security
+finding:
+    title: Smart Install exploitation or protocol abuse targeting $dest$ originating from $src$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: signature
+      type: signature
+    - field: src
+      type: ip_address
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Cisco Smart Install Remote Code Execution CVE-2018-0171
+asset_type: Network
+mitre_attack_id:
+    - T1190
+    - T1210
+    - T1499
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/static_tundra/static_tundra.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

@@ -1,13 +1,14 @@
 name: Windows AD DCShadow Privileges ACL Addition
 id: ae915743-1aa8-4a94-975c-8062ebc8b723
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-07-01'
+modification_date: '2026-05-13'
 author: Dean Luxton
 status: production
 type: TTP
+description: This detection identifies an Active Directory access-control list (ACL) modification event, which applies the minimum required extended rights to perform the DCShadow attack.
 data_source:
     - Windows Event Log Security 5136
-description: This detection identifies an Active Directory access-control list (ACL) modification event, which applies the minimum required extended rights to perform the DCShadow attack.
 search: |-
     `wineventlog_security` EventCode=5136 ObjectClass=domainDNS
       | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(dest) as dest
@@ -50,32 +51,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: ACL modification Event Initiated by $src_user$ applying $user$ the minimum required extended rights to perform a DCShadow attack.
-    risk_objects:
+finding:
+    title: ACL modification Event Initiated by $src_user$ applying $user$ the minimum required extended rights to perform a DCShadow attack.
+    entity:
+        field: src_user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 50
-        - field: src_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1484
-        - T1207
-        - T1222.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: ACL modification Event Initiated by $src_user$ applying $user$ the minimum required extended rights to perform a DCShadow attack.
+analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1484
+    - T1207
+    - T1222.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/DCShadowPermissions/windows-security-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

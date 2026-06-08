@@ -1,13 +1,14 @@
 name: ConnectWise ScreenConnect Path Traversal
 id: 56a3ac65-e747-41f7-b014-dff7423c1dda
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-02-22'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1708 vulnerability, which allows path traversal attacks by manipulating file_path and file_name parameters in the URL. It leverages the Endpoint datamodel Filesystem node to identify suspicious file system events, specifically targeting paths and filenames associated with ScreenConnect. This activity is significant as it can lead to unauthorized access to sensitive files and directories, potentially resulting in data exfiltration or arbitrary code execution. If confirmed malicious, attackers could gain unauthorized access and control over the host system, posing a severe security risk.
 data_source:
     - Sysmon EventID 11
-type: TTP
-status: production
-description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1708 vulnerability, which allows path traversal attacks by manipulating file_path and file_name parameters in the URL. It leverages the Endpoint datamodel Filesystem node to identify suspicious file system events, specifically targeting paths and filenames associated with ScreenConnect. This activity is significant as it can lead to unauthorized access to sensitive files and directories, potentially resulting in data exfiltration or arbitrary code execution. If confirmed malicious, attackers could gain unauthorized access and control over the host system, posing a severe security risk.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\ScreenConnect\\App_Extensions\\*") Filesystem.file_name IN ("*.aspx","*.ashx") by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `connectwise_screenconnect_path_traversal_filter`'
 how_to_implement: This analytic utilizes the Endpoint datamodel Filesystem node to identify path traversal attempts against ScreenConnect. Note that using SACL auditing or other file system monitoring tools may also be used to detect path traversal attempts. Typically the data for this analytic will come from EDR or other properly CIM mapped data sources.
 known_false_positives: False positives are not expected, as the detection is based on the presence of file system events that indicate path traversal attempts. The analytic may be modified to look for any file writes to this path as it is not common for files to write here.
@@ -24,31 +25,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A path traversal attack against ScreenConnect has been detected on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ConnectWise ScreenConnect Vulnerabilities
-        - Seashell Blizzard
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve:
-        - CVE-2024-1708
-        - CVE-2024-1709
+finding:
+    title: A path traversal attack against ScreenConnect has been detected on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - ConnectWise ScreenConnect Vulnerabilities
+    - Seashell Blizzard
+asset_type: Endpoint
+cve:
+    - CVE-2024-1708
+    - CVE-2024-1709
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/sysmon_app_extensions.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

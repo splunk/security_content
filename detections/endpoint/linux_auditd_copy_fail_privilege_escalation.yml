@@ -1,7 +1,8 @@
 name: Linux Auditd Copy Fail Privilege Escalation
 id: dd16294f-44d2-40b4-a869-542c0b85113a
-version: 1
-date: '2026-05-03'
+version: 2
+creation_date: '2026-05-04'
+modification_date: '2026-05-13'
 author: Raven Tait, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -99,31 +100,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Privilege escalation attempt leveraging the Copy Fail vulnerability was observed on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: exe
-          type: process
-tags:
-    analytic_story:
-        - Linux Privilege Escalation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1068
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve:
-        - CVE-2026-31431
+finding:
+    title: Privilege escalation attempt leveraging the Copy Fail vulnerability was observed on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: exe
+      type: process
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2026-31431
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_auditd_copy_fail/linux_auditd.log
           source: auditd
           sourcetype: auditd
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Detect Spike in S3 Bucket deletion
 id: e733a326-59d2-446d-b8db-14a17151aa68
-version: 7
-date: '2026-03-10'
+version: 8
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -36,21 +37,22 @@ search: |-
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the minimum number of data points required to have a statistically significant amount of data to determine. The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the "Baseline of S3 Bucket deletion activity by ARN" support search once to create a baseline of previously seen S3 bucket-deletion activity.
 known_false_positives: Based on the values of`dataPointThreshold` and `deviationThreshold`, the false positive rate may vary. Please modify this according the your environment.
 references: []
-rba:
-    message: Spike in AWS S3 Bucket Deletion from $user$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious AWS S3 Activities
-    asset_type: S3 Bucket
-    mitre_attack_id:
-        - T1530
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Spike in AWS S3 Bucket Deletion from $user$
+analytic_story:
+    - Suspicious AWS S3 Activities
+asset_type: S3 Bucket
+mitre_attack_id:
+    - T1530
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: network
+baselines:
+    - Baseline of S3 Bucket deletion activity by ARN

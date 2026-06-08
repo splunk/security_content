@@ -1,7 +1,8 @@
 name: Windows Potential Cloudflared Network Connection
 id: 29798d45-c9c7-4240-a5ef-d7648c016024
-version: 1
-date: '2026-04-13'
+version: 2
+creation_date: '2026-05-05'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Hunting
@@ -37,20 +38,21 @@ references:
     - https://www-bleepingcomputer-com.cdn.ampproject.org/c/s/www.bleepingcomputer.com/news/security/hackers-increasingly-abuse-cloudflare-tunnels-for-stealthy-connections/amp/
     - https://github.com/cloudflare/cloudflared
     - https://www.guidepointsecurity.com/blog/tunnel-vision-cloudflared-abused-in-the-wild/
-tags:
-    analytic_story:
-        - Reverse Network Proxy
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1572
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Reverse Network Proxy
+asset_type: Endpoint
+mitre_attack_id:
+    - T1572
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/snapattack/snapattack.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

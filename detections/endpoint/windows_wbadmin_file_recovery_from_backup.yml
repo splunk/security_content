@@ -1,7 +1,8 @@
 name: Windows WBAdmin File Recovery From Backup
 id: 0175f0b7-728d-4038-bbf1-1c30d6ee3d31
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-10-24'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -61,28 +62,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An attempt to restore a file from a backup via WBAdmin $process$ was observed on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Credential Dumping
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1490
-        - T1565.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: An attempt to restore a file from a backup via WBAdmin $process$ was observed on $dest$
+analytic_story:
+    - Credential Dumping
+asset_type: Endpoint
+mitre_attack_id:
+    - T1490
+    - T1565.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1565.001/wbadmin_recovery/wbadmin_recovery.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

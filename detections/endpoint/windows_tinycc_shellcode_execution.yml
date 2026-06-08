@@ -1,7 +1,8 @@
 name: Windows TinyCC Shellcode Execution
 id: fdb6774e-e465-4912-86e3-63cf9ab91491
-version: 2
-date: '2026-04-15'
+version: 3
+creation_date: '2026-03-16'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -59,39 +60,42 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: TinyCC compiler execution on $dest$ by user $user$ from $process_path$, indicating potential malicious code execution.
-    risk_objects:
+finding:
+    title: TinyCC compiler execution on $dest$ by user $user$ from $process_path$, indicating potential malicious code execution.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-        - field: process
-          type: process
-        - field: process_path
-          type: file_path
-tags:
-    analytic_story:
-        - Lotus Blossom Chrysalis Backdoor
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.003
-        - T1027
-        - T1036
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+          message: TinyCC compiler execution on $dest$ by user $user$ from $process_path$, indicating potential malicious code execution.
+threat_objects:
+    - field: process
+      type: process
+    - field: process_name
+      type: process_name
+    - field: process_path
+      type: file_path
+analytic_story:
+    - Lotus Blossom Chrysalis Backdoor
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.003
+    - T1027
+    - T1036
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/lotus_blossom_chrysalis/windows-sysmon.log
           sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit

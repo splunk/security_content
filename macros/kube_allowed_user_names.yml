@@ -1,3 +1,8 @@
-definition: user.username=admin
-description: Define your user names which are allowed to connect to your kubernetes cluster.
 name: kube_allowed_user_names
+id: e0418b21-5e84-4ddf-9999-0fc5121b151e
+version: 1
+creation_date: '2023-12-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Define your user names which are allowed to connect to your kubernetes cluster.
+definition: user.username=admin

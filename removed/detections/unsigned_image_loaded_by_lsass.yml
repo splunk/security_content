@@ -1,47 +1,38 @@
 name: Unsigned Image Loaded by LSASS
 id: 56ef054c-76ef-45f9-af4a-a634695dcd65
 version: 5
-date: '2024-11-14'
+creation_date: '2019-12-11'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: removed
 type: TTP
-description: This search detects loading of unsigned images by LSASS. Deprecated because
-  too noisy.
+description: This search detects loading of unsigned images by LSASS. Deprecated because too noisy.
 data_source:
-- Sysmon EventID 7
-search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | fillnull | stats count
-  min(_time) as firstTime max(_time) as lastTime by EventID FileVersion Guid Hashes
-  Image ImageLoaded MD5 Opcode OriginalFileName ProcessGuid ProcessID ProcessId SHA256
-  SecurityID Signature SignatureStatus Signed UserID dest loaded_file loaded_file_path
-  original_file_name process_exec process_guid process_hash process_id process_name
-  process_path service_dll_signature_exists service_dll_signature_verified signature
-  signature_id user_id vendor_product | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `unsigned_image_loaded_by_lsass_filter`'
-how_to_implement: This search needs Sysmon Logs with a sysmon configuration, which
-  includes EventCode 7 with lsass.exe. This search uses an input macro named `sysmon`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-known_false_positives: Other tools could load images into LSASS for legitimate reason.
-  But enterprise tools should always use signed DLLs.
+    - Sysmon EventID 7
+search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by EventID FileVersion Guid Hashes Image ImageLoaded MD5 Opcode OriginalFileName ProcessGuid ProcessID ProcessId SHA256 SecurityID Signature SignatureStatus Signed UserID dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `unsigned_image_loaded_by_lsass_filter`'
+how_to_implement: This search needs Sysmon Logs with a sysmon configuration, which includes EventCode 7 with lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+known_false_positives: Other tools could load images into LSASS for legitimate reason. But enterprise tools should always use signed DLLs.
 references:
-- https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+    - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 rba:
-  message: Unsigned image loaded by LSASS on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: Unsigned image loaded by LSASS on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Credential Dumping
-  asset_type: Windows
-  mitre_attack_id:
-  - T1003.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Credential Dumping
+    asset_type: Windows
+    mitre_attack_id:
+        - T1003.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.2.0
+    replacement_content: []

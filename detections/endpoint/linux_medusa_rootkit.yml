@@ -1,7 +1,8 @@
 name: Linux Medusa Rootkit
 id: 7add8520-71d5-43aa-b262-ee082b1f0238
-version: 6
-date: '2026-04-15'
+version: 7
+creation_date: '2022-04-26'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -33,31 +34,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Medusa rootkit files were identified on endpoint $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - China-Nexus Threat Activity
-        - Medusa Rootkit
-        - Hellcat Ransomware
-        - VoidLink Cloud-Native Linux Malware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1014
-        - T1589.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Medusa rootkit files were identified on endpoint $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - China-Nexus Threat Activity
+    - Medusa Rootkit
+    - Hellcat Ransomware
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1014
+    - T1589.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/medusa_rootkit/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

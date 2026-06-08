@@ -1,13 +1,14 @@
 name: Windows AD add Self to Group
 id: 065f2701-b7ea-42f5-9ec4-fbc2261165f9
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2024-07-01'
+modification_date: '2026-05-13'
 author: Dean Luxton
 status: production
 type: TTP
+description: This analytic detects instances where a user adds themselves to an Active Directory (AD) group. This activity is a common indicator of privilege escalation, where a user attempts to gain unauthorized access to higher privileges or sensitive resources. By monitoring AD logs, this detection identifies such suspicious behavior, which could be part of a larger attack strategy aimed at compromising critical systems and data.
 data_source:
     - Windows Event Log Security 4728
-description: This analytic detects instances where a user adds themselves to an Active Directory (AD) group. This activity is a common indicator of privilege escalation, where a user attempts to gain unauthorized access to higher privileges or sensitive resources. By monitoring AD logs, this detection identifies such suspicious behavior, which could be part of a larger attack strategy aimed at compromising critical systems and data.
 search: |-
     `wineventlog_security` EventCode IN (4728)
       | where user=src_user
@@ -27,29 +28,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $user$ added themselves to AD Group $Group_Name$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sneaky Active Directory Persistence Tricks
-        - Medusa Ransomware
-        - Active Directory Privilege Escalation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1098
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: audit
+finding:
+    title: $user$ added themselves to AD Group $Group_Name$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+    - Medusa Ransomware
+    - Active Directory Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1098
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: audit
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/xml-windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

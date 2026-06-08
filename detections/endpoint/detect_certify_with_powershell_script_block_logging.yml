@@ -1,7 +1,8 @@
 name: Detect Certify With PowerShell Script Block Logging
 id: f533ca6c-9440-4686-80cb-7f294c07812a
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2023-07-28'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -36,32 +37,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Certify arguments through PowerShell detected on $dest$.
-    risk_objects:
+finding:
+    title: Certify arguments through PowerShell detected on $dest$.
+    entity:
+        field: user_id
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user_id
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Windows Certificate Services
-        - Malicious PowerShell
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.001
-        - T1649
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Certify arguments through PowerShell detected on $dest$.
+analytic_story:
+    - Windows Certificate Services
+    - Malicious PowerShell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+    - T1649
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_powershell.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

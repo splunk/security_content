@@ -1,7 +1,8 @@
 name: AWS IAM Failure Group Deletion
 id: 723b861a-92eb-11eb-93b8-acde48001122
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-04-06'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -32,29 +33,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ has had mulitple failures while attempting to delete groups from $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - AWS IAM Privilege Escalation
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1098
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: access
+          message: User $user$ has had mulitple failures while attempting to delete groups from $src$
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - AWS IAM Privilege Escalation
+asset_type: AWS Account
+mitre_attack_id:
+    - T1098
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: access
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Linux Ingress Tool Transfer Hunting
 id: 52fd468b-cb6d-48f5-b16a-92f1c9bb10cf
-version: 11
-date: '2026-03-31'
+version: 12
+creation_date: '2022-06-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -33,24 +34,25 @@ references:
     - https://curl.se/docs/manpage.html#-I
     - https://gtfobins.github.io/gtfobins/curl/
     - https://github.com/rapid7/metasploit-framework/search?q=curl
-tags:
-    analytic_story:
-        - Ingress Tool Transfer
-        - Linux Living Off The Land
-        - XorDDos
-        - NPM Supply Chain Compromise
-        - Axios Supply Chain Post Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Ingress Tool Transfer
+    - Linux Living Off The Land
+    - XorDDos
+    - NPM Supply Chain Compromise
+    - Axios Supply Chain Post Compromise
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/curl-linux-sysmon.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

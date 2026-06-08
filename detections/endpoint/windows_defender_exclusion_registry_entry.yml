@@ -1,7 +1,8 @@
 name: Windows Defender Exclusion Registry Entry
 id: 13395a44-4dd9-11ec-9df7-acde48001122
-version: 16
-date: '2026-05-04'
+version: 17
+creation_date: '2021-11-25'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -24,37 +25,40 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Exclusion registry $registry_path$ modified or added on $dest$ for Windows Defender
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Exclusion registry $registry_path$ modified or added on $dest$ for Windows Defender
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Qakbot
-        - Remcos
-        - ValleyRAT
-        - XWorm
-        - Azorult
-        - Warzone RAT
-        - Windows Defense Evasion Tactics
-        - NetSupport RMM Tool Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1685
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Exclusion registry $registry_path$ modified or added on $dest$ for Windows Defender
+analytic_story:
+    - Qakbot
+    - Remcos
+    - ValleyRAT
+    - XWorm
+    - Azorult
+    - Warzone RAT
+    - Windows Defense Evasion Tactics
+    - NetSupport RMM Tool Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

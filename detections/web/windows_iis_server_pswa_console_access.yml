@@ -1,13 +1,14 @@
 name: Windows IIS Server PSWA Console Access
 id: 914ab191-fa8a-48cb-83a6-0565e061f934
-version: 5
-date: '2026-02-25'
+version: 6
+creation_date: '2024-09-30'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: This analytic detects access attempts to the PowerShell Web Access (PSWA) console on Windows IIS servers. It monitors web traffic for requests to PSWA-related URIs, which could indicate legitimate administrative activity or potential unauthorized access attempts. By tracking source IP, HTTP status, URI path, and HTTP method, it helps identify suspicious patterns or brute-force attacks targeting PSWA. This detection is crucial for maintaining the security of remote PowerShell management interfaces and preventing potential exploitation of this powerful administrative tool.
 data_source:
     - Windows IIS
-type: Hunting
-status: production
-description: This analytic detects access attempts to the PowerShell Web Access (PSWA) console on Windows IIS servers. It monitors web traffic for requests to PSWA-related URIs, which could indicate legitimate administrative activity or potential unauthorized access attempts. By tracking source IP, HTTP status, URI path, and HTTP method, it helps identify suspicious patterns or brute-force attacks targeting PSWA. This detection is crucial for maintaining the security of remote PowerShell management interfaces and preventing potential exploitation of this powerful administrative tool.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.dest IN ("/pswa/*")
@@ -21,21 +22,21 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: False positives may occur if legitimate PSWA processes are used for administrative tasks. Careful review of the logs is recommended to distinguish between legitimate and malicious activity.
 references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
-tags:
-    analytic_story:
-        - CISA AA24-241A
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve: []
+analytic_story:
+    - CISA AA24-241A
+asset_type: Web Server
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/pswa/iis_pswaaccess.log
           sourcetype: ms:iis:splunk
           source: ms:iis:splunk
+      test_type: unit

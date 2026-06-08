@@ -1,7 +1,8 @@
 name: AWS Lambda UpdateFunctionCode
 id: 211b80d3-6340-4345-11ad-212bf3d0d111
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2022-02-28'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting
@@ -23,20 +24,21 @@ known_false_positives: While this search has no known false positives, it is pos
 references:
     - http://detectioninthe.cloud/execution/modify_lambda_function_code/
     - https://sysdig.com/blog/exploit-mitigate-aws-lambdas-mitre/
-tags:
-    analytic_story:
-        - Suspicious Cloud User Activities
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1204
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+analytic_story:
+    - Suspicious Cloud User Activities
+asset_type: AWS Account
+mitre_attack_id:
+    - T1204
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/aws_updatelambdafunctioncode/aws_cloudtrail_events.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

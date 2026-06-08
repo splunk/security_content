@@ -1,11 +1,13 @@
 name: O365 BEC Email Hiding Rule Created
 id: 603ebac2-f157-4df7-a6ac-34e8d0350f86
-version: 7
-date: '2026-04-15'
+version: 8
+creation_date: '2025-02-14'
+modification_date: '2026-05-13'
 author: '0xC0FFEEEE, Github Community'
-type: TTP
 status: production
+type: TTP
 description: This analytic detects mailbox rule creation, a common technique used in Business Email Compromise. It uses a scoring mechanism to identify a combination of attributes often featured in mailbox rules created by attackers. This may indicate that an attacker has gained access to the account.
+data_source: []
 search: |-
     `o365_management_activity` Workload=Exchange Operation IN ("New-InboxRule", "Set-InboxRule")
     | stats min(_time) as firstTime, max(_time) as lastTime, values(Operation) as Operation, latest(Name) as Name, latest(MarkAsRead) as MarkAsRead, latest(MoveToFolder) as MoveToFolder by object_id user
@@ -32,29 +34,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential BEC mailbox rule - $Name$ was created by user - $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: Name
-          type: signature
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1564.008
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: audit
+finding:
+    title: Potential BEC mailbox rule - $Name$ was created by user - $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: Name
+      type: signature
+analytic_story:
+    - Office 365 Account Takeover
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1564.008
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: audit
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.008/o365/o365_suspicious_mailbox_rule.log
           sourcetype: o365:management:activity
           source: o365
+      test_type: unit

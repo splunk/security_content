@@ -1,17 +1,18 @@
 name: Windows Defender ASR Block Events
 id: 026f5f4e-e99f-4155-9e63-911ba587300b
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
+description: This detection searches for Windows Defender ASR block events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR block events that are generated when a process or application attempts to perform an action that is blocked by an ASR rule. Typically, these will be enabled in block most after auditing and tuning the ASR rules themselves. Set to TTP once tuned.
 data_source:
     - Windows Event Log Defender 1121
     - Windows Event Log Defender 1126
     - Windows Event Log Defender 1129
     - Windows Event Log Defender 1131
     - Windows Event Log Defender 1133
-description: This detection searches for Windows Defender ASR block events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR block events that are generated when a process or application attempts to perform an action that is blocked by an ASR rule. Typically, these will be enabled in block most after auditing and tuning the ASR rules themselves. Set to TTP once tuned.
 search: |-
     `ms_defender` EventCode IN (1121, 1126, 1129, 1131, 1133)
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -36,30 +37,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: ASR block event, $ASR_Rule$, was triggered on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Windows Attack Surface Reduction
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id:
-        - T1059
-        - T1566.001
-        - T1566.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: ASR block event, $ASR_Rule$, was triggered on $dest$.
+analytic_story:
+    - Windows Attack Surface Reduction
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059
+    - T1566.001
+    - T1566.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/defender/asr_block.log
           source: XmlWinEventLog:Microsoft-Windows-Windows Defender/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

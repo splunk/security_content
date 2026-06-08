@@ -1,4 +1,8 @@
-definition: sourcetype=aws:firehose:json
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: github
+id: 2832cd8a-c9dd-48d0-9123-a406b037edf4
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=aws:firehose:json

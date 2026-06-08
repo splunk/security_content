@@ -1,7 +1,8 @@
 name: Network Discovery Using Route Windows App
 id: dd83407e-439f-11ec-ab8e-acde48001122
-version: 9
-date: '2025-12-15'
+version: 10
+creation_date: '2021-11-17'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -27,24 +28,25 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: A network operator or systems administrator may utilize an automated host discovery application that may generate false positives or an amazon ec2 script that uses this application. Filter as needed.
 references:
     - https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
-tags:
-    analytic_story:
-        - Active Directory Discovery
-        - Qakbot
-        - CISA AA22-277A
-        - Windows Post-Exploitation
-        - Prestige Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1016.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Discovery
+    - Qakbot
+    - CISA AA22-277A
+    - Windows Post-Exploitation
+    - Prestige Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1016.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

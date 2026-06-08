@@ -1,4 +1,8 @@
-definition: sourcetype=gws:reports:login
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: gws_reports_login
+id: 0a03678d-de16-4038-b47b-e87db4c33dc0
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=gws:reports:login

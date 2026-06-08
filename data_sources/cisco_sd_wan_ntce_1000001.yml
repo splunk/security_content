@@ -1,7 +1,8 @@
 name: Cisco SD-WAN NTCE 1000001
 id: 350c4a45-24df-4339-ba57-8b8c09f2865f
-version: 1
-date: '2026-03-03'
+version: 2
+creation_date: '2026-03-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 description: Data source object for Cisco SD-WAN Notification Event 1000001
 source: /var/log/vsyslog

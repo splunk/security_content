@@ -1,0 +1,14 @@
+name: previously_seen_aws_cross_account_activity
+id: fffe4494-7356-4448-a8c0-fd266d51f318
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A placeholder for a list of AWS accounts and assumed roles
+fields:
+    - _key
+    - firstTime
+    - lastTime
+    - requestingAccountId
+    - requestedAccountId

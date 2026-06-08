@@ -1,24 +1,24 @@
 name: Defense Evasion or Unauthorized Access Via SDDL Tampering
 id: 8ccdd852-3878-4871-ae37-e5af5c67baf3
-version: 1
-date: '2024-12-06'
+version: 2
+creation_date: '2024-12-06'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 description: This analytic story focuses on detecting potential defense evasion or unauthorized access attempts through tampering with Security Descriptor Definition Language (SDDL) settings. Attackers may modify SDDL configurations to alter permissions on critical system components, such as event logs and services, to obscure their activities or gain unauthorized access. This story includes detections for changes to 'ChannelAccess' and 'CustomSD' registry values, as well as the use of tools like 'sc.exe sdset', 'icacls' and 'subinacl' to modify securable objects (files, registry, services, etc) permissions.
 narrative: Adversaries may attempt to evade detection or gain unauthorized access by modifying ACLs or Security Descriptors of different securable objects on the Windows operating system. By altering these settings, attackers can grant themselves elevated privileges or suppress logging mechanisms, thereby hindering detection and response efforts. Monitoring changes to critical registry values and the execution of specific tools used for SDDL modifications can help identify such malicious activities.
 references:
-- https://web.archive.org/web/20220710181255/https://blog.minerva-labs.com/lockbit-3.0-aka-lockbit-black-is-here-with-a-new-icon-new-ransom-note-new-wallpaper-but-less-evasiveness
-- https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/set-event-log-security-locally-or-via-group-policy
-- https://0xv1n.github.io/posts/scmanager/
-- https://www.sans.org/blog/red-team-tactics-hiding-windows-services/
-- https://news.sophos.com/wp-content/uploads/2020/06/glupteba_final-1.pdf
-- https://www.pwc.com/gx/en/issues/cybersecurity/cyber-threat-intelligence/cyber-year-in-retrospect/yir-cyber-threats-report-download.pdf
-- https://www.welivesecurity.com/en/eset-research/romcom-exploits-firefox-and-windows-zero-days-in-the-wild/
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://web.archive.org/web/20220710181255/https://blog.minerva-labs.com/lockbit-3.0-aka-lockbit-black-is-here-with-a-new-icon-new-ransom-note-new-wallpaper-but-less-evasiveness
+    - https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/set-event-log-security-locally-or-via-group-policy
+    - https://0xv1n.github.io/posts/scmanager/
+    - https://www.sans.org/blog/red-team-tactics-hiding-windows-services/
+    - https://news.sophos.com/wp-content/uploads/2020/06/glupteba_final-1.pdf
+    - https://www.pwc.com/gx/en/issues/cybersecurity/cyber-threat-intelligence/cyber-year-in-retrospect/yir-cyber-threats-report-download.pdf
+    - https://www.welivesecurity.com/en/eset-research/romcom-exploits-firefox-and-windows-zero-days-in-the-wild/
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

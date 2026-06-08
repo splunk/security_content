@@ -1,7 +1,8 @@
 name: HTTP PUA User Agent
 id: 21af5447-734f-4549-956b-7a255cb2b032
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2026-01-06'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -35,32 +36,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A known user agent ($http_user_agent$) associated with unusual programs was performing a request from $src$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: http_user_agent
-          type: http_user_agent
-tags:
-    analytic_story:
-        - Local Privilege Escalation With KrbRelayUp
-        - BlackSuit Ransomware
-        - Cactus Ransomware
-        - Suspicious User Agents
-    asset_type: Network
-    mitre_attack_id:
-        - T1071.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: A known user agent ($http_user_agent$) associated with unusual programs was performing a request from $src$.
+threat_objects:
+    - field: http_user_agent
+      type: http_user_agent
+analytic_story:
+    - Local Privilege Escalation With KrbRelayUp
+    - BlackSuit Ransomware
+    - Cactus Ransomware
+    - Suspicious User Agents
+asset_type: Network
+mitre_attack_id:
+    - T1071.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.001/http_user_agents/suricata_pua.log
           sourcetype: suricata
           source: not_applicable
+      test_type: unit

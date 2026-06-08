@@ -1,0 +1,51 @@
+# The contents of this YML mirror the build.yml and legacy contentctl.yml that
+# are used for building ESCU. This is used during the PORT test workflow
+# While the app_version here is hardcoded, it is overwritten with the version
+# of the app contained in contentctl.yml during the PORT github action
+# with an awk/sed command.  This app_version MUST be correct, since the
+# version of the app is highly relevant when validating deprecated/removed
+# content (to ensure that it has been removed at the correct version)
+author: Splunk Threat Research Team
+author_email: research@splunk.com
+content_prefix: ESCU
+label: ES Content Updates
+app_version: 6.1.0
+description: Explore the Analytic Stories included with ES Content Updates.
+id: DA-ESS-ContentUpdate
+external_app_content:
+    - app_name: Splunk Common Information Model
+      macros:
+          - drop_dm_object_name
+      lookups:
+          - cim_corporate_email_domain_lookup
+          - cim_corporate_web_domain_lookup
+          - identity_lookup_expanded
+          - cim_cloud_domain_lookup
+    - app_name: Enterprise Security
+      macros:
+          - get_asset
+      lookups:
+          - interesting_ports_lookup
+          - alexa_lookup_by_str
+          - asset_lookup_by_str
+    - app_name: >- 
+        false positive edge case in detections/web/exploit_public_facing_application_via_apache_commons_text.yml. 
+        This detections evals a field named 'lookup' which creates an issue when parsing the search field for references to lookups.
+      macros: []
+      lookups:
+          - other_lookups
+    - app_name: URL Toolbox
+      macros: []
+      lookups:
+          - ut_shannon_lookup
+    - app_name: SA-admon
+      macros: []
+      lookups:
+          - admon_groups_def
+    - app_name: Splunk Enterprise Security
+      macros:
+          - globedistance
+      lookups:
+          - known_devices_public_ip_filter
+          - mitre_attack_lookup
+          - asn_lookup_by_cidr

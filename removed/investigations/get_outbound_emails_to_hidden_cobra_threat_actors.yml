@@ -1,25 +1,23 @@
 name: Get Outbound Emails to Hidden Cobra Threat Actors
 id: 80bac352-e089-46b9-a6a4-8a8467d4d8cf
 version: 1
-date: '2018-06-14'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 type: Investigation
 status: removed
-description: 'This search returns the information of the users that sent emails to
-  the accounts controlled by the Hidden Cobra Threat Actors: specifically to `misswang8107@gmail.com`,
-  and from `redhat@gmail.com`.'
-search: '| from datamodel Email.All_Email | search recipient=misswang8107@gmail.com
-  OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time)
-  as lastTime values(dest) values(src) by src_user recipient | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`'
-how_to_implement: To successfully implement this search you must ingest your email
-  logs or capture unencrypted email communications within network traffic, and populate
-  the Email data model.
+description: 'This search returns the information of the users that sent emails to the accounts controlled by the Hidden Cobra Threat Actors: specifically to `misswang8107@gmail.com`, and from `redhat@gmail.com`.'
+search: '| from datamodel Email.All_Email | search recipient=misswang8107@gmail.com OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time) as lastTime values(dest) values(src) by src_user recipient | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+how_to_implement: To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - Hidden Cobra Malware
-  product:
-  - Splunk Phantom
-  security_domain: network
+    analytic_story:
+        - Hidden Cobra Malware
+    product:
+        - Splunk Phantom
+    security_domain: network
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

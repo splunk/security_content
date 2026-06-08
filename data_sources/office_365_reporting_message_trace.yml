@@ -1,78 +1,74 @@
 name: Office 365 Reporting Message Trace
 id: b637788e-fcf0-44fa-86ea-cab81193f939
-version: 1
-date: '2025-02-28'
+version: 2
+creation_date: '2025-02-28'
+modification_date: '2026-05-13'
 author: Steven Dick
 description: Data source object for Office 365 Reporting Message Trace
 source: o365
 sourcetype: o365:reporting:messagetrace
 separator: Organization
 supported_TA:
-- name: Splunk Microsoft Office 365 Add-on
-  url: https://splunkbase.splunk.com/app/4055
-  version: 6.0.2
+    - name: Splunk Microsoft Office 365 Add-on
+      url: https://splunkbase.splunk.com/app/4055
+      version: 6.0.2
 fields:
-- FromIP
-- Index
-- MessageId
-- MessageTraceId
-- Organization
-- Received
-- RecipientAddress
-- SenderAddress
-- Size
-- Status
-- Subject
-- ToIP
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _subsecond
-- _time
-- action
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- eventtype
-- host
-- index
-- internal_message_id
-- linecount
-- message_id
-- punct
-- recipient
-- recipient_count
-- recipient_domain
-- size
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- src
-- src_user
-- src_user_domain
-- status_code
-- subject
-- tag
-- tag::action
-- tag::eventtype
-- timeendpos
-- timestartpos
-- vendor_product
-example_log: '{"Organization": "attackrange.onmicrosoft.com", "MessageId": "<BY5PR08MB62304A5BB7F9EE555B4CEA26DC1C2@BY5PR08MB6230.namprd08.prod.outlook.com>",
-  "Received": "2025-01-16T21:06:46.832439", "SenderAddress": "victim_2@attack_range.lan",
-  "RecipientAddress": "attacker_outside@gmail.com", "Subject": "Accounts and Passwords",
-  "Status": "Delivered", "ToIP": "2607:f8b0:400e:c0d::1a", "FromIP": "189.135.168.197",
-  "Size": 33584, "MessageTraceId": "3567c8ef-cc17-4a3f-d166-08dd3161e4fc", "Index":
-  3035}'
+    - FromIP
+    - Index
+    - MessageId
+    - MessageTraceId
+    - Organization
+    - Received
+    - RecipientAddress
+    - SenderAddress
+    - Size
+    - Status
+    - Subject
+    - ToIP
+    - _bkt
+    - _cd
+    - _eventtype_color
+    - _indextime
+    - _raw
+    - _serial
+    - _si
+    - _sourcetype
+    - _subsecond
+    - _time
+    - action
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - eventtype
+    - host
+    - index
+    - internal_message_id
+    - linecount
+    - message_id
+    - punct
+    - recipient
+    - recipient_count
+    - recipient_domain
+    - size
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - src
+    - src_user
+    - src_user_domain
+    - status_code
+    - subject
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - vendor_product
+example_log: '{"Organization": "attackrange.onmicrosoft.com", "MessageId": "<BY5PR08MB62304A5BB7F9EE555B4CEA26DC1C2@BY5PR08MB6230.namprd08.prod.outlook.com>", "Received": "2025-01-16T21:06:46.832439", "SenderAddress": "victim_2@attack_range.lan", "RecipientAddress": "attacker_outside@gmail.com", "Subject": "Accounts and Passwords", "Status": "Delivered", "ToIP": "2607:f8b0:400e:c0d::1a", "FromIP": "189.135.168.197", "Size": 33584, "MessageTraceId": "3567c8ef-cc17-4a3f-d166-08dd3161e4fc", "Index": 3035}'

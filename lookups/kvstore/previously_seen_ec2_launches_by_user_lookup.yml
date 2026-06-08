@@ -1,0 +1,13 @@
+name: previously_seen_ec2_launches_by_user_lookup
+id: a4a6d268-3c88-4996-b634-2edc33344a0a
+version: 3
+creation_date: '2025-01-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A place holder for a list of previouslyt seen EC2 launches by user
+fields:
+    - _key
+    - firstTime
+    - lastTime
+    - arn

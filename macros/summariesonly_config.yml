@@ -1,3 +1,8 @@
-definition: "false"
-description: Used inside security_content_summariesonly to adjust the summariesonly configuration 
 name: summariesonly_config
+id: ad23f324-78c9-4a1a-8da7-33026641f253
+version: 1
+creation_date: '2024-06-26'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Used inside security_content_summariesonly to adjust the summariesonly configuration
+definition: "false"

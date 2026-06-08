@@ -1,7 +1,8 @@
 name: Windows ComputerDefaults Spawning a Process
 id: 697eb4c0-1008-4c3c-b5ae-7bd9b39adbd6
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2023-09-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -35,30 +36,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A ComputerDefaults.exe process $parent_process_name$ spawning child process $process_name$ on host $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-tags:
-    analytic_story:
-        - Castle RAT
-        - BlankGrabber Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1548.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A ComputerDefaults.exe process $parent_process_name$ spawning child process $process_name$ on host $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - Castle RAT
+    - BlankGrabber Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1548.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/computerdefaults_spawn_proc/computerdefaults_process.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

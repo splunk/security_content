@@ -1,13 +1,14 @@
 name: Windows AD Domain Controller Promotion
 id: e633a0ef-2a6e-4ed7-b925-5ff999e5d1f0
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-01-25'
+modification_date: '2026-05-13'
 author: Dean Luxton
-type: TTP
 status: production
+type: TTP
+description: The following analytic identifies a genuine Domain Controller (DC) promotion event by detecting when a computer assigns itself the necessary Service Principal Names (SPNs) to function as a domain controller. It leverages Windows Security Event Code 4742 to monitor existing domain controllers for these changes. This activity is significant as it can help identify rogue DCs added to the network, which could indicate a DCShadow attack. If confirmed malicious, this could allow an attacker to manipulate Active Directory, leading to potential privilege escalation and persistent access within the environment.
 data_source:
     - Windows Event Log Security 4742
-description: The following analytic identifies a genuine Domain Controller (DC) promotion event by detecting when a computer assigns itself the necessary Service Principal Names (SPNs) to function as a domain controller. It leverages Windows Security Event Code 4742 to monitor existing domain controllers for these changes. This activity is significant as it can help identify rogue DCs added to the network, which could indicate a DCShadow attack. If confirmed malicious, this could allow an attacker to manipulate Active Directory, leading to potential privilege escalation and persistent access within the environment.
 search: |-
     `wineventlog_security` EventCode=4742 ServicePrincipalNames IN ("*E3514235-4B06-11D1-AB04-00C04FC2DCD2/*","*GC/*")
       | stats min(_time) as _time latest(ServicePrincipalNames) as ServicePrincipalNames,values(signature) as signature, values(src_user) as src_user, values(user) as user
@@ -34,28 +35,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: AD Domain Controller Promotion Event Detected for $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1207
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: AD Domain Controller Promotion Event Detected for $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Compromised Windows Host
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1207
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/dc_promo/windows-security-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

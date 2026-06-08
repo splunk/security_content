@@ -1,7 +1,8 @@
 name: Windows PowerShell Script From WindowsApps Directory
 id: 8c3d1f2e-7b4a-45e3-9d8f-6a2e4c9b1234
-version: 3
-date: '2026-04-13'
+version: 4
+creation_date: '2025-08-18'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -61,32 +62,32 @@ drilldown_searches:
       search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name="powershell.exe" AND Processes.process="*StartingScriptWrapper.ps1*" by Processes.dest Processes.process Processes.parent_process_name'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: PowerShell script execution from WindowsApps directory detected on $dest$ by user $user$. This may indicate malicious MSIX package execution.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: process
-          type: command
-tags:
-    analytic_story:
-        - MSIX Package Abuse
-        - Malicious PowerShell
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.001
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+finding:
+    title: PowerShell script execution from WindowsApps directory detected on $dest$ by user $user$. This may indicate malicious MSIX package execution.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process
+      type: command
+analytic_story:
+    - MSIX Package Abuse
+    - Malicious PowerShell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/msix_powershell/windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit

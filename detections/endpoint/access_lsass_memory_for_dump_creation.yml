@@ -1,7 +1,8 @@
 name: Access LSASS Memory for Dump Creation
 id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
-version: 15
-date: '2026-04-15'
+version: 16
+creation_date: '2019-12-11'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -37,33 +38,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: process $SourceImage$ injected into $TargetImage$ and was attempted dump LSASS on $dest$. Adversaries tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS).
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: TargetImage
-          type: process
-tags:
-    analytic_story:
-        - CISA AA23-347A
-        - Credential Dumping
-        - Cactus Ransomware
-        - Lokibot
-        - Scattered Lapsus$ Hunters
-    asset_type: Windows
-    mitre_attack_id:
-        - T1003.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: process $SourceImage$ injected into $TargetImage$ and was attempted dump LSASS on $dest$. Adversaries tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS).
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: TargetImage
+      type: process
+analytic_story:
+    - CISA AA23-347A
+    - Credential Dumping
+    - Cactus Ransomware
+    - Lokibot
+    - Scattered Lapsus$ Hunters
+asset_type: Windows
+mitre_attack_id:
+    - T1003.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

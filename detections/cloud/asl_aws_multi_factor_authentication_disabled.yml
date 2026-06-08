@@ -1,7 +1,8 @@
 name: ASL AWS Multi-Factor Authentication Disabled
 id: 4d2df5e0-1092-4817-88a8-79c7fa054668
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2022-10-04'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -33,31 +34,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ has disabled Multi-Factor authentication
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - AWS Identity and Access Management Account Takeover
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1556.006
-        - T1586.003
-        - T1621
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: User $user$ has disabled Multi-Factor authentication
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - AWS Identity and Access Management Account Takeover
+asset_type: AWS Account
+mitre_attack_id:
+    - T1556.006
+    - T1586.003
+    - T1621
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/asl_ocsf_cloudtrail.json
           sourcetype: aws:asl
           source: aws_asl
+      test_type: unit

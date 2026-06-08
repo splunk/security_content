@@ -1,3 +1,8 @@
-definition: (Processes.process_name=installutil.exe OR Processes.original_file_name=InstallUtil.exe)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_installutil
+id: e35f5e08-bb9f-4688-91b5-d62080e6511c
+version: 1
+creation_date: '2021-11-12'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=installutil.exe OR Processes.original_file_name=InstallUtil.exe)

@@ -1,13 +1,14 @@
 name: Windows AD Domain Replication ACL Addition
 id: 8c372853-f459-4995-afdc-280c114d33ab
-version: 13
-date: '2026-04-15'
+version: 14
+creation_date: '2022-11-17'
+modification_date: '2026-05-13'
 author: Dean Luxton
-type: TTP
 status: production
+type: TTP
+description: The following analytic detects the addition of permissions required for a DCSync attack, specifically DS-Replication-Get-Changes, DS-Replication-Get-Changes-All, and DS-Replication-Get-Changes-In-Filtered-Set. It leverages EventCode 5136 from the Windows Security Event Log to identify when these permissions are granted. This activity is significant because it indicates potential preparation for a DCSync attack, which can be used to replicate AD objects and exfiltrate sensitive data. If confirmed malicious, an attacker could gain extensive access to Active Directory, leading to severe data breaches and privilege escalation.
 data_source:
     - Windows Event Log Security 5136
-description: The following analytic detects the addition of permissions required for a DCSync attack, specifically DS-Replication-Get-Changes, DS-Replication-Get-Changes-All, and DS-Replication-Get-Changes-In-Filtered-Set. It leverages EventCode 5136 from the Windows Security Event Log to identify when these permissions are granted. This activity is significant because it indicates potential preparation for a DCSync attack, which can be used to replicate AD objects and exfiltrate sensitive data. If confirmed malicious, an attacker could gain extensive access to Active Directory, leading to severe data breaches and privilege escalation.
 search: |-
     `wineventlog_security` EventCode=5136 ObjectClass=domainDNS
       | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType
@@ -46,32 +47,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $src_user$ has granted $user$ permission to replicate AD objects
-    risk_objects:
+finding:
+    title: $src_user$ has granted $user$ permission to replicate AD objects
+    entity:
+        field: src_user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 50
-        - field: src_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1484
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
+          message: $src_user$ has granted $user$ permission to replicate AD objects
+analytic_story:
+    - Compromised Windows Host
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1484
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/aclmodification/windows-security-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      description: PORTED MANUAL TEST - This search uses a lookup provided by Enterprise Security and needs to be manually tested.
+      test_type: experimental

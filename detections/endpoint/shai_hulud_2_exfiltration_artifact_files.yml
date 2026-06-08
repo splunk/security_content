@@ -1,7 +1,8 @@
 name: Shai-Hulud 2 Exfiltration Artifact Files
 id: 9e7d3c0f-4a5b-6c8d-1e2f-3a4b5c6d7e8f
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2025-11-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -57,36 +58,38 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Shai-Hulud 2.0 exfiltration artifact $file_name$ created on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: file_name
-          type: file_name
-tags:
-    analytic_story:
-        - NPM Supply Chain Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1074.001
-        - T1552.001
-        - T1195.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Shai-Hulud 2.0 exfiltration artifact $file_name$ created on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: file_name
+      type: file_name
+analytic_story:
+    - NPM Supply Chain Compromise
+asset_type: Endpoint
+mitre_attack_id:
+    - T1074.001
+    - T1552.001
+    - T1195.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Linux
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/shai_hulud_workflow_sysmon.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit
     - name: True Positive Test - Windows
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/windows_workflow_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

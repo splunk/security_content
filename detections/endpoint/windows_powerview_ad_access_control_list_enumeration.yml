@@ -1,13 +1,14 @@
 name: Windows PowerView AD Access Control List Enumeration
 id: 39405650-c364-4e1e-a740-32a63ef042a6
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-04-21'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects the execution of PowerView PowerShell cmdlets `Get-ObjectAcl` or `Get-DomainObjectAcl`, which are used to enumerate Access Control List (ACL) permissions for Active Directory objects. It leverages Event ID 4104 from PowerShell Script Block Logging to identify this activity. This behavior is significant as it may indicate an attempt to discover weak permissions in Active Directory, potentially leading to privilege escalation. If confirmed malicious, attackers could exploit these permissions to gain unauthorized access or escalate their privileges within the network.
 data_source:
     - Powershell Script Block Logging 4104
-description: The following analytic detects the execution of PowerView PowerShell cmdlets `Get-ObjectAcl` or `Get-DomainObjectAcl`, which are used to enumerate Access Control List (ACL) permissions for Active Directory objects. It leverages Event ID 4104 from PowerShell Script Block Logging to identify this activity. This behavior is significant as it may indicate an attempt to discover weak permissions in Active Directory, potentially leading to privilege escalation. If confirmed malicious, attackers could exploit these permissions to gain unauthorized access or escalate their privileges within the network.
 search: |-
     `powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl*)
       | fillnull
@@ -36,30 +37,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: PowerView AD acccess control list enumeration detected on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Active Directory Discovery
-        - Active Directory Privilege Escalation
-        - Rhysida Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1078.002
-        - T1069
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: PowerView AD acccess control list enumeration detected on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Active Directory Discovery
+    - Active Directory Privilege Escalation
+    - Rhysida Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1078.002
+    - T1069
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/powerview_acl_enumeration/windows-powershell.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

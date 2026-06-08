@@ -1,7 +1,8 @@
 name: Cloud API Calls From Previously Unseen User Roles
 id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2020-10-27'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -36,28 +37,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ of type AssumedRole attempting to execute new API calls $command$ that have not been seen before
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious Cloud User Activities
-    asset_type: AWS Instance
-    mitre_attack_id:
-        - T1078
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
-    manual_test: This search needs the baseline `Previously Seen Cloud API Calls Per User Role - Initial` to be run first.
+          message: User $user$ of type AssumedRole attempting to execute new API calls $command$ that have not been seen before
+analytic_story:
+    - Suspicious Cloud User Activities
+asset_type: AWS Instance
+mitre_attack_id:
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
+baselines:
+    - Previously Seen Cloud API Calls Per User Role - Update
+    - Previously Seen Cloud API Calls Per User Role - Initial
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      description: PORTED MANUAL TEST - This search needs the baseline `Previously Seen Cloud API Calls Per User Role - Initial` to be run first.
+      test_type: experimental

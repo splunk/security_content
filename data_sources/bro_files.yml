@@ -1,20 +1,19 @@
 name: Bro files
 id: f72d34d0-3495-4826-ad34-d03495782633
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2025-01-21'
+modification_date: '2026-05-13'
 author: Jacob Delgado, SnapAttack
-description: Logs metadata about files transferred over the network captured by Zeek
-  (formerly Bro), including details such as file names, hashes, MIME types, and transfer
-  protocols.
+description: Logs metadata about files transferred over the network captured by Zeek (formerly Bro), including details such as file names, hashes, MIME types, and transfer protocols.
 mitre_components:
-- File Metadata
-- Network Traffic Content
-- Network Traffic Flow
-- Response Metadata
-- Application Log Content
+    - File Metadata
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Response Metadata
+    - Application Log Content
 source: bro:files:json
 sourcetype: bro:files:json
 supported_TA:
-- name: TA for Zeek
-  url: https://splunkbase.splunk.com/app/5466
-  version: 1.0.11
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11

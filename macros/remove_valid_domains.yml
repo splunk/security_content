@@ -1,5 +1,8 @@
-definition: eval domain=trim(domain,"*") | search NOT[| inputlookup domains]  NOT[
-  |inputlookup cim_corporate_email_domain_lookup] NOT[inputlookup cim_corporate_web_domain_lookup]
-  | eval domain="*"+domain+"*"
-description: This macro removes valid domains from the output
 name: remove_valid_domains
+id: 1515e537-07f4-499b-8d9a-dcc451e02c25
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro removes valid domains from the output
+definition: eval domain=trim(domain,"*") | search NOT[| inputlookup domains]  NOT[ |inputlookup cim_corporate_email_domain_lookup] NOT[inputlookup cim_corporate_web_domain_lookup] | eval domain="*"+domain+"*"

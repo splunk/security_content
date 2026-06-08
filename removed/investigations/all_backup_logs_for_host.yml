@@ -1,20 +1,23 @@
 name: All backup logs for host
 id: bc91a8cf-aaaa-4bb2-8140-e756cc06fd72
 version: 1
-date: '2017-09-12'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 type: Investigation
 status: removed
-description: Retrieve the backup logs for the last 2 weeks for a specific host in
-  order to investigate why backups are not completing successfully.
+description: Retrieve the backup logs for the last 2 weeks for a specific host in order to investigate why backups are not completing successfully.
 search: '| search `netbackup` dest=$dest$'
-how_to_implement: The successfully implement this search you must first send your
-  backup logs to Splunk.
+how_to_implement: The successfully implement this search you must first send your backup logs to Splunk.
 known_false_positives: none
 references: []
 tags:
-  analytic_story:
-  - Monitor Backup Solution
-  product:
-  - Splunk Phantom
-  security_domain: endpoint
+    analytic_story:
+        - Monitor Backup Solution
+    product:
+        - Splunk Phantom
+    security_domain: endpoint
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

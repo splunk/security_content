@@ -1,7 +1,8 @@
 name: 7zip CommandLine To SMB Share Path
 id: 01d29b48-ff6f-11eb-b81e-acde48001123
-version: 9
-date: '2026-01-14'
+version: 10
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -15,20 +16,21 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://threadreaderapp.com/thread/1423361119926816776.html
-tags:
-    analytic_story:
-        - Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1560.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1560.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

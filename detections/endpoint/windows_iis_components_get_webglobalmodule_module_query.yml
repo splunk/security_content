@@ -1,7 +1,8 @@
 name: Windows IIS Components Get-WebGlobalModule Module Query
 id: 20db5f70-34b4-4e83-8926-fa26119de173
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2022-12-21'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -22,22 +23,23 @@ references:
     - https://help.splunk.com/en/splunk-cloud-platform/get-started/get-data-in/9.3.2411/get-windows-data/monitor-windows-data-with-powershell-scripts
     - https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
     - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
-tags:
-    analytic_story:
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - IIS Components
-        - WS FTP Server Critical Vulnerabilities
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1505.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - IIS Components
+    - WS FTP Server Critical Vulnerabilities
+asset_type: Endpoint
+mitre_attack_id:
+    - T1505.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_installediismodules.log
           source: powershell://AppCmdModules
           sourcetype: Pwsh:InstalledIISModules
+      test_type: unit

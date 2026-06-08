@@ -1,7 +1,8 @@
 name: AWS Concurrent Sessions From Different Ips
 id: 51c04fdb-2746-465a-b86e-b413a09c9085
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-02-01'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -34,31 +35,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ has concurrent sessions from more than one unique IP address $src$ in the span of 5 minutes.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Compromised User Account
-        - AWS Identity and Access Management Account Takeover
-        - Scattered Lapsus$ Hunters
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1185
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: User $user$ has concurrent sessions from more than one unique IP address $src$ in the span of 5 minutes.
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Compromised User Account
+    - AWS Identity and Access Management Account Takeover
+    - Scattered Lapsus$ Hunters
+asset_type: AWS Account
+mitre_attack_id:
+    - T1185
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/cloudtrail.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+      test_type: unit

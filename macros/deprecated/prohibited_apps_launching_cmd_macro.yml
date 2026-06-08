@@ -1,6 +1,8 @@
-definition: '| inputlookup prohibited_apps_launching_cmd | rename prohibited_applications
-  as parent_process_name | eval parent_process_name="*" . parent_process_name | table
-  parent_process_name'
-description: This macro outputs a list of process that should not be the parent process
-  of cmd.exe
 name: prohibited_apps_launching_cmd_macro
+id: e53207c8-f809-4dff-a1ad-df4d88408f57
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro outputs a list of process that should not be the parent process of cmd.exe
+definition: '| inputlookup prohibited_apps_launching_cmd | rename prohibited_applications as parent_process_name | eval parent_process_name="*" . parent_process_name | table parent_process_name'

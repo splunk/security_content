@@ -1,15 +1,16 @@
 name: Windows ESX Admins Group Creation via Net
 id: 3d7df60b-3332-4667-8090-afe03e08dce0
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-07-30'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+description: This analytic detects attempts to create an "ESX Admins" group using the Windows net.exe or net1.exe commands. This activity may indicate an attempt to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085). Attackers can use this method to gain unauthorized access to ESXi hosts by recreating the "ESX Admins" group after its deletion from Active Directory.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: This analytic detects attempts to create an "ESX Admins" group using the Windows net.exe or net1.exe commands. This activity may indicate an attempt to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085). Attackers can use this method to gain unauthorized access to ESXi hosts by recreating the "ESX Admins" group after its deletion from Active Directory.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_net` Processes.process="*group*" Processes.process="*ESX Admins*"
@@ -41,33 +42,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An attempt to create an "ESX Admins" group was detected on $dest$ by user $user$.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: An attempt to create an "ESX Admins" group was detected on $dest$ by user $user$.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1136.002
-        - T1136.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve:
-        - CVE-2024-37085
+          message: An attempt to create an "ESX Admins" group was detected on $dest$ by user $user$.
+analytic_story:
+    - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
+asset_type: Endpoint
+cve:
+    - CVE-2024-37085
+mitre_attack_id:
+    - T1136.002
+    - T1136.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon-esxadmins.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

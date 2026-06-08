@@ -1,7 +1,8 @@
 name: Windows Registry Entries Restored Via Reg
 id: a17af481-e2ad-494c-9da6-afb4d243a019
-version: 4
-date: '2026-02-25'
+version: 5
+creation_date: '2022-12-13'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -32,21 +33,22 @@ references:
     - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/quser
     - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
     - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
-tags:
-    analytic_story:
-        - Windows Post-Exploitation
-        - Prestige Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1012
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Windows Post-Exploitation
+    - Prestige Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1012
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
