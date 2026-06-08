@@ -1,8 +1,8 @@
 name: Add or Set Windows Defender Exclusion
 id: 773b66fe-4dd9-11ec-8289-acde48001122
-version: 17
+version: 18
 creation_date: '2021-11-25'
-modification_date: '2026-05-13'
+modification_date: '2026-06-08'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -91,6 +91,7 @@ analytic_story:
     - Windows Defense Evasion Tactics
     - Crypto Stealer
     - NetSupport RMM Tool Abuse
+    - Salat Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1685
