@@ -139,7 +139,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://github.com/splunk/attack_data/blob/master/datasets/aws_bedrock_claude/aws_bedrock_claude_high_risk_filesystem_and_exec_tool_invocation.ndjson
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_high_risk_filesystem_and_exec_tool_invocation.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
       test_type: experimental

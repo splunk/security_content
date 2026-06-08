@@ -66,7 +66,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://github.com/splunk/attack_data/blob/master/datasets/aws_bedrock_claude/aws_bedrock_claude_excessive_use_of_tokens.ndjson
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_excessive_use_of_tokens.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
       test_type: experimental
