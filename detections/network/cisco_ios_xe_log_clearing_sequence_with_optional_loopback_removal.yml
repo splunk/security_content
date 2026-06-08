@@ -1,4 +1,4 @@
-name: Cisco IOS XE Log Clearing Sequence With Loopback Removal
+name: Cisco IOS XE Log Clearing Sequence With Optional Loopback Removal
 id: e20a6709-5f2c-4508-83fb-b3af6f705717
 version: 1
 creation_date: '2026-05-19'
@@ -17,12 +17,13 @@ search: |-
     mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG", "CFGLOG_LOGGEDCMD")
     message_text IN ("*show logging*", "*clear logging*", "*exit*", "*no interface Loopback*")
 
+    | eval cmd=lower(coalesce(command, message_text))
     | eval event_type=case(
-        like(command, "show logging%"), "show_logging",
-        like(command, "clear logging%"), "clear_logging",
-        command="exit", "exit",
-        like(command, "no interface loopback%"), "remove_loopback",
-        true(), null())
+                like(cmd, "%show logging%"), "show_logging",
+                like(cmd, "%clear logging%"), "clear_logging",
+                like(cmd, "%exit%"), "exit",
+                like(cmd, "%no interface loopback%"), "remove_loopback"
+            )
     | where isnotnull(event_type)
     | eval dest=coalesce(host, dvc, dest, "unknown")
     | bin _time span=2m
@@ -30,6 +31,7 @@ search: |-
                   max(_time) as lastTime
                   values(event_type) as event_types
                   values(message_text) as message_text
+                  values(cmd) as cmd
       by _time dest
     | where mvfind(event_types, "clear_logging") >= 0
             AND
@@ -42,7 +44,7 @@ search: |-
             )
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `cisco_ios_xe_log_clearing_sequence_with_loopback_removal_filter`
+    | `cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal_filter`
 how_to_implement: |
     Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
     Command visibility requires AAA command accounting, archive/config logging for configuration commands, or EEM catchall logging.
@@ -50,11 +52,16 @@ known_false_positives: |
     No false positives have been identified at this time.
 references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+    - https://blog.talosintelligence.com/salt-typhoon-analysis/
 drilldown_searches:
-    - name: View log clearing sequence for $dest$ and $user$
-      search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+    - name: View the detection results for - "$risk_object$"
+      search: '%original_detection_search% | search  risk_object = "$risk_object$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$risk_object$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 intermediate_findings:
     entities:
         - field: dest
