@@ -45,10 +45,10 @@ product:
 tests:
     - name: True Positive Test
       test_type: unit
-      description: This test simulates a scenario where unusually large prompts are sent to AWS Bedrock Claude models. The test generates logs with input token counts that exceed the statistical baseline, allowing you to verify that the detection correctly identifies these anomalies and generates the expected results.   
+      description: This test simulates a scenario where unusually large prompts are sent to AWS Bedrock Claude models. The test generates logs with input token counts that exceed the statistical baseline, allowing you to verify that the detection correctly identifies these anomalies and generates the expected results.
       attack_data:
         - data: https://github.com/splunk/attack_data/blob/master/datasets/aws_bedrock_claude/aws_bedrock_claude_unusually_large_prompts.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
-         
+
 

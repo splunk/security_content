@@ -33,7 +33,7 @@ intermediate_findings:
           score: 20
           message: Cross-region inference abuse detected from $user$ ($session_user$) using model $model_short$ with region mismatch $mismatch_detail$ and $input_tokens$ input tokens on $host$.
 analytic_story:
--  Suspicious AWS Bedrock Claude Activities
+- Suspicious AWS Bedrock Claude Activities
 asset_type: Web Application
 mitre_attack_id:
 - T1599
