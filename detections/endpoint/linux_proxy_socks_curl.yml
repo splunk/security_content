@@ -6,19 +6,37 @@ modification_date: '2026-06-04'
 author: Michael Haag, Splunk, 0xC0FFEEEE, Github Community
 status: production
 type: TTP
-description: The following analytic detects the use of the `curl` command with proxy-related arguments such as `-x`, `socks`, `--preproxy`, and `--proxy`. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process details. This activity is significant as it may indicate an adversary attempting to use a proxy to evade network monitoring and obscure their actions. If confirmed malicious, this behavior could allow attackers to bypass security controls, making it difficult to track their activities and potentially leading to unauthorized data access or exfiltration.
+description: |-
+    The following analytic detects the use of the `curl` command with proxy-related arguments such as `-x`, `socks`, `--preproxy`, and `--proxy`.
+    This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process details.
+    This activity is significant as it may indicate an adversary attempting to use a proxy to evade network monitoring and obscure their actions.
+    If confirmed malicious, this behavior could allow attackers to bypass security controls, making it difficult to track their activities and potentially leading to unauthorized data access or exfiltration.
 data_source:
     - Sysmon for Linux EventID 1
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.process_name=curl Processes.process IN ("*-x *", "*socks4a://*", "*socks5h://*", "*socks4://*","*socks5://*", "*--preproxy *", "--proxy*")
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process_name=curl
+    Processes.process IN (
+        "*--preproxy *",
+        "*--proxy*",
+        "*-x *",
+        "*socks4://*",
+        "*socks4a://*",
+        "*socks5://*",
+        "*socks5h://*"
+    )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+        Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+        Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+        Processes.process Processes.process_exec Processes.process_guid
+        Processes.process_hash Processes.process_id Processes.process_integrity_level
+        Processes.process_name Processes.process_path Processes.user
+        Processes.user_id Processes.vendor_product
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
