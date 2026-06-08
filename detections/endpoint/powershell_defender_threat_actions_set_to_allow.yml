@@ -59,13 +59,12 @@ finding:
         field: dest
         type: system
         score: 50
-threat_objects:
-    - field: parent_process_name
-      type: parent_process_name
-    - field: process_name
-      type: process_name
-    - field: process
-      type: process
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 50
+          message: Process Commandline [$process$] that Set to Allow Windows Defender Threat Actions on [$dest$].
 analytic_story:
     - Salat Stealer
 asset_type: Endpoint
