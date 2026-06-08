@@ -7,7 +7,7 @@ author: Rod Soto
 status: production
 type: Anomaly
 data_source:
-- AWS Bedrock Claude
+    - AWS Bedrock Claude
 category: application
 description: This detection identifies potential cross-region inference abuse in AWS Bedrock Claude models. Cross-region inference abuse may indicate attempts to bypass regional restrictions, exfiltrate data, or perform unauthorized actions across different AWS regions.
 search: '`aws_bedrock_claude` | rename "identity.arn" AS user_arn | rename "input.inputTokenCount" AS input_tokens | rename "output.outputTokenCount" AS output_tokens | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$" | rex field="input.inputBodyJson.metadata.user_id" "(?<session_user>user_[^_]+.*)" | eval input_tokens=tonumber(input_tokens) | eval output_tokens=tonumber(output_tokens) | eval token_ratio=round(output_tokens / max(input_tokens,1), 2) | eval model_short=replace(modelId,"^.*/","") | eval mismatch_detail=region." -> ".inferenceRegion | where isnotnull(user_arn) AND len(user_arn)>10 | where isnotnull(session_user) | where region!=inferenceRegion | where input_tokens>=2000 | table _time, user, user_arn, session_user, model_short, input_tokens, output_tokens, token_ratio, mismatch_detail, operation, host | sort - input_tokens | `aws_bedrock_claude_cross_region_possible_inference_abuse_filter`'
@@ -33,14 +33,14 @@ intermediate_findings:
           score: 20
           message: Cross-region inference abuse detected from $user$ ($session_user$) using model $model_short$ with region mismatch $mismatch_detail$ and $input_tokens$ input tokens on $host$.
 analytic_story:
-- Suspicious AWS Bedrock Claude Activities
+    - Suspicious AWS Bedrock Claude Activities
 asset_type: Web Application
 mitre_attack_id:
-- T1599
+    - T1599
 product:
-- Splunk Enterprise
-- Splunk Enterprise Security
-- Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
 security_domain: endpoint
 tests:
     - name: True Positive Test

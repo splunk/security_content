@@ -8,7 +8,7 @@ creation_date: '2026-05-19'
 modification_date: '2026-05-19'
 security_domain: endpoint
 data_source:
-- AWS Bedrock Claude
+    - AWS Bedrock Claude
 category: application
 description: This detection identifies unusually large prompts sent to AWS Bedrock Claude models by calculating the statistical baseline of input token counts and flagging requests that exceed 15 standard deviations above the mean. Abnormally large prompts may indicate prompt injection attacks, data exfiltration attempts, or abuse of the AI service.
 search: '`aws_bedrock_claude` | rename "input.inputTokenCount" AS input_tokens | rename "identity.arn" AS user_arn | rename "accountId" AS account_id | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$" | eval input_tokens=tonumber(input_tokens) | where input_tokens>0 | eventstats avg(input_tokens) AS avg_tokens stdev(input_tokens) AS stdev | where input_tokens > avg_tokens + (1*stdev) | where input_tokens > 1000 | table _time, modelId, user, user_arn, account_id, input_tokens, avg_tokens, host | sort - input_tokens | `aws_bedrock_claude_unusually_large_prompts_filter`'
@@ -34,14 +34,14 @@ intermediate_findings:
           score: 20
           message: Unusually large prompt detected on $host$ with $input_tokens$ input tokens, exceeding the statistical baseline of $avg_tokens$ average tokens.
 analytic_story:
-- Suspicious AWS Bedrock Claude Activities
+    - Suspicious AWS Bedrock Claude Activities
 asset_type: Web Application
 mitre_attack_id:
-- T1055
+    - T1055
 product:
-- Splunk Enterprise
-- Splunk Enterprise Security
-- Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
 tests:
     - name: True Positive Test
       test_type: unit
@@ -50,5 +50,3 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_unusually_large_prompts.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
-
-

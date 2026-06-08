@@ -71,5 +71,3 @@ tests:
           source: http:bulkawsbedrock
       test_type: experimental
       description: This test is a legacy experimental test and may not be accurate.
-
-

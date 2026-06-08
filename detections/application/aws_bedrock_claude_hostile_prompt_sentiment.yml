@@ -5,7 +5,7 @@ creation_date: '2026-05-19'
 modification_date: '2026-05-19'
 security_domain: endpoint
 data_source:
-- AWS Bedrock Claude
+    - AWS Bedrock Claude
 category: application
 author: Rod Soto
 status: production
@@ -34,14 +34,14 @@ intermediate_findings:
           score: 20
           message: Hostile prompt sentiment detected from $user_arn$ to model $modelId$ on $host$ with a hostile score of $hostile_score$ ($sentiment$).
 analytic_story:
-- Suspicious AWS Bedrock Claude Activities
+    - Suspicious AWS Bedrock Claude Activities
 asset_type: Web Application
 mitre_attack_id:
-- T1055
+    - T1055
 product:
-- Splunk Enterprise
-- Splunk Enterprise Security
-- Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
 tests:
     - name: True Positive Test
       description: This test simulates a hostile prompt sentiment scenario by generating AWS Bedrock Claude logs with negative or aggressive sentiment in the prompts. The test verifies that the detection correctly identifies the hostile prompts and generates the expected results.
