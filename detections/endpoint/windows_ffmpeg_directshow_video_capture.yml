@@ -71,6 +71,7 @@ product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
+category: endpoint
 security_domain: endpoint
 tests:
     - name: True Positive Test
