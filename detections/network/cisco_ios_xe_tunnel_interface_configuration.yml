@@ -49,9 +49,9 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_tunnel_interface_configuration_filter`
 how_to_implement: |
-    Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios" and enable archive/config command logging. The lab also records these commands through the EEM catchall logger.
+    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios" and enable archive/config command logging.
 known_false_positives: |
-    Legitimate tunnel provisioning may match this analytic. Tune for expected tunnel IDs, approved administrators, and planned network changes.
+    No false positives have been identified at this time.
 references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
 drilldown_searches:

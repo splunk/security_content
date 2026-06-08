@@ -43,7 +43,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 finding:
-    title: A process $parent_process_name$ attempted to resize shadow copy with commandline $process$ in host $dest$
+    title: WebUI authentication failure with local port 21111 from $src_ip$.
     entity:
         field: user
         type: user
@@ -53,7 +53,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 40
-          message: Cisco IOS-XE device $dest$ logged a WebUI authentication failure with local port 21111 from $src_ip$.
+          message: WebUI authentication failure with local port 21111 from $src_ip$ on $dest$.
 threat_objects:
     - field: src_ip
       type: ip_address

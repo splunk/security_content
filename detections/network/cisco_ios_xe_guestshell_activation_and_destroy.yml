@@ -60,10 +60,9 @@ search: |-
     | `cisco_ios_xe_guestshell_activation_and_destroy_filter`
 how_to_implement: |
     Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
-    EEM catchall command logging should capture the "guestshell enable" and "guestshell destroy" commands as HA_EM/LOG events.
-    Platform lifecycle logs may appear as VMAN activation/install-state messages on some IOS-XE images or as IM/IOX guestshell service messages on others.
+    Enable EEM catchall command logging to capture the "guestshell enable" and "guestshell destroy" commands as HA_EM/LOG events.
 known_false_positives: |
-    Lab testing, software troubleshooting, and container lifecycle maintenance may enable and destroy guestshell. Filter approved maintenance windows.
+    No false positives have been identified at this time.
 references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
 drilldown_searches:

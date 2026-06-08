@@ -38,7 +38,8 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_remote_access_probe_burst_filter`
 how_to_implement: |
-    Ingest Cisco IOS/NX-OS command logs with sourcetype "cisco:ios". Command visibility requires Nexus accounting, Catalyst TACACS+ accounting, or the Catalyst EEM catchall logger used in the lab.
+    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+    Command visibility requires AAA command accounting, archive/config logging for configuration commands, or EEM catchall logging.
 known_false_positives: |
     Network reachability testing, migration validation, and troubleshooting can generate repeated ping, SSH, or Telnet commands.
 references:

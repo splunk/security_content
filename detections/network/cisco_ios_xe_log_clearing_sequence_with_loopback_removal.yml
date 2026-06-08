@@ -44,7 +44,8 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_log_clearing_sequence_filter`
 how_to_implement: |
-    Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios". Command visibility requires AAA command accounting, archive/config logging for configuration commands, or EEM catchall logging.
+    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+    Command visibility requires AAA command accounting, archive/config logging for configuration commands, or EEM catchall logging.
 known_false_positives: |
     Administrators may clear logs during lab work or maintenance. This should be rare in production and should be validated against change control.
 references:
@@ -59,14 +60,8 @@ intermediate_findings:
         - field: dest
           type: system
           score: 35
-          message: Cisco IOS-XE log clearing sequence was observed on $dest$ by $user$.
-        - field: user
-          type: user
-          score: 35
-          message: User $user$ executed a Cisco IOS-XE log clearing sequence on $dest$.
-threat_objects:
-    - field: commands
-      type: command
+          message: Cisco IOS-XE log clearing sequence was observed on $dest$.
+threat_objects: []
 analytic_story:
     - Salt Typhoon
 asset_type: Network

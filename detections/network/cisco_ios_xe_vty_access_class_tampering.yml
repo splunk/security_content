@@ -51,7 +51,8 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_vty_access_class_tampering_filter`
 how_to_implement: |
-    Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios" and enable archive/config command logging. EEM catchall logging can also provide command visibility in the lab.
+    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios" and enable archive/config command logging.
+    EEM catchall logging can also provide command visibility in the lab.
 known_false_positives: |
     VTY ACL changes occur during legitimate management access updates. Filter approved maintenance windows and known administrators.
 references:

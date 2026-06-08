@@ -58,7 +58,9 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_reconnaissance_command_activity_filter`
 how_to_implement: |
-    Ingest Cisco IOS/NX-OS command logs with sourcetype "cisco:ios". On Nexus, local accounting can emit "%AAA-6-AAA_ACCOUNTING_MESSAGE". On Catalyst, use TACACS+ command accounting or EEM catchall syslog for exec command visibility.
+    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+    On Nexus, local accounting can emit "%AAA-6-AAA_ACCOUNTING_MESSAGE".
+    On Catalyst, use TACACS+ command accounting or EEM catchall syslog for exec command visibility.
 known_false_positives: |
     Network audits and troubleshooting can produce similar command bursts. Tune the command list, threshold, and approved administrators for the environment.
 references:
