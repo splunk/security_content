@@ -39,12 +39,12 @@ references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
     - https://blog.talosintelligence.com/salt-typhoon-analysis/
 drilldown_searches:
-    - name: View the detection results for - "$risk_object$"
-      search: '%original_detection_search% | search  risk_object = "$risk_object$"'
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$risk_object$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
@@ -57,7 +57,7 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 40
+          score: 50
           message: WebUI authentication failure with local port 21111 from $src_ip$ on $dest$.
 threat_objects:
     - field: src_ip
@@ -72,7 +72,7 @@ product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
-category: network
+category: application
 security_domain: network
 tests:
     - name: True Positive Test
