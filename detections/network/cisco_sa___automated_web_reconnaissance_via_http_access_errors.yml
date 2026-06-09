@@ -73,5 +73,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/proxy/automated_web_recon_http_errors.log
           source: cisco_cloud_security_addon
           sourcetype: cisco:cloud_security:proxy
-      description: This test scenario covers true positive activity, simulating a high error count reconnaissance from a single src_ip against a domain. Review the filter macro to tune this detection for your environment.
       test_type: unit
