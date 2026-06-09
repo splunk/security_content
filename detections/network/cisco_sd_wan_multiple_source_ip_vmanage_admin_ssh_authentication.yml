@@ -40,6 +40,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/CVE-2026-20127/auth_dummy_key.log
-          source: /var/log/nms/containers/service-proxy/serviceproxy-access.log
+          source: /var/log/auth.log
           sourcetype: cisco:sdwan:syslog
       test_type: unit
