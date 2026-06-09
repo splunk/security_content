@@ -1,0 +1,108 @@
+name: Cisco IOS XE Reconnaissance Command Activity
+id: 71ac5328-2364-40cf-8381-92b8dc531399
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-20'
+author: Nasreddine Bencherchali
+status: production
+type: Anomaly
+description: |
+    This analytic detects bursts of Cisco IOS or NX-OS discovery commands associated with Salt Typhoon tradecraft.
+    Adversaries who gain initial access to network infrastructure devices typically perform systematic reconnaissance to understand the device configuration, network topology, security policies, connected systems, and potential attack paths.
+    This reconnaissance phase involves executing multiple "show" commands to enumerate device details, running configurations, active connections, routing information, and VPN sessions.
+data_source:
+    - Cisco IOS Logs
+search: |-
+    `cisco_ios`
+    facility IN ("AAA", "HA_EM")
+    mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG")
+    message_text IN (
+        "*show running-config*",
+        "*show tacacs*",
+        "*show cdp neighbors*",
+        "*show file systems*",
+        "*dir bootflash:*",
+        "*show clock*",
+        "*show platform software status control-processor brief*",
+        "*terminal length 0*",
+        "*terminal width 0*"
+    )
+
+    | rex field=message_text "^\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\s+\((?<aaa_result>SUCCESS|FAILURE)\))?$"
+    | rex field=message_text "^(?:[^:]+:\s+)?(?:catchall:\s+)?(?<eem_command>.+?)\s*$"
+    | eval command=lower(trim(coalesce(aaa_command, eem_command, "")))
+
+    | eval command_type=case(
+        like(command, "show running-config%"), "show_conf",
+        like(command, "show tacacs%"), "show_tacacs",
+        like(command, "show cdp neighbors detail%"), "show_cdp",
+        like(command, "show cdp neighbors%"), "show_cdp",
+        like(command, "show file systems%"), "show_file",
+        like(command, "dir bootflash:%"), "dir_bootflash",
+        like(command, "show clock%"), "show_clock",
+        like(command, "show platform software status control-processor brief%"), "show_platform",
+        like(command, "terminal length 0%"), "terminal",
+        like(command, "terminal width 0%"), "terminal",
+        true(), null())
+    | where isnotnull(command_type)
+    | eval user=coalesce(aaa_user, user, "unknown")
+    | eval src_ip=coalesce(aaa_src, src_ip, "unknown")
+    | eval dest=coalesce(host, dvc, dest, "unknown")
+    | bin _time span=5m
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  dc(command_type) as unique_recon_commands
+                  values(command_type) as command_types
+                  values(command) as commands
+      by _time dest user src_ip
+    | where unique_recon_commands >= 4
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_reconnaissance_command_activity_filter`
+how_to_implement: |
+    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+    On Nexus, local accounting can emit "%AAA-6-AAA_ACCOUNTING_MESSAGE".
+    On Catalyst, use TACACS+ command accounting or EEM catchall syslog for exec command visibility.
+known_false_positives: |
+    Network audits and troubleshooting can produce similar command bursts. Tune the command list, threshold, and approved administrators for the environment.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+    - https://blog.talosintelligence.com/salt-typhoon-analysis/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: User $user$ executed $unique_recon_commands$ Cisco reconnaissance command categories on $dest$.
+threat_objects:
+    - field: commands
+      type: command
+analytic_story:
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1082
+    - T1016
+    - T1590
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_cisco.log
+          source: ctb:nexus:syslog
+          sourcetype: cisco:ios
+      test_type: unit
