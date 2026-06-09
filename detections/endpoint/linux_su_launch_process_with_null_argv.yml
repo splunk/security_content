@@ -6,7 +6,8 @@ modification_date: '2026-05-12'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: The following analytic detects kernel-level events where a setuid binary launches a shell or interpreter with a NULL argument vector, which occurs when a privilege escalation exploit gains root and executes a shell via execve() without constructing a legitimate argument array.
+description: |-
+    The following analytic detects kernel-level events where a setuid binary launches a shell or interpreter with a NULL argument vector, which occurs when a privilege escalation exploit gains root and executes a shell via execve() without constructing a legitimate argument array.
 data_source:
     - Linux Messages Syslog
 search: |

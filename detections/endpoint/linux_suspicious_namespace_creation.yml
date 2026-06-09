@@ -6,7 +6,8 @@ modification_date: '2026-05-12'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: The follow analytic detects an unprivileged user invoking the unshare syscall with user namespace flags followed within 120 seconds by a root-owned shell or interpreter spawning under the same parent process, correlating auditd syscall telemetry with Sysmon process creation events to identify the two-step sequence characteristic of user-namespace-based Linux kernel privilege escalation exploits such as DirtyFrag.
+description: |-
+    The following analytic detects an unprivileged user invoking the unshare syscall with user namespace flags followed within 120 seconds by a root-owned shell or interpreter spawning under the same parent process, correlating auditd syscall telemetry with Sysmon process creation events to identify the two-step sequence characteristic of user-namespace-based Linux kernel privilege escalation exploits such as DirtyFrag.
 data_source:
     - Linux Auditd Syscall
     - Sysmon for Linux EventID 1

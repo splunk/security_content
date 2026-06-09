@@ -6,7 +6,9 @@ modification_date: '2026-05-11'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: The following analytic detects when the AF_ALG kernel crypto socket interface being loaded more than 300 seconds after system boot, which is a primary kernel-level indicator of Copy Fail (CVE-2026-31431) exploitation activity on Debian and Ubuntu family systems. The AF_ALG interface is required by the exploit to access the vulnerable authencesn crypto code path, and on systems where it is not auto-loaded at boot, its on-demand registration by an unprivileged process is a strong indicator of exploitation in progress.
+description: |-
+    The following analytic detects when the AF_ALG kernel crypto socket interface being loaded more than 300 seconds after system boot, which is a primary kernel-level indicator of Copy Fail (CVE-2026-31431) exploitation activity on Debian and Ubuntu family systems.
+    The AF_ALG interface is required by the exploit to access the vulnerable authencesn crypto code path, and on systems where it is not auto-loaded at boot, its on-demand registration by an unprivileged process is a strong indicator of exploitation in progress.
 data_source:
     - Linux Messages Syslog
 search: |
