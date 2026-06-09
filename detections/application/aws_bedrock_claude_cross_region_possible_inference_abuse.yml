@@ -10,7 +10,25 @@ data_source:
     - AWS Bedrock Claude
 category: application
 description: This detection identifies potential cross-region inference abuse in AWS Bedrock Claude models. Cross-region inference abuse may indicate attempts to bypass regional restrictions, exfiltrate data, or perform unauthorized actions across different AWS regions.
-search: '`aws_bedrock_claude` | rename "identity.arn" AS user_arn | rename "input.inputTokenCount" AS input_tokens | rename "output.outputTokenCount" AS output_tokens | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$" | rex field="input.inputBodyJson.metadata.user_id" "(?<session_user>user_[^_]+.*)" | eval input_tokens=tonumber(input_tokens) | eval output_tokens=tonumber(output_tokens) | eval token_ratio=round(output_tokens / max(input_tokens,1), 2) | eval model_short=replace(modelId,"^.*/","") | eval mismatch_detail=region." -> ".inferenceRegion | where isnotnull(user_arn) AND len(user_arn)>10 | where isnotnull(session_user) | where region!=inferenceRegion | where input_tokens>=2000 | table _time, user, user_arn, session_user, model_short, input_tokens, output_tokens, token_ratio, mismatch_detail, operation, host | sort - input_tokens | `aws_bedrock_claude_cross_region_possible_inference_abuse_filter`'
+search: |-
+    `aws_bedrock_claude`
+    | rename "identity.arn" AS user_arn
+    | rename "input.inputTokenCount" AS input_tokens
+    | rename "output.outputTokenCount" AS output_tokens
+    | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$"
+    | rex field="input.inputBodyJson.metadata.user_id" "(?<session_user>user_[^_]+.*)"
+    | eval input_tokens=tonumber(input_tokens)
+    | eval output_tokens=tonumber(output_tokens)
+    | eval token_ratio=round(output_tokens / max(input_tokens,1), 2)
+    | eval model_short=replace(modelId,"^.*/","")
+    | eval mismatch_detail=region." -> ".inferenceRegion
+    | where isnotnull(user_arn) AND len(user_arn)>10
+    | where isnotnull(session_user)
+    | where region!=inferenceRegion
+    | where input_tokens>=2000
+    | table _time, user, user_arn, session_user, model_short, input_tokens, output_tokens, token_ratio, mismatch_detail, operation, host
+    | sort - input_tokens
+    | `aws_bedrock_claude_cross_region_possible_inference_abuse_filter`
 how_to_implement: To implement this detection, you will need to ingest AWS Bedrock Claude logs into Splunk. This can be done by configuring the appropriate data inputs to collect logs from the AWS Bedrock service, ensuring that the sourcetype is set correctly for JSON log parsing. Once the logs are ingested, you can use the provided SPL query to monitor for potential cross-region inference abuse in Claude models.
 known_false_positives: False positives may arise from legitimate use cases where users are accessing AWS Bedrock Claude models across different regions for valid reasons, such as multi-region deployments, testing, or development purposes. It is important to review the context of the detected events to determine if they represent actual abuse or benign usage.
 references:

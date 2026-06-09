@@ -11,7 +11,20 @@ data_source:
     - AWS Bedrock Claude
 category: application
 description: This detection identifies unusually large prompts sent to AWS Bedrock Claude models by calculating the statistical baseline of input token counts and flagging requests that exceed 15 standard deviations above the mean. Abnormally large prompts may indicate prompt injection attacks, data exfiltration attempts, or abuse of the AI service.
-search: '`aws_bedrock_claude` | rename "input.inputTokenCount" AS input_tokens | rename "identity.arn" AS user_arn | rename "accountId" AS account_id | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$" | eval input_tokens=tonumber(input_tokens) | where input_tokens>0 | eventstats avg(input_tokens) AS avg_tokens stdev(input_tokens) AS stdev | where input_tokens > avg_tokens + (1*stdev) | where input_tokens > 1000 | table _time, modelId, user, user_arn, account_id, input_tokens, avg_tokens, host | sort - input_tokens | `aws_bedrock_claude_unusually_large_prompts_filter`'
+search: |-
+    `aws_bedrock_claude`
+    | rename "input.inputTokenCount" AS input_tokens
+    | rename "identity.arn" AS user_arn
+    | rename "accountId" AS account_id
+    | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$"
+    | eval input_tokens=tonumber(input_tokens)
+    | where input_tokens>0
+    | eventstats avg(input_tokens) AS avg_tokens stdev(input_tokens) AS stdev
+    | where input_tokens > avg_tokens + (1*stdev)
+    | where input_tokens > 1000
+    | table _time, modelId, user, user_arn, account_id, input_tokens, avg_tokens, host
+    | sort - input_tokens
+    | `aws_bedrock_claude_unusually_large_prompts_filter`
 how_to_implement: In order to implement this detection, you will need to ingest AWS Bedrock Claude logs into Splunk. This can be done by configuring the appropriate data inputs to collect logs from the AWS Bedrock service, ensuring that the sourcetype is set correctly for JSON log parsing. Once the logs are ingested, you can use the provided SPL query to monitor for unusually large prompts sent to Claude models.
 known_false_positives: Possible false positives may arise from legitimate user interactions with the AI model that require large input prompts, such as complex queries or multi-turn conversations. It is important to review the context of the detected prompts to determine if they represent actual prompt injection attempts or benign usage.
 references:

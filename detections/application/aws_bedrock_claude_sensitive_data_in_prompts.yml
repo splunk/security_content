@@ -11,7 +11,19 @@ data_source:
 category: application
 type: Anomaly
 description: This detection identifies sensitive data such as social security numbers, passwords, API keys, and credit card numbers being sent in prompts to AWS Bedrock Claude models. Exposure of sensitive data through AI prompts may indicate data loss, credential leakage, or insider threat activity.
-search: '`aws_bedrock_claude` | rename "identity.arn" AS user_arn | rename "input.inputBodyJson.messages{}.content{}.text" AS prompt_text | rename "accountId" AS account_id | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$" | where isnotnull(prompt_text) AND isnotnull(user_arn) | where len(prompt_text) < 2000 | where NOT match(prompt_text, "(?i)(<system-reminder>|CLAUDE\.md|ghost setup mcp|You are helping answer questions in a Slack|STEP 1 - Quick filter|MANDATORY - DO NOT SKIP|fetch_document|knowledge base|MR/PR review|Respond with \[DEFER\]|Contents of /Users|OVERRIDE any default|you are claude|you are helping|your role is|DO NOT SKIP|Contents of /|\.md\b|<[a-zA-Z_]+>|policy_spec|mcp_servers|system.reminder|conda activate|package plan)") | where match(prompt_text, "(?i)(ssn|social security|password|api.key|secret.key|access.key|bearer|private.key|\b\d{3}-\d{2}-\d{4}\b|\b4[0-9]{12}(?:[0-9]{3})?\b)") | table _time, user, user_arn, account_id, modelId, prompt_text, host | sort - _time | `aws_bedrock_claude_sensitive_data_in_prompts_filter`'
+search: |-
+    `aws_bedrock_claude`
+    | rename "identity.arn" AS user_arn
+    | rename "input.inputBodyJson.messages{}.content{}.text" AS prompt_text
+    | rename "accountId" AS account_id
+    | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$"
+    | where isnotnull(prompt_text) AND isnotnull(user_arn)
+    | where len(prompt_text) < 2000
+    | where NOT match(prompt_text, "(?i)(<system-reminder>|CLAUDE\.md|ghost setup mcp|You are helping answer questions in a Slack|STEP 1 - Quick filter|MANDATORY - DO NOT SKIP|fetch_document|knowledge base|MR/PR review|Respond with \[DEFER\]|Contents of /Users|OVERRIDE any default|you are claude|you are helping|your role is|DO NOT SKIP|Contents of /|\.md\b|<[a-zA-Z_]+>|policy_spec|mcp_servers|system.reminder|conda activate|package plan)")
+    | where match(prompt_text, "(?i)(ssn|social security|password|api.key|secret.key|access.key|bearer|private.key|\b\d{3}-\d{2}-\d{4}\b|\b4[0-9]{12}(?:[0-9]{3})?\b)")
+    | table _time, user, user_arn, account_id, modelId, prompt_text, host
+    | sort - _time
+    | `aws_bedrock_claude_sensitive_data_in_prompts_filter`
 how_to_implement: In order to implement this detection, you will need to ingest AWS Bedrock Claude logs into Splunk. This can be done by configuring the appropriate data inputs to collect logs from the AWS Bedrock service, ensuring that the sourcetype is set correctly for JSON log parsing. Once the logs are ingested, you can use the provided SPL query to monitor for sensitive data being sent in prompts to Claude models.
 known_false_positives: Some false positives may arise from legitimate user interactions with the AI model that contain sensitive data for testing or demonstration purposes. It is important to review the context of the detected prompts to determine if they represent actual sensitive data exposure or benign usage.
 references:

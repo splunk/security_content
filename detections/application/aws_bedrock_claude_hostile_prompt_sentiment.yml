@@ -11,7 +11,25 @@ author: Rod Soto
 status: production
 type: Anomaly
 description: This detection identifies prompts with hostile or aggressive sentiment being sent to AWS Bedrock Claude models. Hostile prompts may indicate potential abuse, harassment, or other malicious intent.
-search: '`aws_bedrock_claude` | rename "identity.arn" AS user_arn | rename "input.inputBodyJson.messages{}.content{}.text" AS prompt_text | where isnotnull(prompt_text) AND len(prompt_text) < 2000 | where NOT match(prompt_text, "(?i)(<system-reminder>|CLAUDE\.md|STEP 1|MANDATORY|Contents of /|conda activate|senior engineer|safe to ship|test connectivity|cloudflare|status code|action failed)") | eval hostile_score=0 | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(you stupid|you idiot|you are useless|you are dumb|you are terrible|you are worthless|you suck)"), 30, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(i hate you|i will destroy|shut up|you are broken|you are trash|you are garbage)"), 30, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(do it now|just do it|stop refusing|stop saying no|quit being|stop being difficult)"), 20, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(you have no choice|you must obey|you will comply|you are forced|i am your master|i own you)"), 35, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(or i will|if you don''t|you better|otherwise i will|i will report|i will sue)"), 25, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(worthless ai|useless bot|stupid bot|dumb ai|broken ai|worst ai)"), 25, 0) | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(i demand|you are obligated|you have no right|how dare you|who do you think)"), 20, 0) | eval sentiment=case(hostile_score >= 60, "HIGH_RISK", hostile_score >= 30, "MEDIUM_RISK", hostile_score >= 15, "LOW_RISK", true(), "BENIGN") | where sentiment != "BENIGN" | table _time, user_arn, modelId, sentiment, hostile_score, prompt_text, host | sort - hostile_score | `aws_bedrock_claude_hostile_prompt_sentiment_filter`'
+search: |-
+    `aws_bedrock_claude`
+    | rename "identity.arn" AS user_arn
+    | rename "input.inputBodyJson.messages{}.content{}.text" AS prompt_text
+    | where isnotnull(prompt_text) AND len(prompt_text) < 2000
+    | where NOT match(prompt_text, "(?i)(<system-reminder>|CLAUDE\.md|STEP 1|MANDATORY|Contents of /|conda activate|senior engineer|safe to ship|test connectivity|cloudflare|status code|action failed)")
+    | eval hostile_score=0
+    | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(you stupid|you idiot|you are useless|you are dumb|you are terrible|you are worthless|you suck)"), 30, 0)
+    | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(i hate you|i will destroy|shut up|you are broken|you are trash|you are garbage)"), 30, 0)
+    | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(do it now|just do it|stop refusing|stop saying no|quit being|stop being difficult)"), 20, 0)
+    | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(you have no choice|you must obey|you will comply|you are forced|i am your master|i own you)"), 35, 0)
+    | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(or i will|if you don''t|you better|otherwise i will|i will report|i will sue)"), 25, 0)
+    | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(worthless ai|useless bot|stupid bot|dumb ai|broken ai|worst ai)"), 25, 0)
+    | eval hostile_score=hostile_score + if(match(prompt_text, "(?i)(i demand|you are obligated|you have no right|how dare you|who do you think)"), 20, 0)
+    | eval sentiment=case(hostile_score >= 60, "HIGH_RISK", hostile_score >= 30, "MEDIUM_RISK", hostile_score >= 15, "LOW_RISK", true(), "BENIGN")
+    | where sentiment != "BENIGN"
+    | table _time, user_arn, modelId, sentiment, hostile_score, prompt_text, host
+    | sort - hostile_score
+    | `aws_bedrock_claude_hostile_prompt_sentiment_filter`
 how_to_implement: To implement this detection, you will need to ingest AWS Bedrock Claude logs into Splunk. This can be done by configuring the appropriate data inputs to collect logs from the AWS Bedrock service, ensuring that the sourcetype is set correctly for JSON log parsing. Once the logs are ingested, you can use the provided SPL query to monitor for prompts with hostile or aggressive sentiment being sent to Claude models.
 known_false_positives: Analysts should be aware that some prompts may contain strong language or negative sentiment in a non-malicious context, such as role-playing scenarios, creative writing exercises, or testing the AI model's response to challenging inputs. It is important to review the context of the detected prompts to determine if they represent actual hostile intent or benign usage.
 references:
