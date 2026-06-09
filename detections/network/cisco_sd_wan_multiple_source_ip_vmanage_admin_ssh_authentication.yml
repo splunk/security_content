@@ -11,13 +11,13 @@ data_source:
     - Cisco SD-WAN Auth Log
 search: |-
     `cisco_sd_wan_syslog`  "Accepted publickey"
-    | rex field=_raw "^(?<event_timestamp>\S+)\s+(?<dest>\S+)\s+<auth\.info>\s+sshd\[\d+\]:\s+Accepted publickey for (?<user>\S+) from (?<src>\S+) port (?<src_port>\d+) ssh2:\s+(?<key_type>\S+)\s+(?<ssh_key>\S+)"
-    | where user="vmanage-admin"
-    | bin _time span=2m
-    | stats dc(src) as unique_src_ips values(src) as src_ips values(user) as users count as auth_count by _time dest
-    | where unique_src_ips >= 2
-    | sort 0 - unique_src_ips
-    | `cisco_sd_wan_multiple_source_ip_vmanage_admin_ssh_authentication_filter`
+      | rex field=_raw "^(?<event_timestamp>\S+)\s+(?<dest>\S+)\s+<auth\.info>\s+sshd\[\d+\]:\s+Accepted publickey for (?<user>\S+) from (?<src>\S+) port (?<src_port>\d+) ssh2:\s+(?<key_type>\S+)\s+(?<ssh_key>\S+)"
+      | where user="vmanage-admin"
+      | bin event_timestamp span=2m
+      | stats dc(src) as unique_src_ips values(src) as src_ips values(user) as users count as auth_count by event_timestamp dest
+      | where unique_src_ips >= 2
+      | sort 0 - unique_src_ips
+      | `cisco_sd_wan_multiple_source_ip_vmanage_admin_ssh_authentication_filter`
 how_to_implement: |
     This detection requires Cisco SD-WAN Manager Envoy access logs to be ingested into Splunk.
     These logs are located in "/var/log/nms/containers/service-proxy/serviceproxy-access.log".
