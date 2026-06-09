@@ -1,4 +1,4 @@
-name: Linux Su Launch Process with Null Argv
+name: Linux Binary Launched Process with Null Argv
 id: 0085652a-e682-45a2-a40c-5bb68b8f260e
 version: 1
 creation_date: '2026-05-12'
@@ -7,7 +7,7 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects kernel-level events where a setuid binary launches a shell or interpreter with a NULL argument vector, which occurs when a privilege escalation exploit gains root and executes a shell via execve() without constructing a legitimate argument array.
+    The following analytic detects kernel-level events where a setuid binary launches a shell or interpreter with a NULL argument vector, which occurs when a privilege escalation exploit gains root and executes a process via execve() without constructing a legitimate argument array.
 data_source:
     - Linux Messages Syslog
 search: |
@@ -25,7 +25,7 @@ search: |
     | `security_content_ctime(lastTime)`
     | table dest, launching_process, launched_process,
             firstTime, lastTime, occurrences, message
-    | `linux_su_launch_process_with_null_argv_filter`
+    | `linux_binary_launched_process_with_null_argv_filter`
 how_to_implement: To successfully implement this search, you need to have relevant kernel logs ingested with the Splunk Add-On for Unix and Linux (https://splunkbase.splunk.com/app/833).
 known_false_positives: Legitimate false positives are rare but can occur when custom or poorly written setuid binaries, PAM modules, or login frameworks invoke shells programmatically without constructing a proper argv array. However, mainstream setuid binaries like su, sudo, and pkexec on modern Linux distributions always pass arguments, so any hit involving those specific processes should be treated as high confidence.
 references:
@@ -40,7 +40,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Su spawned process with NULL argv on $dest$ indicating possible privilege escalation.
+    title: Binary spawned process with NULL argv on $dest$ indicating possible privilege escalation.
     entity:
         field: dest
         type: system
