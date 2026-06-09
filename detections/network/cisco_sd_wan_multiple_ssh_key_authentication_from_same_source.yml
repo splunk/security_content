@@ -1,7 +1,8 @@
 name: Cisco SD-WAN Multiple SSH key Authentication from Same Source
 id: 23e15133-d825-4e1d-b885-b8fe3909e947
 version: 1
-date: '2026-06-09'
+creation_date: '2026-06-09'
+modification_date: '2026-06-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

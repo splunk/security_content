@@ -1,7 +1,8 @@
 name: Cisco SD-WAN Multiple Source IP vManage Admin SSH Authentication
 id: 7882ec59-0e5b-4899-bd1a-7f9b16078bd4
 version: 1
-date: '2026-06-09'
+creation_date: '2026-06-09'
+modification_date: '2026-06-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
