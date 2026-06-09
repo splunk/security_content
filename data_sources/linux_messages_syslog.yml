@@ -1,6 +1,6 @@
 name: Linux Messages Syslog
 id: c9e3bbb5-e0a2-4bac-8457-227e71841bda
-version: 2
+version: 1
 creation_date: '2025-05-06'
 modification_date: '2025-05-06'
 author: Ravent Tait, Splunk
