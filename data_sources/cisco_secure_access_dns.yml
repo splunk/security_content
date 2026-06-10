@@ -1,0 +1,119 @@
+name: Cisco Secure Access DNS
+id: 5673dba3-cae9-449e-8991-03832d79f729
+version: 1
+creation_date: '2026-05-06'
+modification_date: '2026-05-06'
+author: Bhavin Patel, Splunk
+description: |
+  Captures DNS security events from Cisco Secure Access (including Umbrella-style DNS policy and roaming client telemetry) with client identity, query and response metadata, resolved domain, and URL/content categorization.
+  This data source supports detections that correlate user or host activity with high-risk categories such as proxy and anonymizer infrastructure.
+source: not_applicable
+sourcetype: cisco:cloud_security:dns
+supported_TA:
+  - name: Cisco Secure Access Add-on for Splunk
+    url: https://splunkbase.splunk.com/app/7569
+    version: 1.0.50
+fields:
+- RecordType
+- ReplyCode
+- Timestamp
+- _time
+- action
+- app
+- blocked_category
+- category
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- destination_countries
+- domain
+- eventtype
+- granular_identity_type
+- host
+- identities
+- identity_type
+- index
+- linecount
+- message_type
+- organization_id
+- product
+- punct
+- query
+- query_type
+- record_type
+- reply_code
+- reply_code_id
+- rule
+- rule_id
+- s3_uri
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- src
+- src_asset
+- src_asset_id
+- src_asset_tag
+- src_bunit
+- src_category
+- src_city
+- src_country
+- src_dns
+- src_external_ip
+- src_ip
+- src_is_expected
+- src_lat
+- src_long
+- src_mac
+- src_nt_host
+- src_owner
+- src_pci_domain
+- src_priority
+- src_requires_av
+- src_should_timesync
+- src_should_update
+- src_translated_ip
+- tag
+- tag::action
+- tag::app
+- tag::eventtype
+- tag::user_category
+- tag::user_identity_tag
+- tag::user_watchlist
+- timeendpos
+- timestartpos
+- user
+- user_bunit
+- user_category
+- user_email
+- user_endDate
+- user_first
+- user_identity
+- user_identity_id
+- user_identity_tag
+- user_last
+- user_managedBy
+- user_nick
+- user_phone
+- user_prefix
+- user_priority
+- user_startDate
+- user_suffix
+- user_watchlist
+- user_work_city
+- user_work_country
+- user_work_lat
+- user_work_long
+- vendor
+- vendor_product
+output_fields:
+  - category
+  - domain
+  - src_ip
+  - user
+example_log: '"2026-04-20 22:23:29","EC2AMAZ-J8G2CH1","EC2AMAZ-J8G2CH1","10.0.1.115","3.151.127.146","Allowed","1 (A)","NOERROR","www.proxysite.com.","Proxy/Anonymizer,Application,Filter Avoidance","Anyconnect Roaming Client","Anyconnect Roaming Client","","139213","","8209150"'
