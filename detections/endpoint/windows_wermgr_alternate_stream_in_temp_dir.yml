@@ -19,8 +19,7 @@ search: |-
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
 known_false_positives: No false positives have been identified at this time.
 references:
-    references:
-        - https://github.com/MSNightmare/RoguePlanet/tree/main
+    - https://github.com/MSNightmare/RoguePlanet/tree/main
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
