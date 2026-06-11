@@ -87,6 +87,8 @@ intermediate_findings:
       score: 70
       message: Local privilege escalation attempt detected on $dest$ executed by $user$ using $executables$
 threat_objects:
+  - field: commands
+    type: process
   - field: executables
     type: process_name
 analytic_story:
