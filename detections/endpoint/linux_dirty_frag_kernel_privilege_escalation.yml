@@ -34,10 +34,10 @@ search: |-
   | where lpe_time > elf_time 
   | eval window_secs = lpe_time - elf_time 
   | where window_secs <= 300 
-  | `security_content_ctime(elf_time_fmt)`
-  | `security_content_ctime(lpe_time_fmt)`
+  | `security_content_ctime(elf_time)`
+  | `security_content_ctime(lpe_time)`
   | rename host AS dest UID AS user
-  | table dest, auid,elf_time_fmt, lpe_time_fmt, window_secs, executables, commands, uids, euids, user 
+  | table dest, auid, elf_time, lpe_time, window_secs, executables, commands, uids, euids, user 
   | `linux_dirty_frag_kernel_privilege_escalation_filter`
 how_to_implement: To successfully implement this search you need to be ingesting
   Linux auditd logs into Splunk via the Splunk Add-on for Unix and Linux (or
