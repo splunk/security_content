@@ -1,0 +1,114 @@
+name: Linux Dirty Frag Kernel Privilege Escalation
+id: 517e7bf8-d0aa-46ac-80e1-f9f498944b71
+version: 1
+creation_date: "2026-05-20"
+modification_date: "2026-06-11"
+author: Axsel Riando Soplanit, Alexander Wijaya, Matthew Roytua, Muhammad Rafdi Aufar Ahmad, Brian Stevan Ambarita, Ensign Infosecurity
+status: production
+type: TTP
+description:
+  The following analytic detects the exploitation pattern of Dirty Frag
+  (CVE-2026-43284 and CVE-2026-43500), a Linux kernel local privilege escalation
+  vulnerability disclosed in May 2026 and exploited in the wild within 24 hours
+  of disclosure. Dirty Frag is a successor to Copy Fail (CVE-2026-31431) and
+  bypasses the Copy Fail mitigation — operators who blocklisted algif_aead
+  remain vulnerable. The detection identifies an ELF binary executed from a
+  user-writable path (/home, /tmp, /dev/shm, /var/tmp, /run/user, /root) by
+  an unprivileged user, followed within 5 minutes by a confirmed privilege
+  transition (effective UID 0 with real UID non-zero) inside the same audit
+  session, identified by the auditd session-scoped auid field. The detection
+  fires regardless of whether the privilege transition is triggered manually
+  or internally by the exploit, because the transition itself is the signal,
+  not the binary name. Validated against the public proof-of-concept
+  (V4bel/dirtyfrag) in a sandboxed lab environment.
+data_source:
+  - Linux Auditd Syscall
+search: |-
+  `linux_auditd` type=SYSCALL
+  | eval is_elf_stage = if(match(exe, "^/home/") OR match(exe, "^/tmp/") OR match(exe, "^/dev/shm/") OR match(exe, "^/var/tmp/") OR match(exe, "^/run/user/") OR match(exe, "^/root/"), 1, 0) 
+  | eval is_lpe = if((match(exe, "^/(usr/)?bin/su$") OR comm="su") AND euid="0" AND uid!="0", 1, 0) 
+  | where is_elf_stage=1 OR is_lpe=1 
+  | where auid!="4294967295" 
+  | stats min(eval(if(is_elf_stage=1, _time, null()))) AS elf_time min(eval(if(is_lpe=1, _time, null()))) AS lpe_time values(exe) AS executables values(comm) AS commands values(uid) AS uids values(euid) AS euids BY auid, host, UID 
+  | where isnotnull(elf_time) AND isnotnull(lpe_time) 
+  | where lpe_time > elf_time 
+  | eval window_secs = lpe_time - elf_time 
+  | where window_secs <= 300 
+  | `security_content_ctime(elf_time_fmt)`
+  | `security_content_ctime(lpe_time_fmt)`
+  | rename host AS dest UID AS user
+  | table dest, auid,elf_time_fmt, lpe_time_fmt, window_secs, executables, commands, uids, euids, user 
+  | `linux_dirty_frag_kernel_privilege_escalation_filter`
+how_to_implement: To successfully implement this search you need to be ingesting
+  Linux auditd logs into Splunk via the Splunk Add-on for Unix and Linux (or
+  equivalent), with the auditd execve rule enabled (-a always,exit -F arch=b64
+  -S execve -k exec_monitor). The auditd auid field must be populated, which
+  requires that the originating process was created within a login session (PAM
+  sets auid on login). Daemon and cron processes will have auid=4294967295 and
+  are filtered out. Note that Dirty Frag bypasses the Copy Fail mitigation
+  (algif_aead blocklist) — this detection is required even on hosts where
+  Copy Fail mitigations are in place. Ensure the linux_auditd macro resolves
+  to your auditd index and sourcetype.
+known_false_positives: "Developer hosts where engineers compile and run binaries
+  from home directories and then use su to test as root may trigger this
+  detection. CI/CD runners executing test binaries followed by privileged
+  operations may also match. Sysadmin sessions running binaries from /tmp
+  followed by root escalation are a noise source. Tune via the
+  linux_dirty_frag_kernel_privilege_escalation_filter macro by excluding
+  known developer hostnames or service-account auid values."
+references:
+  - https://www.cve.org/CVERecord?id=CVE-2026-43284
+  - https://www.cve.org/CVERecord?id=CVE-2026-43500
+  - https://www.cve.org/CVERecord?id=CVE-2026-31431
+  - https://github.com/V4bel/dirtyfrag
+  - https://www.openwall.com/lists/oss-security/2026/05/07/8
+  - https://www.microsoft.com/en-us/security/blog/2026/05/08/active-attack-dirty-frag-linux-vulnerability-expands-post-compromise-risk/
+  - https://attack.mitre.org/techniques/T1068/
+  - https://attack.mitre.org/techniques/T1548/001/
+drilldown_searches:
+  - name: View the detection results for - "$dest$" and "$user$"
+    search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: 7d
+    latest_offset: "0"
+finding:
+  title: Local privilege escalation attempt detected on $dest$ executed by $user$ using $executables$
+  entity:
+    field: dest
+    type: system
+    score: 70
+intermediate_findings:
+  entities:
+    - field: user
+      type: user
+      score: 70
+      message: Local privilege escalation attempt detected on $dest$ executed by $user$ using $executables$
+threat_objects:
+  - field: executables
+    type: process_name
+analytic_story:
+  - Linux Privilege Escalation
+asset_type: Endpoint
+cve:
+  - CVE-2026-43284
+  - CVE-2026-43500
+  - CVE-2026-31431
+mitre_attack_id:
+  - T1548.001
+  - T1068
+product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/Axselll/attack_data/master/datasets/attack_techniques/T1068/dirty_frag/dirty_frag_lpe.log
+        source: auditd
+        sourcetype: auditd
+    test_type: unit
