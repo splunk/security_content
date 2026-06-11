@@ -1,3 +1,8 @@
-definition: (Processes.process_name=microsoft.workflow.compiler.exe OR Processes.original_file_name=Microsoft.Workflow.Compiler.exe)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_microsoftworkflowcompiler
+id: 7c65e8d3-4145-49da-b74d-38300594da39
+version: 1
+creation_date: '2021-08-18'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=microsoft.workflow.compiler.exe OR Processes.original_file_name=Microsoft.Workflow.Compiler.exe)

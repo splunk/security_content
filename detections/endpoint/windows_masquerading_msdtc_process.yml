@@ -1,15 +1,16 @@
 name: Windows Masquerading Msdtc Process
 id: 238f3a07-8440-480b-b26f-462f41d9a47c
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
+description: The following analytic identifies the execution of msdtc.exe with specific command-line parameters (-a or -b), which are indicative of the PlugX malware. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because PlugX uses these parameters to masquerade its malicious operations within legitimate processes, making it harder to detect. If confirmed malicious, this behavior could allow attackers to gain unauthorized access, exfiltrate data, and conduct espionage, severely compromising the affected system.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic identifies the execution of msdtc.exe with specific command-line parameters (-a or -b), which are indicative of the PlugX malware. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because PlugX uses these parameters to masquerade its malicious operations within legitimate processes, making it harder to detect. If confirmed malicious, this behavior could allow attackers to gain unauthorized access, exfiltrate data, and conduct espionage, severely compromising the affected system.
 search: |-
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name = "msdtc.exe" Processes.process = "*msdtc.exe*" Processes.process IN ("* -a*", "* -b*")
@@ -37,28 +38,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: msdtc.exe process with process commandline used by PlugX malware on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised Windows Host
-        - PlugX
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1036
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: msdtc.exe process with process commandline used by PlugX malware on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Compromised Windows Host
+    - PlugX
+asset_type: Endpoint
+mitre_attack_id:
+    - T1036
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/msdtc_process_param/msdtc_a_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

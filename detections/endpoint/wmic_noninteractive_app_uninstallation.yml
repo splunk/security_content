@@ -1,7 +1,8 @@
 name: Wmic NonInteractive App Uninstallation
 id: bff0e7a0-317f-11ec-ab4e-acde48001122
-version: 11
-date: '2026-05-04'
+version: 12
+creation_date: '2021-10-20'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -28,21 +29,22 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Third party application may use this approach to uninstall applications.
 references:
     - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
-tags:
-    analytic_story:
-        - IcedID
-        - Azorult
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1685
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - IcedID
+    - Azorult
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

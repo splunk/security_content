@@ -1,0 +1,9 @@
+name: domain_admins
+id: f4b5fe34-a474-4894-bdb9-7e3af6da1d94
+version: 3
+creation_date: '2023-10-06'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: List of domain admins
+case_sensitive_match: false

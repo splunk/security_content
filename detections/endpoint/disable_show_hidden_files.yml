@@ -1,7 +1,8 @@
 name: Disable Show Hidden Files
 id: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
-version: 17
-date: '2026-05-04'
+version: 18
+creation_date: '2021-03-31'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -22,28 +23,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Disabled 'Show Hidden Files' on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Windows Defense Evasion Tactics
-        - Windows Registry Abuse
-        - Azorult
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1112
-        - T1685
-        - T1564.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Disabled 'Show Hidden Files' on $dest$
+analytic_story:
+    - Windows Defense Evasion Tactics
+    - Windows Registry Abuse
+    - Azorult
+asset_type: Endpoint
+mitre_attack_id:
+    - T1112
+    - T1685
+    - T1564.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
@@ -56,3 +56,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

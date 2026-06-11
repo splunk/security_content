@@ -1,13 +1,14 @@
 name: O365 Tenant Wide Admin Consent Granted
 id: 50eaabf8-5180-4e86-bfb2-011472c359fc
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic identifies instances where admin consent is granted to an application within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to the admin consent action within the AzureActiveDirectory workload. This activity is significant because admin consent allows applications to access data across the entire tenant, potentially exposing vast amounts of organizational data. If confirmed malicious, an attacker could gain extensive and persistent access to organizational data, leading to data exfiltration, espionage, further malicious activities, and potential compliance violations.
 data_source:
     - O365 Consent to application.
-description: The following analytic identifies instances where admin consent is granted to an application within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to the admin consent action within the AzureActiveDirectory workload. This activity is significant because admin consent allows applications to access data across the entire tenant, potentially exposing vast amounts of organizational data. If confirmed malicious, an attacker could gain extensive and persistent access to organizational data, leading to data exfiltration, espionage, further malicious activities, and potential compliance violations.
 search: "`o365_management_activity` Operation=\"Consent to application.\" | eval new_field=mvindex('ModifiedProperties{}.NewValue', 4) | rex field=new_field \"ConsentType: (?<ConsentType>[^\\,]+)\" | rex field=new_field \"Scope: (?<Scope>[^\\,]+)\" | search ConsentType = \"AllPrincipals\" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by user, object, ObjectId, ConsentType, Scope, dest, vendor_account, vendor_product, signature, src | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_tenant_wide_admin_consent_granted_filter`"
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Legitimate applications may be granted tenant wide consent, filter as needed.
@@ -26,28 +27,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The $object$ application registration was granted tenant wide admin consent.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Office 365 Persistence Mechanisms
-        - NOBELIUM Group
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1098.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: The $object$ application registration was granted tenant wide admin consent.
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Office 365 Persistence Mechanisms
+    - NOBELIUM Group
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1098.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_admin_consent/o365_admin_consent.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

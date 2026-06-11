@@ -1,3 +1,8 @@
-definition: sourcetype=aws:cloudwatchlogs:vpcflow
-description: customer specific splunk configurations(eg- index, source, sourcetype) for AWS cloudwatch vpc logs. Replace the macro definition with configurations for your Splunk Environment.
 name: cloudwatch_vpc
+id: 99f810c9-6899-47f6-921a-183c7f71b36d
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype) for AWS cloudwatch vpc logs. Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=aws:cloudwatchlogs:vpcflow

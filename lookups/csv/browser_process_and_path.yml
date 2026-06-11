@@ -1,0 +1,13 @@
+name: browser_process_and_path
+id: c35eb14c-2a12-4556-8c9d-d11e31c8915f
+version: 2
+creation_date: '2026-03-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: Legitimate browser process executable paths; used to filter out known browsers e.g. when detecting hosts file access.
+default_match: 'false'
+match_type:
+    - WILDCARD(browser_process_path)
+min_matches: 1
+case_sensitive_match: false

@@ -1,7 +1,8 @@
 name: O365 Excessive SSO logon errors
 id: 8158ccc4-6038-11eb-ae93-0242ac130002
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2021-01-26'
+modification_date: '2026-05-13'
 author: Rod Soto, Splunk
 status: production
 type: Anomaly
@@ -30,30 +31,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Excessive number of SSO logon errors from $src$ using UserAgent $user_agent$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-        - Cloud Federated Credential Abuse
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1556
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: Excessive number of SSO logon errors from $src$ using UserAgent $user_agent$.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Office 365 Account Takeover
+    - Cloud Federated Credential Abuse
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1556
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors2.json
           sourcetype: o365:management:activity
           source: o365
+      test_type: unit

@@ -1,0 +1,14 @@
+name: previously_seen_S3_access_from_remote_ip
+id: 264e5f12-ba04-47d1-bb88-f355a9b2b0e8
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A placeholder for a list of IPs that have access S3
+fields:
+    - _key
+    - bucket_name
+    - remote_ip
+    - earliest
+    - latest

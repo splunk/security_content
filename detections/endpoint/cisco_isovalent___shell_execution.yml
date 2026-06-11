@@ -1,13 +1,14 @@
 name: Cisco Isovalent - Shell Execution
 id: 12345678-abcd-1234-ef00-1234567890ab
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
 type: Anomaly
+description: The following analytic detects the execution of a shell inside a container namespace within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for the execution of a shell (sh or bash) inside a container namespace. This behavior is significant for a SOC as it could allow an attacker to gain shell access to the container, potentially leading to further compromise of the Kubernetes cluster. If confirmed malicious, this activity could lead to data theft, service disruption, privilege escalation, lateral movement, and further attacks, severely compromising the cluster's security and integrity.
 data_source:
     - Cisco Isovalent Process Exec
-status: production
-description: The following analytic detects the execution of a shell inside a container namespace within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for the execution of a shell (sh or bash) inside a container namespace. This behavior is significant for a SOC as it could allow an attacker to gain shell access to the container, potentially leading to further compromise of the Kubernetes cluster. If confirmed malicious, this activity could lead to data theft, service disruption, privilege escalation, lateral movement, and further attacks, severely compromising the cluster's security and integrity.
 search: |
     `cisco_isovalent_process_exec` process_name IN ("sh", "ksh", "zsh", "bash", "dash", "rbash", "fish", "csh", "tcsh", "ion", "eshell")
     | stats count by cluster_name parent_process_name process_name process_exec process_id node_name | `cisco_isovalent___shell_execution_filter`
@@ -24,29 +25,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$node_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: The shell [$process_name$] was executed on container pod namespace [$node_name$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: node_name
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Cisco Isovalent Suspicious Activity
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The shell [$process_name$] was executed on container pod namespace [$node_name$]
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
           source: not_applicable
           sourcetype: cisco:isovalent:processExec
+      test_type: unit

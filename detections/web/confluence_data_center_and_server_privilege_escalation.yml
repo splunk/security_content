@@ -1,13 +1,14 @@
 name: Confluence Data Center and Server Privilege Escalation
 id: 115bebac-0976-4f7d-a3ec-d1fb45a39a11
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-10-04'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+description: The following analytic identifies potential exploitation attempts on a known vulnerability in Atlassian Confluence, specifically targeting the /setup/*.action* URL pattern. It leverages web logs within the Splunk 'Web' Data Model, filtering for successful accesses (HTTP status 200) to these endpoints. This activity is significant as it suggests attackers might be exploiting a privilege escalation flaw in Confluence. If confirmed malicious, it could result in unauthorized access or account creation with escalated privileges, leading to potential data breaches or further exploitation within the environment.
 data_source:
     - Nginx Access
-description: The following analytic identifies potential exploitation attempts on a known vulnerability in Atlassian Confluence, specifically targeting the /setup/*.action* URL pattern. It leverages web logs within the Splunk 'Web' Data Model, filtering for successful accesses (HTTP status 200) to these endpoints. This activity is significant as it suggests attackers might be exploiting a privilege escalation flaw in Confluence. If confirmed malicious, it could result in unauthorized access or account creation with escalated privileges, leading to potential data breaches or further exploitation within the environment.
 search: |-
     | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.url IN ("*/setup/setupadministrator.action*", "*/setup/finishsetup.action*", "*/json/setup-restore-local.action*", "*/json/setup-restore-progress.action*", "*/json/setup-restore.action*", "*/bootstrap/selectsetupstep.action*") Web.status=200
@@ -34,33 +35,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential exploitation attempts on a known vulnerability in Atlassian Confluence detected. The source IP is $src$ and the destination hostname is $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - CVE-2023-22515 Privilege Escalation Vulnerability Confluence Data Center and Server
-        - Confluence Data Center and Confluence Server Vulnerabilities
-    cve:
-        - CVE-2023-22518
-    asset_type: Web Server
-    atomic_guid: []
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Potential exploitation attempts on a known vulnerability in Atlassian Confluence detected. The source IP is $src$ and the destination hostname is $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - CVE-2023-22515 Privilege Escalation Vulnerability Confluence Data Center and Server
+    - Confluence Data Center and Confluence Server Vulnerabilities
+asset_type: Web Server
+cve:
+    - CVE-2023-22518
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: Nginx Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/nginx_plus_kv_confluence.log
           source: nginx:plus:kv
           sourcetype: nginx:plus:kv
+      test_type: unit

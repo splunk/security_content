@@ -1,7 +1,8 @@
 name: Windows Suspicious QEMU Execution
 id: c4c0a2d4-0675-4fde-97b7-115145ba257c
-version: 1
-date: '2026-04-13'
+version: 2
+creation_date: '2026-05-05'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -48,35 +49,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential suspicious QEMU execution observed on $dest$ via $CommandLine$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Post-Exploitation
-        - Compromised Linux Host
-        - Linux Privilege Escalation
-        - Linux Rootkit
-        - Linux Living Off The Land
-        - VoidLink Cloud-Native Linux Malware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1204.002
-        - T1001
-        - T1036
-        - T1564.006
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: Potential suspicious QEMU execution observed on $dest$ via $CommandLine$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Linux Post-Exploitation
+    - Compromised Linux Host
+    - Linux Privilege Escalation
+    - Linux Rootkit
+    - Linux Living Off The Land
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1204.002
+    - T1001
+    - T1036
+    - T1564.006
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/snapattack/snapattack.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

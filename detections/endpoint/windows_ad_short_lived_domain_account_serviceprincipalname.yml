@@ -1,13 +1,14 @@
 name: Windows AD Short Lived Domain Account ServicePrincipalName
 id: b681977c-d90c-4efc-81a5-c58f945fb541
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2022-11-17'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
-type: TTP
 status: production
+type: TTP
+description: The following analytic identifies the addition and quick deletion of a Service Principal Name (SPN) to a domain account within 5 minutes. This detection leverages EventCode 5136 from the Windows Security Event Log, focusing on changes to the servicePrincipalName attribute. This activity is significant as it may indicate an attempt to perform Kerberoasting, a technique used to crack the cleartext password of a domain account offline. If confirmed malicious, this could allow an attacker to gain unauthorized access to sensitive information or escalate privileges within the domain environment.
 data_source:
     - Windows Event Log Security 5136
-description: The following analytic identifies the addition and quick deletion of a Service Principal Name (SPN) to a domain account within 5 minutes. This detection leverages EventCode 5136 from the Windows Security Event Log, focusing on changes to the servicePrincipalName attribute. This activity is significant as it may indicate an attempt to perform Kerberoasting, a technique used to crack the cleartext password of a domain account offline. If confirmed malicious, this could allow an attacker to gain unauthorized access to sensitive information or escalate privileges within the domain environment.
 search: |-
     `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
       | transaction ObjectDN AttributeValue startswith=(EventCode=5136 OperationType="%%14674") endswith=(EventCode=5136 OperationType="%%14675")
@@ -32,28 +33,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A Servince Principal Name for $user$ was set and shortly deleted
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sneaky Active Directory Persistence Tricks
-        - Interlock Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1098
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A Servince Principal Name for $user$ was set and shortly deleted
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+    - Interlock Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1098
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/short_lived_service_principal_name/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

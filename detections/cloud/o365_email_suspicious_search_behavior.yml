@@ -1,7 +1,8 @@
 name: O365 Email Suspicious Search Behavior
 id: 3b6e1d36-6916-4eec-a7d5-bc98953ba595
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-01-08'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -38,33 +39,34 @@ drilldown_searches:
       search: '`o365_management_activity` AND Operation=SearchQueryInitiatedExchange AND UserId = "$user$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: The user $user$ searched email suspiciously, $count$ unique terms and $suspect_terms_count$ suspect terms were searched within a limited timeframe.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Office 365 Account Takeover
-        - Office 365 Collection Techniques
-        - Compromised User Account
-        - CISA AA22-320A
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1114.002
-        - T1552
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: The user $user$ searched email suspiciously, $count$ unique terms and $suspect_terms_count$ suspect terms were searched within a limited timeframe.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Office 365 Account Takeover
+    - Office 365 Collection Techniques
+    - Compromised User Account
+    - CISA AA22-320A
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1114.002
+    - T1552
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1213.002/o365_sus_sharepoint_search/o365_sus_sharepoint_search.log
           source: o365
           sourcetype: o365:management:activity
+      test_type: unit

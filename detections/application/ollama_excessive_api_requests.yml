@@ -1,7 +1,8 @@
 name: Ollama Excessive API Requests
 id: 1cfab663-9adc-4169-a88c-6bae29ba3c70
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2025-10-13'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -22,27 +23,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Possible DDoS attack from $src$ against Ollama server detected with request count $request_count$ in 1 minute, potentially causing service degradation or complete unavailability.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious Ollama Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1498
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Possible DDoS attack from $src$ against Ollama server detected with request count $request_count$ in 1 minute, potentially causing service degradation or complete unavailability.
+analytic_story:
+    - Suspicious Ollama Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1498
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/server.log
           sourcetype: ollama:server
           source: server.log
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

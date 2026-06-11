@@ -1,7 +1,8 @@
 name: Windows System File on Disk
 id: 993ce99d-9cdd-42c7-a2cf-733d5954e5a6
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2022-05-16'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -24,22 +25,23 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: False positives will be present. Filter as needed.
 references:
     - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
-tags:
-    analytic_story:
-        - CISA AA22-264A
-        - Windows Drivers
-        - Crypto Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1068
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - CISA AA22-264A
+    - Windows Drivers
+    - Crypto Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/sysmon_sys_filemod.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

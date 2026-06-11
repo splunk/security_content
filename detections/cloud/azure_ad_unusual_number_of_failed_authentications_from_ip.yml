@@ -1,7 +1,8 @@
 name: Azure AD Unusual Number of Failed Authentications From Ip
 id: 3d8d3a36-93b8-42d7-8d91-c5f24cec223d
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2022-07-11'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -37,31 +38,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$userPrincipalName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Possible Password Spraying attack against Azure AD from source ip $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: userPrincipalName
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Azure Active Directory Account Takeover
-    asset_type: Azure Active Directory
-    mitre_attack_id:
-        - T1110.003
-        - T1110.004
-        - T1586.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: access
+          message: Possible Password Spraying attack against Azure AD from source ip $src$
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Azure Active Directory Account Takeover
+asset_type: Azure Active Directory
+mitre_attack_id:
+    - T1110.003
+    - T1110.004
+    - T1586.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: access
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/password_spraying_azuread/azuread_signin.log
           source: Azure AD
           sourcetype: azure:monitor:aad
+      test_type: unit

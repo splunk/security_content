@@ -1,4 +1,8 @@
-definition: sourcetype="crushftp:sessionlogs"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: crushftp
+id: c673a722-1f89-4449-853b-0913d85a88e1
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="crushftp:sessionlogs"

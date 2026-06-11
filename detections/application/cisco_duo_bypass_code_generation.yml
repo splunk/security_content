@@ -1,12 +1,11 @@
 name: Cisco Duo Bypass Code Generation
 id: 446e81ff-ce06-4925-9c7d-4073f9b5abf5
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-07-10'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-data_source:
-    - Cisco Duo Administrator
-type: TTP
 status: production
+type: TTP
 description: |
     The following analytic detects when a Duo user generates a bypass code, which allows them to circumvent multi-factor authentication (2FA) protections.
     It works by monitoring Duo activity logs for the 'bypass_create' action, renaming the affected object as the user, and aggregating events to identify
@@ -16,6 +15,8 @@ description: |
     critical, as it allows the SOC to investigate and respond before an attacker can exploit the reduced authentication requirements, helping to prevent
     unauthorized access, data breaches, or further lateral movement within the environment. Monitoring for this action helps maintain strong authentication
     standards and reduces the risk of credential-based attacks.
+data_source:
+    - Cisco Duo Administrator
 search: |-
     `cisco_duo_administrator` action=bypass_create
       | rename object as user
@@ -38,27 +39,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A user $user$ has generated a bypass code
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Cisco Duo Suspicious Activity
-    asset_type: Identity
-    mitre_attack_id:
-        - T1556
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: A user $user$ has generated a bypass code
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Cisco Duo Suspicious Activity
+asset_type: Identity
+mitre_attack_id:
+    - T1556
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_bypass_code/cisco_duo_activity.json
           source: duo
           sourcetype: cisco:duo:administrator
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Processes Tapping Keyboard Events
 id: 2a371608-331d-4034-ae2c-21dda8f1d0ec
-version: 11
-date: '2026-04-13'
+version: 12
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Jose Hernandez, Splunk
 status: experimental
 type: TTP
@@ -18,20 +19,20 @@ search: |-
 how_to_implement: In order to properly run this search, Splunk needs to ingest data from your osquery deployed agents with the [osx-attacks.conf](https://github.com/facebook/osquery/blob/experimental/packs/osx-attacks.conf#L599) pack enabled. Also the [TA-OSquery](https://github.com/d1vious/TA-osquery) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the Alerts data model.
 known_false_positives: There might be some false positives as keyboard event taps are used by processes like Siri and Zoom video chat, for some good examples of processes to exclude please see [this](https://github.com/facebook/osquery/pull/5345#issuecomment-454639161) comment.
 references: []
-rba:
-    message: Keyboard Event Tapping observed on $host$
-    risk_objects:
-        - field: host
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - ColdRoot MacOS RAT
-        - APT37 Rustonotto and FadeStealer
-    asset_type: Endpoint
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: Keyboard Event Tapping observed on $host$
+    entity:
+        field: host
+        type: system
+        score: 50
+analytic_story:
+    - ColdRoot MacOS RAT
+    - APT37 Rustonotto and FadeStealer
+asset_type: Endpoint
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: threat

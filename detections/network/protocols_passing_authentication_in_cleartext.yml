@@ -1,7 +1,8 @@
 name: Protocols passing authentication in cleartext
 id: 6923cd64-17a0-453c-b945-81ac2d8c6db9
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: production
 type: Anomaly
@@ -43,32 +44,35 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Allowed Traffic from $src_ip$ to $dest$ over port $dest_port$. Which might indicate a potential authentication attempts over a  cleartext protocol.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: Allowed Traffic from $src_ip$ to $dest$ over port $dest_port$. Which might indicate a potential authentication attempts over a  cleartext protocol.
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: dest
-          type: ip_address
-tags:
-    analytic_story:
-        - Use of Cleartext Protocols
-        - Cisco Secure Firewall Threat Defense Analytics
-        - Scattered Lapsus$ Hunters
-    asset_type: Endpoint
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Allowed Traffic from $src_ip$ to $dest$ over port $dest_port$. Which might indicate a potential authentication attempts over a  cleartext protocol.
+threat_objects:
+    - field: dest
+      type: ip_address
+analytic_story:
+    - Use of Cleartext Protocols
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Scattered Lapsus$ Hunters
+asset_type: Endpoint
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: Cisco Secure Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
+      test_type: unit

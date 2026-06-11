@@ -1,30 +1,30 @@
 name: Risk Notable Preprocess
 id: 060edc96-ff2b-48b0-9f6f-13da3783fd63
-version: 1
-date: '2021-10-22'
+version: 2
+creation_date: '2021-11-10'
+modification_date: '2026-05-19'
 author: Kelby Shelton, Splunk
 type: Investigation
 description: >-
-  "This playbook prepares a risk notable for investigation by performing the following tasks:
-  1. Ensures that a risk notable links back to the original notable event with a card pinned to the HUD.
-  2. Posts a link to this container in the comment field of Splunk ES.
-  3. Updates the container name, description, and severity to reflect the data in the notable artifact."
+    "This playbook prepares a risk notable for investigation by performing the following tasks:
+    1. Ensures that a risk notable links back to the original notable event with a card pinned to the HUD.
+    2. Posts a link to this container in the comment field of Splunk ES.
+    3. Updates the container name, description, and severity to reflect the data in the notable artifact."
 playbook: risk_notable_preprocess
 how_to_implement: For detailed implementation see https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/get-started-with-the-risk-notable-playbook-pack-for-splunk-soar
 references:
-  - https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/get-started-with-the-risk-notable-playbook-pack-for-splunk-soar
+    - https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/get-started-with-the-risk-notable-playbook-pack-for-splunk-soar
 app_list:
-  - 'Splunk'
-tags:
-  labels:
+    - 'Splunk'
+labels:
     - risk_notable
-  platform_tags:
+platform_tags:
     - Risk Notable
-  playbook_type: Automation
-  vpe_type: Modern
-  playbook_fields:
+playbook_type: Automation
+vpe_type: Modern
+playbook_fields:
     - event_id
     - info_min_time
     - info_max_time
-  product:
+product:
     - Splunk SOAR

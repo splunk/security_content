@@ -1,7 +1,8 @@
 name: MacOS Gatekeeper Bypass
 id: 2c9346f3-bbeb-48ce-8411-fc13d09d83a5
-version: 2
-date: '2026-04-15'
+version: 3
+creation_date: '2026-04-14'
+modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -56,34 +57,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Attempt to bypass gatekeeper protections on $dest$ by $user$ via $process$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: Attempt to bypass gatekeeper protections on $dest$ by $user$ via $process$
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process
-          type: process
-tags:
-    analytic_story:
-        - MacOS Privilege Escalation
-        - MacOS Post-Exploitation
-        - MacOS Persistence Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1553.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Attempt to bypass gatekeeper protections on $dest$ by $user$ via $process$
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - MacOS Privilege Escalation
+    - MacOS Post-Exploitation
+    - MacOS Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1553.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.001/osquery_gatekeeper/osquery.log
           source: osquery
           sourcetype: osquery:results
+      test_type: unit

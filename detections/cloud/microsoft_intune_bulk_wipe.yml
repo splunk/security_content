@@ -1,7 +1,8 @@
 name: Microsoft Intune Bulk Wipe
 id: c3f48aa9-878e-443f-8889-e42a11a9bea9
-version: 1
-date: '2026-03-27'
+version: 2
+creation_date: '2026-04-15'
+modification_date: '2026-05-13'
 author: Jake Enea
 status: production
 type: TTP
@@ -55,27 +56,27 @@ drilldown_searches:
       search: '`azure_monitor_aad` category=SignInLogs properties.userPrincipalName="$user$"'
       earliest_offset: 1h
       latest_offset: 1h
-rba:
-    message: Bulk wipe action executed by user $user$ on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Azure Active Directory Account Takeover
-    asset_type: Azure Tenant
-    mitre_attack_id:
-        - T1561.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: Bulk wipe action executed by user $user$ on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Azure Active Directory Account Takeover
+asset_type: Azure Tenant
+mitre_attack_id:
+    - T1561.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.001/microsoft_intune_bulk_wipe/microsoft_intune_bulk_wipe.log
           sourcetype: azure:monitor:activity
           source: Azure AD
+      test_type: unit

@@ -1,4 +1,8 @@
-definition: (sourcetype="MSWindows:2003:IIS" OR sourcetype="MSWindows:2008R2:IIS" OR sourcetype="MSWindows:2010EWS:IIS" OR sourcetype="MSWindows:2012:IIS" OR sourcetype="MSWindows:2013EWS:IIS")
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: windows_exchange_iis
+id: f754a9f9-9143-43e5-ac45-733ddc5987eb
+version: 1
+creation_date: '2025-02-19'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: (sourcetype="MSWindows:2003:IIS" OR sourcetype="MSWindows:2008R2:IIS" OR sourcetype="MSWindows:2010EWS:IIS" OR sourcetype="MSWindows:2012:IIS" OR sourcetype="MSWindows:2013EWS:IIS")

@@ -1,7 +1,8 @@
 name: Cisco Catalyst SD-WAN Analytics
 id: 7ec01b6e-95fa-4a89-86b7-ada08cf237de
-version: 1
-date: '2026-03-02'
+version: 2
+creation_date: '2026-03-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 description: |
@@ -19,11 +20,10 @@ references:
     - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging
     - https://sec.cloudapps.cisco.com/security/center/resources/Cisco-Catalyst-SD-WAN-HardeningGuide
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
-tags:
-    category:
-        - Adversary Tactics
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    usecase: Advanced Threat Detection
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

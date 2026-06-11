@@ -1,13 +1,14 @@
 name: Windows Impair Defenses Disable AV AutoStart via Registry
 id: 31a13f43-812e-4752-a6ca-c6c87bf03e83
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2024-09-18'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects modifications to the registry related to the disabling of autostart functionality for certain antivirus products, such as Kingsoft and Tencent. Malware like ValleyRAT may alter specific registry keys to prevent these security tools from launching automatically at startup, thereby weakening system defenses. By monitoring changes in the registry entries associated with antivirus autostart settings, this detection enables security analysts to identify attempts to disable protective software. Detecting these modifications early is critical for maintaining system integrity and preventing further compromise by malicious actors.
 data_source:
     - Sysmon EventID 13
-type: TTP
-status: production
-description: The following analytic detects modifications to the registry related to the disabling of autostart functionality for certain antivirus products, such as Kingsoft and Tencent. Malware like ValleyRAT may alter specific registry keys to prevent these security tools from launching automatically at startup, thereby weakening system defenses. By monitoring changes in the registry entries associated with antivirus autostart settings, this detection enables security analysts to identify attempts to disable protective software. Detecting these modifications early is critical for maintaining system integrity and preventing further compromise by malicious actors.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE Registry.registry_path IN("*\\kingsoft\\antivirus\\KAVReport\\*" , "*\\kingsoft\\antivirus\\KSetting\\*", "*\\kingsoft\\antivirus\\Windhunter\\*" ,"*\\Tencent\\QQPCMgr\\*") AND ((Registry.registry_value_name IN("autostart","kxesc", "WindhunterSwitch") AND Registry.registry_value_data = "0x00000000") OR (Registry.registry_value_name = "WindhunterLevel" AND Registry.registry_value_data = "0x00000004")) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defenses_disable_av_autostart_via_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: No false positives have been identified at this time.
@@ -23,31 +24,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: disable anti-virus autostart via registry on [$dest$].
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: disable anti-virus autostart via registry on [$dest$].
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Scattered Lapsus$ Hunters
-        - ValleyRAT
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1112
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: disable anti-virus autostart via registry on [$dest$].
+analytic_story:
+    - Scattered Lapsus$ Hunters
+    - ValleyRAT
+asset_type: Endpoint
+mitre_attack_id:
+    - T1112
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/kingsoft_reg/kingsoft_reg.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

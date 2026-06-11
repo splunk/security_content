@@ -1,7 +1,8 @@
 name: Possible Browser Pass View Parameter
 id: 8ba484e8-4b97-11ec-b19a-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+creation_date: '2021-11-22'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -16,20 +17,21 @@ known_false_positives: False positive is quite limited. Filter is needed
 references:
     - https://www.nirsoft.net/utils/web_browser_password.html
     - https://app.any.run/tasks/df0baf9f-8baf-4c32-a452-16562ecb19be/
-tags:
-    analytic_story:
-        - Remcos
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1555.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Remcos
+asset_type: Endpoint
+mitre_attack_id:
+    - T1555.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/web_browser_pass_view/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

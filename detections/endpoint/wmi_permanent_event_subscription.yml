@@ -1,7 +1,8 @@
 name: WMI Permanent Event Subscription
 id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
-version: 9
-date: '2026-04-07'
+version: 10
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
@@ -23,21 +24,20 @@ search: |-
 how_to_implement: To successfully implement this search, you must be ingesting the Windows WMI activity logs. This can be done by adding a stanza to inputs.conf on the system generating logs with a title of [WinEventLog://Microsoft-Windows-WMI-Activity/Operational].
 known_false_positives: Although unlikely, administrators may use event subscriptions for legitimate purposes.
 references: []
-rba:
-    message: WMI Permanent Event Subscription detected on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious WMI Use
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1047
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: WMI Permanent Event Subscription detected on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Suspicious WMI Use
+asset_type: Endpoint
+mitre_attack_id:
+    - T1047
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

@@ -1,294 +1,294 @@
 name: Suricata
 id: 64b245d4-a4d1-4865-a718-c83d3b939f2e
-version: 3
-date: '2026-03-26'
+version: 4
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs network traffic and security events detected by Suricata, including
-  details about connections, protocol metadata, and potential threats.
+description: Logs network traffic and security events detected by Suricata, including details about connections, protocol metadata, and potential threats.
 mitre_components:
-- Network Traffic Content
-- Network Traffic Flow
-- Network Connection Creation
-- Malware Metadata
-- Application Log Content
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Network Connection Creation
+    - Malware Metadata
+    - Application Log Content
 source: not_applicable
 sourcetype: suricata
 supported_TA:
-- name: CCX Add-on for Suricata
-  url: https://splunkbase.splunk.com/app/6994
-  version: 1.0.1
-field_mappings:
-- data_model: cim
-  data_set: Web
-  mapping:
-    http.hostname: Web.dest
-    http.http_method: Web.http_method
-    http.http_user_agent: Web.http_user_agent
-    http.status: Web.status
-    http.url: Web.url
-    http.length: Web.url_length
-    src_ip: Web.src
+    - name: CCX Add-on for Suricata
+      url: https://splunkbase.splunk.com/app/6994
+      version: 1.0.1
 fields:
-- _time
-- action
-- alert_gid
-- alert_rev
-- alert.action
-- alert.category
-- alert.gid
-- alert.metadata.created_at{}
-- alert.metadata.former_category{}
-- alert.metadata.signature_severity{}
-- alert.metadata.updated_at{}
-- alert.rev
-- alert.severity
-- alert.signature
-- alert.signature_id
-- answer
-- app
-- app_proto
-- body
-- bytes
-- bytes_in
-- bytes_out
-- capture_kernel_drops
-- capture_kernel_packets
-- category
-- cookie
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- decoder_avg_pkt_size
-- decoder_bytes
-- decoder_erspan
-- decoder_ethernet
-- decoder_gre
-- decoder_icmpv4
-- decoder_invalid
-- decoder_ipraw_invalid_ip_version
-- decoder_ipv4
-- decoder_ipv4_in_ipv6
-- decoder_ipv6
-- decoder_ipv6_in_ipv6
-- decoder_ltnull_pkt_too_small
-- decoder_ltnull_unspported_type
-- decoder_max_pkt_size
-- decoder_mpls
-- decoder_null
-- decoder_pkts
-- decoder_ppp
-- decoder_pppoe
-- decoder_raw
-- decoder_sctp
-- decoder_ssl
-- decoder_tcp
-- decoder_teredo
-- decoder_udp
-- decoder_vlan
-- decoder_vlan_qinq
-- decoer_icmpv6
-- defrag_ipv4_fragments
-- defrag_ipv4_reassembled
-- defrag_ipv4_timeouts
-- defrag_ipv6_fragments
-- defrag_ipv6_reassembled
-- defrag_max_frag_hits
-- description
-- dest
-- dest_ip
-- dest_port
-- detect_alert
-- dfrag_ipv6_timeouts
-- dns_memcap_global
-- dns_memcap_state
-- dns_memuse
-- dns.aa
-- dns.answers{}.rdata
-- dns.answers{}.rrname
-- dns.answers{}.rrtype
-- dns.answers{}.ttl
-- dns.authorities{}.rrname
-- dns.authorities{}.rrtype
-- dns.authorities{}.soa.expire
-- dns.authorities{}.soa.minimum
-- dns.authorities{}.soa.mname
-- dns.authorities{}.soa.refresh
-- dns.authorities{}.soa.retry
-- dns.authorities{}.soa.rname
-- dns.authorities{}.soa.serial
-- dns.authorities{}.ttl
-- dns.flags
-- dns.grouped.A{}
-- dns.id
-- dns.opcode
-- dns.qr
-- dns.ra
-- dns.rcode
-- dns.rd
-- dns.rrname
-- dns.rrtype
-- dns.tx_id
-- dns.type
-- dns.version
-- duration
-- dvc
-- endtime
-- event_type
-- eventtype
-- field
-- file_rx_id
-- file_size
-- file_state
-- file_stored
-- file_tx_id
-- fileinfo.filename
-- fileinfo.gaps
-- fileinfo.size
-- fileinfo.state
-- fileinfo.stored
-- fileinfo.tx_id
-- filename
-- flow_emerg_mode_entered
-- flow_emerg_mode_over
-- flow_id
-- flow_memcap
-- flow_memuse
-- flow_mgr_closed_pruned
-- flow_mgr_est_pruned
-- flow_mgr_new_pruned
-- flow_spare
-- flow_tcp_reuse
-- flow.age
-- flow.alerted
-- flow.bytes_toclient
-- flow.bytes_toserver
-- flow.end
-- flow.pkts_toclient
-- flow.pkts_toserver
-- flow.reason
-- flow.start
-- flow.state
-- host
-- http_content_type
-- http_memcap
-- http_memuse
-- http_method
-- http_protocol
-- http_referrer
-- http_user_agent
-- http.hostname
-- http.http_content_type
-- http.http_method
-- http.http_port
-- http.http_user_agent
-- http.length
-- http.protocol
-- http.redirect
-- http.request_headers{}.name
-- http.request_headers{}.value
-- http.response_headers{}.name
-- http.response_headers{}.value
-- http.status
-- http.url
-- http.xff
-- ids_type
-- in_iface
-- index
-- linecount
-- message_type
-- packets_in
-- packets_out
-- pcap_cnt
-- pkt_src
-- product
-- proto
-- punct
-- query
-- reason
-- reply_code
-- severity
-- severity_id
-- signature
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- src
-- src_ip
-- src_port
-- ssh_client_software
-- ssh_client_version
-- ssh_server_software
-- ssh_server_version
-- ssl_issuer_common_name
-- ssl_publickey
-- ssl_server_name_indication
-- ssl_subject_common_name
-- ssl_version
-- starttime
-- state
-- status
-- stream_3whs_ack_in_wrong_dir
-- stream_3whs_async_wrong_seq
-- stream_3whs_right_seq_wrong_ack_evasion
-- suricata_signature_id
-- tag
-- tag::action
-- tag::app
-- tag::eventtype
-- tcp_ack
-- tcp_cwr
-- tcp_ecn
-- tcp_fin
-- tcp_flag
-- tcp_flag_hex
-- tcp_flag_hex_to_client
-- tcp_flag_hex_to_server
-- tcp_flag_to_client
-- tcp_flag_to_server
-- tcp_invalid_checksum
-- tcp_memuse
-- tcp_no_flow
-- tcp_pseudo
-- tcp_pseudo_failed
-- tcp_psh
-- tcp_reassembly_gap
-- tcp_reassembly_memuse
-- tcp_rst
-- tcp_segment_memcap_drop
-- tcp_sessions
-- tcp_ssn_memcap_drop
-- tcp_state
-- tcp_stream_depth_reached
-- tcp_syn
-- tcp_synack
-- tcp.ack
-- tcp.fin
-- tcp.psh
-- tcp.state
-- tcp.syn
-- tcp.tcp_flags
-- tcp.tcp_flags_tc
-- tcp.tcp_flags_ts
-- timeendpos
-- timestamp
-- timestartpos
-- transaction_id
-- transport
-- ttl
-- tx_id
-- type
-- uptime
-- url
-- url_domain
-- vendor
-- vendor_gid
-- vendor_product
-- vendor_rev
-- vendor_sid
+    - _time
+    - action
+    - alert_gid
+    - alert_rev
+    - alert.action
+    - alert.category
+    - alert.gid
+    - alert.metadata.created_at{}
+    - alert.metadata.former_category{}
+    - alert.metadata.signature_severity{}
+    - alert.metadata.updated_at{}
+    - alert.rev
+    - alert.severity
+    - alert.signature
+    - alert.signature_id
+    - answer
+    - app
+    - app_proto
+    - body
+    - bytes
+    - bytes_in
+    - bytes_out
+    - capture_kernel_drops
+    - capture_kernel_packets
+    - category
+    - cookie
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - decoder_avg_pkt_size
+    - decoder_bytes
+    - decoder_erspan
+    - decoder_ethernet
+    - decoder_gre
+    - decoder_icmpv4
+    - decoder_invalid
+    - decoder_ipraw_invalid_ip_version
+    - decoder_ipv4
+    - decoder_ipv4_in_ipv6
+    - decoder_ipv6
+    - decoder_ipv6_in_ipv6
+    - decoder_ltnull_pkt_too_small
+    - decoder_ltnull_unspported_type
+    - decoder_max_pkt_size
+    - decoder_mpls
+    - decoder_null
+    - decoder_pkts
+    - decoder_ppp
+    - decoder_pppoe
+    - decoder_raw
+    - decoder_sctp
+    - decoder_ssl
+    - decoder_tcp
+    - decoder_teredo
+    - decoder_udp
+    - decoder_vlan
+    - decoder_vlan_qinq
+    - decoer_icmpv6
+    - defrag_ipv4_fragments
+    - defrag_ipv4_reassembled
+    - defrag_ipv4_timeouts
+    - defrag_ipv6_fragments
+    - defrag_ipv6_reassembled
+    - defrag_max_frag_hits
+    - description
+    - dest
+    - dest_ip
+    - dest_port
+    - detect_alert
+    - dfrag_ipv6_timeouts
+    - dns_memcap_global
+    - dns_memcap_state
+    - dns_memuse
+    - dns.aa
+    - dns.answers{}.rdata
+    - dns.answers{}.rrname
+    - dns.answers{}.rrtype
+    - dns.answers{}.ttl
+    - dns.authorities{}.rrname
+    - dns.authorities{}.rrtype
+    - dns.authorities{}.soa.expire
+    - dns.authorities{}.soa.minimum
+    - dns.authorities{}.soa.mname
+    - dns.authorities{}.soa.refresh
+    - dns.authorities{}.soa.retry
+    - dns.authorities{}.soa.rname
+    - dns.authorities{}.soa.serial
+    - dns.authorities{}.ttl
+    - dns.flags
+    - dns.grouped.A{}
+    - dns.id
+    - dns.opcode
+    - dns.qr
+    - dns.ra
+    - dns.rcode
+    - dns.rd
+    - dns.rrname
+    - dns.rrtype
+    - dns.tx_id
+    - dns.type
+    - dns.version
+    - duration
+    - dvc
+    - endtime
+    - event_type
+    - eventtype
+    - field
+    - file_rx_id
+    - file_size
+    - file_state
+    - file_stored
+    - file_tx_id
+    - fileinfo.filename
+    - fileinfo.gaps
+    - fileinfo.size
+    - fileinfo.state
+    - fileinfo.stored
+    - fileinfo.tx_id
+    - filename
+    - flow_emerg_mode_entered
+    - flow_emerg_mode_over
+    - flow_id
+    - flow_memcap
+    - flow_memuse
+    - flow_mgr_closed_pruned
+    - flow_mgr_est_pruned
+    - flow_mgr_new_pruned
+    - flow_spare
+    - flow_tcp_reuse
+    - flow.age
+    - flow.alerted
+    - flow.bytes_toclient
+    - flow.bytes_toserver
+    - flow.end
+    - flow.pkts_toclient
+    - flow.pkts_toserver
+    - flow.reason
+    - flow.start
+    - flow.state
+    - host
+    - http_content_type
+    - http_memcap
+    - http_memuse
+    - http_method
+    - http_protocol
+    - http_referrer
+    - http_user_agent
+    - http.hostname
+    - http.http_content_type
+    - http.http_method
+    - http.http_port
+    - http.http_user_agent
+    - http.length
+    - http.protocol
+    - http.redirect
+    - http.request_headers{}.name
+    - http.request_headers{}.value
+    - http.response_headers{}.name
+    - http.response_headers{}.value
+    - http.status
+    - http.url
+    - http.xff
+    - ids_type
+    - in_iface
+    - index
+    - linecount
+    - message_type
+    - packets_in
+    - packets_out
+    - pcap_cnt
+    - pkt_src
+    - product
+    - proto
+    - punct
+    - query
+    - reason
+    - reply_code
+    - severity
+    - severity_id
+    - signature
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - src
+    - src_ip
+    - src_port
+    - ssh_client_software
+    - ssh_client_version
+    - ssh_server_software
+    - ssh_server_version
+    - ssl_issuer_common_name
+    - ssl_publickey
+    - ssl_server_name_indication
+    - ssl_subject_common_name
+    - ssl_version
+    - starttime
+    - state
+    - status
+    - stream_3whs_ack_in_wrong_dir
+    - stream_3whs_async_wrong_seq
+    - stream_3whs_right_seq_wrong_ack_evasion
+    - suricata_signature_id
+    - tag
+    - tag::action
+    - tag::app
+    - tag::eventtype
+    - tcp_ack
+    - tcp_cwr
+    - tcp_ecn
+    - tcp_fin
+    - tcp_flag
+    - tcp_flag_hex
+    - tcp_flag_hex_to_client
+    - tcp_flag_hex_to_server
+    - tcp_flag_to_client
+    - tcp_flag_to_server
+    - tcp_invalid_checksum
+    - tcp_memuse
+    - tcp_no_flow
+    - tcp_pseudo
+    - tcp_pseudo_failed
+    - tcp_psh
+    - tcp_reassembly_gap
+    - tcp_reassembly_memuse
+    - tcp_rst
+    - tcp_segment_memcap_drop
+    - tcp_sessions
+    - tcp_ssn_memcap_drop
+    - tcp_state
+    - tcp_stream_depth_reached
+    - tcp_syn
+    - tcp_synack
+    - tcp.ack
+    - tcp.fin
+    - tcp.psh
+    - tcp.state
+    - tcp.syn
+    - tcp.tcp_flags
+    - tcp.tcp_flags_tc
+    - tcp.tcp_flags_ts
+    - timeendpos
+    - timestamp
+    - timestartpos
+    - transaction_id
+    - transport
+    - ttl
+    - tx_id
+    - type
+    - uptime
+    - url
+    - url_domain
+    - vendor
+    - vendor_gid
+    - vendor_product
+    - vendor_rev
+    - vendor_sid
+field_mappings:
+    - data_model: cim
+      data_set: Web
+      mapping:
+          http.hostname: Web.dest
+          http.http_method: Web.http_method
+          http.http_user_agent: Web.http_user_agent
+          http.status: Web.status
+          http.url: Web.url
+          http.length: Web.url_length
+          src_ip: Web.src
 example_log: '{"timestamp":"2023-10-17T01:24:52.149017+0000","flow_id":721124494649885,"in_iface":"ens5","event_type":"flow","src_ip":"192.0.2.1","src_port":30880,"dest_ip":"192.0.2.2","dest_port":80,"proto":"TCP","app_proto":"http","flow":{"pkts_toserver":6,"pkts_toclient":4,"bytes_toserver":640,"bytes_toclient":660,"start":"2023-10-17T01:20:23.829981+0000","end":"2023-10-17T01:22:11.831172+0000","age":108,"state":"closed","reason":"timeout","alerted":false},"tcp":{"tcp_flags":"1b","tcp_flags_ts":"1b","tcp_flags_tc":"1b","syn":true,"fin":true,"psh":true,"ack":true,"state":"closed"}}'

@@ -1,0 +1,22 @@
+name: k8s_process_resource_ratio_baseline
+id: 7bfd9071-fb1f-4673-ab84-6396a0d3d412
+version: 3
+creation_date: '2024-01-10'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A place holder for a list of used Kuberntes Process Ratios
+fields:
+    - _key
+    - avg_cpu:mem
+    - stdev_cpu:mem
+    - avg_cpu:disk
+    - stdev_cpu:disk
+    - avg_mem:disk
+    - stdev_mem:disk
+    - avg_cpu:threads
+    - stdev_cpu:threads
+    - avg_disk:threads
+    - avg_disk:threads
+    - count
+    - last_seen

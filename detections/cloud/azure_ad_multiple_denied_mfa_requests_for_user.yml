@@ -1,13 +1,14 @@
 name: Azure AD Multiple Denied MFA Requests For User
 id: d0895c20-de71-4fd2-b56c-3fcdb888eba1
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2023-11-16'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects an unusually high number of denied Multi-Factor Authentication (MFA) requests for a single user within a 10-minute window, specifically when more than nine MFA prompts are declined. It leverages Azure Active Directory (Azure AD) sign-in logs, focusing on "Sign-in activity" events with error code 500121 and additional details indicating "MFA denied; user declined the authentication." This behavior is significant as it may indicate a targeted attack or account compromise attempt, with the user actively declining unauthorized access. If confirmed malicious, it could lead to data exfiltration, lateral movement, or further malicious activities.
 data_source:
     - Azure Active Directory Sign-in activity
-description: The following analytic detects an unusually high number of denied Multi-Factor Authentication (MFA) requests for a single user within a 10-minute window, specifically when more than nine MFA prompts are declined. It leverages Azure Active Directory (Azure AD) sign-in logs, focusing on "Sign-in activity" events with error code 500121 and additional details indicating "MFA denied; user declined the authentication." This behavior is significant as it may indicate a targeted attack or account compromise attempt, with the user actively declining unauthorized access. If confirmed malicious, it could lead to data exfiltration, lateral movement, or further malicious activities.
 search: |-
     `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
       | rename properties.* as *
@@ -40,28 +41,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ denied more than 9 MFA requests in a timespan of 10 minutes.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Azure Active Directory Account Takeover
-    asset_type: Azure Active Directory
-    atomic_guid: []
-    mitre_attack_id:
-        - T1621
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: User $user$ denied more than 9 MFA requests in a timespan of 10 minutes.
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Azure Active Directory Account Takeover
+asset_type: Azure Active Directory
+mitre_attack_id:
+    - T1621
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azure_ad_multiple_denied_mfa_requests/azure_ad_multiple_denied_mfa_requests.log
           source: Azure AD
           sourcetype: azure:monitor:aad
+      test_type: unit

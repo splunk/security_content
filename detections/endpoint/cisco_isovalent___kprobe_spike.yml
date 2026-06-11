@@ -1,18 +1,19 @@
 name: Cisco Isovalent - Kprobe Spike
 id: 3df0e9a8-7d5e-4b2f-bcd7-bf93e671d1f2
-version: 3
-date: '2026-02-25'
+version: 4
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
-type: Hunting
-data_source:
-    - Cisco Isovalent Process Kprobe
 status: production
+type: Hunting
 description: |
     This analytic detects excessive kernel probe (kprobe) events in a Kubernetes cluster over a short period of time.
     Kprobes are a Linux kernel debugging and instrumentation mechanism that allows dynamic monitoring and tracing of kernel functions and system calls.
     In containerized or cloud-native environments, kprobes are occasionally used for legitimate low-level diagnostics; however, monitoring a spike in kprobe activity is important because malware or attackers may abuse this mechanism to gain insights into the kernel, attempt privilege escalation, or tamper with host processes.
     More than 10 kprobe events within 5 minutes may indicate suspicious activity, such as an attacker probing the kernel through repeated system calls (e.g., nsenter, mount, sethostname).
     Such abnormal volume and frequency of kprobe usage within application pods or on nodes can signal container escape attempts or low-level tampering with the host, thereby representing a potential security threat.
+data_source:
+    - Cisco Isovalent Process Kprobe
 search: |
     `cisco_isovalent` process_kprobe.action!=""
     | bin _time span=5m | rename process_kprobe.parent.pod.name as pod_name
@@ -32,21 +33,22 @@ known_false_positives: |
     operation. Tune thresholds and filter by function_name to reduce false positives.
 references:
     - https://docs.isovalent.com/user-guide/sec-ops-visibility/process-execution/index.html
-tags:
-    analytic_story:
-        - Cisco Isovalent Suspicious Activity
-        - VoidLink Cloud-Native Linux Malware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1068
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/kprobe_spike.log
           source: not_applicable
           sourcetype: cisco:isovalent
+      test_type: unit

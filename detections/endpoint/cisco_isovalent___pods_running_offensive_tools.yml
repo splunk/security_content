@@ -1,13 +1,14 @@
 name: Cisco Isovalent - Pods Running Offensive Tools
 id: e9d0b9e6-2f3c-4a8a-9d61-2b6f4a9c1c2e
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
 type: Anomaly
+description: The following analytic detects execution of known offensive tooling from within Kubernetes pods, including network scanners and post-exploitation frameworks (e.g., nmap, masscan, zmap, impacket-*, hashcat, john, SharpHound, kube-hunter, peirates). We have created a macro named `linux_offsec_tool_processes` that contains the list of known offensive tooling found on linux systems. Adversaries commonly introduce these tools into compromised workloads to conduct discovery, lateral movement, credential access, or cluster reconnaissance. This behavior may indicate a compromised container or supply-chain abuse. Extra scrutiny is warranted for namespaces that do not typically run diagnostic scanners and for pods that suddenly begin invoking these binaries outside of normal maintenance activity.
 data_source:
     - Cisco Isovalent Process Exec
-status: production
-description: The following analytic detects execution of known offensive tooling from within Kubernetes pods, including network scanners and post-exploitation frameworks (e.g., nmap, masscan, zmap, impacket-*, hashcat, john, SharpHound, kube-hunter, peirates). We have created a macro named `linux_offsec_tool_processes` that contains the list of known offensive tooling found on linux systems. Adversaries commonly introduce these tools into compromised workloads to conduct discovery, lateral movement, credential access, or cluster reconnaissance. This behavior may indicate a compromised container or supply-chain abuse. Extra scrutiny is warranted for namespaces that do not typically run diagnostic scanners and for pods that suddenly begin invoking these binaries outside of normal maintenance activity.
 search: |
     `cisco_isovalent_process_exec`  `linux_offsec_tool_processes`
     | stats count
@@ -32,29 +33,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Offensive tool execution [$process_name$] detected in pod [$pod_name$] on cluster [$cluster_name$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: pod_name
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Cisco Isovalent Suspicious Activity
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1204.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Offensive tool execution [$process_name$] detected in pod [$pod_name$] on cluster [$cluster_name$]
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+asset_type: Endpoint
+mitre_attack_id:
+    - T1204.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
           source: not_applicable
           sourcetype: cisco:isovalent:processExec
+      test_type: unit

@@ -1,7 +1,8 @@
 name: O365 Threat Intelligence Suspicious File Detected
 id: 00958c7b-35db-4e7a-ad13-31550a7a7c64
-version: 11
-date: '2026-04-15'
+version: 12
+creation_date: '2024-04-07'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
@@ -33,31 +34,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Threat Intelligence workload detected a malicious file [$file_name$] from user $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: file_name
-          type: file_name
-tags:
-    analytic_story:
-        - Azure Active Directory Account Takeover
-        - Office 365 Account Takeover
-        - Ransomware Cloud
-    asset_type: O365 Tenant
-    mitre_attack_id:
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: Threat Intelligence workload detected a malicious file [$file_name$] from user $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: file_name
+      type: file_name
+analytic_story:
+    - Azure Active Directory Account Takeover
+    - Office 365 Account Takeover
+    - Ransomware Cloud
+asset_type: O365 Tenant
+mitre_attack_id:
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
           sourcetype: o365:management:activity
           source: o365
+      test_type: unit

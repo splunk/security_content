@@ -1,4 +1,8 @@
-definition: sourcetype="aws:securityhub:firehose"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: aws_securityhub_firehose
+id: 047a11bf-353a-45cf-86b4-3cf2ee680fdb
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="aws:securityhub:firehose"

@@ -1,24 +1,23 @@
 name: Investigate Failed Logins for Multiple Destinations
 id: 097e8030-8662-4254-a735-bf0bdda696e3
 version: 1
-date: '2019-12-10'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 type: Investigation
 status: removed
 description: This search returns failed logins to multiple destinations by user.
-search: '| tstats count `security_content_summariesonly` earliest(_time) as first_login
-  latest(_time) as last_login dc(Authentication.dest) AS distinct_count_dest values(Authentication.dest)
-  AS Authentication.dest values(Authentication.app) AS Authentication.app  from datamodel=Authentication
-  where Authentication.action=failure by Authentication.user | where distinct_count_dest
-  > 1 | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`
-  | `drop_dm_object_name("Authentication")` | search user=$user$'
-how_to_implement: To successfully implement this search you need to be ingesting authentication
-  logs from your various systems and populating the Authentication data model.
+search: '| tstats count `security_content_summariesonly` earliest(_time) as first_login latest(_time) as last_login dc(Authentication.dest) AS distinct_count_dest values(Authentication.dest) AS Authentication.dest values(Authentication.app) AS Authentication.app  from datamodel=Authentication where Authentication.action=failure by Authentication.user | where distinct_count_dest > 1 | `security_content_ctime(first_login)` | `security_content_ctime(last_login)` | `drop_dm_object_name("Authentication")` | search user=$user$'
+how_to_implement: To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - Credential Dumping
-  product:
-  - Splunk Phantom
-  security_domain: endpoint
+    analytic_story:
+        - Credential Dumping
+    product:
+        - Splunk Phantom
+    security_domain: endpoint
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

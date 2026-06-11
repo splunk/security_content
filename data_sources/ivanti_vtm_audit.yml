@@ -1,27 +1,26 @@
 name: Ivanti VTM Audit
 id: b04be6e5-2002-4a49-8722-52285635b8f5
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-08-22'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
-description: Logs administrative and operational activities in Ivanti Virtual Traffic
-  Manager (VTM), including configuration changes, user actions, and system events.
+description: Logs administrative and operational activities in Ivanti Virtual Traffic Manager (VTM), including configuration changes, user actions, and system events.
 mitre_components:
-- Configuration Modification
-- Application Log Content
-- User Account Metadata
-- Host Status
-- Service Modification
+    - Configuration Modification
+    - Application Log Content
+    - User Account Metadata
+    - Host Status
+    - Service Modification
 source: ivanti_vtm
 sourcetype: ivanti_vtm_audit
 supported_TA: []
 fields:
-- _time
-- IP
-- MODUSER
-- OPERATION
-- MODGROUP
-- AUTH
-- USER
-- GROUP
-example_log: '[19/Aug/2024:19:41:22 +0000]    USER=!!ABSENT!! GROUP=!!ABSENT!!        AUTH=!!ABSENT!!
-  IP=!!ABSENT!!   OPERATION=adduser       MODUSER=newadmin        MODGROUP=admin'
+    - _time
+    - IP
+    - MODUSER
+    - OPERATION
+    - MODGROUP
+    - AUTH
+    - USER
+    - GROUP
+example_log: '[19/Aug/2024:19:41:22 +0000]    USER=!!ABSENT!! GROUP=!!ABSENT!!        AUTH=!!ABSENT!! IP=!!ABSENT!!   OPERATION=adduser       MODUSER=newadmin        MODGROUP=admin'

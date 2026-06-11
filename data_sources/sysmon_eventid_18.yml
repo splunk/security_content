@@ -1,112 +1,105 @@
 name: Sysmon EventID 18
 id: 37eb3554-214e-4e66-af10-c3ffc5b8ca82
-version: 3
-date: '2025-07-10'
+version: 4
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs the connection to a named pipe, including details about the pipe
-  name, source and destination processes, and communication direction.
+description: Logs the connection to a named pipe, including details about the pipe name, source and destination processes, and communication direction.
 mitre_components:
-- Named Pipe Metadata
-- Process Metadata
-- Application Log Content
-- OS API Execution
+    - Named Pipe Metadata
+    - Process Metadata
+    - Application Log Content
+    - OS API Execution
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: XmlWinEventLog
 separator: EventID
 separator_value: '18'
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
-- name: Splunk Add-on for Sysmon
-  url: https://splunkbase.splunk.com/app/5709
-  version: 5.0.0
+    - name: Splunk Add-on for Sysmon
+      url: https://splunkbase.splunk.com/app/5709
+      version: 5.0.0
 fields:
-- _time
-- Channel
-- Computer
-- EventChannel
-- EventCode
-- EventData_Xml
-- EventDescription
-- EventID
-- EventRecordID
-- EventType
-- Guid
-- Image
-- Keywords
-- Level
-- Name
-- Opcode
-- PipeName
-- ProcessGuid
-- ProcessID
-- ProcessId
-- RecordID
-- RecordNumber
-- RuleName
-- SecurityID
-- SystemTime
-- System_Props_Xml
-- Task
-- ThreadID
-- TimeCreated
-- UserID
-- UtcTime
-- Version
-- action
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dvc_nt_host
-- event_id
-- eventtype
-- host
-- id
-- index
-- linecount
-- os
-- pipe_name
-- process_exec
-- process_guid
-- process_id
-- process_name
-- process_path
-- punct
-- severity_id
-- signature
-- signature_id
-- source
-- sourcetype
-- splunk_server
-- tag
-- tag::eventtype
-- timeendpos
-- timestartpos
-- user_id
-- vendor_product
+    - _time
+    - Channel
+    - Computer
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
+    - EventType
+    - Guid
+    - Image
+    - Keywords
+    - Level
+    - Name
+    - Opcode
+    - PipeName
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
+    - SystemTime
+    - System_Props_Xml
+    - Task
+    - ThreadID
+    - TimeCreated
+    - UserID
+    - UtcTime
+    - Version
+    - action
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc_nt_host
+    - event_id
+    - eventtype
+    - host
+    - id
+    - index
+    - linecount
+    - os
+    - pipe_name
+    - process_exec
+    - process_guid
+    - process_id
+    - process_name
+    - process_path
+    - punct
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - user_id
+    - vendor_product
 output_fields:
-- dest
-- dvc
-- pipe_name
-- process_exec
-- process_guid
-- process_id
-- process_name
-- process_path
-- signature
-- signature_id
-- user_id
-- vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>18</EventID><Version>1</Version><Level>4</Level><Task>18</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated
-  SystemTime='2021-04-19T21:00:19.312721800Z'/><EventRecordID>162173</EventRecordID><Correlation/><Execution
-  ProcessID='2816' ThreadID='2452'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-982.attackrange.local</Computer><Security
-  UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='EventType'>ConnectPipe</Data><Data
-  Name='UtcTime'>2021-04-19 21:00:19.312</Data><Data Name='ProcessGuid'>{761B69BB-EF62-607D-B211-00000000BA01}</Data><Data
-  Name='ProcessId'>6960</Data><Data Name='PipeName'>\MSSE-1516-server</Data><Data
-  Name='Image'>C:\Users\Administrator\Desktop\beacon.exe</Data></EventData></Event>
+    - dest
+    - dvc
+    - pipe_name
+    - process_exec
+    - process_guid
+    - process_id
+    - process_name
+    - process_path
+    - signature
+    - signature_id
+    - user_id
+    - vendor_product
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>18</EventID><Version>1</Version><Level>4</Level><Task>18</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2021-04-19T21:00:19.312721800Z'/><EventRecordID>162173</EventRecordID><Correlation/><Execution ProcessID='2816' ThreadID='2452'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-982.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='EventType'>ConnectPipe</Data><Data Name='UtcTime'>2021-04-19 21:00:19.312</Data><Data Name='ProcessGuid'>{761B69BB-EF62-607D-B211-00000000BA01}</Data><Data Name='ProcessId'>6960</Data><Data Name='PipeName'>\MSSE-1516-server</Data><Data Name='Image'>C:\Users\Administrator\Desktop\beacon.exe</Data></EventData></Event>

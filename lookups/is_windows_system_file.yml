@@ -1,9 +1,0 @@
-name: is_windows_system_file
-date: 2025-12-31
-version: 3
-id: ce238622-4d8f-41a4-a747-5d0adab9c854
-author: Splunk Threat Research Team
-lookup_type: csv
-description: A full baseline of executable files in Windows\System32 and Windows\Syswow64, including sub-directories from Server 2016 and Windows 10.
-min_matches: 1
-case_sensitive_match: false

@@ -1,7 +1,8 @@
 name: GCP Detect gcploit framework
 id: a1c5a85e-a162-410c-a5d9-99ff639e5a52
-version: 7
-date: '2026-03-12'
+version: 8
+creation_date: '2020-10-08'
+modification_date: '2026-05-13'
 author: Rod Soto, Splunk
 status: experimental
 type: TTP
@@ -16,21 +17,20 @@ known_false_positives: Payload.request.function.timeout value can possibly be ma
 references:
     - https://github.com/dxa4481/gcploit
     - https://www.youtube.com/watch?v=Ml09R38jpok
-rba:
-    message: Possible use of gcploit framework from $src$ by $src_user$
-    risk_objects:
-        - field: src_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - GCP Cross Account Activity
-    asset_type: GCP Account
-    mitre_attack_id:
-        - T1078
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+finding:
+    title: Possible use of gcploit framework from $src$ by $src_user$
+    entity:
+        field: src_user
+        type: user
+        score: 50
+analytic_story:
+    - GCP Cross Account Activity
+asset_type: GCP Account
+mitre_attack_id:
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat

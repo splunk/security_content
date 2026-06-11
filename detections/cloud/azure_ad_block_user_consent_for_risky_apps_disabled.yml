@@ -1,13 +1,14 @@
 name: Azure AD Block User Consent For Risky Apps Disabled
 id: 875de3d7-09bc-4916-8c0a-0929f4ced3d8
-version: 12
-date: '2026-05-04'
+version: 13
+creation_date: '2023-11-16'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
+description: The following analytic detects when the risk-based step-up consent security setting in Azure AD is disabled. It monitors Azure Active Directory logs for the "Update authorization policy" operation, specifically changes to the "AllowUserConsentForRiskyApps" setting. This activity is significant because disabling this feature can expose the organization to OAuth phishing threats by allowing users to grant consent to potentially malicious applications. If confirmed malicious, attackers could gain unauthorized access to user data and sensitive information, leading to data breaches and further compromise within the organization.
 data_source:
     - Azure Active Directory Update authorization policy
-description: The following analytic detects when the risk-based step-up consent security setting in Azure AD is disabled. It monitors Azure Active Directory logs for the "Update authorization policy" operation, specifically changes to the "AllowUserConsentForRiskyApps" setting. This activity is significant because disabling this feature can expose the organization to OAuth phishing threats by allowing users to grant consent to potentially malicious applications. If confirmed malicious, attackers could gain unauthorized access to user data and sensitive information, leading to data breaches and further compromise within the organization.
 search: "`azure_monitor_aad` operationName=\"Update authorization policy\" | rename properties.* as * | eval index_number = if(mvfind('targetResources{}.modifiedProperties{}.displayName',\"AllowUserConsentForRiskyApps\") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName',\"AllowUserConsentForRiskyApps\"), -1) | search index_number >= 0 | eval AllowUserConsentForRiskyApps = mvindex('targetResources{}.modifiedProperties{}.newValue',index_number) | search AllowUserConsentForRiskyApps = \"[true]\" | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_block_user_consent_for_risky_apps_disabled_filter`"
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: Legitimate changes to the 'risk-based step-up consent' setting by administrators, perhaps as part of a policy update or security assessment, may trigger this alert, necessitating verification of the change's intent and authorization
@@ -25,27 +26,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: User $user$ disabled the BlockUserConsentForRiskyApps Azure AD setting.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Azure Active Directory Account Takeover
-    asset_type: Azure Tenant
-    mitre_attack_id:
-        - T1685
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: User $user$ disabled the BlockUserConsentForRiskyApps Azure AD setting.
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Azure Active Directory Account Takeover
+asset_type: Azure Tenant
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/azuread_disable_blockconsent_for_riskapps/azuread_disable_blockconsent_for_riskapps.log
           source: Azure Ad
           sourcetype: azure:monitor:aad
+      test_type: unit

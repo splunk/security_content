@@ -1,7 +1,8 @@
 name: Windows Access Token Manipulation Winlogon Duplicate Token Handle
 id: dda126d7-1d99-4f0b-b72a-4c14031f9398
-version: 8
-date: '2025-05-02'
+version: 9
+creation_date: '2022-09-01'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -14,20 +15,21 @@ known_false_positives: It is possible legitimate applications will request acces
 references:
     - https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
     - https://attack.mitre.org/techniques/T1134/001/
-tags:
-    analytic_story:
-        - Brute Ratel C4
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1134.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Brute Ratel C4
+asset_type: Endpoint
+mitre_attack_id:
+    - T1134.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

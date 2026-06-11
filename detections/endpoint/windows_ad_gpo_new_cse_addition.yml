@@ -1,13 +1,14 @@
 name: Windows AD GPO New CSE Addition
 id: 700c11d1-da09-47b2-81aa-358c143c7986
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2024-07-01'
+modification_date: '2026-05-13'
 author: Dean Luxton
 status: production
 type: TTP
+description: This detection identifies when a a new client side extension is added to an Active Directory Group Policy using the Group Policy Management Console.
 data_source:
     - Windows Event Log Security 5136
-description: This detection identifies when a a new client side extension is added to an Active Directory Group Policy using the Group Policy Management Console.
 search: |-
     `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames
       | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(dest) as dest
@@ -49,25 +50,24 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $src_user$ has added new GPO Client Side Extensions $newPolicy$ to the policy $policyName$
-    risk_objects:
-        - field: src_user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Sneaky Active Directory Persistence Tricks
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1222.001
-        - T1484.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: $src_user$ has added new GPO Client Side Extensions $newPolicy$ to the policy $policyName$
+    entity:
+        field: src_user
+        type: user
+        score: 50
+analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+mitre_attack_id:
+    - T1222.001
+    - T1484.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
@@ -77,3 +77,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_new_cse/windows-admon.log
           source: ActiveDirectory
           sourcetype: ActiveDirectory
+      test_type: unit

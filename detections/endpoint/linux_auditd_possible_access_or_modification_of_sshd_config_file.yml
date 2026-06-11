@@ -1,7 +1,8 @@
 name: Linux Auditd Possible Access Or Modification Of Sshd Config File
 id: acb3ea33-70f7-47aa-b335-643b3aebcb2f
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2022-01-12'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -76,30 +77,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: $reconstructed_path$ has been accessed with type $nametype$ on host - [$dest$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Living Off The Land
-        - Linux Privilege Escalation
-        - Linux Persistence Techniques
-        - Compromised Linux Host
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1098.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: $reconstructed_path$ has been accessed with type $nametype$ on host - [$dest$]
+analytic_story:
+    - Linux Living Off The Land
+    - Linux Privilege Escalation
+    - Linux Persistence Techniques
+    - Compromised Linux Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1098.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/auditd_path_ssh_config/path_ssh_config.log
           source: auditd
           sourcetype: auditd
+      test_type: unit

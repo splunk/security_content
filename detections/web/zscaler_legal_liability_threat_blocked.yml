@@ -1,12 +1,13 @@
 name: Zscaler Legal Liability Threat Blocked
 id: bbf55ebf-c416-4f62-94d9-4064f2a28014
-version: 8
-date: '2026-04-15'
+version: 9
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Rod Soto, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-data_source: []
 description: The following analytic identifies significant legal liability threats blocked by the Zscaler web proxy. It uses web proxy logs to track destinations, device owners, users, URL categories, and actions associated with legal liability. By leveraging statistics on unique fields, it ensures a precise focus on these threats. This activity is significant for SOC as it helps enforce legal compliance and risk management. If confirmed malicious, it could indicate attempts to access legally sensitive or restricted content, potentially leading to legal repercussions and compliance violations.
+data_source: []
 search: |-
     `zscaler_proxy` urlclass="Legal Liability"
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -30,32 +31,34 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Potential Legal Liability Threat from dest -[$dest$] on $src$ for user-[$user$].
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
+          message: Potential Legal Liability Threat from dest -[$dest$] on $src$ for user-[$user$].
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: url
-          type: url
-tags:
-    analytic_story:
-        - Zscaler Browser Proxy Threats
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1566
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: Potential Legal Liability Threat from dest -[$dest$] on $src$ for user-[$user$].
+threat_objects:
+    - field: url
+      type: url
+analytic_story:
+    - Zscaler Browser Proxy Threats
+asset_type: Web Server
+mitre_attack_id:
+    - T1566
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
           source: zscaler
           sourcetype: zscalernss-web
+      test_type: unit

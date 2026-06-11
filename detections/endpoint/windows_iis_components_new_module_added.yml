@@ -1,7 +1,8 @@
 name: Windows IIS Components New Module Added
 id: 55f22929-cfd3-4388-ba5c-4d01fac7ee7e
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2022-12-21'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,28 +37,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A new IIS Module has been loaded and should be reviewed on $dest$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - IIS Components
-        - GhostRedirector IIS Module and Rungan Backdoor
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1505.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+finding:
+    title: A new IIS Module has been loaded and should be reviewed on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - IIS Components
+    - GhostRedirector IIS Module and Rungan Backdoor
+asset_type: Endpoint
+mitre_attack_id:
+    - T1505.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/IIS-Configuration-Operational.log
           source: IIS:Configuration:Operational
           sourcetype: IIS:Configuration:Operational
+      test_type: unit

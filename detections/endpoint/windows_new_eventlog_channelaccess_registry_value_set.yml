@@ -1,7 +1,8 @@
 name: Windows New EventLog ChannelAccess Registry Value Set
 id: 16eb11bc-ef42-42e8-9d0c-d21e0fa15725
-version: 7
-date: '2026-05-04'
+version: 8
+creation_date: '2024-12-06'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -23,31 +24,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: modified/added/deleted registry entry $registry_path$ in $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: modified/added/deleted registry entry $registry_path$ in $dest$
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - LockBit Ransomware
-        - Defense Evasion or Unauthorized Access Via SDDL Tampering
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1685.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: modified/added/deleted registry entry $registry_path$ in $dest$
+analytic_story:
+    - LockBit Ransomware
+    - Defense Evasion or Unauthorized Access Via SDDL Tampering
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.002/eventlog_sddl_tampering/eventlog_sddl_tampering_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

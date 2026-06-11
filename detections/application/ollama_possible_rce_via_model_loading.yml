@@ -1,7 +1,8 @@
 name: Ollama Possible RCE via Model Loading
 id: 3f28c930-5208-425d-a7b9-53d349756d91
-version: 3
-date: '2026-04-15'
+version: 4
+creation_date: '2025-10-13'
+modification_date: '2026-05-13'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -22,27 +23,28 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$", | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious model loading errors detected on $host$ with $error_count$ failures showing error messages $error_messages$, potentially indicating malicious model injection, path traversal exploitation, or attempts to achieve remote code execution through crafted model files.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: host
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Suspicious Ollama Activities
-    asset_type: Web Application
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious model loading errors detected on $host$ with $error_count$ failures showing error messages $error_messages$, potentially indicating malicious model injection, path traversal exploitation, or attempts to achieve remote code execution through crafted model files.
+analytic_story:
+    - Suspicious Ollama Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
           sourcetype: ollama:server
           source: app.log
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

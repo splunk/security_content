@@ -1,13 +1,14 @@
 name: JetBrains TeamCity Authentication Bypass Suricata CVE-2024-27198
 id: fbcc04c7-8a79-453c-b3a9-c232c423bdd3
-version: 9
-date: '2026-04-15'
+version: 10
+creation_date: '2024-03-06'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic detects attempts to exploit the CVE-2024-27198 vulnerability in JetBrains TeamCity on-premises servers, which allows attackers to bypass authentication mechanisms. It leverages Suricata HTTP traffic logs to identify suspicious POST requests to the `/app/rest/users` and `/app/rest/users/id:1/tokens` endpoints. This activity is significant because it can lead to unauthorized administrative access, enabling attackers to gain full control over the TeamCity server, including projects, builds, agents, and artifacts. If confirmed malicious, this could result in severe security breaches and compromise the integrity of the development environment.
 data_source:
     - Suricata
-type: TTP
-status: production
-description: The following analytic detects attempts to exploit the CVE-2024-27198 vulnerability in JetBrains TeamCity on-premises servers, which allows attackers to bypass authentication mechanisms. It leverages Suricata HTTP traffic logs to identify suspicious POST requests to the `/app/rest/users` and `/app/rest/users/id:1/tokens` endpoints. This activity is significant because it can lead to unauthorized administrative access, enabling attackers to gain full control over the TeamCity server, including projects, builds, agents, and artifacts. If confirmed malicious, this could result in severe security breaches and compromise the integrity of the development environment.
 search: |-
     `suricata` ((http.url="*?jsp=*" AND http.url="*;.jsp*") http.status=200 http_method=POST) OR (http.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*") http.status=200 http_method=POST )
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -32,32 +33,33 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Possible JetBrains TeamCity Authentication Bypass Attempt against $dest$ from $src$.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - JetBrains TeamCity Vulnerabilities
-        - Hellcat Ransomware
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2024-27198
+finding:
+    title: Possible JetBrains TeamCity Authentication Bypass Attempt against $dest$ from $src$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - JetBrains TeamCity Vulnerabilities
+    - Hellcat Ransomware
+asset_type: Web Server
+cve:
+    - CVE-2024-27198
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27198.log
           sourcetype: suricata
           source: not_applicable
+      test_type: unit

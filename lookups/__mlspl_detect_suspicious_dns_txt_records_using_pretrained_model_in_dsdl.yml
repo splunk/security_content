@@ -1,8 +1,0 @@
-name: __mlspl_detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl
-date: 2024-12-23
-version: 2
-id: d5099bcb-420e-4eec-9714-db0590ea4f03
-author: Splunk Threat Research Team
-lookup_type: mlmodel
-description: Detect suspicious DNS txt records using Pretrained Model in DSDL
-case_sensitive_match: false

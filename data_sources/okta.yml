@@ -1,23 +1,23 @@
 name: Okta
 id: ec26febe-e760-4981-bbee-72e107c7b9d2
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs authentication and administrative activities captured by Okta, including
-  user login attempts, session management, and configuration changes.
+description: Logs authentication and administrative activities captured by Okta, including user login attempts, session management, and configuration changes.
 mitre_components:
-- User Account Authentication
-- Logon Session Creation
-- User Account Metadata
-- Configuration Modification
-- Application Log Content
+    - User Account Authentication
+    - Logon Session Creation
+    - User Account Metadata
+    - Configuration Modification
+    - Application Log Content
 source: Okta
 sourcetype: OktaIM2:log
 supported_TA:
-- name: Splunk Add-on for Okta Identity Cloud
-  url: https://splunkbase.splunk.com/app/6553
-  version: 5.0.2
+    - name: Splunk Add-on for Okta Identity Cloud
+      url: https://splunkbase.splunk.com/app/6553
+      version: 5.0.2
 output_fields:
-- dest
-- src
-- user
+    - dest
+    - src
+    - user

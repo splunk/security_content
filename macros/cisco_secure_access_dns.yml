@@ -1,0 +1,8 @@
+name: cisco_secure_access_dns
+id: 3955995e-60b7-4e42-8177-70367d363902
+version: 1
+creation_date: '2026-06-03'
+modification_date: '2026-06-03'
+author: Mahamudul Chowdhury, Bhavin Patel, Splunk
+description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="cisco:cloud_security:dns"

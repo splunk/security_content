@@ -1,13 +1,14 @@
 name: Windows Unsigned MS DLL Side-Loading
 id: 8d9e0e06-ba71-4dc5-be16-c1a46d58728c
-version: 15
-date: '2026-04-15'
+version: 16
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies potential DLL side-loading instances involving unsigned DLLs mimicking Microsoft signatures. It detects this activity by analyzing Sysmon logs for Event Code 7, where both the `Image` and `ImageLoaded` paths do not match system directories like `system32`, `syswow64`, and `programfiles`. This behavior is significant as adversaries often exploit DLL side-loading to execute malicious code via legitimate processes. If confirmed malicious, this activity could allow attackers to execute arbitrary code, potentially leading to privilege escalation, persistence, and unauthorized access to sensitive information.
 data_source:
     - Sysmon EventID 7
-type: Anomaly
-status: production
-description: The following analytic identifies potential DLL side-loading instances involving unsigned DLLs mimicking Microsoft signatures. It detects this activity by analyzing Sysmon logs for Event Code 7, where both the `Image` and `ImageLoaded` paths do not match system directories like `system32`, `syswow64`, and `programfiles`. This behavior is significant as adversaries often exploit DLL side-loading to execute malicious code via legitimate processes. If confirmed malicious, this activity could allow attackers to execute arbitrary code, potentially leading to privilege escalation, persistence, and unauthorized access to sensitive information.
 search: |
     `sysmon`
     EventCode=7
@@ -52,40 +53,40 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: An instance of $Image$ loading Unsigned $ImageLoaded$ was detected on $dest$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: Image
-          type: file_name
-tags:
-    analytic_story:
-        - China-Nexus Threat Activity
-        - Derusbi
-        - APT29 Diplomatic Deceptions with WINELOADER
-        - Salt Typhoon
-        - Earth Alux
-        - XWorm
-    group:
-        - APT29
-        - Cozy Bear
-        - Midnight Blizzard
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1574.001
-        - T1547
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+          message: An instance of $Image$ loading Unsigned $ImageLoaded$ was detected on $dest$.
+threat_objects:
+    - field: Image
+      type: file_name
+analytic_story:
+    - China-Nexus Threat Activity
+    - Derusbi
+    - APT29 Diplomatic Deceptions with WINELOADER
+    - Salt Typhoon
+    - Earth Alux
+    - XWorm
+threat_group:
+    - APT29
+    - Cozy Bear
+    - Midnight Blizzard
+asset_type: Endpoint
+mitre_attack_id:
+    - T1574.001
+    - T1547
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/unsigned_dll_load//wineloader_dll_sideload.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit

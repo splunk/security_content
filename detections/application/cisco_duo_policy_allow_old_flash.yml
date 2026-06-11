@@ -1,13 +1,14 @@
 name: Cisco Duo Policy Allow Old Flash
 id: f36c0d3f-d57f-4b88-a5d4-0a4c9a0752f6
-version: 5
-date: '2026-04-15'
+version: 6
+creation_date: '2025-07-10'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
+status: production
+type: TTP
+description: The following analytic identifies instances where a Duo administrator creates or updates a policy to allow the use of outdated Flash components, specifically by detecting policy changes with the flash_remediation=no remediation attribute. It leverages Duo activity logs ingested via the Cisco Security Cloud App, searching for policy_update or policy_create actions and parsing the policy description for indicators of weakened security controls. This behavior is significant for a SOC because permitting old Flash increases the attack surface, as Flash is widely known for its security vulnerabilities and is no longer supported. Attackers may exploit such policy changes to bypass security controls, introduce malware, or escalate privileges within the environment. Detecting and responding to these policy modifications helps prevent potential exploitation, reduces organizational risk, and ensures adherence to security best practices. Immediate investigation is recommended to determine if the change was authorized or indicative of malicious activity.
 data_source:
     - Cisco Duo Administrator
-type: TTP
-status: production
-description: The following analytic identifies instances where a Duo administrator creates or updates a policy to allow the use of outdated Flash components, specifically by detecting policy changes with the flash_remediation=no remediation attribute. It leverages Duo activity logs ingested via the Cisco Security Cloud App, searching for policy_update or policy_create actions and parsing the policy description for indicators of weakened security controls. This behavior is significant for a SOC because permitting old Flash increases the attack surface, as Flash is widely known for its security vulnerabilities and is no longer supported. Attackers may exploit such policy changes to bypass security controls, introduce malware, or escalate privileges within the environment. Detecting and responding to these policy modifications helps prevent potential exploitation, reduces organizational risk, and ensures adherence to security best practices. Immediate investigation is recommended to determine if the change was authorized or indicative of malicious activity.
 search: |-
     `cisco_duo_administrator` action=policy_update OR action=policy_create
     | spath input=description
@@ -32,27 +33,27 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A policy has been created or updated to allow old flash by user $user$ with email $admin_email$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Cisco Duo Suspicious Activity
-    asset_type: Identity
-    mitre_attack_id:
-        - T1556
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+finding:
+    title: A policy has been created or updated to allow old flash by user $user$ with email $admin_email$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Cisco Duo Suspicious Activity
+asset_type: Identity
+mitre_attack_id:
+    - T1556
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_policy_allow_old_flash_and_java/cisco_duo_administrator.json
           source: duo
           sourcetype: cisco:duo:administrator
+      test_type: unit

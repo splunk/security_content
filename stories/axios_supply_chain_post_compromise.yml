@@ -1,7 +1,8 @@
 name: Axios Supply Chain Post Compromise
 id: 2b1b0e8f-8674-4544-a209-a52e1ea4c2da
-version: 1
-date: '2026-03-31'
+version: 2
+creation_date: '2026-04-02'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: |-
@@ -28,11 +29,10 @@ references:
     - https://thehackernews.com/2026/03/axios-supply-chain-attack-pushes-cross.html
     - https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan
     - https://socket.dev/blog/axios-npm-package-compromised
-tags:
-    category:
-        - Malware
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    usecase: Advanced Threat Detection
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

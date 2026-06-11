@@ -1,20 +1,20 @@
 name: O365
 id: b32de97d-0074-4cca-853c-db22c392b6c0
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs management activities in Microsoft 365, including administrative
-  actions, user activities, and configuration changes across various services.
+description: Logs management activities in Microsoft 365, including administrative actions, user activities, and configuration changes across various services.
 mitre_components:
-- User Account Metadata
-- Cloud Service Modification
-- Application Log Content
-- Configuration Modification
-- Active Directory Object Modification
+    - User Account Metadata
+    - Cloud Service Modification
+    - Application Log Content
+    - Configuration Modification
+    - Active Directory Object Modification
 source: o365
 sourcetype: o365:management:activity
 separator: Operation
 supported_TA:
-- name: Splunk Add-on for Microsoft Office 365
-  url: https://splunkbase.splunk.com/app/4055
-  version: 6.0.2
+    - name: Splunk Add-on for Microsoft Office 365
+      url: https://splunkbase.splunk.com/app/4055
+      version: 6.0.2

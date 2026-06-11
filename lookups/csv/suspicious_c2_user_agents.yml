@@ -1,0 +1,12 @@
+name: suspicious_c2_user_agents
+id: b9b22033-2374-4483-87d0-0d7b969e762c
+version: 2
+creation_date: '2026-01-06'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+lookup_type: csv
+description: A list of user agents used with known C2 frameworks and toolings.
+match_type:
+    - WILDCARD(c2_user_agent)
+min_matches: 1
+case_sensitive_match: true

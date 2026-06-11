@@ -1,7 +1,8 @@
 name: Windows Sensitive Registry Hive Dump Via CommandLine
 id: 5aaff29d-0cce-405b-9ee8-5d06b49d045e
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2021-05-12'
+modification_date: '2026-05-13'
 author: Michael Haag, Patrick Bareiss, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -57,41 +58,45 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious use of `reg.exe` exporting Windows Registry hives containing credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Suspicious use of `reg.exe` exporting Windows Registry hives containing credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-tags:
-    analytic_story:
-        - CISA AA22-257A
-        - CISA AA23-347A
-        - Compromised Windows Host
-        - Credential Dumping
-        - DarkSide Ransomware
-        - Data Destruction
-        - Industroyer2
-        - Volt Typhoon
-        - Windows Registry Abuse
-        - Seashell Blizzard
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1003.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious use of `reg.exe` exporting Windows Registry hives containing credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - CISA AA22-257A
+    - CISA AA23-347A
+    - Compromised Windows Host
+    - Credential Dumping
+    - DarkSide Ransomware
+    - Data Destruction
+    - Industroyer2
+    - Volt Typhoon
+    - Windows Registry Abuse
+    - Seashell Blizzard
+asset_type: Endpoint
+mitre_attack_id:
+    - T1003.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Sysmon
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

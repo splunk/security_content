@@ -1,7 +1,8 @@
 name: Execute Javascript With Jscript COM CLSID
 id: dc64d064-d346-11eb-8588-acde48001122
-version: 12
-date: '2026-04-15'
+version: 13
+creation_date: '2021-06-23'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -37,32 +38,36 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Suspicious process of cscript.exe with a parent process $parent_process_name$ where it tries to execute javascript using jscript.encode CLSID (COM OBJ), detected on $dest$ by $user$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Suspicious process of cscript.exe with a parent process $parent_process_name$ where it tries to execute javascript using jscript.encode CLSID (COM OBJ), detected on $dest$ by $user$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-tags:
-    analytic_story:
-        - Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious process of cscript.exe with a parent process $parent_process_name$ where it tries to execute javascript using jscript.encode CLSID (COM OBJ), detected on $dest$ by $user$
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

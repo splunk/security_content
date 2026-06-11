@@ -1,13 +1,14 @@
 name: Windows Large Number of Computer Service Tickets Requested
 id: 386ad394-c9a7-4b4f-b66f-586252de20f0
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2023-03-21'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
-type: Anomaly
 status: production
+type: Anomaly
+description: The following analytic detects a high volume of Kerberos service ticket requests, specifically more than 30, from a single source within a 5-minute window. It leverages Event ID 4769, which logs when a Kerberos service ticket is requested, focusing on requests with computer names as the Service Name. This behavior is significant as it may indicate malicious activities such as lateral movement, malware staging, or reconnaissance. If confirmed malicious, an attacker could gain unauthorized access to multiple endpoints, potentially compromising the entire network.
 data_source:
     - Windows Event Log Security 4769
-description: The following analytic detects a high volume of Kerberos service ticket requests, specifically more than 30, from a single source within a 5-minute window. It leverages Event ID 4769, which logs when a Kerberos service ticket is requested, focusing on requests with computer names as the Service Name. This behavior is significant as it may indicate malicious activities such as lateral movement, malware staging, or reconnaissance. If confirmed malicious, an attacker could gain unauthorized access to multiple endpoints, potentially compromising the entire network.
 search: |-
     `wineventlog_security` EventCode=4769 ServiceName="*$" TargetUserName!="*$"
       | bucket span=5m _time
@@ -30,29 +31,29 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$IpAddress$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A large number of kerberos computer service tickets were requested by $IpAddress$ within 5 minutes.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: IpAddress
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Active Directory Privilege Escalation
-        - Active Directory Lateral Movement
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1135
-        - T1078
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A large number of kerberos computer service tickets were requested by $IpAddress$ within 5 minutes.
+analytic_story:
+    - Active Directory Privilege Escalation
+    - Active Directory Lateral Movement
+asset_type: Endpoint
+mitre_attack_id:
+    - T1135
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/large_number_computer_service_tickets/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

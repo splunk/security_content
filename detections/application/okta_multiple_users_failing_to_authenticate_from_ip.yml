@@ -1,13 +1,14 @@
 name: Okta Multiple Users Failing To Authenticate From Ip
 id: de365ffa-42f5-46b5-b43f-fa72290b8218
-version: 10
-date: '2026-04-15'
+version: 11
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Mauricio Velazco, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies instances where more than 10 unique user accounts have failed to authenticate from a single IP address within a 5-minute window in an Okta tenant. This detection uses OktaIm2 logs ingested via the Splunk Add-on for Okta Identity Cloud. Such activity is significant as it may indicate brute-force attacks or password spraying attempts. If confirmed malicious, this behavior suggests an external entity is attempting to compromise multiple user accounts, potentially leading to unauthorized access to organizational resources and data breaches.
 data_source:
     - Okta
-type: Anomaly
-status: production
-description: The following analytic identifies instances where more than 10 unique user accounts have failed to authenticate from a single IP address within a 5-minute window in an Okta tenant. This detection uses OktaIm2 logs ingested via the Splunk Add-on for Okta Identity Cloud. Such activity is significant as it may indicate brute-force attacks or password spraying attempts. If confirmed malicious, this behavior suggests an external entity is attempting to compromise multiple user accounts, potentially leading to unauthorized access to organizational resources and data breaches.
 search: |-
     | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime dc(Authentication.user) as unique_accounts values(Authentication.signature) as signature values(Authentication.user) as user values(Authentication.app) as app values(Authentication.authentication_method) as authentication_method values(Authentication.dest) as dest FROM datamodel=Authentication
       WHERE Authentication.action="failure"
@@ -34,29 +35,30 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: Multiple users failing to authenticate from a single source IP Address - [$src$]. Investigate further to determine if this was authorized.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: src
-          type: ip_address
-tags:
-    analytic_story:
-        - Okta Account Takeover
-    asset_type: Okta Tenant
-    mitre_attack_id:
-        - T1110.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: identity
+          message: Multiple users failing to authenticate from a single source IP Address - [$src$]. Investigate further to determine if this was authorized.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Okta Account Takeover
+asset_type: Okta Tenant
+mitre_attack_id:
+    - T1110.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: identity
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/okta_multiple_users_from_ip/okta_multiple_users_from_ip.log
           source: Okta
           sourcetype: OktaIM2:log
+      test_type: unit

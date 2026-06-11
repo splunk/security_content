@@ -1,98 +1,96 @@
 name: Windows Event Log Application 17135
 id: 4491537e-520c-46f7-9209-f56f852aa231
-version: 1
-date: '2025-02-26'
+version: 2
+creation_date: '2025-02-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 description: Data source object for Windows Event Log Application 17135
 source: XmlWinEventLog:Application
 sourcetype: XmlWinEventLog
 separator: EventCode
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 10.0.1
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 10.0.1
 fields:
-- CategoryString
-- Channel
-- Computer
-- Error_Code
-- EventCode
-- EventData_Xml
-- EventID
-- EventRecordID
-- Image_File_Name
-- Keywords
-- Level
-- Name
-- Opcode
-- ProcessID
-- Qualifiers
-- RecordNumber
-- RenderingInfo_Xml
-- SourceName
-- SubStatus
-- SystemTime
-- System_Props_Xml
-- Task
-- TaskCategory
-- ThreadID
-- Version
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _subsecond
-- _time
-- action
-- category
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dvc
-- dvc_nt_host
-- event_id
-- eventtype
-- host
-- id
-- index
-- linecount
-- name
-- parent_process
-- process_name
-- punct
-- result
-- service
-- service_id
-- service_name
-- severity
-- severity_id
-- signature
-- signature_id
-- source
-- sourcetype
-- splunk_server
-- splunk_server_group
-- status
-- subject
-- tag
-- tag::action
-- tag::eventtype
-- timeendpos
-- timestartpos
-- user_group_id
-- user_id
-- vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='MSSQLSERVER'/><EventID Qualifiers='16384'>17135</EventID><Version>0</Version><Level>4</Level><Task>2</Task><Opcode>0</Opcode><Keywords>0x80000000000000</Keywords><TimeCreated
-  SystemTime='2025-02-10T16:38:42.6969829Z'/><EventRecordID>16509</EventRecordID><Correlation/><Execution
-  ProcessID='0' ThreadID='0'/><Channel>Application</Channel><Computer>ar-win-2.attackrange.local</Computer><Security/></System><EventData><Data>sp_add_sysadmin</Data><Binary>EF4200000A00000009000000610072002D00770069006E002D0032000000070000006D00610073007400650072000000</Binary></EventData></Event>
+    - CategoryString
+    - Channel
+    - Computer
+    - Error_Code
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - Image_File_Name
+    - Keywords
+    - Level
+    - Name
+    - Opcode
+    - ProcessID
+    - Qualifiers
+    - RecordNumber
+    - RenderingInfo_Xml
+    - SourceName
+    - SubStatus
+    - SystemTime
+    - System_Props_Xml
+    - Task
+    - TaskCategory
+    - ThreadID
+    - Version
+    - _bkt
+    - _cd
+    - _eventtype_color
+    - _indextime
+    - _raw
+    - _serial
+    - _si
+    - _sourcetype
+    - _subsecond
+    - _time
+    - action
+    - category
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - eventtype
+    - host
+    - id
+    - index
+    - linecount
+    - name
+    - parent_process
+    - process_name
+    - punct
+    - result
+    - service
+    - service_id
+    - service_name
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - splunk_server_group
+    - status
+    - subject
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - user_group_id
+    - user_id
+    - vendor_product
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='MSSQLSERVER'/><EventID Qualifiers='16384'>17135</EventID><Version>0</Version><Level>4</Level><Task>2</Task><Opcode>0</Opcode><Keywords>0x80000000000000</Keywords><TimeCreated SystemTime='2025-02-10T16:38:42.6969829Z'/><EventRecordID>16509</EventRecordID><Correlation/><Execution ProcessID='0' ThreadID='0'/><Channel>Application</Channel><Computer>ar-win-2.attackrange.local</Computer><Security/></System><EventData><Data>sp_add_sysadmin</Data><Binary>EF4200000A00000009000000610072002D00770069006E002D0032000000070000006D00610073007400650072000000</Binary></EventData></Event>

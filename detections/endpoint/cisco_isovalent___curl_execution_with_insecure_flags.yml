@@ -1,13 +1,14 @@
 name: Cisco Isovalent - Curl Execution With Insecure Flags
 id: c16c4899-d3f7-461b-92c2-cc0ef5758855
-version: 4
-date: '2026-04-15'
+version: 5
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
+status: production
 type: Anomaly
+description: The following analytic detects the execution of curl commands with insecure flags within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for curl commands that use the -k or --insecure flags. This behavior is significant for a SOC as it could allow an attacker to bypass SSL/TLS verification, potentially exposing the Kubernetes infrastructure to man-in-the-middle attacks. If confirmed malicious, this activity could lead to data interception, service disruptions, or unauthorized access to sensitive  information.
 data_source:
     - Cisco Isovalent Process Exec
-status: production
-description: The following analytic detects the execution of curl commands with insecure flags within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for curl commands that use the -k or --insecure flags. This behavior is significant for a SOC as it could allow an attacker to bypass SSL/TLS verification, potentially exposing the Kubernetes infrastructure to man-in-the-middle attacks. If confirmed malicious, this activity could lead to data interception, service disruptions, or unauthorized access to sensitive  information.
 search: |
     `cisco_isovalent_process_exec`  process_name="curl"
     | regex process="(?i)(?<!\w)-(?:[a-z]*k[a-z]*|-(insecure|proxy-insecure|doh-insecure))"
@@ -30,31 +31,32 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: A curl execution with insecure flags has been detected on pod_name [$pod_name$] in the cluster [$cluster_name$]
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: pod_name
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Cisco Isovalent Suspicious Activity
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1105
-    atomic_guid:
-        - 7e2ad0db-1efa-4af2-a77c-bc6e87d7b3f3
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: A curl execution with insecure flags has been detected on pod_name [$pod_name$] in the cluster [$cluster_name$]
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+asset_type: Endpoint
+atomic_guid:
+    - 7e2ad0db-1efa-4af2-a77c-bc6e87d7b3f3
+mitre_attack_id:
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
           source: not_applicable
           sourcetype: cisco:isovalent:processExec
+      test_type: unit
