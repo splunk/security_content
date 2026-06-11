@@ -1,7 +1,8 @@
 name: RAVPN - High Authentication Failures from Source
 id: 4a39dfc3-2ab0-4620-8da9-18e6a6bad7b6
 version: 1
-date: '2026-04-27'
+creation_date: '2026-04-27'
+modification_date: '2026-04-27'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -32,35 +33,36 @@ references:
     - https://attack.mitre.org/techniques/T1110/
     - https://splunkbase.splunk.com/app/7569
 drilldown_searches:
-    - name: View the detection results for - "$src_ip$"
-      search: '%original_detection_search% | search src_ip = "$src_ip$"'
+    - name: View the detection results for $src_ip$
+      search: '%original_detection_search% | search src_ip = $src_ip$'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$src_ip$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for $src_ip$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_ip$) | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-rba:
-    message: High volume of RAVPN authentication failures [$count$] events observed from source [$src_ip$] within a five-minute window.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src_ip
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Compromised User Account
-    asset_type: Identity
-    mitre_attack_id:
-        - T1110.001
-    product:
-        - Splunk Enterprise
-        - Splunk Cloud
-        - Splunk Enterprise Security
-    security_domain: access
+          message: High volume of RAVPN authentication failures detected from source $src_ip$ within a five-minute window, which may indicate credential stuffing or brute-force activity.
+threat_objects: []
+analytic_story:
+    - Compromised User Account
+asset_type: Identity
+mitre_attack_id:
+    - T1110.001
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: application
+security_domain: access
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/ravpn/ravpn_high_auth_failures.log
           source: not_applicable
           sourcetype: cisco:secure_access:security_events_ravpn
+      test_type: unit

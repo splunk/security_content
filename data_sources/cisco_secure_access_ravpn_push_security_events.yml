@@ -1,17 +1,17 @@
 name: Cisco Secure Access RAVPN Push Security Events
 id: f9ce1c6a-bf61-4a2b-91a6-3c59d837b1a8
 version: 1
-date: '2026-04-27'
+creation_date: '2026-04-27'
+modification_date: '2026-04-27'
 author: Bhavin Patel, Splunk
-description: Remote Access VPN (RAVPN) push security events from Cisco Secure Access,
-  including session metadata, tunnel statistics, endpoint posture, ASA syslog context,
-  and OCSF-aligned identifiers for correlation.
+description: |
+  Remote Access VPN (RAVPN) push security events from Cisco Secure Access, including session metadata, tunnel statistics, endpoint posture, ASA syslog context, and OCSF-aligned identifiers for correlation.
 source: not_applicable
 sourcetype: cisco:secure_access:security_events_ravpn
 supported_TA:
-- name: Cisco Secure Access Add-on for Splunk
-  url: https://splunkbase.splunk.com/app/7569
-  version: 1.0.48
+  - name: Cisco Secure Access Add-on for Splunk
+    url: https://splunkbase.splunk.com/app/7569
+    version: 1.0.48
 fields:
 - _time
 - action
