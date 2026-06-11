@@ -1,0 +1,31 @@
+name: RoguePlanet
+id: eafb5ab2-71bb-4da9-a541-015d002f01f1
+version: 1
+creation_date: '2026-06-11'
+modification_date: '2026-06-11'
+author: Teoderick Contreras, Splunk
+status: production
+description: RoguePlanet is a publicly released proof-of-concept exploit targeting a race condition in Microsoft Windows Defender. The attack abuses Defender scanning behavior, NTFS alternate data streams, virtual ISO mounting, volume shadow copy paths, and opportunistic oplocks to achieve local privilege escalation to SYSTEM. Successful exploitation spawns a privileged shell. The PoC has been tested on Windows 10 and Windows 11 client builds with current patches as of mid-2026; standard users cannot mount ISO images on Windows Server, though the underlying vulnerability is believed to affect server platforms as well.
+narrative: |
+    RoguePlanet, published by MSNightmare, is a Windows Defender local privilege escalation exploit built around a race condition. Unlike traditional service abuse or token manipulation chains, this attack weaponizes Defender's own scanning pipeline. The exploit is probabilistic — success rates vary by host — but when it lands, the attacker obtains a SYSTEM-level shell.
+
+    The attack begins when a low-privileged user executes RoguePlanet.exe, typically from a user-writable location such as a public tools directory or downloads folder. The binary creates a working directory under %TEMP% using the RP_<GUID> prefix, mounts an embedded ISO image through the Windows Virtual Disk API, and stages a malicious payload disguised as wermgr.exe. A distinctive hallmark of the exploit is creation of an NTFS alternate data stream named :WDFOO on that file. The PoC also writes EICAR-like content to trigger an on-access scan by MsMpEng.exe.
+
+    To win the race, RoguePlanet uses opportunistic oplocks, directory junctions, and volume shadow copy paths. It opens handles against shadow-copy-resolved paths such as ...\wermgr.exe:WDFOO, requests oplocks, and coordinates file supersede and rename operations while Defender is actively scanning the staged content. A named pipe at \\.\pipe\RoguePlanet is used to synchronize the final SYSTEM-context stage. When the race succeeds, the elevated instance launches an interactive console in the originating user session.
+
+    From a detection standpoint, the most durable observables are Sysmon Event ID 15 records showing :WDFOO alternate data streams on wermgr.exe under RP_* temp directories, MsMpEng.exe touching those same paths, and the initial RoguePlanet.exe process writing ADS content. Secondary signals include creation of RP_* directories, virtual disk attach activity, reparse-point manipulation, and a user-context process later spawning SYSTEM-integrity children.
+
+    This analytic story groups detections that surface alternate data stream abuse, suspicious Defender-adjacent file activity, and privilege escalation patterns consistent with RoguePlanet and similar Windows Defender bypass research. Security teams should treat any matching activity as high priority, validate patch and Defender configuration status, and isolate affected endpoints pending vendor guidance.
+references:
+    - https://github.com/MSNightmare/RoguePlanet/tree/main
+    - https://attack.mitre.org/techniques/T1068/
+    - https://attack.mitre.org/techniques/T1564/004/
+    - https://attack.mitre.org/techniques/T1211/
+    - https://car.mitre.org/analytics/CAR-2020-08-001/
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection
