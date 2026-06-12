@@ -1,8 +1,8 @@
 name: Splunk Secure Application Alerts for Runtime Security
 id: 37365336-e8af-42b1-b9d5-a5183d7b7e73
 version: 1
-creation_date: '2026-05-27'
-modification_date: '2026-06-03'
+creation_date: '2026-06-12'
+modification_date: '2026-06-12'
 author: Ryan Long, Bhavin Patel, Bryan Pluta, Splunk
 status: experimental
 type: Anomaly
