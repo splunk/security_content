@@ -1,8 +1,0 @@
-name: secureapp_field_mappings
-id: 99e8a6b7-bf73-41b0-ad23-d396dd7e11bb
-version: 1
-creation_date: '2020-04-30'
-modification_date: '2026-05-13'
-author: Ryan Long, Bhavin Patel, Bryan Pluta, Splunk
-description: Field mappings for Secure Application
-definition: '| eval location=url | eval ip=socketOut | eval gid=coalesce(attackName,attackId)  | eval action=attackOutcome | eval view=blockedReason  | eval ids_type=eventType | eval process=jvmId | eval cve=matchedCveName  | eval signature_id=vulnerableMethod | eval url=webTransactionUrl | eval mode=attackStatus | eval src_category=attackSource | eval dest_ip=serverAddress | eval dest_nt_host=serverName | eval dest_port=serverPort | eval signature=attackTypes | eval src_ip=clientAddress | eval src_port=clientPort | eval record_type=ptype | eval app=coalesce(application,environment) | eval product=attackBusinessTransaction | eval package_title=coalesce(tier,service) | eval package=coalesce(tierId,serviceId) | eval rule_number=name | eval object_name=keyInfo | eval file_path=workingDir | eval file_name=filename | eval session_id=sql  | eval attacktypecount=mvcount(attackTypes)'
