@@ -1,0 +1,68 @@
+name: Linux Binary Launched Process with Null Argv
+id: 0085652a-e682-45a2-a40c-5bb68b8f260e
+version: 1
+creation_date: '2026-05-12'
+modification_date: '2026-05-12'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects kernel-level events where a setuid binary launches a shell or interpreter with a NULL argument vector, which occurs when a privilege escalation exploit gains root and executes a process via execve() without constructing a legitimate argument array.
+data_source:
+    - Linux Messages Syslog
+search: |
+    sourcetype="linux_messages_syslog" "NULL argv" "empty string added"
+    | rex field=_raw "process '(?<launching_process>[^']+)' launched '(?<launched_process>[^']+)' with NULL argv"
+    | where isnotnull(launching_process) AND isnotnull(launched_process)
+    | stats
+        count                        AS occurrences,
+        min(_time)                   AS firstTime,
+        max(_time)                   AS lastTime,
+        values(_raw)                 AS message,
+        values(host)                 AS dest
+        by host, launching_process, launched_process
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table dest, launching_process, launched_process,
+            firstTime, lastTime, occurrences, message
+    | `linux_binary_launched_process_with_null_argv_filter`
+how_to_implement: To successfully implement this search, you need to have relevant kernel logs ingested with the Splunk Add-On for Unix and Linux (https://splunkbase.splunk.com/app/833).
+known_false_positives: Legitimate false positives are rare but can occur when custom or poorly written setuid binaries, PAM modules, or login frameworks invoke shells programmatically without constructing a proper argv array. However, mainstream setuid binaries like su, sudo, and pkexec on modern Linux distributions always pass arguments, so any hit involving those specific processes should be treated as high confidence.
+references:
+    - https://www.elastic.co/security-labs/copy-fail-dirtyfrag-linux-page-bugs-in-the-wild
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Binary spawned process with NULL argv on $dest$ indicating possible privilege escalation.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+cve:
+    - CVE-2026-43284
+    - CVE-2026-43500
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_dirtyfrag/kern.log
+          source: /var/log/kern
+          sourcetype: linux_messages_syslog
+      test_type: unit
