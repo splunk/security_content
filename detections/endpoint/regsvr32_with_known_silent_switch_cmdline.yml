@@ -1,8 +1,8 @@
 name: Regsvr32 with Known Silent Switch Cmdline
 id: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
-version: 15
+version: 14
 creation_date: '2021-07-29'
-modification_date: '2026-06-04'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,8 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | where match(process,"(?i)[\-\/][Ss]{1}")
+    | where match(process,"(?i)[\-
+    | \/][Ss]{1}")
     | `regsvr32_with_known_silent_switch_cmdline_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: minimal. but network operator can use this application to load dll.
