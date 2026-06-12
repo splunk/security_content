@@ -4,10 +4,10 @@ version: 15
 creation_date: '2021-07-29'
 modification_date: '2026-06-09'
 author: Teoderick Contreras, Splunk
-status: removed
+status: deprecated
 deprecation_info:
     reason: Detection has been deprecated since its logic is already covered by another more improved detection.
-    removed_in_version: 6.0.0
+    removed_in_version: 6.4.0
     replacement_content:
         - Regsvr32 Silent and Install Param Dll Loading
 type: Anomaly
@@ -75,7 +75,7 @@ product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
-category: deprecated
+category: endpoint
 security_domain: endpoint
 tests:
     - name: True Positive Test
