@@ -83,6 +83,15 @@ contentctl validate
 ```
 **NOTE** - The contentctl validate command ensures that all YAML files adhere to the defined specifications and are up-to-date. It checks for required fields, correct data types, and overall consistency, helping maintain the integrity and quality of the content.
 
+# VS Code Snippets ✂️
+
+This repo ships snippets in [.vscode/escu_6.code-snippets](.vscode/escu_6.code-snippets) to scaffold new content quickly in VS Code.
+
+1. Create a new `.yml` file in the appropriate content directory (e.g. `detections/`, `macros/`, `stories/`) and give it a descriptive name. This name will be used to populate the `name: ` field of your yml as well. 
+2. Type one of the snippet prefixes below and press `Tab` (or select it from the IntelliSense popup and press `Enter`) to expand a pre-filled template.
+3. Fill in the relevant fields for your content. You may remove any optional fields which are not relevant to this piece of content.
+
+Available prefixes exist for `detection_escu6` , `macro_escu6`, `data_source_escu6`, `story_escu6`, `lookup_csv_escu6`, `lookup_kvstore_escu6` , `dashboard_escu6`, and `baseline_escu6` .
 
 # Recommendations 💡
 
