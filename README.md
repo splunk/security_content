@@ -75,7 +75,7 @@ pip install contentctl-ng
 ```
 contentctl-ng build
 ```
-**NOTE** - The contentctl build command ensures that all yml files adhere to the defined specifications and are up-to-date. It checks for required fields, correct data types, and overall consistency, helping maintain the integrity and quality of the content.
+**NOTE** - The contentctl build command ensures that all YML files adhere to the defined specifications and are up-to-date. It checks for required fields, correct data types, and overall consistency, helping maintain the integrity and quality of the content.
 
 # VS Code Snippets ✂️
 
