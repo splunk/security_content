@@ -2,60 +2,77 @@ name: Linux Dirty Frag Kernel Privilege Escalation
 id: 517e7bf8-d0aa-46ac-80e1-f9f498944b71
 version: 1
 creation_date: "2026-05-20"
-modification_date: "2026-06-11"
+modification_date: "2026-06-13"
 author: Axsel Riando Soplanit, Alexander Wijaya, Matthew Roytua, Muhammad Rafdi Aufar Ahmad, Brian Stevan Ambarita, Ensign Infosecurity
-status: production
+status: experimental
 type: TTP
 description:
-  The following analytic detects the exploitation pattern of Dirty Frag
-  (CVE-2026-43284 and CVE-2026-43500), a Linux kernel local privilege escalation
-  vulnerability disclosed in May 2026 and exploited in the wild within 24 hours
-  of disclosure. Dirty Frag is a successor to Copy Fail (CVE-2026-31431) and
-  bypasses the Copy Fail mitigation — operators who blocklisted algif_aead
-  remain vulnerable. The detection identifies an ELF binary executed from a
-  user-writable path (/home, /tmp, /dev/shm, /var/tmp, /run/user, /root) by
-  an unprivileged user, followed within 5 minutes by a confirmed privilege
-  transition (effective UID 0 with real UID non-zero) inside the same audit
-  session, identified by the auditd session-scoped auid field. The detection
-  fires regardless of whether the privilege transition is triggered manually
-  or internally by the exploit, because the transition itself is the signal,
-  not the binary name. Validated against the public proof-of-concept
-  (V4bel/dirtyfrag) in a sandboxed lab environment.
+  The following analytic detects exploitation of Dirty Frag (CVE-2026-43284
+  and CVE-2026-43500), a Linux kernel local privilege escalation vulnerability disclosed
+  in May 2026 and exploited in the wild within 24 hours of public release. Dirty Frag
+  is a successor to Copy Fail (CVE-2026-31431) and bypasses the Copy Fail mitigation.
+  The exploit corrupts the kernel page cache via the IPsec ESP or RxRPC subsystems
+  using a high-frequency splice() syscall loop, followed by a privilege transition
+  to root in the same audit session. This analytic anchors on the exploit-specific
+  behavioral signature observed by Microsoft Defender and validated against the public
+  proof-of-concept (V4bel/dirtyfrag) in lab conditions, a sustained splice() spray
+  (50 or more calls within a 60-second window) from an unprivileged process executing
+  from a user-writable path (/home, /tmp, /dev/shm, /var/tmp, /run/user, /root), followed
+  within 5 minutes by a setuid() syscall executed by /usr/bin/su in the same auditd
+  session. The detection differs from generic privilege-escalation analytics because
+  it requires the splice spray volume signature, which is not produced by normal su,
+  sudo, or service workloads. The splice-on-userpath behavior is the unique behavioral
+  signature that distinguishes Dirty Frag from non-exploit privilege escalation. User-mode
+  EDR products do not reliably observe page-cache corruption because it occurs entirely
+  in kernel mode; auditd-forwarded telemetry is the most reliable detection layer for
+  this vulnerability family.
 data_source:
   - Linux Auditd Syscall
 search: |-
-  `linux_auditd` type=SYSCALL
-  | eval is_elf_stage = if(match(exe, "^/home/") OR match(exe, "^/tmp/") OR match(exe, "^/dev/shm/") OR match(exe, "^/var/tmp/") OR match(exe, "^/run/user/") OR match(exe, "^/root/"), 1, 0) 
-  | eval is_lpe = if((match(exe, "^/(usr/)?bin/su$") OR comm="su") AND euid="0" AND uid!="0", 1, 0) 
-  | where is_elf_stage=1 OR is_lpe=1 
-  | where auid!="4294967295" 
-  | stats min(eval(if(is_elf_stage=1, _time, null()))) AS elf_time min(eval(if(is_lpe=1, _time, null()))) AS lpe_time values(exe) AS executables values(comm) AS commands values(uid) AS uids values(euid) AS euids BY auid, host, UID 
-  | where isnotnull(elf_time) AND isnotnull(lpe_time) 
-  | where lpe_time > elf_time 
-  | eval window_secs = lpe_time - elf_time 
-  | where window_secs <= 300 
-  | `security_content_ctime(elf_time)`
-  | `security_content_ctime(lpe_time)`
-  | rename host AS dest UID AS user
-  | table dest, auid, elf_time, lpe_time, window_secs, executables, commands, uids, euids, user 
+  `linux_auditd` type=SYSCALL key=dirty_frag_splice (exe="/home/*" OR exe="/tmp/*" OR exe="/var/tmp/*" OR exe="/dev/shm/*" OR exe="/run/user/*" OR exe="/root/*")
+  | bin _time span=60s
+  | stats count AS splice_count values(exe) AS spray_binary values(pid) AS spray_pid values(AUID) AS user earliest(_time) AS spray_start latest(_time) AS spray_end BY auid, host, ses
+  | where splice_count >= 50
+  | join type=inner auid, host, ses [
+    search `linux_auditd` type=SYSCALL key=dirty_frag_privesc syscall=105 auid>=1000 AND auid!="4294967295" (comm=su OR exe="/usr/bin/su")
+    | stats earliest(_time) AS privesc_time values(exe) AS privesc_binary values(comm) AS privesc_comm values(ppid) AS privesc_ppid BY auid, host, ses
+  ]
+  | eval window_secs = privesc_time - spray_end
+  | where window_secs >= 0 AND window_secs <= 300
+  | `security_content_ctime(spray_start)`
+  | `security_content_ctime(spray_end)`
+  | `security_content_ctime(privesc_time)`
+  | rename host AS dest
+  | table dest, user, auid, ses, spray_binary, spray_pid, splice_count, spray_start, spray_end, privesc_binary, privesc_comm, privesc_ppid, privesc_time, window_secs
   | `linux_dirty_frag_kernel_privilege_escalation_filter`
-how_to_implement: To successfully implement this search you need to be ingesting
-  Linux auditd logs into Splunk via the Splunk Add-on for Unix and Linux (or
-  equivalent), with the auditd execve rule enabled (-a always,exit -F arch=b64
-  -S execve -k exec_monitor). The auditd auid field must be populated, which
-  requires that the originating process was created within a login session (PAM
-  sets auid on login). Daemon and cron processes will have auid=4294967295 and
-  are filtered out. Note that Dirty Frag bypasses the Copy Fail mitigation
-  (algif_aead blocklist) — this detection is required even on hosts where
-  Copy Fail mitigations are in place. Ensure the linux_auditd macro resolves
-  to your auditd index and sourcetype.
-known_false_positives: "Developer hosts where engineers compile and run binaries
-  from home directories and then use su to test as root may trigger this
-  detection. CI/CD runners executing test binaries followed by privileged
-  operations may also match. Sysadmin sessions running binaries from /tmp
-  followed by root escalation are a noise source. Tune via the
-  linux_dirty_frag_kernel_privilege_escalation_filter macro by excluding
-  known developer hostnames or service-account auid values."
+how_to_implement: This analytic requires Linux auditd telemetry forwarded to Splunk
+  via the Splunk_TA_nix add-on with the linux_audit sourcetype (typically aliased
+  to the linux_auditd macro). The detection depends on two non-default auditd rules
+  that must be deployed on monitored Linux hosts. The required rules are documented
+  in the deployment/dirty_frag_audit.rules file shipped with this analytic. The dirty_frag_splice
+  rule captures splice() syscalls (audit syscall number 275) by unprivileged users
+  (auid greater than or equal to 1000). The dirty_frag_privesc rule captures setuid,
+  setresuid, and setreuid syscalls. These rules do not exist in default ESCU, STIG,
+  or CIS Linux audit rulesets. Without them the detection cannot fire. To deploy,
+  copy the rules file to /etc/audit/rules.d/dirty_frag.rules on each monitored host,
+  reload with augenrules --load, and verify loading with auditctl -l grep dirty_frag.
+  This deployment model is consistent with existing ESCU Linux auditd analytics that
+  require specific watched paths or syscall rules to function.
+known_false_positives: The splice volume threshold (50 calls per 60 seconds from a
+  single process in a user-writable path) is calibrated against the V4bel public PoC,
+  which produces approximately 460 splice calls in 90 seconds. Legitimate user-mode
+  workloads that may produce splice() calls (web servers, mail transfer agents, language
+  runtimes) typically execute from system paths (/usr/sbin, /usr/bin, /usr/lib) and
+  are excluded by the user-writable path filter. Custom-compiled applications, developer
+  test binaries, or container runtimes executing from /home or /tmp could theoretically
+  reach the volume threshold during legitimate I/O-heavy workloads (large file copies,
+  log rotation, archive operations). Operators should baseline splice volume in their
+  environment before enabling as a notable event. If false positives occur, add an
+  allowlist of trusted binary paths via the linux_dirty_frag_kernel_privilege_escalation_filter
+  macro, or raise the splice_count threshold based on observed legitimate-workload
+  baseline. The join on auid+host+ses with a 5-minute window to a setuid syscall from
+  /usr/bin/su substantially reduces false positives, as legitimate high-volume splice
+  workloads rarely terminate in an su invocation in the same audit session.
 references:
   - https://www.cve.org/CVERecord?id=CVE-2026-43284
   - https://www.cve.org/CVERecord?id=CVE-2026-43500
@@ -75,7 +92,7 @@ drilldown_searches:
     earliest_offset: 7d
     latest_offset: "0"
 finding:
-  title: Local privilege escalation attempt detected on $dest$ executed by $user$ using $executables$
+  title: Local privilege escalation attempt detected on $dest$ executed by $user$ using $spray_binary$
   entity:
     field: dest
     type: system
@@ -85,11 +102,9 @@ intermediate_findings:
     - field: user
       type: user
       score: 70
-      message: Local privilege escalation attempt detected on $dest$ executed by $user$ using $executables$
+      message: Local privilege escalation attempt detected on $dest$ executed by $user$ using $spray_binary$
 threat_objects:
-  - field: commands
-    type: process
-  - field: executables
+  - field: spray_binary
     type: process_name
 analytic_story:
   - Linux Privilege Escalation
