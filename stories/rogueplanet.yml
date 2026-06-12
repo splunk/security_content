@@ -5,7 +5,9 @@ creation_date: '2026-06-11'
 modification_date: '2026-06-11'
 author: Teoderick Contreras, Splunk
 status: production
-description: RoguePlanet is a publicly released proof-of-concept exploit targeting a race condition in Microsoft Windows Defender. The attack abuses Defender scanning behavior, NTFS alternate data streams, virtual ISO mounting, volume shadow copy paths, and opportunistic oplocks to achieve local privilege escalation to SYSTEM. Successful exploitation spawns a privileged shell. The PoC has been tested on Windows 10 and Windows 11 client builds with current patches as of mid-2026; standard users cannot mount ISO images on Windows Server, though the underlying vulnerability is believed to affect server platforms as well.
+description: |-
+    RoguePlanet is a publicly released proof-of-concept exploit targeting a race condition in Microsoft Windows Defender. The attack abuses Defender scanning behavior, NTFS alternate data streams, virtual ISO mounting, volume shadow copy paths, and opportunistic oplocks to achieve local privilege escalation to SYSTEM.
+    Successful exploitation spawns a privileged shell. The PoC has been tested on Windows 10 and Windows 11 client builds with current patches as of mid-2026; standard users cannot mount ISO images on Windows Server, though the underlying vulnerability is believed to affect server platforms as well.
 narrative: |
     RoguePlanet, published by MSNightmare, is a Windows Defender local privilege escalation exploit built around a race condition. Unlike traditional service abuse or token manipulation chains, this attack weaponizes Defender's own scanning pipeline. The exploit is probabilistic — success rates vary by host — but when it lands, the attacker obtains a SYSTEM-level shell.
 

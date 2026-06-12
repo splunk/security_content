@@ -1,4 +1,4 @@
-name: Windows Wermgr Alternate Stream in Temp Dir
+name: Windows Wermgr Alternate Data Stream in Temp Dir
 id: 65222e9b-9d0b-4bfe-8da1-199b98e1d44a
 version: 1
 creation_date: '2026-06-11'
@@ -6,18 +6,31 @@ modification_date: '2026-06-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the wermgr.exe process creating an alternate stream in the temp directory. It leverages Sysmon EventID 15 to identify these actions. This activity is significant because wermgr.exe is typically associated with error reporting, not file creation. Such activity is significant as it may indicate RoguePlanet malware, which creates an alternate stream in the temp directory to execute malicious code. If confirmed malicious, this could lead to further malware infections, data exfiltration, or system compromise.
+description: |-
+    The following analytic detects the wermgr.exe process creating an alternate stream in the temp directory. It leverages Sysmon EventID 15 to identify these actions.
+    This activity is significant because wermgr.exe is typically associated with error reporting, not file creation. Such activity is significant as it may indicate RoguePlanet malware, which creates an alternate stream in the temp directory to execute malicious code.
+    If confirmed malicious, this could lead to further malware infections, data exfiltration, or system compromise.
 data_source:
     - Sysmon EventID 15
 search: |-
-    `sysmon` EventCode=15 TargetFilename = "*\\temp\\*" AND TargetFilename = "*\\wermgr.exe:*"
-    | stats count min(_time) as firstTime max(_time) as lastTime
-    by dest dvc file_hash file_name file_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product Contents Image
+    `sysmon`
+    EventCode=15
+    TargetFilename = "*\\Temp\\*"
+    TargetFilename = "*\\wermgr.exe:*"
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+    by dest dvc file_hash file_name file_path process_exec
+       process_guid process_id process_name process_path
+       signature signature_id user_id vendor_product Contents Image
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_wermgr_alternate_stream_in_temp_dir_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
-known_false_positives: No false positives have been identified at this time.
+    | `windows_wermgr_alternate_data_stream_in_temp_dir_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+known_false_positives: |-
+    No false positives have been identified at this time.
 references:
     - https://github.com/MSNightmare/RoguePlanet/tree/main
 drilldown_searches:
@@ -34,7 +47,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: a [$process_name$] created an wermgr.exe alternate stream in the temp directory on $dest$ by $user$
+          message: A [$process_name$] created a wermgr.exe alternate stream in the temp directory on $dest$ by $user$
 analytic_story:
     - RoguePlanet
 asset_type: Endpoint
