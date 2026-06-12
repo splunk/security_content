@@ -55,7 +55,7 @@ Follow these steps to get started with Splunk Security Content.
 
 1. Clone this repository using `git clone https://github.com/splunk/security_content.git`
 2. Navigate to the repository directory using `cd security_content`
-3. Install contentctl using `pip install contentctl` to install the latest version of contentctl, this is a pre-requisite to validate, build and test the content like the Splunk Threat Research team
+3. Install contentctl using `pip install contentctl-ng` to install the latest version of contentctl, this is a pre-requisite to validate, build and test the content like the Splunk Threat Research team
 4. Install pre-commit using `pip install pre-commit` then proceed to installing the hooks via `pre-commit install`. this is a pre-requisite to validate and apply the proper formatting.
 
 # Quick Start 🚀
@@ -66,7 +66,7 @@ git clone https://github.com/splunk/security_content.git
 cd security_content
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install contentctl
+pip install contentctl-ng
 
 ```
 2. Create a new **detection.yml** and answer the questions
@@ -75,20 +75,13 @@ pip install contentctl
  ```
 
 
-**NOTE** - Make sure you update the detection.yml with the required fields and values. If you need help, please refer to the [yaml-spec](docs/yaml-spec) to check out the list of allowed values
+**NOTE** - Make sure you update the detection.yml with the required fields and values. If you need help, please refer to the [schemas](schemas/) folder to check out the list of allowed values.
 
 4. Validate your content
 ```
 contentctl validate
 ```
 **NOTE** - The contentctl validate command ensures that all YAML files adhere to the defined specifications and are up-to-date. It checks for required fields, correct data types, and overall consistency, helping maintain the integrity and quality of the content.
-
-5. Build an ESCU app with enrichments from Atomic Red Team and Mitre CTI repositories
-```
-contentctl build --enrichments
-```
-
-6. Test the content - Our testing framework is based on [contentctl](https://github.com/splunk/contentctl) and is extensive and flexible. Refer to the [contentctl test documentation](https://github.com/splunk/contentctl?tab=readme-ov-file#contentctl-test) to learn more about the testing framework.
 
 
 # Recommendations 💡
@@ -99,30 +92,30 @@ contentctl build --enrichments
 
 - If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
 
-- We recommend that you follow the errors produced by the `contentctl` tool while developing this content. The errors are descriptive enough to guide you in getting the right values. If you need help, please open a GitHub issue in the `contentctl` repository or refer to the [yaml-spec](docs/yaml-spec) to check out the list of allowed values
+- We recommend that you follow the errors produced by the `contentctl-ng` tool while developing this content. The errors are descriptive enough to guide you in getting the right values. If you need help, please refer to the [JSON Schemas](#json-schemas) to check out the list of allowed values
 
+# Json Schemas 📄
 
-# YAML Specs 📄
+The JSON schemas defined in the [/schemas](/schemas/) folder, define the structure and required fields for various YAML files used in the project. These specifications ensure consistency and validation across different types of YAML files, such as macros, lookups, and analytic stories. Each spec outlines the expected data types, descriptions, and whether the fields are mandatory, providing a clear schema for developers to follow.
 
-YAML specs define the structure and required fields for various YAML configuration files used in the project. These specifications ensure consistency and validation across different types of YAML files, such as macros, lookups, and analytic stories. Each spec outlines the expected data types, descriptions, and whether the fields are mandatory, providing a clear schema for developers to follow.
-
-- [detection](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/detection_spec.yml)
-- [stories](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/stories_spec.yml)
-- [macros](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/macros_spec.yml)
-- [lookups](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/lookups_spec.yml)
+- [detection](schemas/EventBasedDetection.schema.json)
+- [stories](schemas/Story.schema.json)
+- [macros](schemas/FileBackedMacro.schema.json)
+- [lookups](schemas/CsvLookup.schema.json)
+- [baseline](schemas/Baseline.schema.json)
+- [playbook](schemas/Playbook.schema.json)
+- [data_source](schemas/DataSource.schema.json)
 
 # Content Parts 🧩
 
-* [detections/](detections/): Contains all detection searches to-date and growing.
-* [stories/](stories/): All Analytic Stories that are group detections or also known as Use Cases
-* [deployments/](deployments/): Configuration for the schedule and alert action for all content
-* [playbooks/](playbooks/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
 * [baselines/](baselines/): Searches that must be executed before a detection runs. It is specifically useful for collecting data on a system before running your detection on the collected data.
-* [investigations/](investigations/): Investigations to further analyze the output from detections. For more information, you can refer to the [Splunk Enterprise Security documentation on timelines](https://help.splunk.com/en/splunk-enterprise-security-7/user-guide/7.3/investigations/investigations-in-splunk-enterprise-security).
-* [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
-* [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
 * [data_sources/](data_sources/): Defines the data sources, the necessary TA or App to collect them and the fields provided that can be used by the detections.
-
+* [deployments/](deployments/): Configuration for the schedule and alert action for all content
+* [detections/](detections/): Contains all detection searches to-date and growing.
+* [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
+* [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
+* [playbooks/](playbooks/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
+* [stories/](stories/): All Analytic Stories that are group detections or also known as Use Cases
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage
@@ -142,7 +135,7 @@ If you have questions or need support, you can:
 * Join the [#security-research](https://splunkcommunity.slack.com/archives/CDNHXVBGS) channel in the [Splunk Community Slack.](https://splk.it/slack)
 
 ## License
-Copyright 2022 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
