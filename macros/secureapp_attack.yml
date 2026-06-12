@@ -1,8 +1,8 @@
 name: secureapp_attack
 id: a4e47c1d-9fb1-4fee-b3e2-68d2f3a8bd2a
 version: 1
-creation_date: '2020-04-30'
-modification_date: '2026-05-13'
+creation_date: '2026-06-12'
+modification_date: '2026-06-12'
 author: Bhavin Patel, Bryan Pluta, Splunk
 description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
 definition: sourcetype=secureapp_attack
