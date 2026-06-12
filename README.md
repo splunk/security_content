@@ -93,6 +93,12 @@ This repo ships snippets in [.vscode/escu_6.code-snippets](.vscode/escu_6.code-s
 
 Available prefixes exist for `detection_escu6` , `macro_escu6`, `data_source_escu6`, `story_escu6`, `lookup_csv_escu6`, `lookup_kvstore_escu6` , `dashboard_escu6`, and `baseline_escu6` .
 
+Please see the demo video below for more information
+
+https://github.com/user-attachments/assets/1be02afa-36b5-4d49-91cb-8ebbcf4123d0
+
+
+
 # Recommendations 💡
 
 - 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute back to the community by creating a pull request to the Splunk Security Content project.
