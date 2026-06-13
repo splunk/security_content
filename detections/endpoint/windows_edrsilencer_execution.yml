@@ -1,8 +1,8 @@
 name: Windows EDRSilencer Execution
 id: a206324d-4945-4b0c-a731-87c311ddae2f
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-06-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ description: |-
     The tool includes a custom implementation to avoid file handle access issues with EDR processes by bypassing the CreateFileW API.
     It supports a wide range of EDRs, including Microsoft Defender, Carbon Black, SentinelOne, and more, though further testing on various EDRs is recommended.
     The tool has been tested on Windows 10 and Windows Server 2016, and its usage involves simple commands for blocking or unblocking traffic.
+    Renamed EDRSilencer binaries can still be identified by the blockedr command-line argument.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -27,7 +28,10 @@ search: |-
     Processes.process_name="EDRSilencer.exe"
     OR
     (
-        Processes.process="*blockedr *"
+        (
+            Processes.process="* blockedr"
+            OR Processes.process="* blockedr *"
+        )
         NOT Processes.process="*blockedreport*"
     )
 
@@ -42,7 +46,7 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_edrsilencer_execution_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, parent process, and complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate administrative tools or security workflows may use similar techniques to block or filter EDR traffic for maintenance or troubleshooting. Verify the context and authorized use before flagging.
 references:
     - https://github.com/netero1010/EDRSilencer
