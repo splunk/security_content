@@ -1,0 +1,26 @@
+name: Windchill Log4j
+id: f33af1fb-df5c-45c5-b8fd-20b0bbfb5415
+version: 1
+creation_date: '2026-06-14'
+modification_date: '2026-06-14'
+author: Nasreddine Bencherchali, Splunk
+description: PTC Windchill MethodServer log4j logs containing servlet request and method context activity from Windchill application components.
+mitre_components:
+    - Application Log Content
+    - Network Traffic Content
+    - Response Metadata
+source: not_applicable
+sourcetype: log4j
+supported_TA: []
+fields:
+    - _time
+    - _raw
+    - log_level
+    - thread
+    - logger
+    - src_ip
+    - uri_path
+    - query_string
+    - http_method
+    - status
+example_log: '2026-03-26 19:12:00,053 ERROR [ajp-nio-127.0.0.1-10660-exec-2] wt.servlet.ServletRequestMonitor.request  - 2026-03-26 19:12:00.049 +0530, q4io1jf;mn7i98pd;62288;2anc4x;4122, -, 10.10.2.3, /Windchill/servlet/WindchillGW/GW/run, c=whoami, GET, 500, 0.0037325, 0.004020767'
