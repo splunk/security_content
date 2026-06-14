@@ -48,7 +48,7 @@ search: |-
   | rename host AS dest
   | table dest, user, auid, ses, spray_binary, spray_pid, splice_count, spray_start, spray_end, privesc_binary, privesc_comm, privesc_ppid, privesc_time, window_secs
   | `linux_dirty_frag_kernel_privilege_escalation_filter`
-how_to_implement: his analytic requires Linux auditd telemetry forwarded to Splunk
+how_to_implement: This analytic requires Linux auditd telemetry forwarded to Splunk
   via the Splunk_TA_nix add-on with the linux_audit sourcetype (referenced through
   the linux_auditd macro). The detection depends on two audit rule keys, both of which
   are standard in the Neo23x0 recommended ruleset (https://github.com/Neo23x0/auditd)
