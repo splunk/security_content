@@ -32,7 +32,17 @@ search: |-
     | eval query_param=lower(query_param), query_value=urldecode(replace(query_value,"\+","%20"))
     | where query_param="c" AND match(query_value,"(?i)^echo(\s|20)+GW_READY_OK$")
     | eval src=src_ip, activity="gw_ready_ok_probe"
-    | stats count min(_time) as firstTime max(_time) as lastTime values(log_level) as log_level values(logger) as logger values(http_method) as http_method values(status) as status values(uri_only) as uri_path values(query_string) as query_string by src activity query_param query_value
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(log_level) as log_level
+                  values(logger) as logger
+                  values(http_method) as http_method
+                  values(status) as status
+                  values(uri_only) as uri_path
+                  values(query_string) as query_string
+      by src activity query_param query_value
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `ptc_windchill_gw_ready_ok_probe_filter`
