@@ -2,9 +2,9 @@ name: Attempt To Add Certificate To Untrusted Store
 id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 version: 20
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-06-03'
 author: Patrick Bareiss, Rico Valdez, Splunk
-status: deprecated
+status: removed
 deprecation_info:
     reason: Detection is deprecated as the usage of certutil and addstore by itself is not malicious.
     removed_in_version: 6.1.0

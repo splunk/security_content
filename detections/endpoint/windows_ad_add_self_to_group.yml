@@ -1,8 +1,8 @@
 name: Windows AD add Self to Group
 id: 065f2701-b7ea-42f5-9ec4-fbc2261165f9
-version: 10
+version: 11
 creation_date: '2024-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-06-01'
 author: Dean Luxton
 status: production
 type: TTP
@@ -11,7 +11,7 @@ data_source:
     - Windows Event Log Security 4728
 search: |-
     `wineventlog_security` EventCode IN (4728)
-      | where user=src_user
+      | where lower(user)=lower(src_user)
       | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc
         BY signature, Group_Name, src_user,
            dest
