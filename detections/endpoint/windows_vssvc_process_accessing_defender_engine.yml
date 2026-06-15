@@ -16,8 +16,8 @@ data_source:
 search: |-
     `sysmon`
     EventCode=10
-    TargetImage="\\MsMpEng.exe"
-    SourceImage="\\vssvc.exe"
+    TargetImage="*\\MsMpEng.exe"
+    SourceImage="*\\vssvc.exe"
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
       by EventID GrantedAccess Guid Opcode ProcessID
