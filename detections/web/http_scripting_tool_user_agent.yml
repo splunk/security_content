@@ -17,6 +17,7 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `drop_dm_object_name(Web)`
+    | eval http_user_agent = lower(http_user_agent)
     | lookup scripting_tools_user_agents tool_user_agent AS http_user_agent OUTPUT tool
     | where isnotnull(tool)
     | stats count
@@ -24,7 +25,8 @@ search: |-
         max(lastTime) as last_seen
         values(tool) as tool
     by http_user_agent dest src status
-    | convert ctime(first_seen) ctime(last_seen)
+    | `security_content_ctime(first_seen)`
+    | `security_content_ctime(last_seen)`
     | `http_scripting_tool_user_agent_filter`
 how_to_implement: This analytic necessitates the collection of web data, which can be achieved through Splunk Stream or by utilizing the Splunk Add-on for Apache Web Server. No additional configuration is required for this analytic.
 known_false_positives: False positives may be present if the activity is part of diagnostics or testing. Filter as needed.
@@ -49,7 +51,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Known scripting tool was used against a web request. The source IP is $src$ and the destination is $dest$.
+          message: Known scripting tool was used against a web request. The source IP/Host is $src$ and the destination is $dest$.
 threat_objects:
     - field: src
       type: ip_address
