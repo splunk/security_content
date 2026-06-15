@@ -1,27 +1,31 @@
-name: Windows Cloud Files Filter Loaded by Suspicious Process
+name: Windows Cloud Files Filter Loaded by Uncommon Process
 id: 77b85062-274e-43a5-9dab-c25862b85291
 version: 1
 creation_date: '2026-05-18'
 modification_date: '2026-05-18'
 author: Raven Tait, Splunk
 status: production
-type: TTP
-description: The following analytic detects cldapi.dll being loaded by a process not associated with legitimate cloud sync activity. The Windows Cloud Files API (cldapi.dll) is abused by several local privilege escalation exploits.
+type: Anomaly
+description: |-
+    The following analytic detects cldapi.dll being loaded by a process not associated with legitimate cloud sync activity.
+    The Windows Cloud Files API (cldapi.dll) is abused by several local privilege escalation exploits.
 data_source:
     - Sysmon EventID 7
 search: |-
-    `sysmon` EventID=7 ImageLoaded="*\\cldapi.dll"
+    `sysmon`
+    EventID=7
+    ImageLoaded="*\\cldapi.dll"
     NOT Image IN (
-      "*Windows\\System32*",
-      "*Windows\\syswow64*",
-      "*Windows\\winsxs*",
-      "*\\Windows\\explorer.exe"
-      "*\\onedrive*.exe",
-      "*\\googledrivefs.exe",
-      "*\\dropbox.exe",
       "*\\box.exe",
-      "*\\icloud.exe"
-      )
+      "*\\dropbox.exe",
+      "*\\googledrivefs.exe",
+      "*\\icloud.exe",
+      "*\\onedrive*.exe",
+      "*\\Windows\\explorer.exe"
+      "*\\Windows\\System32\\*",
+      "*\\Windows\\Syswow64\\*",
+      "*\\Windows\\WinSxS\\*"
+    )
     | stats count min(_time) as firstTime
                     max(_time) as lastTime
         by Computer ImageLoaded EventID dest loaded_file loaded_file_path process_exec
@@ -30,11 +34,13 @@ search: |-
            vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_cloud_files_filter_loaded_by_suspicious_process_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: False positives may include other third-party cloud-based file storage software. Filter as necessary for your environment.
+    | `windows_cloud_files_filter_loaded_by_uncommon_process_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: |-
+    False positives may include other third-party cloud-based file storage software.
+    Filter as necessary for your environment.
 references:
-    - https://github.com/Nightmare-Eclipse/
     - https://www.huntress.com/blog/nightmare-eclipse-intrusion
     - https://www.threatlocker.com/blog/miniplasma-windows-privilege-escalation-zero-day-affects-fully-patched-systems
 drilldown_searches:
@@ -46,12 +52,12 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: Cloud Files Filter ($ImageLoaded$) loaded by suspicious process on $dest$
-    entity:
-        field: dest
-        type: system
-        score: 50
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Cloud Files Filter ($ImageLoaded$) loaded by suspicious process $Image$ on $dest$
 analytic_story:
     - RedSun
     - BlueHammer

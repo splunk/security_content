@@ -6,12 +6,26 @@ modification_date: '2026-05-01'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: Detects a non-system process causing creation of CldFlt0.etl under C:\Windows\System32\LogFiles\CloudFiles\. This path is initialised by the CldFlt driver when a process calls CfRegisterSyncRoot() or CfConnectSyncRoot(). In the RedSun exploit this is a side-effect of the DoCloudStuff() function that registers a fake sync provider to create the cloud-tagged bait file. Legitimate cloud providers (OneDrive etc.) register sync roots from SYSTEM-level service processes, not from user-context executables.
+description: |-
+    Detects a non-system process causing creation of CldFlt0.etl under C:\Windows\System32\LogFiles\CloudFiles\.
+    This path is initialised by the CldFlt driver when a process calls CfRegisterSyncRoot() or CfConnectSyncRoot().
+    In the RedSun exploit this is a side-effect of the DoCloudStuff() function that registers a fake sync provider to create the cloud-tagged bait file.
+    Legitimate cloud providers (OneDrive etc.) register sync roots from SYSTEM-level service processes, not from user-context executables.
 data_source:
     - Sysmon EventID 11
 search: |-
-    `sysmon` EventCode=11 (TargetFilename = "*\\Windows\\System32\\LogFiles\\CloudFiles\\*" NOT Image IN ("*\\Windows\\System32*", "*\\Windows\\SysWOW64*","*\\Program Files\\WindowsApps*"))
-    | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name file_path Image process_guid process_id user_id vendor_product
+    `sysmon`
+    EventCode=11
+    TargetFilename = "*\\Windows\\System32\\LogFiles\\CloudFiles\\*"
+    NOT Image IN (
+        "*:\\Windows\\System32*",
+        "*:\\Windows\\SysWOW64*",
+        "*:\\Program Files\\WindowsApps\\*"
+    )
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by action dest file_name file_path Image process_guid
+         process_id user_id vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_cloud_files_filter_log_created_by_non_system_process_filter`
@@ -30,7 +44,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Non-System process creates a cloud files filter $file_name$ in host $dest$
+    title: Non-System process $Image$ created a cloud files filter $file_name$ on host $dest$
     entity:
         field: dest
         type: system
