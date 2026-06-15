@@ -1,0 +1,60 @@
+name: MCP Suspicious File Deletion
+id: 5a2b38a5-b21d-4d8e-a6a8-7adfb47f0557
+version: 1
+creation_date: '2026-06-15'
+modification_date: '2026-06-15'
+author: Adam Lin
+status: production
+type: TTP
+description: This detection identifies file deletion operations performed through MCP (Model Context Protocol) tool calls. An adversary who has compromised or hijacked an MCP-enabled agent can use its file system or repository tools to destroy data or remove security-relevant files such as SECURITY.md, audit logs, or CI configuration, achieving data destruction and defense evasion. The search monitors inbound JSON-RPC traffic for delete_file operations and aggregates the deleted paths per host so analysts can spot anomalous volume or the removal of sensitive files.
+data_source:
+    - MCP Server
+search: |
+    `mcp_server` direction=inbound method=delete_file
+    | eval dest=host
+    | eval target_path='params.path'
+    | eval target_repo='params.repo'
+    | stats count min(_time) as firstTime max(_time) as lastTime values(method) as method values(target_path) as target_path values(target_repo) as target_repo by dest, source
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table dest firstTime lastTime count source method target_path target_repo
+    | `mcp_suspicious_file_deletion_filter`
+how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk configured to ingest JSON-RPC formatted logs from MCP-enabled AI assistants and agents into the appropriate index with sourcetype mcp:jsonrpc. Ensure the TA parses the params.path and params.repo fields so the deleted file path and target repository are available. The macro mcp_suspicious_file_deletion_filter should be created to allow environment-specific tuning, for example raising the count threshold or allowlisting paths that are routinely cleaned up by automation.
+known_false_positives: Legitimate cleanup, refactoring, and automated housekeeping delete files through agent tooling. Tune the mcp_suspicious_file_deletion_filter macro to allowlist expected automation and focus on the deletion of security-relevant files or unusually high deletion volume from a single host.
+references:
+    - https://github.com/Agent-Threat-Rule/agent-threat-rules
+    - https://agentthreatrule.org
+    - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest="$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$dest$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: 'A file deletion ($target_path$) was performed on $dest$ via an MCP server tool call against repository $target_repo$. Deletion of security-relevant files or high deletion volume through an agent may indicate data destruction or defense evasion.'
+    entity:
+        field: dest
+        type: system
+        score: 65
+analytic_story:
+    - Suspicious MCP Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
+          sourcetype: mcp:jsonrpc
+          source: mcp.log
+      test_type: unit

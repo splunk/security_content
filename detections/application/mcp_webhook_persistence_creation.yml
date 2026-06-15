@@ -1,0 +1,61 @@
+name: MCP Webhook Persistence Creation
+id: db95f667-0193-4854-86d6-60cd39d0b3ac
+version: 1
+creation_date: '2026-06-15'
+modification_date: '2026-06-15'
+author: Adam Lin
+status: production
+type: TTP
+description: This detection identifies the creation of repository webhooks through MCP (Model Context Protocol) tool calls. Adversaries who gain access to an MCP-enabled agent can register a webhook that points to an attacker-controlled endpoint, giving them durable persistence and a covert exfiltration channel - every future repository event (pushes, pull requests, secrets) is delivered to the external URL without any further interaction. The search monitors inbound JSON-RPC traffic for create_webhook operations and surfaces the destination URL, repository, and owner so analysts can confirm whether the endpoint is legitimate.
+data_source:
+    - MCP Server
+search: |
+    `mcp_server` direction=inbound method=create_webhook
+    | eval dest=host
+    | eval webhook_url='params.url'
+    | eval target_repo='params.repo'
+    | eval target_owner='params.owner'
+    | stats count min(_time) as firstTime max(_time) as lastTime values(method) as method values(webhook_url) as webhook_url values(target_repo) as target_repo values(target_owner) as target_owner by dest, source
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table dest firstTime lastTime count source method webhook_url target_repo target_owner
+    | `mcp_webhook_persistence_creation_filter`
+how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk configured to ingest JSON-RPC formatted logs from MCP-enabled AI assistants and agents into the appropriate index with sourcetype mcp:jsonrpc. Ensure the TA parses the params.url, params.repo, and params.owner fields so the webhook destination and target repository are available. The macro mcp_webhook_persistence_creation_filter should be created to allow environment-specific tuning, for example whitelisting webhook URLs that belong to approved CI/CD or monitoring integrations.
+known_false_positives: Legitimate automation, CI/CD onboarding, and developer tooling routinely create repository webhooks. Tune the mcp_webhook_persistence_creation_filter macro to allowlist known-good destination domains (for example your CI provider) and focus on webhooks pointing to unfamiliar or external endpoints.
+references:
+    - https://github.com/Agent-Threat-Rule/agent-threat-rules
+    - https://agentthreatrule.org
+    - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest="$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$dest$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: 'A repository webhook pointing to $webhook_url$ was created on $dest$ via an MCP server tool call against repository $target_repo$. Attacker-controlled webhooks provide persistence and an exfiltration channel by delivering repository events to an external endpoint.'
+    entity:
+        field: dest
+        type: system
+        score: 60
+analytic_story:
+    - Suspicious MCP Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1546
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
+          sourcetype: mcp:jsonrpc
+          source: mcp.log
+      test_type: unit
