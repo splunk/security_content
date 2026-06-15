@@ -11,8 +11,13 @@ data_source:
     - Nginx Access
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-    from datamodel=Web
-    where nodename=Web.Proxy
+    from datamodel=Web where
+    nodename=Web.Proxy
+    Web.http_user_agent =*
+    NOT Web.http_user_agent IN (
+        "-",
+        "unknown"
+    )
     by Web.http_user_agent Web.dest Web.src Web.status
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
