@@ -12,7 +12,6 @@ data_source:
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
     from datamodel=Web where
-    nodename=Web.Proxy
     Web.http_user_agent =*
     NOT Web.http_user_agent IN (
         "-",
