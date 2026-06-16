@@ -1,8 +1,8 @@
 name: Windows Disable or Stop Browser Process
 id: 220d34b7-b6c7-45fe-8dbb-c35cdd9fe6d5
-version: 12
+version: 13
 creation_date: '2024-10-18'
-modification_date: '2026-05-13'
+modification_date: '2026-06-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -55,6 +55,7 @@ analytic_story:
     - Hellcat Ransomware
     - Castle RAT
     - BlankGrabber Stealer
+    - Salat Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1685
