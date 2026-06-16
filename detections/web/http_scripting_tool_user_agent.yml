@@ -1,8 +1,8 @@
 name: HTTP Scripting Tool User Agent
 id: 04430b4e-5ca8-4e88-98b5-d6bcf54f8393
-version: 5
+version: 6
 creation_date: '2025-10-21'
-modification_date: '2026-05-13'
+modification_date: '2026-06-15'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -10,18 +10,28 @@ description: This Splunk query analyzes web access logs to identify and categori
 data_source:
     - Nginx Access
 search: |-
-    `nginx_access_logs`
-      | eval http_user_agent = lower(http_user_agent)
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `drop_dm_object_name(Web)`
-      | lookup scripting_tools_user_agents tool_user_agent AS http_user_agent OUTPUT tool
-      | where isnotnull(tool)
-      | rename dest_ip as dest
-      | stats count min(firstTime) as first_seen max(lastTime) as last_seen values(tool) as tool
-        BY http_user_agent dest src_ip
-           status
-      | `http_scripting_tool_user_agent_filter`
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    from datamodel=Web where
+    Web.http_user_agent =*
+    NOT Web.http_user_agent IN (
+        "-",
+        "unknown"
+    )
+    by Web.http_user_agent Web.dest Web.src Web.status
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `drop_dm_object_name(Web)`
+    | eval http_user_agent = lower(http_user_agent)
+    | lookup scripting_tools_user_agents tool_user_agent AS http_user_agent OUTPUT tool
+    | where isnotnull(tool)
+    | stats count
+        min(firstTime) as first_seen
+        max(lastTime) as last_seen
+        values(tool) as tool
+    by http_user_agent dest src status
+    | `security_content_ctime(first_seen)`
+    | `security_content_ctime(last_seen)`
+    | `http_scripting_tool_user_agent_filter`
 how_to_implement: This analytic necessitates the collection of web data, which can be achieved through Splunk Stream or by utilizing the Splunk Add-on for Apache Web Server. No additional configuration is required for this analytic.
 known_false_positives: False positives may be present if the activity is part of diagnostics or testing. Filter as needed.
 references:
@@ -45,10 +55,12 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Known scripting tool was used against a web request. The source IP is $src_ip$ and the destination is $dest$.
+          message: Known scripting tool was used against a web request. The source IP/Host is $src$ and the destination is $dest$.
 threat_objects:
-    - field: src_ip
+    - field: src
       type: ip_address
+    - field: http_user_agent
+      type: http_user_agent
 analytic_story:
     - HTTP Request Smuggling
     - Suspicious User Agents

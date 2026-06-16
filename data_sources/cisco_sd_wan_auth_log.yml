@@ -1,0 +1,14 @@
+name: Cisco SD-WAN Auth Log
+id: a7c9ec91-85cb-44fc-be26-e652ba7e4127
+version: 1
+creation_date: '2026-06-09'
+modification_date: '2026-06-09'
+author: Teoderick Contreras, Splunk
+description: Data source object for Cisco SD-WAN Auth logs
+source: /var/log/auth.log
+sourcetype: cisco:sdwan:syslog
+supported_TA: []
+fields:
+    - _time
+    - _raw
+example_log: '2026-03-30T05:29:57+00:00 vsmart <auth.info> sshd[20244]: Accepted publickey for vmanage-admin from 172.161.255.29 port 37146 ssh2: RSA SHA256:KEY_2'
