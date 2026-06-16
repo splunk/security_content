@@ -1,8 +1,8 @@
 name: Powershell Windows Defender Exclusion Commands
 id: 907ac95c-4dd9-11ec-ba2c-acde48001122
-version: 15
+version: 16
 creation_date: '2021-11-25'
-modification_date: '2026-05-13'
+modification_date: '2026-06-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -58,6 +58,7 @@ analytic_story:
     - Warzone RAT
     - NetSupport RMM Tool Abuse
     - BlankGrabber Stealer
+    - Salat Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1685

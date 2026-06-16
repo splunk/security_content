@@ -1,8 +1,8 @@
 name: Windows Defender Exclusion Registry Entry
 id: 13395a44-4dd9-11ec-9df7-acde48001122
-version: 17
+version: 18
 creation_date: '2021-11-25'
-modification_date: '2026-05-13'
+modification_date: '2026-06-08'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -46,6 +46,7 @@ analytic_story:
     - Warzone RAT
     - Windows Defense Evasion Tactics
     - NetSupport RMM Tool Abuse
+    - Salat Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1685
