@@ -53,6 +53,7 @@ analytic_story:
     - SesameOp
     - Gh0st RAT
     - Axios Supply Chain Post Compromise
+    - RoguePlanet
     - Salat Stealer
 asset_type: Endpoint
 mitre_attack_id:
