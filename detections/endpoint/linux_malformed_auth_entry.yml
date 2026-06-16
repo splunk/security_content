@@ -1,0 +1,74 @@
+name: Linux Malformed Auth Entry
+id: 962602e9-08ae-47ff-af89-a1e83f461a26
+version: 1
+creation_date: '2026-05-06'
+modification_date: '2026-05-06'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects when su runs from a page-cache-corrupted binary.
+    When this happens a partial corruption of its runtime state can prevent it from resolving the identity of the calling user.
+    Under normal conditions, su logs both the target account and the invoking user.
+    When exploitation has occurred via this path, the invoking username field is absent.
+    This activity is significant because it indicates a possible privilege escalation attempt, allowing a user to gain root access.
+    If confirmed malicious, an attacker could achieve full control over the system, execute arbitrary commands, and compromise the entire environment.
+data_source:
+    - Linux Secure
+search: |
+    sourcetype=linux_secure process=su
+    | rex "su:\s+\(to\s+(?<target_user>\S+)\)(?<source_user>\s{2,})on\s+(?<terminal>\S+)"
+    | where len(ltrim(source_user)) == 0
+    | stats
+        count                        as total_attempts,
+        min(_time)                   as firstTime,
+        max(_time)                   as lastTime,
+        values(target_user)          as target_users,
+        values(host)                 as dest
+        by process
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_malformed_auth_entry_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to have relevant authentication logs ingested with the Splunk Add-On for Unix and Linux (https://splunkbase.splunk.com/app/833).
+known_false_positives: No false positives have been identified at this time.
+references:
+    - https://xint.io/blog/copy-fail-linux-distributions
+    - https://github.com/theori-io/copy-fail-CVE-2026-31431
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Malformed authentication entry on $dest$ indicating possible privilege escalation.
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+cve:
+    - CVE-2026-31431
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_auditd_copy_fail/auth.log
+          source: /var/log/secure
+          sourcetype: linux_secure
+      test_type: unit
