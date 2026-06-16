@@ -131,7 +131,7 @@ apps:
 - uid: 2757
   title: Splunk Add-on for Palo Alto Networks
   appid: SPLUNK_ADD_ON_FOR_PALO_ALTO_NETWORKS
-  version: 3.0.1
+  version: 3.1.0
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-palo-alto-networks_301.tgz
 - uid: 3865
@@ -167,7 +167,7 @@ apps:
 - uid: 3110
   title: Splunk Add-on for Microsoft Cloud Services
   appid: SPLUNK_TA_MICROSOFT_CLOUD_SERVICES
-  version: 6.1.1
+  version: 6.1.3
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-cloud-services_611.tgz
 - uid: 4055
