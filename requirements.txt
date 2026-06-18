@@ -1,1 +1,5 @@
 contentctl-ng==0.7.0
+pydantic==2.13.4
+pydantic-settings==2.14.1
+requests>=2.31
+ruamel.yaml==0.19.1

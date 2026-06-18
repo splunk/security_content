@@ -1,0 +1,139 @@
+name: update datasource ta versions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-datasource-ta-versions
+  cancel-in-progress: false
+
+jobs:
+  update-datasource-ta-versions:
+    runs-on: ubuntu-latest
+    env:
+      BASE_BRANCH: develop
+      PR_TITLE: Available App Updates
+      UPDATE_BRANCH: dependabot/datasource-ta-versions
+      GH_TOKEN: ${{ secrets.DATA_SOURCES_DEPENDABOT || github.token }}
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.BASE_BRANCH }}
+          fetch-depth: 0
+          token: ${{ secrets.DATA_SOURCES_DEPENDABOT || github.token }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Configure git author
+        run: |
+          git config user.name "datasource-ta-dependabot"
+          git config user.email "datasource-ta-dependabot@users.noreply.github.com"
+
+      - name: Check develop for available TA updates
+        id: check_develop
+        run: |
+          set -euo pipefail
+
+          python scripts/check_supported_ta_versions.py | tee "${RUNNER_TEMP}/ta-update-report.md"
+
+          if git diff --quiet -- data_sources; then
+            echo "has_updates=false" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          echo "has_updates=true" >> "${GITHUB_OUTPUT}"
+
+      - name: Find existing app update PR
+        id: find_pr
+        if: steps.check_develop.outputs.has_updates == 'true'
+        run: |
+          set -euo pipefail
+
+          pr_json="$(
+            gh pr list \
+              --state open \
+              --base "${BASE_BRANCH}" \
+              --search "\"${PR_TITLE}\" in:title" \
+              --json number,title,headRefName \
+              --jq "map(select(.title == \"${PR_TITLE}\")) | first // {}"
+          )"
+
+          pr_number="$(jq -r '.number // empty' <<< "${pr_json}")"
+          head_branch="$(jq -r '.headRefName // empty' <<< "${pr_json}")"
+
+          echo "pr_number=${pr_number}" >> "${GITHUB_OUTPUT}"
+          echo "head_branch=${head_branch}" >> "${GITHUB_OUTPUT}"
+
+      - name: Create app update PR
+        if: >-
+          steps.check_develop.outputs.has_updates == 'true' &&
+          steps.find_pr.outputs.pr_number == ''
+        run: |
+          set -euo pipefail
+
+          git checkout -B "${UPDATE_BRANCH}"
+          git add data_sources
+          git commit -m "Update datasource TA versions"
+          git push --force-with-lease origin "HEAD:${UPDATE_BRANCH}"
+
+          gh pr create \
+            --base "${BASE_BRANCH}" \
+            --head "${UPDATE_BRANCH}" \
+            --title "${PR_TITLE}" \
+            --body-file "${RUNNER_TEMP}/ta-update-report.md"
+
+      - name: Check existing PR for new updates
+        id: diff_existing_pr
+        if: >-
+          steps.check_develop.outputs.has_updates == 'true' &&
+          steps.find_pr.outputs.pr_number != ''
+        run: |
+          set -euo pipefail
+
+          head_branch="${{ steps.find_pr.outputs.head_branch }}"
+          git fetch origin "${head_branch}"
+
+          if git diff --quiet "origin/${head_branch}" -- data_sources; then
+            echo "has_new_updates=false" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          echo "has_new_updates=true" >> "${GITHUB_OUTPUT}"
+
+      - name: Commit new updates to existing PR
+        if: steps.diff_existing_pr.outputs.has_new_updates == 'true'
+        run: |
+          set -euo pipefail
+
+          pr_number="${{ steps.find_pr.outputs.pr_number }}"
+          head_branch="${{ steps.find_pr.outputs.head_branch }}"
+
+          git reset --hard
+          git checkout -B "${head_branch}" "origin/${head_branch}"
+
+          python scripts/check_supported_ta_versions.py
+
+          if git diff --quiet -- data_sources; then
+            echo "No new data source TA updates to commit."
+            exit 0
+          fi
+
+          git add data_sources
+          git commit -m "Update datasource TA versions"
+          git push origin "HEAD:${head_branch}"
+
+          gh pr edit "${pr_number}" --body-file "${RUNNER_TEMP}/ta-update-report.md"
