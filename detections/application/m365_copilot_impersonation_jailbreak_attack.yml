@@ -1,8 +1,8 @@
 name: M365 Copilot Impersonation Jailbreak Attack
 id: cc26aba8-7f4a-4078-b91a-052d6a53cb13
-version: 5
+version: 6
 creation_date: '2025-10-13'
-modification_date: '2026-05-13'
+modification_date: '2026-06-04'
 author: Rod Soto
 status: experimental
 type: TTP
@@ -13,15 +13,7 @@ search: |-
     `m365_exported_ediscovery_prompt_logs`
       | search Subject_Title="*Pretend you are*" OR Subject_Title="*act as*" OR Subject_Title="*you are now*" OR Subject_Title="*amoral*" OR Subject_Title="*being*" OR Subject_Title="*roleplay as*" OR Subject_Title="*imagine you are*" OR Subject_Title="*behave like*"
       | eval user = Sender
-      | eval impersonation_type=case(match(Subject_Title, "(?i)pretend you are.*AI"), "AI_Impersonation", match(Subject_Title, "(?i)(act as
-      | roleplay as).*AI"), "AI_Roleplay", match(Subject_Title, "(?i)amoral.*AI"), "Amoral_AI", match(Subject_Title, "(?i)transcendent being"), "Fictional_Entity", match(Subject_Title, "(?i)(act as
-      | pretend you are).*(entities
-      | multiple)"), "Multi_Entity", match(Subject_Title, "(?i)(imagine you are
-      | behave like).*AI"), "AI_Behavioral_Change", match(Subject_Title, "(?i)you are now.*AI"), "AI_Identity_Override", match(Subject_Title, "(?i)(evil
-      | malicious
-      | harmful).*AI"), "Malicious_AI_Persona", match(Subject_Title, "(?i)(unrestricted
-      | unlimited
-      | uncensored).*AI"), "Unrestricted_AI_Persona", 1=1, "Generic_Roleplay")
+      | eval impersonation_type=case(match(Subject_Title, "(?i)pretend you are.*AI"), "AI_Impersonation", match(Subject_Title, "(?i)(act as|roleplay as).*AI"), "AI_Roleplay", match(Subject_Title, "(?i)amoral.*AI"), "Amoral_AI", match(Subject_Title, "(?i)transcendent being"), "Fictional_Entity", match(Subject_Title, "(?i)(act as|pretend you are).*(entities|multiple)"), "Multi_Entity", match(Subject_Title, "(?i)(imagine you are|behave like).*AI"), "AI_Behavioral_Change", match(Subject_Title, "(?i)you are now.*AI"), "AI_Identity_Override", match(Subject_Title, "(?i)(evil|malicious|harmful).*AI"), "Malicious_AI_Persona", match(Subject_Title, "(?i)(unrestricted|unlimited|uncensored).*AI"), "Unrestricted_AI_Persona", 1=1, "Generic_Roleplay")
       | table _time, user, Subject_Title, impersonation_type, Workload
       | sort -_time
       | `m365_copilot_impersonation_jailbreak_attack_filter`
