@@ -2,7 +2,7 @@ name: Splunk RCE Through Arbitrary File Write to Windows System Root
 id: c97e0704-d9c6-454d-89ba-1510a987bf72
 version: 7
 creation_date: '2024-10-14'
-modification_date: '2026-06-24'
+modification_date: '2026-06-23'
 author: Rod Soto
 status: production
 type: Hunting
