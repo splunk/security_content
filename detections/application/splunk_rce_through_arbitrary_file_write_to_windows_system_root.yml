@@ -1,0 +1,80 @@
+name: Splunk RCE Through Arbitrary File Write to Windows System Root
+id: c97e0704-d9c6-454d-89ba-1510a987bf72
+version: 6
+creation_date: '2024-10-14'
+modification_date: '2026-05-14'
+author: Rod Soto
+status: production
+type: Hunting
+description: In Splunk Enterprise for Windows versions below 9.3.0, 9.2.3, and 9.1.6, a low-privileged user that does not hold the “admin” or “power” Splunk roles could write a file to the Windows system root directory, which has a default location of C:\Windows\System32, when Splunk Enterprise for Windows is installed on a separate drive. Additionally, this user may be able to upload and execute code due to insecure session storage configuration.
+data_source:
+    - Splunk
+search: |-
+    ```Each exploit attempt abuses the following endpoint. A request to the endpoint MUST occur immediately before the App Creation Message. However, this endpoint does not expose the name of the app that was created```
+    `splunkda` status=200 uri_path="*/search/apps/local/_new"
+    | bin _time span=1m | stats count by _time, user
+    ``` A request to this endpoint also results in an ApplicationManager event showing that a new application was created. This exposes the name and is created immediately following the initial request.  We will look for these creation messages up to 60 seconds after the request to the vulnerable endpoint.```
+    | eval earliest_app_creation_time=_time
+    | eval latest_app_creation_time=_time+60
+    | eval api_user=user
+    ```Search for the names of apps that were created with the time bounds above```
+    | map maxsearches=150 search="search index=_internal earliest=$earliest_app_creation_time$ latest=$latest_app_creation_time$
+    ```Admins, or users with app creation privileges may abuse this command```
+    (sourcetype=splunkd component=ApplicationManager event_message=\"Detected app creation:*\") OR
+    ```But the command may also be abused by users with lower privileges```
+    (sourcetype=splunk_python user=$api_user$ type=ERROR \"requires capability\" AND (\"edit_local_apps\" OR \"admin_all_objects\"))
+    ```Create meaningful messages in the case that app creation was successful or if it failed```
+    | strcat event_message \" - This app should be examined to ensure that it is legitimate.\" message_if_app_creation_successful
+    | strcat event_message \"Detected failed app creation: user does not have admin_all_objects or edit_local_apps capability and the user account MUST be investigated. This may still have resulted in the upload of malicious file(s) or execution of maliciouis command(s).\" message_if_app_creation_failed
+    | eval message=if(isnull(event_message), message_if_app_creation_failed, message_if_app_creation_successful )
+    | eval user=\"$api_user$\""
+    | stats count min(_time) as firstTime max(_time) as lastTime by user, message, host
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `splunk_rce_through_arbitrary_file_write_to_windows_system_root_filter`
+how_to_implement: This search requires access to the _internal index and only applies Splunk Enterprise installations on Microsoft Windows. Apps, messages, and/or users reported by the search should be analyzed to see if they are legitimate.
+known_false_positives: This search may produce false positives as it is not possible to analyze the contents of an App Creation. This only applies to Splunk installations on Microsoft Windows where installation is placed on a different root directory like e or d.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-1001
+    - https://advisory.splunk.com/advisories/SVD-2024-1003
+analytic_story:
+    - Splunk Vulnerabilities
+asset_type: Splunk Server
+cve:
+    - CVE-2024-45731
+    - CVE-2024-45733
+mitre_attack_id:
+    - T1210
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test SVD 1001
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/svd-2024-1001-index_internal_sourcetype_splunkd.log
+          sourcetype: splunkd
+          source: D:\\Program Files\\Splunk\\var\\log\\splunk\\splunkd.log
+          index: _internal
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/svd-2024-1001-index_internal_sourcetype_splunkd_access.log
+          sourcetype: splunkd_access
+          source: D:\\Program Files\\Splunk\\var\\log\\splunk\\splunkd_access.log
+          index: _internal
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/svd-2024-1001-index_internal_sourcetype_splunk_python.log
+          sourcetype: splunk_python
+          source: D:\\Program Files\\Splunk\\var\\log\\splunk\\python.log
+          index: _internal
+      test_type: unit
+    - name: True Positive Test SVD 1003
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/svd-2024-1003-index_internal_sourcetype_splunkd_access.log
+          sourcetype: splunkd_access
+          source: C:\\Program Files\\Splunk\\var\\log\\splunk\\splunkd_access.log
+          index: _internal
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/svd-2024-1003-index_internal_sourcetype_splunk_python.log
+          sourcetype: splunk_python
+          source: C:\\Program Files\\Splunk\\var\\log\\splunk\\python.log
+          index: _internal
+      test_type: unit

@@ -1,0 +1,52 @@
+name: Splunk RCE PDFgen Render
+id: bc2b7437-0400-438b-9537-21ab5b7d2d53
+version: 7
+creation_date: '2024-07-01'
+modification_date: '2026-05-14'
+author: Rod Soto, Chase Franklin
+status: production
+type: TTP
+description: This is a hunting search designed to find and discover exploitation attempts against Splunk pdfgen render endpoint which results in remote
+data_source:
+    - Splunk
+search: index=_internal sourcetype=splunk_pdfgen _raw IN ("*base64*", "*lambda*", "*system*") | stats count min(_time) as firstTime max(_time) as lastTime by index, sourcetype, host, _raw | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_rce_pdfgen_render_filter`
+how_to_implement: Requires access to internal indexes.
+known_false_positives: This search will hunt for exploitation attempts against Splunk PDFgen render function, and not all requests are necesarily malicious so there will be false positives.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-0701
+drilldown_searches:
+    - name: View the detection results for $host$
+      search: '%original_detection_search% | search  host = $host$'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for $host$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+finding:
+    title: Possible exploitation against $host$
+    entity:
+        field: host
+        type: system
+        score: 80
+analytic_story:
+    - Splunk Vulnerabilities
+asset_type: Splunk Server
+cve:
+    - CVE-2024-36982
+mitre_attack_id:
+    - T1210
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/SVD-2024-0701_pdfgen_log_splunk_pdfgen.log
+          source: /opt/splunk/var/log/splunk/pdfgen.log
+          sourcetype: splunk_pdfgen
+          index: _internal
+      test_type: unit

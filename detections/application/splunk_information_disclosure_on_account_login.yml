@@ -1,0 +1,37 @@
+name: Splunk Information Disclosure on Account Login
+id: 2bae5d19-6d1b-4db0-82ab-0af5ac5f836c
+version: 7
+creation_date: '2024-07-01'
+modification_date: '2026-05-14'
+author: Rod Soto
+status: production
+type: Hunting
+description: This is a composed hunting search that looks for possible user enumeration attempts when SAML is enabled on a Splunk instance by capturing different responses from server.
+data_source:
+    - Splunk
+search: '`splunkd` component=UiAuth status=failure action=login TcpChannelThread | stats count min(_time) as firstTime max(_time) as lastTime by user status action clientip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_information_disclosure_on_account_login_filter`'
+how_to_implement: Requires access to internal indexes _internal.
+known_false_positives: This is a hunting search and requires operator to search for large number of login failures from several users indicating possible user enumeration attempts. May capture genuine login failures.
+references:
+    - https://advisory.splunk.com/SVD-2024-0716
+analytic_story:
+    - Splunk Vulnerabilities
+asset_type: Splunk Server
+cve:
+    - CVE-2024-36996
+mitre_attack_id:
+    - T1087
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/splunk/SVD-2024-0716_splunkd_splunkd.log
+          source: /opt/splunk/var/log/splunk/splunkd.log
+          sourcetype: splunkd
+          index: _internal
+      test_type: unit
