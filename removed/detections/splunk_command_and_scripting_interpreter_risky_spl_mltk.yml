@@ -1,0 +1,57 @@
+name: Splunk Command and Scripting Interpreter Risky SPL MLTK
+id: 19d0146c-2eae-4e53-8d39-1198a78fa9ca
+version: 6
+creation_date: '2022-06-13'
+modification_date: '2026-05-14'
+author: Abhinav Mishra, Kumar Sharad and Xiao Lin, Splunk
+status: removed
+type: Anomaly
+description: The following analytic identifies the execution of risky SPL commands with abnormally long run times by leveraging a machine learning model named "risky_command_abuse." It uses the Splunk Audit data model to compare current search activities against a baseline of the past seven days. This activity is significant for a SOC as it can indicate potential misuse or abuse of powerful SPL commands, which could lead to unauthorized data access or system manipulation. If confirmed malicious, this activity could allow an attacker to execute arbitrary scripts, delete data, or exfiltrate sensitive information.
+data_source:
+    - Splunk
+search: '| tstats sum(Search_Activity.total_run_time) AS run_time, values(Search_Activity.search) as searches, count FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") AND (Search_Activity.total_run_time>1) AND (earliest=-1h@h latest=now) AND (Search_Activity.search IN ("*| collect *","*| delete *", "*| fit *", "*| outputcsv *", "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscolle*")) AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) BY _time, Search_Activity.user span=1h | apply risky_command_abuse | fields _time, Search_Activity.user, searches, run_time, IsOutlier(run_time) | rename IsOutlier(run_time) as isOutlier, _time as timestamp | where isOutlier>0.5 | `splunk_command_and_scripting_interpreter_risky_spl_mltk_filter`'
+how_to_implement: This detection depends on MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/ and the Splunk Audit datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. Baseline model needs to be built using "Splunk Command and Scripting Interpreter Risky SPL MLTK Baseline" before this search can run. Please note that the current search only finds matches exactly one space between separator bar and risky commands.
+known_false_positives: If the run time of a search exceeds the boundaries of outlier defined by the fitted density function model, false positives can occur, incorrectly labeling a long running search as potentially risky.
+references:
+    - https://help.splunk.com/en/splunk-enterprise/administer/manage-users-and-security/9.4/best-practices-for-splunk-platform-security/spl-safeguards-for-risky-commands
+drilldown_searches:
+    - name: View the detection results for $user$
+      search: '%original_detection_search% | search  user = $user$'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for $user$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: Abnormally long run time for risk SPL command seen by user- [$Search_Activity.user$]
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects: []
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Web Server
+    cve:
+        - CVE-2022-32154
+    mitre_attack_id:
+        - T1059
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: audit
+    manual_test: This search has a baseline and timestamps hard coded into the search.
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1203/search_activity.log
+            source: audittrail
+            sourcetype: audittrail
+            custom_index: _audit
+deprecation_info:
+    reason: Detection is deprecated as these commands are regular splunk commands and not recommended to be run as a detection search.
+    removed_in_version: 5.12.0
+    replacement_content: []
