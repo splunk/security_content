@@ -27,7 +27,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: '0'
 finding:
-    title: $severity$ alert for $dest$ - $signature$
+    title: $severity$ alert for $user$ - $signature$
     entity:
         field: signature
         type: other
