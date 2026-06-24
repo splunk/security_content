@@ -1,8 +1,8 @@
 name: Microsoft Defender Incident Alerts
 id: 13435b55-afd8-46d4-9045-7d5457f430a5
-version: 9
+version: 10
 creation_date: '2024-10-30'
-modification_date: '2026-05-13'
+modification_date: '2026-06-24'
 author: Bryan Pluta, Bhavin Patel, Splunk, lyonheart14, Github Community
 status: production
 type: TTP
@@ -32,8 +32,16 @@ finding:
         field: user
         type: user
         score: 50
+    entity:
+        field: dest
+        type: system
+        score: 50
 intermediate_findings:
     entities:
+        - field: user
+          type: user
+          score: 50
+          message: $severity$ alert for $user$ - $signature$
         - field: dest
           type: system
           score: 50
