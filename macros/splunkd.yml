@@ -1,0 +1,8 @@
+name: splunkd
+id: 2ccba0af-81ac-4d79-9e52-be64380d69fd
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-14'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
+definition: index=_internal sourcetype=splunkd

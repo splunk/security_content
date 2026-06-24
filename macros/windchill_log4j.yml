@@ -1,0 +1,8 @@
+name: windchill_log4j
+id: 0b89b4b9-f91d-447c-abe9-24d9c5ff3ae2
+version: 1
+creation_date: '2026-06-14'
+modification_date: '2026-06-14'
+author: Nasreddine Bencherchali, Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=log4j

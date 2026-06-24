@@ -1,0 +1,37 @@
+name: Splunk Low-Priv Search as nobody SplunkDeploymentServerConfig App
+id: f765c3fe-c3b6-4afe-a932-11dd4f3a024f
+version: 5
+creation_date: '2024-10-14'
+modification_date: '2026-05-14'
+author: Rod Soto, Deivid Aguero
+data_source:
+    - Splunk
+type: Hunting
+status: removed
+description: In Splunk Enterprise versions below 9.3.1, and 9.2.0 versions below 9.2.3, and Splunk Cloud Platform versions below 9.2.2403.103, 9.1.2312.200, 9.1.2312.110 and 9.1.2308.208, a low-privileged user that does not hold the “admin” or “power” Splunk roles could run a search as ”nobody” in the SplunkDeploymentServerConfig app allowing access to potentially restricted data.
+search: |-
+    | rest services/apps/local/SplunkDeploymentServerConfig 
+    | table label, splunk_server, eai:acl.perms.read, eai:acl.perms.write, eai:acl.can_change_perms
+    | `splunk_low_priv_search_as_nobody_splunkdeploymentserverconfig_app_filter`
+how_to_implement: Requires access to REST Api.
+known_false_positives: This search displays effective permissions for SplunkDeploymentServerConfig. If permissions are inadequate they must be fixed. Please refer to the SVD-2024-1002 for more information about these permissions.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-1002
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1068
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2024-45732
+    manual_test: This search uses a REST call against a running Splunk instance to fetch information about an Splunk App. It cannot be replicated with a normal test or attack data.
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

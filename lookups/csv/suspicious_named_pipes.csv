@@ -70,6 +70,7 @@ suspicious_pipe_name,tool,description,type
 *\pipey,RpcSsImpersonator,faxhell / printjacker / RpcSsImpersonator - Elevation to SYSTEM,Privilege Escalation
 *\PrivFuPipe*,PrivFu,Privilege escalation PoCs,Privilege Escalation
 *\protected_storage,impacket,impacket dcerpc pipe name,Credential Access
+*\REDSUN,RedSun, RedSun privilege escalation PoCs,Privilege Escalation
 *\RemCom_Commuincation,Remcom,Remote execution like PsExec,Lateral Movement
 *\remcom*,Remcom,Remote execution like PsExec,Lateral Movement
 *\RemoteMaint,impacketremoteshell,impacketremoteshell default pipe name,Lateral Movement
