@@ -29,12 +29,8 @@ drilldown_searches:
 finding:
     title: $severity$ alert for $dest$ - $signature$
     entity:
-        field: user
-        type: user
-        score: 50
-    entity:
-        field: dest
-        type: system
+        field: signature
+        type: other
         score: 50
 intermediate_findings:
     entities:
