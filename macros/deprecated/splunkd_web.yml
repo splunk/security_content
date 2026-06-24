@@ -1,0 +1,8 @@
+name: splunkd_web
+id: 0c57824b-6e05-4d98-b2a0-c358b6a94a42
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-14'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
+definition: index=_internal sourcetype=splunk_web_access

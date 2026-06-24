@@ -1,0 +1,56 @@
+name: Splunk Command and Scripting Interpreter Delete Usage
+id: 8d3d5d5e-ca43-42be-aa1f-bc64375f6b04
+version: 6
+creation_date: '2022-05-27'
+modification_date: '2026-05-14'
+author: Michael Haag, Splunk
+status: removed
+type: Anomaly
+description: The following analytic detects the use of the 'delete' command in Splunk, which can be used to remove queried data. This detection leverages the Splunk Audit data model, specifically monitoring ad-hoc searches containing the 'delete' command by non-system users. This activity is significant because the 'delete' command is rarely used and can indicate potential data tampering or unauthorized data removal. If confirmed malicious, this activity could lead to the loss of critical log data, hindering incident investigations and compromising the integrity of the monitoring environment.
+data_source:
+    - Splunk
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search IN ("*| delete*") Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user Search_Activity.search_type | `drop_dm_object_name(Search_Activity)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_command_and_scripting_interpreter_delete_usage_filter`'
+how_to_implement: To successfully implement this search acceleration is recommended against the Search_Activity datamodel that runs against the splunk _audit index. In addition, this analytic requires the Common Information Model App which includes the Splunk Audit Datamodel https://splunkbase.splunk.com/app/1621/.
+known_false_positives: False positives may be present if this command is used as a common practice. Filter as needed.
+references:
+    - https://help.splunk.com/en/splunk-enterprise/administer/manage-users-and-security/9.4/best-practices-for-splunk-platform-security/spl-safeguards-for-risky-commands
+drilldown_searches:
+    - name: View the detection results for $user$
+      search: '%original_detection_search% | search  user = $user$'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for $user$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: $user$ executed the 'delete' command, if this is unexpected it should be reviewed.
+    risk_objects:
+        - field: user
+          type: user
+          score: 27
+    threat_objects: []
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Web Server
+    cve:
+        - CVE-2022-32154
+    mitre_attack_id:
+        - T1059
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: audit
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1213/audittrail/audittrail.log
+            source: audittrail
+            sourcetype: audittrail
+            custom_index: _audit
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.16.0
+    replacement_content: []
