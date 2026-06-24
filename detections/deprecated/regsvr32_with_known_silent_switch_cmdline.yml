@@ -1,10 +1,15 @@
 name: Regsvr32 with Known Silent Switch Cmdline
 id: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
-version: 14
+version: 15
 creation_date: '2021-07-29'
-modification_date: '2026-05-13'
+modification_date: '2026-06-09'
 author: Teoderick Contreras, Splunk
-status: production
+status: deprecated
+deprecation_info:
+    reason: Detection has been deprecated since its logic is already covered by another more improved detection.
+    removed_in_version: 6.4.0
+    replacement_content:
+        - Regsvr32 Silent and Install Param Dll Loading
 type: Anomaly
 description: The following analytic detects the execution of Regsvr32.exe with the silent switch to load DLLs. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on command-line executions containing the `-s` or `/s` switches. This activity is significant as it is commonly used in malware campaigns, such as IcedID, to stealthily load malicious DLLs. If confirmed malicious, this could allow an attacker to execute arbitrary code, download additional payloads, and potentially compromise the system further. Immediate investigation and endpoint isolation are recommended.
 data_source:

@@ -1,0 +1,38 @@
+name: Splunk Unauthenticated DoS via Null Pointer References
+id: d67594fe-c317-41b8-9319-ec8428d5c2ea
+version: 5
+creation_date: '2025-05-12'
+modification_date: '2026-05-14'
+author: Rod Soto
+status: removed
+type: Hunting
+data_source:
+    - Splunk
+description: The following hunting search provides information on splunkd crash as a result of a Denial of Service Exploitation via null pointer references which targets 'services/cluster/config' endpoint.
+search: '`splunk_crash_log` "Segmentation fault" "POST /services/cluster/config" | stats count min(_time) as firstTime max(_time) as  lastTime by host | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_unauthenticated_dos_via_null_pointer_references_filter`'
+how_to_implement: Requires access to internal indexes.
+known_false_positives: This is a hunting search and will produce false positives. An operator needs to find proximity and detail of requests targeting cluster config endpoint and subsequent Segmentation fault in splunk crash log.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-0702
+tags:
+    cve:
+        - CVE-2024-36983
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1499
+    product:
+        - Splunk Enterprise
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499/splunk/SVD-2024-0702_splunkd_crash_log_splunkd_crash_log.log
+            source: /opt/splunk/var/log/splunk/crash-*.log
+            sourcetype: splunkd_crash_log
+            custom_index: _internal
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

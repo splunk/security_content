@@ -1,0 +1,39 @@
+name: Splunk Stored XSS conf-web Settings on Premises
+id: ed1209ef-228d-4dab-9856-be9369925a5c
+version: 5
+creation_date: '2025-05-12'
+modification_date: '2026-05-14'
+author: Rod Soto, Chase Franklin
+status: removed
+type: Hunting
+data_source:
+    - Splunk
+description: This hunting detection provides information on exploitation of stored XSS against /configs/conf-web/settings by an admin level user.
+search: '`splunk_python` *script* *eval* | stats min(_time) as firstTime max(_time) as lastTime by index, sourcetype, host | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_stored_xss_conf_web_settings_on_premises_filter`'
+how_to_implement: Requires access to internal indexes.
+known_false_positives: This is a hunting search and will produce false positives, operator must identify XSS elemetns in the splunk_python log related to the vulnerable endpoint.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-0717
+tags:
+    cve:
+        - CVE-2024-36987
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1189
+    product:
+        - Splunk Enterprise
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/SVD-2024-0717_python_log_splunk_python.log
+            source: /opt/splunk/var/log/splunk/python.log
+            sourcetype: splunk_python
+            custom_index: _internal
+
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

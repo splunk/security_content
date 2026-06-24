@@ -1,0 +1,8 @@
+name: audittrail
+id: ef23f92d-2795-462b-b5c1-632d626f4f2f
+version: 1
+creation_date: '2023-06-01'
+modification_date: '2026-05-14'
+author: Splunk Threat Research Team
+description: Macro to enable easy searching of audittrail logs
+definition: index=_audit sourcetype=audittrail
