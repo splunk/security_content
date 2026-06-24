@@ -2,9 +2,9 @@ name: Splunk Information Disclosure on Account Login
 id: 2bae5d19-6d1b-4db0-82ab-0af5ac5f836c
 version: 7
 creation_date: '2024-07-01'
-modification_date: '2026-05-14'
+modification_date: '2026-06-24'
 author: Rod Soto
-status: production
+status: deprecated
 type: Hunting
 description: This is a composed hunting search that looks for possible user enumeration attempts when SAML is enabled on a Splunk instance by capturing different responses from server.
 data_source:
@@ -13,7 +13,7 @@ search: '`splunkd` component=UiAuth status=failure action=login TcpChannelThread
 how_to_implement: Requires access to internal indexes _internal.
 known_false_positives: This is a hunting search and requires operator to search for large number of login failures from several users indicating possible user enumeration attempts. May capture genuine login failures.
 references:
-    - https://advisory.splunk.com/SVD-2024-0716
+    - https://advisory.splunk.com/advisories/SVD-2024-0716
 analytic_story:
     - Splunk Vulnerabilities
 asset_type: Splunk Server
@@ -35,3 +35,7 @@ tests:
           sourcetype: splunkd
           index: _internal
       test_type: unit
+deprecation_info:
+    reason: Detection has been deprecated. The logic is not accurately detecting the malicious activity.
+    removed_in_version: 6.4.0
+    replacement_content: []

@@ -2,9 +2,9 @@ name: Splunk Code Injection via custom dashboard leading to RCE
 id: b06b41d7-9570-4985-8137-0784f582a1b3
 version: 7
 creation_date: '2022-12-19'
-modification_date: '2026-05-14'
+modification_date: '2026-06-24'
 author: Rod Soto
-status: production
+status: deprecated
 type: Hunting
 description: The following analytic identifies attempts to exploit a vulnerability in Splunk Enterprise versions below 8.2.9, 8.1.12, and 9.0.2, where an authenticated user can execute arbitrary code via the dashboard PDF generation component. It detects this activity by analyzing events in the _internal index with the file=export parameter. This behavior is significant because it indicates a potential code injection attack, which could lead to remote code execution (RCE). If confirmed malicious, an attacker could gain unauthorized access, execute arbitrary commands, and potentially compromise the entire Splunk environment.
 data_source: []
@@ -34,3 +34,7 @@ tests:
           sourcetype: splunkd_ui_access
           index: _internal
       test_type: unit
+deprecation_info:
+    reason: Detection has been deprecated. The affected Splunk software versions (8.1.12, 8.2.9, and 9.0.2) are no longer supported, having reached End of Life (EOL) between 2023 and 2024. Also, the logic is not perfectly capturing the malicious activity.
+    removed_in_version: 6.4.0
+    replacement_content: []

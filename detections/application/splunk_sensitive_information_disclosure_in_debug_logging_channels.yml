@@ -1,4 +1,4 @@
-name: 'Splunk Sensitive Information Disclosure in DEBUG Logging Channels'
+name: Splunk Sensitive Information Disclosure in DEBUG Logging Channels
 id: 93dc7182-c5da-4085-82ec-401abf33d623
 version: 6
 creation_date: '2024-10-14'

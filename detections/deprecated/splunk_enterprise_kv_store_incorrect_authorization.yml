@@ -4,7 +4,7 @@ version: 8
 creation_date: '2024-01-22'
 modification_date: '2026-05-14'
 author: Rod Soto, Eric McGinnis, Chase Franklin
-status: production
+status: deprecated
 type: Hunting
 description: The following analytic detects unauthorized attempts to reload Splunk KV Store collections via the REST API. It leverages internal index logs to identify POST requests to the `/servicesNS/nobody/search/admin/collections-conf/_reload` endpoint, focusing on status codes starting with '2'. This activity is significant as it may indicate improper permission handling, potentially leading to unauthorized deletion of KV Store collections. If confirmed malicious, this could result in data loss or unauthorized data manipulation, impacting the integrity and availability of critical Splunk data.
 data_source:
@@ -35,3 +35,7 @@ tests:
           sourcetype: splunkd_access
           index: _internal
       test_type: unit
+deprecation_info:
+    reason: Detection has been deprecated. The affected Splunk software versions (below 9.0.8 and 9.1.3)are no longer supported, having reached End of Life (EOL), and the logic is not accurately detecting the malicious activity.
+    removed_in_version: 6.4.0
+    replacement_content: []

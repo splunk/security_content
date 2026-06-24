@@ -2,9 +2,9 @@ name: Splunk RCE PDFgen Render
 id: bc2b7437-0400-438b-9537-21ab5b7d2d53
 version: 7
 creation_date: '2024-07-01'
-modification_date: '2026-05-14'
+modification_date: '2026-06-24'
 author: Rod Soto, Chase Franklin
-status: production
+status: deprecated
 type: TTP
 description: This is a hunting search designed to find and discover exploitation attempts against Splunk pdfgen render endpoint which results in remote
 data_source:
@@ -50,3 +50,7 @@ tests:
           sourcetype: splunk_pdfgen
           index: _internal
       test_type: unit
+deprecation_info:
+    reason: Detection has been deprecated. The metadata along with the search are not accurately capturing the malicious activity.
+    removed_in_version: 6.4.0
+    replacement_content: []
