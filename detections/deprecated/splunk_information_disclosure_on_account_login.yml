@@ -1,6 +1,6 @@
 name: Splunk Information Disclosure on Account Login
 id: 2bae5d19-6d1b-4db0-82ab-0af5ac5f836c
-version: 7
+version: 8
 creation_date: '2024-07-01'
 modification_date: '2026-06-24'
 author: Rod Soto

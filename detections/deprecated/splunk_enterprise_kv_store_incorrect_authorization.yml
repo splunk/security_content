@@ -1,8 +1,8 @@
 name: Splunk Enterprise KV Store Incorrect Authorization
 id: 8f0e8380-a835-4f2b-b749-9ce119364df0
-version: 8
+version: 9
 creation_date: '2024-01-22'
-modification_date: '2026-05-14'
+modification_date: '2026-06-24'
 author: Rod Soto, Eric McGinnis, Chase Franklin
 status: deprecated
 type: Hunting

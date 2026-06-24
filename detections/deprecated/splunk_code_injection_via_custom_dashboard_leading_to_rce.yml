@@ -1,6 +1,6 @@
 name: Splunk Code Injection via custom dashboard leading to RCE
 id: b06b41d7-9570-4985-8137-0784f582a1b3
-version: 7
+version: 8
 creation_date: '2022-12-19'
 modification_date: '2026-06-24'
 author: Rod Soto

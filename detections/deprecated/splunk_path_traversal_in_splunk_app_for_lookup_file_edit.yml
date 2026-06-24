@@ -1,6 +1,6 @@
 name: Splunk Path Traversal In Splunk App For Lookup File Edit
 id: 8ed58987-738d-4917-9e44-b8ef6ab948a6
-version: 8
+version: 9
 creation_date: '2023-06-01'
 modification_date: '2026-06-24'
 author: Rod Soto, Eric McGinnis

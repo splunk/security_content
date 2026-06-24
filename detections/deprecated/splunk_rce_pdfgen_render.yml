@@ -1,6 +1,6 @@
 name: Splunk RCE PDFgen Render
 id: bc2b7437-0400-438b-9537-21ab5b7d2d53
-version: 7
+version: 8
 creation_date: '2024-07-01'
 modification_date: '2026-06-24'
 author: Rod Soto, Chase Franklin
