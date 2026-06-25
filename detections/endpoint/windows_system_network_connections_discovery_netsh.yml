@@ -1,8 +1,8 @@
 name: Windows System Network Connections Discovery Netsh
 id: abfb7cc5-c275-4a97-9029-62cd8d4ffeca
-version: 11
+version: 12
 creation_date: '2022-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -13,7 +13,7 @@ data_source:
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE `process_netsh`AND Processes.process = "* show *" Processes.process IN ("*state*", "*config*", "*wlan*", "*profile*")
+      WHERE `process_netsh`AND Processes.process = "* show *" Processes.process IN ("*state*", "*config*", "*wlan*", "*profile*", "*networks*")
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -52,6 +52,7 @@ analytic_story:
     - Snake Keylogger
     - BlankGrabber Stealer
     - VIP Keylogger
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1049

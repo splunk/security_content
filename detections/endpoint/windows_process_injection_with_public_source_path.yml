@@ -1,8 +1,8 @@
 name: Windows Process Injection With Public Source Path
 id: 492f09cf-5d60-4d87-99dd-0bc325532dda
-version: 10
+version: 11
 creation_date: '2022-09-05'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -17,6 +17,7 @@ references:
 analytic_story:
     - Brute Ratel C4
     - Earth Alux
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1055.002

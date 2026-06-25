@@ -1,8 +1,8 @@
 name: Windows Process Injection Remote Thread
 id: 8a618ade-ca8f-4d04-b972-2d526ba59924
-version: 13
+version: 14
 creation_date: '2022-10-28'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -73,6 +73,7 @@ analytic_story:
     - Warzone RAT
     - Earth Alux
     - Water Gamayun
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1055.002
