@@ -1,0 +1,56 @@
+name: Splunk Disable KVStore via CSRF Enabling Maintenance Mode
+id: 34bac267-a89b-4bd7-a072-a48eef1f15b8
+version: 5
+creation_date: '2025-05-12'
+modification_date: '2026-05-14'
+author: Rod Soto
+data_source:
+    - Splunk
+type: TTP
+status: removed
+description: "In Splunk Enterprise versions below 9.3.1, 9.2.3, and 9.1.6 and Splunk Cloud Platform versions below 9.2.2403.108, 9.1.2312.204, and 9.1.2308.211, a low-privileged user that does not hold the “admin” or “power” Splunk roles could change the maintenance mode state of App Key Value Store (KVStore) through a Cross-Site Request Forgery (CSRF)."
+search: '`splunkda` method=GET uri_path IN ("/services*", /"servicesNS*") AND uri_path = "*kvstore/maintenance/change" AND uri_query IN ("*mode=t*", "*mode=1*") | stats count min(_time) as firstTime max(_time) as lastTime by user host uri clientip  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`  | `splunk_disable_kvstore_via_csrf_enabling_maintenance_mode_filter`'
+how_to_implement: Requires access to internal indexes and web service enabled.
+known_false_positives: This search will produce false positives, operator must verify the context of access and the use of GET request against KVStore specifiying maintenance mode, especially non admin users.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-1007
+drilldown_searches:
+    - name: View the detection results for $host$
+      search: '%original_detection_search% | search  host = $host$'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for $host$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: Potential CSRF attack against $user$ and $host$ by placing KVStore into Maintenance Mode
+    risk_objects:
+        - field: host
+          type: system
+          score: 25
+    threat_objects: []
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1489
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2024-45737
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1489/splunk_kvstore_csrf/splunk_kvstore_csrf.log
+            custom_index: _internal
+            sourcetype: splunkd_access
+            source: /opt/splunk/var/log/splunk/splunkd_access.log
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

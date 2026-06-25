@@ -1,0 +1,55 @@
+name: Splunk User Enumeration Attempt
+id: 25625cb4-1c4d-4463-b0f9-7cb462699cde
+version: 9
+creation_date: '2022-04-29'
+modification_date: '2026-05-14'
+author: Lou Stella, Splunk
+status: production
+type: TTP
+description: The following analytic identifies attempts to enumerate usernames in Splunk by detecting multiple failed authentication attempts from the same source. It leverages data from the `_audit` index, specifically focusing on failed authentication events. This activity is significant for a SOC because it can indicate an attacker trying to discover valid usernames, which is a precursor to more targeted attacks like password spraying or brute force attempts. If confirmed malicious, this activity could lead to unauthorized access, compromising the security of the Splunk environment and potentially exposing sensitive data.
+data_source:
+    - Splunk
+search: '`splunkd_failed_auths` | stats count(user) as auths by user, src | where auths>5 | stats values(user) as user, sum(auths) as TotalFailedAuths by src | `splunk_user_enumeration_attempt_filter`'
+how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _audit index. This detection may assist in efforts to find password spraying or brute force authorization attempts in addition to someone enumerating usernames.
+known_false_positives: Automation executing authentication attempts against your Splunk infrastructure with outdated credentials may cause false positives.
+references:
+    - https://www.splunk.com/en_us/product-security/announcements/svd-2022-0502.html
+drilldown_searches:
+    - name: View the detection results for $user$
+      search: '%original_detection_search% | search  user = $user$'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for $user$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+finding:
+    title: $TotalFailedAuths$ failed authentication events to Splunk from $src$ detected.
+    entity:
+        field: user
+        type: user
+        score: 40
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Splunk Vulnerabilities
+asset_type: Endpoint
+cve:
+    - CVE-2021-33845
+mitre_attack_id:
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: access
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/splunkd_auth/audittrail.log
+          source: audittrail
+          sourcetype: audittrail
+          index: _audit
+      test_type: unit
