@@ -13,7 +13,6 @@ description: |-
     The tool includes a custom implementation to avoid file handle access issues with EDR processes by bypassing the CreateFileW API.
     It supports a wide range of EDRs, including Microsoft Defender, Carbon Black, SentinelOne, and more, though further testing on various EDRs is recommended.
     The tool has been tested on Windows 10 and Windows Server 2016, and its usage involves simple commands for blocking or unblocking traffic.
-    Renamed EDRSilencer binaries can still be identified by the blockedr command-line argument.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -28,10 +27,7 @@ search: |-
     Processes.process_name="EDRSilencer.exe"
     OR
     (
-        (
-            Processes.process="* blockedr"
-            OR Processes.process="* blockedr *"
-        )
+        Processes.process IN ("* blockedr", "* blockedr *")
         NOT Processes.process="*blockedreport*"
     )
 
@@ -64,10 +60,12 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Potential EDRSilencer execution observed on $dest$ via $process$.
+          message: Potential EDRSilencer execution [$process_path$] with the CommandLine [$process$] observed on $dest$.
 threat_objects:
     - field: parent_process_name
       type: parent_process_name
+    - field: process_name
+      type: process_name
 analytic_story:
     - Security Solution Tampering
 asset_type: Endpoint
