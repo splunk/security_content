@@ -1,6 +1,6 @@
 name: Windows Chromium Browser with Custom User Data Directory
 id: 4f546cf4-15aa-4368-80f7-940e92bc551e
-version: 9
+version: 8
 creation_date: '2025-05-28'
 modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
