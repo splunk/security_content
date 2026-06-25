@@ -9,6 +9,8 @@ description: Phantom Stealer is an information-stealing malware designed to cove
 narrative: In observed Phantom Stealer campaigns, the malware is typically delivered through phishing lures or cracked software bundles targeting Windows users. Upon initial execution from a user profile or temporary directory, the malware rapidly enumerates installed applications and begins accessing sensitive credential stores. Telemetry captured unauthorized reads of WinSCP security configuration folders by non-WinSCP processes, a strong behavioral indicator of credential harvesting targeting SSH and FTP sessions. The malware similarly accessed browser profile directories for Chrome and Edge, extracting Login Data, Cookies, and Web Data SQLite databases containing saved credentials and session tokens. Following collection, Phantom Stealer compressed the harvested data into an archive and transmitted it via HTTPS POST to its command-and-control server. In some cases, persistence was observed through registry run key modifications, ensuring the stealer re-executes after reboot. The breadth of targeted applications — spanning browsers, file transfer clients, and crypto wallets — makes Phantom Stealer a high-impact credential theft tool capable of enabling account takeover, financial fraud, and further intrusion into enterprise environments.
 references:
     - https://github.com/renniepak/PhantomStealer
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.phantom_stealer
+    - https://www.proofpoint.com/us/blog/threat-insight/not-safe-work-tracking-and-investigating-stealerium-and-phantom-infostealers
 category:
     - Malware
 product:
