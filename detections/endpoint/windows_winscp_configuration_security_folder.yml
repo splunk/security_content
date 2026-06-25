@@ -10,8 +10,14 @@ description: This analytic detects unauthorized access to the WinSCP security co
 data_source:
     - Windows Event Log Security 4663
 search: |-
-    `wineventlog_security` EventCode=4663 object_file_path="*\\Martin Prikryl\\WinSCP 2\\Configuration\\Security*" AND NOT (process_name IN ("winscp.exe"))
-        | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name object_file_path process_name process_path  process_id EventCode dest
+    `wineventlog_security`
+    EventCode=4663
+    object_file_path="*\\Martin Prikryl\\WinSCP 2\\Configuration\\Security*"
+    NOT process_name IN ("winscp.exe")
+    | stats count min(_time) as firstTime
+                         max(_time) as lastTime
+      by object_file_name object_file_path process_name
+           process_path  process_id EventCode dest
         | `security_content_ctime(firstTime)`
         | `security_content_ctime(lastTime)`
         | `windows_winscp_configuration_security_folder_filter`
