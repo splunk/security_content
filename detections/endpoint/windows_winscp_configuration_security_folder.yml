@@ -34,7 +34,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: a non winscp process [$process_name$] access winscp object file [$object_file_path$]on $dest$.
+          message: a non winscp process [$process_name$] accessed the winscp configuration file [$object_file_path$] on $dest$.
 analytic_story:
     - Phantom Stealer
 asset_type: Endpoint
