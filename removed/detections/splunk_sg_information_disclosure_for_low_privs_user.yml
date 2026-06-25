@@ -1,0 +1,43 @@
+name: Splunk SG Information Disclosure for Low Privs User
+id: 0a3d6035-7bef-4dfa-b01e-84349edac3b4
+version: 5
+creation_date: '2024-10-14'
+modification_date: '2026-05-14'
+author: Rod Soto
+data_source:
+    - Splunk
+type: Hunting
+status: removed
+description: In Splunk Enterprise versions below 9.3.0, 9.2.1 and 9.1.6, and Splunk Secure Gateway versions on Splunk Cloud Platform versions below 3.4.259, 3.6.17, and 3.7.0, a low-privileged user that does not hold the “admin” or “power” Splunk roles can see App Key Value Store (KV Store) deployment configuration and public/private keys in the Splunk Secure Gateway App.
+search: |-
+    `splunkd_ui` uri_path="*/splunkd/__raw/services/ssg/kvstore/*" user!=admin user!="-"   
+    | stats count by clientip user method uri_path 
+    | `splunk_sg_information_disclosure_for_low_privs_user_filter`
+how_to_implement: Requires access to internal indexes.
+known_false_positives: This is a hunting search and will produce false positives, the focus of this search must be on unusual requests towards the Splunk Secure Gateway from a non administrator user.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-1005
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1087
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2024-45735
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/splunk/svd-2024-1005.log
+            source: /opt/splunk/var/log/splunk/splunkd_ui_access.log
+            sourcetype: splunkd_ui_access
+            custom_index: _internal
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

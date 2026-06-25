@@ -1,0 +1,8 @@
+name: splunk_crash_log
+id: c7ef6717-771d-46f0-a8e0-3a2bc275863f
+version: 1
+creation_date: '2023-06-01'
+modification_date: '2026-05-14'
+author: Splunk Threat Research Team
+description: Searches through the Splunk Crash Log for low-level errors and crashes
+definition: (index=_internal AND sourcetype=splunkd_crash_log)
