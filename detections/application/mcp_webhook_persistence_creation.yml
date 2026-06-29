@@ -1,12 +1,12 @@
 name: MCP Webhook Persistence Creation
 id: db95f667-0193-4854-86d6-60cd39d0b3ac
-version: 1
+version: 2
 creation_date: '2026-06-15'
-modification_date: '2026-06-15'
+modification_date: '2026-06-29'
 author: Adam Lin
 status: production
 type: TTP
-description: This detection identifies the creation of repository webhooks through MCP (Model Context Protocol) tool calls. Adversaries who gain access to an MCP-enabled agent can register a webhook that points to an attacker-controlled endpoint, giving them durable persistence and a covert exfiltration channel - every future repository event (pushes, pull requests, secrets) is delivered to the external URL without any further interaction. The search monitors inbound JSON-RPC traffic for create_webhook operations and surfaces the destination URL, repository, and owner so analysts can confirm whether the endpoint is legitimate.
+description: This detection identifies the creation of repository webhooks that point to untrusted or higher-risk endpoints through MCP (Model Context Protocol) tool calls. Adversaries who gain access to an MCP-enabled agent can register a webhook that points to an attacker-controlled endpoint, giving them durable persistence and a covert exfiltration channel - every future repository event (pushes, pull requests, secrets) is delivered to the external URL without any further interaction. The search monitors inbound JSON-RPC create_webhook operations, extracts the destination host, and only surfaces webhooks whose host is not in the editable mcp_trusted_webhook_domains allowlist or that exhibit higher-risk traits (a plaintext http endpoint or a raw IP address destination), so the narrowing is performed by the detection logic rather than by deferred tuning.
 data_source:
     - MCP Server
 search: |
@@ -15,13 +15,18 @@ search: |
     | eval webhook_url='params.url'
     | eval target_repo='params.repo'
     | eval target_owner='params.owner'
-    | stats count min(_time) as firstTime max(_time) as lastTime values(method) as method values(webhook_url) as webhook_url values(target_repo) as target_repo values(target_owner) as target_owner by dest, source
+    | rex field=webhook_url "^(?<url_scheme>https?)://(?<webhook_host>[^/:]+)"
+    | eval is_trusted_domain=if(match(webhook_host, `mcp_trusted_webhook_domains`), 1, 0)
+    | eval is_plaintext_http=if(url_scheme="http", 1, 0)
+    | eval is_raw_ip_dest=if(match(webhook_host, "^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$"), 1, 0)
+    | where is_trusted_domain=0 OR is_plaintext_http=1 OR is_raw_ip_dest=1
+    | stats count min(_time) as firstTime max(_time) as lastTime values(method) as method values(webhook_url) as webhook_url values(webhook_host) as webhook_host values(target_repo) as target_repo values(target_owner) as target_owner max(is_plaintext_http) as is_plaintext_http max(is_raw_ip_dest) as is_raw_ip_dest by dest, source
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | table dest firstTime lastTime count source method webhook_url target_repo target_owner
+    | table dest firstTime lastTime count source method webhook_url webhook_host target_repo target_owner is_plaintext_http is_raw_ip_dest
     | `mcp_webhook_persistence_creation_filter`
-how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk configured to ingest JSON-RPC formatted logs from MCP-enabled AI assistants and agents into the appropriate index with sourcetype mcp:jsonrpc. Ensure the TA parses the params.url, params.repo, and params.owner fields so the webhook destination and target repository are available. The macro mcp_webhook_persistence_creation_filter should be created to allow environment-specific tuning, for example whitelisting webhook URLs that belong to approved CI/CD or monitoring integrations.
-known_false_positives: Legitimate automation, CI/CD onboarding, and developer tooling routinely create repository webhooks. Tune the mcp_webhook_persistence_creation_filter macro to allowlist known-good destination domains (for example your CI provider) and focus on webhooks pointing to unfamiliar or external endpoints.
+how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk configured to ingest JSON-RPC formatted logs from MCP-enabled AI assistants and agents into the appropriate index with sourcetype mcp:jsonrpc. Ensure the TA parses the params.url, params.repo, and params.owner fields so the webhook destination and target repository are available. The detection narrows in-search using the editable mcp_trusted_webhook_domains macro (a regular expression of approved webhook destination domains) and flags plaintext http endpoints and raw IP destinations. Populate the mcp_trusted_webhook_domains macro with the domains of your sanctioned CI/CD and monitoring integrations, and tune the mcp_webhook_persistence_creation_filter macro for any remaining environment-specific exceptions.
+known_false_positives: Legitimate automation, CI/CD onboarding, and developer tooling routinely create repository webhooks. Because the base search only surfaces webhooks to untrusted domains, plaintext http endpoints, or raw IP destinations, false positives are most likely before the mcp_trusted_webhook_domains allowlist is populated or when sanctioned integrations use http or IP-based endpoints. Add your known-good destination domains to the mcp_trusted_webhook_domains macro and tune the mcp_webhook_persistence_creation_filter macro for any remaining exceptions.
 references:
     - https://github.com/Agent-Threat-Rule/agent-threat-rules
     - https://agentthreatrule.org
