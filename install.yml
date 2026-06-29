@@ -25,9 +25,6 @@ apps:
   - appid: Splunk_TA_google-cloudplatform
     url: https://splunkbase.splunk.com/app/3088
     version: 5.0.3
-  - appid: Splunk_ML_Toolkit
-    url: https://splunkbase.splunk.com/app/2890
-    version: 5.7.4
   - appid: utbox
     url: https://splunkbase.splunk.com/app/2734
     version: 1.9.4
@@ -37,9 +34,6 @@ apps:
   - appid: TA-crowdstrike-falcon-event-streams
     url: https://splunkbase.splunk.com/app/5082
     version: 3.7.2
-  - appid: Splunk_SA_Scientific_Python_linux_x86_64
-    url: https://splunkbase.splunk.com/app/2882
-    version: 4.3.2
   - appid: SA-VMWIndex
     url: https://splunkbase.splunk.com/app/5640
     version: 4.0.4
