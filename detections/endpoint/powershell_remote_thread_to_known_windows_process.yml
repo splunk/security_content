@@ -1,15 +1,51 @@
 name: Powershell Remote Thread To Known Windows Process
 id: ec102cb2-a0f5-11eb-9b38-acde48001122
-version: 11
+version: 12
 creation_date: '2021-04-26'
-modification_date: '2026-05-13'
+modification_date: '2026-07-01'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious PowerShell processes attempting to inject code into critical Windows processes using CreateRemoteThread. It leverages Sysmon EventCode 8 to identify instances where PowerShell spawns threads in processes like svchost.exe, csrss.exe, and others. This activity is significant as it is commonly used by malware such as TrickBot and offensive tools like Cobalt Strike to execute malicious payloads, establish reverse shells, or download additional malware. If confirmed malicious, this behavior could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.
+description: |-
+    The following analytic detects suspicious PowerShell processes attempting to inject code into critical Windows processes using CreateRemoteThread.
+    It leverages Sysmon EventCode 8 to identify instances where PowerShell spawns threads in processes like svchost.exe, csrss.exe, and others.
+    This activity is significant as it is commonly used by malware such as TrickBot and offensive tools like Cobalt Strike to execute malicious payloads, establish reverse shells, or download additional malware.
+    If confirmed malicious, this behavior could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.
 data_source:
     - Sysmon EventID 8
-search: '`sysmon` EventCode = 8 parent_process_name IN ("powershell_ise.exe", "powershell.exe") TargetImage IN ("*\\svchost.exe","*\\csrss.exe" "*\\gpupdate.exe", "*\\explorer.exe","*\\services.exe","*\\winlogon.exe","*\\smss.exe","*\\wininit.exe","*\\userinit.exe","*\\spoolsv.exe","*\\taskhost.exe") | stats count min(_time) as firstTime max(_time) as lastTime by EventID Guid NewThreadId ProcessID SecurityID SourceImage SourceProcessGuid SourceProcessId StartAddress StartFunction StartModule TargetImage TargetProcessGuid TargetProcessId UserID dest parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_remote_thread_to_known_windows_process_filter`'
+search: |-
+    `sysmon`
+    EventCode=8
+    SourceImage IN (
+        "*\\powershell_ise.exe",
+        "*\\powershell.exe",
+        "*\\pwsh.exe"
+    )
+    TargetImage IN (
+        "*\\csrss.exe",
+        "*\\explorer.exe",
+        "*\\gpupdate.exe",
+        "*\\services.exe",
+        "*\\smss.exe",
+        "*\\spoolsv.exe",
+        "*\\svchost.exe",
+        "*\\taskhost.exe",
+        "*\\userinit.exe",
+        "*\\wininit.exe",
+        "*\\winlogon.exe"
+    )
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(NewThreadId) as "NewThreadId"
+                  values(StartAddress) as "StartAddress"
+      by dest signature_id signature
+         SourceProcessGuid SourceProcessId SourceImage
+         TargetProcessGuid TargetProcessId TargetImage
+         StartModule StartFunction
+         SourceUser TargetUser vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `powershell_remote_thread_to_known_windows_process_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, Create Remote thread from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of create remote thread may be used.
 known_false_positives: No false positives have been identified at this time.
 references:
@@ -24,13 +60,15 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: A suspicious powershell process $process_name$ that tries to create a remote thread on target process $TargetImage$ on host $dest$
+    title: A suspicious powershell process $SourceImage$ created a remote thread into the target process $TargetImage$ on host $dest$
     entity:
         field: dest
         type: system
         score: 50
 threat_objects:
-    - field: process_name
+    - field: SourceImage
+      type: process_name
+    - field: TargetImage
       type: process_name
 analytic_story:
     - Trickbot

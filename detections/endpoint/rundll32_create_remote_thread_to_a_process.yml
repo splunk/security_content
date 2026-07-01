@@ -1,15 +1,34 @@
 name: Rundll32 Create Remote Thread To A Process
 id: 2dbeee3a-f067-11eb-96c0-acde48001122
-version: 10
+version: 11
 creation_date: '2021-07-29'
-modification_date: '2026-05-13'
+modification_date: '2026-06-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of a remote thread by rundll32.exe into another process. It leverages Sysmon EventCode 8 logs, specifically monitoring SourceImage and TargetImage fields. This activity is significant as it is a common technique used by malware, such as IcedID, to execute malicious code within legitimate processes, aiding in defense evasion and data theft. If confirmed malicious, this behavior could allow an attacker to execute arbitrary code, escalate privileges, and exfiltrate sensitive information from the compromised host.
+description: |-
+    The following analytic detects the creation of a remote thread by rundll32.exe into another process. It leverages Sysmon EventCode 8 logs, specifically monitoring SourceImage and TargetImage fields.
+    This activity is significant as it is a common technique used by malware, such as IcedID, to execute malicious code within legitimate processes, aiding in defense evasion and data theft.
+    If confirmed malicious, this behavior could allow an attacker to execute arbitrary code, escalate privileges, and exfiltrate sensitive information from the compromised host.
 data_source:
     - Sysmon EventID 8
-search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe" | stats count min(_time) as firstTime max(_time) as lastTime by EventID Guid NewThreadId ProcessID SecurityID SourceImage SourceProcessGuid SourceProcessId StartAddress StartFunction StartModule TargetImage TargetProcessGuid TargetProcessId UserID dest parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_create_remote_thread_to_a_process_filter`'
+search: |-
+    `sysmon`
+    EventCode=8
+    SourceImage="*\\rundll32.exe"
+    TargetImage = "*.exe"
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(NewThreadId) as "NewThreadId"
+                  values(StartAddress) as "StartAddress"
+      by dest signature_id signature
+         SourceProcessGuid SourceProcessId SourceImage
+         TargetProcessGuid TargetProcessId TargetImage
+         StartModule StartFunction
+         SourceUser TargetUser vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `rundll32_create_remote_thread_to_a_process_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: No false positives have been identified at this time.
 references:
