@@ -68,4 +68,4 @@ deprecation_info:
     reason: Detection has been deprecated. The search is being replaced with a more generic detection that captures the behavior instead of relying on specific source processes.
     removed_in_version: 6.4.0
     replacement_content:
-        - Uncommon Remote Thread Creation In Browser Process
+        - Windows Uncommon Remote Thread Creation In Browser Process
