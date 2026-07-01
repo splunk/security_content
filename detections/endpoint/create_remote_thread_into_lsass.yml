@@ -25,8 +25,7 @@ search: |-
       by dest signature_id signature
          SourceProcessGuid SourceProcessId SourceImage
          TargetProcessGuid TargetProcessId TargetImage
-         StartModule StartFunction
-         SourceUser TargetUser vendor_product
+         StartModule StartFunction vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `create_remote_thread_into_lsass_filter`
