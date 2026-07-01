@@ -1,8 +1,8 @@
 name: Windows Chromium Browser with Custom User Data Directory
 id: 4f546cf4-15aa-4368-80f7-940e92bc551e
-version: 7
+version: 8
 creation_date: '2025-05-28'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -58,6 +58,7 @@ analytic_story:
     - StealC Stealer
     - Malicious Inno Setup Loader
     - Lokibot
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1497

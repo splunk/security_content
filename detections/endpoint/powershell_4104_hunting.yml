@@ -1,8 +1,8 @@
 name: PowerShell 4104 Hunting
 id: d6f2b006-0041-11ec-8885-acde48001122
-version: 26
+version: 27
 creation_date: '2021-08-19'
-modification_date: '2026-06-08'
+modification_date: '2026-06-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -85,6 +85,7 @@ analytic_story:
     - MuddyWater
     - Axios Supply Chain Post Compromise
     - Salat Stealer
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1059.001
