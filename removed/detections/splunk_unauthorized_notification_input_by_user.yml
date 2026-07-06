@@ -1,0 +1,39 @@
+name: Splunk Unauthorized Notification Input by User
+id: 4b7f368f-4322-47f8-8363-2c466f0b7030
+version: 5
+creation_date: '2024-07-01'
+modification_date: '2026-05-14'
+author: Rod Soto
+status: removed
+type: Hunting
+data_source:
+    - Splunk
+description: This hunting search provides information to track possible exploitation of a lower privilege user able to push notifications that may include malicious code as notifications for all users in Splunk.
+search: '| rest /services/messages | table title message severity timeCreated_iso published splunk_server author | `splunk_unauthorized_notification_input_by_user_filter`'
+how_to_implement: Requires access to Splunk rest data.
+known_false_positives: This search will produce false positives which may include benign notifications from other Splunk entities, attention to suspicious or anomalous elements in notifications helps identify actual exploitation of this vulnerability.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-0709
+tags:
+    cve:
+        - CVE-2023-33733
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1548
+    product:
+        - Splunk Enterprise
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/SVD-2024-0709_json_json.json
+            source: _json
+            sourcetype: _json
+            custom_index: _internal
+
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

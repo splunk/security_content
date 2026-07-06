@@ -1,8 +1,8 @@
 name: Attacker Tools On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-16a110145893
-version: 18
+version: 19
 creation_date: '2021-07-12'
-modification_date: '2026-05-13'
+modification_date: '2026-07-01'
 author: Bhavin Patel, Splunk, sventec, Github Community
 status: production
 type: TTP
@@ -39,9 +39,9 @@ search: |-
        Processes.process_name Processes.process_path Processes.user
        Processes.user_id Processes.vendor_product
 
+    | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `drop_dm_object_name(Processes)`
     | lookup attacker_tools attacker_tool_names AS process_name OUTPUT description
     | search description !=false
     | `attacker_tools_on_endpoint_filter`
