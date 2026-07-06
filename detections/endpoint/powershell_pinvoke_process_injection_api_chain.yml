@@ -1,8 +1,8 @@
 name: PowerShell PInvoke Process Injection API Chain
 id: 3f1a2b4c-d5e6-7890-abcd-ef1234567890
-version: 2
+version: 3
 creation_date: '2026-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -103,6 +103,7 @@ intermediate_findings:
           message: A PowerShell script Script block ID [$ScriptBlockId$] contains a possible P-Invoke process injection API chain via either inline Add-Type class declaration or direct static method invocation on [$dest$]
 analytic_story:
     - VIP Keylogger
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1055.001

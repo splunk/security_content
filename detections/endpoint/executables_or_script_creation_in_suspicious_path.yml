@@ -1,8 +1,8 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 28
+version: 29
 creation_date: '2021-05-07'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -138,6 +138,7 @@ analytic_story:
     - Void Manticore
     - Axios Supply Chain Post Compromise
     - VIP Keylogger
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1036

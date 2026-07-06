@@ -1,8 +1,8 @@
 name: Windows Unusual FileZilla XML Config Access
 id: 47dc0426-cbe4-4253-8b86-1a983c3f9951
-version: 4
+version: 5
 creation_date: '2025-07-16'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -34,6 +34,7 @@ threat_objects:
       type: process_name
 analytic_story:
     - Quasar RAT
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1552.001
