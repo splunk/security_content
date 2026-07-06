@@ -26,11 +26,12 @@ search: |-
     )
 
     | bin _time span=60s
+    | eval user = coalesce(user, auid, AUID)
 
     | stats count AS splice_count
             values(exe) AS spray_binary
             values(pid) AS spray_pid
-            values(AUID) AS user
+            values(user) AS user
             earliest(_time) AS spray_start
             latest(_time) AS spray_end
       BY auid host ses _time
