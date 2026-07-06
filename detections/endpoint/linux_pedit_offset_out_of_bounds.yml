@@ -6,7 +6,7 @@ modification_date: '2026-07-06'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description:
+description: The following detects a Linux kernel warning message containing "tc action pedit offset" and "out of bounds" logged to syslog, which indicates the act_pedit attempted to write past the bounds of an allocated packet buffer. This condition is associated with CVE-2026-46331, a kernel vulnerability that can be exploited via crafted pedit netlink configurations combined with page cache poisoning to achieve privilege escalation. The presence of this message on a host is a strong indicator that exploitation of this vulnerability, or triggering of the underlying vulnerable code path, has occurred.
 data_source:
     - Linux Messages Syslog
 search: >-
