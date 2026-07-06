@@ -1,4 +1,4 @@
-name: Linux Pedit Out Of Bounds
+name: Linux Pedit Offset Out Of Bounds
 id: 749d9bbf-cfa5-42d0-90e0-eb9300f7750a
 version: 1
 creation_date: '2026-07-06'
@@ -17,7 +17,7 @@ search: >-
     | stats count min(_time) as firstTime max(_time) as lastTime by host message
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `linux_pedit_out_of_bounds_filter`
+    | `linux_pedit_offset_out_of_bounds_filter`
 how_to_implement: To successfully implement this search, you need to have relevant kernel logs ingested with the Splunk Add-On for Unix and Linux (https://splunkbase.splunk.com/app/833).
 known_false_positives: This is generated only when the kernel's act_pedit module encounters a write outside the writable SKB region. This never occurs in normal tc pedit usage.
 references:
