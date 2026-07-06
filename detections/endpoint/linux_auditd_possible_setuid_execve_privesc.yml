@@ -1,0 +1,64 @@
+name: Linux Auditd Possible Setuid Execve Privesc
+id: e958e6ee-7c73-4eff-a4d9-43232d719b26
+version: 1
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: The following detects privilege escalation via execve (syscall 59) where a process transitions from a non-root uid to euid=0 without a corresponding successful PAM authentication event (USER_AUTH, USER_ACCT, or CRED_ACQ) in the same audit session. Legitimate privilege elevation mechanisms such as sudo, su, and pkexec authenticate through PAM and generate these audit records tied to the session ID before granting elevated privileges. The absence of a matching successful PAM event alongside an effective UID change to root is anomalous and may indicate exploitation of a setuid binary, a kernel vulnerability, or another mechanism used to escalate privileges outside the normal authentication flow.
+data_source:
+    - Linux Auditd Execve
+search: >-
+    `linux_auditd` type=SYSCALL syscall="59" uid!="0" euid="0"
+    NOT [search `linux_auditd` type IN ("USER_AUTH","USER_ACCT","CRED_ACQ") res="success"
+         | stats values(ses) as ses
+         | mvexpand ses
+         | fields ses
+         | format]
+    | rename comm as process_name, exe as process_path, ses as session_id
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by host uid euid session_id pid ppid process_name process_path
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_auditd_possible_setuid_execve_privesc_filter`
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.
+known_false_positives: Processes with an unset audit session, such as cron jobs, that legitimately drop and reacquire root privileges outside of PAM, may trigger this detection and require filtering.
+references:
+    - https://github.com/sgkdev/packet_edit_meme
+    - https://tuxcare.com/blog/pedit-cow-cve/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: $process_name$ was launched with euid 0 on [$dest$] without PAM auth.
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2026-46331
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_pedit/linux_auditd.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
