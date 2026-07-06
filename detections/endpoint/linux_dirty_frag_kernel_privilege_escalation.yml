@@ -134,12 +134,12 @@ finding:
     entity:
         field: dest
         type: system
-        score: 70
+        score: 50
 intermediate_findings:
     entities:
         - field: user
           type: user
-          score: 70
+          score: 50
           message: Local privilege escalation attempt detected on $dest$ executed by $user$ using $spray_binary$
 threat_objects:
     - field: spray_binary
