@@ -16,9 +16,9 @@ search: >-
          | mvexpand ses
          | fields ses
          | format]
-    | rename comm as process_name, exe as process_path, ses as session_id
+    | rename comm as process_name, exe as process_path, ses as session_id, host as dest
     | stats count min(_time) as firstTime max(_time) as lastTime
-        by host uid euid session_id pid ppid process_name process_path
+        by dest uid euid session_id pid ppid process_name process_path
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_auditd_possible_setuid_execve_privesc_filter`

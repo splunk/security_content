@@ -14,7 +14,8 @@ search: >-
     message="*tc action pedit offset*"
     AND
     message="*out of bounds*"
-    | stats count min(_time) as firstTime max(_time) as lastTime by host message
+    | rename host as dest
+    | stats count min(_time) as firstTime max(_time) as lastTime by dest message
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_pedit_offset_out_of_bounds_filter`
