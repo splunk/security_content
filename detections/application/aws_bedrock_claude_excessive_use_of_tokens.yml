@@ -6,7 +6,7 @@ modification_date: '2026-07-06'
 author: Rod Soto
 status: production
 type: Anomaly
-description: Detects identities generating anomalously large model responses relative to their own historical baseline. For each identity, computes the average, maximum, and standard deviation of output token counts across all invocations, then flags any identity whose single largest response exceeds three standard deviations above their own mean. A statistically significant output spike from a single identity may indicate bulk data extraction, successful prompt injection producing verbose output, or a runaway agentic loop hitting context limits.
+description: Detects identities generating anomalously large model responses relative to their own historical baseline. For each identity, computes the average, maximum, and standard deviation of output token counts across all invocations, then flags any identity whose single largest response exceeds two standard deviations above their own mean. A statistically significant output spike from a single identity may indicate bulk data extraction, successful prompt injection producing verbose output, or a runaway agentic loop hitting context limits.
 data_source:
     - AWS Bedrock Claude
 search: |-
@@ -19,7 +19,7 @@ search: |-
             stdev(out_tokens) AS stdev_out
       BY user, identity.arn
     | eval stdev_out  = coalesce(stdev_out, 0)
-    | eval threshold  = avg_out + (3 * stdev_out)
+    | eval threshold  = avg_out + (2 * stdev_out)
     | where max_out > threshold
     | table
         user,
