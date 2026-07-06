@@ -1,26 +1,32 @@
 name: Windows Powershell Logoff User via Quser
 id: 6d70780d-4cfe-4820-bafd-1b43941986b5
-version: 8
+version: 9
 creation_date: '2024-12-13'
-modification_date: '2026-05-13'
+modification_date: '2026-06-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: "The following analytic detects the process of logging off a user through the use of the quser and logoff commands. By monitoring for these commands, the analytic identifies actions where a user session is forcibly terminated, which could be part of an administrative task or a potentially unauthorized access attempt. This detection helps identify potential misuse or malicious activity where a user’s access is revoked without proper authorization, providing insight into potential security incidents involving account management or session manipulation."
+description: |-
+    The following analytic detects the process of logging off a user through the use of the quser and logoff commands.
+    By monitoring for these commands, the analytic identifies actions where a user session is forcibly terminated, which could be part of an administrative task or a potentially unauthorized access attempt.
+    This detection helps identify potential misuse or malicious activity where a user's access is revoked without proper authorization, providing insight into potential security incidents involving account management or session manipulation.
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    `powershell` EventCode=4104 ScriptBlockText = "*quser*logoff*"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_powershell_logoff_user_via_quser_filter`
+    `powershell`
+    EventCode=4104
+    ScriptBlockText = "*quser*logoff*"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest signature signature_id
+         user_id vendor_product EventID
+         Guid Opcode Name
+         Path ProcessID ScriptBlockId
+         ScriptBlockText
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_powershell_logoff_user_via_quser_filter`
 how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators or power users may use this command.
 references:
@@ -39,7 +45,11 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Powershell process having commandline [$ScriptBlockText$] used to logoff user on [$dest$].
+          message: A suspicious powershell script with the ScriptBlockId [$ScriptBlockId$] containing quser and logoff commands to potentially logoff user was executed on host $dest$
+        - field: user_id
+          type: user
+          score: 20
+          message: A suspicious powershell script with the ScriptBlockId [$ScriptBlockId$] containing quser and logoff commands to potentially logoff user was executed on host $dest$ by user $user_id$
 analytic_story:
     - Crypto Stealer
 asset_type: Endpoint

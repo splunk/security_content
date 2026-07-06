@@ -50,3 +50,70 @@ browser_process_name,browser_object_path,isAllowed
 "*opera.exe","*Opera Software\Opera GX Stable\Local State*", true
 "*yandex.exe","*Yandex\YandexBrowser\User Data\Default\Ya Passman Data*", true
 "*yandex.exe","*Yandex\YandexBrowser\User Data\Local State*", true
+"*Chrome.exe","*Google\Chrome Beta\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google\Chrome Dev\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google\Chrome Unstable\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google\Chrome Canary\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google(x86)\Chrome\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google(x86)\Chrome Beta\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google(x86)\Chrome SxS\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google(x86)\Chrome Dev\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google(x86)\Chrome Unstable\User Data\Default\Login Data*", true
+"*Chrome.exe","*Google(x86)\Chrome Canary\User Data\Default\Login Data*", true
+"*atom.exe","*Mail.Ru\Atom\User Data\Default\Login Data*", true
+"*Chromodo.exe","*Comodo\User Data\Default\Login Data*", true
+"*360chrome.exe","*360ChromeX\Chrome\User Data\Default\Login Data*", true
+"*360se.exe","*360se6\User Data\Default\Login Data*", true
+"*360se.exe","*360se\User Data\Default\Login Data*", true
+"*Maxthon.exe","*Maxthon3\User Data\Default\Login Data*", true
+"*Maxthon.exe","*Maxthon\User Data\Default\Login Data*", true
+"*Maxthon.exe","*Maxthon5\Users\*\Login Data*", true
+"*k-meleon.exe","*K-Melon\User Data\Default\Login Data*", true
+"*SLBrowser.exe","*Lenovo\SLBrowser\*\Login Data*", true
+"*Go!.exe","*Go!\User Data\Default\Login Data*", true
+"*Secure Browser.exe","*Safer Technologies\Secure Browser\User Data\Default\Login Data*", true
+"*Chromodo.exe","*Chromodo\User Data\Default\Login Data*", true
+"*yandex.exe","*Yandex\YandexBrowserCanary\User Data\Default\Ya Passman Data*", true
+"*yandex.exe","*Yandex\YandexBrowserDeveloper\User Data\Default\Ya Passman Data*", true
+"*yandex.exe","*Yandex\YandexBrowserBeta\User Data\Default\Ya Passman Data*", true
+"*yandex.exe","*Yandex\YandexBrowserTech\User Data\Default\Ya Passman Data*", true
+"*yandex.exe","*Yandex\YandexBrowserSxS\User Data\Default\Ya Passman Data*", true
+"*opera.exe","*Opera Software\Opera Stable\Login Data*", true
+"*opera.exe","*Opera Software\Opera Neon\User Data\Default\Login Data*", true
+"*opera.exe","*Opera Software\Opera Crypto Developer\Login Data*", true
+"*Elements Browser.exe","*Elements Browser\User Data\Default\Login Data*", true
+"*Mustang.exe","*Rafotech\Mustang\User Data\Default\Login Data*", true
+"*Suhba.exe","*Suhba\User Data\Default\Login Data*", true
+"*TorBro.exe","*TorBro\Profile\*\Login Data*", true
+"*RockMelt.exe","*RockMelt\User Data\Default\Login Data*", true
+"*Bromium.exe","*Bromium\User Data\Default\Login Data*", true
+"*Twinkstar.exe","*Twinkstar\User Data\Default\Login Data*", true
+"*iTop Private Browser.exe","*iTop Private Browser\User Data\Default\Login Data*", true
+"*CCleaner Browser.exe","*CCleaner Browser\User Data\Default\Login Data*", true
+"*AcWebBrowser.exe","*AcWebBrowser\User Data\Default\Login Data*", true
+"*CoolNovo.exe","*CoolNovo\User Data\Default\Login Data*", true
+"*spark.exe","*Baidu Spark\User Data\Default\Login Data*", true
+"*iron.exe","*SRWare Iron\User Data\Default\Login Data*", true
+"*Titan Browser.exe","*Titan Browser\User Data\Default\Login Data*", true
+"*AVG Browser.exe","*AVG\Browser\User Data\Default\Login Data*", true
+"*UR Browser.exe","*UR Browser\User Data\Default\Login Data*", true
+"*Flock.exe","*Flock\User Data\Default\Login Data*", true
+"*CryptoTab Browser.exe","*CryptoTab Browser\User Data\Default\Login Data*", true
+"*Sidekick.exe","*Sidekick\User Data\Default\Login Data*", true
+"*SwingBrowser.exe","*SwingBrowser\User Data\Default\Login Data*", true
+"*SalamWeb.exe","*SalamWeb\User Data\Default\Login Data*", true
+"*NetboxBrowser.exe","*NetboxBrowser\User Data\Default\Login Data*", true
+"*GarenaPlus.exe","*GarenaPlus\User Data\Default\Login Data*", true
+"*InsomniacBrowser.exe","*InsomniacBrowser\User Data\Default\Login Data*", true
+"*Viasat Browser.exe","*ViaSat\Viasat Browser\User Data\Default\Login Data*", true
+"*whale.exe","*Naver\Naver Whale\User Data\Default\Login Data*", true
+"*falkon.exe","*falkon\profiles\*\logins.json*", true
+"*SogouExplorer.exe","*SogouExplorer\Webkit\*\Login Data*", true
+"*LiebaoBrowser.exe","*liebao\User Data\Default\Login Data*", true
+"*firefox.exe","*Mozilla\Firefox\Profiles\logins.json*", true
+"*waterfox.exe","*Waterfox\Profiles\logins.json*", true
+"*k-meleon.exe","*K-Meleon\Profiles\logins.json*", true
+"*thunderbird.exe","*Thunderbird\Profiles\logins.json*", true
+"*BlackHawk.exe","*NETGATE Technologies\BlackHawk\Profiles\logins.json*", true
+"*basilisk.exe","*Moonchild Productions\Basilisk\Profiles\logins.json*", true
+"*BitTubeBrowser.exe","*BitTube\BitTubeBrowser\Profiles\logins.json*", true
