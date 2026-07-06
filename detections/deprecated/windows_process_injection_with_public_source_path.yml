@@ -1,10 +1,10 @@
 name: Windows Process Injection With Public Source Path
 id: 492f09cf-5d60-4d87-99dd-0bc325532dda
-version: 10
+version: 11
 creation_date: '2022-09-05'
-modification_date: '2026-05-13'
+modification_date: '2026-06-29'
 author: Teoderick Contreras, Splunk
-status: production
+status: deprecated
 type: Hunting
 description: The following analytic detects a process from a non-standard file path on Windows attempting to create a remote thread in another process. This is identified using Sysmon EventCode 8, focusing on processes not originating from typical system directories. This behavior is significant as it often indicates process injection, a technique used by adversaries to evade detection or escalate privileges. If confirmed malicious, this activity could allow an attacker to execute arbitrary code within another process, potentially leading to unauthorized actions and further compromise of the system.
 data_source:
@@ -17,6 +17,7 @@ references:
 analytic_story:
     - Brute Ratel C4
     - Earth Alux
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1055.002
@@ -33,3 +34,7 @@ tests:
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
+deprecation_info:
+    reason: Detection has been deprecated. The search is not helpful for the user to implement nor use, as it will generate too many false positives.
+    removed_in_version: 6.4.0
+    replacement_content: []

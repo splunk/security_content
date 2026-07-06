@@ -1,8 +1,8 @@
 name: Windows Process Injection Remote Thread
 id: 8a618ade-ca8f-4d04-b972-2d526ba59924
-version: 13
+version: 14
 creation_date: '2022-10-28'
-modification_date: '2026-05-13'
+modification_date: '2026-06-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -33,14 +33,12 @@ search: |-
     )
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
-    by EventID Guid NewThreadId ProcessID SecurityID SourceImage
-       SourceProcessGuid SourceProcessId StartAddress StartFunction
-       StartModule TargetImage TargetProcessGuid TargetProcessId UserID
-       dest parent_process_exec parent_process_guid parent_process_id
-       parent_process_name parent_process_path process_exec process_guid
-       process_id process_name process_path signature signature_id
-       user_id vendor_product
-
+                  values(NewThreadId) as "NewThreadId"
+                  values(StartAddress) as "StartAddress"
+      by dest signature_id signature
+         SourceProcessGuid SourceProcessId SourceImage
+         TargetProcessGuid TargetProcessId TargetImage
+         StartModule StartFunction vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_process_injection_remote_thread_filter`
@@ -73,6 +71,7 @@ analytic_story:
     - Warzone RAT
     - Earth Alux
     - Water Gamayun
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1055.002

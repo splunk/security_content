@@ -1,8 +1,8 @@
 name: Windows Powershell Cryptography Namespace
 id: f8b482f4-6d62-49fa-a905-dfa15698317b
-version: 15
+version: 16
 creation_date: '2023-01-26'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -48,6 +48,7 @@ analytic_story:
     - AsyncRAT
     - XWorm
     - VIP Keylogger
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1059.001
