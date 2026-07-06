@@ -163,7 +163,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/dirty_frag/dirty_frag_events_trimmed.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_dirtyfrag/dirty_frag_events_trimmed.log
           source: auditd
           sourcetype: auditd
       test_type: unit
