@@ -1,8 +1,8 @@
 name: AWS Bedrock Claude High Risk Filesystem and Exec Tool Invocation
 id: 989b3702-1df3-4076-9e2f-8dcbcc2b4bef
-version: 1
+version: 2
 creation_date: '2026-05-28'
-modification_date: '2026-06-08'
+modification_date: '2026-07-06'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -104,12 +104,13 @@ search: |-
         last_seen
     | sort -risk_score, -unique_tools_used, -invocations
     | `aws_bedrock_claude_high_risk_filesystem_and_exec_tool_invocation_filter`
-how_to_implement: You must install and configure the Splunk Add-on for AWS. Enable AWS Bedrock Claude logging and configure the `aws_bedrock_claude` macro to point to the appropriate index and sourcetype.
+how_to_implement: You must install and configure the Splunk Add-on for AWS (https://splunkbase.splunk.com/app/1876). Enable Amazon Bedrock model invocation logging in AWS so that Claude request/response payloads are delivered to S3 and/or CloudWatch Logs (see https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html for setup steps), then ingest those logs into Splunk via the AWS TA. Configure the `aws_bedrock_claude` macro to point to the index and sourcetype (`json_no_timestamp`) where these logs land.
 known_false_positives: This detection may produce false positives for legitimate developer activity where authorized users invoke shell execution, file write, or network tools through Claude Code as part of normal software development, deployment automation, or infrastructure management workflows.
 references:
     - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
     - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
     - https://research.splunk.com/stories/aws_bedrock_security/
+    - https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html
 drilldown_searches:
     - name: View the detection results for - "$user$"
       search: '%original_detection_search% | search user="$user$"'
@@ -142,5 +143,5 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_high_risk_filesystem_and_exec_tool_invocation.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
-      test_type: experimental
-      description: This test is a legacy experimental test and may not be accurate.
+      test_type: unit
+      description: This test simulates identities invoking high-risk tools (bash, curl, edit, write) through AWS Bedrock Claude and verifies the detection surfaces the expected risk score and reason.

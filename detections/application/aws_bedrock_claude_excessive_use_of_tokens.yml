@@ -1,8 +1,8 @@
 name: AWS Bedrock Claude excessive use of tokens
 id: a839a6f7-aaac-438b-9d99-be0b49481e17
-version: 1
+version: 2
 creation_date: '2026-05-28'
-modification_date: '2026-06-08'
+modification_date: '2026-07-06'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -19,7 +19,7 @@ search: |-
             stdev(out_tokens) AS stdev_out
       BY user, identity.arn
     | eval stdev_out  = coalesce(stdev_out, 0)
-    | eval threshold  = avg_out + (2 * stdev_out)
+    | eval threshold  = avg_out + (3 * stdev_out)
     | where max_out > threshold
     | table
         user,
@@ -31,12 +31,13 @@ search: |-
         threshold
     | sort -max_out
     | `aws_bedrock_claude_excessive_use_of_tokens_filter`
-how_to_implement: You must install and configure the Splunk Add-on for AWS. Enable AWS Bedrock Claude logging and configure the `aws_bedrock_claude` macro to point to the appropriate index and sourcetype.
+how_to_implement: You must install and configure the Splunk Add-on for AWS (https://splunkbase.splunk.com/app/1876). Enable Amazon Bedrock model invocation logging in AWS so that Claude request/response payloads are delivered to S3 and/or CloudWatch Logs (see https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html for setup steps), then ingest those logs into Splunk via the AWS TA. Configure the `aws_bedrock_claude` macro to point to the index and sourcetype (`json_no_timestamp`) where these logs land.
 known_false_positives: This detection may produce false positives for identities with low invocation history, legitimate large document summarization tasks, or automated pipeline sessions with naturally variable output token counts.
 references:
     - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
     - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
     - https://research.splunk.com/stories/aws_bedrock_security/
+    - https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html
 drilldown_searches:
     - name: View the detection results for - "$user$"
       search: '%original_detection_search% | search user="$user$"'
@@ -69,5 +70,5 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_excessive_use_of_tokens.ndjson
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
-      test_type: experimental
-      description: This test is a legacy experimental test and may not be accurate.
+      test_type: unit
+      description: This test simulates an identity generating an output token spike above its own baseline and verifies the detection flags it.
