@@ -1,174 +1,169 @@
 name: Linux Dirty Frag Kernel Privilege Escalation
 id: 517e7bf8-d0aa-46ac-80e1-f9f498944b71
 version: 1
-creation_date: "2026-05-20"
-modification_date: "2026-06-14"
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
 author: Axsel Riando Soplanit, Alexander Wijaya, Matthew Roytua, Muhammad Rafdi Aufar Ahmad, Brian Stevan Ambarita, Ensign Infosecurity
-status: experimental
+status: production
 type: TTP
-description:
-  The following analytic detects exploitation of Dirty Frag (CVE-2026-43284
-  and CVE-2026-43500), a Linux kernel local privilege escalation vulnerability disclosed
-  in May 2026 and exploited in the wild within 24 hours of public release. Dirty Frag
-  is a successor to Copy Fail (CVE-2026-31431) and bypasses the Copy Fail mitigation;
-  operators who blocklisted the AF_ALG algif modules remain vulnerable. The exploit
-  corrupts the kernel page cache via the IPsec ESP or RxRPC subsystems using a high-frequency
-  splice() syscall loop, followed by a privilege transition to root in the same audit
-  session. This analytic anchors on the exploit-specific behavioral signature observed
-  by Microsoft Defender and validated against the public proof-of-concept (V4bel/dirtyfrag)
-  in lab conditions, a sustained splice() spray (50 or more calls within a 60-second
-  window) from an unprivileged process executing from a user-writable path (/home,
-  /tmp, /dev/shm, /var/tmp, /run/user, /root), followed within 5 minutes by execution
-  of /usr/bin/su in the same auditd session. The splice-on-userpath behavior is the
-  unique behavioral signature that distinguishes Dirty Frag from non-exploit privilege
-  escalation. User-mode EDR products do not reliably observe page-cache corruption
-  because it occurs entirely in kernel mode; auditd-forwarded telemetry is the most
-  reliable detection layer for this vulnerability family. The detection reuses the
-  same auditd keys (splice_user, process_creation) as the existing ESCU Copy Fail
-  analytic, requiring no new audit telemetry beyond enabling the splice_user overlay
-  already shipped (commented) in the Neo23x0 recommended ruleset.
-
+description: |-
+    The following analytic detects exploitation of Dirty Frag (CVE-2026-43284 and CVE-2026-43500), a Linux kernel local privilege escalation vulnerability.
+    The exploit corrupts the kernel page cache via the IPsec ESP or RxRPC subsystems using a high-frequency splice() syscall loop, followed by a privilege transition to root in the same audit session.
+    This analytic anchors on the exploit-specific behavioral signature, a sustained splice() spray (50 or more calls within a 60-second window) from an unprivileged process executing from a user-writable path (/home, /tmp, /dev/shm, /var/tmp, /run/user, /root), followed within 5 minutes by execution of a set-uid binary in the same auditd session.
 data_source:
-  - Linux Auditd Syscall
+    - Linux Auditd Syscall
 search: |-
-  `linux_auditd` type=SYSCALL key=splice_user (exe="/home/*" OR exe="/tmp/*" OR exe="/var/tmp/*" OR exe="/dev/shm/*" OR exe="/run/user/*" OR exe="/root/*")
-  | bin _time span=60s
-  | stats count AS splice_count values(exe) AS spray_binary values(pid) AS spray_pid values(AUID) AS user earliest(_time) AS spray_start latest(_time) AS spray_end
-    BY auid, host, ses, _time
-  | where splice_count >= 50
-  | join type=inner auid, host, ses [
-      search `linux_auditd` type=SYSCALL key=process_creation exe="/usr/bin/su"
-      | stats earliest(_time) AS privesc_time values(exe) AS privesc_binary values(comm) AS privesc_comm values(ppid) AS privesc_ppid BY auid, host, ses
-    ]
-  | eval window_secs = privesc_time - spray_end
-  | where window_secs >= 0 AND window_secs <= 300
-  | `security_content_ctime(spray_start)`
-  | `security_content_ctime(spray_end)`
-  | `security_content_ctime(privesc_time)`
-  | rename host AS dest
-  | table dest, user, auid, ses, spray_binary, spray_pid, splice_count, spray_start, spray_end, privesc_binary, privesc_comm, privesc_ppid, privesc_time, window_secs
-  | `linux_dirty_frag_kernel_privilege_escalation_filter`
-how_to_implement: This analytic requires Linux auditd telemetry forwarded to Splunk
-  via the Splunk_TA_nix add-on with the linux_audit sourcetype (referenced through
-  the linux_auditd macro). The detection depends on two audit rule keys, both of which
-  are standard in the Neo23x0 recommended ruleset (https://github.com/Neo23x0/auditd)
-  and the existing ESCU Copy Fail analytic (Linux Auditd Copy Fail Privilege Escalation),
-  so no detection-specific custom keys are introduced.
- 
- 
-  PREREQUISITE 1; splice_user key. The Neo23x0 ruleset ships a commented-out splice_user
-  overlay that must be enabled for this detection to fire. In /etc/audit/rules.d/audit.rules
-  (or your local override file), uncomment or add the two lines;
- 
- 
-  -a always,exit -F arch=b64 -S splice -S vmsplice -F success=1 -F auid>=1000 -F auid!=unset
-  -k splice_user
- 
-  -a always,exit -F arch=b32 -S splice -S vmsplice -F success=1 -F auid>=1000 -F auid!=unset
-  -k splice_user
- 
- 
-  Florian Roth (Neo23x0) keeps this overlay disabled by default because splice() can
-  be high-volume on some systems. Operators should baseline splice volume in their
-  environment before enabling. Hosts running heavy zero-copy I/O workloads (specific
-  web servers, mail transfer agents, container runtimes) may need additional filtering
-  via the analytic filter macro. The same overlay is already documented as a prerequisite
-  by the existing ESCU Linux Auditd Copy Fail Privilege Escalation analytic, so operators
-  who enabled splice_user for Copy Fail coverage gain Dirty Frag coverage automatically.
- 
- 
-  PREREQUISITE 2; process_creation key. The Neo23x0 ruleset ships execve and execveat
-  syscall capture scoped to interactive user sessions (auid>=1000, auid!=unset) under
-  the process_creation key. This is enabled by default in current Neo23x;
- 
- 
-  -a always,exit -F arch=b64 -S execve -S execveat -F auid>=1000 -F auid!=unset -k
-  process_creation
- 
-  -a always,exit -F arch=b32 -S execve -S execveat -F auid>=1000 -F auid!=unset -k
-  process_creation
- 
- 
-  Operators using the Neo23x0 baseline require no action for this prerequisite. Operators
-  using legacy rulesets that include file watches (-w /usr/bin/su -p x -k <key>) should
-  remove or rename those watches, because file watches take precedence over syscall
-  rules in auditd and will claim the su execve event under a different key, preventing
-  this detection from matching. Removing the legacy -w watches and relying on the
-  Neo23x0 syscall-based process_creation rule is the recommended migration path.
- 
- 
-  After deploying both rules, reload auditd with augenrules --load and verify with
-  auditctl -l | grep -E "splice_user|process_creation". Splunk_TA_nix will then ingest
-  events under the linux_audit sourcetype and this analytic will match.
-known_false_positives: The splice volume threshold (50 calls per 60 seconds from a
-  single process in a user-writable path) is calibrated against the V4bel public PoC,
-  which produces 100-460 splice calls in 90 seconds depending on system state. Legitimate
-  user-mode workloads that may produce splice() calls (web servers, mail transfer
-  agents, language runtimes) typically execute from system paths (/usr/sbin, /usr/bin,
-  /usr/lib) and are excluded by the user-writable path filter. Custom-compiled applications,
-  developer test binaries, or container runtimes executing from /home or /tmp could
-  theoretically reach the volume threshold during legitimate I/O-heavy workloads (large
-  file copies, log rotation, archive operations). Operators should baseline splice
-  volume in their environment before enabling as a notable event. If false positives
-  occur, add an allowlist of trusted binary paths via the linux_dirty_frag_kernel_privilege_escalation_filter
-  macro, or raise the splice_count threshold based on observed legitimate-workload
-  baseline. The join on auid+host+ses with a 5-minute window to /usr/bin/su substantially
-  reduces false positives, as legitimate high-volume splice workloads rarely terminate
-  in an su invocation in the same audit session by the same user.
+    `linux_auditd`
+    type=SYSCALL
+    key=splice_user
+    exe IN (
+        "/home/*",
+        "/tmp/*",
+        "/var/tmp/*",
+        "/dev/shm/*",
+        "/run/user/*",
+        "/root/*"
+    )
 
+    | bin _time span=60s
+
+    | stats count AS splice_count
+            values(exe) AS spray_binary
+            values(pid) AS spray_pid
+            values(AUID) AS user
+            earliest(_time) AS spray_start
+            latest(_time) AS spray_end
+      BY auid host ses _time
+
+    | where splice_count >= 50
+
+    | join type=inner auid host ses [
+        search `linux_auditd`
+        type=SYSCALL
+        key=process_creation
+        exe IN (
+            "/usr/bin/chfn",
+            "/usr/bin/chsh",
+            "/usr/bin/fusermount3",
+            "/usr/bin/gpasswd",
+            "/usr/bin/mount",
+            "/usr/bin/newgrp",
+            "/usr/bin/passwd",
+            "/usr/bin/su",
+            "/usr/bin/sudo",
+            "/usr/bin/umount",
+            "/usr/lib/dbus-1.0/dbus-daemon-launch-helper",
+            "/usr/lib/landscape/apt-update",
+            "/usr/lib/openssh/ssh-keysign",
+            "/usr/lib/polkit-1/polkit-agent-helper-1"
+        )
+
+        | stats earliest(_time) AS privesc_time
+                values(exe) AS privesc_binary
+                values(comm) AS privesc_comm
+                values(ppid) AS privesc_ppid
+          BY auid host ses
+    ]
+
+    | eval window_secs = privesc_time - spray_end
+    | where window_secs >= 0 AND window_secs <= 300
+
+    | `security_content_ctime(spray_start)`
+    | `security_content_ctime(spray_end)`
+    | `security_content_ctime(privesc_time)`
+
+    | rename host AS dest
+
+    | table dest user auid ses spray_binary spray_pid
+            splice_count spray_start spray_end privesc_binary
+            privesc_comm privesc_ppid privesc_time window_secs
+
+    | `linux_dirty_frag_kernel_privilege_escalation_filter`
+how_to_implement: |-
+    This analytic requires Linux auditd telemetry forwarded to Splunk
+    via the Splunk_TA_nix add-on with the linux_audit sourcetype (referenced through
+    the linux_auditd macro).
+
+    The detection depends on two audit rule keys, both of which
+    are standard in the Neo23x0 recommended ruleset (https://github.com/Neo23x0/auditd)
+    and the existing ESCU Copy Fail analytic (Linux Auditd Copy Fail Privilege Escalation),
+    so no detection-specific custom keys are introduced.
+
+
+    PREREQUISITE 1; splice_user key.
+
+    -a always,exit -F arch=b64 -S splice -S vmsplice -F success=1 -F auid>=1000 -F auid!=unset
+    -k splice_user
+    -a always,exit -F arch=b32 -S splice -S vmsplice -F success=1 -F auid>=1000 -F auid!=unset
+    -k splice_user
+
+    Operators should baseline splice volume in their environment before enabling.
+    Hosts running heavy zero-copy I/O workloads (specific: web servers, mail transfer agents, container runtimes) may need additional filtering.
+
+    PREREQUISITE 2; process_creation key.
+
+    -a always,exit -F arch=b64 -S execve -S execveat -F auid>=1000 -F auid!=unset -k
+    process_creation
+    -a always,exit -F arch=b32 -S execve -S execveat -F auid>=1000 -F auid!=unset -k
+    process_creation
+known_false_positives: |-
+    The splice volume threshold (50 calls per 60 seconds from a single process in a user-writable path) is calibrated against the V4bel public PoC, which produces 100-460 splice calls in 90 seconds depending on system state.
+    Legitimate user-mode workloads that may produce splice() calls (web servers, mail transfer agents, language runtimes) typically execute from system paths (/usr/sbin, /usr/bin, /usr/lib) and are excluded by the user-writable path filter.
+    Custom-compiled applications, developer test binaries, or container runtimes executing from /home or /tmp could theoretically reach the volume threshold during legitimate I/O-heavy workloads (large file copies, log rotation, archive operations).
+    Operators should baseline splice volume in their environment before enabling as a notable event. If false positives occur, add an allowlist of trusted binary paths via the linux_dirty_frag_kernel_privilege_escalation_filter macro, or raise the splice_count threshold based on observed legitimate-workload baseline.
 references:
-  - https://www.cve.org/CVERecord?id=CVE-2026-43284
-  - https://www.cve.org/CVERecord?id=CVE-2026-43500
-  - https://www.cve.org/CVERecord?id=CVE-2026-31431
-  - https://github.com/V4bel/dirtyfrag
-  - https://www.openwall.com/lists/oss-security/2026/05/07/8
-  - https://www.microsoft.com/en-us/security/blog/2026/05/08/active-attack-dirty-frag-linux-vulnerability-expands-post-compromise-risk/
-  - https://attack.mitre.org/techniques/T1068/
-  - https://attack.mitre.org/techniques/T1548/001/
+    - https://www.cve.org/CVERecord?id=CVE-2026-43284
+    - https://www.cve.org/CVERecord?id=CVE-2026-43500
+    - https://www.cve.org/CVERecord?id=CVE-2026-31431
+    - https://github.com/V4bel/dirtyfrag
+    - https://www.openwall.com/lists/oss-security/2026/05/07/8
+    - https://www.microsoft.com/en-us/security/blog/2026/05/08/active-attack-dirty-frag-linux-vulnerability-expands-post-compromise-risk/
+    - https://attack.mitre.org/techniques/T1068/
+    - https://attack.mitre.org/techniques/T1548/001/
 drilldown_searches:
-  - name: View the detection results for - "$dest$" and "$user$"
-    search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: 7d
-    latest_offset: "0"
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 finding:
-  title: Local privilege escalation attempt detected on $dest$ executed by $user$ using $spray_binary$
-  entity:
-    field: dest
-    type: system
-    score: 70
+    title: Local privilege escalation attempt detected on $dest$ executed by $user$ using $spray_binary$
+    entity:
+        field: dest
+        type: system
+        score: 70
 intermediate_findings:
-  entities:
-    - field: user
-      type: user
-      score: 70
-      message: Local privilege escalation attempt detected on $dest$ executed by $user$ using $spray_binary$
+    entities:
+        - field: user
+          type: user
+          score: 70
+          message: Local privilege escalation attempt detected on $dest$ executed by $user$ using $spray_binary$
 threat_objects:
-  - field: spray_binary
-    type: process_name
+    - field: spray_binary
+      type: process_name
 analytic_story:
-  - Linux Privilege Escalation
+    - Linux Privilege Escalation
 asset_type: Endpoint
 cve:
-  - CVE-2026-43284
-  - CVE-2026-43500
-  - CVE-2026-31431
+    - CVE-2026-43284
+    - CVE-2026-43500
+    - CVE-2026-31431
 mitre_attack_id:
-  - T1548.001
-  - T1068
+    - T1548.001
+    - T1068
 product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
 category: endpoint
 security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/dirty_frag/dirty_frag_events_trimmed.log
-        source: /var/log/audit/audit.log
-        sourcetype: linux_audit
-    test_type: unit
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/dirty_frag/dirty_frag_events_trimmed.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
