@@ -10,12 +10,9 @@ description: The following detects a Linux kernel warning message containing "tc
 data_source:
     - Linux Messages Syslog
 search: >-
-    sourcetype="linux_messages_syslog"
-    message="*tc action pedit offset*"
-    AND
-    message="*out of bounds*"
+    sourcetype="linux_messages_syslog" "*tc action pedit offset*" "*out of bounds*"
     | rename host as dest
-    | stats count min(_time) as firstTime max(_time) as lastTime by dest message
+    | stats count min(_time) as firstTime max(_time) as lastTime by dest _raw
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_pedit_offset_out_of_bounds_filter`
@@ -56,6 +53,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_pedit/syslog.log
-          source: /var/log/syslog
+          source: /var/log/kern
           sourcetype: linux_messages_syslog
       test_type: unit
