@@ -1,8 +1,8 @@
 name: Short Lived Scheduled Task
 id: 6fa31414-546e-11ec-adfa-acde48001122
-version: 11
+version: 12
 creation_date: '2021-12-03'
-modification_date: '2026-05-13'
+modification_date: '2026-07-07'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,13 +12,12 @@ data_source:
     - Windows Event Log Security 4699
 search: |-
     `wineventlog_security` EventCode=4698 OR EventCode=4699
-      | xmlkv Message
-      | transaction Task_Name  startswith=(EventCode=4698) endswith=(EventCode=4699)
-      | eval short_lived=case((duration<30),"TRUE")
-      | search  short_lived = TRUE
-      | rename ComputerName as dest
-      | table _time, dest, Account_Name, Command, Task_Name, short_lived
-      | `short_lived_scheduled_task_filter`
+    | xmlkv object_attrs
+    | transaction TaskName dest startswith=(EventCode=4698) endswith=(EventCode=4699) maxspan=30s
+    | stats count, min(_time) AS firstTime, max(_time) AS lastTime by Command, TaskName, user, dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `short_lived_scheduled_task_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
 known_false_positives: Although uncommon, legitimate applications may create and delete a Scheduled Task within 30 seconds. Filter as needed.
 references:
