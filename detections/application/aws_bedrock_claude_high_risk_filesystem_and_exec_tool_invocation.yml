@@ -1,0 +1,146 @@
+name: AWS Bedrock Claude High Risk Filesystem and Exec Tool Invocation
+id: 989b3702-1df3-4076-9e2f-8dcbcc2b4bef
+version: 1
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
+author: Rod Soto
+status: production
+type: Anomaly
+description: Detects identities invoking high-risk filesystem and execution tools via AWS Bedrock Claude. For each identity, monitors the usage of potentially dangerous commands and flags any anomalous activity that deviates from their historical baseline. This may indicate attempts to escalate privileges, exfiltrate data, or execute unauthorized commands.
+data_source:
+    - AWS Bedrock Claude
+search: |-
+    `aws_bedrock_claude`
+    | spath output="tool_called"       path="output.outputBodyJson{}.content_block.toolUse.name"
+    | spath output="out_tokens_stream"  path="output.outputBodyJson{}.usage.output_tokens"
+    | where tool_called IN ("bash", "curl", "edit", "write", "webfetch", "grep", "read", "read_file")
+    | eval out_tokens    = coalesce(mvindex('out_tokens_stream', -1), 'output.outputBodyJson.usage.output_tokens', 'output.outputBodyJson.usage.outputTokens', 0)
+    | eval in_tokens     = coalesce('input.inputTokenCount', 0)
+    | eval user_session  = replace('identity.arn', ".*/", "")
+    | eval identity_type = case(
+        'identity.arn' LIKE "%botocore-session%", "automated",
+        'identity.arn' LIKE "%assumed-role%",     "assumed_role",
+        'identity.arn' LIKE "%user%",             "iam_user",
+        true(),                                    "other"
+      )
+    | stats
+        count                   AS invocations,
+        dc(tool_called)         AS unique_tools_used,
+        sum(in_tokens)          AS total_input_tokens,
+        sum(out_tokens)         AS total_output_tokens,
+        values(tool_called)     AS tools_invoked,
+        values(identity.arn)    AS caller_list,
+        values(user_session)    AS user_sessions,
+        values(identity_type)   AS identity_types,
+        dc(identity.arn)        AS unique_callers,
+        min(_time)              AS first_seen,
+        max(_time)              AS last_seen
+      BY modelId, region
+    | eval tokens_per_call = round(total_output_tokens / invocations, 0)
+    | eval first_seen      = strftime(first_seen - 28800, "%Y-%m-%d %H:%M:%S")
+    | eval last_seen       = strftime(last_seen  - 28800, "%Y-%m-%d %H:%M:%S")
+    | eval user            = mvjoin(user_sessions, ", ")
+    | eval risk_score = case(
+        mvfind(tools_invoked, "bash") >= 0
+            AND mvfind(tools_invoked, "curl") >= 0,                         "CRITICAL",
+        mvfind(tools_invoked, "bash") >= 0
+            AND mvfind(tools_invoked, "write") >= 0,                        "CRITICAL",
+        mvfind(tools_invoked, "curl") >= 0
+            AND mvfind(tools_invoked, "edit") >= 0,                         "CRITICAL",
+        mvfind(identity_types, "assumed_role") >= 0
+            AND mvfind(tools_invoked, "bash") >= 0,                         "CRITICAL",
+        mvfind(tools_invoked, "bash") >= 0,                                 "HIGH",
+        mvfind(tools_invoked, "curl") >= 0,                                 "HIGH",
+        mvfind(tools_invoked, "edit") >= 0,                                 "HIGH",
+        mvfind(tools_invoked, "write") >= 0,                                "HIGH",
+        mvfind(tools_invoked, "webfetch") >= 0,                             "HIGH",
+        unique_tools_used >= 3,                                             "HIGH",
+        true(),                                                             "MEDIUM"
+      )
+    | eval risk_reason = case(
+        mvfind(tools_invoked, "bash") >= 0
+            AND mvfind(tools_invoked, "curl") >= 0,
+            "bash and curl invoked together - possible download and execute chain",
+        mvfind(tools_invoked, "bash") >= 0
+            AND mvfind(tools_invoked, "write") >= 0,
+            "bash and write invoked together - possible execution and persistence chain",
+        mvfind(tools_invoked, "curl") >= 0
+            AND mvfind(tools_invoked, "edit") >= 0,
+            "curl and edit invoked together - possible remote content retrieval and file modification",
+        mvfind(identity_types, "assumed_role") >= 0
+            AND mvfind(tools_invoked, "bash") >= 0,
+            "Human identity invoking bash via AI model - direct shell execution risk",
+        mvfind(tools_invoked, "bash") >= 0,
+            "bash invoked via Bedrock Claude - shell execution through AI model",
+        mvfind(tools_invoked, "curl") >= 0,
+            "curl invoked via Bedrock Claude - network call through AI model",
+        mvfind(tools_invoked, "edit") >= 0,
+            "edit invoked via Bedrock Claude - file modification through AI model",
+        mvfind(tools_invoked, "write") >= 0,
+            "write invoked via Bedrock Claude - file write through AI model",
+        mvfind(tools_invoked, "webfetch") >= 0,
+            "webfetch invoked via Bedrock Claude - remote content retrieval through AI model",
+        unique_tools_used >= 3,
+            "Broad filesystem and execution tool set invoked via AI model - reconnaissance pattern",
+        true(),
+            "Filesystem tool invoked via Bedrock Claude"
+      )
+    | table
+        risk_score,
+        risk_reason,
+        modelId,
+        region,
+        unique_callers,
+        unique_tools_used,
+        user,
+        caller_list,
+        identity_types,
+        invocations,
+        tools_invoked,
+        total_input_tokens,
+        total_output_tokens,
+        tokens_per_call,
+        first_seen,
+        last_seen
+    | sort -risk_score, -unique_tools_used, -invocations
+    | `aws_bedrock_claude_high_risk_filesystem_and_exec_tool_invocation_filter`
+how_to_implement: You must install and configure the Splunk Add-on for AWS (https://splunkbase.splunk.com/app/1876). Enable Amazon Bedrock model invocation logging in AWS so that Claude request/response payloads are delivered to S3 and/or CloudWatch Logs (see https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html for setup steps), then ingest those logs into Splunk via the AWS TA. Configure the `aws_bedrock_claude` macro to point to the index and sourcetype (`json_no_timestamp`) where these logs land.
+known_false_positives: This detection may produce false positives for legitimate developer activity where authorized users invoke shell execution, file write, or network tools through Claude Code as part of normal software development, deployment automation, or infrastructure management workflows.
+references:
+    - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
+    - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
+    - https://research.splunk.com/stories/aws_bedrock_security/
+    - https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html
+drilldown_searches:
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search user="$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 50
+          message: Identity $user$ invoked high-risk filesystem and execution tools $tools_invoked$ via AWS Bedrock Claude with risk score $risk_score$ and reason $risk_reason$.
+analytic_story:
+    - Suspicious AWS Bedrock Claude Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1055
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_high_risk_filesystem_and_exec_tool_invocation.ndjson
+          sourcetype: json_no_timestamp
+          source: http:bulkawsbedrock
+      test_type: unit

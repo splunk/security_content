@@ -1,0 +1,66 @@
+name: AWS Bedrock Claude Sensitive Data in Prompts
+id: 39346724-a73a-4e01-8e93-4f4791e1a0bb
+version: 1
+author: Rod Soto
+status: production
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
+data_source:
+    - AWS Bedrock Claude
+type: Anomaly
+description: This detection identifies sensitive data such as social security numbers, passwords, API keys, and credit card numbers being sent in prompts to AWS Bedrock Claude models. Exposure of sensitive data through AI prompts may indicate data loss, credential leakage, or insider threat activity.
+search: |-
+    `aws_bedrock_claude`
+    | rename "identity.arn" AS user_arn, "input.inputBodyJson.messages{}.content{}.text" AS prompt_mv, "accountId" AS account_id
+    | eval prompt_text = mvjoin(prompt_mv, " || ")
+    | where isnotnull(prompt_text) AND isnotnull(user_arn)
+    | rex field=user_arn "(?:assumed-role/[^/]+|user)/(?<user>[^\"/]+)$"
+    | where match(prompt_text,"\b(AKIA|ASIA|AROA)[0-9A-Z]{16}\b|gh[pousr]_[A-Za-z0-9]{36}|xox[bpars]-[0-9A-Za-z-]{10,72}|sk_live_[0-9A-Za-z]{24,}|sk-(ant-)?[A-Za-z0-9-]{20,}|AIza[0-9A-Za-z_-]{35}|-----BEGIN[ A-Z]*PRIVATE KEY-----")
+    OR match(prompt_text,"(?i)\b(pass(word|wd)?|pwd|secret[_-]?key|access[_-]?key|api[_-]?key|private[_-]?key)\b\s*[:=]\s*[^\s\"']{6,}")
+    OR match(prompt_text,"(?i)\bbearer\s+[A-Za-z0-9._-]{20,}")
+    OR match(prompt_text,"(?i)\b(ssn|social\s*security)\b.{0,20}\d{3}-\d{2}-\d{4}")
+    OR match(prompt_text,"\b(?!000|666|9\d\d)\d{3}-(?!00)\d{2}-(?!0000)\d{4}\b")
+    OR match(prompt_text,"\b(4\d{3}|5[1-5]\d{2}|6011)(?:[ -]?\d{4}){3}\b|\b3[47]\d{2}[ -]?\d{6}[ -]?\d{5}\b")
+    | table _time, user, user_arn, account_id, modelId, prompt_text, host
+    | sort - _time
+    | `aws_bedrock_claude_sensitive_data_in_prompts_filter`
+how_to_implement: You must install and configure the Splunk Add-on for AWS (https://splunkbase.splunk.com/app/1876). Enable Amazon Bedrock model invocation logging in AWS so that Claude request/response payloads are delivered to S3 and/or CloudWatch Logs (see https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html for setup steps), then ingest those logs into Splunk via the AWS TA. Configure the `aws_bedrock_claude` macro to point to the index and sourcetype (`json_no_timestamp`) where these logs land.
+known_false_positives: Some false positives may arise from legitimate user interactions with the AI model that contain sensitive data for testing or demonstration purposes. It is important to review the context of the detected prompts to determine if they represent actual sensitive data exposure or benign usage.
+references:
+    - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
+    - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
+    - https://research.splunk.com/stories/aws_bedrock_security/
+    - https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html
+drilldown_searches:
+    - name: View the detection results for - "$host$"
+      search: '%original_detection_search% | search host="$host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: host
+          type: system
+          score: 20
+          message: Sensitive data detected in prompt on $host$ with $user_arn$ (account $account_id$) to model $modelId$. The prompt may contain credentials, SSNs, or other sensitive information.
+analytic_story:
+    - Suspicious AWS Bedrock Claude Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1055
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_sensitive_data_in_prompts.ndjson
+          sourcetype: json_no_timestamp
+          source: http:bulkawsbedrock
