@@ -22,7 +22,6 @@ search: |-
         'identity.arn' LIKE "%assumed-role%",     "assumed_role",
         'identity.arn' LIKE "%user%",             "iam_user",
         true(),                                    "other")
-    | bin _time span=1h
     | stats
         count                  AS invocations,
         dc(tool_called)        AS unique_tools_used,
@@ -34,7 +33,7 @@ search: |-
         dc('identity.arn')     AS unique_callers,
         min(_time)             AS first_seen,
         max(_time)             AS last_seen
-      BY modelId, region, user_session, _time
+      BY modelId, region, user_session
     | eval tokens_per_call = round(total_output_tokens / invocations, 0)
     | eval first_seen = strftime(first_seen - 28800, "%Y-%m-%d %H:%M:%S")
     | eval last_seen  = strftime(last_seen  - 28800, "%Y-%m-%d %H:%M:%S")
@@ -88,7 +87,7 @@ intermediate_findings:
         - field: user
           type: user
           score: 50
-          message: Identity $user$ invoked high-risk filesystem and execution tools $tools_invoked$ via AWS Bedrock Claude with risk score $risk_score$ and reason $risk_reason$.
+          message: Identity $user$ invoked high-risk filesystem and execution tools $tools_invoked$ via AWS Bedrock Claude with severity $severity$ and reason $risk_reason$.
 analytic_story:
     - Suspicious AWS Bedrock Claude Activities
 asset_type: Web Application
