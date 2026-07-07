@@ -1,7 +1,7 @@
 name: AWS Bedrock Claude Hostile Prompt Sentiment
 id: 54734442-955a-4427-9a86-2d9712151067
-version: 2
-creation_date: '2026-05-19'
+version: 1
+creation_date: '2026-07-06'
 modification_date: '2026-07-06'
 security_domain: endpoint
 data_source:

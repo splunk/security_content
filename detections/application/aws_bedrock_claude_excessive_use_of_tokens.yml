@@ -1,7 +1,7 @@
 name: AWS Bedrock Claude excessive use of tokens
 id: a839a6f7-aaac-438b-9d99-be0b49481e17
-version: 2
-creation_date: '2026-05-28'
+version: 1
+creation_date: '2026-07-06'
 modification_date: '2026-07-06'
 author: Rod Soto
 status: production

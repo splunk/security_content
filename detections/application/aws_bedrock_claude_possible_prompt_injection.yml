@@ -1,6 +1,6 @@
 name: AWS Bedrock Claude Possible Prompt Injection
 id: 9e162548-3e9a-4a74-9eb5-34ee28350f07
-version: 2
+version: 1
 author: Rod Soto
 status: production
 type: Hunting

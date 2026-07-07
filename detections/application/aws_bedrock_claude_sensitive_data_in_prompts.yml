@@ -5,7 +5,11 @@ author: Rod Soto
 status: production
 creation_date: '2026-05-19'
 modification_date: '2026-07-06'
-security_domain: endpoint
+version: 1
+author: Rod Soto
+status: production
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
 data_source:
     - AWS Bedrock Claude
 category: application

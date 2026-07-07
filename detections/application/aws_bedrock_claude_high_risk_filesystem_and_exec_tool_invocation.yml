@@ -1,7 +1,7 @@
 name: AWS Bedrock Claude High Risk Filesystem and Exec Tool Invocation
 id: 989b3702-1df3-4076-9e2f-8dcbcc2b4bef
-version: 2
-creation_date: '2026-05-28'
+version: 1
+creation_date: '2026-07-06'
 modification_date: '2026-07-06'
 author: Rod Soto
 status: production

@@ -1,7 +1,7 @@
 name: AWS Bedrock Claude Cross Region Possible Inference Abuse
 id: e3d3f27d-b08e-415a-9811-8f72a0905ca6
-version: 2
-creation_date: '2026-05-20'
+version: 1
+creation_date: '2026-07-06'
 modification_date: '2026-07-06'
 author: Rod Soto
 status: production

@@ -1,7 +1,7 @@
 name: Suspicious AWS Bedrock Claude Activities
 id: c155d248-406d-48c7-9dd4-1c35607242e0
-creation_date: '2026-05-19'
-modification_date: '2026-05-19'
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
 version: 1
 author: Rod Soto, Splunk
 status: production
