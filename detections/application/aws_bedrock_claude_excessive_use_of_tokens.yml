@@ -71,4 +71,3 @@ tests:
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
       test_type: unit
-      description: This test simulates an identity generating an output token spike above its own baseline and verifies the detection flags it.

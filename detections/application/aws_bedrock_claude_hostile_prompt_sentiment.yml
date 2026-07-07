@@ -63,7 +63,6 @@ product:
     - Splunk Cloud
 tests:
     - name: True Positive Test
-      description: This test simulates a hostile prompt sentiment scenario by generating AWS Bedrock Claude logs with negative or aggressive sentiment in the prompts. The test verifies that the detection correctly identifies the hostile prompts and generates the expected results.
       test_type: unit
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_hostile_prompt_sentiment.ndjson

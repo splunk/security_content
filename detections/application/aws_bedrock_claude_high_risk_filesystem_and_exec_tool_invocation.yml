@@ -144,4 +144,3 @@ tests:
           sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
       test_type: unit
-      description: This test simulates identities invoking high-risk tools (bash, curl, edit, write) through AWS Bedrock Claude and verifies the detection surfaces the expected risk score and reason.

@@ -64,7 +64,6 @@ product:
 tests:
     - name: True Positive Test
       test_type: unit
-      description: This test simulates prompts containing sensitive data patterns (SSNs, credentials, API keys, credit card numbers) sent to AWS Bedrock Claude and verifies the detection flags them.
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_sensitive_data_in_prompts.ndjson
           sourcetype: json_no_timestamp

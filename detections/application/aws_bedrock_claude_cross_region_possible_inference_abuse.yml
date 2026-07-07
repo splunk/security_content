@@ -63,7 +63,6 @@ product:
 security_domain: endpoint
 tests:
     - name: True Positive Test
-      description: This test simulates a cross-region inference abuse scenario by generating AWS Bedrock Claude logs with mismatched region and inferenceRegion fields, along with a high input token count. The test verifies that the detection correctly identifies the abuse attempt and generates the expected results.
       test_type: unit
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_cross_region_possible_inference_abuse.ndjson
