@@ -1,10 +1,5 @@
 name: AWS Bedrock Claude Sensitive Data in Prompts
 id: 39346724-a73a-4e01-8e93-4f4791e1a0bb
-version: 2
-author: Rod Soto
-status: production
-creation_date: '2026-05-19'
-modification_date: '2026-07-06'
 version: 1
 author: Rod Soto
 status: production
@@ -12,7 +7,6 @@ creation_date: '2026-07-06'
 modification_date: '2026-07-06'
 data_source:
     - AWS Bedrock Claude
-category: application
 type: Anomaly
 description: This detection identifies sensitive data such as social security numbers, passwords, API keys, and credit card numbers being sent in prompts to AWS Bedrock Claude models. Exposure of sensitive data through AI prompts may indicate data loss, credential leakage, or insider threat activity.
 search: |-
@@ -61,6 +55,7 @@ product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
+category: application
 security_domain: endpoint
 tests:
     - name: True Positive Test
