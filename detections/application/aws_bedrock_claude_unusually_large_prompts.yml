@@ -10,7 +10,7 @@ security_domain: endpoint
 data_source:
     - AWS Bedrock Claude
 category: application
-description: This detection identifies unusually large prompts sent to AWS Bedrock Claude models by calculating the statistical baseline of input token counts and flagging requests that exceed 15 standard deviations above the mean. Abnormally large prompts may indicate prompt injection attacks, data exfiltration attempts, or abuse of the AI service.
+description: This detection identifies unusually large prompts sent to AWS Bedrock Claude models by calculating the statistical baseline of input token counts and flagging requests that exceed one standard deviations above the mean. Abnormally large prompts may indicate prompt injection attacks, data exfiltration attempts, or abuse of the AI service.
 search: |-
     `aws_bedrock_claude`
     | rename "input.inputTokenCount" AS input_tokens
@@ -20,7 +20,7 @@ search: |-
     | eval input_tokens=tonumber(input_tokens)
     | where input_tokens>0
     | eventstats avg(input_tokens) AS avg_tokens stdev(input_tokens) AS stdev
-    | where input_tokens > avg_tokens + (15*stdev)
+    | where input_tokens > avg_tokens + (1*stdev)
     | where input_tokens > 1000
     | table _time, modelId, user, user_arn, account_id, input_tokens, avg_tokens, host
     | sort - input_tokens
