@@ -6,7 +6,7 @@ modification_date: '2026-06-23'
 author: Rod Soto
 status: production
 type: Hunting
-description: In Splunk Enterprise for Windows versions below 9.3.0, 9.2.3, and 9.1.6, a low-privileged user that does not hold the “admin” or “power” Splunk roles could write a file to the Windows system root directory, which has a default location of C:\Windows\System32, when Splunk Enterprise for Windows is installed on a separate drive. Additionally, this user may be able to upload and execute code due to insecure session storage configuration.
+description: In Splunk Enterprise for Windows versions below 9.3.0, 9.2.3, and 9.1.6, a low-privileged user that does not hold the “admin” or “power” Splunk Roles could write a file to the Windows system root directory, which has a default location of C:\Windows\System32, when Splunk Enterprise for Windows is installed on a separate drive. Additionally, this user may be able to upload and execute code due to insecure session storage configuration.
 data_source:
     - Splunk
 search: |-
