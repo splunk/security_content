@@ -3,22 +3,34 @@ id: e958e6ee-7c73-4eff-a4d9-43232d719b26
 version: 1
 creation_date: '2026-07-06'
 modification_date: '2026-07-06'
-author: Raven Tait, Splunk
+author: Raven Tait, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: The following detects privilege escalation via execve (syscall 59) where a process transitions from a non-root uid to euid=0 without a corresponding successful PAM authentication event (USER_AUTH, USER_ACCT, or CRED_ACQ) in the same audit session. Legitimate privilege elevation mechanisms such as sudo, su, and pkexec authenticate through PAM and generate these audit records tied to the session ID before granting elevated privileges. The absence of a matching successful PAM event alongside an effective UID change to root is anomalous and may indicate exploitation of a setuid binary, a kernel vulnerability, or another mechanism used to escalate privileges outside the normal authentication flow.
 data_source:
     - Linux Auditd Execve
 search: >-
-    `linux_auditd` type=SYSCALL syscall="59" uid!="0" euid="0"
-    NOT [search `linux_auditd` type IN ("USER_AUTH","USER_ACCT","CRED_ACQ") res="success"
-         | stats values(ses) as ses
-         | mvexpand ses
-         | fields ses
-         | format]
-    | rename comm as process_name, exe as process_path, ses as session_id, host as dest
-    | stats count min(_time) as firstTime max(_time) as lastTime
-        by dest uid euid session_id pid ppid process_name process_path
+    `linux_auditd` (
+    (type=SYSCALL syscall="59" uid!="0" euid="0")
+    OR
+    (type IN ("USER_AUTH","USER_ACCT","CRED_ACQ") res="success")
+    )
+    | eval is_suspicious_exec=if(type="SYSCALL" AND syscall="59" AND uid!="0" AND euid="0", 1, 0)
+    | eval is_successful_auth=if(type IN ("USER_AUTH","USER_ACCT","CRED_ACQ") AND res="success", 1, 0)
+    | stats
+        count(eval(is_suspicious_exec=1)) as exec_count
+        max(eval(if(is_suspicious_exec=1, _time, null()))) as lastTime
+        max(is_successful_auth) as has_successful_auth
+        min(eval(if(is_suspicious_exec=1, _time, null()))) as firstTime
+        values(eval(if(is_suspicious_exec=1, comm, null()))) as process_name
+        values(eval(if(is_suspicious_exec=1, euid, null()))) as euid
+        values(eval(if(is_suspicious_exec=1, exe, null()))) as process_path
+        values(eval(if(is_suspicious_exec=1, pid, null()))) as pid
+        values(eval(if(is_suspicious_exec=1, ppid, null()))) as ppid
+        values(eval(if(is_suspicious_exec=1, uid, null()))) as uid
+        by host ses
+    | where exec_count > 0 AND has_successful_auth != 1
+    | rename host as dest, ses as session_id
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_auditd_possible_setuid_execve_privesc_filter`
@@ -42,6 +54,9 @@ intermediate_findings:
           type: system
           score: 20
           message: $process_name$ was launched with euid 0 on [$dest$] without PAM auth.
+threat_objects:
+    - field: process_name
+      type: process_name
 analytic_story:
     - Linux Privilege Escalation
 asset_type: Endpoint

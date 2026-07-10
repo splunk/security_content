@@ -9,7 +9,6 @@ type: TTP
 description: The following analytic detects aa-exec being used to launch a binary under the trinity, chrome, or flatpak AppArmor profiles where the executed target is not the legitimate application those profiles are intended to confine. This behavior is consistent with abuse of userns,-carrying AppArmor profiles to bypass Ubuntu's unprivileged user namespace restrictions as seen in the CVE-2026-46331 privilege escalation exploit. The analytic flags execution when the target command following -- is invoked via a relative path, resolves outside standard trusted  install directories for these applications, or shares the same binary name as the calling parent process. Adversaries and red teams may abuse this technique to escalate privileges by tricking aa-exec into granting a namespace-creation capability to an arbitrary binary rather than the trusted application the profile was written for.
 data_source:
     - Sysmon for Linux EventID 1
-    - Cisco Isovalent Process Exec
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
     from datamodel=Endpoint.Processes where
