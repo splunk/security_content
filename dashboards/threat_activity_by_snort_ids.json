@@ -479,7 +479,7 @@
             "name": "risk_events",
             "options": {
                 "enableSmartSources": true,
-                "query": "| from datamodel Risk.All_Risk | rename normalized_risk_object AS dest_ip | search dest_ip = $dest_ip$\n| stats count by search_name"
+                "query": "| from datamodel Risk.All_Risk | rename normalized_risk_object AS dest_ip | search dest_ip = $dest_ip|s$\n| stats count by search_name"
             },
             "type": "ds.search"
         },
@@ -494,7 +494,7 @@
         "ds_7LZlDEZh": {
             "name": "Top Source IP count",
             "options": {
-                "query": "`cisco_secure_firewall` EventType=ConnectionEvent dest_ip = $dest_ip$\n| stats count BY  dest_ip src_ip connection_id | sort count"
+                "query": "`cisco_secure_firewall` EventType=ConnectionEvent dest_ip = $dest_ip|s$\n| stats count BY  dest_ip src_ip connection_id | sort count"
             },
             "type": "ds.search"
         },
@@ -516,7 +516,7 @@
         "ds_8sclv3pU": {
             "name": "timeline_instruction",
             "options": {
-                "query": "`cisco_secure_firewall` EventType=IntrusionEvent dest_ip = \"$dest_ip$\"\n| timechart span=1d count BY signature_id"
+                "query": "`cisco_secure_firewall` EventType=IntrusionEvent dest_ip = $dest_ip|s$\n| timechart span=1d count BY signature_id"
             },
             "type": "ds.search"
         },
@@ -539,7 +539,7 @@
         "ds_QAFOBzEx": {
             "name": "volume_inbound",
             "options": {
-                "query": "`cisco_secure_firewall` EventType=ConnectionEvent dest_ip=\"$dest_ip$\"\n| stats sum(InitiatorBytes) AS inbound_bytes\n| eval Volume_Inbound_GB = round(inbound_bytes/1024/1024/1024, 2) . \" Gb\"\n| fields Volume_Inbound_GB"
+                "query": "`cisco_secure_firewall` EventType=ConnectionEvent dest_ip=$dest_ip|s$\n| stats sum(InitiatorBytes) AS inbound_bytes\n| eval Volume_Inbound_GB = round(inbound_bytes/1024/1024/1024, 2) . \" Gb\"\n| fields Volume_Inbound_GB"
             },
             "type": "ds.search"
         },
@@ -558,14 +558,14 @@
         "ds_ULaiHv6R": {
             "name": "risk_event_timeline",
             "options": {
-                "query": "index=risk normalized_risk_object=\"$dest_ip$\"\n| bin _time span=1d\n| stats count AS event_count BY _time\n| timechart span=1d sum(event_count) AS \"Events per Day\""
+                "query": "index=risk normalized_risk_object=$dest_ip|s$\n| bin _time span=1d\n| stats count AS event_count BY _time\n| timechart span=1d sum(event_count) AS \"Events per Day\""
             },
             "type": "ds.search"
         },
         "ds_XtgOToUG": {
             "name": "Mitre",
             "options": {
-                "query": "| from datamodel Risk.All_Risk | rename normalized_risk_object AS dest_ip | search dest_ip = $dest_ip$\n| stats\n    count  by annotations.mitre_attack.mitre_technique \n| head 5\n| rename annotations.mitre_attack.mitre_technique as \"Mitre Techniques\""
+                "query": "| from datamodel Risk.All_Risk | rename normalized_risk_object AS dest_ip | search dest_ip = $dest_ip|s$\n| stats\n    count  by annotations.mitre_attack.mitre_technique \n| head 5\n| rename annotations.mitre_attack.mitre_technique as \"Mitre Techniques\""
             },
             "type": "ds.search"
         },
@@ -580,7 +580,7 @@
         "ds_cU42yLz2": {
             "name": "file_events_per_day",
             "options": {
-                "query": "`cisco_secure_firewall` EventType=FileEvent src_ip=\"$dest_ip$\" \n| bin _time span=1d \n| stats count AS event_count BY _time \n| timechart span=1d sum(event_count) AS \"File Events per Day\""
+                "query": "`cisco_secure_firewall` EventType=FileEvent src_ip=$dest_ip|s$ \n| bin _time span=1d \n| stats count AS event_count BY _time \n| timechart span=1d sum(event_count) AS \"File Events per Day\""
             },
             "type": "ds.search"
         },
@@ -595,7 +595,7 @@
             "name": "unique_attackers_per_day",
             "options": {
                 "extend": "ds_mGcuwEO0",
-                "query": "| search threat=\"$threat_token$\" dest_ip=\"$dest_ip$\"\n| timechart span=1d dc(src_ip) AS unique_attacker_count"
+                "query": "| search threat=\"$threat_token$\" dest_ip=$dest_ip|s$\n| timechart span=1d dc(src_ip) AS unique_attacker_count"
             },
             "type": "ds.chain"
         },
@@ -629,28 +629,28 @@
         "ds_q9NVolej": {
             "name": "volume_outbound",
             "options": {
-                "query": "`cisco_secure_firewall` EventType=ConnectionEvent dest_ip=\"$dest_ip$\"\n| stats sum(ResponderBytes) AS outbound_bytes\n| eval Volume_Outbound_GB = round(outbound_bytes/1024/1024/1024, 2) . \" Gb\"\n| fields Volume_Outbound_GB"
+                "query": "`cisco_secure_firewall` EventType=ConnectionEvent dest_ip=$dest_ip|s$\n| stats sum(ResponderBytes) AS outbound_bytes\n| eval Volume_Outbound_GB = round(outbound_bytes/1024/1024/1024, 2) . \" Gb\"\n| fields Volume_Outbound_GB"
             },
             "type": "ds.search"
         },
         "ds_ta3O0H2Z": {
             "name": "map_connection_events",
             "options": {
-                "query": "`cisco_secure_firewall` EventType=ConnectionEvent dest_ip = $dest_ip$\n| iplocation src_ip\n| geostats count BY src_ip"
+                "query": "`cisco_secure_firewall` EventType=ConnectionEvent dest_ip = $dest_ip|s$\n| iplocation src_ip\n| geostats count BY src_ip"
             },
             "type": "ds.search"
         },
         "ds_tuaeoaIh": {
             "name": "all_intrusion_events",
             "options": {
-                "query": "`cisco_secure_firewall` EventType=IntrusionEvent dest_ip = $dest_ip$\n| bin _time span=1d \n| stats count as intrusion_count\n    by _time"
+                "query": "`cisco_secure_firewall` EventType=IntrusionEvent dest_ip = $dest_ip|s$\n| bin _time span=1d \n| stats count as intrusion_count\n    by _time"
             },
             "type": "ds.search"
         },
         "ds_wzZtYKW7": {
             "name": "investigating_host",
             "options": {
-                "query": "| makeresults | eval affected_ip = \"$dest_ip$\" | table affected_ip"
+                "query": "| makeresults | eval affected_ip = $dest_ip|s$ | table affected_ip"
             },
             "type": "ds.search"
         },
@@ -658,7 +658,7 @@
             "name": "file_events",
             "options": {
                 "extend": "ds_mGcuwEO0",
-                "query": "| join type=inner dest_ip [\n    search `cisco_secure_firewall` EventType=FileEvent\n    | bin _time span=1d\n    | stats count, dc(file_name) as \"File Count\", values(FileDirection) as Direction, values(FileType) as \"File Type\", values(dest_ip) , values(ClientApplication) BY src_ip _time | rename src_ip as dest_ip\n]\n| search dest_ip=\"$dest_ip$\" threat=\"$threat_token$\"\n| table _time dest_ip \"File Count\" Direction \"File Type\" signature\n\n\n"
+                "query": "| join type=inner dest_ip [\n    search `cisco_secure_firewall` EventType=FileEvent\n    | bin _time span=1d\n    | stats count, dc(file_name) as \"File Count\", values(FileDirection) as Direction, values(FileType) as \"File Type\", values(dest_ip) , values(ClientApplication) BY src_ip _time | rename src_ip as dest_ip\n]\n| search dest_ip=$dest_ip|s$ threat=\"$threat_token$\"\n| table _time dest_ip \"File Count\" Direction \"File Type\" signature\n\n\n"
             },
             "type": "ds.chain"
         }
