@@ -19,21 +19,13 @@ search: |-
     from datamodel=Endpoint.Processes
     where Processes.process IN (
         "*.ZIP\\*",
-        "*.zip\\*",
         "*.ISO\\*",
-        "*.iso\\*",
         "*.IMG\\*",
-        "*.img\\*",
         "*.CAB\\*",
-        "*.cab\\*",
         "*.TAR\\*",
-        "*.tar\\*",
         "*.GZ\\*",
-        "*.gz\\*",
         "*.RAR\\*",
-        "*.rar\\*",
-        "*.7Z\\*",
-        "*.7z\\*"
+        "*.7Z\\*"
         )
         AND Processes.action="allowed"
     by
