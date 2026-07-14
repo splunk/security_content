@@ -1,8 +1,8 @@
 name: Cisco NVM - MSHTML or MSHTA Network Execution Without URL in CLI
 id: f2a9df84-9b01-4a21-9e3a-7aa1a217f69e
-version: 6
+version: 7
 creation_date: '2025-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -99,5 +99,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
-          sourcetype: cisco:nvm:flowdata
+          sourcetype: cisco:nvm:flowdata2
       test_type: unit

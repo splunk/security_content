@@ -1,19 +1,18 @@
 name: Cisco Network Visibility Module Flow Data
 id: d49bcd3c-da06-41c6-b33e-8b8d23078f68
-version: 2
+version: 3
 creation_date: '2025-06-30'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Splunk
 description: Data source object for Netflow events from Cisco Network Visibility Module
 source: not_applicable
-sourcetype: cisco:nvm:flowdata
+sourcetype: cisco:nvm:flowdata:v2
 supported_TA:
-    - name: Cisco NVM Add-on for Splunk
-      url: https://splunkbase.splunk.com/app/4221
-      version: 4.0.7
+    - name: Cisco Security Cloud
+      url: https://splunkbase.splunk.com/app/7404
+      version: 3.6.5
 fields:
     - action
-    - aditional_logged_in_user_list
     - aliul
     - bytes
     - bytes_in
@@ -147,4 +146,4 @@ fields:
     - user
 output_fields:
     - dest
-example_log: 'Jun 26 16:09:18 127.0.0.1 Jun 26 16:09:18 ip-172-31-30-201  fv="nvzFlow_v9" pr="6" sa="172.16.3.110" sp="5203" da="140.82.112.3" dp="443" fd="1" fss="1750954134" fst="Thu Jun 26 16:08:54 2025" fes="1750954134" fet="Thu Jun 26 16:08:54 2025" hh="''" hm="''" ht="''" udid="10E8A7F940225180BFDB748D2AE336EA7285CB8C" liuid="EC2AMAZ-E56LIG5\Administrator" liuida="EC2AMAZ-E56LIG5" liuidp="Administrator" liuat="2" pa="EC2AMAZ-E56LIG5\Administrator" paa="EC2AMAZ-E56LIG5" pap="Administrator" puat="8194" pn="msiexec.exe" ph="23EC37A4DF21893A1B3B6F5F72B2D78918E86C3A90F9664F8248A2C8219F889A" ppa="EC2AMAZ-E56LIG5\Administrator" ppuat="8194" ppn="cmd.exe" pph="41871DADE953D9F40F4AA445FC19982AB59D263C8AA93D7F67A1451663A09A57" ibc="0" obc="0" ds="us-east-2.compute.internal" dh="github.com" iid="4" mnl="''" mhl="''" fsms="1750954134331" fems="1750954134340" pid="8496" ppath="C:\Windows\system32\msiexec.exe" parg=" /i \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.007/src/T1218.007_JScript.msi\"" ppid="9232" pppath="C:\Windows\system32\cmd.exe" aliul="''" pil="12288" ppil="12288" fsg="1" puid="071161F29663831BB4A1C0FADA9805E0"'
+example_log: '{ "fv": "nvzFlow_v11", "pr": "6", "sa": "10.10.0.38", "sp": "37351", "da": "104.114.110.196", "dp": "80", "fd": "1", "fss": "1784017733", "fst": "Tue Jul 14 13:58:53 2026", "fes": "1784017793", "fet": "Tue Jul 14 13:59:53 2026", "hh": "tile-service.weather.microsoft.com", "hm": "GET", "ht": "/en-GB/livetile/preinstall", "udid": "D5E5634FDBEE82655C9C0E7523CDCE62A8249A1C", "liuid": "WIN-ANIKET\\Hostscan", "liuida": "WIN-ANIKET", "liuidp": "Hostscan", "liuat": "2", "pa": "WIN-ANIKET\\Hostscan", "puat": "2", "pn": "svchost.exe", "ph": "B0B36BFF7AE4057F687D839CD4B3D81159AB646F1EE1B22106A927E93DECBB61", "pid": "3040", "ppath": "C:\\Windows\\System32\\svchost.exe", "parg": "-k UnistackSvcGroup -s WpnUserService", "ppn": "services.exe", "ppid": "684", "pppath": "C:\\Windows\\System32\\services.exe", "ibc": "7660", "obc": "213", "ds": "cisco.com", "dh": "tile-service.weather.microsoft.com", "iid": "50", "mnl": "wpnuserservice.dll", "mhl": "8F571F1D23DE5D0C223338BDD341892CCBC62FDE443499AC373B6A621F58A332", "fsms": "1784017733536", "fems": "1784017793545", "pil": "8192", "ppil": "16384", "fsg": "0", "puid": "E89CC0DBD1F48055BB4FA09268E9B51D", "eveuuid": "00000000000000000000000000000000" }'

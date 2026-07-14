@@ -1,8 +1,8 @@
 name: Windows Curl Download to Suspicious Path
 id: c32f091e-30db-11ec-8738-acde48001122
-version: 21
+version: 22
 creation_date: '2021-10-19'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -123,5 +123,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
-          sourcetype: cisco:nvm:flowdata
+          sourcetype: cisco:nvm:flowdata2
       test_type: unit

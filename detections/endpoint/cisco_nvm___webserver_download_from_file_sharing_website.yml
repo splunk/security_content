@@ -1,8 +1,8 @@
 name: Cisco NVM - Webserver Download From File Sharing Website
 id: 1984f997-3b49-4d4b-a7e9-dc5dbf88370e
-version: 7
+version: 8
 creation_date: '2025-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -98,5 +98,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
-          sourcetype: cisco:nvm:flowdata
+          sourcetype: cisco:nvm:flowdata2
       test_type: unit

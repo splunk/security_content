@@ -1,8 +1,8 @@
 name: Windows File Download Via CertUtil
 id: 7fac8d40-e370-45ea-a4a3-031bbcc18b02
-version: 7
+version: 8
 creation_date: '2021-03-24'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: TTP
@@ -97,5 +97,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
-          sourcetype: cisco:nvm:flowdata
+          sourcetype: cisco:nvm:flowdata2
       test_type: unit

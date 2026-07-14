@@ -1,8 +1,8 @@
 name: Windows Curl Upload to Remote Destination
 id: 42f8f1a2-4228-11ec-aade-acde48001122
-version: 17
+version: 18
 creation_date: '2021-11-10'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -73,5 +73,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
-          sourcetype: cisco:nvm:flowdata
+          sourcetype: cisco:nvm:flowdata2
       test_type: unit
