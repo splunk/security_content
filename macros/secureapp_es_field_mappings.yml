@@ -4,5 +4,5 @@ version: 2
 creation_date: '2025-08-04'
 modification_date: '2026-07-08'
 author: Splunk Threat Research Team
-description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+description: This macro helps normalize logs from Csico Secure App field names to CIM (Common Information Model) compliant field names. Customize the macro definition as needed for your Splunk environment.
 definition: '| eval location=url | eval ip=socketOut | eval gid=coalesce(attackName,attackId)  | eval action=attackOutcome | eval view=blockedReason  | eval ids_type=eventType | eval process=jvmId | eval cve=matchedCveName  | eval signature_id=vulnerableMethod | eval url=webTransactionUrl | eval mode=attackStatus | eval src_category=attackSource | eval dest_ip=serverAddress | eval dest_nt_host=serverName | eval dest_port=serverPort | eval signature=attackTypes | eval src_ip=clientAddress | eval src_port=clientPort | eval record_type=ptype | eval app=coalesce(application,environment) | eval product=attackBusinessTransaction | eval package_title=coalesce(tier,service) | eval package=coalesce(tierId,serviceId) | eval rule_number=name | eval object_name=keyInfo | eval file_path=workingDir | eval file_name=filename | eval session_id=sql  | eval attacktypecount=mvcount(attackTypes)'
