@@ -1,9 +1,9 @@
 name: Local LLM Framework DNS Query
 id: d7ceffc5-a45e-412b-b9fa-2ba27c284503
-version: 2
+version: 3
 creation_date: '2025-11-24'
-modification_date: '2026-05-13'
-author: Rod Soto
+modification_date: '2026-07-15'
+author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
 description: |
@@ -16,30 +16,58 @@ search: |
     `sysmon`
     EventCode=22
     QueryName IN (
-        "*huggingface*",
-        "*ollama*",
-        "*jan.ai*",
+        "*anthropic*",
+        "*api.openrouter*",
+        "*civitai*",
+        "*dashscope.aliyuncs*",
         "*gpt4all*",
-        "*nomic*",
+        "*huggingface*",
+        "*jan.ai*",
         "*koboldai*",
         "*lmstudio*",
         "*modelscope*",
-        "*civitai*",
+        "*nomic.ai*",
+        "*ollama*",
         "*oobabooga*",
-        "*replicate*",
-        "*anthropic*",
         "*openai*",
         "*openrouter*",
-        "*api.openrouter*",
-        "*aliyun*",
-        "*alibabacloud*",
-        "*dashscope.aliyuncs*"
+        "*replicate*",
+        "*tongyi*"
     )
-    NOT Image IN (
-        "*\\MsMpEng.exe",
-        "C:\\ProgramData\\*",
-        "C:\\Windows\\System32\\*",
-        "C:\\Windows\\SysWOW64\\*"
+    NOT (
+        Image IN (
+            "*\\360se.exe", "*\\arc.exe", "*\\atlas.exe", "*\\avastbrowser.exe",
+            "*\\avgbrowser.exe", "*\\blpbrowser.exe", "*\\brave.exe", "*\\braveupdate.exe",
+            "*\\chrome.exe", "*\\chromium.exe", "*\\Cisco\\Cisco Secure Client\\ThousandEyes Endpoint Agent\\*",
+            "*\\coccoc.exe", "*\\dragon.exe", "*\\duckduckgo.exe", "*\\epic.exe",
+            "*\\firefox.exe", "*\\ghost.exe", "*\\iexplore.exe", "*\\iridium.exe",
+            "*\\iron.exe", "*\\maxthon.exe", "*\\microsoftedge.exe", "*\\microsoftedgeupdate.exe",
+            "*\\msedge.exe", "*\\msedgewebview2.exe", "*\\MsMpEng.exe", "*\\opera_autoupdate.exe",
+            "*\\opera.exe", "*\\perplexity.exe", "*\\rave.exe", "*\\safari.exe", "*\\shift.exe",
+            "*\\sidekick.exe", "*\\thorium.exe", "*\\torch.exe", "*\\vivaldi.exe",
+            "*\\wavebrowser.exe", "*\\whale.exe", "*\\zen.exe", "C:\\ProgramData\\*",
+            "C:\\Windows\\System32\\*", "C:\\Windows\\SysWOW64\\*"
+        )
+        OR
+        (
+            Image IN ("*\\AnthropicClaude\\Update.exe", "*\\claude.exe")
+            QueryName = "anthropic.com"
+        )
+        OR
+        (
+            Image = "*\\lm studio.exe"
+            QueryName = "lmstudio.ai"
+        )
+        OR
+        (
+            Image IN ("*\\ollama app.exe", "*\\ollama.exe")
+            QueryName = "ollama.com"
+        )
+        OR
+        (
+            Image IN ("*\\chatgpt.exe", "*\\codex.exe")
+            QueryName = "openai.com"
+        )
     )
     | stats count
         min(_time) as firstTime
