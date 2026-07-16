@@ -1,16 +1,16 @@
 name: AWS Bedrock Claude Unusually Large Prompts
 id: 95fbdd4e-1202-4971-b85a-513b2005086e
-version: 1
+version: 2
 author: Rod Soto
 status: production
 type: Anomaly
 creation_date: '2026-07-06'
-modification_date: '2026-07-06'
+modification_date: '2026-07-08'
 security_domain: endpoint
 data_source:
     - AWS Bedrock Claude
 category: application
-description: This detection identifies unusually large prompts sent to AWS Bedrock Claude models by calculating the statistical baseline of input token counts and flagging requests that exceed 15 standard deviations above the mean. Abnormally large prompts may indicate prompt injection attacks, data exfiltration attempts, or abuse of the AI service.
+description: This detection identifies unusually large prompts sent to AWS Bedrock Claude models by calculating the statistical baseline of input token counts and flagging requests that exceed one standard deviations above the mean. Abnormally large prompts may indicate prompt injection attacks, data exfiltration attempts, or abuse of the AI service.
 search: |-
     `aws_bedrock_claude`
     | rename "input.inputTokenCount" AS input_tokens
