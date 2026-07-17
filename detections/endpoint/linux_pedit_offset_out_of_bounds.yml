@@ -10,7 +10,7 @@ description: The following detects a Linux kernel warning message containing "tc
 data_source:
     - Linux Messages Syslog
 search: >-
-    sourcetype="linux_messages_syslog" "*tc action pedit offset*" "*out of bounds*"
+    `linux_syslog` "*tc action pedit offset*" "*out of bounds*"
     | rename host as dest
     | stats count min(_time) as firstTime max(_time) as lastTime by dest _raw
     | `security_content_ctime(firstTime)`
