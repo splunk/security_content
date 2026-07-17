@@ -46,7 +46,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A windows scheduled task $TaskName$ was created by $user$ and deleted in less than 30 seconds on $dest$
+          message: A windows scheduled task [$TaskName$] with the command [$Command$] was created by [$user$] and deleted in less than 30 seconds on [$dest$]
 analytic_story:
     - Active Directory Lateral Movement
     - CISA AA22-257A
