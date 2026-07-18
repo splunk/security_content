@@ -16,7 +16,7 @@ sourcetype: pan:traffic
 supported_TA:
     - name: Palo Alto Networks Add-on
       url: https://splunkbase.splunk.com/app/7523
-      version: 3.1.0
+      version: 3.2.1
 fields:
     - _time
     - date_hour
