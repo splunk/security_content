@@ -1,0 +1,65 @@
+name: Linux Netcat Outbound Connection
+id: 50a9de97-d58d-4844-8daf-928d2faceead
+version: 1
+creation_date: '2026-07-08'
+modification_date: '2026-07-08'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic detects outbound network connections originating from Netcat or Netcat-like binaries on Linux systems. Netcat is a versatile networking utility that, while legitimate in some contexts, is frequently abused by attackers to establish reverse shells, exfiltrate data, or create persistent backdoor connections to remote systems. This activity is significant because outbound connections from these binaries often indicate an active compromise, where an attacker may be maintaining command-and-control communication or tunneling malicious traffic. If confirmed malicious, this could lead to unauthorized data exfiltration, lateral movement, or persistent remote access to the compromised system.
+data_source:
+    - Sysmon EventID 3
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime from datamodel=Network_Traffic.All_Traffic where
+    All_Traffic.app IN ("*ncat*", "*netcat*")
+    OR
+    All_Traffic.process_name IN ("*nc", "*ncat", "*netcat")
+    All_Traffic.direction=outbound
+    by All_Traffic.src All_Traffic.dest All_Traffic.dest_port All_Traffic.transport
+    All_Traffic.process_name All_Traffic.app All_Traffic.user All_Traffic.process_id
+    | `drop_dm_object_name(All_Traffic)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_netcat_outbound_connection_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain network connection events including the source, destination, port, and process context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Network_Traffic` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate system administrators or developers may use netcat for troubleshooting, port scanning, or testing network connectivity. Filter based on known administrative activity or authorized users.
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+finding:
+    title: Netcat Outbound Connection detected on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: dest
+      type: ip_address
+analytic_story:
+    - Linux Post-Exploitation
+    - Command And Control
+    - Data Exfiltration
+    - Compromised Linux Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_netcat_outbound_connection/snapattack_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

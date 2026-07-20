@@ -1,0 +1,75 @@
+name: Linux Possible GSM Privilege Escalation
+id: ae13064b-72ea-41fb-9d29-716c27e01208
+version: 1
+creation_date: '2026-07-08'
+modification_date: '2026-07-08'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the commands used in a race condition found in the GSM 0710 tty multiplexor in the Linux kernel. This issue occurs when two threads execute the GSMIOC_SETCONF ioctl on the same tty file descriptor with the gsm line discipline enabled. This could allow a local unprivileged user to escalate their privileges on the system.
+data_source:
+    - Sysmon for Linux EventID 1
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime from datamodel=Endpoint.Processes where
+    Processes.process="*rmmod n_gsm*"
+    AND
+    Processes.process IN (
+        "*exec /bin/bash*",
+        "*exec /bin/sh*",
+        "*exec /bin/dash*",
+        "*exec /bin/zsh*"
+        )
+    by Processes.process Processes.vendor_product
+    Processes.user_id Processes.process_hash Processes.parent_process_name Processes.parent_process_exec
+    Processes.action Processes.dest Processes.process_current_directory Processes.process_path
+    Processes.process_integrity_level Processes.original_file_name Processes.parent_process
+    Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id
+    Processes.process_guid Processes.process_id Processes.user Processes.process_name
+    | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+    `linux_possible_gsm_privilege_escalation_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate system administrators or developers testing GSM multiplexor configurations may trigger this detection. Filter based on known authorized users or testing environments.
+references:
+    - https://access.redhat.com/security/cve/cve-2023-6546
+    - https://github.com/Nassim-Asrir/ZDI-24-020/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Potential GSM Privilege Escalation on $dest$.
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2023-6546
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_possible_linux_gsm_privilege_escalation/snapattack_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

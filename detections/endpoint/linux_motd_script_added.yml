@@ -1,0 +1,64 @@
+name: Linux MOTD Script Added
+id: 6dd14256-559b-4364-99d8-0968407b8074
+version: 1
+creation_date: '2026-07-08'
+modification_date: '2026-07-08'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the creation of a file within the /etc/update-motd.d directory. This is used to add scripts that run with Message of the Day (MOTD) when a user logs in. This can be used by attackers for persistence if it contains malicious code.
+data_source:
+    - Sysmon for Linux EventID 11
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime from datamodel=Endpoint.Filesystem where
+    Filesystem.file_path="/etc/update-motd.d/*"
+    by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
+    Filesystem.action Filesystem.process_guid Filesystem.process_id
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_motd_script_added_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate system administrators may add or modify MOTD scripts for valid operational purposes such as displaying system information or login banners. Filter based on known administrative activity and authorized users.
+references:
+    - https://github.com/Aegrah/PANIX
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Potential MOTD Script added on $dest$.
+threat_objects:
+    - field: file_name
+      type: file_name
+analytic_story:
+    - Linux Persistence Techniques
+    - Linux Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1547
+    - T1037
+    - T1059.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547/linux_motd_script_added/snapattack_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

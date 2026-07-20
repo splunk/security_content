@@ -1,0 +1,82 @@
+name: Linux Suspicious Redis Activity
+id: 098bbfa8-a591-44ab-9ec0-ae8ee82b4450
+version: 1
+creation_date: '2026-07-08'
+modification_date: '2026-07-08'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic detects Redis processes spawning a system shell command. This can indicate exploitation activity of a redis server to gain code execution.
+data_source:
+    - Sysmon for Linux EventID 1
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime FROM datamodel=Endpoint.Processes
+    WHERE (Processes.parent_process_name IN ("redis-server", "redis-sentinel")
+      OR Processes.parent_process_path IN ("/usr/bin/redis*", "/usr/local/bin/redis*"))
+      AND Processes.process_name IN (
+        "awk", "bash", "curl", "dash", "gawk", "id", "ifconfig",
+        "lua", "nc", "ncat", "netcat", "openssl", "perl", "php",
+        "python", "python2", "python3", "ruby", "sh", "socat",
+        "wget", "whoami", "zsh"
+      )
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_current_directory Processes.process_exec
+       Processes.process_guid Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name Processes.process_path
+       Processes.user Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_suspicious_redis_activity_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate administrative scripts or automated maintenance tasks may trigger this detection when managing Redis configurations or performing system operations. Filter based on known administrative activity and approved management tools.
+references:
+    - https://thesecmaster.com/how-to-fix-cve-2022-0543-a-critical-lua-sandbox-escape-vulnerability-in-redis/
+    - https://www.bleepingcomputer.com/news/security/new-p2pinfect-worm-malware-targets-linux-and-windows-redis-servers/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+finding:
+    title: Suspicious Redis Activity identified on $dest$ via $process_name$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Linux Post-Exploitation
+    - Compromised Linux Host
+    - Linux Persistence Techniques
+    - Linux Privilege Escalation
+    - Linux Living Off The Land
+    - Command And Control
+asset_type: Endpoint
+cve:
+    - CVE-2022-0543
+mitre_attack_id:
+    - T1505
+    - T1210
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505/linux_suspicious_redis_activity/snapattack_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

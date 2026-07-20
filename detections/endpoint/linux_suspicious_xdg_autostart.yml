@@ -1,0 +1,69 @@
+name: Linux Suspicious XDG Autostart
+id: dc057fd6-34db-4c41-b8dd-00463c47bf83
+version: 1
+creation_date: '2026-07-08'
+modification_date: '2026-07-08'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the creation of a .desktop file within XDG autostart directories, including the system-wide /etc/xdg/autostart and user-local ~/.config/autostart paths. Adversaries abuse XDG autostart entries to achieve persistence on Linux desktop environments — any .desktop file placed in these directories is automatically executed when a user logs into a graphical session. This technique is used by post-exploitation frameworks such as PANIX to survive reboots without requiring root on user-local paths, or to achieve system-wide persistence when writing to /etc/xdg/autostart.
+data_source:
+    - Sysmon for Linux EventID 11
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime FROM datamodel=Endpoint.Filesystem
+    WHERE Filesystem.file_path IN (
+        "/etc/xdg/autostart/*.desktop",
+        "*/home/*/.config/autostart/*.desktop"
+      )
+    BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+       Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+       Filesystem.file_name Filesystem.file_path Filesystem.process_guid
+       Filesystem.process_id Filesystem.user Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_suspicious_xdg_autostart_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate software installations may create .desktop files in /etc/xdg/autostart as part of their normal setup process. Filter known software deployment tools and approved administrative activity as needed.
+references:
+    - https://github.com/Aegrah/PANIX
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Suspicious XDG Autostart activity observed on $dest$.
+threat_objects:
+    - field: file_name
+      type: file_name
+analytic_story:
+    - Linux Persistence Techniques
+    - Linux Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1547
+    - T1037
+    - T1059.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547/linux_suspicious_xdg_autostart/snapattack_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux
