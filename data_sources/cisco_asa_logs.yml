@@ -11,7 +11,7 @@ separator:
 supported_TA:
     - name: Cisco Security Cloud
       url: https://splunkbase.splunk.com/app/7404
-      version: 3.6.5
+      version: 4.0.0
 fields:
     - Cisco_ASA_action
     - Cisco_ASA_message_id
