@@ -12,7 +12,7 @@ sourcetype: cisco:cloud_security:dns
 supported_TA:
     - name: Cisco Secure Access Add-on for Splunk
       url: https://splunkbase.splunk.com/app/7569
-      version: 1.0.52
+      version: 1.0.53
 fields:
     - RecordType
     - ReplyCode
