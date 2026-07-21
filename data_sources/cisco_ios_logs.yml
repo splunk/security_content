@@ -11,7 +11,7 @@ separator:
 supported_TA:
     - name: Cisco Networks Add-on
       url: https://splunkbase.splunk.com/app/1467
-      version: 2.7.9
+      version: 2.8.2
 fields:
     - _time
     - aci_message_text
