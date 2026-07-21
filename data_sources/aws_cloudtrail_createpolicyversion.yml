@@ -17,7 +17,7 @@ separator_value: CreatePolicyVersion
 supported_TA:
     - name: Splunk Add-on for AWS
       url: https://splunkbase.splunk.com/app/1876
-      version: 8.1.2
+      version: 8.2.0
 fields:
     - _time
     - action
