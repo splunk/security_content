@@ -2,6 +2,11 @@ name: unit-testing
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+    paths:
+      - detections/**
+      - data_sources/**
+      - lookups/**
+      - macros/**
 jobs:
   unit-testing:
     runs-on: large-ubuntu-22.04-32core
@@ -13,7 +18,7 @@ jobs:
           with:
             repository: 'splunk/security_content' #this should be the TARGET repo of the PR. we hardcode it for now
             ref: ${{ github.base_ref }}
-        
+
         - name: Print out information abour PR target
           run: |
             echo "The PR target branch is: ${{ github.base_ref }}"
@@ -21,8 +26,8 @@ jobs:
             echo "My current branch is"
             git branch --show-current
             git rev-parse HEAD
-        
-            
+
+
         - name: Set up Python
           uses: actions/setup-python@v6
           with:
@@ -34,38 +39,38 @@ jobs:
           run: |
             echo "- Build Tool Version - $(cat requirements.txt)"
             pip install -r requirements.txt
-    
+
         # Check out the PR, even if it lives in a fork.
-        # Instructions for pulling a PR were taken from: 
+        # Instructions for pulling a PR were taken from:
         # https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally
         - name: Checkout the PR branch and the target to calculate changed files for testing
           run: |
-            
+
             echo "Current Branch (Head Ref): ${{ github.head_ref }}"
             echo "Target Branch (Base Ref): ${{ github.base_ref }}"
             git pull > /dev/null 2>&1
             #We checkout into a new branch - new_branch_for_testing to avoid name collisions with develop incase the forked PR is from develop
             git fetch origin pull/${{ github.event.pull_request.number }}/head:new_branch_for_testing
-            #We must specifically get the PR's target branch from security_content, not the one that resides in the fork PR's forked repo           
+            #We must specifically get the PR's target branch from security_content, not the one that resides in the fork PR's forked repo
             git switch new_branch_for_testing
-        
+
         - name: Run a contentctl-ng build command to create a package that will be tested.
           run: |
             contentctl-ng build
-        
+
         - name: Start the test environment
           run: |
             docker run -d --platform linux/amd64 -p 8088:8088 -p 8089:8089 -p 8000:8000 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com' -e 'SPLUNK_PASSWORD=Chang3d!' --name splunk splunk/splunk:latest
             # Wait some time for this environment to be ready
             sleep 180
-            
+
         - name: Run a contentctl-ng install to configure the testing environment
           env:
             APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
-            APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"  
+            APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"
           run : |
-            contentctl-ng install --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD" 
-        
+            contentctl-ng install --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD"
+
         - name: Test content which has changed between this branch and the target branch
           run: |
             contentctl-ng test --verbose --post-test-behavior NEVER_PAUSE --mode CHANGED --git-ref ${{ github.base_ref }}
@@ -81,7 +86,7 @@ jobs:
               test_results/summary.yml
               dist/*.tar.gz
 
-        # Print entire result summary so that the users can view it in the Github Actions logs 
+        # Print entire result summary so that the users can view it in the Github Actions logs
         - name: Print entire test_results/summary.yml
           if: always()
           run: cat test_results/summary.yml
@@ -89,7 +94,7 @@ jobs:
         # Run a simple custom script created to pretty print results in a markdown friendly format in Github Actions Summary
         - name: Check the test_results/summary.yml for pass/fail.
           if: always()
-          run: |       
-            echo "This job will fail if there are failures in unit-testing"  
+          run: |
+            echo "This job will fail if there are failures in unit-testing"
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
             echo "The Unit testing is completed. See details in the unit-testing job summary UI "

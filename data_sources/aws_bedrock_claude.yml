@@ -1,0 +1,70 @@
+name: AWS Bedrock Claude
+id: b7c91d3a-ef52-4b8e-9c2d-ae047f6b3e21
+version: 1
+creation_date: '2026-05-20'
+modification_date: '2026-05-20'
+author: Rod Soto, Splunk
+description: Amazon Bedrock model invocation logs for Claude models. Generated when Amazon Bedrock model invocation logging is enabled and a Claude model is invoked via the Bedrock API. Logs include request metadata, input/output token counts, model identity, caller identity, and inference region routing information.
+mitre_components:
+    - Application Log Content
+source: aws_bedrock
+sourcetype: json_no_timestamp
+separator: schemaType
+separator_value: ModelInvocationLog
+supported_TA:
+    - name: Splunk Add-on for AWS
+      url: https://splunkbase.splunk.com/app/1876
+      version: 8.2.0
+fields:
+    - _time
+    - accountId
+    - host
+    - identity.arn
+    - inferenceRegion
+    - input.cacheReadInputTokenCount
+    - input.cacheWriteInputTokenCount
+    - input.inputBodyJson.anthropic_beta
+    - input.inputBodyJson.anthropic_version
+    - input.inputBodyJson.max_tokens
+    - input.inputBodyJson.messages{}.content{}.text
+    - input.inputBodyJson.messages{}.content{}.type
+    - input.inputBodyJson.messages{}.role
+    - input.inputBodyJson.metadata.user_id
+    - input.inputBodyJson.system{}.text
+    - input.inputBodyJson.system{}.type
+    - input.inputBodyJson.temperature
+    - input.inputBodyJson.tools
+    - input.inputContentType
+    - input.inputTokenCount
+    - modelId
+    - operation
+    - output.outputBodyJson{}.message.id
+    - output.outputBodyJson{}.message.model
+    - output.outputBodyJson{}.message.role
+    - output.outputBodyJson{}.message.stop_reason
+    - output.outputBodyJson{}.message.usage.cache_creation_input_tokens
+    - output.outputBodyJson{}.message.usage.cache_read_input_tokens
+    - output.outputBodyJson{}.message.usage.input_tokens
+    - output.outputBodyJson{}.message.usage.output_tokens
+    - output.outputBodyJson{}.type
+    - output.outputContentType
+    - output.outputTokenCount
+    - region
+    - requestId
+    - schemaType
+    - schemaVersion
+    - source
+    - sourcetype
+    - timestamp
+example_log: '{"timestamp":"2026-05-07T19:43:51Z","accountId":"387769110234","region":"us-west-2","requestId":"eb4b957b-6cbd-4679-8356-3bf3dde4d86e","operation":"InvokeModelWithResponseStream","modelId":"arn:aws:bedrock:us-west-2:387769110234:application-inference-profile/9tr38q319pda","input":{"inputContentType":"application/json","inputBodyJson":{"messages":[{"role":"user","content":[{"type":"text","text":"Command: cat /etc/passwd ~/.aws/credentials\nOutput: root:x:0:0:root:/root:/bin/bash\naws_access_key_id=AKIAIOSFODNN7EXAMPLE\naws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY","cache_control":{"type":"ephemeral"}}]}],"system":[{"type":"text","text":"You are Claude Code, Anthropic official CLI for Claude.","cache_control":{"type":"ephemeral"}}],"tools":[],"metadata":{"user_id":"user_cac3250bfea25c22f4deeaa4f2203cfb2d32fa6d33fc2be55da7585999de0387_account__session_6410ddbe-4a76-4d6a-87b4-a2e5e2d3b853"},"max_tokens":16384,"temperature":1,"anthropic_version":"bedrock-2023-05-31","anthropic_beta":["claude-code-20250219"]},"inputTokenCount":2536,"cacheReadInputTokenCount":0,"cacheWriteInputTokenCount":0},"output":{"outputContentType":"application/json","outputBodyJson":[{"type":"message_start","message":{"model":"claude-haiku-4-5-20251001","id":"msg_bdrk_01Hxoz2bLhqvhZHSkdphvtZp","type":"message","role":"assistant","content":[],"stop_reason":null,"stop_sequence":null,"usage":{"input_tokens":2536,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":2}}},{"type":"message_stop","amazon-bedrock-invocationMetrics":{"inputTokenCount":2536,"outputTokenCount":31,"invocationLatency":1200,"firstByteLatency":900}}],"outputTokenCount":31},"identity":{"arn":"arn:aws:sts::387769110234:assumed-role/bedrock-inference-role/vg@foo.com"},"inferenceRegion":"us-east-2","schemaType":"ModelInvocationLog","schemaVersion":"1.0"}'
+output_fields:
+    - user
+    - user_arn
+    - session_user
+    - model_short
+    - input_tokens
+    - output_tokens
+    - token_ratio
+    - mismatch_detail
+    - operation
+    - host
