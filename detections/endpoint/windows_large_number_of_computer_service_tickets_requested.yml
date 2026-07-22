@@ -6,18 +6,23 @@ modification_date: '2026-07-05'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a high volume of Kerberos service ticket requests, specifically more than 30, from a single source within a 5-minute window. It leverages Event ID 4769, which logs when a Kerberos service ticket is requested, focusing on requests with computer names as the Service Name. This behavior is significant as it may indicate malicious activities such as lateral movement, malware staging, or reconnaissance. If confirmed malicious, an attacker could gain unauthorized access to multiple endpoints, potentially compromising the entire network.
+description: |-
+    The following analytic detects a high volume of Kerberos service ticket requests, specifically more than 30, from a single source within a 5-minute window.
+    It leverages Event ID 4769, which logs when a Kerberos service ticket is requested, focusing on requests with computer names as the Service Name. This behavior is significant as it may indicate malicious activities such as lateral movement, malware staging, or reconnaissance.
+    If confirmed malicious, an attacker could gain unauthorized access to multiple endpoints, potentially compromising the entire network.
 data_source:
     - Windows Event Log Security 4769
 search: |-
-    `wineventlog_security` EventCode=4769 ServiceName="*$"
-      | eval TargetUserName = mvindex(split(TargetUserName, "@"), 0)
-      | search NOT TargetUserName="*$"
-      | bucket span=5m _time
-      | stats dc(ServiceName) AS unique_targets values(ServiceName) as host_targets values(dest) as dest
-        BY _time, IpAddress, TargetUserName
-      | where unique_targets > 30
-      | `windows_large_number_of_computer_service_tickets_requested_filter`
+    `wineventlog_security` EventCode=4769 ServiceName="*$" TargetUserName!="*$"
+    | eval TargetUserName = mvindex(split(TargetUserName, "@"), 0)
+    | search NOT TargetUserName="*$"
+    | bucket span=5m _time
+    | stats dc(ServiceName) AS unique_targets
+            values(ServiceName) as host_targets
+            values(dest) as dest
+      by _time, IpAddress, TargetUserName
+    | where unique_targets > 30
+    | `windows_large_number_of_computer_service_tickets_requested_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 known_false_positives: An single endpoint requesting a large number of kerberos service tickets is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, administration systems and missconfigured systems.
 references:
