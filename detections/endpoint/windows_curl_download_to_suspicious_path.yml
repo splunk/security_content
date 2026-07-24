@@ -1,8 +1,8 @@
 name: Windows Curl Download to Suspicious Path
 id: c32f091e-30db-11ec-8738-acde48001122
-version: 21
+version: 22
 creation_date: '2021-10-19'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -103,6 +103,7 @@ analytic_story:
     - Ingress Tool Transfer
     - NPM Supply Chain Compromise
     - Salt Typhoon
+    - Starland RAT Campaign
 asset_type: Endpoint
 mitre_attack_id:
     - T1105
