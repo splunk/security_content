@@ -18,7 +18,7 @@ separator_value: ProcessRollup2
 supported_TA:
     - name: Splunk Add-on for CrowdStrike FDR
       url: https://splunkbase.splunk.com/app/5579
-      version: 2.0.5
+      version: 3.1.1
 fields:
     - AuthenticationId
     - AuthenticationId_meaning
