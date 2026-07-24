@@ -1,0 +1,8 @@
+name: linux_syslog
+id: 8d38dda6-b102-454e-87c4-5ccac5aac591
+version: 1
+creation_date: '2020-07-17'
+modification_date: '2026-07-17'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="linux_messages_syslog"
