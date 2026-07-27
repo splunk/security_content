@@ -1,8 +1,8 @@
 name: Linux Binary Launched Process with Null Argv
 id: 0085652a-e682-45a2-a40c-5bb68b8f260e
-version: 1
+version: 2
 creation_date: '2026-05-12'
-modification_date: '2026-05-12'
+modification_date: '2026-07-17'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -11,7 +11,7 @@ description: |-
 data_source:
     - Linux Messages Syslog
 search: |
-    sourcetype="linux_messages_syslog" "NULL argv" "empty string added"
+    `linux_syslog` "NULL argv" "empty string added"
     | rex field=_raw "process '(?<launching_process>[^']+)' launched '(?<launched_process>[^']+)' with NULL argv"
     | where isnotnull(launching_process) AND isnotnull(launched_process)
     | stats
