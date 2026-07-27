@@ -41,7 +41,7 @@ search: |-
     )
     NOT (
         Processes.parent_process IN ("*-k netsvcs", "*-k netsvcs -p", "*-k netsvcs -p -s wuauserv", "-k netsvcs -p -s Schedule")
-        Processes.process_name IN ("Wuauclt.exe", "Schedule.exe")
+        Processes.process_name IN ("Wuauclt.exe", "Schtasks.exe")
     )
     NOT (
         Processes.parent_process = "*-k DcomLaunch*"
