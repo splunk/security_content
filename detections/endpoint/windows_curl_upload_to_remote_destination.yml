@@ -19,7 +19,7 @@ data_source:
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
-            max(_time)\nas lastTime
+            max(_time) as lastTime
 
     from datamodel=Endpoint.Processes where
 
