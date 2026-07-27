@@ -1,8 +1,8 @@
 name: Linux PF_ALG Registration Outside of Boot Window
 id: 8a9684ae-52e6-4a57-aea4-8a9f72942564
-version: 1
+version: 2
 creation_date: '2026-05-11'
-modification_date: '2026-05-11'
+modification_date: '2026-07-17'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -12,7 +12,7 @@ description: |-
 data_source:
     - Linux Messages Syslog
 search: |
-    sourcetype="linux_messages_syslog" "NET: Registered PF_ALG protocol family"
+    `linux_syslog` "NET: Registered PF_ALG protocol family"
     | rex field=_raw "kernel: \[\s*(?<uptime_seconds>[\d\.]+)\]"
     | eval uptime_seconds=tonumber(uptime_seconds)
     | where uptime_seconds > 300
