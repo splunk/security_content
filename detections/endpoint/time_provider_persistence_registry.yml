@@ -23,8 +23,8 @@ search: |-
     Registry.registry_value_name = "DllName"
     NOT Registry.registry_value_data IN
     (
-        "%SystemRoot%\System32\vmictimeprovider.dll",
-        "%SystemRoot%\System32\w32time.dll",
+        "%SystemRoot%\\System32\\vmictimeprovider.dll",
+        "%SystemRoot%\\System32\\w32time.dll",
         "C:\\Windows\\System32\\vmictimeprovider.dll",
         "C:\\Windows\\System32\\w32time.dll"
     )

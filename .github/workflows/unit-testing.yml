@@ -3,10 +3,11 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
     paths:
-      - detections/**
       - data_sources/**
+      - detections/**
       - lookups/**
       - macros/**
+      - install.yml
 jobs:
   unit-testing:
     runs-on: large-ubuntu-22.04-32core
