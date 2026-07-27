@@ -1,8 +1,8 @@
 name: AWS ECR Container Scanning Findings Low Informational Unknown
 id: cbc95e44-7c22-443f-88fd-0424478f5589
-version: 13
+version: 14
 creation_date: '2021-08-18'
-modification_date: '2026-05-13'
+modification_date: '2026-07-27'
 author: Patrick Bareiss, Eric McGinnis Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,8 @@ search: |-
       | spath input=findings
       | search severity IN ("LOW", "INFORMATIONAL", "UNKNOWN")
       | rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest as imageDigest, requestParameters.repositoryName as repository
-      | rename user_name as user
+      | rename userIdentity.arn as user, userAgent as user_agent, sourceIPAddress as src, awsRegion as vendor_region, userIdentity.accountId as vendor_account, eventName as signature, responseElements.registryId as dest
+      | eval vendor_product="Amazon Web Services"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user
            user_agent src vendor_account
