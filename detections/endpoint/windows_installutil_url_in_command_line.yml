@@ -1,6 +1,6 @@
 name: Windows InstallUtil URL in Command Line
 id: 28e06670-43df-11ec-a569-acde48001122
-version: 16
+version: 15
 creation_date: '2021-11-12'
 modification_date: '2026-07-14'
 author: Michael Haag, Splunk

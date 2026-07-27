@@ -1,6 +1,6 @@
 name: Windows File Download Via PowerShell
 id: 58c4e56c-b5b8-46a3-b5fb-6537dca3c6de
-version: 11
+version: 10
 creation_date: '2021-03-01'
 modification_date: '2026-07-14'
 author: Michael Haag, Nasreddine Bencherchali, Splunk

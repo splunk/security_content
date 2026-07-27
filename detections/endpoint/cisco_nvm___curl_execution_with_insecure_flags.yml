@@ -1,6 +1,6 @@
 name: Cisco NVM - Curl Execution With Insecure Flags
 id: cc695238-3117-4e60-aa83-4beac2a42c69
-version: 9
+version: 8
 creation_date: '2025-07-01'
 modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Splunk

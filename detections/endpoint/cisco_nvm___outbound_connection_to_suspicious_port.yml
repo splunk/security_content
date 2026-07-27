@@ -1,6 +1,6 @@
 name: Cisco NVM - Outbound Connection to Suspicious Port
 id: fc32a8d5-bc79-4437-b48f-4646ab7bed9d
-version: 7
+version: 6
 creation_date: '2025-07-01'
 modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Splunk

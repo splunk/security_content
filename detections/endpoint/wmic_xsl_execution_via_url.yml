@@ -1,6 +1,6 @@
 name: WMIC XSL Execution via URL
 id: 787e9dd0-4328-11ec-a029-acde48001122
-version: 15
+version: 14
 creation_date: '2021-11-12'
 modification_date: '2026-07-14'
 author: Michael Haag, Splunk

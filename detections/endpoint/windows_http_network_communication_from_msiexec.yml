@@ -1,6 +1,6 @@
 name: Windows HTTP Network Communication From MSIExec
 id: b0fd38c7-f71a-43a2-870e-f3ca06bcdd99
-version: 12
+version: 11
 creation_date: '2022-06-17'
 modification_date: '2026-07-14'
 author: Michael Haag, Splunk

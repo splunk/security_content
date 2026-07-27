@@ -1,6 +1,6 @@
 name: Windows AppCertDLL Modification Via Command Line
 id: 3ba73a2b-3396-47e4-bdef-c80e6a7895c0
-version: 3
+version: 2
 creation_date: '2021-05-07'
 modification_date: '2026-07-27'
 author: Raven Tait, Splunk

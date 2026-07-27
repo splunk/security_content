@@ -1,6 +1,6 @@
 name: Cisco NVM - MSHTML or MSHTA Network Execution Without URL in CLI
 id: f2a9df84-9b01-4a21-9e3a-7aa1a217f69e
-version: 7
+version: 6
 creation_date: '2025-07-01'
 modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Splunk

@@ -1,6 +1,6 @@
 name: Windows PowerShell FakeCAPTCHA Clipboard Execution
 id: d81d4d3d-76b5-4f21-ab51-b17d5164c106
-version: 10
+version: 9
 creation_date: '2025-05-19'
 modification_date: '2026-07-14'
 author: Michael Haag, Splunk

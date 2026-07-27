@@ -1,6 +1,6 @@
 name: Attacker Tools On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-16a110145893
-version: 20
+version: 19
 creation_date: '2021-07-12'
 modification_date: '2026-07-14'
 author: Bhavin Patel, Splunk, sventec, Github Community

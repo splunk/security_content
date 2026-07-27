@@ -1,6 +1,6 @@
 name: Windows File Download Via CertUtil
 id: 7fac8d40-e370-45ea-a4a3-031bbcc18b02
-version: 8
+version: 7
 creation_date: '2021-03-24'
 modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
