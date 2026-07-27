@@ -2,7 +2,7 @@ name: Cisco NVM - Suspicious Network Connection Initiated via MsXsl
 id: 1cbcf75f-0e45-4f29-8c1b-7fcd7e55cc55
 version: 6
 creation_date: '2025-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -91,5 +91,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
-          sourcetype: cisco:nvm:flowdata
+          sourcetype: cisco:nvm:flowdata:v2
       test_type: unit

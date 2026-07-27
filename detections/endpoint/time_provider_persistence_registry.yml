@@ -1,15 +1,43 @@
 name: Time Provider Persistence Registry
 id: 5ba382c4-2105-11ec-8d8f-acde48001122
-version: 15
+version: 16
 creation_date: '2021-09-29'
-modification_date: '2026-05-13'
+modification_date: '2026-07-08'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
-description: The following analytic detects suspicious modifications to the time provider registry for persistence and autostart. It leverages data from the Endpoint.Registry data model, focusing on changes to the "CurrentControlSet\\Services\\W32Time\\TimeProviders" registry path. This activity is significant because such modifications are uncommon and can indicate an attempt to establish persistence on a compromised host. If confirmed malicious, this technique allows an attacker to maintain access and execute code automatically upon system boot, potentially leading to further exploitation and control over the affected system.
+description: |-
+    The following analytic detects suspicious modifications to the time provider registry for persistence and autostart. It leverages data from the Endpoint.Registry data model, focusing on changes to the "CurrentControlSet\\Services\\W32Time\\TimeProviders" registry path.
+    This activity is significant because such modifications are uncommon and can indicate an attempt to establish persistence on a compromised host.
+    If confirmed malicious, this technique allows an attacker to maintain access and execute code automatically upon system boot, potentially leading to further exploitation and control over the affected system.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path="*\\CurrentControlSet\\Services\\W32Time\\TimeProviders*") by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `time_provider_persistence_registry_filter`'
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Registry WHERE
+
+    Registry.registry_path="*\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\*"
+    Registry.registry_value_name = "DllName"
+    NOT Registry.registry_value_data IN
+    (
+        "%SystemRoot%\System32\vmictimeprovider.dll",
+        "%SystemRoot%\System32\w32time.dll",
+        "C:\\Windows\\System32\\vmictimeprovider.dll",
+        "C:\\Windows\\System32\\w32time.dll"
+    )
+
+    by Registry.action Registry.dest Registry.process_guid Registry.process_id
+       Registry.registry_hive Registry.registry_path Registry.registry_key_name
+       Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
+       Registry.status Registry.user Registry.vendor_product
+
+    | `drop_dm_object_name(Registry)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `time_provider_persistence_registry_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: No false positives have been identified at this time.
 references:

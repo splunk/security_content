@@ -2,7 +2,7 @@ name: Cisco NVM - Installation of Typosquatted Python Package
 id: 5e3f6b44-42cb-4f8a-99f0-59e78a52ea1d
 version: 5
 creation_date: '2025-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -92,5 +92,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
-          sourcetype: cisco:nvm:flowdata
+          sourcetype: cisco:nvm:flowdata:v2
       test_type: unit
