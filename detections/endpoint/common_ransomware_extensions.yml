@@ -45,7 +45,7 @@ search: |
         "*.txt", "*.url", "*.vb", "*.vbe", "*.vbs", "*.vcxproj", "*.vhd", "*.vhdx",
         "*.wav", "*.webm", "*.webp", "*.wim", "*.wsf", "*.xlam", "*.xls", "*.xlsb",
         "*.xlsm", "*.xlsx", "*.xlt", "*.xltm", "*.xltx", "*.xml", "*.xps",
-        "*.yaml", "*.yml", "*.zip"
+        "*.yaml", "*.yml"
     )
     BY Filesystem.action Filesystem.dest
         Filesystem.file_access_time Filesystem.file_create_time

@@ -7,7 +7,7 @@ author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
 description: |-
-    This analytic detects the creation of files without extensions in critical Windows system and driver-related directories, including but not limited to System32\Drivers, Windows\WinSxS, and other known Windows driver storage and loading paths.
+    This analytic detects the creation of files without extensions in critical Windows system and driver-related directories, including but not limited to System32\Drivers, and other known Windows driver storage and loading paths.
     The analytic leverages telemetry from the Endpoint.Filesystem data model, with a focus on file creation events and file path analysis.
     File creation activity in these directories—particularly involving extensionless files—is highly suspicious, as it may indicate the presence of destructive or stealthy malware.
     This behavior is consistent with malware families such as HermeticWiper, which deploy kernel driver components into trusted Windows driver directories to obtain low-level access and execute destructive payloads.
