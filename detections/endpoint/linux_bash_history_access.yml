@@ -57,7 +57,6 @@ analytic_story:
 asset_type: Endpoint
 mitre_attack_id:
     - T1552.003
-    - T1552.003
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security

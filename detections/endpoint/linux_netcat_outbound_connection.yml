@@ -12,9 +12,7 @@ data_source:
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
     as lastTime from datamodel=Network_Traffic.All_Traffic where
-    All_Traffic.app IN ("*ncat*", "*netcat*")
-    OR
-    All_Traffic.process_name IN ("*nc", "*ncat", "*netcat")
+    All_Traffic.app IN ("*nc","*ncat", "*netcat")
     All_Traffic.direction=outbound
     by All_Traffic.src All_Traffic.dest All_Traffic.dest_port All_Traffic.transport
     All_Traffic.process_name All_Traffic.app All_Traffic.user All_Traffic.process_id
