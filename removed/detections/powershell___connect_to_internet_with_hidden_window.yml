@@ -2,9 +2,9 @@ name: PowerShell - Connect To Internet With Hidden Window
 id: ee18ed37-0802-4268-9435-b3b91aaa18db
 version: 17
 creation_date: '2020-04-29'
-modification_date: '2026-06-04'
+modification_date: '2026-07-29'
 author: David Dorsey, Michael Haag Splunk
-status: deprecated
+status: removed
 type: Hunting
 description: The following analytic detects PowerShell commands using the WindowStyle parameter to hide the window while connecting to the Internet. This behavior is identified through Endpoint Detection and Response (EDR) telemetry, focusing on command-line executions that include variations of the WindowStyle parameter. This activity is significant because it attempts to bypass default PowerShell execution policies and conceal its actions, which is often indicative of malicious intent. If confirmed malicious, this could allow an attacker to execute commands stealthily, potentially leading to unauthorized data exfiltration or further compromise of the endpoint.
 data_source:

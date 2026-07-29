@@ -2,9 +2,9 @@ name: Rundll32 CreateRemoteThread In Browser
 id: f8a22586-ee2d-11eb-a193-acde48001122
 version: 11
 creation_date: '2021-07-29'
-modification_date: '2026-06-29'
+modification_date: '2026-07-29'
 author: Teoderick Contreras, Splunk
-status: deprecated
+status: removed
 type: TTP
 description: |-
     The following analytic detects the suspicious creation of a remote thread by rundll32.exe targeting browser processes such as firefox.exe, chrome.exe, iexplore.exe, and microsoftedgecp.exe.
