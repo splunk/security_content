@@ -1,0 +1,77 @@
+name: Windows Powershell Commands from DNS TXT
+id: b61353cd-5b09-4699-8b86-6517a9038043
+version: 1
+creation_date: '2026-07-30'
+modification_date: '2026-07-30'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: >-
+    The following analytic detects execution of powershell commands retrieved from
+    a remote DNS TXT query response. The use of the DNS TXT record for C2 is an uncommon
+    method for malware that is resilient due to the need for DNS in normal networking
+    activities. This can ensure that their c2 is not blocked by any firewalls. False
+    positives are highly unlikely due to the very uncommon chaining of powershell
+    and DNS TXT queries.
+data_source:
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell` EventCode=4104
+      (
+        (ScriptBlockText="*resolve-dnsname*" AND ScriptBlockText="*-Type TXT*")
+        OR (ScriptBlockText="*nslookup*" AND ScriptBlockText="*type=txt*")
+        OR (ScriptBlockText="*dig*" AND ScriptBlockText="* TXT*")
+      )
+      (ScriptBlockText="*. (*" OR ScriptBlockText="*IEX*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        by dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_powershell_commands_from_dns_txt_filter`
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup instructions are available at https://docs.splunk.com/Documentation/ES/latest/Admin/Configurepowershelllogging.
+known_false_positives: False positives are highly unlikely given the uncommon combination of PowerShell execution and DNS TXT query responses. Legitimate use cases for this behavior are extremely rare and should be investigated thoroughly if detected.
+drilldown_searches:
+    - name: View the detection results for - "$user_id$" and "$dest$"
+      search: '%original_detection_search% | search  user_id = "$user_id$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user_id$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: A suspicious PowerShell script with the ScriptBlockId [$ScriptBlockId$] containing DNS TXT query commands was executed on host $dest$
+        - field: user_id
+          type: user
+          score: 20
+          message: A suspicious PowerShell script with the ScriptBlockId [$ScriptBlockId$] containing DNS TXT query commands was executed on host $dest$ by user $user_id$
+analytic_story:
+    - Malicious PowerShell
+    - Command And Control
+    - Suspicious DNS Traffic
+asset_type: Endpoint
+mitre_attack_id:
+    - T1071.004
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+security_domain: endpoint
+category: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/windows_powershell_commands_from_dns_txt/snapattack_windows.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
