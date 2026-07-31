@@ -54,5 +54,5 @@ tests:
       test_type: unit
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1040/windows_network_sniffing_tools/snapattack_windows.log
-          source: XmlWinEventLog:Security
-          sourcetype: ''
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

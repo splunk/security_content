@@ -59,4 +59,4 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/windows_suspicious_child_of_consent_exe/snapattack_windows.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-          sourcetype: xmlwineventlog
+          sourcetype: XmlWinEventLog
