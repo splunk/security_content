@@ -17,7 +17,7 @@ separator: event.DetectName
 supported_TA:
     - name: Splunk Add-on for CrowdStrike FDR
       url: https://splunkbase.splunk.com/app/5579
-      version: 3.0.0
+      version: 3.1.2
 fields:
     - action
     - description
