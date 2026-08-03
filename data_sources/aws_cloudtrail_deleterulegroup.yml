@@ -11,7 +11,7 @@ separator: eventName
 supported_TA:
     - name: Splunk Add-on for AWS
       url: https://splunkbase.splunk.com/app/1876
-      version: 8.1.2
+      version: 8.2.1
 fields:
     - _time
 example_log: ''
