@@ -11,7 +11,7 @@ separator: Operation
 supported_TA:
     - name: Splunk Microsoft Office 365 Add-on
       url: https://splunkbase.splunk.com/app/4055
-      version: 6.0.2
+      version: 6.1.0
 fields:
     - _time
 example_log: ''
