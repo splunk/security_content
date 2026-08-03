@@ -1,8 +1,8 @@
 name: Windows WinSCP Configuration Security Access
 id: 90013cc4-585b-4437-a95f-099933974f3e
-version: 1
+version: 2
 creation_date: '2026-06-24'
-modification_date: '2026-06-24'
+modification_date: '2026-07-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -17,7 +17,7 @@ search: |-
     `wineventlog_security`
     EventCode=4663
     object_file_path="*\\Martin Prikryl\\WinSCP 2\\Configuration\\Security*"
-    NOT process_name IN ("winscp.exe")
+    NOT process_path IN ("*:\\Program Files (x86)\\WinSCP\\WinSCP.exe")
 
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
@@ -32,7 +32,7 @@ how_to_implement: |-
     To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663.
     For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
 known_false_positives: |-
-    False positive may occur during backup or anti-virus scanning process. Filter as needed.
+    False positive may occur during backup or anti-virus scanning process, as well as from WinSCP itself if it is installed in a different path than the default path. Filter as needed.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.phantom_stealer
     - https://www.proofpoint.com/us/blog/threat-insight/not-safe-work-tracking-and-investigating-stealerium-and-phantom-infostealers

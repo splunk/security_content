@@ -1,8 +1,8 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 34
+version: 35
 creation_date: '2020-04-29'
-modification_date: '2026-06-25'
+modification_date: '2026-07-20'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
@@ -83,6 +83,7 @@ analytic_story:
     - Axios Supply Chain Post Compromise
     - Salat Stealer
     - Phantom Stealer
+    - Starland RAT Campaign
 asset_type: Endpoint
 mitre_attack_id:
     - T1547.001

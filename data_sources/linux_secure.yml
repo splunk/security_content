@@ -16,7 +16,7 @@ sourcetype: linux_secure
 supported_TA:
     - name: Splunk Add-on for Unix and Linux
       url: https://splunkbase.splunk.com/app/833
-      version: 10.3.1
+      version: 10.3.2
 fields:
     - _time
     - action

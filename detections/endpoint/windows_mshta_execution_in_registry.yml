@@ -1,8 +1,8 @@
 name: Windows Mshta Execution In Registry
 id: e13ceade-b673-4d34-adc4-4d9c01729753
-version: 12
+version: 13
 creation_date: '2022-10-14'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -52,6 +52,7 @@ intermediate_findings:
 analytic_story:
     - Suspicious Windows Registry Activities
     - Windows Persistence Techniques
+    - Starland RAT Campaign
 asset_type: Endpoint
 mitre_attack_id:
     - T1218.005

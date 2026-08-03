@@ -1,7 +1,0 @@
-name: Threat Activity by Snort IDs
-id: 77d805c2-747e-4b78-8979-52deca44254f
-version: 2
-creation_date: '2025-04-29'
-modification_date: '2026-05-13'
-author: Bhavin Patel, Nasreddine Bencherchali, Splunk
-description: Utilize this panel to correlate Snort intrusion events with known threat activity. Configure the Snort-ID-to-Threat lookup to enrich incoming signature data and populate the “Threat Activity by Snort IDs” view.

@@ -1,8 +1,8 @@
 name: Windows PowerShell ScheduleTask
 id: ddf82fcb-e9ee-40e3-8712-a50b5bf323fc
-version: 13
+version: 14
 creation_date: '2023-06-12'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -48,6 +48,7 @@ intermediate_findings:
 analytic_story:
     - Scheduled Tasks
     - Scattered Spider
+    - Starland RAT Campaign
 asset_type: Endpoint
 atomic_guid:
     - af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd

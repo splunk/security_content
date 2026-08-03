@@ -1,8 +1,8 @@
 name: Windows Suspicious Defender Update Activity in INetCache
 id: 3e25f906-6319-44ad-ab9a-22d162eb3925
-version: 1
+version: 2
 creation_date: '2026-04-27'
-modification_date: '2026-04-27'
+modification_date: '2026-07-20'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -15,7 +15,7 @@ data_source:
     - Sysmon EventID 23
 search: |-
     `sysmon`
-    EventID IN ("11","23")
+    EventID IN (11, 23, 26)
     TargetFilename="*\\INetCache*"
     TargetFilename="*\\mpam-fe[1].exe*"
     NOT Image IN (

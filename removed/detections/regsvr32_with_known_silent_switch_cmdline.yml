@@ -2,9 +2,9 @@ name: Regsvr32 with Known Silent Switch Cmdline
 id: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
 version: 15
 creation_date: '2021-07-29'
-modification_date: '2026-06-09'
+modification_date: '2026-07-29'
 author: Teoderick Contreras, Splunk
-status: deprecated
+status: removed
 deprecation_info:
     reason: Detection has been deprecated since its logic is already covered by another more improved detection.
     removed_in_version: 6.4.0
