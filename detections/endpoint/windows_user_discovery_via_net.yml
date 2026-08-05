@@ -1,44 +1,63 @@
 name: Windows User Discovery Via Net
 id: 7742987e-88c1-476b-a626-a869e088ab72
-version: 6
+version: 7
 creation_date: '2021-08-24'
-modification_date: '2026-05-13'
+modification_date: '2026-08-05'
 author: Mauricio Velazco, Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of `net.exe` or `net1.exe` with command-line arguments `user` or `users` to query local user accounts. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it indicates potential reconnaissance efforts by adversaries to enumerate local users, which is a common step in situational awareness and Active Directory discovery. If confirmed malicious, this behavior could lead to further attacks, including privilege escalation and lateral movement within the network.
+description: |-
+    The following analytic detects the execution of `net.exe` or `net1.exe` with command-line arguments `user` or `users` to query local and domain accounts.
+    It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it indicates potential reconnaissance efforts by adversaries to enumerate local and domain users, which is a common step in situational awareness and Active Directory discovery.
+    If confirmed malicious, this behavior could lead to further attacks, including privilege escalation and lateral movement within the network.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE `process_net` (Processes.process="*user"
-        OR
-        Processes.process="*users"
-        OR
-        Processes.process="*users *"
-        OR
-        Processes.process="*user *")
-        AND
-        NOT (Processes.process="*/add"
-        OR
-        Processes.process="*/delete")
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    `process_net`
+
+    Processes.process IN (
+        "*user *",
+        "*user",
+        "*users *",
+        "*users"
+    )
+    NOT Processes.process IN (
+        "*/add*",
+        "*/delete*",
+        "*/active*",
+        "*/times*",
+        "*/delete*",
+    )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_user_discovery_via_net_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Administrators or power users may use this command for troubleshooting.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Administrators or power users may use this command for troubleshooting.
 references:
     - https://attack.mitre.org/techniques/T1087/001/
+    - https://attack.mitre.org/techniques/T1087/002/
+    - https://ss64.com/nt/net-user.html
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/net-user?source=recommendations#parameters
 analytic_story:
     - Active Directory Discovery
     - Sandworm Tools
@@ -46,6 +65,7 @@ analytic_story:
 asset_type: Endpoint
 mitre_attack_id:
     - T1087.001
+    - T1087.002
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
@@ -53,9 +73,15 @@ product:
 category: endpoint
 security_domain: endpoint
 tests:
-    - name: True Positive Test
+    - name: True Positive Test - Local User Discovery
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Domain User Discovery
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
