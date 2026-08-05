@@ -15,7 +15,7 @@ separator_value: '1100'
 supported_TA:
     - name: Splunk Add-on for Microsoft Windows
       url: https://splunkbase.splunk.com/app/742
-      version: 11.0.0
+      version: 10.0.1
 fields:
     - _time
     - Channel
