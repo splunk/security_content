@@ -3,7 +3,7 @@ apps:
       hardcoded_path: dist/DA-ESS-ContentUpdate.tar.gz
     - appid: SplunkEnterpriseSecuritySuite
       url: https://splunkbase.splunk.com/app/263
-      version: 8.5.1
+      version: 8.6.1
     - appid: Splunk_TA_microsoft-iis
       url: https://splunkbase.splunk.com/app/3185
       version: 2.0.0
