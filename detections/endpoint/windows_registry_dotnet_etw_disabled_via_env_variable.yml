@@ -37,7 +37,7 @@ search: |-
     | `windows_registry_dotnet_etw_disabled_via_env_variable_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: |-
-    Setting the "COMPlus_ETWEnabled" value as a global environment variable either in user or machine scope should only happens during debugging use cases, hence the false positives rate should be very minimal.
+    Setting the "COMPlus_ETWEnabled" value as a global environment variable either in user or machine scope should only happen during debugging use cases, hence the false positives rate should be very minimal.
 references:
     - https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
     - https://blog.xpnsec.com/hiding-your-dotnet-complus-etwenabled/

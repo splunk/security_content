@@ -80,7 +80,7 @@ search: |-
 how_to_implement: |-
     To successfully implement this search, you need to be ingesting Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also required. Also enable the object Audit access success/failure in your group policy.
 known_false_positives: |-
-    This behavior may be seen in normal transfer of file within network if network share is common place for sharing documents.
+    This behavior may be seen in normal transfer of files within a network if network shares are commonly used for sharing documents.
 references:
     - https://attack.mitre.org/techniques/T1537/
     - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5145#table-of-file-access-codes
@@ -98,7 +98,7 @@ intermediate_findings:
         - field: src_user
           type: user
           score: 20
-          message: High frequency copy of document into a network share [$RelativeTargetName$] from [$src_ip$] by [$src_user$]
+          message: High frequency copy of file [$valRelativeTargetName$] into a network share from [$src_ip$] by [$src_user$]
 threat_objects:
     - field: src_ip
       type: ip_address

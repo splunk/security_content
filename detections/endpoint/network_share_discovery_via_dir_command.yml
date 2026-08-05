@@ -23,7 +23,7 @@ search: |-
 
 
     ```
-    We Select only select read related operations:
+    We select only read-related operations:
         0x1 = ReadData (or ListDirectory)
     ```
 
@@ -49,7 +49,8 @@ known_false_positives: |-
     However, this will typically come only from certain users and certain systems that can be added to an allow list.
 references:
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
-    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5145#table-of-file-access-codes
+    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5140#table-of-file-access-codes
+    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5140
 analytic_story:
     - IcedID
 asset_type: Endpoint
