@@ -15,7 +15,12 @@ data_source:
 search: |-
     `wineventlog_security`
     EventCode=5145
-    RelativeTargetName IN ("*.exe","*.dll")
+    RelativeTargetName IN (
+        "*.cpl",
+        "*.dll",
+        "*.exe",
+        "*.sys"
+    )
     ObjectType=File
     ShareName IN (
         "\\\\*\\Admin$",
@@ -24,7 +29,7 @@ search: |-
     )
 
     | eval AccessMask_ = tonumber(AccessMask, 16)
-    | where (bit_and(AccessMask_, 2) > 0) OR (bit_and(AccessMask_, 4) > 0)
+    | where (bit_and(AccessMask_, 2) != 0) OR (bit_and(AccessMask_, 4) != 0)
 
     | stats min(_time) as firstTime
             max(_time) as lastTime count
@@ -45,6 +50,7 @@ references:
     - https://labs.vipre.com/trickbot-and-its-modules/
     - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5145#table-of-file-access-codes
 drilldown_searches:
     - name: View the detection results for - "$src_user$"
       search: '%original_detection_search% | search  src_user = "$src_user$"'
