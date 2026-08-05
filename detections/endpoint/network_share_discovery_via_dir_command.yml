@@ -35,7 +35,7 @@ search: |-
             count
 
     by ShareName IpAddress ObjectType SubjectUserName
-       SubjectDomainNameIpPort AccessMask Computer
+       SubjectDomainName IpPort AccessMask Computer
 
     | rename Computer as dest
 
