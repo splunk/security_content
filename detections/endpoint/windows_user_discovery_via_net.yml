@@ -31,10 +31,9 @@ search: |-
     )
     NOT Processes.process IN (
         "*/add*",
-        "*/delete*",
         "*/active*",
-        "*/times*",
         "*/delete*",
+        "*/times*"
     )
 
     BY Processes.action Processes.dest Processes.original_file_name
