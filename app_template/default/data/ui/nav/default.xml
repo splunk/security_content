@@ -1,10 +1,8 @@
 <nav search_view="search" color="#65A637">
-  <view name="landing" default="true"/>
-  <view name="onboarding"/>
+  <view name="escu_summary" default="true"/>
+  <view name="feedback"/>
   <view name="search"/>
-  <collection label="Dashboards">
-    <view source="unclassified" match="__"/>
-  </collection>
+  <view name="dashboards"/>
   <a href="https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update">Docs</a>
   <a href="/app/SplunkEnterpriseSecuritySuite/ess_use_case_library">Explore in ES</a>
 </nav>
