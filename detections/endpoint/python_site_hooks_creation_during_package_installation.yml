@@ -24,9 +24,9 @@ search: |-
     | search dc_event_id>1
     | `python_site_hooks_creation_during_package_installation_filter`
 how_to_implement: |-
-    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1) 
+    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1)
     and file creation (EventID 11) events, ensuring that file creation events are collected for files with the .py
-    extension. Ingest the data via the appropriate Splunk Technology Add-on and normalize field names using the 
+    extension. Ingest the data via the appropriate Splunk Technology Add-on and normalize field names using the
     Splunk Common Information Model (CIM).
 known_false_positives: |-
     Some legitimate tooling and environment managers create or modify `sitecustomize.py`/`usercustomize.py`

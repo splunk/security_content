@@ -21,7 +21,7 @@ search: |-
     | stats values(parent_process_id) as parent_process_id, values(dest_ip) as dest_ip, values(QueryName) as QueryName, values(CommandLine) as CommandLine, values(parent_process) as parent_process, dc(EventID) as EventID count by _time, host, source, process_id
     | search CommandLine="*_in_process.py*" AND CommandLine="* build_wheel*" AND dest_ip!=""
     | `python_network_traffic_during_package_build_filter`
-how_to_implement: |- 
+how_to_implement: |-
     The detection is based on data that originates from Sysmon. To implement this search, you must ingest logs
     with process creation (EventID 1) and network connection (EventID 3) events, mapped via the appropriate
     Splunk Technology Add-on. Use the Splunk Common Information Model (CIM) to normalize the field names.

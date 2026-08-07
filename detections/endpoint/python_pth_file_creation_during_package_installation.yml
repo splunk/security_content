@@ -23,9 +23,9 @@ search: |-
     | search dc_event_id>1
     | `python_pth_file_creation_during_package_installation_filter`
 how_to_implement: |-
-    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1) 
+    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1)
     and file creation (EventID 11) events, ensuring that file creation events are collected for files with the .pth
-    extension. Ingest the data via the appropriate Splunk Technology Add-on and normalize field names using the 
+    extension. Ingest the data via the appropriate Splunk Technology Add-on and normalize field names using the
     Splunk Common Information Model (CIM).
 known_false_positives: |-
     Legitimate packages, such as those managing namespace packages or editable installs, may create `.pth`
