@@ -1,0 +1,107 @@
+name: Linux Possible Bootloader Modification
+id: 97fd4330-bd47-4742-abaf-c877d404822a
+version: 1
+creation_date: '2026-07-08'
+modification_date: '2026-07-08'
+author: Raven Tait, Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects processes modifying data in the EFI volume on Linux.
+    These files are responsible for initializing the Boot Manager during system startup.
+    Modification or replacement of these files is highly unusual in normal operations and may indicate an attempt to install a bootkit, persist malicious code at the firmware level, or otherwise tamper with the system boot process.
+data_source:
+    - Sysmon for Linux EventID 1
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    (
+        Processes.process_name IN (
+            "cp",
+            "mv",
+            "ln",
+        )
+        Processes.process_current_directory="*/EFI/BOOT*"
+    )
+    OR
+    (
+        Processes.process="*/EFI/BOOT*"
+        NOT Processes.process_name IN (
+            "ls",
+            "grep",
+            "egrep",
+        )
+    )
+
+    by Processes.process Processes.vendor_product Processes.user_id
+       Processes.process_hash Processes.parent_process_name Processes.parent_process_exec
+       Processes.action Processes.dest Processes.process_current_directory Processes.process_path
+       Processes.process_integrity_level Processes.original_file_name Processes.parent_process
+       Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id
+       Processes.process_guid Processes.process_id Processes.user Processes.process_name
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_possible_bootloader_modification_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Legitimate system administrators or package managers such as grub or shim may modify EFI volume files during OS upgrades or bootloader updates. Filter based on known update processes or trusted administrative activity.
+references:
+    - https://www.welivesecurity.com/en/eset-research/under-cloak-uefi-secure-boot-introducing-cve-2024-7344/
+    - https://www.bleepingcomputer.com/news/security/new-hybridpetya-ransomware-can-bypass-uefi-secure-boot/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+finding:
+    title: Possible bootloader modification identified via [$process$] by [$user$] on [$dest$]
+    entity:
+        field: dest
+        type: system
+        score: 50
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 50
+          message: Possible bootloader modification via [$process$] by [$user$] on [$dest$].
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process
+analytic_story:
+    - Linux Rootkit
+    - Data Destruction
+    - Linux Persistence Techniques
+asset_type: Endpoint
+cve:
+    - CVE-2024-7344
+mitre_attack_id:
+    - T1542.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1542/linux_possible_bootloader_modifications/snapattack_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

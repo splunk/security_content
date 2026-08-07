@@ -1,17 +1,43 @@
 name: Windows Registry Dotnet ETW Disabled Via ENV Variable
 id: 55502381-5cce-491b-9277-7cb1d10bc0df
-version: 10
+version: 11
 creation_date: '2021-10-07'
-modification_date: '2026-05-13'
+modification_date: '2026-08-05'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
-description: The following analytic detects a registry modification that disables the ETW for the .NET Framework. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the COMPlus_ETWEnabled registry value under the "Environment" registry key path for both user (HKCU\Environment) and machine (HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment) scopes. This activity is significant because disabling ETW can allow attackers to evade Endpoint Detection and Response (EDR) tools and hide their execution from audit logs. If confirmed malicious, this action could enable attackers to operate undetected, potentially leading to further compromise and persistent access within the environment.
+description: |-
+    The following analytic detects a registry modification that disables the ETW for the .NET Framework.
+    It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the COMPlus_ETWEnabled registry value under the "Environment" registry key path for both user (HKCU\Environment) and machine (HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment) scopes.
+    This activity is significant because disabling ETW can allow attackers to evade Endpoint Detection and Response (EDR) tools and hide their execution from audit logs.
+    If confirmed malicious, this action could enable attackers to operate undetected, potentially leading to further compromise and persistent access within the environment.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path="*\\Environment*" Registry.registry_value_name="COMPlus_ETWEnabled" (Registry.registry_value_data=0x000000000 OR Registry.registry_value_data=0) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_registry_dotnet_etw_disabled_via_env_variable_filter`'
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Registry WHERE
+
+    Registry.registry_path="*\\Environment*"
+    Registry.registry_value_name="COMPlus_ETWEnabled"
+    Registry.registry_value_data IN ("0x00000000", "0")
+
+    by Registry.action Registry.dest Registry.process_guid Registry.process_id
+       Registry.registry_hive Registry.registry_path Registry.registry_key_name
+       Registry.registry_value_data Registry.registry_value_name
+       Registry.registry_value_type Registry.status
+       Registry.user Registry.vendor_product
+
+    | `drop_dm_object_name(Registry)`
+    | where isnotnull(registry_value_data)
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_registry_dotnet_etw_disabled_via_env_variable_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: Setting the "COMPlus_ETWEnabled" value as a global environment variable either in user or machine scope should only happens during debugging use cases, hence the false positives rate should be very minimal.
+known_false_positives: |-
+    Setting the "COMPlus_ETWEnabled" value as a global environment variable either in user or machine scope should only happen during debugging use cases, hence the false positives rate should be very minimal.
 references:
     - https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
     - https://blog.xpnsec.com/hiding-your-dotnet-complus-etwenabled/
@@ -26,7 +52,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Modified registry entry $registry_path$ in $dest$
+    title: The registry key [$registry_path$] with the value name [$registry_value_name$] was modified to the value [$registry_value_data$] to disable the ETW for the .NET Framework in [$dest$]
     entity:
         field: user
         type: user
@@ -36,7 +62,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 50
-          message: Modified registry entry $registry_path$ in $dest$
+          message: The registry key [$registry_path$] with the value name [$registry_value_name$] was modified to the value [$registry_value_data$] to disable the ETW for the .NET Framework in [$dest$]
 analytic_story:
     - Windows Registry Abuse
     - Windows Defense Evasion Tactics
