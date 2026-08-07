@@ -6,23 +6,32 @@ modification_date: '2026-07-08'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: The following analytic detects file deletions in the EFI boot directory. These files are responsible for initializing the Boot Manager during system startup. Modification or replacement of these files is highly unusual in normal operations and may indicate an attempt to install a bootkit, persist malicious code at the firmware level, or otherwise tamper with the system boot process.
+description: |-
+    The following analytic detects file deletions in the EFI boot directory. These files are responsible for initializing the Boot Manager during system startup. Modification or replacement of these files is highly unusual in normal operations and may indicate an attempt to install a bootkit, persist malicious code at the firmware level, or otherwise tamper with the system boot process.
 data_source:
     - Sysmon for Linux EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Filesystem where
-    Filesystem.action=deleted
-    Filesystem.file_path="*/boot/efi/EFI/BOOT/*"
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
+    Filesystem.action="deleted"
+    Filesystem.file_path="/boot/efi/EFI/BOOT/*"
     Filesystem.file_name="*.efi*"
+
     by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
-    Filesystem.action Filesystem.process_guid Filesystem.process_id
+       Filesystem.action Filesystem.process_guid Filesystem.process_id
+
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_efi_bootloader_file_deletion_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file deletion events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate system administrators or package managers may delete or replace EFI bootloader files during system updates or OS reinstallation. Filter for known maintenance windows and authorized administrative activity.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file deletion events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Legitimate system administrators or package managers may delete or replace EFI bootloader files during system updates or OS reinstallation. Filter for known maintenance windows and authorized administrative activity.
 references:
     - https://www.welivesecurity.com/en/eset-research/under-cloak-uefi-secure-boot-introducing-cve-2024-7344/
     - https://www.bleepingcomputer.com/news/security/new-hybridpetya-ransomware-can-bypass-uefi-secure-boot/
@@ -36,7 +45,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: '0'
 finding:
-    title: Linux EFI Bootloader File Deletion detected on $dest$
+    title: Linux EFI bootloader [$file_name$] deletion detected on [$dest$]
     entity:
         field: dest
         type: system

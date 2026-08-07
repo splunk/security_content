@@ -6,22 +6,33 @@ modification_date: '2026-07-08'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of a malicious shared object at a Python importlib path outside the standard system library directories, a technique used to abuse PYTHONPATH for local privilege escalation. Attackers exploiting vulnerabilities such as the 2024 NeedRestart flaw (CVE-2024-48990) plant a crafted importlib/__init__.so in an attacker-controlled directory, then manipulate the PYTHONPATH environment variable so that a privileged process — such as NeedRestart running as root — loads the rogue module instead of the legitimate one, achieving code execution with elevated privileges. The detection monitors for file writes matching the importlib/__init__.so pattern that do not originate from expected system library paths.
+description: |-
+    The following analytic detects the creation of a malicious shared object at a Python importlib path outside the standard system library directories, a technique used to abuse PYTHONPATH for local privilege escalation.
+    Attackers exploiting vulnerabilities such as the 2024 NeedRestart flaw (CVE-2024-48990) plant a crafted importlib/__init__.so in an attacker-controlled directory, then manipulate the PYTHONPATH environment variable so that a privileged process, such as NeedRestart running as root, loads the rogue module instead of the legitimate one, achieving code execution with elevated privileges.
+    The detection monitors for file writes matching the importlib/__init__.so pattern that do not originate from expected system library paths.
 data_source:
     - Sysmon for Linux EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Filesystem where
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
     Filesystem.file_path="*/importlib/__init__.so*"
     NOT Filesystem.file_path="*/lib/*"
+
     by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
-    Filesystem.process_guid Filesystem.process_id
+       Filesystem.process_guid Filesystem.process_id
+
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_possible_privilege_escalation_via_pythonpath_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate Python developers or system administrators may modify PYTHONPATH for testing or application configuration purposes. Filter based on known development environments and trusted user activity.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Legitimate Python developers or system administrators may modify PYTHONPATH for testing or application configuration purposes. Filter based on known development environments and trusted user activity.
 references:
     - https://www.bleepingcomputer.com/news/security/ubuntu-linux-impacted-by-decade-old-needrestart-flaw-that-gives-root/
     - https://www.qualys.com/2024/11/19/needrestart/needrestart.txt
@@ -35,7 +46,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: '0'
 finding:
-    title: Possible Privilege Escalation via PYTHONPATH detected on $dest$
+    title: Possible Privilege Escalation via PYTHONPATH via [$file_name$] on [$dest$]
     entity:
         field: dest
         type: system

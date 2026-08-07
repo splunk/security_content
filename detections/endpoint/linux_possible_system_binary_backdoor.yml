@@ -6,22 +6,40 @@ modification_date: '2026-07-08'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation or overwrite of commonly targeted Linux system binaries such as cat, ls, cp, ps, mv, netstat, ss, and lsof. Adversaries may replace these utilities with backdoored versions to hide malicious activity, harvest credentials, or maintain persistence while appearing to use legitimate system tools. This technique is associated with rootkit deployment and post-exploitation frameworks such as PANIX.
+description: |-
+    The following analytic detects the creation or overwrite of commonly targeted Linux system binaries such as cat, ls, cp, ps, mv, netstat, ss, and lsof.
+    Adversaries may replace these utilities with backdoored versions to hide malicious activity, harvest credentials, or maintain persistence while appearing to use legitimate system tools.
+    This technique is associated with rootkit deployment and post-exploitation frameworks such as PANIX.
 data_source:
     - Sysmon for Linux EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Filesystem where
-    Filesystem.file_path IN ("/usr/bin/cat", "/usr/bin/ls", "/usr/bin/cp", "/usr/bin/ps",
-    "/usr/bin/mv", "/usr/bin/netstat", "/usr/bin/ss", "/usr/bin/lsof")
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime max(_time) as lastTime
+
+    from datamodel=Endpoint.Filesystem where
+
+    Filesystem.file_path IN (
+        "/usr/bin/cat",
+        "/usr/bin/cp",
+        "/usr/bin/ls",
+        "/usr/bin/lsof",
+        "/usr/bin/mv",
+        "/usr/bin/netstat",
+        "/usr/bin/ps",
+        "/usr/bin/ss"
+    )
+
     by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
-    Filesystem.action Filesystem.process_guid Filesystem.process_id
+       Filesystem.action Filesystem.process_guid Filesystem.process_id
+
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_possible_system_binary_backdoor_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate system updates or package managers may create or overwrite system binaries during normal operations. Filter for known update processes and package management activity to reduce noise.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Legitimate system updates or package managers may create or overwrite system binaries during normal operations. Filter for known update processes and package management activity to reduce noise.
 references:
     - https://github.com/Aegrah/PANIX
 drilldown_searches:
@@ -38,7 +56,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Potential Possible System Binary Backdoor activity observed on $dest$.
+          message: Possible System Binary Backdoor activity observed on [$dest$]. System binary [$file_name$] was created or overwritten by [$user$].
 threat_objects:
     - field: file_name
       type: file_name
