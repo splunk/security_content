@@ -23,7 +23,7 @@ search: |-
         Processes.process_name IN (
             "cp",
             "mv",
-            "ln",
+            "ln"
         )
         Processes.process_current_directory="*/EFI/BOOT*"
     )
@@ -33,7 +33,7 @@ search: |-
         NOT Processes.process_name IN (
             "ls",
             "grep",
-            "egrep",
+            "egrep"
         )
     )
 
