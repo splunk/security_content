@@ -1,0 +1,71 @@
+name: Python Site Hooks Creation during Package Installation
+id: efaf40f5-779f-4b48-a941-b7d1a7c931ed
+version: 1
+creation_date: '2026-07-23'
+modification_date: '2026-07-23'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects the creation of a Python site hook file (`sitecustomize.py` or `usercustomize.py`)
+    within a `site-packages`/`dist-packages` directory in conjunction with a package installation process. Python's
+    `site` module loads these hooks from directories on `sys.path` before Python is executed. If an adversary manipulates
+    or plants one of these files, they can hijack the Python environment and execute their payload with every Python
+    invocation, achieving persistence on the victim endpoint. The VIPERTUNNEL backdoor was reported to abuse site hooks
+    in order to import and trigger DLL execution. If confirmed malicious, this could result in arbitrary code execution
+    every time Python is invoked on the compromised host.
+data_source:
+    - Sysmon EventID 1
+    - Sysmon EventID 11
+search: |-
+    `sysmon` EventID IN (1,11) AND (CommandLine="* install *" OR (TargetFilename="*-packages\*" AND action="created" AND (TargetFilename="*sitecustomize.py" OR TargetFilename="*usercustomize.py")))
+    | bin _time span=5m
+    | stats values(parent_process_id) as val_parent_process_id, values(TargetFilename) as val_target_filename, values(CommandLine) as val_cmd_line, values(parent_process) as val_parent_process, dc(EventID) as dc_event_id count by _time, host, source, process_id
+    | search dc_event_id>1
+    | `python_site_hooks_creation_during_package_installation_filter`
+how_to_implement: |-
+    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1) 
+    and file creation (EventID 11) events, ensuring that file creation events are collected for files with the .py
+    extension. Ingest the data via the appropriate Splunk Technology Add-on and normalize field names using the 
+    Splunk Common Information Model (CIM).
+known_false_positives: |-
+    Some legitimate tooling and environment managers create or modify `sitecustomize.py`/`usercustomize.py`
+    as part of normal setup. Investigate the file contents and parent process to determine legitimacy.
+references:
+    - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
+drilldown_searches:
+    - name: View the detection results for - "$host$"
+      search: '%original_detection_search% | search  host = "$host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: A Python site hook file was created on $host$ during package installation
+    entity:
+        field: host
+        type: system
+        score: 40
+analytic_story:
+    - Malicious Python Package Installation
+    - Compromised Windows Host
+    - Windows Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1546
+    - T1195.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546/python_site_hooks_creation/python_site_hooks_creation.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

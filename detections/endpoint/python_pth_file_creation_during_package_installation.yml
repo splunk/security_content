@@ -1,0 +1,70 @@
+name: Python PTH File Creation during Package Installation
+id: bf581b86-39cd-48b7-9312-d9affb48a8bc
+version: 1
+creation_date: '2026-07-23'
+modification_date: '2026-07-23'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects the creation of a Python path configuration (`.pth`) file in conjunction
+    with a package installation process. Path configuration files placed under `site-packages` or `dist-packages`
+    are executed with every subsequent invocation of Python, allowing adversaries to achieve persistence
+    on the victim endpoint regardless of build method or distribution type. This technique was used by the
+    threat actor group TeamPCP during the supply chain compromise of the `litellm` package. If confirmed
+    malicious, this could result in arbitrary code execution every time Python is invoked on the compromised host.
+data_source:
+    - Sysmon EventID 1
+    - Sysmon EventID 11
+search: |-
+    `sysmon` EventID IN (1,11) AND (CommandLine="* install *" OR (TargetFilename="*.pth" AND action="created"))
+    | bin _time span=5m
+    | stats values(parent_process_id) as parent_process_id, values(TargetFilename) as TargetFilename, values(CommandLine) as CommandLine, values(parent_process) as parent_process, dc(EventID) as dc_event_id count by _time, host, source, process_id
+    | search dc_event_id>1
+    | `python_pth_file_creation_during_package_installation_filter`
+how_to_implement: |-
+    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1) 
+    and file creation (EventID 11) events, ensuring that file creation events are collected for files with the .pth
+    extension. Ingest the data via the appropriate Splunk Technology Add-on and normalize field names using the 
+    Splunk Common Information Model (CIM).
+known_false_positives: |-
+    Legitimate packages, such as those managing namespace packages or editable installs, may create `.pth`
+    files as part of normal installation. Investigate the file contents and parent process to determine legitimacy.
+references:
+    - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
+drilldown_searches:
+    - name: View the detection results for - "$host$"
+      search: '%original_detection_search% | search  host = "$host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: A Python `.pth` file called $TargetFilename$ was created on $host$ during package installation
+    entity:
+        field: host
+        type: system
+        score: 40
+analytic_story:
+    - Malicious Python Package Installation
+    - Compromised Windows Host
+    - Windows Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1546
+    - T1195.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546/python_pth_file_creation/python_pth_file_creation.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
