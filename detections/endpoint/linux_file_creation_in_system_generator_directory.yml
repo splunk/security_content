@@ -20,7 +20,7 @@ search: |-
     from datamodel=Endpoint.Filesystem where
 
     Filesystem.action IN ("created", "modified")
-    Filesystem.file_path="/lib/systemd/system-generators/*"
+    Filesystem.file_path="*/lib/systemd/system-generators/*"
 
     by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
        Filesystem.action Filesystem.process_guid Filesystem.process_id
