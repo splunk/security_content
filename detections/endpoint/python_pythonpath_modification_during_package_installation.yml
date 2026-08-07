@@ -68,7 +68,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.007/python_pythonpath_modification/python_pythonpath_modification.log
+        - data: https://raw.githubusercontent.com/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1574.007/python_pythonpath_modification/python_pythonpath_modification.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
