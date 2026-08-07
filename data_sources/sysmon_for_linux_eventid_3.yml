@@ -1,0 +1,108 @@
+name: Sysmon for Linux EventID 3
+id: c56ce9d3-a37e-43a5-a0e6-b3b7d03600a4
+version: 1
+creation_date: '2026-08-07'
+modification_date: '2026-08-07'
+author: Nasreddine Bencherchali, Splunk
+description: Logs network connection creation events on Linux systems, including details about the source and destination IPs, ports, protocols, and the associated process metadata.
+mitre_components:
+    - Network Connection Creation
+    - Network Traffic Flow
+    - Process Metadata
+    - Application Log Content
+    - OS API Execution
+source: Syslog:Linux-Sysmon/Operational
+sourcetype: sysmon:linux
+separator: EventID
+separator_value: '3'
+supported_TA:
+    - name: Splunk Add-on for Sysmon for Linux
+      url: https://splunkbase.splunk.com/app/6652
+      version: 1.0.0
+fields:
+    - _time
+    - action
+    - app
+    - Computer
+    - creation_time
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dest_ip
+    - dest_port
+    - DestinationHostname
+    - DestinationIp
+    - DestinationIsIpv6
+    - DestinationPort
+    - DestinationPortName
+    - direction
+    - dvc
+    - dvc_ip
+    - EventDescription
+    - EventID
+    - eventtype
+    - Guid
+    - host
+    - Image
+    - index
+    - Initiated
+    - Interesting Fields
+    - Keywords
+    - linecount
+    - Name
+    - process_exec
+    - process_guid
+    - process_id
+    - process_name
+    - ProcessGuid
+    - ProcessId
+    - ProcessID
+    - protocol
+    - Protocol
+    - protocol_version
+    - punct
+    - RuleName
+    - signature
+    - signature_id
+    - source
+    - SourceHostname
+    - SourceIp
+    - SourceIsIpv6
+    - SourcePort
+    - SourcePortName
+    - sourcetype
+    - splunk_server
+    - src
+    - src_ip
+    - src_port
+    - state
+    - SystemTime
+    - tag
+    - tag::eventtype
+    - ThreadID
+    - timeendpos
+    - timestartpos
+    - transport
+    - transport_dest_port
+    - user
+    - user_id
+    - UserId
+    - UtcTime
+    - vendor_product
+    - xmlns
+output_fields:
+    - src
+    - dest
+    - dest_port
+    - transport
+    - process_name
+    - app
+    - user
+    - process_id
+example_log: <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event"><System><Provider Name="Linux-Sysmon" Guid="{ff032593-a8d3-4f13-b0d6-01fc615a0f97}"/><EventID>3</EventID><Version>5</Version><Level>4</Level><Task>3</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime="2022-08-31T18:16:47.177651000Z"/><EventRecordID>1068124</EventRecordID><Correlation/><Execution ProcessID="804" ThreadID="804"/><Channel>Linux-Sysmon/Operational</Channel><Computer>ip-10-0-76-137</Computer><Security UserId="0"/></System><EventData><Data Name="RuleName">-</Data><Data Name="UtcTime">2022-08-31 18:16:47.184</Data><Data Name="ProcessGuid">{ec21f57b-a58f-630f-05a2-4983a0550000}</Data><Data Name="ProcessId">7658</Data><Data Name="Image">/usr/bin/ncat</Data><Data Name="User">root</Data><Data Name="Protocol">tcp</Data><Data Name="Initiated">true</Data><Data Name="SourceIsIpv6">false</Data><Data Name="SourceIp">10.0.76.137</Data><Data Name="SourceHostname">-</Data><Data Name="SourcePort">53976</Data><Data Name="SourcePortName">-</Data><Data Name="DestinationIsIpv6">false</Data><Data Name="DestinationIp">10.0.76.44</Data><Data Name="DestinationHostname">-</Data><Data Name="DestinationPort">4444</Data><Data Name="DestinationPortName">-</Data></EventData></Event>
