@@ -20,7 +20,14 @@ search: |-
     from datamodel=Endpoint.Filesystem where
 
     Filesystem.file_path="*/importlib/__init__.so*"
-    NOT Filesystem.file_path="*/lib/*"
+    NOT Filesystem.file_path IN (
+        "/lib/*",
+        "/lib64/*",
+        "/usr/lib/*",
+        "/usr/lib64/*",
+        "/usr/local/lib/*",
+        "/usr/local/lib64/*"
+    )
 
     by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
        Filesystem.process_guid Filesystem.process_id
