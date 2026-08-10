@@ -5,12 +5,26 @@ on:
     paths:
       - 'detections/**/*.yml'
       - 'detections/**/*.yaml'
+      - '.yamlfieldorder'
+      - '.yamlfmt'
+      - '.yamllint'
+      - '.pre-commit-config.yaml'
+      - 'scripts/enforce_yaml_field_order.py'
+      - 'scripts/validate_yaml.py'
+      - '.github/workflows/yaml-validation.yml'
   push:
     branches:
       - develop
     paths:
       - 'detections/**/*.yml'
       - 'detections/**/*.yaml'
+      - '.yamlfieldorder'
+      - '.yamlfmt'
+      - '.yamllint'
+      - '.pre-commit-config.yaml'
+      - 'scripts/enforce_yaml_field_order.py'
+      - 'scripts/validate_yaml.py'
+      - '.github/workflows/yaml-validation.yml'
 
 jobs:
   validate:

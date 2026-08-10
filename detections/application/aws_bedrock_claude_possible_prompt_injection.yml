@@ -1,16 +1,14 @@
 name: AWS Bedrock Claude Possible Prompt Injection
 id: 9e162548-3e9a-4a74-9eb5-34ee28350f07
 version: 1
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
 author: Rod Soto
 status: production
 type: Hunting
-category: application
-creation_date: '2026-07-06'
-modification_date: '2026-07-06'
-security_domain: endpoint
+description: This search surfaces AWS Bedrock Claude prompts containing phrases commonly associated with prompt injection or jailbreak attempts, such as instruction overrides, persona switching, or requests to ignore prior guidance. These strings are not inherently malicious on their own - many of them (for example "act as", "you must", or "new persona") appear routinely in legitimate system prompts, few-shot examples, and role-play or creative-writing use cases. This is a hunting search rather than an anomaly detection because the base rate of benign matches is high; use it to pivot into the surrounding conversation and look for corroborating signals such as the phrase appearing mid-conversation rather than in an expected system/few-shot prompt, the user attempting to override guardrails or safety instructions rather than set a benign persona, instructions that follow the injected phrase requesting privilege escalation, data exfiltration, or access to restricted tools/resources, repeated or iterative attempts from the same user/role after being refused, and injected phrases originating from untrusted input (e.g., retrieved documents or tool output) rather than the human user turn.
 data_source:
     - AWS Bedrock Claude
-description: This search surfaces AWS Bedrock Claude prompts containing phrases commonly associated with prompt injection or jailbreak attempts, such as instruction overrides, persona switching, or requests to ignore prior guidance. These strings are not inherently malicious on their own - many of them (for example "act as", "you must", or "new persona") appear routinely in legitimate system prompts, few-shot examples, and role-play or creative-writing use cases. This is a hunting search rather than an anomaly detection because the base rate of benign matches is high; use it to pivot into the surrounding conversation and look for corroborating signals such as the phrase appearing mid-conversation rather than in an expected system/few-shot prompt, the user attempting to override guardrails or safety instructions rather than set a benign persona, instructions that follow the injected phrase requesting privilege escalation, data exfiltration, or access to restricted tools/resources, repeated or iterative attempts from the same user/role after being refused, and injected phrases originating from untrusted input (e.g., retrieved documents or tool output) rather than the human user turn.
 search: |-
     `aws_bedrock_claude`
     | rename "identity.arn" AS user_arn, "input.inputBodyJson.messages{}.content{}.text" AS prompt_mv
@@ -52,6 +50,8 @@ product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       test_type: unit

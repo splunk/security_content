@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 CI Validation Script for YAML Files
-Runs yamllint and yamlfmt --lint with beautified error output
+Runs yamllint, yamlfmt --lint, and root field-order checks with beautified error output
 Usage: python scripts/validate_yaml.py [path_to_yaml_files...]
 """
 import argparse
@@ -9,6 +9,9 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import List, Tuple, Optional
+
+from enforce_yaml_field_order import load_config as load_field_order_config
+from enforce_yaml_field_order import process_file as process_field_order_file
 
 
 def find_yamlfmt(custom_path: Optional[str] = None) -> Optional[str]:
@@ -228,10 +231,37 @@ def run_yamlfmt_lint(files: List[Path], config: Path, yamlfmt_path: Optional[str
     return all_passed, all_unformatted_files
 
 
+def run_field_order_lint(files: List[Path], config: Path) -> Tuple[bool, dict]:
+    """Run root field-order check on files and return success status and errors by file
+
+    Returns:
+        Tuple of (success, file_errors_dict)
+    """
+    if not files:
+        return True, {}
+
+    try:
+        field_order_config = load_field_order_config(config)
+    except Exception as exc:
+        return False, {str(config): [str(exc)]}
+
+    file_errors = {}
+
+    for yaml_file in files:
+        result = process_field_order_file(yaml_file, field_order_config, fix=False)
+        if result.error:
+            file_errors[str(yaml_file)] = [f"Field-order check failed: {result.error}"]
+        elif result.changed:
+            detail = f" ({result.detail})" if result.detail else ""
+            file_errors[str(yaml_file)] = [f"Root field order differs from .yamlfieldorder{detail}"]
+
+    return not file_errors, file_errors
+
+
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(
-        description='Validate YAML files with yamllint and yamlfmt',
+        description='Validate YAML files with yamllint, yamlfmt, and root field ordering',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=r"""
 Examples:
@@ -281,6 +311,7 @@ Examples:
     # Find config files
     yamllint_config = repo_root / '.yamllint'
     yamlfmt_config = repo_root / '.yamlfmt'
+    field_order_config = repo_root / '.yamlfieldorder'
     
     if not yamllint_config.exists():
         print_error(f".yamllint config not found at {yamllint_config}")
@@ -288,6 +319,10 @@ Examples:
     
     if not yamlfmt_config.exists():
         print_error(f".yamlfmt config not found at {yamlfmt_config}")
+        return 1
+
+    if not field_order_config.exists():
+        print_error(f".yamlfieldorder config not found at {field_order_config}")
         return 1
     
     # Find YAML files
@@ -301,9 +336,10 @@ Examples:
     
     print_header("Validating YAML Files")
     
-    # Run both validations
+    # Run validations
     yamllint_passed, yamllint_errors = run_yamllint(yaml_files, yamllint_config)
     yamlfmt_passed, yamlfmt_files = run_yamlfmt_lint(yaml_files, yamlfmt_config, args.yamlfmt_path)
+    field_order_passed, field_order_errors = run_field_order_lint(yaml_files, field_order_config)
     
     # Combine results by file
     all_issues = {}  # file_path -> list of errors
@@ -319,6 +355,12 @@ Examples:
         if file_path not in all_issues:
             all_issues[file_path] = []
         all_issues[file_path].append("Formatting differences detected")
+
+    # Add field-order issues
+    for file_path, errors in field_order_errors.items():
+        if file_path not in all_issues:
+            all_issues[file_path] = []
+        all_issues[file_path].extend(errors)
     
     # Display combined results
     if not all_issues:
@@ -338,8 +380,10 @@ Examples:
     # Show fix instructions
     print(f"{Colors.CYAN}[TIP] To fix these issues, run:{Colors.RESET}")
     print(f"  {Colors.BOLD}yamlfmt -conf .yamlfmt detections/{Colors.RESET}")
+    print(f"  {Colors.BOLD}python scripts/enforce_yaml_field_order.py --fix detections/{Colors.RESET}")
     print(f"\n{Colors.CYAN}      Or for specific files:{Colors.RESET}")
     print(f"  {Colors.BOLD}yamlfmt -conf .yamlfmt <file_path>{Colors.RESET}\n")
+    print(f"  {Colors.BOLD}python scripts/enforce_yaml_field_order.py --fix <file_path>{Colors.RESET}\n")
     
     return 1
 
