@@ -1,8 +1,8 @@
 name: Ping Sleep Batch Command
 id: ce058d6c-79f2-11ec-b476-acde48001122
-version: 16
+version: 17
 creation_date: '2022-01-20'
-modification_date: '2026-05-13'
+modification_date: '2026-08-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,10 @@ search: |-
     FROM datamodel=Endpoint.Processes WHERE
     (
         Processes.parent_process= "*ping*"
-        Processes.parent_process = *-n*
+        Processes.parent_process IN (
+            "*-n*",
+            "*/n*"
+        )
         Processes.parent_process IN (
             "*& *",
             "*&amp;*",
@@ -38,7 +41,10 @@ search: |-
             OR
             Processes.original_file_name= "ping.exe"
         )
-        Processes.process = *-n*
+        Processes.process IN (
+            "*-n*",
+            "*/n*"
+        )
         Processes.process IN (
             "*& *",
             "*&amp;*",
