@@ -1,0 +1,53 @@
+name: Vidar Stealer
+id: 220047e4-6075-40bc-846f-ab737e6a4dc8
+version: 1
+creation_date: '2026-07-31'
+modification_date: '2026-07-31'
+author: Teoderick Contreras, Splunk
+status: production
+description: The Vidar Stealer analytic story provides detection and investigation
+    content for identifying and responding to threats associated with the Vidar information
+    stealer on Windows endpoints. Vidar is a commodity infostealer sold as malware-as-a-service
+    (MaaS) on underground forums, capable of harvesting credentials, browser cookies,
+    saved passwords, cryptocurrency wallet data, and cloud profile metadata from infected
+    systems. Recent variants have been observed targeting Azure CLI profile data stored
+    in azureProfile.json, enabling cloud identity reconnaissance and potential account
+    takeover. Vidar also loads legitimate Mozilla NSS and mozglue DLLs to decrypt
+    browser-stored credentials without raising typical AV signatures. This story
+    leverages endpoint telemetry from Windows Security Event logs and Sysmon to detect
+    suspicious file access, unusual DLL loading patterns, and process behaviors
+    consistent with Vidar activity. Security teams can use these analytics to identify
+    early-stage Vidar compromise, isolate affected hosts, and prevent credential
+    exfiltration to attacker-controlled command-and-control infrastructure.
+narrative: Vidar Stealer is an active commodity threat targeting Windows users across
+    multiple sectors, distributed primarily through phishing campaigns, malvertising,
+    trojanized software downloads, and cracked application bundles. Once executed,
+    Vidar performs rapid system and credential reconnaissance before exfiltrating
+    harvested data to its command-and-control (C2) server, often within minutes of
+    initial execution. A notable capability of Vidar is its abuse of legitimate Mozilla
+    NSS libraries (nss3.dll, mozglue.dll) to decrypt browser-stored credentials from
+    Chromium and Firefox-based browsers without triggering conventional security controls.
+    By side-loading these trusted DLLs from an unexpected process context, Vidar bypasses
+    many endpoint detection signatures that rely on browser process lineage. More recent
+    Vidar variants have extended their reconnaissance scope to include Azure CLI artifacts,
+    specifically targeting the azureProfile.json file stored in the user profile directory.
+    This file contains Azure subscription identifiers, tenant IDs, and environment
+    metadata that attackers can use to enumerate accessible cloud resources and facilitate
+    lateral movement into Azure-hosted infrastructure. Telemetry from affected endpoints
+    typically shows non-Azure processes opening azureProfile.json with read access
+    (Event 4663, AccessMask 0x1), followed by data staging and outbound HTTPS exfiltration.
+    Detection of these behaviors early in the infection chain gives defenders the
+    opportunity to contain the compromise before credentials reach attacker infrastructure,
+    preventing downstream account takeovers, financial fraud, and secondary malware
+    deployment.
+references:
+    - https://www.trendmicro.com/en_us/research/25/j/how-vidar-stealer-2-upgrades-infostealer-capabilities.html
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.vidar
+    - https://www.esentire.com/blog/vidar-stealer-abusing-social-media-for-c2
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection
