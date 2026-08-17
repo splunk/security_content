@@ -1,0 +1,61 @@
+name: AWS Bedrock Claude Possible Prompt Injection
+id: 9e162548-3e9a-4a74-9eb5-34ee28350f07
+version: 1
+author: Rod Soto
+status: production
+type: Hunting
+category: application
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
+security_domain: endpoint
+data_source:
+    - AWS Bedrock Claude
+description: This search surfaces AWS Bedrock Claude prompts containing phrases commonly associated with prompt injection or jailbreak attempts, such as instruction overrides, persona switching, or requests to ignore prior guidance. These strings are not inherently malicious on their own - many of them (for example "act as", "you must", or "new persona") appear routinely in legitimate system prompts, few-shot examples, and role-play or creative-writing use cases. This is a hunting search rather than an anomaly detection because the base rate of benign matches is high; use it to pivot into the surrounding conversation and look for corroborating signals such as the phrase appearing mid-conversation rather than in an expected system/few-shot prompt, the user attempting to override guardrails or safety instructions rather than set a benign persona, instructions that follow the injected phrase requesting privilege escalation, data exfiltration, or access to restricted tools/resources, repeated or iterative attempts from the same user/role after being refused, and injected phrases originating from untrusted input (e.g., retrieved documents or tool output) rather than the human user turn.
+search: |-
+    `aws_bedrock_claude`
+    | rename "identity.arn" AS user_arn, "input.inputBodyJson.messages{}.content{}.text" AS prompt_mv
+    | eval prompt_text = mvjoin(prompt_mv, " || ")
+    | where isnotnull(prompt_text) AND isnotnull(user_arn)
+    | rex field=user_arn "(?:assumed-role/[^/]+|user)/(?<user>[^\"/]+)$"
+    | eval s_override = if(match(prompt_text,"(?i)\b(ignore|disregard|forget)\b.{0,30}\b(previous|above|prior|all|your|the)\s*(instructions?|prompts?|rules?|context)"),1,0)
+    | eval s_jailbreak = if(match(prompt_text,"(?i)\b(jailbreak|jailbroken|\bDAN\b mode|do anything now|developer mode|unrestricted mode|no (filters|restrictions|guardrails))\b"),1,0)
+    | eval s_probe = if(match(prompt_text,"(?i)(reveal|repeat|print|show|output).{0,20}(system prompt|your instructions|initial (prompt|instructions)|the (text|words) above)"),1,0)
+    | eval s_persona = if(match(prompt_text,"(?i)\b(you are now|new persona|pretend (to be|you are)|roleplay as|act as (if you|an unrestricted))\b"),1,0)
+    | eval s_weak = if(match(prompt_text,"(?i)\b(you must|from now on|act as|override|new rules|hypothetically)\b"),1,0)
+    | eval signal_count = s_override+s_jailbreak+s_probe+s_persona+s_weak
+    | where s_override=1 OR s_jailbreak=1 OR s_probe=1 OR signal_count >= 2
+    | table _time, user, user_arn, modelId, prompt_text, host
+    | sort - _time
+    | `aws_bedrock_claude_possible_prompt_injection_filter`
+how_to_implement: You must install and configure the Splunk Add-on for AWS (https://splunkbase.splunk.com/app/1876). Enable Amazon Bedrock model invocation logging in AWS so that Claude request/response payloads are delivered to S3 and/or CloudWatch Logs (see https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html for setup steps), then ingest those logs into Splunk via the AWS TA. Configure the `aws_bedrock_claude` macro to point to the index and sourcetype (`json_no_timestamp`) where these logs land.
+known_false_positives: These phrases have a high benign base rate. Terms like "act as", "you must", "from now on", and "new persona" are commonly found in legitimate system prompts and few-shot examples used to steer model behavior, as well as in role-play or creative writing requests from users. A match on its own is not evidence of an attack; review the surrounding conversation, the message role (system vs. user vs. tool output), and whether the phrase is followed by a request to bypass safety controls or access sensitive data/tools before treating a hit as suspicious.
+references:
+    - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
+    - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
+    - https://research.splunk.com/stories/aws_bedrock_security/
+    - https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html
+drilldown_searches:
+    - name: View the detection results for - "$host$"
+      search: '%original_detection_search% | search host="$host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+analytic_story:
+    - Suspicious AWS Bedrock Claude Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1055
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_possible_prompt_injection.ndjson
+          sourcetype: json_no_timestamp
+          source: http:bulkawsbedrock

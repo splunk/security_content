@@ -1,8 +1,8 @@
 name: cisco_network_visibility_module_flowdata
 id: f6c50d56-4ae1-4dd3-b265-d2b00f9e3eb4
-version: 1
+version: 2
 creation_date: '2025-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-07-14'
 author: Splunk Threat Research Team
 description: customer specific splunk configurations(eg- index, source, sourcetype) for Cisco Network Visibility Module flow logs. Replace the macro definition with configurations for your Splunk Environment.
-definition: sourcetype="cisco:nvm:flowdata"
+definition: sourcetype IN ("cisco:nvm:flowdata", "cisco:nvm:flowdata:v2")

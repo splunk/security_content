@@ -1,3 +1,42 @@
 apps:
     - appid: DA-ESS-ContentUpdate
       hardcoded_path: dist/DA-ESS-ContentUpdate.tar.gz
+    - appid: SplunkEnterpriseSecuritySuite
+      url: https://splunkbase.splunk.com/app/263
+      version: 8.6.1
+    - appid: Splunk_TA_microsoft-iis
+      url: https://splunkbase.splunk.com/app/3185
+      version: 2.0.0
+    - appid: TA-suricata-4
+      url: https://splunkbase.splunk.com/app/4242
+      version: 2.3.4
+    - appid: Splunk_TA_stream
+      url: https://splunkbase.splunk.com/app/5238
+      version: 8.1.6
+    - appid: Splunk_TA_stream_wire_data
+      url: https://splunkbase.splunk.com/app/5234
+      version: 8.1.6
+    - appid: TA-Zscaler_CIM
+      url: https://splunkbase.splunk.com/app/3865
+      version: 4.1.5
+    - appid: Splunk_TA_aws-kinesis-firehose
+      url: https://splunkbase.splunk.com/app/3719
+      version: 1.3.2
+    - appid: Splunk_TA_google-cloudplatform
+      url: https://splunkbase.splunk.com/app/3088
+      version: 5.1.1
+    - appid: utbox
+      url: https://splunkbase.splunk.com/app/2734
+      version: 1.9.4
+    - appid: SA-admon
+      url: https://splunkbase.splunk.com/app/6853
+      version: 1.1.2
+    - appid: TA-crowdstrike-falcon-event-streams
+      url: https://splunkbase.splunk.com/app/5082
+      version: 3.7.2
+    - appid: SA-VMWIndex
+      url: https://splunkbase.splunk.com/app/5640
+      version: 4.0.4
+    - appid: Splunk_SA_CIM
+      url: https://splunkbase.splunk.com/app/1621
+      version: 8.6.0

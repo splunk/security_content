@@ -17,7 +17,7 @@ separator_value: Add service principal
 supported_TA:
     - name: Splunk Add-on for Microsoft Cloud Services
       url: https://splunkbase.splunk.com/app/3110
-      version: 6.1.3
+      version: 6.3.1
 fields:
     - _time
     - Level

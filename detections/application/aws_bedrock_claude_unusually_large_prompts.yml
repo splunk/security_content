@@ -1,0 +1,65 @@
+name: AWS Bedrock Claude Unusually Large Prompts
+id: 95fbdd4e-1202-4971-b85a-513b2005086e
+version: 2
+author: Rod Soto
+status: production
+type: Anomaly
+creation_date: '2026-07-06'
+modification_date: '2026-07-08'
+security_domain: endpoint
+data_source:
+    - AWS Bedrock Claude
+category: application
+description: This detection identifies unusually large prompts sent to AWS Bedrock Claude models by calculating the statistical baseline of input token counts and flagging requests that exceed one standard deviations above the mean. Abnormally large prompts may indicate prompt injection attacks, data exfiltration attempts, or abuse of the AI service.
+search: |-
+    `aws_bedrock_claude`
+    | rename "input.inputTokenCount" AS input_tokens
+    | rename "identity.arn" AS user_arn
+    | rename "accountId" AS account_id
+    | rex field=user_arn "assumed-role/[^/]+/(?<user>[^\"]+)$"
+    | eval input_tokens=tonumber(input_tokens)
+    | where input_tokens>0
+    | eventstats avg(input_tokens) AS avg_tokens stdev(input_tokens) AS stdev
+    | where input_tokens > avg_tokens + (1*stdev)
+    | where input_tokens > 1000
+    | table _time, modelId, user, user_arn, account_id, input_tokens, avg_tokens, host
+    | sort - input_tokens
+    | `aws_bedrock_claude_unusually_large_prompts_filter`
+how_to_implement: You must install and configure the Splunk Add-on for AWS (https://splunkbase.splunk.com/app/1876). Enable Amazon Bedrock model invocation logging in AWS so that Claude request/response payloads are delivered to S3 and/or CloudWatch Logs (see https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html for setup steps), then ingest those logs into Splunk via the AWS TA. Configure the `aws_bedrock_claude` macro to point to the index and sourcetype (`json_no_timestamp`) where these logs land.
+known_false_positives: Possible false positives may arise from legitimate user interactions with the AI model that require large input prompts, such as complex queries or multi-turn conversations. It is important to review the context of the detected prompts to determine if they represent actual prompt injection attempts or benign usage.
+references:
+    - https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
+    - https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
+    - https://research.splunk.com/stories/aws_bedrock_security/
+    - https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html
+drilldown_searches:
+    - name: View the detection results for - "$host$"
+      search: '%original_detection_search% | search host="$host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: host
+          type: system
+          score: 20
+          message: Unusually large prompt detected on $host$ with $input_tokens$ input tokens, exceeding the statistical baseline of $avg_tokens$ average tokens.
+analytic_story:
+    - Suspicious AWS Bedrock Claude Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1055
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_unusually_large_prompts.ndjson
+          sourcetype: json_no_timestamp
+          source: http:bulkawsbedrock

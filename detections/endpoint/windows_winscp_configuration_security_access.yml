@@ -1,0 +1,71 @@
+name: Windows WinSCP Configuration Security Access
+id: 90013cc4-585b-4437-a95f-099933974f3e
+version: 2
+creation_date: '2026-06-24'
+modification_date: '2026-07-22'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects unauthorized access to the WinSCP security configuration folder by processes other than WinSCP itself.
+    WinSCP stores sensitive SSH and FTP session credentials, including passwords and private key references, under the user profile path Martin Prikryl\WinSCP 2\Configuration\Security. Information-stealing malware such as Phantom Stealer targets this directory to harvest stored credentials for exfiltration.
+    The detection uses Windows Security Event 4663 (Object Access) to identify any non-WinSCP process reading or accessing files within this path, which is abnormal during routine system operation.
+    Analysts should investigate the accessing process, its parent, and any associated network activity to determine whether a credential theft attempt is underway.
+data_source:
+    - Windows Event Log Security 4663
+search: |-
+    `wineventlog_security`
+    EventCode=4663
+    object_file_path="*\\Martin Prikryl\\WinSCP 2\\Configuration\\Security*"
+    NOT process_path IN ("*:\\Program Files (x86)\\WinSCP\\WinSCP.exe")
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by object_file_name object_file_path
+         process_name process_path process_id
+         EventCode dest
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_winscp_configuration_security_access_filter`
+how_to_implement: |-
+    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663.
+    For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+known_false_positives: |-
+    False positive may occur during backup or anti-virus scanning process, as well as from WinSCP itself if it is installed in a different path than the default path. Filter as needed.
+references:
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.phantom_stealer
+    - https://www.proofpoint.com/us/blog/threat-insight/not-safe-work-tracking-and-investigating-stealerium-and-phantom-infostealers
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: a non winscp process [$process_name$] accessed the winscp configuration file [$object_file_path$] on $dest$.
+analytic_story:
+    - Phantom Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1552.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.001/winscp_access/winscp_phnatom.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit

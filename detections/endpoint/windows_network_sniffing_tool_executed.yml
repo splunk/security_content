@@ -1,0 +1,97 @@
+name: Windows Network Sniffing Tool Executed
+id: 0c594353-e12d-4867-92f6-2a1b8a1faf5f
+version: 1
+creation_date: '2026-07-30'
+modification_date: '2026-07-30'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects the execution of common network sniffing tools on Windows systems, including Wireshark, WinPcap, tcpdump, and similar utilities.
+    This activity is significant because attackers use packet capture tools to intercept and analyze network traffic, enabling credential theft, sensitive data harvesting, and reconnaissance of internal network communications.
+    While these tools have legitimate administrative uses, their presence in unexpected environments may indicate an adversary conducting man-in-the-middle attacks or exfiltrating sensitive information traversing the network.
+    If confirmed malicious, this could lead to the exposure of credentials, session tokens, and confidential data, facilitating lateral movement and further compromise of the environment.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process_name IN (
+        "dumpcap.exe",
+        "netcap.exe",
+        "netmon.exe",
+        "tcpdump.exe",
+        "tshark.exe",
+        "windump.exe",
+        "winpcap.exe",
+        "wireshark.exe"
+    )
+
+    by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
+       Processes.parent_process_name Processes.parent_process_exec Processes.action
+       Processes.dest Processes.process_current_directory Processes.process_path
+       Processes.process_integrity_level Processes.original_file_name Processes.parent_process
+       Processes.parent_process_path Processes.parent_process_guid
+       Processes.parent_process_id Processes.process_guid Processes.process_id
+       Processes.user Processes.process_name
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_network_sniffing_tool_executed_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Legitimate network administrators and security teams may use these tools for authorized network monitoring and troubleshooting. Filter based on approved software inventory and known administrative activity.
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Network Sniffing utility execution identified on [$dest$] via [$process_name$] and the Command Line [$process$] executed by [$user$].
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process
+analytic_story:
+    - Credential Dumping
+    - Data Exfiltration
+    - Suspicious Command-Line Executions
+    - Windows Discovery Techniques
+    - Network Discovery
+asset_type: Endpoint
+mitre_attack_id:
+    - T1040
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1040/windows_network_sniffing_tools/snapattack_windows.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

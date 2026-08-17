@@ -1,8 +1,8 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 15
+version: 16
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-07-02'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
@@ -24,8 +24,13 @@ search: |
       values(Filesystem.user) as user
       values(Filesystem.dest) as dest
       values(Filesystem.file_path) as file_path
-    from datamodel=Endpoint.Filesystem
-    where [
+
+    FROM datamodel=Endpoint.Filesystem WHERE
+    Filesystem.action IN (
+        "created",
+        "modified"
+    )
+    [
       | inputlookup ransomware_notes_lookup
       | search status=true
       | fields ransomware_notes

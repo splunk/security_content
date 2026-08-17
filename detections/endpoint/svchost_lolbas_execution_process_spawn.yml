@@ -1,29 +1,61 @@
 name: Svchost LOLBAS Execution Process Spawn
 id: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
-version: 14
+version: 15
 creation_date: '2021-11-23'
-modification_date: '2026-05-13'
+modification_date: '2026-07-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects instances of 'svchost.exe' spawning Living Off The Land Binaries and Scripts (LOLBAS) processes. It leverages Endpoint Detection and Response (EDR) data to monitor child processes of 'svchost.exe' that match known LOLBAS executables. This activity is significant as adversaries often use LOLBAS techniques to execute malicious code stealthily, potentially indicating lateral movement or code execution attempts. If confirmed malicious, this behavior could allow attackers to execute arbitrary commands, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
+description: |-
+    The following analytic detects instances of 'svchost.exe' spawning Living Off The Land Binaries and Scripts (LOLBAS) processes. It leverages Endpoint Detection and Response (EDR) data to monitor child processes of 'svchost.exe' that match known LOLBAS executables. This activity is significant as adversaries often use LOLBAS techniques to execute malicious code stealthily, potentially indicating lateral movement or code execution attempts.
+    If confirmed malicious, this behavior could allow attackers to execute arbitrary commands, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
 data_source:
     - Sysmon EventID 1
-    - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE (
-            Processes.parent_process_name=svchost.exe
-        )
-        (Processes.process_name IN ("Regsvcs.exe", "Ftp.exe", "OfflineScannerShell.exe", "Rasautou.exe", "Schtasks.exe", "Xwizard.exe", "Pnputil.exe", "Atbroker.exe", "Pcwrun.exe", "Ttdinject.exe","Mshta.exe", "Bitsadmin.exe", "Certoc.exe", "Ieexec.exe", "Microsoft.Workflow.Compiler.exe", "Runscripthelper.exe", "Forfiles.exe", "Msbuild.exe", "Register-cimprovider.exe", "Tttracer.exe", "Ie4uinit.exe", "Bash.exe", "Hh.exe", "SettingSyncHost.exe", "Cmstp.exe", "Stordiag.exe", "Scriptrunner.exe", "Odbcconf.exe", "Extexport.exe", "Msdt.exe", "WorkFolders.exe", "Diskshadow.exe", "Mavinject.exe", "Regasm.exe", "Gpscript.exe", "Regsvr32.exe", "Msiexec.exe", "Wuauclt.exe", "Presentationhost.exe", "Wmic.exe", "Runonce.exe", "Syncappvpublishingserver.exe", "Verclsid.exe", "Infdefaultinstall.exe", "Installutil.exe", "Netsh.exe", "Wab.exe", "Dnscmd.exe", "At.exe", "Pcalua.exe", "Msconfig.exe"))
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.parent_process = "*"
+    Processes.parent_process_name = "svchost.exe"
+    Processes.process_name IN (
+        "At.exe", "Atbroker.exe", "Bash.exe", "Bitsadmin.exe", "Certoc.exe", "Cmstp.exe",
+        "Diskshadow.exe", "Dnscmd.exe", "Extexport.exe", "Forfiles.exe", "Ftp.exe",
+        "Gpscript.exe", "Hh.exe", "Ie4uinit.exe", "Ieexec.exe", "Infdefaultinstall.exe",
+        "Installutil.exe", "Mavinject.exe", "Microsoft.Workflow.Compiler.exe",
+        "Msbuild.exe", "Msconfig.exe", "Msdt.exe", "Msiexec.exe", "Netsh.exe",
+        "Odbcconf.exe", "OfflineScannerShell.exe", "Pcalua.exe", "Pcwrun.exe",
+        "Pnputil.exe", "PresentationHost.exe", "Rasautou.exe", "Regasm.exe",
+        "Register-cimprovider.exe", "Regsvcs.exe", "Regsvr32.exe", "Runonce.exe",
+        "Runscripthelper.exe", "Schtasks.exe", "Scriptrunner.exe", "SettingSyncHost.exe",
+        "Stordiag.exe", "Syncappvpublishingserver.exe", "Ttdinject.exe", "Mshta.exe",
+        "Tttracer.exe", "Verclsid.exe", "Wab.exe", "Wmic.exe",
+        "WorkFolders.exe", "Wuauclt.exe", "Xwizard.exe"
+    )
+    NOT (
+        Processes.parent_process IN ("*-k GPSvcGroup*", "*-k netsvcs", "*-k netsvcs -p","*-k netsvcs -p -s gpsvc")
+        Processes.process_name = "Gpscript.exe"
+    )
+    NOT (
+        Processes.parent_process IN ("*-k netsvcs", "*-k netsvcs -p", "*-k netsvcs -p -s wuauserv", "-k netsvcs -p -s Schedule")
+        Processes.process_name IN ("Wuauclt.exe", "Schtasks.exe")
+    )
+    NOT (
+        Processes.parent_process = "*-k DcomLaunch*"
+        Processes.process_name IN ("PresentationHost.exe", "SettingSyncHost.exe")
+    )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -44,11 +76,16 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Svchost.exe spawned a LOLBAS process on $dest$
+    title: The parent process[$parent_process$] spawned a Living Off The Land process [$process_name$] on [$dest$]
     entity:
         field: dest
         type: system
         score: 50
+threat_objects:
+    - field: parent_process
+      type: process
+    - field: process_name
+      type: process_name
 analytic_story:
     - Active Directory Lateral Movement
     - Living Off The Land

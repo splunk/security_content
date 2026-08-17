@@ -4,53 +4,52 @@ version: 1
 creation_date: '2025-05-06'
 modification_date: '2025-05-06'
 author: Ravent Tait, Splunk
-description: Logs kernel events on a Linux system, including
-  service starts/stops, hardware events, authentication notices, and other OS-level activity.
+description: Logs kernel events on a Linux system, including service starts/stops, hardware events, authentication notices, and other OS-level activity.
 mitre_components:
-- Service Modification
-- Service Metadata
-- OS API Execution
-- Application Log Content
+    - Service Modification
+    - Service Metadata
+    - OS API Execution
+    - Application Log Content
 source: /var/log/kern
 sourcetype: linux_messages_syslog
 supported_TA:
-- name: Splunk Add-on for Unix and Linux
-  url: https://splunkbase.splunk.com/app/833
-  version: 10.2.0
+    - name: Splunk Add-on for Unix and Linux
+      url: https://splunkbase.splunk.com/app/833
+      version: 10.3.3
 fields:
-- _time
-- action
-- app
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dvc
-- eventtype
-- host
-- index
-- linecount
-- pid
-- process
-- punct
-- source
-- sourcetype
-- splunk_server
-- src
-- src_port
-- sshd_protocol
-- tag
-- tag::action
-- tag::eventtype
-- timeendpos
-- timestartpos
-- user
-- user_name
-- vendor_action
-- vendor_product
+    - _time
+    - action
+    - app
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc
+    - eventtype
+    - host
+    - index
+    - linecount
+    - pid
+    - process
+    - punct
+    - source
+    - sourcetype
+    - splunk_server
+    - src
+    - src_port
+    - sshd_protocol
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - user
+    - user_name
+    - vendor_action
+    - vendor_product
 example_log: 'May  6 17:24:00 ubuntu kernel: [  801.664268] NET: Registered PF_ALG protocol family'

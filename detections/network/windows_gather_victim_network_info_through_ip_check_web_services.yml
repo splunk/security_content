@@ -1,8 +1,8 @@
 name: Windows Gather Victim Network Info Through Ip Check Web Services
 id: 70f7c952-0758-46d6-9148-d8969c4481d1
-version: 21
+version: 22
 creation_date: '2022-06-24'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -58,6 +58,7 @@ analytic_story:
     - Void Manticore
     - BlankGrabber Stealer
     - VIP Keylogger
+    - Starland RAT Campaign
 asset_type: Endpoint
 mitre_attack_id:
     - T1590.005

@@ -2,9 +2,9 @@ name: Splunk Information Disclosure on Account Login
 id: 2bae5d19-6d1b-4db0-82ab-0af5ac5f836c
 version: 8
 creation_date: '2024-07-01'
-modification_date: '2026-06-24'
+modification_date: '2026-07-29'
 author: Rod Soto
-status: deprecated
+status: removed
 type: Hunting
 description: This is a composed hunting search that looks for possible user enumeration attempts when SAML is enabled on a Splunk instance by capturing different responses from server.
 data_source:

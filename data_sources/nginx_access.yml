@@ -16,7 +16,7 @@ sourcetype: nginx:plus:kv
 supported_TA:
     - name: Splunk Add-on for NGINX
       url: https://splunkbase.splunk.com/app/3258
-      version: 3.3.0
+      version: 3.3.1
 fields:
     - _time
     - action
