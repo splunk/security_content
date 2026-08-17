@@ -1,0 +1,71 @@
+name: Windows Defender Threat Detected on Kernel Object Path
+id: 702631e8-90ce-43db-90fd-cf0228edc8ad
+version: 1
+creation_date: '2026-08-17'
+modification_date: '2026-08-17'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects a Windows Defender malware detection or remediation event where the scanned path
+    resolves through the NT object manager namespace (\globalroot\). It leverages Windows Defender Operational log
+    EventCodes 1116 and 1117 to identify this activity. In the ShieldBreak exploit, this is how Defender is coerced
+    into hydrating a cloud file placeholder and copying attacker content through a symbolic link chain that ultimately
+    writes into C:\Windows\System32. If confirmed malicious, this activity indicates an attempt to weaponize Windows
+    Defender's own scanning pipeline for local privilege escalation.
+data_source:
+    - Windows Event Log Defender 1116
+    - Windows Event Log Defender 1117
+search: |-
+    `ms_defender`
+    EventCode IN (1116, 1117)
+    Path="*\\globalroot\\*"
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode) as EventCode values(Action_Name) as Action_Name values(Additional_Actions_String) as Additional_Actions_String values(FWLink) as FWLink
+      by host Detection_User Path Threat_Name Severity_Name
+         Category_Name Process_Name
+    | rename host as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_defender_threat_detected_on_kernel_object_path_filter`
+how_to_implement: |-
+    The following analytic requires collection of Windows Defender Operational logs in either XML or multi-line, via the Splunk Add-on for Microsoft Windows. Ensure the Microsoft-Windows-Windows Defender/Operational channel is being collected so that EventCode 1116 (detection) and 1117 (remediation) events are ingested.
+known_false_positives: |-
+    No false positives have been identified at this time. Legitimate Defender scans do not report detections against paths resolved through the NT object manager namespace.
+references:
+    - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
+    - https://www.threatlocker.com/blog/nightmareeclipse-releases-new-poc-shieldbreak-exploits-same-weakness-as-rogueplanet
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Windows Defender reported a detection on a kernel object path $Path$ on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 70
+analytic_story:
+    - RoguePlanet
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+    - T1211
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/emerging_threats/ShieldBreak/defender_kernel_object.log
+          source: XmlWinEventLog:Microsoft-Windows-Windows Defender/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
