@@ -43,12 +43,12 @@ intermediate_findings:
         - field: dest
           type: system
           score: 30
-          description: A Python process on $dest$ made an outbound network connection to $dest_ip$ during package installation
+          message: A Python process on $dest$ made an outbound network connection to $dest_ip$ during package installation
 threat_objects:
     - field: process
       type: process
     - field: dest_ip
-      type: dest_ip
+      type: ip_address
 analytic_story:
     - Malicious Python Package Installation
     - Ingress Tool Transfer

@@ -46,7 +46,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 30
-          description: A Python .pth file called $file_name$ was created on $dest$ during package installation using $process$
+          message: A Python .pth file called $file_name$ was created on $dest$ during package installation using $process$
 threat_objects:
     - field: process
       type: process
