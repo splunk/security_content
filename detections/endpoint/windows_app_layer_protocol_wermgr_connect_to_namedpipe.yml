@@ -1,6 +1,6 @@
 name: Windows App Layer Protocol Wermgr Connect To NamedPipe
 id: 2f3a4092-548b-421c-9caa-84918e1787ef
-version: 10
+version: 11
 creation_date: '2022-10-28'
 modification_date: '2026-08-18'
 author: Teoderick Contreras, Splunk

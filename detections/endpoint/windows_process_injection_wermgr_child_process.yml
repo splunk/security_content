@@ -1,6 +1,6 @@
 name: Windows Process Injection Wermgr Child Process
 id: 360ae6b0-38b5-4328-9e2b-bc9436cddb17
-version: 11
+version: 12
 creation_date: '2022-10-27'
 modification_date: '2026-08-18'
 author: Teoderick Contreras, Splunk
