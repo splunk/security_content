@@ -18,19 +18,19 @@ data_source:
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime max(_time) as lastTime
-    from datamodel=Endpoint.Processes where Processes.loaded_file="mpclient.dll" AND NOT Processes.user="* SERVICE" AND NOT Processes.user="SYSTEM" AND NOT Processes.process_path="*\MpCmdRun.exe"
+    from datamodel=Endpoint.Processes where Processes.loaded_file="mpclient.dll" AND NOT Processes.user="* SERVICE" AND NOT Processes.user="SYSTEM" AND NOT Processes.process_path="*\MpCmdRun.exe" 
+    AND Processes.process_path IN (
+      "*\\Perflogs\\*",
+      "*\\ProgramData\\*",
+      "*\\Temp\\*",
+      "*\\Users\\*",
+      "*\\Windows\\Tasks\\*")
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
        Processes.parent_process_name Processes.parent_process_path Processes.loaded_file Processes.process
        Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
        Processes.process_integrity_level Processes.process_name Processes.process_path
        Processes.user Processes.user_id Processes.vendor_product
-    | search Processes.process_path IN (
-      "*\\Perflogs\\*",
-      "*\\ProgramData\\*",
-      "*\\Temp\\*",
-      "*\\Users\\*",
-      "*\\Windows\\Tasks\\*")
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

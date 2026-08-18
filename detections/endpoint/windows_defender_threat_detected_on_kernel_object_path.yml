@@ -22,9 +22,8 @@ search: |-
     Path="*\\globalroot\\*"
     | fillnull
     | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode) as EventCode values(Action_Name) as Action_Name values(Additional_Actions_String) as Additional_Actions_String values(FWLink) as FWLink
-      by host Detection_User Path Threat_Name Severity_Name
+      by dest Detection_User Path Threat_Name Severity_Name
          Category_Name Process_Name
-    | rename host as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_defender_threat_detected_on_kernel_object_path_filter`
