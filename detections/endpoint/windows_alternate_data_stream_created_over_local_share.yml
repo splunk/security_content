@@ -2,7 +2,7 @@ name: Windows Alternate Data Stream Created Over Local Share
 id: e974a5c9-cbe9-4b4a-8fba-b55e7dbc8259
 version: 1
 creation_date: '2026-08-17'
-modification_date: '2026-08-17'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ search: |-
     | fillnull
     | stats count min(_time) as firstTime max(_time) as lastTime
       by Computer IpAddress ShareName ShareLocalPath RelativeTargetName AccessMask src_user
-    | rename Computer as dest
+    | rename Computer as dest, IpAddress as dest_ip
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_alternate_data_stream_created_over_local_share_filter`
@@ -51,6 +51,13 @@ finding:
         field: dest
         type: system
         score: 70
+threat_objects:
+    - field: dest
+      type: system
+    - field: RelativeTargetName
+      type: file_path
+    - field: src_user
+      type: user
 analytic_story:
     - RoguePlanet
 asset_type: Endpoint

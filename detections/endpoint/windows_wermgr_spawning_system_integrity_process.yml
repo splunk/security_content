@@ -2,7 +2,7 @@ name: Windows Wermgr Spawning System Integrity Process
 id: d39634c8-7ce7-4503-a5da-73ca3c758fb9
 version: 1
 creation_date: '2026-08-17'
-modification_date: '2026-08-17'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -22,12 +22,9 @@ search: |-
     from datamodel=Endpoint.Processes where
     Processes.parent_process_name="wermgr.exe"
     (Processes.process_integrity_level=system OR Processes.user=*$ OR Processes.user=system)
-    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-       Processes.parent_process_name Processes.parent_process_path Processes.process
-       Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-       Processes.process_integrity_level Processes.process_name Processes.process_path
-       Processes.user Processes.user_id Processes.vendor_product
+    by Processes.action Processes.dest Processes.parent_process_name Processes.parent_process_path Processes.parent_process Processes.parent_process_id
+       Processes.process_name Processes.process_path Processes.process Processes.process_id
+       Processes.process_hash Processes.process_integrity_level Processes.user Processes.vendor_product
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -55,9 +52,17 @@ finding:
         field: dest
         type: system
         score: 70
+threat_objects:
+    - field: dest
+      type: system
+    - field: process
+      type: process
+    - field: user
+      type: user
 analytic_story:
     - RoguePlanet
     - Windows Privilege Escalation
+    - Windows Error Reporting Service Elevation of Privilege Vulnerability
 asset_type: Endpoint
 mitre_attack_id:
     - T1068

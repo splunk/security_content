@@ -2,7 +2,7 @@ name: Windows Defender Threat Detected on Kernel Object Path
 id: 702631e8-90ce-43db-90fd-cf0228edc8ad
 version: 1
 creation_date: '2026-08-17'
-modification_date: '2026-08-17'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -22,8 +22,8 @@ search: |-
     Path="*\\globalroot\\*"
     | fillnull
     | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode) as EventCode values(Action_Name) as Action_Name values(Additional_Actions_String) as Additional_Actions_String values(FWLink) as FWLink
-      by dest Detection_User Path Threat_Name Severity_Name
-         Category_Name Process_Name
+      by dvc Detection_User Path Threat_Name Severity_Name Category_Name
+    | rename dvc as dest, Detection_User as user
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_defender_threat_detected_on_kernel_object_path_filter`
@@ -49,6 +49,13 @@ finding:
         field: dest
         type: system
         score: 70
+threat_objects:
+    - field: dest
+      type: system
+    - field: Path
+      type: file_path
+    - field: user
+      type: user
 analytic_story:
     - RoguePlanet
 asset_type: Endpoint

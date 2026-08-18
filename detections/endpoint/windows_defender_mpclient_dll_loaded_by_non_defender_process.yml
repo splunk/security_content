@@ -2,7 +2,7 @@ name: Windows Defender MpClient.dll Loaded by non-Defender Process
 id: 20f72601-2a92-47bc-8776-177671bbe189
 version: 1
 creation_date: '2026-08-17'
-modification_date: '2026-08-17'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -52,11 +52,18 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: mpclient.dll was loaded by suspicious process $process_name$ on $dest$
+    title: mpclient.dll was loaded by suspicious process $process_path$ on $dest$
     entity:
         field: dest
         type: system
         score: 50
+threat_objects:
+    - field: dest
+      type: system
+    - field: process_path
+      type: file_path
+    - field: user
+      type: user
 analytic_story:
     - RoguePlanet
 asset_type: Endpoint

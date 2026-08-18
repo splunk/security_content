@@ -2,7 +2,7 @@ name: Windows Error Report Created in ReportQueue Manually
 id: c3b33d42-dd28-41bc-8abd-407654a5c9bc
 version: 1
 creation_date: '2026-08-17'
-modification_date: '2026-08-17'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -18,20 +18,17 @@ data_source:
 search: |-
     `sysmon`
     EventCode=11
-    TargetFilename="*.wer"
-    TargetFilename="*\\ReportQueue\\*"
-    NOT Image IN (
+    file_name="*.wer"
+    file_path="*\\ReportQueue\\*"
+    NOT process_path IN (
       "*\\svchost.exe",
       "*\\werfault.exe",
       "*\\werfaultsecure.exe",
       "*\\wermgr.exe"
     )
     | fillnull
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-      by Computer Image TargetFilename dest dvc file_hash file_name file_path action
-         process_exec process_guid process_id process_name process_path
-         signature signature_id user_id vendor_product
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      by dest file_name file_path file_hash action process_name process_path process_id user vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_error_report_created_in_reportqueue_manually_filter`
@@ -57,10 +54,20 @@ intermediate_findings:
         - field: dest
           type: system
           score: 40
-          message: $Image$ created a Windows Error Reporting report $TargetFilename$ on $dest$
+          message: $process_name$ created a Windows Error Reporting report $file_path$ on $dest$
+threat_objects:
+    - field: dest
+      type: system
+    - field: process_name
+      type: process_name
+    - field: file_path
+      type: file_path
+    - field: user
+      type: user
 analytic_story:
     - RoguePlanet
     - Windows Privilege Escalation
+    - Windows Error Reporting Service Elevation of Privilege Vulnerability
 asset_type: Endpoint
 mitre_attack_id:
     - T1068

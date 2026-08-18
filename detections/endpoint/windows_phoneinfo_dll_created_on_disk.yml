@@ -2,7 +2,7 @@ name: Windows Phoneinfo.dll Created on Disk
 id: 34cb2dfb-1dec-4b6b-bc72-c3904e5e4521
 version: 1
 creation_date: '2026-08-17'
-modification_date: '2026-08-17'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -22,9 +22,7 @@ search: |-
     from datamodel=Endpoint.Filesystem where
     Filesystem.action="created"
     Filesystem.file_name="phoneinfo.dll"
-    by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
-       Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
-       Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+    by Filesystem.action Filesystem.dest Filesystem.file_hash Filesystem.file_name Filesystem.file_path Filesystem.process_id
        Filesystem.user Filesystem.vendor_product
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
@@ -53,6 +51,11 @@ finding:
         field: dest
         type: system
         score: 80
+threat_objects:
+    - field: dest
+      type: system
+    - field: file_path
+      type: file_path
 analytic_story:
     - RoguePlanet
     - Windows Privilege Escalation

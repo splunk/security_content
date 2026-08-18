@@ -2,7 +2,7 @@ name: Windows App Layer Protocol Wermgr Connect To NamedPipe
 id: 2f3a4092-548b-421c-9caa-84918e1787ef
 version: 10
 creation_date: '2022-10-28'
-modification_date: '2026-05-13'
+modification_date: '2026-08-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -33,6 +33,8 @@ intermediate_findings:
           message: wermgr.exe process is creating or connecting to a named pipe $PipeName$ on $dest$
 analytic_story:
     - Qakbot
+    - RoguePlanet
+    - Windows Error Reporting Service Elevation of Privilege Vulnerability
 asset_type: Endpoint
 mitre_attack_id:
     - T1071
