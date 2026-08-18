@@ -15,7 +15,7 @@ separator_value: '4703'
 supported_TA:
     - name: Splunk Add-on for Microsoft Windows
       url: https://splunkbase.splunk.com/app/742
-      version: 10.0.1
+      version: 11.0.2
 fields:
     - _time
     - Caller_Domain
