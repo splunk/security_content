@@ -43,7 +43,7 @@ Pre-commit hook runs automatically when you commit files in `detections/`:
 ```bash
 git add detections/endpoint/my_detection.yml
 git commit -m "Add detection"
-# yamlfmt runs automatically
+# yamlfmt and YAML field ordering run automatically
 ```
 
 **Skip hook if needed:**
@@ -65,6 +65,12 @@ yamlfmt detections/endpoint/my_detection.yml
 
 # Check what would change (dry run)
 yamlfmt -dry detections/
+
+# Enforce configured root field order without changing other formatting
+python scripts/enforce_yaml_field_order.py --fix detections/
+
+# Check root field order only
+python scripts/enforce_yaml_field_order.py --check detections/
 ```
 
 ### Validation (CI)
@@ -118,7 +124,8 @@ pre-commit autoupdate
 
 - Check the script output for specific errors
 - Run locally: `python scripts/validate_yaml.py detections/`
-- Ensure files pass both yamllint and yamlfmt --lint
+- Ensure files pass yamllint, yamlfmt --lint, and configured root field ordering
+- Fix field order locally: `python scripts/enforce_yaml_field_order.py --fix detections/`
 
 ---
 
@@ -126,4 +133,5 @@ pre-commit autoupdate
 
 - `.yamlfmt` - yamlfmt formatting rules (4-space indent, LF line endings)
 - `.yamllint` - yamllint validation rules (syntax checks, no duplicate keys)
+- `.yamlfieldorder` - Root field order for detection YAML files
 - `.pre-commit-config.yaml` - Pre-commit hook configuration
