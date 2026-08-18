@@ -1,0 +1,46 @@
+# Root field order for detection YAML files.
+#
+# The formatter moves whole top-level YAML blocks and does not re-emit YAML.
+# This preserves indentation, spaces, comments, scalar style, and nested content
+# inside each field block.
+target_paths:
+    - detections/
+
+extensions:
+    - .yml
+    - .yaml
+
+# Unknown top-level fields are kept intact and appended after configured fields.
+unknown_fields: append
+
+root_field_order:
+    - name
+    - id
+    - version
+    - creation_date
+    - modification_date
+    - author
+    - status
+    - type
+    - description
+    - data_source
+    - search
+    - how_to_implement
+    - known_false_positives
+    - references
+    - drilldown_searches
+    - finding
+    - intermediate_findings
+    - threat_objects
+    - analytic_story
+    - threat_group
+    - asset_type
+    - cve
+    - atomic_guid
+    - mitre_attack_id
+    - product
+    - category
+    - security_domain
+    - baselines
+    - tests
+    - deprecation_info
