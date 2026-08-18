@@ -1,8 +1,8 @@
-name: Python Site Hooks Creation during Package Installation
+name: Python Site Hooks Creation During Package Installation
 id: efaf40f5-779f-4b48-a941-b7d1a7c931ed
 version: 1
 creation_date: '2026-07-23'
-modification_date: '2026-07-23'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -15,13 +15,13 @@ description: |-
     in order to import and trigger DLL execution. If confirmed malicious, this could result in arbitrary code execution
     every time Python is invoked on the compromised host.
 data_source:
-    - Sysmon EventID 1
-    - Sysmon EventID 11
+    - Sysmon EventID 1 AND Sysmon EventID 11
 search: |-
-    `sysmon` EventID IN (1,11) AND (CommandLine="* install *" OR (TargetFilename="*-packages\*" AND action="created" AND (TargetFilename="*sitecustomize.py" OR TargetFilename="*usercustomize.py")))
-    | bin _time span=5m
-    | stats values(parent_process_id) as val_parent_process_id, values(TargetFilename) as val_target_filename, values(CommandLine) as val_cmd_line, values(parent_process) as val_parent_process, dc(EventID) as dc_event_id count by _time, host, source, process_id
+    `sysmon` EventID IN (1,11) AND (process="* install *" OR (file_path="*-packages\*" AND action="created" AND (file_path="*sitecustomize.py" OR file_path="*usercustomize.py")))
+    | stats count min(_time) as firstTime max(_time) as lastTime values(parent_process_id) as parent_process_id values(file_path) as file_path values(process_name) as process_name values(process) as process values(parent_process_name) as parent_process_name values(parent_process) as parent_process dc(EventID) as dc_event_id  by dest source process_id
     | search dc_event_id>1
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
     | `python_site_hooks_creation_during_package_installation_filter`
 how_to_implement: |-
     This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1)
@@ -34,20 +34,25 @@ known_false_positives: |-
 references:
     - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
 drilldown_searches:
-    - name: View the detection results for - "$host$"
-      search: '%original_detection_search% | search  host = "$host$"'
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$host$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: A Python site hook file was created on $host$ during package installation
+    title: A Python site hook file $file_path$ was created on $dest$ during package installation using $process$
     entity:
-        field: host
+        field: dest
         type: system
         score: 40
+threat_objects:
+    - field: process
+      type: process
+    - field: file_path
+      type: file_path
 analytic_story:
     - Malicious Python Package Installation
     - Compromised Windows Host

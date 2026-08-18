@@ -1,11 +1,11 @@
-name: Python Network Traffic during Package Build
+name: Python Network Traffic During Package Build
 id: 03c9c504-2294-44da-8180-beefe1ca8ba8
 version: 1
 creation_date: '2026-07-23'
-modification_date: '2026-07-23'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
     The following analytic detects a Python process making an outbound network connection during package installation.
     Adversaries can abuse `setup.py` build scripts by leveraging `distutils`/`setuptools` command classes to execute arbitrary code,
@@ -13,13 +13,14 @@ description: |-
     because it allows adversaries to establish a foothold or exfiltrate data without any direct interaction from the victim beyond
     running `pip install`. If confirmed malicious, this could indicate a successful software supply chain compromise.
 data_source:
-    - Sysmon EventID 1
-    - Sysmon EventID 3
+    - Sysmon EventID 1 AND Sysmon EventID 3
 search: |-
-    `sysmon` EventID IN (1,3)
-    | bin _time span=5m
-    | stats values(parent_process_id) as parent_process_id, values(dest_ip) as dest_ip, values(QueryName) as QueryName, values(CommandLine) as CommandLine, values(parent_process) as parent_process, dc(EventID) as EventID count by _time, host, source, process_id
-    | search CommandLine="*_in_process.py*" AND CommandLine="* build_wheel*" AND dest_ip!=""
+    `sysmon` EventID IN (1,3) AND (process="*_in_process.py*" OR process_name=python.exe)
+    | stats count min(_time) as firstTime max(_time) as lastTime values(parent_process_id) as parent_process_id values(dest_ip) as dest_ip values(process_name) as process_name values(process) as process values(parent_process_name) as parent_process_name values(parent_process) as parent_process dc(EventID) as EventID by host source process_id
+    | rename host as dest
+    | search process="* build_wheel*" dest_ip!=""
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
     | `python_network_traffic_during_package_build_filter`
 how_to_implement: |-
     The detection is based on data that originates from Sysmon. To implement this search, you must ingest logs
@@ -29,20 +30,25 @@ known_false_positives: Python packages may contact software repositories, mirror
 references:
     - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
 drilldown_searches:
-    - name: View the detection results for - "$host$"
-      search: '%original_detection_search% | search  host = "$host$"'
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$host$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: A Python process on $host$ made an outbound network connection to $dest$ during package installation
+    title: A Python process on $dest$ made an outbound network connection to $dest_ip$ during package installation
     entity:
-        field: host
+        field: dest
         type: system
         score: 30
+threat_objects:
+    - field: process
+      type: process
+    - field: dest_ip
+      type: dest_ip
 analytic_story:
     - Malicious Python Package Installation
     - Ingress Tool Transfer

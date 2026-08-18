@@ -2,7 +2,7 @@ name: Python PYTHONPATH Modification During Package Installation
 id: 00f01ba4-df01-4caa-90f6-187e4563a516
 version: 1
 creation_date: '2026-07-23'
-modification_date: '2026-07-23'
+modification_date: '2026-08-18'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -16,13 +16,13 @@ description: |-
     sessions. If confirmed malicious, this could result in arbitrary code execution every time Python
     is invoked by the affected user.
 data_source:
-    - Sysmon EventID 1
-    - Sysmon EventID 13
+    - Sysmon EventID 1 AND Sysmon EventID 13
 search: |-
-    `sysmon` EventID IN (1,13) AND (CommandLine="* install *" OR (TargetObject="*PYTHONPATH" AND action="modified"))
-    | bin _time span=5m
-    | stats values(parent_process_id) as parent_process_id, values(TargetObject) as TargetObject, values(registry_value_data) as registry_value_data, values(CommandLine) as CommandLine, values(parent_process) as parent_process, dc(EventID) as dc_event_id count by _time, host, source, process_id
+    `sysmon` EventID IN (1,13) AND (parent_process="*\\site-packages\\pip\\*" OR (registry_path="*PYTHONPATH" AND action="modified"))
+    | stats count min(_time) as firstTime max(_time) as lastTime values(parent_process_id) as parent_process_id values(registry_path) as registry_path values(registry_value_data) as registry_value_data values(process_name) as process_name values(process) as process values(parent_process_name) as parent_process_name values(parent_process) as parent_process dc(EventID) as dc_event_id by dest source process_id
     | search dc_event_id>1
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
     | `python_pythonpath_modification_during_package_installation_filter`
 how_to_implement: |-
     This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1)
@@ -35,20 +35,25 @@ known_false_positives: |-
 references:
     - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
 drilldown_searches:
-    - name: View the detection results for - "$host$"
-      search: '%original_detection_search% | search  host = "$host$"'
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$host$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: The PYTHONPATH environment variable was modified on $host$ during package installation
+    title: The PYTHONPATH environment variable was modified to $registry_value_data$ on $dest$ during package installation using $process$
     entity:
-        field: host
+        field: dest
         type: system
         score: 40
+threat_objects:
+    - field: process
+      type: process
+    - field: registry_value_data
+      type: registry_value_data
 analytic_story:
     - Malicious Python Package Installation
     - Compromised Windows Host
