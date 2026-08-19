@@ -1,0 +1,93 @@
+name: Windows Azure Profile Read Access By Uncommon Process
+id: de776cc1-a318-4e17-9ea4-9810b6dbf15c
+version: 1
+creation_date: '2026-08-14'
+modification_date: '2026-08-14'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects non-Azure-related processes accessing the azureProfile.json file on Windows endpoints, using Windows Security Event 4663 (Object Access) with ReadData access mask (0x1).
+    The azureProfile.json file stores Azure subscription metadata, tenant IDs, and environment context used by the Azure CLI, making it a high-value target for credential and identity reconnaissance. Legitimate access from Azure CLI, PowerShell, VS Code, and Azure Developer CLI is excluded.
+    Processes outside these known-good paths reading this file may indicate infostealer activity, such as Vidar Stealer variants that harvest Azure profile data to facilitate lateral movement or cloud account takeover.
+    If confirmed malicious, an attacker could enumerate accessible Azure subscriptions and tenants to further escalate privileges or pivot into cloud-hosted resources.
+data_source:
+    - Windows Event Log Security 4663
+search: |-
+    `wineventlog_security`
+    EventCode=4663
+    NOT ProcessName IN (
+        "*:\\Program Files\\Azure Dev CLI\\azd.exe",
+        "*:\\Program Files\\Microsoft SDKs\\Azure\\CLI2\\python.exe",
+        "*:\\Program Files\\Microsoft VS Code\\Code.exe",
+        "*:\\Program Files\\PowerShell\\7-preview\\pwsh.exe",
+        "*:\\Program Files\\PowerShell\\7\\pwsh.exe",
+        "*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "*\\.azd\\bin\\azd.exe",
+        "*\\AppData\\Local\\Microsoft\\powershell\\pwsh.exe",
+        "*\\AppData\\Local\\Programs\\Azure Dev CLI\\azd.exe",
+        "*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+    )
+    ObjectName = "*\\.azure\\azureProfile.json"
+
+    ```
+    We select only read-related operations:
+        0x1 = ReadData (or ListDirectory)
+    ```
+
+    | eval AccessMask_ = tonumber(AccessMask, 16)
+    | where (bit_and(AccessMask_, 1) != 0)
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by ObjectName ObjectType ProcessName AccessMask EventCode dest
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_azure_profile_read_access_by_uncommon_process_filter`
+how_to_implement: |-
+    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+known_false_positives: |-
+    Security tools, backup agents, or custom automation scripts that legitimately read Azure CLI profile data may trigger this detection.
+    Developers using non-standard Azure tooling not covered by the exclusion list (e.g., third-party IDE extensions, custom scripts, or internal tooling that wraps Azure CLI calls) may also generate false positives.
+    Tune the exclusion list in the SPL filter macro (windows_azure_profile_reconnaissance_filter) by adding known-good ProcessName values specific to your environment.
+    Verify the triggering process and its parent process before escalating.
+references:
+    - https://www.trendmicro.com/en_us/research/25/j/how-vidar-stealer-2-upgrades-infostealer-capabilities.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: An uncommon process $ProcessName$ accessing $ObjectName$ on $dest$
+threat_objects:
+    - field: ProcessName
+      type: process_name
+analytic_story:
+    - Vidar Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1528
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/vidar_azure_file_access/azure_vidar_access.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit
