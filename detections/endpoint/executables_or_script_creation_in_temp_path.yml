@@ -1,8 +1,8 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 26
+version: 27
 creation_date: '2021-05-07'
-modification_date: '2026-06-25'
+modification_date: '2026-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -133,6 +133,7 @@ analytic_story:
     - RoguePlanet
     - Salat Stealer
     - Phantom Stealer
+    - Vidar Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1036
