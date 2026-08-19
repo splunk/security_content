@@ -7,10 +7,10 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: |-
-    This analytic detects uncommon processes reading cloud-sensitive files on Windows endpoints.
+    This analytic detects uncommon processes reading or requesting read access to sensitive files from cloud providers on Windows endpoints.
     It monitors Windows Security Event 4663 for ReadData (AccessMask 0x1) operations against sensitive files from cloud providers such as Azure.
-    This detection currently only supports Azure, but can and will be extended to support other cloud providers in the future.
     Access by any process outside the known toolchain may indicate credential theft or cloud identity reconnaissance activity, including infostealer behavior such as one observed in Vidar Stealer variants.
+    This detection currently only supports Azure sensitive files, but will be extended to support other cloud providers in the future.
 data_source:
     - Windows Event Log Security 4663
 search: |-
@@ -67,7 +67,8 @@ how_to_implement: |-
 known_false_positives: |-
     False positives are expected from legitimate tooling.
     The detection excludes the Azure CLI bundled Python interpreter, Windows PowerShell, PowerShell 7+, VS Code, and the Azure Developer CLI by process path.
-    Residual false positives may arise from CI/CD agents (e.g., Azure DevOps self-hosted runners, GitHub Actions runners) that invoke az or Azure PowerShell from non-standard install paths not covered by the exclusion list, backup or DLP agents that scan user profile directories, and custom automation scripts that shell out to Azure CLI from an unexpected working directory. Tune by adding confirmed-legitimate process paths to the companion filter macro windows_cloud_sensitive_file_read_access_by_uncommon_process_filter.
+    Residual false positives may arise from CI/CD agents (e.g., Azure DevOps self-hosted runners, GitHub Actions runners) that invoke az or Azure PowerShell from non-standard install paths not covered by the exclusion list, backup or DLP agents that scan user profile directories, and custom automation scripts that shell out to Azure CLI from an unexpected working directory.
+    Tune by adding confirmed-legitimate process paths and file paths to the companion filter macro windows_cloud_sensitive_file_read_access_by_uncommon_process_filter.
 references:
     - https://www.trendmicro.com/en_us/research/25/j/how-vidar-stealer-2-upgrades-infostealer-capabilities.html
 drilldown_searches:
