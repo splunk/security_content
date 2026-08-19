@@ -49,7 +49,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: a non azure cli process $ProcessName$ accessing $ObjectName$
+          message: A non azure cli process $ProcessName$ accessing $ObjectName$
 analytic_story:
     - Vidar Stealer
 asset_type: Endpoint
