@@ -1,8 +1,8 @@
 name: Windows Suspicious Process File Path
 id: ecddae4e-3d4b-41e2-b3df-e46a88b38521
-version: 27
+version: 28
 creation_date: '2021-05-07'
-modification_date: '2026-07-20'
+modification_date: '2026-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -97,6 +97,7 @@ analytic_story:
     - RoguePlanet
     - Phantom Stealer
     - Starland RAT Campaign
+    - Vidar Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1543
