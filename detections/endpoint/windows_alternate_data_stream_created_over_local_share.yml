@@ -1,38 +1,42 @@
 name: Windows Alternate Data Stream Created Over Local Share
 id: e974a5c9-cbe9-4b4a-8fba-b55e7dbc8259
 version: 1
-creation_date: '2026-08-17'
-modification_date: '2026-08-18'
+creation_date: '2026-08-19'
+modification_date: '2026-08-19'
 author: Onur Mustafa Erdogan, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
-    The following analytic detects the creation of an NTFS alternate data stream (ADS) accessed over a local
-    administrative share targeting the loopback address (127.0.0.1). It leverages Windows Security Event Logs
-    with EventCode 5145 to identify this activity. Legitimate local processes access files directly rather than
-    through a local SMB share. This behavior is a hallmark of the ShieldBreak exploit, which abuses a symbolic
-    link swap through a loopback share to redirect a privileged, Defender-driven write into an alternate data
-    stream on a system-owned file, ultimately landing attacker content in C:\Windows\System32. If confirmed malicious,
-    this activity indicates an in-progress local privilege escalation attempt and should be investigated immediately.
+    The following analytic detects the creation of an NTFS alternate data stream (ADS) accessed over a local administrative share targeting the loopback address (127.0.0.1).
+    It leverages Windows Security Event Logs with EventCode 5145 to identify this activity.
+    Legitimate local processes access files directly rather than through a local SMB share.
+    This behavior is a hallmark of the ShieldBreak exploit, which abuses a symbolic link swap through a loopback share to redirect a privileged, Defender-driven write into an alternate data stream on a system-owned file, ultimately landing attacker content in C:\Windows\System32.
+    If confirmed malicious, this activity indicates an in-progress local privilege escalation attempt and should be investigated immediately.
 data_source:
     - Windows Event Log Security 5145
 search: |-
     `wineventlog_security`
     EventCode=5145
     IpAddress="127.0.0.1"
-    ObjectType=File
+    ObjectType="File"
     | regex RelativeTargetName="(?i)\:\w+$"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime
-      by Computer IpAddress ShareName ShareLocalPath RelativeTargetName AccessMask src_user
-    | rename Computer as dest, IpAddress as dest_ip
+    | rename IpAddress as dest_ip
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest dest_ip
+         ShareName ShareLocalPath RelativeTargetName
+         AccessMask src_user
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_alternate_data_stream_created_over_local_share_filter`
 how_to_implement: |-
-    To successfully implement this search, you need to be ingesting Windows Security Event Logs with EventCode 5145 enabled. The Windows TA is also required. Enable Object Access auditing (success/failure) for File Share in group policy so that RelativeTargetName and IpAddress are populated.
+    To successfully implement this search, you need to be ingesting Windows Security Event Logs with EventCode 5145 enabled.
+    The Windows TA is also required.
+    Enable Object Access auditing (success/failure) for File Share in group policy so that RelativeTargetName and IpAddress are populated.
 known_false_positives: |-
-    Backup, replication, or file-sync software may occasionally write alternate data streams over administrative shares. Loopback (127.0.0.1) access to a local share is rare for legitimate software; tune by ShareName or src_user as needed for your environment.
+    Backup, replication, or file-sync software may occasionally write alternate data streams over administrative shares.
+    Loopback (127.0.0.1) access to a local share is rare for legitimate software, tune by ShareName or src_user as needed for your environment.
 references:
     - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
     - https://www.threatlocker.com/blog/nightmareeclipse-releases-new-poc-shieldbreak-exploits-same-weakness-as-rogueplanet
@@ -45,12 +49,12 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: An alternate data stream $RelativeTargetName$ was created over a loopback local share on $dest$
-    entity:
-        field: dest
-        type: system
-        score: 70
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: An alternate data stream $RelativeTargetName$ was created over a loopback local share on $dest$
 threat_objects:
     - field: dest
       type: system
@@ -73,7 +77,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/emerging_threats/ShieldBreak/ads_over_local_share.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ShieldBreak/ads_over_local_share.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
       test_type: unit

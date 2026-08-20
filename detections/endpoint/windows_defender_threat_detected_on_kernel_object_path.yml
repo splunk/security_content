@@ -7,12 +7,10 @@ author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects a Windows Defender malware detection or remediation event where the scanned path
-    resolves through the NT object manager namespace (\globalroot\). It leverages Windows Defender Operational log
-    EventCodes 1116 and 1117 to identify this activity. In the ShieldBreak exploit, this is how Defender is coerced
-    into hydrating a cloud file placeholder and copying attacker content through a symbolic link chain that ultimately
-    writes into C:\Windows\System32. If confirmed malicious, this activity indicates an attempt to weaponize Windows
-    Defender's own scanning pipeline for local privilege escalation.
+    The following analytic detects a Windows Defender malware detection or remediation event where the scanned path resolves through the NT object manager namespace (\globalroot\).
+    It leverages Windows Defender Operational log EventCodes 1116 and 1117 to identify this activity.
+    In the ShieldBreak exploit, this is how Defender is coerced into hydrating a cloud file placeholder and copying attacker content through a symbolic link chain that ultimately writes into C:\Windows\System32.
+    If confirmed malicious, this activity indicates an attempt to weaponize Windows Defender's own scanning pipeline for local privilege escalation.
 data_source:
     - Windows Event Log Defender 1116
     - Windows Event Log Defender 1117
@@ -21,7 +19,12 @@ search: |-
     EventCode IN (1116, 1117)
     Path="*\\globalroot\\*"
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode) as EventCode values(Action_Name) as Action_Name values(Additional_Actions_String) as Additional_Actions_String values(FWLink) as FWLink
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(EventCode) as EventCode
+                  values(Action_Name) as Action_Name
+                  values(Additional_Actions_String) as Additional_Actions_String
+                  values(FWLink) as FWLink
       by dvc Detection_User Path Threat_Name Severity_Name Category_Name
     | rename dvc as dest, Detection_User as user
     | `security_content_ctime(firstTime)`
@@ -48,14 +51,10 @@ finding:
     entity:
         field: dest
         type: system
-        score: 70
+        score: 50
 threat_objects:
-    - field: dest
-      type: system
     - field: Path
       type: file_path
-    - field: user
-      type: user
 analytic_story:
     - RoguePlanet
 asset_type: Endpoint
@@ -71,7 +70,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/emerging_threats/ShieldBreak/defender_kernel_object.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ShieldBreak/defender_kernel_object.log
           source: XmlWinEventLog:Microsoft-Windows-Windows Defender/Operational
           sourcetype: XmlWinEventLog
       test_type: unit

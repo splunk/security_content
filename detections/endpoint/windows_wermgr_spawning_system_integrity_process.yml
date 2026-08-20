@@ -7,10 +7,9 @@ author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects wermgr.exe (Windows Error Reporting) spawning a child process running at SYSTEM integrity level.
-    wermgr.exe normally runs at the integrity level of the reporting user or as a background SYSTEM-owned service that does not
-    launch interactive children. In the ShieldBreak exploit, wermgr.exe is manually triggered via the QueueReporting scheduled task
-    and loads an attacker-planted phantom DLL (phoneinfo.dll), which then spawns an elevated shell.
+    The following analytic detects WerMgr.exe (Windows Error Reporting) spawning a child process running at SYSTEM integrity level.
+    WerMgr.exe normally runs at the integrity level of the reporting user or as a background SYSTEM-owned service that does not launch interactive children.
+    In the ShieldBreak exploit, WerMgr.exe is manually triggered via the QueueReporting scheduled task and loads an attacker-planted phantom DLL (phoneinfo.dll), which then spawns an elevated shell.
     If confirmed malicious, this activity indicates successful local privilege escalation to SYSTEM.
 data_source:
     - Sysmon EventID 1
@@ -18,21 +17,32 @@ data_source:
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
-      count min(_time) as firstTime max(_time) as lastTime
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
     from datamodel=Endpoint.Processes where
-    Processes.parent_process_name="wermgr.exe"
-    (Processes.process_integrity_level=system OR Processes.user=*$ OR Processes.user=system)
-    by Processes.action Processes.dest Processes.parent_process_name Processes.parent_process_path Processes.parent_process Processes.parent_process_id
-       Processes.process_name Processes.process_path Processes.process Processes.process_id
-       Processes.process_hash Processes.process_integrity_level Processes.user Processes.vendor_product
+
+    Processes.parent_process_name="WerMgr.exe"
+    (
+        Processes.process_integrity_level="System"
+        OR
+        Processes.user IN ("*$", "System")
+    )
+
+    by Processes.action Processes.dest Processes.parent_process_name Processes.parent_process_path
+       Processes.parent_process Processes.parent_process_id Processes.process_name
+       Processes.process_path Processes.process Processes.process_id Processes.process_hash
+       Processes.process_integrity_level Processes.user Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_wermgr_spawning_system_integrity_process_filter`
 how_to_implement: |-
-    This detection is based on Process creation events. Make sure you are ingesting logs that contain parent process details and fields that indicate privilege level, such as user name or integrity level. If you are using Sysmon, make sure to enable logging of child processes of Wermgr.exe.
+    This detection is based on Process creation events. Make sure you are ingesting logs that contain parent process details and fields that indicate privilege level, such as user name or integrity level. If you are using Sysmon, make sure to enable logging of child processes of WerMgr.exe.
 known_false_positives: |-
-    No false positives have been identified at this time. wermgr.exe spawning a SYSTEM-integrity child process is not expected under normal Windows Error Reporting operation.
+    No false positives have been identified at this time.
+    WerMgr.exe spawning a SYSTEM-integrity child process is not expected under normal Windows Error Reporting operation.
 references:
     - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
     - https://www.threatlocker.com/blog/nightmareeclipse-releases-new-poc-shieldbreak-exploits-same-weakness-as-rogueplanet
@@ -47,18 +57,16 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: wermgr.exe spawned $process_name$ running at SYSTEM integrity level on $dest$
+    title: The [$parent_process_name$] process spawned [$process_name$] running at SYSTEM integrity level on $dest$
     entity:
         field: dest
         type: system
-        score: 70
+        score: 50
 threat_objects:
-    - field: dest
-      type: system
     - field: process
       type: process
-    - field: user
-      type: user
+    - field: process_name
+      type: process_name
 analytic_story:
     - RoguePlanet
     - Windows Privilege Escalation
@@ -76,7 +84,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/emerging_threats/ShieldBreak/system_integrity_process.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ShieldBreak/system_integrity_process.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
