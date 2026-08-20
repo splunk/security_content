@@ -1,0 +1,84 @@
+name: Windows Error Report Created in ReportQueue Manually
+id: c3b33d42-dd28-41bc-8abd-407654a5c9bc
+version: 1
+creation_date: '2026-08-17'
+modification_date: '2026-08-18'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects a .wer file being written into the Windows Error Reporting ReportQueue directory by a process other than the standard error-reporting binaries.
+    Windows Error Reporting normally populates ReportQueue only through werfault.exe, werfaultsecure.exe, or wermgr.exe following an actual application crash.
+    In the ShieldBreak exploit, the attacker fabricates a .wer report directly and manually invokes the QueueReporting scheduled task, which causes wermgr.exe to process the report and load an attacker-planted phantom DLL at SYSTEM integrity.
+    If confirmed malicious, this activity indicates preparation for a local privilege escalation attempt abusing Windows Error Reporting.
+data_source:
+    - Sysmon EventID 11
+search: |-
+    `sysmon`
+    EventCode=11
+    action IN ("created","modified")
+    file_name="*.wer"
+    file_path="*\\ReportQueue\\*"
+    NOT process_path IN (
+      "*\\svchost.exe",
+      "*\\werfault.exe",
+      "*\\werfaultsecure.exe",
+      "*\\wermgr.exe"
+    )
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest file_name file_path file_hash action
+         process_name process_path process_id user vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_error_report_created_in_reportqueue_manually_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting logs with file creation events from your endpoints. If you are using Sysmon, you must have EventID 11 (FileCreate) enabled, and the FileCreate section of the configuration must include TargetFilename paths ending in .wer or containing ReportQueue, since these are commonly excluded by default configurations.
+known_false_positives: |-
+    Crash-reporting or telemetry agents that integrate with Windows Error Reporting may stage .wer files outside the standard WER binaries. Tune by Image as necessary for your environment.
+references:
+    - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
+    - https://www.threatlocker.com/blog/nightmareeclipse-releases-new-poc-shieldbreak-exploits-same-weakness-as-rogueplanet
+    - https://isc.sans.edu/diary/22536
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 40
+          message: A suspicious process [$process_name$] created a Windows Error Reporting report [$file_path$] on [$dest$]
+threat_objects:
+    - field: process_name
+      type: process_name
+    - field: file_path
+      type: file_path
+analytic_story:
+    - RoguePlanet
+    - Windows Privilege Escalation
+    - Windows Error Reporting Service Elevation of Privilege Vulnerability
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+    - T1053.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ShieldBreak/wer_file_creation.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
