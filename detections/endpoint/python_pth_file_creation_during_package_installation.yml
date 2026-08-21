@@ -1,24 +1,53 @@
 name: Python PTH File Creation During Package Installation
 id: bf581b86-39cd-48b7-9312-d9affb48a8bc
 version: 1
-creation_date: '2026-07-23'
-modification_date: '2026-08-18'
+creation_date: '2026-08-21'
+modification_date: '2026-08-21'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic detects the creation of a Python path configuration (`.pth`) file in conjunction
-    with a package installation process. Path configuration files placed under `site-packages` or `dist-packages`
-    are executed with every subsequent invocation of Python, allowing adversaries to achieve persistence
-    on the victim endpoint regardless of build method or distribution type. This technique was used by the
-    threat actor group TeamPCP during the supply chain compromise of the `litellm` package. If confirmed
-    malicious, this could result in arbitrary code execution every time Python is invoked on the compromised host.
+    The following analytic detects the creation of a Python path configuration (`.pth`) file in conjunction with a package installation process.
+    Path configuration files placed under `site-packages` or `dist-packages` are executed with every subsequent invocation of Python, allowing adversaries to achieve persistence on the victim endpoint regardless of build method or distribution type.
+    This technique was used by the threat actor group TeamPCP during the supply chain compromise of the `litellm` package.
+    If confirmed malicious, this could result in arbitrary code execution every time Python is invoked on the compromised host.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 11
 search: |-
-    `sysmon` EventID IN (1,11) process_name="python.exe" AND (process="* install *" OR (file_name="*.pth" AND action="created"))
-    | stats count min(_time) as firstTime max(_time) as lastTime values(parent_process_id) as parent_process_id values(file_name) as file_name values(process_name) as process_name values(process) as process values(parent_process_name) as parent_process_name values(parent_process) as parent_process dc(EventID) as dc_event_id by dest source process_id
+    `sysmon`
+    EventID IN (1,11)
+    process_name="python.exe"
+    (
+        process="* install *"
+        OR
+        (
+            file_name="*.pth"
+            action="created"
+        )
+    )
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(parent_process_id) as parent_process_id
+                  values(parent_process_path) as parent_process_path
+                  values(parent_process_name) as parent_process_name
+                  values(parent_process) as parent_process
+                  values(process_path) as process_path
+                  values(process_name) as process_name
+                  values(process) as process
+                  values(file_name) as file_name
+                  values(file_path) as file_path
+                  dc(EventID) as dc_event_id
+
+      by dest source process_id
+
     | search dc_event_id>1 AND process!="*-- setuptools*"
+
+    | table firstTime lastTime
+            parent_process_id parent_process_path parent_process_name parent_process
+            process_id process_path process_name process
+            file_name file_path
+            dest source
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `python_pth_file_creation_during_package_installation_filter`
@@ -28,8 +57,8 @@ how_to_implement: |-
     extension. Ingest the data via the appropriate Splunk Technology Add-on and normalize field names using the
     Splunk Common Information Model (CIM).
 known_false_positives: |-
-    Legitimate packages, such as those managing namespace packages or editable installs, may create `.pth`
-    files as part of normal installation. Investigate the file contents and parent process to determine legitimacy.
+    Legitimate packages, such as those managing namespace packages or editable installs, may create `.pth` files as part of normal installation.
+    Investigate the file contents and parent process to determine legitimacy.
 references:
     - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
 drilldown_searches:
@@ -46,12 +75,14 @@ intermediate_findings:
         - field: dest
           type: system
           score: 30
-          message: A Python .pth file called $file_name$ was created on $dest$ during package installation using $process$
+          message: A Python .pth file called [$file_name$] located at [$file_path$] was created on [$dest$] during package installation using [$process$].
 threat_objects:
     - field: process
       type: process
     - field: file_name
       type: file_name
+    - field: file_path
+      type: file_path
 analytic_story:
     - Malicious Python Package Installation
     - Compromised Windows Host
@@ -69,7 +100,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1546/python_pth_file_creation/python_pth_file_creation.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546/python_pth_file_creation/python_pth_file_creation.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit

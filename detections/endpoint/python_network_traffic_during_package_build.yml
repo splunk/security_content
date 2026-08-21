@@ -1,24 +1,59 @@
 name: Python Network Traffic During Package Build
 id: 03c9c504-2294-44da-8180-beefe1ca8ba8
 version: 1
-creation_date: '2026-07-23'
-modification_date: '2026-08-18'
+creation_date: '2026-08-21'
+modification_date: '2026-08-21'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
 description: |-
     The following analytic detects a Python process making an outbound network connection during package installation.
-    Adversaries can abuse `setup.py` build scripts by leveraging `distutils`/`setuptools` command classes to execute arbitrary code,
-    including network beacons to third-party domains, the moment a malicious Python package is installed. This activity is significant
-    because it allows adversaries to establish a foothold or exfiltrate data without any direct interaction from the victim beyond
-    running `pip install`. If confirmed malicious, this could indicate a successful software supply chain compromise.
+    Adversaries can abuse `setup.py` build scripts by leveraging `distutils`/`setuptools` command classes to execute arbitrary code, including network beacons to third-party domains, the moment a malicious Python package is installed.
+    This activity is significant because it allows adversaries to establish a foothold or exfiltrate data without any direct interaction from the victim beyond running `pip install`.
+    If confirmed malicious, this could indicate a successful software supply chain compromise.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 3
 search: |-
-    `sysmon` EventID IN (1,3) AND (process="*_in_process.py*" OR process_name=python.exe)
-    | stats count min(_time) as firstTime max(_time) as lastTime values(parent_process_id) as parent_process_id values(dest_ip) as dest_ip values(process_name) as process_name values(process) as process values(parent_process_name) as parent_process_name values(parent_process) as parent_process dc(EventID) as EventID by host source process_id
-    | rename host as dest
-    | search process="* build_wheel*" dest_ip!=""
+    `sysmon`
+    (
+        EventID=1
+        (
+            process="*_in_process.py*"
+            OR
+            process_name=python.exe
+        )
+    )
+    OR
+    (
+        EventID=3
+        dest_ip!=""
+        process_name=python.exe
+    )
+
+    | eval dest=if(EventID=3, Computer, dest)
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(parent_process_id) as parent_process_id
+                  values(parent_process_path) as parent_process_path
+                  values(parent_process_name) as parent_process_name
+                  values(parent_process) as parent_process
+                  values(process_path) as process_path
+                  values(process_name) as process_name
+                  values(process) as process
+                  values(dest_ip) as dest_ip
+                  values(dest_host) as dest_host
+
+      by dest source process_id
+
+    | search process="* build_wheel*"
+
+    | table firstTime lastTime
+            parent_process_id parent_process_path parent_process_name parent_process
+            process_id process_path process_name process
+            dest_ip dest_host
+            dest source
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `python_network_traffic_during_package_build_filter`
@@ -26,7 +61,9 @@ how_to_implement: |-
     The detection is based on data that originates from Sysmon. To implement this search, you must ingest logs
     with process creation (EventID 1) and network connection (EventID 3) events, mapped via the appropriate
     Splunk Technology Add-on. Use the Splunk Common Information Model (CIM) to normalize the field names.
-known_false_positives: Python packages may contact software repositories, mirror sites during build time. Investigate the destination and package content to determine legitimacy.
+known_false_positives: |-
+    Python packages may contact software repositories, mirror sites during build time.
+    Investigate the destination and package content to determine legitimacy.
 references:
     - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
 drilldown_searches:
@@ -42,13 +79,15 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 30
-          message: A Python process on $dest$ made an outbound network connection to $dest_ip$ during package installation
+          score: 20
+          message: A Python process [$process$] on [$dest$] made an outbound network connection to [$dest_ip$] with hostname [$dest_host$] during package installation.
 threat_objects:
     - field: process
       type: process
     - field: dest_ip
       type: ip_address
+    - field: dest_host
+      type: domain
 analytic_story:
     - Malicious Python Package Installation
     - Ingress Tool Transfer
@@ -67,7 +106,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1195.002/python_network_traffic/python_network_traffic.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/python_network_traffic/python_network_traffic.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
