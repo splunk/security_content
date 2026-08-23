@@ -92,7 +92,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_list_firewall_rules.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_list_firewall_rules.log
           sourcetype: osquery:results
           source: osquery
       test_type: unit

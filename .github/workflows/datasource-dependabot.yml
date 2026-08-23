@@ -32,10 +32,13 @@ jobs:
           echo "Updating data source supported_TA and repo install.yml app versions"
           contentctl-ng update-data-source-tas --content-dirs .
           
-          # TODO: Remove this when we are fully compatible with the latest version of the Windows TA
-          # Temporarily roll back any automated updates to the Windows TA because we intentionally
-          # want to pin to the current version.
-          git checkout -- $(grep -rl "https://splunkbase.splunk.com/app/742" data_sources/)
+          # TODO: This comment is intentionally left in this workflow to demonstrate how individuals 
+          # TAs can be intentionally excluded from updates, for example when we have intentionally pinned 
+          # to an older version of a TA. In the future, we will try to make this a formally documented
+          # feature of contentctl-ng, but needing to do this is fairly rare and with out other priorities,
+          # does not fit at this time.
+          # The demonstration below shows how to exlcude the windows TA from updates, if necessary.
+          # git checkout -- $(grep -rl "https://splunkbase.splunk.com/app/742" data_sources/)
           echo "Changed data source and install.yml files:"
           git status --short -- data_sources install.yml
 

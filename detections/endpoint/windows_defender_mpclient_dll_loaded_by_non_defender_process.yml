@@ -1,0 +1,86 @@
+name: Windows Defender MpClient.dll Loaded by Non-Defender Process
+id: 20f72601-2a92-47bc-8776-177671bbe189
+version: 1
+creation_date: '2026-08-19'
+modification_date: '2026-08-19'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects mpclient.dll, the Windows Defender client API library, being loaded by a process that is not part of the Windows Defender platform.
+    mpclient.dll exposes the API surface used to drive on-demand Defender scans (IOAV, MpScan). In the ShieldBreak exploit, the attacker binary loads mpclient.dll directly and calls its scan APIs against an object-manager path in order to trigger a Defender scan against attacker-controlled content as part of a race condition targeting Defender's placeholder-hydration behavior.
+    If confirmed malicious, this activity indicates an attempt to weaponize Windows Defender's own scanning pipeline for local privilege escalation.
+data_source:
+    - Sysmon EventID 7
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    from datamodel=Endpoint.Processes where
+
+    Processes.loaded_file="mpclient.dll"
+    NOT Processes.user IN ("* SERVICE", "SYSTEM")
+    NOT Processes.process_path="*\MpCmdRun.exe"
+    Processes.process_path IN (
+        "*:\\AppData\\Local\\Temp\\*",
+        "*:\\Perflogs\\*",
+        "*:\\ProgramData\\*",
+        "*:\\Temp\\*",
+        "*:\\Users\\*",
+        "*:\\Windows\\Tasks\\*"
+    )
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.loaded_file Processes.process
+       Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name Processes.process_path
+       Processes.user Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_defender_mpclient_dll_loaded_by_non_defender_process_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting logs with the driver/module loaded from your endpoints.
+    If you are using Sysmon, configuration must explicitly include image loading events targeting mpclient.dll.
+known_false_positives: |-
+    Third-party security products or custom AV-integration tooling that legitimately calls into the Defender client API may load mpclient.dll outside the Defender platform directories. Filter as necessary for your environment.
+references:
+    - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
+    - https://www.threatlocker.com/blog/nightmareeclipse-releases-new-poc-shieldbreak-exploits-same-weakness-as-rogueplanet
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: The [$loaded_file$] DLL was loaded by a suspicious process [$process_path$] on [$dest$]
+threat_objects:
+    - field: process_path
+      type: file_path
+analytic_story:
+    - RoguePlanet
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ShieldBreak/mpclient_dll_loaded.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
