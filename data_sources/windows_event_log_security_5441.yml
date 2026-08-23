@@ -1,8 +1,8 @@
 name: Windows Event Log Security 5441
 id: aac843ab-4cd6-4735-9557-cde0b504c9c9
 version: 1
-creation_date: '2026-08-24'
-modification_date: '2026-08-24'
+creation_date: '2026-08-23'
+modification_date: '2026-08-23'
 author: Nasreddine Bencherchali, Splunk
 description: Logs Windows Filtering Platform filters that were present when the Base Filtering Engine started, including provider, filter, layer, conditions, and filter action metadata.
 mitre_components:

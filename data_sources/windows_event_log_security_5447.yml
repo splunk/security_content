@@ -1,8 +1,8 @@
 name: Windows Event Log Security 5447
 id: b94e3b5d-d00f-4fed-88e9-c8ea87495618
 version: 1
-creation_date: '2026-08-24'
-modification_date: '2026-08-24'
+creation_date: '2026-08-23'
+modification_date: '2026-08-23'
 author: Nasreddine Bencherchali, Splunk
 description: Logs Windows Filtering Platform runtime filter changes, including the change type, provider, filter, layer, conditions, and filter action metadata.
 mitre_components:

@@ -1,8 +1,8 @@
 name: Windows Filtering Platform Filter Added To Block EDR Process
 id: 8bb64b2a-299e-4ddc-a7e1-037bdc5b904a
 version: 1
-creation_date: '2026-08-24'
-modification_date: '2026-08-24'
+creation_date: '2026-08-23'
+modification_date: '2026-08-23'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
