@@ -1,0 +1,101 @@
+name: Windows Event Log Security 5447
+id: b94e3b5d-d00f-4fed-88e9-c8ea87495618
+version: 1
+creation_date: '2026-08-24'
+modification_date: '2026-08-24'
+author: Nasreddine Bencherchali, Splunk
+description: Logs Windows Filtering Platform runtime filter changes, including the change type, provider, filter, layer, conditions, and filter action metadata.
+mitre_components:
+    - Firewall Rule Modification
+    - Security Policy Modification
+    - Application Log Content
+source: XmlWinEventLog:Security
+sourcetype: XmlWinEventLog
+separator: EventCode
+separator_value: '5447'
+configuration: Enable the Audit Filtering Platform Policy Change subcategory to collect Windows Filtering Platform policy events.
+supported_TA:
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 11.0.2
+fields:
+    - _time
+    - Action
+    - ActivityID
+    - CalloutKey
+    - CalloutName
+    - ChangeType
+    - Channel
+    - Computer
+    - Conditions
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - FilterId
+    - FilterKey
+    - FilterName
+    - FilterType
+    - Guid
+    - Keywords
+    - LayerId
+    - LayerKey
+    - LayerName
+    - Level
+    - Name
+    - Opcode
+    - ProcessID
+    - ProcessId
+    - ProviderKey
+    - ProviderName
+    - RecordNumber
+    - SystemTime
+    - System_Props_Xml
+    - Task
+    - ThreadID
+    - UserName
+    - UserSid
+    - Version
+    - Weight
+    - action
+    - app
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - eventtype
+    - host
+    - id
+    - index
+    - linecount
+    - name
+    - product
+    - punct
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - status
+    - subject
+    - ta_windows_action
+    - tag
+    - tag::action
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - user
+    - vendor
+    - vendor_product
+output_fields:
+    - dest
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>5447</EventID><Version>0</Version><Level>0</Level><Task>13573</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2026-05-23T15:32:49.8857017Z'/><EventRecordID>153502136</EventRecordID><Correlation ActivityID='{a015d80e-e931-0006-0cd9-15a031e9dc01}'/><Execution ProcessID='1152' ThreadID='900'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='ProcessId'>16824</Data><Data Name='UserSid'>S-1-5-21-3344543075-1022232225-2459664213-500</Data><Data Name='UserName'>ATTACKRANGE\Administrator</Data><Data Name='ProviderKey'>{a4b43ab7-75d5-4d88-a62c-8b5d2677c73d}</Data><Data Name='ProviderName'>Microsoft Corporation</Data><Data Name='ChangeType'>%%16384</Data><Data Name='FilterKey'>{da607736-f157-4bdd-9ad9-042516072b55}</Data><Data Name='FilterName'>Custom Outbound Filter</Data><Data Name='FilterType'>%%16387</Data><Data Name='FilterId'>305460</Data><Data Name='LayerKey'>{c38d57d1-05a7-4c33-904f-7fbceee60e82}</Data><Data Name='LayerName'>ALE Connect v4 Layer</Data><Data Name='LayerId'>48</Data><Data Name='Weight'>18446744073709551615</Data><Data Name='Conditions'>Condition ID: {d78e1e87-8644-4ea5-9437-d809ecefc971} Match value: Equal to Condition value: 00000000 5c 00 64 00 65 00 76 00-69 00 63 00 65 00 5c 00 \.d.e.v.i.c.e.\. 00000010 68 00 61 00 72 00 64 00-64 00 69 00 73 00 6b 00 h.a.r.d.d.i.s.k. 00000020 76 00 6f 00 6c 00 75 00-6d 00 65 00 33 00 5c 00 v.o.l.u.m.e.3.\. 00000030 70 00 72 00 6f 00 67 00-72 00 61 00 6d 00 64 00 p.r.o.g.r.a.m.d. 00000040 61 00 74 00 61 00 5c 00-6d 00 69 00 63 00 72 00 a.t.a.\.m.i.c.r. 00000050 6f 00 73 00 6f 00 66 00-74 00 5c 00 77 00 69 00 o.s.o.f.t.\.w.i. 00000060 6e 00 64 00 6f 00 77 00-73 00 20 00 64 00 65 00 n.d.o.w.s. .d.e. 00000070 66 00 65 00 6e 00 64 00-65 00 72 00 5c 00 70 00 f.e.n.d.e.r.\.p. 00000080 6c 00 61 00 74 00 66 00-6f 00 72 00 6d 00 5c 00 l.a.t.f.o.r.m.\. 00000090 34 00 2e 00 31 00 38 00-2e 00 32 00 36 00 30 00 4...1.8...2.6.0. 000000a0 34 00 30 00 2e 00 37 00-2d 00 30 00 5c 00 6d 00 4.0...7.-.0.\.m. 000000b0 73 00 6d 00 70 00 65 00-6e 00 67 00 2e 00 65 00 s.m.p.e.n.g...e. 000000c0 78 00 65 00 00 00 x.e...</Data><Data Name='Action'>%%16389</Data><Data Name='CalloutKey'>{00000000-0000-0000-0000-000000000000}</Data><Data Name='CalloutName'>-</Data></EventData></Event>

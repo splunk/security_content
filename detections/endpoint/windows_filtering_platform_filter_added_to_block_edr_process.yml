@@ -1,0 +1,153 @@
+name: Windows Filtering Platform Filter Added To Block EDR Process
+id: 8bb64b2a-299e-4ddc-a7e1-037bdc5b904a
+version: 1
+creation_date: '2026-08-24'
+modification_date: '2026-08-24'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects Windows Filtering Platform filters that are added and configured to block outbound traffic for known EDR and security agent processes.
+    Tools such as EDRSilencer abuse WFP to disrupt outbound telemetry from EDR processes, which can bypass detections that only look for the tool process name.
+    This detection looks for WFP add events with a block action and EDR process names embedded in the hexdump-like Conditions field.
+data_source:
+    - Windows Event Log Security 5447
+search: |-
+    `wineventlog_security`
+    EventCode=5447
+    ChangeType IN ("%%16384", "Add")
+    Action IN ("%%16389", "Block")
+    Conditions=*
+
+    | eval conditions_text=coalesce(Conditions,"")
+    | rex mode=sed field=conditions_text "s/-/ /g"
+    | rex mode=sed field=conditions_text "s/[0-9A-Fa-f]{8}\s+([0-9A-Fa-f]{2}\s+){1,16}//g"
+    | eval conditions_normalized=lower(replace(conditions_text, "[^A-Za-z0-9]", ""))
+    | eval edr_process=case(
+            like(conditions_normalized, "%msmpengexe%"), "MsMpEng.exe",
+            like(conditions_normalized, "%mssenseexe%"), "MsSense.exe",
+            like(conditions_normalized, "%senseirexe%"), "SenseIR.exe",
+            like(conditions_normalized, "%sensendrexe%"), "SenseNdr.exe",
+            like(conditions_normalized, "%sensecncproxyexe%"), "SenseCncProxy.exe",
+            like(conditions_normalized, "%sensesampleuploaderexe%"), "SenseSampleUploader.exe",
+            like(conditions_normalized, "%winlogbeatexe%"), "winlogbeat.exe",
+            like(conditions_normalized, "%elasticagentexe%"), "elastic-agent.exe",
+            like(conditions_normalized, "%elasticendpointexe%"), "elastic-endpoint.exe",
+            like(conditions_normalized, "%filebeatexe%"), "filebeat.exe",
+            like(conditions_normalized, "%xagtexe%"), "xagt.exe",
+            like(conditions_normalized, "%qualysagentexe%"), "QualysAgent.exe",
+            like(conditions_normalized, "%sentinelagentexe%"), "SentinelAgent.exe",
+            like(conditions_normalized, "%sentinelagentworkerexe%"), "SentinelAgentWorker.exe",
+            like(conditions_normalized, "%sentinelservicehostexe%"), "SentinelServiceHost.exe",
+            like(conditions_normalized, "%sentinelstaticengineexe%"), "SentinelStaticEngine.exe",
+            like(conditions_normalized, "%logprocessorserviceexe%"), "LogProcessorService.exe",
+            like(conditions_normalized, "%sentinelstaticenginescannerexe%"), "SentinelStaticEngineScanner.exe",
+            like(conditions_normalized, "%sentinelhelperserviceexe%"), "SentinelHelperService.exe",
+            like(conditions_normalized, "%sentinelbrowsernativehostexe%"), "SentinelBrowserNativeHost.exe",
+            like(conditions_normalized, "%cylancesvcexe%"), "CylanceSvc.exe",
+            like(conditions_normalized, "%amsvcexe%"), "AmSvc.exe",
+            like(conditions_normalized, "%cramtrayexe%"), "CrAmTray.exe",
+            like(conditions_normalized, "%crssvcexe%"), "CrsSvc.exe",
+            like(conditions_normalized, "%executionpreventionsvcexe%"), "ExecutionPreventionSvc.exe",
+            like(conditions_normalized, "%cybereasonavexe%"), "CybereasonAV.exe",
+            like(conditions_normalized, "%cbexe%"), "cb.exe",
+            like(conditions_normalized, "%repmgrexe%"), "RepMgr.exe",
+            like(conditions_normalized, "%reputilsexe%"), "RepUtils.exe",
+            like(conditions_normalized, "%repuxexe%"), "RepUx.exe",
+            like(conditions_normalized, "%repwavexe%"), "RepWAV.exe",
+            like(conditions_normalized, "%repwscexe%"), "RepWSC.exe",
+            like(conditions_normalized, "%taniumclientexe%"), "TaniumClient.exe",
+            like(conditions_normalized, "%taniumcxexe%"), "TaniumCX.exe",
+            like(conditions_normalized, "%taniumdetectengineexe%"), "TaniumDetectEngine.exe",
+            like(conditions_normalized, "%trapsexe%"), "Traps.exe",
+            like(conditions_normalized, "%cyserverexe%"), "cyserver.exe",
+            like(conditions_normalized, "%cyveraserviceexe%"), "CyveraService.exe",
+            like(conditions_normalized, "%cyvrfsfltexe%"), "CyvrFsFlt.exe",
+            like(conditions_normalized, "%fortiedrexe%"), "fortiedr.exe",
+            like(conditions_normalized, "%sfcexe%"), "sfc.exe",
+            like(conditions_normalized, "%eiconnectorexe%"), "EIConnector.exe",
+            like(conditions_normalized, "%ekrnexe%"), "ekrn.exe",
+            like(conditions_normalized, "%hurukaiexe%"), "hurukai.exe",
+            like(conditions_normalized, "%cetasvcexe%"), "CETASvc.exe",
+            like(conditions_normalized, "%wscommunicatorexe%"), "WSCommunicator.exe",
+            like(conditions_normalized, "%endpointbasecampexe%"), "EndpointBasecamp.exe",
+            like(conditions_normalized, "%tmlistenexe%"), "TmListen.exe",
+            like(conditions_normalized, "%ntrtscanexe%"), "Ntrtscan.exe",
+            like(conditions_normalized, "%tmwscsvcexe%"), "TmWSCSvc.exe",
+            like(conditions_normalized, "%pccntmonexe%"), "PccNTMon.exe",
+            like(conditions_normalized, "%tmbmsrvexe%"), "TMBMSRV.exe",
+            like(conditions_normalized, "%cntaosmgrexe%"), "CNTAoSMgr.exe",
+            like(conditions_normalized, "%tmccsfexe%"), "TmCCSF.exe"
+        )
+    | where isnotnull(edr_process)
+    | eval user=coalesce(UserName,user,"unknown")
+
+    | eval filter_action=case(Action="%%16389","Block", true(), Action),
+            change_type=case(ChangeType="%%16384","Add", true(), ChangeType)
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(filter_action) as filter_action
+                  values(change_type) as change_type
+                  values(edr_process) as edr_process
+                  values(ProviderName) as provider_name
+                  values(FilterType) as filter_type
+                  values(FilterId) as filter_id
+                  values(LayerName) as layer_name
+                  values(LayerId) as layer_id
+                  values(Conditions) as conditions
+                  values(CalloutName) as callout_name
+
+    BY dest user process_id FilterName
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_filtering_platform_filter_added_to_block_edr_process_filter`
+how_to_implement: |-
+    To implement this analytic, enable auditing for Windows Filtering Platform policy changes and ingest Windows Security Event Log data with EventCode 5447. The Splunk Add-on for Microsoft Windows should extract fields such as EventCode, ChangeType, FilterName, Conditions, and Action from XmlWinEventLog:Security events.
+known_false_positives: |-
+    Legitimate firewall, VPN, EDR, and Group Policy changes can add WFP block filters.
+    Tune by approved ProviderName, LayerName, FilterName, or known administrative windows after validating the WFP filter context.
+references:
+    - https://github.com/netero1010/EDRSilencer
+    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5447
+    - https://learn.microsoft.com/en-us/windows/win32/fwp/auditing-and-logging
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Windows Filtering Platform block filter targeting [$edr_process$] was detected on [$dest$].
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: edr_process
+      type: process_name
+    - field: FilterName
+      type: signature
+analytic_story:
+    - Disabling Security Tools
+    - Security Solution Tampering
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1685/edr_silencer/windows-security-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit

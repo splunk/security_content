@@ -1,0 +1,98 @@
+name: Windows EDRSilencer Custom Outbound Filter Added
+id: 67fea630-445d-4c70-a7d0-584fddb93b86
+version: 1
+creation_date: '2026-08-24'
+modification_date: '2026-08-24'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects the EDRSilencer-specific Windows Filtering Platform filter name "Custom Outbound Filter" when it is configured with a block action.
+    EDRSilencer creates WFP filters to block outbound traffic from EDR and security agent processes, impairing endpoint telemetry without requiring the tool binary to keep its original process name.
+    EventCode 5447 identifies creation of the runtime filter with ChangeType %%16384, while EventCode 5441 can show the same persistent filter when the Base Filtering Engine starts.
+data_source:
+    - Windows Event Log Security 5441
+    - Windows Event Log Security 5447
+search: |-
+    `wineventlog_security`
+    (
+        (
+            (
+                EventCode=5447
+                ChangeType IN ("%%16384", "Add")
+            )
+            OR
+            EventCode=5441
+        )
+        Action IN ("%%16389", "Block")
+        FilterName="Custom Outbound Filter"
+    )
+
+    | eval user=coalesce(UserName,user,"unknown")
+    | eval filter_action=case(Action="%%16389","Block", true(), Action),
+           change_type=case(ChangeType="%%16384","Add", true(), ChangeType)
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(filter_action) as filter_action
+                  values(change_type) as change_type
+                  values(ProviderName) as provider_name
+                  values(FilterType) as filter_type
+                  values(FilterId) as filter_id
+                  values(FilterKey) as filter_key
+                  values(LayerName) as layer_name
+                  values(LayerId) as layer_id
+                  values(Conditions) as conditions
+                  values(CalloutName) as callout_name
+      BY dest user process_id FilterName
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_edrsilencer_custom_outbound_filter_added_filter`
+how_to_implement: |-
+    To implement this analytic, enable auditing for Windows Filtering Platform policy changes and ingest Windows Security Event Log data with EventCode 5447 and EventCode 5441.
+    The Splunk Add-on for Microsoft Windows should extract fields such as EventCode, ChangeType, FilterName, Conditions, and Action from XmlWinEventLog:Security events.
+known_false_positives: |-
+    This filter name is associated with EDRSilencer behavior.
+    Validate whether any approved administrative tooling creates WFP block filters with the same name before tuning.
+references:
+    - https://github.com/netero1010/EDRSilencer
+    - https://github.com/mthcht/awesome-lists/blob/main/Lists/Others/windows%20message%20tables/windows_messagetable_strings_list.csv
+    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5447
+    - https://learn.microsoft.com/en-us/windows/win32/fwp/auditing-and-logging
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: EDRSilencer WFP block filter [$FilterName$] was detected on [$dest$].
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: FilterName
+      type: signature
+analytic_story:
+    - Disabling Security Tools
+    - Security Solution Tampering
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1685/edr_silencer/windows-security-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit
