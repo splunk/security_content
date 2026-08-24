@@ -35,5 +35,5 @@ category: web
 security_domain: network
 deprecation_info:
     reason: Detection deprecated as it is targeting a 6 years old CVE that is no longer relevant, since the OS version targeted is no longer supported by F5. As well, the fact that the detection has been set to experimental since 2020.
-    removed_in_version: 6.6.0
+    removed_in_version: 6.8.0
     replacement_content: []
