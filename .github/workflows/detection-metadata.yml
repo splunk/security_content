@@ -1,0 +1,46 @@
+name: Detection Metadata
+
+on:
+  pull_request:
+    paths:
+      - 'detections/**/*.yml'
+      - 'detections/**/*.yaml'
+      - 'tests/validation/**'
+      - 'pytest.ini'
+      - 'requirements.txt'
+      - '.github/workflows/detection-metadata.yml'
+
+jobs:
+  validate:
+    name: Validate changed detection metadata
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install test dependencies
+        run: pip install -r requirements.txt
+
+      - name: Select changed detections
+        shell: bash
+        run: |
+          git diff --name-only --diff-filter=ACMR "origin/${{ github.base_ref }}"...HEAD -- 'detections/**/*.yml' 'detections/**/*.yaml' > changed_detections.txt
+          {
+            echo 'DETECTION_PATHS<<EOF'
+            cat changed_detections.txt
+            echo EOF
+          } >> "$GITHUB_ENV"
+
+      - name: Validate metadata
+        run: |
+          pytest tests/validation -q --tb=short
