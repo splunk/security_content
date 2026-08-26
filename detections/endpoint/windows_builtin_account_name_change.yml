@@ -1,0 +1,71 @@
+name: Windows Builtin Account Name Change
+id: 65e6e8b9-c68c-460f-beb8-48cfe91b4d21
+version: 1
+creation_date: '2026-08-24'
+modification_date: '2026-08-24'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects renaming of Windows built-in accounts via Event ID 4781.
+    It identifies renames targeting accounts with well-known reserved RIDs (500–504): Administrator, Guest, krbtgt, DefaultAccount, and WDAGUtilityAccount, by matching the TargetSid field against the S-1-5-21-*-50[0-4] pattern.
+    Attackers commonly rename the built-in Administrator account to evade detections that alert on the literal account name, while retaining the full privileges of the RID-500 account.
+    Renaming Guest, krbtgt, or other reserved accounts is highly unusual in any legitimate environment.
+data_source:
+    - Windows Event Log Security 4781
+search: |-
+    `wineventlog_security` EventCode=4781
+    | rex field=_raw "TargetSid\">(?<target_sid>[^<]+)"
+    | rex field=_raw "NewTargetUserName\">(?<new_name>[^<]+)"
+    | rex field=_raw "OldTargetUserName\">(?<old_name>[^<]+)"
+    | rex field=_raw "SubjectLogonId\">(?<logon_id>[^<]+)"
+    | where match(target_sid, "S-1-5-21-.*-50[0-4]$")
+    | rename Computer as dest
+    | stats count values(new_name) as new_account_names
+            min(_time) as firstTime max(_time) as lastTime
+    by dest old_name new_name target_sid logon_id
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_builtin_account_name_change_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
+known_false_positives: |-
+    Renaming built-in accounts is uncommon in most environments but may occur during initial system hardening or CIS benchmark compliance efforts.
+    Validate the source user, logon ID, and timing against expected change control windows before tuning.
+references:
+    - https://attack.mitre.org/techniques/T1078/003/
+    - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4781
+    - https://medium.com/@omribaso/from-domain-user-to-enterprise-control-microsoft-configuration-manager-rce-0-day-exploit-chain-393c63c680ca
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$old_name$"
+      search: '%original_detection_search% | search  dest = "$dest$" old_name = "$old_name$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Built-in account [$old_name$] (SID $target_sid$) was renamed to [$new_account_names$] on [$dest$]
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Windows Defense Evasion Tactics
+    - Compromised Windows Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1078.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.003/builtin_account_rename/windows_security.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit
