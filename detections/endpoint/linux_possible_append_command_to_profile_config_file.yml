@@ -22,14 +22,14 @@ search: |-
 
     Processes.process = "*echo*"
     (
-        Processes.process IN ("*/home/*", "*~/*", "*/etc/*")
+        Processes.process IN ("*/home/*", "*~/*")
         Processes.process IN (
             "*/.bash_login*",
             "*/.bash_logout*",
             "*/.bash_profile*",
             "*/.bashrc*",
             "*/.profile*",
-            "*/profile*"
+            "*/etc/profile*"
         )
         OR
         (

@@ -46,7 +46,7 @@ search: |-
 
       by dest source process_id
 
-    | search process="* build_wheel*" dest_ip=*
+    | search process="* build_wheel*"
 
     | table firstTime lastTime
             parent_process_id parent_process_path parent_process_name parent_process
