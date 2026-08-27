@@ -6,7 +6,7 @@ modification_date: '2026-08-24'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects excessive usage of the nslookup application, which may indicate potential DNS exfiltration attempts. It leverages Sysmon EventCode 1 to monitor process executions, specifically focusing on nslookup.exe. The detection identifies outliers by comparing the frequency of nslookup executions against a calculated threshold. This activity is significant as it can reveal attempts by malware or APT groups to exfiltrate data via DNS queries. If confirmed malicious, this behavior could allow attackers to stealthily transfer sensitive information out of the network, bypassing traditional data exfiltration defenses.
+description: The following analytic detects excessive usage of the nslookup application, which may indicate potential DNS exfiltration attempts. It leverages Sysmon EventCode 1 to monitor process executions, specifically focusing on nslookup.exe. The detection identifies outliers by comparing the frequency of nslookup executions against a calculated threshold. This activity is significant as it can reveal attempts by malware or APT groups to exfiltrate data via DNS queries. If confirmed malicious,this behavior could allow attackers to stealthily transfer sensitive information out of the network, bypassing traditional data exfiltration defenses.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
