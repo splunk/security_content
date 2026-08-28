@@ -1,10 +1,10 @@
 name: Detect F5 TMUI RCE CVE-2020-5902
 id: 810e4dbc-d46e-11ea-87d0-0242ac130003
-version: 9
+version: 10
 creation_date: '2020-08-04'
-modification_date: '2026-05-13'
+modification_date: '2026-08-10'
 author: Shannon Davis, Splunk
-status: experimental
+status: deprecated
 type: TTP
 description: The following analytic identifies remote code execution (RCE) attempts targeting F5 BIG-IP, BIG-IQ, and Traffix SDC devices, specifically exploiting CVE-2020-5902. It uses regex to detect patterns in syslog data that match known exploit strings such as "hsqldb;" and directory traversal sequences. This activity is significant because successful exploitation can allow attackers to execute arbitrary commands on the affected devices, leading to full system compromise. If confirmed malicious, this could result in unauthorized access, data exfiltration, or further lateral movement within the network.
 data_source: []
@@ -33,3 +33,7 @@ product:
     - Splunk Cloud
 category: web
 security_domain: network
+deprecation_info:
+    reason: Detection deprecated as it is targeting a 6 years old CVE that is no longer relevant, since the OS version targeted is no longer supported by F5. As well, the fact that the detection has been set to experimental since 2020.
+    removed_in_version: 6.8.0
+    replacement_content: []
