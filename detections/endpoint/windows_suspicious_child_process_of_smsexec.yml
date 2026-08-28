@@ -61,6 +61,8 @@ references:
     - https://medium.com/@omribaso/from-domain-user-to-enterprise-control-microsoft-configuration-manager-rce-0-day-exploit-chain-393c63c680ca
     - https://attack.mitre.org/techniques/T1574/002/
     - https://attack.mitre.org/techniques/T1068/
+    - https://nvd.nist.gov/vuln/detail/cve-2026-47301
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/81d92bba-d22b-4a8c-908a-554ab29148ab?source=recommendations
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -87,7 +89,7 @@ asset_type: Endpoint
 cve:
     - CVE-2026-47301
 mitre_attack_id:
-    - T1574.002
+    - T1574.001
     - T1068
 product:
     - Splunk Enterprise

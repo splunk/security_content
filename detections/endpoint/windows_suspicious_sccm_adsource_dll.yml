@@ -7,7 +7,7 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects creation or modification of adsource.dll or other staging fiiles within the SCCM SMS Provider bin directory, consistent with exploitation of CVE-2026-47301.
+    The following analytic detects creation or modification of adsource.dll or other staging files within the SCCM SMS Provider bin directory, consistent with exploitation of CVE-2026-47301.
     This abuses a DLL side-loading vulnerability in the Microsoft Configuration Manager SMS Provider component. An attacker can plant a malicious adsource.dll in the SCCMProvider bin\X64 path, causing the SMS Provider service to load the attacker-controlled library in a privileged context.
     The presence of renamed dlls alongside adsource.dll is a strong indicator of the classic DLL hijacking pattern where the legitimate library has been renamed so the malicious replacement can proxy calls to it.
     If confirmed malicious, this activity represents a privilege escalation vector that can result in SYSTEM-level code execution on any host running the SCCM SMS Provider role.
@@ -30,11 +30,14 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `windows_suspicious_sccm_adsource_dll_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+    If you are using Sysmon, you must have EventID 11 (FileCreate) enabled, and the FileCreate section of the configuration must include TargetFilename paths ending in .dll or "Microsoft Configuration Manager\bin\X64\" folder.
 known_false_positives: |-
     Legitimate SCCM upgrades or hotfix installations may create or replace adsource.dll in the bin\X64 directory.
     Validate the file hash and digital signature of any detected adsource.dll against the expected version for the installed SCCM build before tuning.
 references:
     - https://medium.com/@omribaso/from-domain-user-to-enterprise-control-microsoft-configuration-manager-rce-0-day-exploit-chain-393c63c680ca
+    - https://nvd.nist.gov/vuln/detail/cve-2026-47301
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/81d92bba-d22b-4a8c-908a-554ab29148ab?source=recommendations
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
