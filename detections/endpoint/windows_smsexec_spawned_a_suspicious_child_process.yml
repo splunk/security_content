@@ -1,11 +1,11 @@
-name: Windows Suspicious Child Process of smsexec
+name: Windows Smsexec.Exe Spawned A Suspicious Child Process
 id: 72091a05-3008-4330-b43e-f5e070134ec1
 version: 1
 creation_date: '2026-08-24'
 modification_date: '2026-08-24'
 author: Raven Tait, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
     The following analytic detects shells, scripting engines, and common post-exploitation utilities spawned as child processes of smsexec.exe.
     smsexec.exe is the core SCCM SMS Executive service process and has no legitimate reason to launch interactive shells or scripting interpreters.
@@ -51,7 +51,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_suspicious_child_process_of_smsexec_filter`
+    | `windows_smsexec_spawned_a_suspicious_child_process_filter`
 how_to_implement: |-
     The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the Processes node of the Endpoint data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |-
@@ -59,7 +59,7 @@ known_false_positives: |-
     False positives are unlikely. Validate the full command line and file hash of any match before tuning.
 references:
     - https://medium.com/@omribaso/from-domain-user-to-enterprise-control-microsoft-configuration-manager-rce-0-day-exploit-chain-393c63c680ca
-    - https://attack.mitre.org/techniques/T1574/002/
+    - https://attack.mitre.org/techniques/T1574/001/
     - https://attack.mitre.org/techniques/T1068/
     - https://nvd.nist.gov/vuln/detail/cve-2026-47301
     - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/81d92bba-d22b-4a8c-908a-554ab29148ab?source=recommendations
@@ -72,12 +72,12 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: Suspicious child process [$process_name$] spawned by smsexec.exe on [$dest$]
-    entity:
-        field: dest
-        type: system
-        score: 50
+intermediate_findings:    
+    entities:
+        - field: dest
+          type: system
+          score: 50
+          message: Suspicious child process [$process_name$] spawned by smsexec.exe on [$dest$]
 threat_objects:
     - field: parent_process_name
       type: parent_process_name
