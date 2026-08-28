@@ -1,4 +1,4 @@
-name: Windows Suspicious Adsource DLL Was Planted In SCCM SMS Provider Directory
+name: Windows SCCM Adsource DLL Was Planted In SMS Provider Directory
 id: 4f55b07b-7aeb-47f4-a234-b222a902276b
 version: 1
 creation_date: '2026-08-20'
@@ -28,7 +28,7 @@ search: |-
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_suspicious_adsource_dll_was_planted_in_sccm_sms_provider_directory_filter`
+    | `windows_sccm_adsource_dll_was_planted_in_sms_provider_directory_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
     If you are using Sysmon, you must have EventID 11 (FileCreate) enabled, and the FileCreate section of the configuration must include TargetFilename paths ending in .dll or "Microsoft Configuration Manager\bin\X64\" folder.
 known_false_positives: |-

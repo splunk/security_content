@@ -1,4 +1,4 @@
-name: Windows Smsexec.Exe Spawned A Suspicious Child Process
+name: Windows SCCM Smsexec Spawned a Suspicious Child Process
 id: 72091a05-3008-4330-b43e-f5e070134ec1
 version: 1
 creation_date: '2026-08-24'
@@ -51,7 +51,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_smsexec_spawned_a_suspicious_child_process_filter`
+    | `windows_sccm_smsexec_spawned_a_suspicious_child_process_filter`
 how_to_implement: |-
     The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the Processes node of the Endpoint data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |-
