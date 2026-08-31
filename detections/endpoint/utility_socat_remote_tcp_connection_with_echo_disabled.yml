@@ -1,5 +1,5 @@
 name: Socat Utility Remote TCP Connection with Echo Disabled
-id: 
+id: 458c6c37-116d-4f01-8267-f09f5b82cd14
 version: 1
 creation_date: '2026-08-27'
 modification_date: '2026-08-27'
@@ -86,7 +86,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://github.com/splunk/attack_data/tree/master/datasets/attack_techniques/T1059.004/macos_utility_socat_remote_tcp_connection_with_echo_disabled_filter/osquery.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/utility_socat_remote_tcp_connection_with_echo_disabled/osquery.log
           source: osquery
           sourcetype: osquery:results
       test_type: unit

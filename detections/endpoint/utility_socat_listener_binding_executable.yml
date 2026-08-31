@@ -1,5 +1,5 @@
 name: Socat Utility Listener Binding Executable
-id: 
+id: 72482d45-1d05-46f5-bb6c-e2b709a8073a
 version: 1
 creation_date: '2026-08-27'
 modification_date: '2026-04-13'
@@ -38,13 +38,12 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `utility_socat_listener_binding_executable_filter` 
+    | `utility_socat_listener_binding_executable_filter`
 how_to_implement: |-
       This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
       Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
 known_false_positives: |-
     Authorized penetration testing or red team exercises may use socat TCP listeners to validate security controls in lab environments.
-
     Developers, network engineers, and system administrators may use socat to expose benign executables for protocol testing, debugging, data transformation, or troubleshooting.
 references:
     - https://attack.mitre.org/tactics/TA0002/
@@ -92,7 +91,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://github.com/splunk/attack_data/tree/master/datasets/attack_techniques/T1059.004/macos-socat-spawned-tcp-listener-bind-exec/osquery.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/utility_socat_listener_binding_executable/osquery.log
           source: osqueryd.results.log
           sourcetype: osquery:results
       test_type: unit
