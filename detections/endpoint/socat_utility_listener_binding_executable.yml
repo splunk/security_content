@@ -40,8 +40,8 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `socat_utility_listener_binding_executable_filter`
 how_to_implement: |-
-      This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-      Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
 known_false_positives: |-
     Authorized penetration testing or red team exercises may use socat TCP listeners to validate security controls in lab environments.
     Developers, network engineers, and system administrators may use socat to expose benign executables for protocol testing, debugging, data transformation, or troubleshooting.
