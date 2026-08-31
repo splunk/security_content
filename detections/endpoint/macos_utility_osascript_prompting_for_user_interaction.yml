@@ -1,0 +1,88 @@
+name: MacOS Utility Osascript Prompting for User Interaction
+id: d565ae18-7db6-460c-a2eb-a7109f18bc5e
+version: 1
+creation_date: '2026-08-03'
+modification_date: '2026-08-28'
+author: Radka Viskova, Splunk
+status: experimental
+type: Anomaly
+description: Utility osascript used "display dialog/alert" method, attempting to display fake system dialogs or credential prompts.
+data_source:
+    - Osquery Results
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process_path="/usr/bin/osascript"
+
+    (
+        Processes.process = "*-e *"
+        Processes.process IN ("*display alert*", "*display dialog*", "*verify*", "*needs your attention*", "*critical update*", "*access System*", "*credentials*", "*password*", "*with hidden answer*")
+    )
+    
+    Processes.process IN ("*security update*", "*system error*", "*authentication*")
+
+    by Processes.dest Processes.original_file_name Processes.parent_process_id
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id
+       Processes.process_current_directory Processes.process_name
+       Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `macos_utility_osascript_prompting_for_user_interaction_filter`
+how_to_implement: |-
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: |-
+    Legitimate administrative scripts or automation tools that use utility osascript for user interaction.
+references:
+    - https://attack.mitre.org/tactics/TA0002/
+    - https://attack.mitre.org/tactics/TA0006/
+    - https://attack.mitre.org/techniques/T1056/002/
+    - https://attack.mitre.org/techniques/T1059/002/
+    - https://www.loobins.io/binaries/osascript/
+    - https://www.sentinelone.com/blog/macos-cuckoo-stealer-ensuring-detection-and-defense-as-new-samples-rapidly-emerge/#cq=i1
+    - https://www.infostealers.com/article/an-infostealers-brewin-cuckoo-atomicstealer-get-creative/
+    - https://embracethered.com/blog/posts/2021/spoofing-credential-dialogs/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: host
+          type: system
+          score: 20
+          message: Suspicious osascript dialog prompt detected on $host$
+threat_objects:
+    - field: process_path
+      type: process
+analytic_story:
+    - MacOS Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.002
+    - T1056.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/d5155781a81a83ecf3fad40a7c19f16e5c856b22/datasets/attack_techniques/T1059.002/osascript/osascript_prompts_user.log
+          source: osquery
+          sourcetype: osquery:results
+      test_type: unit
