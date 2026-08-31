@@ -1,0 +1,98 @@
+name: Cisco Secure Firewall - Signature Plus EVE Corroboration
+id: 4b390334-5647-467b-a0f5-f31cd8a283a1
+version: 1
+creation_date: '2026-08-16'
+modification_date: '2026-08-16'
+author: Ahmed Hassan, Github Community
+status: experimental
+type: TTP
+description: |
+    This analytic identifies dual-signal corroboration on Cisco Secure Firewall Threat Defense:
+    a classic Snort intrusion event (GeneratorID != 411) on a connection that also carries a high
+    Encrypted Visibility Engine (EVE) threat confidence (>= 80).
+    Corroborated signature + ML signals are stronger FIX_NOW / high-priority candidates than ML-only
+    (SnortML GID 411 or EVE-only) paths, which should escalate rather than auto-contain.
+data_source:
+    - Cisco Secure Firewall Threat Defense Intrusion Event
+    - Cisco Secure Firewall Threat Defense Connection Event
+search: |
+    `cisco_secure_firewall` EventType=IntrusionEvent GeneratorID!=411
+    | eval dual_src=coalesce(src, InitiatorIP), dual_dest=coalesce(dest, ResponderIP), dual_cid=coalesce(connection_id, ConnectionID)
+    | join type=inner dual_cid
+        [
+            search `cisco_secure_firewall` EventType=ConnectionEvent EVE_ThreatConfidencePct >= 80
+            | eval dual_cid=coalesce(connection_id, ConnectionID),
+                   eve_pct=EVE_ThreatConfidencePct,
+                   eve_process=EVE_Process
+            | fields dual_cid, eve_pct, eve_process
+        ]
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
+            values(signature_id) as signature_id
+            values(signature) as signature
+            values(class_desc) as class_desc
+            values(GeneratorID) as GeneratorID
+            values(eve_pct) as EVE_ThreatConfidencePct
+            values(eve_process) as EVE_Process
+            values(InlineResult) as InlineResult
+            values(dest_port) as dest_port
+            values(app) as app
+            by dual_src, dual_dest, dual_cid
+    | rename dual_src as src, dual_dest as dest, dual_cid as connection_id
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___signature_plus_eve_corroboration_filter`
+how_to_implement: |
+    Requires Cisco Secure Firewall Threat Defense logs for both IntrusionEvent and ConnectionEvent,
+    with EVE enabled and classic Snort signatures (non-411 GeneratorID) logging.
+    Uses the `cisco_secure_firewall` input macro and a post-filter macro for FP tuning.
+    Ingest via Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    Prefer this corroboration path for higher finding scores; keep SnortML-only and EVE-only
+    detections as intermediate findings.
+known_false_positives: |
+    Busy hosts may coincidentally share ConnectionID reuse windows or produce noisy classic
+    signatures alongside elevated EVE scores. Validate signature classification and EVE process
+    context before containment. Tune with the filter macro for scanners and lab traffic.
+references:
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+    - https://github.com/Cisco-Talos/EvidenceForge/pull/389
+drilldown_searches:
+    - name: View the detection results for - "$src$" and "$dest$"
+      search: '%original_detection_search% | search  src = "$src$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Classic Snort intrusion on $src$ to $dest$ corroborated by high EVE threat confidence ($EVE_ThreatConfidencePct$%)
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: signature
+      type: signature
+    - field: src
+      type: ip_address
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+asset_type: Network
+mitre_attack_id:
+    - T1071
+    - T1041
+    - T1203
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://raw.githubusercontent.com/AAH20/attack_data/feat/dual-signal-snortml-samples/datasets/cisco_secure_firewall_threat_defense/dual_signal_corroboration/dual_signal_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer
+      test_type: unit
