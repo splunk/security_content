@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-08-27'
 modification_date: '2026-04-13'
 author: Maria Jose Erquiaga
-status: experimental
+status: production
 type: TTP
 description: |-
     Detects the execution of the socat utility with command-line arguments that configure a TCP or OpenSSL listener and bind an executable to incoming connections. Socat is a legitimate network utility, but this behavior may be used to expose executables, establish bind shells, facilitate remote command execution, or support lateral movement.
@@ -38,7 +38,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `utility_socat_listener_binding_executable_filter`
+    | `socat_utility_listener_binding_executable_filter`
 how_to_implement: |-
       This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
       Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
