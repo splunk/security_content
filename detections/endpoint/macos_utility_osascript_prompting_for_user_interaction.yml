@@ -22,7 +22,7 @@ search: |-
         Processes.process = "*-e *"
         Processes.process IN ("*display alert*", "*display dialog*", "*verify*", "*needs your attention*", "*critical update*", "*access System*", "*credentials*", "*password*", "*with hidden answer*")
     )
-    
+
     Processes.process IN ("*security update*", "*system error*", "*authentication*")
 
     by Processes.dest Processes.original_file_name Processes.parent_process_id
