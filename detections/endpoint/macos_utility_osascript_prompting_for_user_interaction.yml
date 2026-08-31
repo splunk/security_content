@@ -2,7 +2,7 @@ name: MacOS Utility Osascript Prompting for User Interaction
 id: d565ae18-7db6-460c-a2eb-a7109f18bc5e
 version: 1
 creation_date: '2026-08-03'
-modification_date: '2026-08-28'
+modification_date: '2026-08-31'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
