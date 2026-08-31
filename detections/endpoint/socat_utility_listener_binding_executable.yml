@@ -2,8 +2,8 @@ name: Socat Utility Listener Binding Executable
 id: 72482d45-1d05-46f5-bb6c-e2b709a8073a
 version: 1
 creation_date: '2026-08-27'
-modification_date: '2026-04-13'
-author: Maria Jose Erquiaga
+modification_date: '2026-08-27'
+author: Maria Jose Erquiaga, Splunk
 status: production
 type: TTP
 description: |-
@@ -63,22 +63,20 @@ drilldown_searches:
 finding:
     title: Socat was executed on endpoint $dest$ by user $user$ with a network listener binding an executable via $process$.
     entity:
-        field: user
-        type: user
+        field: dest
+        type: system
         score: 50
 intermediate_findings:
     entities:
-        - field: dest
-          type: system
+        - field: user
+          type: user
           score: 50
           message: Socat was executed on endpoint $dest$ by user $user$ with a network listener binding an executable via $process$.
 threat_objects:
-    - field: dest
-      type: system
     - field: process
       type: process
 analytic_story:
-    - MacOS Persistence Techniques
+    - MacOS Post-Exploitation
 asset_type: Endpoint
 mitre_attack_id:
     - T1059
