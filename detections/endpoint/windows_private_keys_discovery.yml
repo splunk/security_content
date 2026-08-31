@@ -13,10 +13,7 @@ data_source:
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE (Processes.process_name = "cmd.exe"
-        OR Processes.process_name = "powershell.exe"
-        OR Processes.process_name = "pwsh.exe"
-        OR Processes.process_name = "findstr.exe")
+      WHERE Processes.process_name IN ("cmd.exe", "powershell.exe", "pwsh.exe", "findstr.exe")
         AND
         Processes.process IN ( "*.rdg*", "*.gpg*", "*.pgp*", "*.p12*", "*.der*", "*.csr*", "*.cer*", "*.ovpn*", "*.key*",  "*.ppk*", "*.p12*", "*.pem*", "*.pfx*", "*.p7b*", "*.asc*")
       BY Processes.action Processes.dest Processes.original_file_name
@@ -27,8 +24,8 @@ search: |-
          Processes.process_name Processes.process_path Processes.user
          Processes.user_id Processes.vendor_product
     | `drop_dm_object_name(Processes)`
-    | regex process='(?i)[^\.\-\_\$a-zA-Z](dir\s|findstr)'
-    | regex process='(?i)\.(?:rdg|gpg|pgp|p12|der|csr|cer|ovpn|key|ppk|p12|pem|pfx|p7b|asc)\b'
+    | regex process="(?i)[^\.\-\_\$a-zA-Z](dir\s|findstr)"
+    | regex process="(?i)\.(?:rdg|gpg|pgp|p12|der|csr|cer|ovpn|key|ppk|p12|pem|pfx|p7b|asc)\b"
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_private_keys_discovery_filter`
