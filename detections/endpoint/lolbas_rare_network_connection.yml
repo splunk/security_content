@@ -109,9 +109,9 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A rare public network connection from LOLBAS process [$app_name$] was observed on [$src$] to [$dest_ip$] over port [$dest_port$].
+          message: A rare public network connection from LOLBAS process [$app$] was observed on [$src$] to [$dest_ip$] over port [$dest_port$].
 threat_objects:
-    - field: app_name
+    - field: app
       type: process_name
     - field: dest_ip
       type: ip_address
