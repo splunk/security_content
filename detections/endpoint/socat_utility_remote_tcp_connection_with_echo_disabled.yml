@@ -3,7 +3,7 @@ id: 458c6c37-116d-4f01-8267-f09f5b82cd14
 version: 1
 creation_date: '2026-08-27'
 modification_date: '2026-08-27'
-author: Maria Jose Erquiaga
+author: Maria Jose Erquiaga, Splunk
 status: production
 type: TTP
 description: |-
@@ -58,22 +58,20 @@ drilldown_searches:
 finding:
     title: User $user$ executed socat on endpoint $dest$ with arguments configured to connect to a remote TCP or OpenSSL endpoint with local echo disabled via $process$.
     entity:
-        field: user
-        type: user
+        field: dest
+        type: system
         score: 50
 intermediate_findings:
     entities:
-        - field: dest
-          type: system
+        - field: user
+          type: user
           score: 50
           message: Socat was executed on endpoint $dest$ by user $user$ with arguments configured to connect to a remote TCP or OpenSSL endpoint with local echo disabled via $process$.
 threat_objects:
-    - field: dest
-      type: system
     - field: process
       type: process
 analytic_story:
-    - MacOS Persistence Techniques
+    - MacOS Post-Exploitation
 asset_type: Endpoint
 mitre_attack_id:
     - T1059
