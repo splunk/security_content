@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-08-03'
 modification_date: '2026-08-28'
 author: Radka Viskova, Splunk
-status: experimental
+status: production
 type: Anomaly
 description: Utility osascript used "display dialog/alert" method, attempting to display fake system dialogs or credential prompts.
 data_source:
