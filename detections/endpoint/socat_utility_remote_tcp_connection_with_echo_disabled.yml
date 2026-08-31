@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-08-27'
 modification_date: '2026-08-27'
 author: Maria Jose Erquiaga
-status: experimental
+status: production
 type: TTP
 description: |-
     Detects the execution of the socat utility on a MacOS endpoint with command-line arguments that connect to a remote TCP endpoint while disabling local terminal echo. Socat can be used legitimately for network debugging, but this behavior may also support remote command execution, bind-shell access, or lateral movement.
@@ -33,7 +33,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `utility_socat_remote_tcp_connection_with_echo_disabled_filter`
+    | `socat_utility_remote_tcp_connection_with_echo_disabled_filter`
 how_to_implement: |-
     This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
     Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
