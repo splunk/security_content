@@ -18,7 +18,7 @@ search: |-
 
     from datamodel=Endpoint.Processes where
 
-      Processes.process_path="*/socat*"
+      Processes.process_name="socat*"
       AND Processes.process="*exec:*"
       AND Processes.process="*-listen:*"
 

@@ -16,7 +16,7 @@ search: |-
       min(_time) as firstTime
       max(_time) as lastTime
     from datamodel=Endpoint.Processes where
-      Processes.process_path="*/socat*"
+      Processes.process_name="socat*"
       AND Processes.process="*echo=0*"
       AND (
           Processes.process="*openssl:*"
