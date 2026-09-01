@@ -21,12 +21,6 @@ search: |-
       Processes.process_path="*/socat*"
       AND Processes.process="*exec:*"
       AND Processes.process="*-listen:*"
-      AND (
-          Processes.process="*openssl-listen:*"
-          OR Processes.process="*tcp-listen:*"
-          OR Processes.process="*tcp4-listen:*"
-          OR Processes.process="*tcp6-listen:*"
-      )
 
     by Processes.dest Processes.original_file_name Processes.parent_process_id
        Processes.process Processes.process_exec Processes.process_guid
