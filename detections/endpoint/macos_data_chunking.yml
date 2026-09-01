@@ -1,8 +1,8 @@
 name: MacOS Data Chunking
 id: 7f1c8bed-9bd4-40b0-a1df-c262cbade0fc
-version: 3
+version: 4
 creation_date: '2026-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-01'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -20,7 +20,7 @@ search: |-
     from datamodel=Endpoint.Processes where
 
     (
-        Processes.process = "dd *"
+        Processes.process IN ("*/dd *", "dd *")
          Processes.process = "* if=*"
     )
     OR
