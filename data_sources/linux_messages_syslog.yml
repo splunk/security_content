@@ -15,7 +15,7 @@ sourcetype: linux_messages_syslog
 supported_TA:
     - name: Splunk Add-on for Unix and Linux
       url: https://splunkbase.splunk.com/app/833
-      version: 10.3.3
+      version: 10.3.4
 fields:
     - _time
     - action

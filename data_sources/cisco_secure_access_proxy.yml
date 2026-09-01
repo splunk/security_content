@@ -12,7 +12,7 @@ sourcetype: cisco:cloud_security:proxy
 supported_TA:
     - name: Cisco Secure Access Add-on for Splunk
       url: https://splunkbase.splunk.com/app/7569
-      version: 1.0.53
+      version: 1.0.54
 fields:
     - _time
     - action
