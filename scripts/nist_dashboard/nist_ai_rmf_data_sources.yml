@@ -1,0 +1,43 @@
+data_sources:
+  - name: AWS Bedrock Claude
+    ai_system: AWS Bedrock Claude
+
+  - name: M365 Exported eDiscovery Prompts
+    ai_system: M365 Copilot
+
+  - name: M365 Copilot Graph API
+    ai_system: M365 Copilot
+
+  - name: MCP Server
+    ai_system: MCP
+
+  - name: Ollama Server
+    ai_system: Ollama
+
+  - name: Cisco AI Defense Alerts
+    ai_system: Cisco AI Defense
+
+  - name: Sysmon EventID 11
+    ai_system: Local LLM Frameworks
+    analytic_stories:
+      - Suspicious Local LLM Frameworks
+
+  - name: Sysmon EventID 22
+    ai_system: Local LLM Frameworks
+    analytic_stories:
+      - Suspicious Local LLM Frameworks
+
+  - name: Sysmon EventID 1
+    ai_system: Local LLM Frameworks
+    analytic_stories:
+      - Suspicious Local LLM Frameworks
+
+  - name: Windows Event Log Security 4688
+    ai_system: Local LLM Frameworks
+    analytic_stories:
+      - Suspicious Local LLM Frameworks
+
+  - name: CrowdStrike ProcessRollup2
+    ai_system: Local LLM Frameworks
+    analytic_stories:
+      - Suspicious Local LLM Frameworks
