@@ -1,0 +1,8 @@
+name: mcp_trusted_webhook_domains
+id: b81f64ba-4559-46bb-b1a2-afa2c709bd7b
+version: 1
+creation_date: '2026-06-29'
+modification_date: '2026-06-29'
+author: Adam Lin
+description: Editable regular expression of trusted webhook destination domains used by the MCP Webhook Persistence Creation detection. A repository webhook whose destination host matches this expression is treated as an approved CI/CD or monitoring integration and is suppressed. Edit this macro to add the domains of your sanctioned webhook consumers (for example your CI provider, monitoring, or ChatOps endpoints). The default value matches no domain so that, until tuned, every created webhook is surfaced for review.
+definition: '"^DISABLED_REPLACE_WITH_TRUSTED_WEBHOOK_DOMAINS$"'
