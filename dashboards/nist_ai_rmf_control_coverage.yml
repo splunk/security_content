@@ -2,7 +2,7 @@ name: NIST AI RMF Control Coverage
 id: 426d4e21-dace-4d38-b292-6cc49a376251
 version: 2
 creation_date: '2026-09-02'
-modification_date: '2026-09-03'
+modification_date: '2026-09-02'
 author: Nasreddine Bencherchali, Rod Soto, Splunk
 description: |-
     Maps AI-related ESCU detections and ESCU-generated risk/notable findings to NIST AI RMF subcategories for coverage review, gap analysis, and operational follow-up.
