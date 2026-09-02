@@ -1,10 +1,8 @@
 name: detection_subcategory_map
 id: 41c7e6c8-b835-4dd8-b7ed-b1f5d8476e84
-version: 1
+version: 2
 creation_date: '2026-09-02'
 modification_date: '2026-09-02'
 author: Nasreddine Bencherchali, Rod Soto, Splunk Threat Research Team
 lookup_type: csv
-description: |-
-    Generated mapping of AI-related ESCU detections to NIST AI RMF subcategory IDs for dashboard coverage reporting.
-    Regenerate with scripts/nist_dashboard/generate_nist_ai_rmf_detection_map.py when AI data sources or detections change.
+description: Generated mapping of AI-related ESCU detections to NIST AI RMF subcategory IDs for dashboard coverage reporting. Regenerate with scripts/nist_dashboard/generate_nist_ai_rmf_detection_map.py when AI data sources or detections change.
