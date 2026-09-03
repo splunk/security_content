@@ -1,0 +1,140 @@
+name: Cisco NVM - MacOS Browser Spawned Command Interpreter With External Network Connection
+id: 6f2de8d1-9a2d-4c7a-9b8c-3b8a2f7d0e41
+version: 1
+creation_date: '2026-09-02'
+modification_date: '2026-09-02'
+author: Maria Jose Erquiaga, Splunk
+status: production
+type: Anomaly
+description: |
+    Detects potentially suspicious behavior on macOS where a browser process spawns a Unix command interpreter that establishes a network connection to a public IP address. This behavior may indicate malicious browser content, a compromised website, drive-by execution, or browser-initiated command execution.
+data_source:
+    - Cisco Network Visibility Module Flow Data
+search: |
+    `cisco_network_visibility_module_flowdata`
+    | eval Image=lower(coalesce(process_path,process_exec,ppath,process)),
+           ParentImage=lower(coalesce(parent_process_path,parent_process_exec,pppath)),
+           DestinationIp=coalesce(dest,dest_ip,da,dest_n)
+    | where
+        (
+            like(Image,"%/bash") OR
+            like(Image,"%/csh") OR
+            like(Image,"%/dash") OR
+            like(Image,"%/fish") OR
+            like(Image,"%/sh") OR
+            like(Image,"%/tcsh") OR
+            like(Image,"%/zsh")
+        )
+        AND (
+            like(ParentImage,"%/arc") OR
+            like(ParentImage,"%/brave") OR
+            like(ParentImage,"%/brave-browser") OR
+            like(ParentImage,"%/chrome") OR
+            like(ParentImage,"%/chromium") OR
+            like(ParentImage,"%/duckduckgo") OR
+            like(ParentImage,"%/firefox") OR
+            like(ParentImage,"%/firefox-bin") OR
+            like(ParentImage,"%/google chrome") OR
+            like(ParentImage,"%/google-chrome") OR
+            like(ParentImage,"%/librewolf") OR
+            like(ParentImage,"%/microsoft edge") OR
+            like(ParentImage,"%/msedge") OR
+            like(ParentImage,"%/opera") OR
+            like(ParentImage,"%/opera gx") OR
+            like(ParentImage,"%/safari") OR
+            like(ParentImage,"%/tor browser") OR
+            like(ParentImage,"%/vivaldi") OR
+            like(ParentImage,"%/waterfox")
+        )
+        AND isnotnull(DestinationIp)
+        AND NOT (
+            cidrmatch("0.0.0.0/8",DestinationIp) OR
+            cidrmatch("10.0.0.0/8",DestinationIp) OR
+            cidrmatch("100.64.0.0/10",DestinationIp) OR
+            cidrmatch("127.0.0.0/8",DestinationIp) OR
+            cidrmatch("169.254.0.0/16",DestinationIp) OR
+            cidrmatch("172.16.0.0/12",DestinationIp) OR
+            cidrmatch("192.0.0.0/24",DestinationIp) OR
+            cidrmatch("192.0.2.0/24",DestinationIp) OR
+            cidrmatch("192.168.0.0/16",DestinationIp) OR
+            cidrmatch("198.18.0.0/15",DestinationIp) OR
+            cidrmatch("198.51.100.0/24",DestinationIp) OR
+            cidrmatch("203.0.113.0/24",DestinationIp) OR
+            cidrmatch("224.0.0.0/4",DestinationIp) OR
+            cidrmatch("240.0.0.0/4",DestinationIp) OR
+            cidrmatch("255.255.255.255/32",DestinationIp) OR
+            cidrmatch("fc00::/7",DestinationIp) OR
+            cidrmatch("fe80::/10",DestinationIp) OR
+            cidrmatch("ff00::/8",DestinationIp) OR
+            cidrmatch("2001:db8::/32",DestinationIp) OR
+            DestinationIp="::" OR
+            DestinationIp="::1"
+        )
+    | stats count
+            min(_time) as firstTime
+            max(_time) as lastTime
+            values(DestinationIp) as DestinationIp
+            values(dest_hostname) as dest_hostname
+            values(dest_port) as dest_port
+            values(transport) as transport
+            values(Image) as Image
+            values(ParentImage) as ParentImage
+            values(process_arguments) as process_arguments
+            values(parent_process_arguments) as parent_process_arguments
+            values(process_id) as process_id
+            values(parent_process_id) as parent_process_id
+            by host src
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table host src DestinationIp dest_hostname dest_port transport Image ParentImage process_arguments parent_process_arguments process_id parent_process_id firstTime lastTime count
+    | `cisco_nvm___macos_browser_spawned_script_external_network_connection_filter`
+how_to_implement: |
+    This detection requires Cisco NVM flow telemetry ingested into Splunk using the Cisco Security Cloud application. The telemetry must include process and parent-process paths, source endpoint information, and destination IP information. Ensure the cisco_network_visibility_module_flowdata macro is configured for the appropriate NVM indexes and sourcetypes. The NVM flow events used by this analytic do not contain a reliable normalized operating-system field; therefore, the relevant NVM input, index, or deployment scope should be limited to macOS endpoints.
+known_false_positives: |
+    Legitimate workflows may launch Unix command interpreters from browser contexts, including developer tooling, software installers, SSO helpers, browser extensions, and automation wrappers. Tuning may be required for approved applications, users, and destinations.
+references:
+    - https://attack.mitre.org/tactics/TA0002/
+    - https://attack.mitre.org/techniques/T1059/
+    - https://redcanary.com/threat-detection-report/threats/socgholish/
+drilldown_searches:
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search src="$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Browser process $ParentImage$ spawned command interpreter $Image$ on $src$, which connected to public IP $DestinationIp$.
+    entity:
+        field: src
+        type: system
+        score: 40
+intermediate_findings:
+    entities:
+        - field: host
+          type: system
+          score: 40
+          message: Browser process $ParentImage$ spawned command interpreter $Image$ on $src$, which connected to public IP $DestinationIp$.
+threat_objects:
+    - field: Image
+      type: process
+analytic_story:
+    - Cisco Network Visibility Module Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco NVM Browser Spawned Interpreter Public Egress
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/macos_browser_spawned_script_external_network_connection/nvm_flowdata.log
+          source: not_applicable
+          sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit
