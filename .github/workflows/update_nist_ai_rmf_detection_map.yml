@@ -1,0 +1,58 @@
+name: NIST AI RMF Detection Map Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '25 06 * * *'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-nist-ai-rmf-detection-map:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          ref: develop
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+          architecture: x64
+
+      - name: Install Python dependencies
+        run: |
+          pip install PyYAML==6.0.3
+
+      - name: Generate NIST AI RMF detection map
+        run: |
+          python scripts/nist_dashboard/generate_nist_ai_rmf_detection_map.py --modified-date "$(date -u +%F)"
+          echo "Changed NIST AI RMF lookup files:"
+          git status --short -- lookups/csv/detection_subcategory_map.csv lookups/csv/detection_subcategory_map.yml
+
+      - name: Create NIST AI RMF detection map update pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ github.token }}
+          commit-message: Update NIST AI RMF detection map
+          branch: auto-nist-ai-rmf-detection-map-${{ github.run_number }}
+          base: develop
+          title: Automated NIST AI RMF detection map update ${{ github.run_number }}
+          body: |
+            This PR updates the generated NIST AI RMF detection-to-subcategory lookup.
+
+            The workflow runs:
+
+            ```bash
+            python scripts/nist_dashboard/generate_nist_ai_rmf_detection_map.py --modified-date "$(date -u +%F)"
+            ```
+
+            When `lookups/csv/detection_subcategory_map.csv` changes, the generator also bumps `lookups/csv/detection_subcategory_map.yml` by incrementing `version` and setting `modification_date`.
+          add-paths: |
+            lookups/csv/detection_subcategory_map.csv
+            lookups/csv/detection_subcategory_map.yml
