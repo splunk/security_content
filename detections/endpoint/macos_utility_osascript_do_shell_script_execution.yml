@@ -6,11 +6,23 @@ modification_date: '2026-09-03'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
-description: Utility osascript or osacompile was used with the "do shell script" method on a macOS device.
+description: |-
+    OSA Framework binary was used to execute shell commands on a MacOS host. OSA allows
+    interaction with MaccOS terminal through `do shell script` command of the AppleScript.
 data_source:
     - Osquery Results
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_path="*/osascript" OR Processes.process_path="*/osacompile") Processes.process="*do shell script*" by Processes.dest Processes.user Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+      FROM datamodel=Endpoint.Processes
+      WHERE (Processes.process_name="osascript"
+      OR Processes.process_name="osacompile")
+      Processes.process="*do shell script*"
+       BY Processes.dest Processes.original_file_name Processes.parent_process_id
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id
+       Processes.process_current_directory Processes.process_name
+       Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_utility_osascript_do_shell_script_execution_filter`
@@ -38,12 +50,12 @@ intermediate_findings:
         - field: dest
           type: system
           score: 30
-          message: Suspicious osascript binary inline command execution via $process$ detected on $dest$
+          message: Osascript inline command execution via $process$ detected on $dest$
 threat_objects:
-    - field: process_path
+    - field: process
       type: process
 analytic_story:
-    - MacOS Privilege Escalation
+    - MacOS Post-Exploitation
 asset_type: Endpoint
 mitre_attack_id:
     - T1059.002
@@ -56,7 +68,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/97298afb925f826d8bc9c10918b1f102771e6ea7/datasets/attack_techniques/T1059.002/osascript_do_shell_script/osascript_do_shell_script.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1059.002/osascript_do_shell_script/osascript_do_shell_script.log
           source: osquery
           sourcetype: osquery:results
       test_type: unit
