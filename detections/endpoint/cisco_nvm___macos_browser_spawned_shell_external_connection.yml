@@ -1,4 +1,4 @@
-name: Cisco NVM - MacOS Browser Spawned Command Interpreter With External Network Connection
+name: Cisco NVM - MacOS Browser Spawned Shell External Connection
 id: 6f2de8d1-9a2d-4c7a-9b8c-3b8a2f7d0e41
 version: 1
 creation_date: '2026-09-02'
@@ -87,7 +87,7 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | table host src DestinationIp dest_hostname dest_port transport Image ParentImage process_arguments parent_process_arguments process_id parent_process_id firstTime lastTime count
-    | `cisco_nvm___macos_browser_spawned_command_interpreter_with_external_network_connection_filter`
+    | `cisco_nvm___macos_browser_spawned_shell_external_connection_filter`
 how_to_implement: |
     This detection requires Cisco NVM flow telemetry ingested into Splunk using the Cisco Security Cloud application. The telemetry must include process and parent-process paths, source endpoint information, and destination IP information. Ensure the cisco_network_visibility_module_flowdata macro is configured for the appropriate NVM indexes and sourcetypes. The NVM flow events used by this analytic do not contain a reliable normalized operating-system field; therefore, the relevant NVM input, index, or deployment scope should be limited to macOS endpoints.
 known_false_positives: |
