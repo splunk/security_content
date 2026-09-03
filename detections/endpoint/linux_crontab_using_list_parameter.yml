@@ -7,9 +7,9 @@ author: Teoderick Contreras, Bhavin Patel, Onur Mustafa Erdogan, Splunk
 status: production
 type: Hunting
 description: |-
-  The following analytic detects listing of cron jobs on Linux systems using the crontab command with list parameters.
-  Adversaries are known to write the output of this command on a disk, manipulate its content and then re-add it to the
-  crontab. Crontab is also used for host enumeration purposes, to identify privilege escalation opportunities.
+    The following analytic detects listing of cron jobs on Linux systems using the crontab command with list parameters.
+    Adversaries are known to write the output of this command on a disk, manipulate its content and then re-add it to the
+    crontab. Crontab is also used for host enumeration purposes, to identify privilege escalation opportunities.
 data_source:
     - Sysmon for Linux EventID 1
 search: |-

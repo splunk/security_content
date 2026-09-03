@@ -48,7 +48,7 @@ product:
 category: endpoint
 security_domain: endpoint
 deprecation_info:
-    reason: Detection deprecated as its name and description are not matching the behavior of the search. The search is looking for crontab command with list parameter, not adding a new cron job. 
+    reason: Detection deprecated as its name and description are not matching the behavior of the search. The search is looking for crontab command with list parameter, not adding a new cron job.
     removed_in_version: 6.7.0
     replacement_content: [Linux Crontab Using List Parameter]
 tests:
