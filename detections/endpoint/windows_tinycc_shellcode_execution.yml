@@ -1,35 +1,43 @@
 name: Windows TinyCC Shellcode Execution
 id: fdb6774e-e465-4912-86e3-63cf9ab91491
-version: 3
+version: 4
 creation_date: '2026-03-16'
-modification_date: '2026-05-13'
+modification_date: '2026-09-01'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 description: |
-    Detects abuse of Tiny-C-Compiler (TinyCC) for shellcode execution, where tcc.exe is renamed to masquerade as svchost.exe and used to compile and execute C source files containing shellcode. This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers renamed tcc.exe to svchost.exe and executed conf.c containing Metasploit block_api shellcode with the flags -nostdlib -run.
-    TinyCC is a legitimate C compiler, but its ability to compile and execute code on-the-fly makes it attractive to attackers seeking to evade detection. The combination of a renamed compiler binary executing from non-standard locations with suspicious flags is a strong indicator of malicious activity.
+    Detects abuse of Tiny-C-Compiler (TinyCC) for shellcode execution, where tcc.exe is renamed to masquerade as svchost.exe and used to compile and execute C source files containing shellcode.
+    This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers renamed "tcc.exe" to "svchost.exe", and executed a file named "conf.c" containing Metasploit block_api shellcode with the flags -nostdlib -run.
+    TinyCC is a legitimate C compiler, but its ability to compile and execute code on-the-fly makes it attractive to attackers seeking to evade detection.
+    The combination of a renamed compiler binary executing from non-standard locations with suspicious flags is a strong indicator of malicious activity.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-      from datamodel=Endpoint.Processes where
-      Processes.process_name IN ("svchost.exe", "tcc.exe")
-      Processes.process="* -nostdlib*"
-      Processes.process="* -run*"
-      Processes.process IN ("*.c", "*conf.c*")
-      NOT Processes.process_path IN (
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process_name IN ("svchost.exe", "tcc.exe")
+    Processes.process="* -nostdlib*"
+    Processes.process="* -run*"
+    Processes.process IN ("*.c", "*conf.c*")
+    NOT Processes.process_path IN (
         "*:\\Windows\\System32\\*",
         "*:\\Windows\\SysWOW64\\*"
-      )
-      by Processes.action Processes.dest Processes.user Processes.process Processes.parent_process
-         Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name
-         Processes.parent_process_path Processes.process_name Processes.process_id
-         Processes.process_exec Processes.process_guid Processes.process_hash
-         Processes.process_integrity_level Processes.process_path
-         Processes.original_file_name Processes.user_id Processes.vendor_product
+    )
+
+    By Processes.action Processes.dest Processes.user Processes.process Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name
+       Processes.parent_process_path Processes.process_name Processes.process_id
+       Processes.process_exec Processes.process_guid Processes.process_hash
+       Processes.process_integrity_level Processes.process_path
+       Processes.original_file_name Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -61,7 +69,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: TinyCC compiler execution on $dest$ by user $user$ from $process_path$, indicating potential malicious code execution.
+    title: TinyCC compiler execution on [$dest$] by user [$user$] from [$process_path$] via the CommandLine [$process$] from the ParentProcess [$parent_process$], indicating potential malicious code execution.
     entity:
         field: user
         type: user
@@ -71,7 +79,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 50
-          message: TinyCC compiler execution on $dest$ by user $user$ from $process_path$, indicating potential malicious code execution.
+          message: TinyCC compiler execution on [$dest$] by user [$user$] from [$process_path$] via the CommandLine [$process$] from the ParentProcess [$parent_process$], indicating potential malicious code execution.
 threat_objects:
     - field: process
       type: process
