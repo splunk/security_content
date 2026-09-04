@@ -1,4 +1,4 @@
-name: MacOS Utility Osascript Do Shell Script Execution
+name: MacOS AppleScript Shell Execution and Compilation
 id: ceee1f2b-4b40-4721-b91e-40d1134e9dc4
 version: 1
 creation_date: '2026-09-03'
@@ -7,9 +7,10 @@ author: Radka Viskova, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic detects the use of the OSA Framework binary to execute shell commands on a MacOS host.
-    OSA allows interaction with MacOS terminal through `do shell script` command of the AppleScript.
-    Adversaries may use this to execute shell commands on a MacOS host, potentially for persistence or privilege escalation.
+    The following analytic detects the use of macOS AppleScript utilities to execute shell commands or compile AppleScript containing shell-command logic.
+    The analytic identifies `osascript` invocations using AppleScript's `do shell script` command, which executes shell commands on the host.
+    It also identifies `osacompile` invocations referencing `do shell script`. `osacompile` compiles AppleScript into a compiled script but does not execute it directly.
+    Adversaries may abuse these utilities to execute shell commands, stage AppleScript payloads, or prepare scripts for later execution. Matches involving `osacompile` should be interpreted as script compilation or staging rather than confirmed shell-command execution.
 data_source:
     - Osquery Results
 search: |-
@@ -23,18 +24,27 @@ search: |-
     Processes.process="* shell *"
     Processes.process="* script*"
 
-    BY Processes.action Processes.dest Processes.original_file_name
-       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    BY Processes.action Processes.dest Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
        Processes.process Processes.process_exec Processes.process_guid
        Processes.process_hash Processes.process_id Processes.process_integrity_level
        Processes.process_name Processes.process_path Processes.user
        Processes.user_id Processes.vendor_product
 
     | `drop_dm_object_name(Processes)`
+
+    | eval activity_type=case(
+            process_name="osascript", "AppleScript Shell Command Execution",
+            process_name="osacompile", "AppleScript Compilation or Staging"
+        )
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `macos_utility_osascript_do_shell_script_execution_filter`
+
+    | table firstTime lastTime dest user activity_type parent_process process parent_process_name parent_process_exec parent_process_guid parent_process_id parent_process_path process_exec process_guid process_hash process_id process_integrity_level process_name process_path action user_id vendor_product
+
+    | `macos_applescript_shell_execution_and_compilation_filter`
 how_to_implement: |-
     This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
     Also the TA-OSquery (https://splunkbase.splunk.com/app/8574) must be deployed in order to have the osquery data populate the data models.
@@ -59,10 +69,8 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Osascript inline command execution via [$process$] was observed on [$dest$]
+          message: AppleScript shell execution or compilation via [$process_name$] with commandline [$process$] was observed on [$dest$].
 threat_objects:
-    - field: parent_process
-      type: process
     - field: process
       type: process
 analytic_story:
