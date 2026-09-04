@@ -64,6 +64,10 @@ intermediate_findings:
 threat_objects:
     - field: process
       type: process
+    - field: dest_ip
+      type: ip_address
+    - field: dest_hostname
+      type: domain
 analytic_story:
     - Cisco Network Visibility Module Analytics
 asset_type: Endpoint
