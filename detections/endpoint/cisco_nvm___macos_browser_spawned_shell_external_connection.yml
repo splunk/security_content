@@ -58,7 +58,7 @@ drilldown_searches:
 intermediate_findings:
     entities:
         - field: src_ip
-          type: ip_address
+          type: system
           score: 40
           message: Browser process $parent_process$ spawned command interpreter $process$ on $src_ip$, which connected to public IP $dest_ip$.
 threat_objects:
