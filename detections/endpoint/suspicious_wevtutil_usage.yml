@@ -3,7 +3,7 @@ id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
 version: 21
 creation_date: '2019-10-16'
 modification_date: '2026-08-23'
-author: David Dorsey, Michael Haag, Teoderick Contreras, Splunk
+author: David Dorsey, Michael Haag, Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |-
@@ -30,13 +30,28 @@ search: |-
 
     Processes.process IN ("* cl *", "*clear-log*")
     Processes.process IN (
+        "*/Trace*",
+        "*AMSI/Debug*",
         "*Application*",
-        "*PowerShell*",
+        "*CiscoSecureEndpoint*",
+        "*Microsoft-Windows-BitLocker*",
+        "*Microsoft-Windows-Bits*",
+        "*Microsoft-Windows-CAPI2*",
+        "*Microsoft-Windows-Kernel-File*",
+        "*Microsoft-Windows-Kernel-Process*",
+        "*Microsoft-Windows-LDAP*",
+        "*Microsoft-Windows-PowerShell*",
+        "*Microsoft-Windows-Sysmon*",
+        "*Microsoft-Windows-TerminalServices-LocalSessionManager*",
+        "*Microsoft-Windows-TerminalServices-RemoteConnectionManager*",
+        "*Microsoft-Windows-WMI-Activity*",
+        "*OpenSSH/*",
+        "*PowerShellCore/*",
         "*Security*",
         "*Setup*",
-        "*Sysmon*",
         "*System*",
-        "*trace*",
+        "*Windows Firewall With Advanced Security*",
+        "*Windows PowerShell*"
     )
 
     BY Processes.action Processes.dest Processes.original_file_name
