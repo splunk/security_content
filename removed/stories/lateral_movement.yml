@@ -1,8 +1,8 @@
 name: Lateral Movement
 id: 399d65dc-1f08-499b-a259-abd9051f38ad
-version: 3
+version: 4
 creation_date: '2023-02-21'
-modification_date: '2026-05-13'
+modification_date: '2026-08-26'
 author: David Dorsey, Splunk
 status: removed
 description: "DEPRECATED IN FAVOR OF ACTIVE DIRECTORY LATERAL MOVEMENT. Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts."
@@ -21,4 +21,4 @@ deprecation_info:
     reason: Analytic Story deprecated as it no longer effectively identifies the intended malicious activity
     removed_in_version: 5.2.0
     replacement_content:
-        - Compromised User Account
+        - Active Directory Lateral Movement
