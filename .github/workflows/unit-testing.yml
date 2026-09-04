@@ -1,6 +1,9 @@
 name: unit-testing
 on:
-  pull_request:
+  # pull_request_target is required so that approved fork PRs can use the
+  # protected environment's secrets. The workflow itself is always loaded
+  # from the trusted base repository.
+  pull_request_target:
     types: [opened, reopened, synchronize]
     paths:
       - data_sources/**
@@ -8,94 +11,120 @@ on:
       - lookups/**
       - macros/**
       - install.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unit-testing-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   unit-testing:
     runs-on: large-ubuntu-22.04-32core
-    if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
+    # Internal PRs use an unprotected environment and continue automatically.
+    # Fork PRs wait for approval on the protected external-fork environment.
+    environment:
+      name: ${{ github.event.pull_request.head.repo.full_name != github.repository && 'unit-testing-external-fork' || 'unit-testing-internal' }}
     steps:
-        #For fork PRs, always check out security_content and the PR target in security content!
-        - name: Check out the repository code
-          uses: actions/checkout@v7
-          with:
-            repository: 'splunk/security_content' #this should be the TARGET repo of the PR. we hardcode it for now
-            ref: ${{ github.base_ref }}
+      - name: Check out the trusted base repository code
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+          persist-credentials: false
 
-        - name: Print out information abour PR target
-          run: |
-            echo "The PR target branch is: ${{ github.base_ref }}"
-            echo "The PR head branch is: ${{ github.head_ref }}"
-            echo "My current branch is"
-            git branch --show-current
-            git rev-parse HEAD
+      - name: Print PR information
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          echo "The PR target branch is: $BASE_REF"
+          echo "The PR target SHA is: $BASE_SHA"
+          echo "The PR head branch is: $HEAD_REF"
+          echo "The PR head SHA is: $HEAD_SHA"
+          git rev-parse HEAD
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.14
+          architecture: x64
 
-        - name: Set up Python
-          uses: actions/setup-python@v6
-          with:
-            python-version: 3.14
-            architecture: x64
+      # Install tooling and preserve the result formatter while the trusted
+      # base revision is still checked out.
+      - name: Install trusted contentctl-ng
+        shell: bash
+        run: |
+          echo "- Build Tool Version - $(cat requirements.txt)"
+          pip install -r requirements.txt
+          cp .github/workflows/format_test_results.py "$RUNNER_TEMP/format_test_results.py"
 
-        - name: Install contentctl-ng
-          shell: bash
-          run: |
-            echo "- Build Tool Version - $(cat requirements.txt)"
-            pip install -r requirements.txt
+      # Fetch the PR through the base repository's pull ref and verify that it
+      # still resolves to the immutable head SHA from this workflow event.
+      - name: Check out the exact PR head SHA
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          git fetch --no-tags origin "+refs/pull/$PR_NUMBER/head:refs/remotes/origin/pr-head"
+          FETCHED_SHA="$(git rev-parse refs/remotes/origin/pr-head)"
+          if [[ "$FETCHED_SHA" != "$PR_HEAD_SHA" ]]; then
+            echo "Fetched PR SHA $FETCHED_SHA does not match event SHA $PR_HEAD_SHA" >&2
+            exit 1
+          fi
+          git switch --detach "$PR_HEAD_SHA"
 
-        # Check out the PR, even if it lives in a fork.
-        # Instructions for pulling a PR were taken from:
-        # https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally
-        - name: Checkout the PR branch and the target to calculate changed files for testing
-          run: |
+      - name: Run a contentctl-ng build command to create a package that will be tested
+        run: contentctl-ng build
 
-            echo "Current Branch (Head Ref): ${{ github.head_ref }}"
-            echo "Target Branch (Base Ref): ${{ github.base_ref }}"
-            git pull > /dev/null 2>&1
-            #We checkout into a new branch - new_branch_for_testing to avoid name collisions with develop incase the forked PR is from develop
-            git fetch origin pull/${{ github.event.pull_request.number }}/head:new_branch_for_testing
-            #We must specifically get the PR's target branch from security_content, not the one that resides in the fork PR's forked repo
-            git switch new_branch_for_testing
+      - name: Start the test environment
+        run: |
+          docker run -d --platform linux/amd64 -p 8088:8088 -p 8089:8089 -p 8000:8000 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com' -e 'SPLUNK_PASSWORD=Chang3d!' --name splunk splunk/splunk:latest
+          # Wait some time for this environment to be ready
+          sleep 180
 
-        - name: Run a contentctl-ng build command to create a package that will be tested.
-          run: |
-            contentctl-ng build
+      - name: Run a contentctl-ng install to configure the testing environment
+        env:
+          APPINSPECTUSERNAME: ${{ secrets.APPINSPECTUSERNAME }}
+          APPINSPECTPASSWORD: ${{ secrets.APPINSPECTPASSWORD }}
+        run: |
+          if [[ -z "$APPINSPECTUSERNAME" || -z "$APPINSPECTPASSWORD" ]]; then
+            echo "The selected environment is missing the AppInspect credentials." >&2
+            exit 1
+          fi
+          contentctl-ng install --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD"
 
-        - name: Start the test environment
-          run: |
-            docker run -d --platform linux/amd64 -p 8088:8088 -p 8089:8089 -p 8000:8000 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com' -e 'SPLUNK_PASSWORD=Chang3d!' --name splunk splunk/splunk:latest
-            # Wait some time for this environment to be ready
-            sleep 180
+      - name: Test content which has changed between this branch and the target branch
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          contentctl-ng test --verbose --post-test-behavior NEVER_PAUSE --mode CHANGED --git-ref "$BASE_SHA"
+          echo "contentctl test - COMPLETED"
 
-        - name: Run a contentctl-ng install to configure the testing environment
-          env:
-            APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
-            APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"
-          run : |
-            contentctl-ng install --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD"
+      # Store test_results/summary.yml and dist/DA-ESS-ContentUpdate-latest.tar.gz
+      # in the test_summary_results artifact.
+      - name: Store artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test_summary_results
+          path: |
+            test_results/summary.yml
+            dist/*.tar.gz
 
-        - name: Test content which has changed between this branch and the target branch
-          run: |
-            contentctl-ng test --verbose --post-test-behavior NEVER_PAUSE --mode CHANGED --git-ref ${{ github.base_ref }}
-            echo "contentctl test - COMPLETED"
+      - name: Print entire test_results/summary.yml
+        if: always()
+        run: cat test_results/summary.yml
 
-        # Store test_results/summary.yml and dist/DA-ESS-ContentUpdate-latest.tar.gz to job artifact-test_summary_results.zip
-        - name: store_artifacts
-          if: always()
-          uses: actions/upload-artifact@v7
-          with:
-            name: test_summary_results
-            path: |
-              test_results/summary.yml
-              dist/*.tar.gz
-
-        # Print entire result summary so that the users can view it in the Github Actions logs
-        - name: Print entire test_results/summary.yml
-          if: always()
-          run: cat test_results/summary.yml
-
-        # Run a simple custom script created to pretty print results in a markdown friendly format in Github Actions Summary
-        - name: Check the test_results/summary.yml for pass/fail.
-          if: always()
-          run: |
-            echo "This job will fail if there are failures in unit-testing"
-            python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
-            echo "The Unit testing is completed. See details in the unit-testing job summary UI "
+      # Use the formatter copied from the trusted base revision, not a version
+      # supplied by the PR being tested.
+      - name: Check the test_results/summary.yml for pass/fail
+        if: always()
+        run: |
+          echo "This job will fail if there are failures in unit-testing"
+          python "$RUNNER_TEMP/format_test_results.py" >> "$GITHUB_STEP_SUMMARY"
+          echo "The unit testing is complete. See the unit-testing job summary for details."
