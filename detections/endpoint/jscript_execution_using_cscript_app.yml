@@ -5,34 +5,52 @@ creation_date: '2021-09-14'
 modification_date: '2026-08-31'
 author: Teoderick Contreras, Splunk
 status: production
-type: TTP
-description: The following analytic detects the execution of JScript using the cscript.exe process. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry. This behavior is significant because JScript files are typically executed by wscript.exe, making cscript.exe execution unusual and potentially indicative of malicious activity, such as the FIN7 group's tactics. If confirmed malicious, this activity could allow attackers to execute arbitrary scripts, leading to code execution, data exfiltration, or further system compromise.
+type: Anomaly
+description: |-
+    The following analytic detects the execution of JScript using the cscript.exe process.
+    It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry.
+    This behavior is significant because JScript files are typically executed by wscript.exe, making cscript.exe execution unusual and potentially indicative of malicious activity, such as the FIN7 group's tactics.
+    If confirmed malicious, this activity could allow attackers to execute arbitrary scripts, leading to code execution, data exfiltration, or further system compromise.
 data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE (
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+    (
+        (
             Processes.parent_process_name = "cscript.exe"
-            AND
             Processes.parent_process = "*//e:jscript*"
         )
-        OR (Processes.process_name = "cscript.exe" AND Processes.process = "*//e:jscript*")
-        AND NOT Processes.process="*/Job:AgentHIScript*"
-        AND NOT Processes.parent_process="*/Job:AgentHIScript*"
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+        OR
+        (
+            Processes.process_name = "cscript.exe"
+            Processes.process = "*//e:jscript*"
+        )
+    )
+
+    NOT Processes.process="*/Job:AgentHIScript*"
+    NOT Processes.parent_process="*/Job:AgentHIScript*"
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `jscript_execution_using_cscript_app_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Symantec Host Integrity check uses Jscript through cscript.exe
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Symantec Host Integrity check uses Jscript through cscript.exe
 references:
     - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
     - https://attack.mitre.org/groups/G0046/
@@ -46,18 +64,17 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: Process name $process_name$ with commandline $process$ to execute jscript on $dest$
-    entity:
-        field: user
-        type: user
-        score: 50
 intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 50
-          message: Process name $process_name$ with commandline $process$ to execute jscript on $dest$
+          score: 20
+          message: The process [$parent_process_name$] with commandline [$parent_process$] launched [$process_name$] with commandline [$process$] on [$dest$]
+threat_objects:
+    - field: parent_process
+      type: process
+    - field: process
+      type: process
 analytic_story:
     - FIN7
     - Remcos

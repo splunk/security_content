@@ -62,5 +62,6 @@ tests:
       test_type: unit
 deprecation_info:
     reason: Detection deprecated as its name and description are not matching the behavior of the search. The search is looking for crontab command with list parameter, not adding a new cron job.
-    removed_in_version: 6.7.0
-    replacement_content: [Linux Crontab Using List Parameter]
+    removed_in_version: 6.8.0
+    replacement_content:
+        - Linux Crontab Enumeration
