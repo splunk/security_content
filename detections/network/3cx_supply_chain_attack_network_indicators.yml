@@ -15,7 +15,7 @@ search: |
             max(_time) as lastTime
     from datamodel=Network_Resolution where
     DNS.query=*
-    NOT DNS.query IN ("-", "unknown")
+    NOT DNS.query IN ("-", "unknown", "something_new)
     by DNS.answer DNS.answer_count DNS.query
        DNS.query_count DNS.reply_code_id DNS.src
        DNS.vendor_product
