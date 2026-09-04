@@ -7,89 +7,39 @@ author: Maria Jose Erquiaga, Splunk
 status: production
 type: Anomaly
 description: |
-    Detects potentially suspicious behavior on macOS where a browser process spawns a Unix command interpreter that establishes a network connection to a public IP address. This behavior may indicate malicious browser content, a compromised website, drive-by execution, or browser-initiated command execution.
+    Detects potentially suspicious behavior on MacOS where a browser process spawns a command interpreter that establishes a network connection to a public IP address. This behavior may indicate malicious browser content, a compromised website, drive-by execution, or browser-initiated command execution.
 data_source:
     - Cisco Network Visibility Module Flow Data
 search: |
     `cisco_network_visibility_module_flowdata`
-    | eval Image=lower(coalesce(process_path,process_exec,ppath,process)),
-           ParentImage=lower(coalesce(parent_process_path,parent_process_exec,pppath)),
-           DestinationIp=coalesce(dest,dest_ip,da,dest_n)
-    | where
-        (
-            like(Image,"%/bash") OR
-            like(Image,"%/csh") OR
-            like(Image,"%/dash") OR
-            like(Image,"%/fish") OR
-            like(Image,"%/sh") OR
-            like(Image,"%/tcsh") OR
-            like(Image,"%/zsh")
-        )
-        AND (
-            like(ParentImage,"%/arc") OR
-            like(ParentImage,"%/brave") OR
-            like(ParentImage,"%/brave-browser") OR
-            like(ParentImage,"%/chrome") OR
-            like(ParentImage,"%/chromium") OR
-            like(ParentImage,"%/duckduckgo") OR
-            like(ParentImage,"%/firefox") OR
-            like(ParentImage,"%/firefox-bin") OR
-            like(ParentImage,"%/google chrome") OR
-            like(ParentImage,"%/google-chrome") OR
-            like(ParentImage,"%/librewolf") OR
-            like(ParentImage,"%/microsoft edge") OR
-            like(ParentImage,"%/msedge") OR
-            like(ParentImage,"%/opera") OR
-            like(ParentImage,"%/opera gx") OR
-            like(ParentImage,"%/safari") OR
-            like(ParentImage,"%/tor browser") OR
-            like(ParentImage,"%/vivaldi") OR
-            like(ParentImage,"%/waterfox")
-        )
-        AND isnotnull(DestinationIp)
-        AND NOT (
-            cidrmatch("0.0.0.0/8",DestinationIp) OR
-            cidrmatch("10.0.0.0/8",DestinationIp) OR
-            cidrmatch("100.64.0.0/10",DestinationIp) OR
-            cidrmatch("127.0.0.0/8",DestinationIp) OR
-            cidrmatch("169.254.0.0/16",DestinationIp) OR
-            cidrmatch("172.16.0.0/12",DestinationIp) OR
-            cidrmatch("192.0.0.0/24",DestinationIp) OR
-            cidrmatch("192.0.2.0/24",DestinationIp) OR
-            cidrmatch("192.168.0.0/16",DestinationIp) OR
-            cidrmatch("198.18.0.0/15",DestinationIp) OR
-            cidrmatch("198.51.100.0/24",DestinationIp) OR
-            cidrmatch("203.0.113.0/24",DestinationIp) OR
-            cidrmatch("224.0.0.0/4",DestinationIp) OR
-            cidrmatch("240.0.0.0/4",DestinationIp) OR
-            cidrmatch("255.255.255.255/32",DestinationIp) OR
-            cidrmatch("fc00::/7",DestinationIp) OR
-            cidrmatch("fe80::/10",DestinationIp) OR
-            cidrmatch("ff00::/8",DestinationIp) OR
-            cidrmatch("2001:db8::/32",DestinationIp) OR
-            DestinationIp="::" OR
-            DestinationIp="::1"
-        )
+    process_path IN ("*/bash","*/csh","*/dash","*/fish","*/sh","*/tcsh","*/zsh")
+    parent_process_path IN ("*/arc","*/brave","*/brave-browser","*/chrome","*/chromium","*/duckduckgo","*/firefox","*/firefox-bin","*/google chrome","*/google-chrome","*/librewolf","*/microsoft edge","*/msedge","*/opera","*/opera gx","*/safari","*/tor browser","*/vivaldi","*/waterfox")
+    AND NOT (
+        cidrmatch("0.0.0.0/8",dest_ip) OR cidrmatch("10.0.0.0/8",dest_ip) OR cidrmatch("100.64.0.0/10",dest_ip) OR
+        cidrmatch("127.0.0.0/8",dest_ip) OR cidrmatch("169.254.0.0/16",dest_ip) OR cidrmatch("172.16.0.0/12",dest_ip) OR
+        cidrmatch("192.0.0.0/24",dest_ip) OR cidrmatch("192.0.2.0/24",dest_ip) OR cidrmatch("192.168.0.0/16",dest_ip) OR
+        cidrmatch("198.18.0.0/15",dest_ip) OR cidrmatch("198.51.100.0/24",dest_ip) OR cidrmatch("203.0.113.0/24",dest_ip) OR
+        cidrmatch("224.0.0.0/4",dest_ip) OR cidrmatch("240.0.0.0/4",dest_ip) OR cidrmatch("255.255.255.255/32",dest_ip) OR
+        cidrmatch("fc00::/7",dest_ip) OR cidrmatch("fe80::/10",dest_ip) OR cidrmatch("ff00::/8",dest_ip) OR
+        cidrmatch("2001:db8::/32",dest_ip) OR dest_ip="::" OR dest_ip="::1"
+    )
     | stats count
-            min(_time) as firstTime
-            max(_time) as lastTime
-            values(DestinationIp) as DestinationIp
-            values(dest_hostname) as dest_hostname
-            values(dest_port) as dest_port
-            values(transport) as transport
-            values(Image) as Image
-            values(ParentImage) as ParentImage
-            values(process_arguments) as process_arguments
-            values(parent_process_arguments) as parent_process_arguments
-            values(process_id) as process_id
-            values(parent_process_id) as parent_process_id
-            by host src
+        min(_time) as firstTime
+        max(_time) as lastTime
+        by src_ip dest_ip dest_hostname bytes_in bytes_out
+        user process_id process_name process_path process
+        parent_process_id parent_process_name parent_process_path parent_process
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | table host src DestinationIp dest_hostname dest_port transport Image ParentImage process_arguments parent_process_arguments process_id parent_process_id firstTime lastTime count
     | `cisco_nvm___macos_browser_spawned_shell_external_connection_filter`
 how_to_implement: |
-    This detection requires Cisco NVM flow telemetry ingested into Splunk using the Cisco Security Cloud application. The telemetry must include process and parent-process paths, source endpoint information, and destination IP information. Ensure the cisco_network_visibility_module_flowdata macro is configured for the appropriate NVM indexes and sourcetypes. The NVM flow events used by this analytic do not contain a reliable normalized operating-system field; therefore, the relevant NVM input, index, or deployment scope should be limited to macOS endpoints.
+    This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+    This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+    Replace the macro definition with configurations for your Splunk environment.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
 known_false_positives: |
     Legitimate workflows may launch Unix command interpreters from browser contexts, including developer tooling, software installers, SSO helpers, browser extensions, and automation wrappers. Tuning may be required for approved applications, users, and destinations.
 references:
@@ -107,12 +57,12 @@ drilldown_searches:
       latest_offset: "0"
 intermediate_findings:
     entities:
-        - field: src
-          type: system
+        - field: src_ip
+          type: ip_address
           score: 40
-          message: Browser process $ParentImage$ spawned command interpreter $Image$ on $src$, which connected to public IP $DestinationIp$.
+          message: Browser process $parent_process$ spawned command interpreter $process$ on $src_ip$, which connected to public IP $dest_ip$.
 threat_objects:
-    - field: Image
+    - field: process
       type: process
 analytic_story:
     - Cisco Network Visibility Module Analytics
