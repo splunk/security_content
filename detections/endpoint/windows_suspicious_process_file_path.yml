@@ -1,8 +1,8 @@
 name: Windows Suspicious Process File Path
 id: ecddae4e-3d4b-41e2-b3df-e46a88b38521
-version: 28
+version: 29
 creation_date: '2021-05-07'
-modification_date: '2026-08-14'
+modification_date: '2026-09-01'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ finding:
         score: 50
 threat_objects:
     - field: process_path
-      type: process_name
+      type: file_path
 analytic_story:
     - StealC Stealer
     - PlugX
