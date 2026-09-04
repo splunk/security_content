@@ -1,35 +1,43 @@
 name: MacOS Utility Osascript Do Shell Script Execution
 id: ceee1f2b-4b40-4721-b91e-40d1134e9dc4
 version: 1
-creation_date: '2026-09-01'
+creation_date: '2026-09-03'
 modification_date: '2026-09-03'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
 description: |-
-    OSA Framework binary was used to execute shell commands on a MacOS host. OSA allows
-    interaction with MaccOS terminal through `do shell script` command of the AppleScript.
+    The following analytic detects the use of the OSA Framework binary to execute shell commands on a MacOS host.
+    OSA allows interaction with MacOS terminal through `do shell script` command of the AppleScript.
+    Adversaries may use this to execute shell commands on a MacOS host, potentially for persistence or privilege escalation.
 data_source:
     - Osquery Results
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-      FROM datamodel=Endpoint.Processes
-      WHERE (Processes.process_name="osascript"
-      OR Processes.process_name="osacompile")
-      Processes.process="*do shell script*"
-       BY Processes.dest Processes.original_file_name Processes.parent_process_id
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process_name IN ("osascript", "osacompile")
+    Processes.process="*do *"
+    Processes.process="* shell *"
+    Processes.process="* script*"
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
        Processes.process Processes.process_exec Processes.process_guid
-       Processes.process_hash Processes.process_id
-       Processes.process_current_directory Processes.process_name
-       Processes.process_path Processes.user
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
        Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_utility_osascript_do_shell_script_execution_filter`
 how_to_implement: |-
     This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+    Also the TA-OSquery (https://splunkbase.splunk.com/app/8574) must be deployed in order to have the osquery data populate the data models.
 known_false_positives: |-
     Legitimate administrative scripts or automation tools using Applescript.
 references:
@@ -50,9 +58,11 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 30
-          message: Osascript inline command execution via $process$ detected on $dest$
+          score: 20
+          message: Osascript inline command execution via [$process$] was observed on [$dest$]
 threat_objects:
+    - field: parent_process
+      type: process
     - field: process
       type: process
 analytic_story:
@@ -69,7 +79,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1059.002/osascript_do_shell_script/osascript_do_shell_script.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.002/osascript_do_shell_script/osascript_do_shell_script.log
           source: osquery
           sourcetype: osquery:results
       test_type: unit
