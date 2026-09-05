@@ -1,4 +1,4 @@
-name: Cisco NVM - MacOS Browser Spawned Shell External Connection
+name: Cisco NVM - Browser Spawned Unix Shell with External Connection
 id: 6f2de8d1-9a2d-4c7a-9b8c-3b8a2f7d0e41
 version: 1
 creation_date: '2026-09-02'
@@ -7,9 +7,9 @@ author: Maria Jose Erquiaga, Splunk
 status: production
 type: Anomaly
 description: |
-    Detects a macOS browser process spawning a Unix shell that establishes an outbound connection to an external destination.
-    This browser-to-shell execution chain may indicate malicious browser content, drive-by execution, a compromised website, or abuse of a browser extension.
-    It may also occur during legitimate automation, development, installation, or enterprise software workflows.
+    Detects a Unix-based (Linux or macOS) browser process spawning a Unix shell that establishes an outbound connection to an external destination.
+    This browser-to-shell execution chain may indicate malicious browser content, drive-by execution, a compromised website, or abuse of a browser extension on Linux or macOS systems.
+    The behavior may also occur during legitimate development, installation, automation, or enterprise software workflows.
 data_source:
     - Cisco Network Visibility Module Flow Data
 search: |
@@ -59,7 +59,7 @@ search: |
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `cisco_nvm___macos_browser_spawned_shell_external_connection_filter`
+    | `cisco_nvm___browser_spawned_shell_with_external_connection_filter`
 how_to_implement: |
     This search requires Network Visibility Module logs, which includes the flow data sourcetype.
     This search uses an input macro named `cisco_network_visibility_module_flowdata`.
@@ -88,7 +88,7 @@ intermediate_findings:
         - field: src
           type: system
           score: 20
-          message: A browser process [$parent_process$] spawned shell [$process$] on host [$src$], which made an outbound connection to external destination [$dest_hostname$] with IP [$dest_ip$] on port [$dest_port$].
+          message: A Unix-based browser process [$parent_process$] spawned shell [$process$] on host [$src$], which made an outbound connection to external destination [$dest_hostname$] with IP [$dest_ip$] on port [$dest_port$].
 threat_objects:
     - field: process
       type: process
