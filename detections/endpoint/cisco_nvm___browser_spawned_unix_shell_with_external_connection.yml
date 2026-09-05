@@ -59,7 +59,7 @@ search: |
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `cisco_nvm___browser_spawned_shell_with_external_connection_filter`
+    | `cisco_nvm___browser_spawned_unix_shell_with_external_connection_filter`
 how_to_implement: |
     This search requires Network Visibility Module logs, which includes the flow data sourcetype.
     This search uses an input macro named `cisco_network_visibility_module_flowdata`.
