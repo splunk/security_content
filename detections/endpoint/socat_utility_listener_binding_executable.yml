@@ -1,0 +1,89 @@
+name: Socat Utility Listener Binding Executable
+id: 72482d45-1d05-46f5-bb6c-e2b709a8073a
+version: 1
+creation_date: '2026-08-27'
+modification_date: '2026-08-27'
+author: Maria Jose Erquiaga, Splunk
+status: production
+type: TTP
+description: |-
+    Detects the execution of the socat utility with command-line arguments that configure a TCP or OpenSSL listener and bind an executable to incoming connections. Socat is a legitimate network utility, but this behavior may be used to expose executables, establish bind shells, facilitate remote command execution, or support lateral movement.
+data_source:
+    - Osquery Results
+search: |-
+    | tstats `security_content_summariesonly`
+      count
+      min(_time) as firstTime
+      max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+      Processes.process_name="socat*"
+      AND Processes.process="*exec:*"
+      AND Processes.process="*-listen:*"
+
+    by Processes.dest Processes.original_file_name Processes.parent_process_id
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id
+       Processes.process_current_directory Processes.process_name
+       Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `socat_utility_listener_binding_executable_filter`
+how_to_implement: |-
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: |-
+    Authorized penetration testing or red team exercises may use socat TCP listeners to validate security controls in lab environments.
+    Developers, network engineers, and system administrators may use socat to expose benign executables for protocol testing, debugging, data transformation, or troubleshooting.
+references:
+    - https://attack.mitre.org/tactics/TA0002/
+    - https://attack.mitre.org/techniques/T1059
+    - https://blog.talosintelligence.com/bad-apples-weaponizing-native-macos-primitives-for-movement-and-execution/
+    - https://gtfobins.github.io/gtfobins/socat/
+    - https://hackers-arise.com/socat-the-advanced-hackers-network-tool/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$host$"
+      search: '%original_detection_search% | search user="$user$" host="$host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Socat was executed on endpoint $dest$ by user $user$ with a network listener binding an executable via $process$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 50
+          message: Socat was executed on endpoint $dest$ by user $user$ with a network listener binding an executable via $process$.
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - MacOS Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059
+product:
+    - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/utility_socat_listener_binding_executable/osquery.log
+          source: osqueryd.results.log
+          sourcetype: osquery:results
+      test_type: unit
