@@ -1,0 +1,79 @@
+name: Windows SCCM Adsource DLL Was Planted In SMS Provider Directory
+id: 4f55b07b-7aeb-47f4-a234-b222a902276b
+version: 1
+creation_date: '2026-08-20'
+modification_date: '2026-08-20'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects creation or modification of adsource.dll or other staging files within the SCCM SMS Provider bin directory, consistent with exploitation of CVE-2026-47301.
+    This abuses a DLL side-loading vulnerability in the Microsoft Configuration Manager SMS Provider component. An attacker can plant a malicious adsource.dll in the SCCMProvider bin\X64 path, causing the SMS Provider service to load the attacker-controlled library in a privileged context.
+    The presence of renamed dlls alongside adsource.dll is a strong indicator of the classic DLL hijacking pattern where the legitimate library has been renamed so the malicious replacement can proxy calls to it.
+    If confirmed malicious, this activity represents a privilege escalation vector that can result in SYSTEM-level code execution on any host running the SCCM SMS Provider role.
+data_source:
+    - Sysmon EventID 11
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    from datamodel=Endpoint.Filesystem where
+    Filesystem.file_name IN ("adsource.dll","adsource_*.dll")
+    Filesystem.file_path="*Microsoft Configuration Manager\\bin\\X64\\*"
+    BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+        Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+        Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+        Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+        Filesystem.user Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_sccm_adsource_dll_was_planted_in_sms_provider_directory_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product. If you are using Sysmon, you must have EventID 11 (FileCreate) enabled, and the FileCreate section of the configuration must include TargetFilename paths ending in .dll or "Microsoft Configuration Manager\bin\X64\" folder.
+known_false_positives: |-
+    Legitimate SCCM upgrades or hotfix installations may create or replace adsource.dll in the bin\X64 directory.
+    Validate the file hash and digital signature of any detected adsource.dll against the expected version for the installed SCCM build before tuning.
+references:
+    - https://medium.com/@omribaso/from-domain-user-to-enterprise-control-microsoft-configuration-manager-rce-0-day-exploit-chain-393c63c680ca
+    - https://nvd.nist.gov/vuln/detail/cve-2026-47301
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/81d92bba-d22b-4a8c-908a-554ab29148ab?source=recommendations
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Suspicious SCCM adsource DLL [$file_name$] detected at [$file_path$] on [$dest$]
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: file_name
+      type: file_name
+    - field: file_path
+      type: file_path
+analytic_story:
+    - Windows Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2026-47301
+mitre_attack_id:
+    - T1574.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/sccm_adsource_dll/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

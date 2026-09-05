@@ -1,0 +1,106 @@
+name: Windows SCCM Smsexec Spawned a Suspicious Child Process
+id: 72091a05-3008-4330-b43e-f5e070134ec1
+version: 1
+creation_date: '2026-08-24'
+modification_date: '2026-08-24'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects shells, scripting engines, and common post-exploitation utilities spawned as child processes of smsexec.exe.
+    smsexec.exe is the core SCCM SMS Executive service process and has no legitimate reason to launch interactive shells or scripting interpreters.
+    An attacker who plants a malicious adsource.dll in the SCCMProvider bin\X64 directory will obtain code execution in the SCCM service context, typically resulting in a SYSTEM-level child process being spawned under smsexec.exe.
+    If confirmed malicious, this activity represents successful exploitation of the SCCM SMS Executive service and should be treated as a full host compromise.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    from datamodel=Endpoint.Processes where
+    Processes.parent_process_name="smsexec.exe"
+    Processes.process_name IN (
+        "bitsadmin.exe",
+        "certutil.exe",
+        "cmd.exe",
+        "conhost.exe",
+        "cscript.exe",
+        "curl.exe",
+        "mshta.exe",
+        "net.exe",
+        "net1.exe",
+        "powershell.exe",
+        "pwsh.exe",
+        "reg.exe",
+        "regsvr32.exe",
+        "rundll32.exe",
+        "wmic.exe",
+        "wscript.exe"
+    )
+    by Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name
+       Processes.process_path Processes.user Processes.user_id
+       Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_sccm_smsexec_spawned_a_suspicious_child_process_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the Processes node of the Endpoint data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    smsexec.exe is not expected to spawn interactive shells or scripting engines under normal operating conditions.
+    False positives are unlikely. Validate the full command line and file hash of any match before tuning.
+references:
+    - https://medium.com/@omribaso/from-domain-user-to-enterprise-control-microsoft-configuration-manager-rce-0-day-exploit-chain-393c63c680ca
+    - https://attack.mitre.org/techniques/T1574/001/
+    - https://attack.mitre.org/techniques/T1068/
+    - https://nvd.nist.gov/vuln/detail/cve-2026-47301
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/81d92bba-d22b-4a8c-908a-554ab29148ab?source=recommendations
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 50
+          message: Suspicious child process [$process_name$] spawned by smsexec.exe on [$dest$]
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Windows Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2026-47301
+mitre_attack_id:
+    - T1574.001
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/sccm_adsource_dll/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
