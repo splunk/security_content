@@ -16,7 +16,8 @@ search: |-
     EventCode=4104
 
     ScriptBlockText IN (
-        "*-dumpcr%*", "*::decompress*", "*Add-Exfiltration*", "*Add-Persistence*", "*Add-RegBackdoor*",
+        "*-dumpcr%*", "* -version *", "*::decompress*",
+        "*Add-Exfiltration*", "*Add-Persistence*", "*Add-RegBackdoor*",
         "*Add-ScrnSaveBackdoor*", "*AmsiBypass*", "*assemblybuilderaccess*", "*backdoor*",
         "*backupprivilege*", "*beacon*", "*bitstransfer*", "*Brute-Force*", "*BruteForce*",
         "*CachedRDPConnection*", "*Check-VM*", "*cnvert*", "*compress-archive*", "*ComputerProperty*",
@@ -24,8 +25,8 @@ search: |-
         "*Do-Exfiltration*", "*downloadfile*", "*downloadstring*", "*Enabled-DuplicateToken*",
         "*EXEonRemote*", "*exfiltration*", "*expand-archive*", "*Exploit-*", "*exploit*",
         "*Find-*", "*Frombase64_keyword*", "*Get-ApplicationHost*", "*Get-ChromeDump*",
-        "*Get-ClipboardContents*", "*Get-FoxDump*", "*Get-GPPPassword*", "*Get-IndexedItem*",
-        "*Get-Keystrokes*", "*Get-PassHash*", "*Get-RegAlwaysInstallElevated*", "*Get-RegAutoLogon*",
+        "*Get-ClipboardContents*", "*Get-*Credent*", "*Get-FoxDump*", "*Get-GPPPassword*", "*Get-IndexedItem*",
+        "*Get-Keystrokes*", "*Get-PassHash*", "*Get-*Password*", "*Get-RegAlwaysInstallElevated*", "*Get-RegAutoLogon*",
         "*Get-RickAstley*", "*Get-Screenshot*", "*Get-SecurityPackages*", "*Get-ServiceFilePermission*",
         "*Get-ServicePermission*", "*Get-ServiceUnquoted*", "*Get-SiteListPassword*",
         "*Get-System*", "*Get-TimedScreenshot*", "*Get-UnattendedInstallFile*",
@@ -67,7 +68,7 @@ search: |-
 
     | eval invoke_wmi_keyword=if(like(script_lower,"%wmiobject%") OR like(script_lower,"%wmimethod%") OR like(script_lower,"%remotewmi%") OR like(script_lower,"%powershellwmi%") OR like(script_lower,"%wmicommand%"),5,0)
 
-    | eval downgrade_version=if(match(script_lower, "([-]ve*r*s*i*o*n*\s+2)") OR like(script_lower,"%powershell -version%"),3,0)
+    | eval downgrade_version=if(like(script_lower, "% -version 2%"),3,0)
 
     | eval compression_keyword=if(match(script_lower, "gzipstream|::decompress|io.compression|write-zip|(expand|compress)-archive"),5,0)
 
