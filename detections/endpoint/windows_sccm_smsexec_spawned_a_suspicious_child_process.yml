@@ -19,7 +19,9 @@ search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
+
     from datamodel=Endpoint.Processes where
+
     Processes.parent_process_name="smsexec.exe"
     Processes.process_name IN (
         "bitsadmin.exe",
@@ -39,6 +41,7 @@ search: |-
         "wmic.exe",
         "wscript.exe"
     )
+
     by Processes.action Processes.dest Processes.original_file_name
        Processes.parent_process Processes.parent_process_exec
        Processes.parent_process_guid Processes.parent_process_id
@@ -48,6 +51,7 @@ search: |-
        Processes.process_integrity_level Processes.process_name
        Processes.process_path Processes.user Processes.user_id
        Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -77,12 +81,12 @@ intermediate_findings:
         - field: dest
           type: system
           score: 50
-          message: Suspicious child process [$process_name$] spawned by smsexec.exe on [$dest$]
+          message: Suspicious child process [$process_name$] with Command Line [$process$] spawned by [$parent_process_path$] on [$dest$]
 threat_objects:
-    - field: parent_process_name
-      type: parent_process_name
     - field: process_name
       type: process_name
+    - field: process
+      type: process
 analytic_story:
     - Windows Privilege Escalation
 asset_type: Endpoint

@@ -8,25 +8,28 @@ status: production
 type: TTP
 description: |-
     The following analytic detects renaming of Windows built-in accounts via Event ID 4781.
-    It identifies renames targeting accounts with well-known reserved RIDs (500–504): Administrator, Guest, krbtgt, DefaultAccount, and WDAGUtilityAccount, by matching the TargetSid field against the S-1-5-21-*-50[0-4] pattern.
+    It identifies renames targeting accounts with well-known reserved RIDs (500-504): Administrator, Guest, krbtgt, DefaultAccount, and WDAGUtilityAccount, by matching the TargetSid field against the S-1-5-21-*-50[0-4] pattern.
     Attackers commonly rename the built-in Administrator account to evade detections that alert on the literal account name, while retaining the full privileges of the RID-500 account.
     Renaming Guest, krbtgt, or other reserved accounts is highly unusual in any legitimate environment.
 data_source:
     - Windows Event Log Security 4781
 search: |-
-    `wineventlog_security` EventCode=4781
-    | rex field=_raw "TargetSid\">(?<target_sid>[^<]+)"
-    | rex field=_raw "NewTargetUserName\">(?<new_name>[^<]+)"
-    | rex field=_raw "OldTargetUserName\">(?<old_name>[^<]+)"
-    | rex field=_raw "SubjectLogonId\">(?<logon_id>[^<]+)"
-    | where match(target_sid, "S-1-5-21-.*-50[0-4]$")
-    | rename Computer as dest
-    | stats count min(_time) as firstTime max(_time) as lastTime
-    by dest old_name new_name target_sid logon_id
+    `wineventlog_security`
+    EventCode=4781
+    TargetSid="S-1-5-21-*"
+
+    | where match(TargetSid, "S-1-5-21-.*-50[0-4]$")
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest OldTargetUserName NewTargetUserName
+         TargetSid SubjectLogonId
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_builtin_account_name_was_changed_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
 known_false_positives: |-
     Renaming built-in accounts is uncommon in most environments but may occur during initial system hardening or CIS benchmark compliance efforts.
     Validate the source user, logon ID, and timing against expected change control windows before tuning.
@@ -46,11 +49,14 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Built-in account [$old_name$] (SID $target_sid$) was renamed to [$new_name$] on [$dest$]
+    title: Built-in account [$OldTargetUserName$] (SID [$TargetSid$]) was renamed to [$NewTargetUserName$] on [$dest$]
     entity:
         field: dest
         type: system
         score: 50
+threat_objects:
+    - field: NewTargetUserName
+      type: user
 analytic_story:
     - Windows Defense Evasion Tactics
     - Compromised Windows Host

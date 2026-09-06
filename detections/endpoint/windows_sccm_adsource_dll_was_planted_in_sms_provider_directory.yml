@@ -7,8 +7,9 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects creation or modification of adsource.dll or other staging files within the SCCM SMS Provider bin directory, consistent with exploitation of CVE-2026-47301.
-    This abuses a DLL side-loading vulnerability in the Microsoft Configuration Manager SMS Provider component. An attacker can plant a malicious adsource.dll in the SCCMProvider bin\X64 path, causing the SMS Provider service to load the attacker-controlled library in a privileged context.
+    The following analytic detects the creation or modification of adsource.dll or other staging files with the name adsource_*.dll within the SCCM SMS Provider bin directory, consistent with exploitation of CVE-2026-47301.
+    This abuses a DLL side-loading vulnerability in the Microsoft Configuration Manager SMS Provider component.
+    An attacker can plant a malicious adsource.dll in the SCCMProvider bin\X64 path, causing the SMS Provider service to load the attacker-controlled library in a privileged context.
     The presence of renamed dlls alongside adsource.dll is a strong indicator of the classic DLL hijacking pattern where the legitimate library has been renamed so the malicious replacement can proxy calls to it.
     If confirmed malicious, this activity represents a privilege escalation vector that can result in SYSTEM-level code execution on any host running the SCCM SMS Provider role.
 data_source:
@@ -17,14 +18,22 @@ search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
+
     from datamodel=Endpoint.Filesystem where
-    Filesystem.file_name IN ("adsource.dll","adsource_*.dll")
+
+    Filesystem.action IN ("created", "modified")
+    Filesystem.file_name IN (
+        "adsource.dll",
+        "adsource_*.dll"
+    )
     Filesystem.file_path="*Microsoft Configuration Manager\\bin\\X64\\*"
+
     BY Filesystem.action Filesystem.dest Filesystem.file_access_time
         Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
         Filesystem.file_name Filesystem.file_path Filesystem.file_acl
         Filesystem.file_size Filesystem.process_guid Filesystem.process_id
         Filesystem.user Filesystem.vendor_product
+
     | `drop_dm_object_name(Filesystem)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
