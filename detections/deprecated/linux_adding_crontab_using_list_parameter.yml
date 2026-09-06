@@ -1,10 +1,10 @@
 name: Linux Adding Crontab Using List Parameter
 id: 52f6d751-1fd4-4c74-a4c9-777ecfeb5c58
-version: 11
+version: 12
 creation_date: '2021-12-21'
-modification_date: '2026-05-13'
+modification_date: '2026-09-03'
 author: Teoderick Contreras, Bhavin Patel, Splunk
-status: production
+status: deprecated
 type: Hunting
 description: The following analytic detects suspicious modifications to cron jobs on Linux systems using the crontab command with list parameters. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it may indicate an attempt to establish persistence or execute malicious code on a schedule. If confirmed malicious, the impact could include unauthorized code execution, data destruction, or other damaging outcomes. Further investigation should analyze the added cron job, its associated command, and any related processes.
 data_source:
@@ -60,3 +60,8 @@ tests:
           source: not_applicable
           sourcetype: cisco:isovalent:processExec
       test_type: unit
+deprecation_info:
+    reason: Detection deprecated as its name and description are not matching the behavior of the search. The search is looking for crontab command with list parameter, not adding a new cron job.
+    removed_in_version: 6.8.0
+    replacement_content:
+        - Linux Crontab Enumeration

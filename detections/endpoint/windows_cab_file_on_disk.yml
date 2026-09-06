@@ -1,30 +1,66 @@
 name: Windows CAB File on Disk
 id: 622f08d0-69ef-42c2-8139-66088bc25acd
-version: 11
+version: 12
 creation_date: '2023-11-16'
-modification_date: '2026-05-13'
-author: Michael Haag, Splunk
+modification_date: '2026-08-24'
+author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects .cab files being written to disk. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on events where the file name is '*.cab' and the action is 'write'. This activity is significant as .cab files can be used to deliver malicious payloads, including embedded .url files that execute harmful code. If confirmed malicious, this behavior could lead to unauthorized code execution and potential system compromise. Analysts should review the file path and associated artifacts for further investigation.
+description: |-
+    The following analytic detects .cab files being written to disk.
+    It leverages data from Endpoint Detection and Response (EDR) agents, focusing on events where the file name is '*.cab' and the action is 'write'.
+    This activity can be significant as .cab files can be used to deliver malicious payloads, including embedded .url files that execute harmful code.
+    If confirmed malicious, this behavior could lead to unauthorized code execution and potential system compromise.
+    Analysts should review the file path and associated artifacts for further investigation.
 data_source:
     - Sysmon EventID 11
 search: |-
-    | tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-      WHERE (
-            Filesystem.file_name=*.cab
-        )
-      BY Filesystem.action Filesystem.dest Filesystem.file_access_time
-         Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
-         Filesystem.file_name Filesystem.file_path Filesystem.file_acl
-         Filesystem.file_size Filesystem.process_guid Filesystem.process_id
-         Filesystem.user Filesystem.vendor_product
+    | tstats `security_content_summariesonly`
+      count values(Filesystem.file_path) as file_path
+            min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Filesystem WHERE
+
+    Filesystem.action IN ("created", "modified")
+    Filesystem.file_name="*.cab"
+    NOT Filesystem.file_path IN (
+        "*\\AppData\\Local\\Microsoft\\*",
+        "*\\Windows Kits\\10\\ADK\\Installers\\*",
+        "C:\\Program Files (x86)\\*",
+        "C:\\Program Files\\*",
+        "C:\\ProgramData\\Microsoft\\*",
+        "C:\\ProgramData\\Package Cache\\*",
+        "C:\\Windows\\appcompat\\*",
+        "C:\\Windows\\Logs\\CBS\\*",
+        "C:\\Windows\\servicing\\*",
+        "C:\\Windows\\SoftwareDistribution\\*",
+        "C:\\Windows\\System32\\*",
+        "C:\\Windows\\SystemApps\\*",
+        "C:\\Windows\\SysWOW64\\*",
+        "C:\\Windows\\WinSxS\\*",
+    )
+
+    BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+       Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+       Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+       Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+       Filesystem.user Filesystem.vendor_product
+
     | `drop_dm_object_name("Filesystem")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_cab_file_on_disk_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: False positives will only be present if a process legitimately writes a .cab file to disk. Modify the analytic as needed by file path. Filter as needed.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
+    These agents are designed to provide security-related telemetry from the endpoints where the agent is installed.
+    To implement this search, you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions.
+    These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product.
+    The logs must also be mapped to the `Processes` node of the `Endpoint` data model.
+    Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Some false positives are expected from user controlled folders.
 references:
     - https://github.com/PaloAltoNetworks/Unit42-timely-threat-intel/blob/main/2023-10-25-IOCs-from-DarkGate-activity.txt
 drilldown_searches:
@@ -41,11 +77,16 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A .cab file was written to disk on endpoint $dest$.
+          message: The file [$file_path$] with a .cab extension was written to disk on endpoint $dest$.
+threat_objects:
+    - field: file_path
+      type: file_path
 analytic_story:
     - DarkGate Malware
     - APT37 Rustonotto and FadeStealer
 asset_type: Endpoint
+cve:
+    - CVE-2026-47301
 mitre_attack_id:
     - T1566.001
 product:
