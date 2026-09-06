@@ -1,4 +1,4 @@
-name: Socat Utility Listener Binding Executable
+name: Socat Network Listener Binding an Executable
 id: 72482d45-1d05-46f5-bb6c-e2b709a8073a
 version: 1
 creation_date: '2026-08-27'
@@ -7,9 +7,11 @@ author: Maria Jose Erquiaga, Splunk
 status: production
 type: TTP
 description: |-
-    Detects the execution of the socat utility with command-line arguments that configure a TCP or OpenSSL listener and bind an executable to incoming connections. Socat is a legitimate network utility, but this behavior may be used to expose executables, establish bind shells, facilitate remote command execution, or support lateral movement.
+    The following analytic detects the execution of the socat utility with command-line arguments that configure a TCP or OpenSSL listener and bind an executable to incoming connections.
+    Socat is a legitimate network utility, but this behavior may be used to expose executables, establish bind shells, facilitate remote command execution, or support lateral movement.
 data_source:
     - Osquery Results
+    - Sysmon for Linux EventID 1
 search: |-
     | tstats `security_content_summariesonly`
       count
@@ -18,9 +20,9 @@ search: |-
 
     from datamodel=Endpoint.Processes where
 
-      Processes.process_name="socat*"
-      AND Processes.process="*exec:*"
-      AND Processes.process="*-listen:*"
+    Processes.process_name="socat*"
+    Processes.process="*exec:*"
+    Processes.process="*-listen:*"
 
     by Processes.dest Processes.original_file_name Processes.parent_process_id
        Processes.process Processes.process_exec Processes.process_guid
@@ -32,12 +34,11 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `socat_utility_listener_binding_executable_filter`
+    | `socat_network_listener_binding_an_executable_filter`
 how_to_implement: |-
     This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
     Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
 known_false_positives: |-
-    Authorized penetration testing or red team exercises may use socat TCP listeners to validate security controls in lab environments.
     Developers, network engineers, and system administrators may use socat to expose benign executables for protocol testing, debugging, data transformation, or troubleshooting.
 references:
     - https://attack.mitre.org/tactics/TA0002/
@@ -46,16 +47,16 @@ references:
     - https://gtfobins.github.io/gtfobins/socat/
     - https://hackers-arise.com/socat-the-advanced-hackers-network-tool/
 drilldown_searches:
-    - name: View the detection results for - "$user$" and "$host$"
-      search: '%original_detection_search% | search user="$user$" host="$host$"'
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$user$" and "$host$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Socat was executed on endpoint $dest$ by user $user$ with a network listener binding an executable via $process$.
+    title: Socat was executed with a TCP or OpenSSL listener configured to pass inbound connections to an executable via [$process$] on endpoint [$dest$] by user [$user$].
     entity:
         field: dest
         type: system
@@ -65,7 +66,7 @@ intermediate_findings:
         - field: user
           type: user
           score: 50
-          message: Socat was executed on endpoint $dest$ by user $user$ with a network listener binding an executable via $process$.
+          message: Socat was executed with a TCP or OpenSSL listener configured to pass inbound connections to an executable via [$process$] on endpoint [$dest$] by user [$user$].
 threat_objects:
     - field: process
       type: process
@@ -74,6 +75,7 @@ analytic_story:
 asset_type: Endpoint
 mitre_attack_id:
     - T1059
+    - T1572
 product:
     - Splunk Cloud
     - Splunk Enterprise
