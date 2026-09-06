@@ -1,4 +1,4 @@
-name: MacOS Utility Osascript Prompting for User Interaction
+name: MacOS Osascript Displaying Suspicious User Prompt
 id: d565ae18-7db6-460c-a2eb-a7109f18bc5e
 version: 1
 creation_date: '2026-08-03'
@@ -6,30 +6,53 @@ modification_date: '2026-08-31'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
-description: Utility osascript used "display dialog/alert" method, attempting to display fake system dialogs or credential prompts.
+description: |-
+    The following analytic detects the execution of the macOS osascript utility with AppleScript commands that display a dialog or alert containing potentially deceptive, credential-related, or security-themed content.
+    Adversaries may abuse osascript to present fake system messages or credential prompts and trick users into disclosing sensitive information.
+    This detection is based on command-line content and should be reviewed with the parent process, executing user, script content, and surrounding endpoint activity.
 data_source:
     - Osquery Results
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-      FROM datamodel=Endpoint.Processes
-      WHERE Processes.process_name="osascript"
-        Processes.process="*-e *"
-        Processes.process IN ("*display alert*", "*display dialog*", "*verify*", "*needs your attention*", "*critical update*", "*access System*", "*credentials*", "*password*", "*with hidden answer*", "*security update*", "*system error*", "*authentication*")
-        BY Processes.dest Processes.original_file_name Processes.parent_process_id
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process_name="osascript"
+    Processes.process IN (
+        "*display alert*",
+        "*display dialog*"
+    )
+    Processes.process IN (
+        "*access System*",
+        "*authentication*",
+        "*credentials*",
+        "*critical update*",
+        "*needs your attention*",
+        "*password*",
+        "*security update*",
+        "*system error*",
+        "*verify*",
+        "*with hidden answer*"
+    )
+
+    BY Processes.dest Processes.original_file_name Processes.parent_process_id
        Processes.process Processes.process_exec Processes.process_guid
        Processes.process_hash Processes.process_id
        Processes.process_current_directory Processes.process_name
        Processes.process_path Processes.user
        Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `macos_utility_osascript_prompting_for_user_interaction_filter`
+    | `macos_osascript_displaying_suspicious_user_prompt_filter`
 how_to_implement: |-
     This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
     Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
 known_false_positives: |-
-    Legitimate administrative scripts or automation tools that use utility osascript for user interaction.
+    Legitimate administrative, MDM, software deployment, support, or automation scripts may use osascript to display dialogs or alerts. Review the parent process, executing user, script content, signer, and known administrative tooling before suppressing the activity.
 references:
     - https://attack.mitre.org/tactics/TA0002/
     - https://attack.mitre.org/tactics/TA0006/
@@ -52,8 +75,8 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 30
-          message: Suspicious osascript dialog prompt via $process$ detected on $dest$
+          score: 20
+          message: The osascript utility executed a command containing dialog-related and potentially deceptive content on endpoint [$dest$] with the Command Line [$process$].
 threat_objects:
     - field: process
       type: process
