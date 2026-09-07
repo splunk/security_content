@@ -15,7 +15,7 @@ data_source:
 search: |-
     `sysmon`
     EventID IN (13, 24)
-    ( 
+    (
         registry_key_name=*RunMRU*
         OR
         process_name IN (
