@@ -16,7 +16,7 @@ search: |-
     EventCode=4104
 
     ScriptBlockText IN (
-        "*-dumpcr%*", "* -version *", "*::decompress*",
+        "*-dumpcr*", "* -version *", "*::decompress*",
         "*Add-Exfiltration*", "*Add-Persistence*", "*Add-RegBackdoor*",
         "*Add-ScrnSaveBackdoor*", "*AmsiBypass*", "*assemblybuilderaccess*", "*backdoor*",
         "*backupprivilege*", "*beacon*", "*bitstransfer*", "*Brute-Force*", "*BruteForce*",
@@ -54,9 +54,9 @@ search: |-
 
     | eval suspicious_cmdlets=if(match(ScriptBlockText, "(?i)Add-Exfiltration|Add-Persistence|Add-RegBackdoor|Add-ScrnSaveBackdoor|Check-VM|Do-Exfiltration|Enabled-DuplicateToken|Exploit-|Find-Fruit|Find-GPOLocation|Find-TrustedDocuments|Get-ApplicationHost|Get-ChromeDump|Get-ClipboardContents|Get-FoxDump|Get-GPPPassword|Get-IndexedItem|Get-Keystrokes|LSASecret|Get-PassHash|Get-RegAlwaysInstallElevated|Get-RegAutoLogon|Get-RickAstley|Get-Screenshot|Get-SecurityPackages|Get-ServiceFilePermission|Get-ServicePermission|Get-ServiceUnquoted|Get-SiteListPassword|Get-System|Get-TimedScreenshot|Get-UnattendedInstallFile|Get-Unconstrained|Get-VaultCredential|Get-VulnAutoRun|Get-VulnSchTask|Gupt-Backdoor|HTTP-Login|Install-SSP|Install-ServiceBinary|Invoke-ACLScanner|Invoke-ADSBackdoor|Invoke-ARPScan|Invoke-AllChecks|Invoke-BackdoorLNK|Invoke-BypassUAC|Invoke-CredentialInjection|Invoke-DCSync|Invoke-DllInjection|Invoke-DowngradeAccount|Invoke-EgressCheck|Invoke-Inveigh|Invoke-InveighRelay|Invoke-Mimikittenz|Invoke-NetRipper|Invoke-NinjaCopy|Invoke-PSInject|Invoke-Paranoia|Invoke-PortScan|Invoke-PoshRat|Invoke-PostExfil|Invoke-PowerDump|Invoke-PowerShellTCP|Invoke-PsExec|Invoke-PsUaCme|Invoke-ReflectivePEInjection|Invoke-ReverseDNSLookup|Invoke-RunAs|Invoke-SMBScanner|Invoke-SSHCommand|Invoke-Service|Invoke-Shellcode|Invoke-Tater|Invoke-ThunderStruck|Invoke-Token|Invoke-UserHunter|Invoke-VoiceTroll|Invoke-WScriptBypassUAC|Invoke-WinEnum|MailRaider|New-HoneyHash|Out-Minidump|Port-Scan|PowerBreach|PowerUp|PowerView|Remove-Update|Set-MacAttribute|Set-Wallpaper|Show-TargetScreen|Start-CaptureServer|VolumeShadowCopyTools|NEEEEWWW|(Computer|User)Property|CachedRDPConnection|invoke-\S+hunter|Install-Service|get-\S+(credent|password)|remoteps|netfirewall|Uninstall-Windows|AmsiBypass|nishang|Invoke-Interceptor|EXEonRemote|NetworkRelay|PowerShelludp|PowerShellIcmp|CreateShortcut|copy-vss|invoke-dll|invoke-mass|out-shortcut|Invoke-ShellCommand"),1,0)
 
-    | eval base64_keyword=if(like(script_lower,"%Frombase64%"), 4, 0)
+    | eval base64_keyword=if(like(script_lower,"%frombase64%"), 4, 0)
 
-    | eval empire=if(like(script_lower,"%system.net.webclient%") AND like(script_lower,"%Frombase64%"),5,0)
+    | eval empire=if(like(script_lower,"%system.net.webclient%") AND like(script_lower,"%frombase64%"),5,0)
 
     | eval mimikatz=if(like(script_lower,"%mimikatz%") OR like(script_lower,"%-dumpcr%") OR like(script_lower,"%sekurlsa::pth%") OR like(script_lower,"%kerberos::ptt%") OR like(script_lower,"%kerberos::golden%"),5,0)
 
