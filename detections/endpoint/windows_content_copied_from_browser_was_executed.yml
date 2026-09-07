@@ -1,0 +1,96 @@
+name: Windows Content Copied from Browser was Executed
+id: 5d1fdbcb-5ed9-4190-85c8-7f9026450a0b
+version: 1
+creation_date: '2026-09-07'
+modification_date: '2026-09-07'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic correlates modifications to the Windows RunMRU registry key with clipboard content
+    changes initiated by browsers. It aims to detect ClickFix scenarios in which commands copied
+    from a browser are subsequently executed on the Windows system through the Run dialog box.
+data_source:
+    - Sysmon EventID 13 AND Sysmon EventID 24
+search: |-
+    `sysmon` 
+    (
+      (EventID=13 registry_key_name=*RunMRU*) OR
+      (EventID=24 process_name IN (
+        "360se.exe", "arc.exe", "atlas.exe", "avastbrowser.exe", "avgbrowser.exe", "blpbrowser.exe", "brave.exe", "braveupdate.exe",
+        "chrome.exe", "chromium.exe", "coccoc.exe", "dragon.exe", "duckduckgo.exe", "epic.exe", "firefox.exe", "ghost.exe",
+        "iexplore.exe", "iridium.exe", "iron.exe", "maxthon.exe", "microsoftedge.exe", "microsoftedgeupdate.exe", "msedge.exe",
+        "msedgewebview2.exe", "opera.exe", "opera_autoupdate.exe", "perplexity.exe", "rave.exe", "safari.exe", "shift.exe",
+        "sidekick.exe", "thorium.exe", "torch.exe", "vivaldi.exe", "wavebrowser.exe", "whale.exe", "zen.exe"
+        )
+      )
+    )
+    | eval trimmed_command = rtrim(registry_value_data, "\1")
+    | eval utf16le_command = urldecode(replace(trimmed_command, "(.)", "\1%00"))
+    | eval sha256_process=upper(sha256(utf16le_command))
+    | eval hash_command=coalesce(SHA256,sha256_process)
+    | stats min(_time) as firstTime max(_time) as lastTime values(process_name) as process_name
+    values(trimmed_command) as process values(EventID) as EventID dc(EventID) as dc_EventID count
+    by hash_command dest user
+    | search dc_EventID>1
+    | eval process_name = mvfilter(process_name IN ("360se.exe", "arc.exe", "atlas.exe", "avastbrowser.exe", "avgbrowser.exe", "blpbrowser.exe", "brave.exe", "braveupdate.exe",
+        "chrome.exe", "chromium.exe", "coccoc.exe", "dragon.exe", "duckduckgo.exe", "epic.exe", "firefox.exe", "ghost.exe",
+        "iexplore.exe", "iridium.exe", "iron.exe", "maxthon.exe", "microsoftedge.exe", "microsoftedgeupdate.exe", "msedge.exe",
+        "msedgewebview2.exe", "opera.exe", "opera_autoupdate.exe", "perplexity.exe", "rave.exe", "safari.exe", "shift.exe",
+        "sidekick.exe", "thorium.exe", "torch.exe", "vivaldi.exe", "wavebrowser.exe", "whale.exe", "zen.exe"))
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_content_copied_from_browser_was_executed_filter`'
+how_to_implement: |-
+    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon registry modification (Event ID 13)
+    and clipboard change (Event ID 24) events. Ensure that registry modification events are collected for the RunMRU registry key
+    and clipboard change events are collected from common browser processes. Ingest the data through the appropriate Splunk technology
+    add-on and normalize field names using the Splunk Common Information Model (CIM).
+known_false_positives: No false positives were known for this detection.
+references:
+    - https://socradar.io/blog/doublecup-clickfix-loader-devicemanager-rats/
+    - https://www.huntress.com/blog/clickfix-matanbuchus-astarionrat-analysis
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 40
+          message: Content $process$ was copied from $process_name$ and was executed through the Run dialog box on $dest$
+        - field: user
+          type: user
+          score: 40
+          message: Content $process$ was copied from $process_name$ and was executed through the Run dialog box by $user$
+threat_objects:
+    - field: process
+      type: process
+    - field: hash_command
+      type: hash
+analytic_story:
+    - Fake CAPTCHA Campaigns
+asset_type: Endpoint
+mitre_attack_id:
+    - T1202
+    - T1059.001
+    - T1059.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1202/windows_browser_copy_paste/windows_browser_copy_paste.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
