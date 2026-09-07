@@ -13,7 +13,7 @@ description: |-
 data_source:
     - Sysmon EventID 13 AND Sysmon EventID 24
 search: |-
-    `sysmon` 
+    `sysmon`
     (
       (EventID=13 registry_key_name=*RunMRU*) OR
       (EventID=24 process_name IN (
@@ -46,7 +46,7 @@ how_to_implement: |-
     and clipboard change (Event ID 24) events. Ensure that registry modification events are collected for the RunMRU registry key
     and clipboard change events are collected from common browser processes. Ingest the data through the appropriate Splunk technology
     add-on and normalize field names using the Splunk Common Information Model (CIM).
-known_false_positives: No false positives were known for this detection.
+known_false_positives: No false positives have been identified at this time.
 references:
     - https://socradar.io/blog/doublecup-clickfix-loader-devicemanager-rats/
     - https://www.huntress.com/blog/clickfix-matanbuchus-astarionrat-analysis
@@ -59,21 +59,17 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-intermediate_findings:
-    entities:
-        - field: dest
-          type: system
-          score: 40
-          message: Content $process$ was copied from $process_name$ and was executed through the Run dialog box on $dest$
-        - field: user
-          type: user
-          score: 40
-          message: Content $process$ was copied from $process_name$ and was executed through the Run dialog box by $user$
+finding:
+    title: The content [$process$] was copied from [$process_name$] to the clipboard and was executed through the Run dialog box on [$dest$]
+    entity:
+        field: dest
+        type: system
+        score: 50
 threat_objects:
     - field: process
       type: process
     - field: hash_command
-      type: hash
+      type: process_hash
 analytic_story:
     - Fake CAPTCHA Campaigns
 asset_type: Endpoint
@@ -90,7 +86,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1202/windows_browser_copy_paste/windows_browser_copy_paste.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/windows_browser_copy_paste/windows_browser_copy_paste.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
