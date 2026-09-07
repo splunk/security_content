@@ -14,9 +14,28 @@ data_source:
     - Sysmon EventID 13 AND Sysmon EventID 24
 search: |-
     `sysmon`
-    (
-      (EventID=13 registry_key_name=*RunMRU*) OR
-      (EventID=24 process_name IN (
+    EventID IN (13, 24)
+    ( 
+        registry_key_name=*RunMRU*
+        OR
+        process_name IN (
+        "360se.exe", "arc.exe", "atlas.exe", "avastbrowser.exe", "avgbrowser.exe", "blpbrowser.exe", "brave.exe", "braveupdate.exe",
+        "chrome.exe", "chromium.exe", "coccoc.exe", "dragon.exe", "duckduckgo.exe", "epic.exe", "firefox.exe", "ghost.exe",
+        "iexplore.exe", "iridium.exe", "iron.exe", "maxthon.exe", "microsoftedge.exe", "microsoftedgeupdate.exe", "msedge.exe",
+        "msedgewebview2.exe", "opera.exe", "opera_autoupdate.exe", "perplexity.exe", "rave.exe", "safari.exe", "shift.exe",
+        "sidekick.exe", "thorium.exe", "torch.exe", "vivaldi.exe", "wavebrowser.exe", "whale.exe", "zen.exe"
+        )
+    )
+    | eval trimmed_command = rtrim(registry_value_data, "\1")
+    | eval utf16le_command = urldecode(replace(trimmed_command, "(.)", "\1%00"))
+    | eval sha256_process=upper(sha256(utf16le_command))
+    | eval hash_command=coalesce(SHA256,sha256_process)
+    | stats min(_time) as firstTime max(_time) as lastTime values(process_name) as process_name
+        values(trimmed_command) as process values(EventID) as EventID dc(EventID) as dc_EventID count
+        by hash_command dest user
+    | search dc_EventID>1
+    | eval process_name = mvfilter(
+        process_name IN (
         "360se.exe", "arc.exe", "atlas.exe", "avastbrowser.exe", "avgbrowser.exe", "blpbrowser.exe", "brave.exe", "braveupdate.exe",
         "chrome.exe", "chromium.exe", "coccoc.exe", "dragon.exe", "duckduckgo.exe", "epic.exe", "firefox.exe", "ghost.exe",
         "iexplore.exe", "iridium.exe", "iron.exe", "maxthon.exe", "microsoftedge.exe", "microsoftedgeupdate.exe", "msedge.exe",
@@ -24,23 +43,9 @@ search: |-
         "sidekick.exe", "thorium.exe", "torch.exe", "vivaldi.exe", "wavebrowser.exe", "whale.exe", "zen.exe"
         )
       )
-    )
-    | eval trimmed_command = rtrim(registry_value_data, "\1")
-    | eval utf16le_command = urldecode(replace(trimmed_command, "(.)", "\1%00"))
-    | eval sha256_process=upper(sha256(utf16le_command))
-    | eval hash_command=coalesce(SHA256,sha256_process)
-    | stats min(_time) as firstTime max(_time) as lastTime values(process_name) as process_name
-    values(trimmed_command) as process values(EventID) as EventID dc(EventID) as dc_EventID count
-    by hash_command dest user
-    | search dc_EventID>1
-    | eval process_name = mvfilter(process_name IN ("360se.exe", "arc.exe", "atlas.exe", "avastbrowser.exe", "avgbrowser.exe", "blpbrowser.exe", "brave.exe", "braveupdate.exe",
-        "chrome.exe", "chromium.exe", "coccoc.exe", "dragon.exe", "duckduckgo.exe", "epic.exe", "firefox.exe", "ghost.exe",
-        "iexplore.exe", "iridium.exe", "iron.exe", "maxthon.exe", "microsoftedge.exe", "microsoftedgeupdate.exe", "msedge.exe",
-        "msedgewebview2.exe", "opera.exe", "opera_autoupdate.exe", "perplexity.exe", "rave.exe", "safari.exe", "shift.exe",
-        "sidekick.exe", "thorium.exe", "torch.exe", "vivaldi.exe", "wavebrowser.exe", "whale.exe", "zen.exe"))
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_content_copied_from_browser_was_executed_filter`'
+    | `windows_content_copied_from_browser_was_executed_filter`
 how_to_implement: |-
     This detection requires Sysmon event logs. Configure your environment to ingest Sysmon registry modification (Event ID 13)
     and clipboard change (Event ID 24) events. Ensure that registry modification events are collected for the RunMRU registry key
