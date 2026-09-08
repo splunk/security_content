@@ -12,6 +12,9 @@ mitre_components:
 - Configuration Modification
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: auditlogs
 separator: operationName
 separator_value: Add unverified domain
 supported_TA:

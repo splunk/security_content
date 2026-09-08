@@ -14,6 +14,9 @@ description: Data source object for Cisco IOS system logs. Cisco IOS logs provid
   data is ingested via SYSLOG.
 source: cisco:ios
 sourcetype: cisco:ios
+logsource:
+  product: cisco
+  service: ios
 separator: null
 supported_TA:
 - name: Cisco Networks Add-on

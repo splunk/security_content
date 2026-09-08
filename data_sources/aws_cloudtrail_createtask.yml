@@ -12,6 +12,9 @@ mitre_components:
 - Instance Creation
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: CreateTask
 supported_TA:

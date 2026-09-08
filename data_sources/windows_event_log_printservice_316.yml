@@ -9,6 +9,9 @@ mitre_components:
 - Driver Metadata
 source: WinEventLog:Microsoft-Windows-PrintService/Admin
 sourcetype: WinEventLog
+logsource:
+  product: windows
+  service: printservice-admin
 separator: EventCode
 separator_value: '316'
 supported_TA:

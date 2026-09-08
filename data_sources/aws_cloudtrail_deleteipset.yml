@@ -11,6 +11,9 @@ mitre_components:
 - Firewall Rule Modification
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: DeleteIPSet
 supported_TA:

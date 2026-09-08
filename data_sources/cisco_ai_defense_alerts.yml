@@ -6,6 +6,9 @@ author: Bhavin Patel
 description: Data source object for Cisco AI Defense Alerts
 source: cisco_ai_defense
 sourcetype: cisco:ai:defense
+logsource:
+  product: cisco
+  service: ai_defense
 separator: null
 supported_TA:
 - name: Cisco Security Cloud

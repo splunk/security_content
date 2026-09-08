@@ -12,6 +12,9 @@ mitre_components:
 - Active Directory Object Access
 source: o365
 sourcetype: o365:management:activity
+logsource:
+  product: m365
+  service: audit
 separator: Operation
 separator_value: MailItemsAccessed
 supported_TA:

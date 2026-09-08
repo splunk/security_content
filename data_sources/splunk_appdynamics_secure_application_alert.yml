@@ -6,6 +6,8 @@ author: Bhavin Patel, Splunk
 description: Data source object for alerts from Cisco Secure Application
 source: AppDynamics Security
 sourcetype: appdynamics_security
+logsource:
+  product: splunk
 supported_TA:
 - name: Splunk Add-on for AppDynamics
   url: https://splunkbase.splunk.com/app/3471

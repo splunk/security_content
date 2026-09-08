@@ -11,6 +11,9 @@ mitre_components:
 - Process Creation
 source: WinEventLog:Microsoft-Windows-Windows Defender/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: windefend
 separator: EventCode
 separator_value: '1121'
 supported_TA:

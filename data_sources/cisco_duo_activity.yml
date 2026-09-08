@@ -6,6 +6,9 @@ author: Patrick Bareiss, Splunk
 description: Data source object for Cisco Duo Activity
 source: cisco_duo
 sourcetype: cisco:duo:activity
+logsource:
+  product: cisco
+  service: duo
 separator: null
 supported_TA:
 - name: Cisco Security Cloud

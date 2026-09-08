@@ -12,6 +12,8 @@ mitre_components:
 - Cloud Service Metadata
 source: http:gsuite
 sourcetype: gsuite:gmail:bigquery
+logsource:
+  product: gcp
 supported_TA:
 - name: Splunk Add-on for Google Workspace
   url: https://splunkbase.splunk.com/app/5556
@@ -113,3 +115,11 @@ example_log: '{"action_type": 10, "rfc2822_message_id": "<CCCCCCCCCCCCCCCCCCCCCC
   null, "smime_content_type": null, "link_domain": [], "attachment": [{"sha256": "1111111111111111111111111111111111111111111111111111111111111111",
   "file_extension_type": "zip", "malware_family": null}], "spam_info": null, "timestamp":
   1629378633.802384}'
+output_fields:
+- phase
+- severity
+- destination{}.service
+- num_message_attachments
+- subject
+- destination{}.address
+- source.address

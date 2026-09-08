@@ -6,6 +6,9 @@ author: Bhavin Patel, Splunk
 description: Data source object for Office 365 Universal Audit Log
 source: o365
 sourcetype: o365:management:activity
+logsource:
+  product: m365
+  service: audit
 separator: Operation
 supported_TA:
 - name: Splunk Microsoft Office 365 Add-on
@@ -14,3 +17,9 @@ supported_TA:
 fields:
 - _time
 example_log: ''
+output_fields:
+- dest
+- user
+- src
+- vendor_account
+- vendor_product

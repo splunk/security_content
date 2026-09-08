@@ -12,6 +12,9 @@ mitre_components:
 - OS API Execution
 source: XmlWinEventLog:Application
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: application
 separator: EventCode
 separator_value: '3000'
 supported_TA:

@@ -6,6 +6,8 @@ author: Nasreddine Bencherchali, Splunk
 description: Data source object for OSquery events from Cisco Network Visibility Module
 source: not_applicable
 sourcetype: cisco:nvm:osquery
+logsource:
+  product: osquery
 supported_TA:
 - name: Cisco NVM Add-on for Splunk
   url: https://splunkbase.splunk.com/app/4221

@@ -6,6 +6,9 @@ author: Bhavin Patel, Splunk
 description: Data source object for Sysmon EventID 14
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  category: registry_event
+  product: windows
 separator: EventID
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:

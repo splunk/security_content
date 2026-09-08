@@ -6,6 +6,9 @@ author: Bhavin Patel, Splunk
 description: Data source object for Azure Active Directory NonInteractiveUserSignInLogs
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: signinlogs
 separator: operationName
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services
@@ -170,3 +173,9 @@ example_log: '{"time": "2023-01-12T19:22:14.5285742Z", "resourceId": "/tenants/9
   "authenticationStrengths": [], "incomingTokenType": "primaryRefreshToken", "authenticationProtocol":
   "none", "appServicePrincipalId": null, "resourceServicePrincipalId": null, "rngcStatus":
   0}}'
+output_fields:
+- dest
+- user
+- src
+- vendor_account
+- vendor_product

@@ -8,6 +8,9 @@ mitre_components:
 - Named Pipe Metadata
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  category: pipe_created
+  product: windows
 separator: EventID
 separator_value: '17'
 configuration: https://github.com/SwiftOnSecurity/sysmon-config

@@ -9,6 +9,9 @@ mitre_components:
 - Scheduled Job Modification
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '4699'
 supported_TA:

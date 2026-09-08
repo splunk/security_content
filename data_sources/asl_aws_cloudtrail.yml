@@ -19,6 +19,9 @@ mitre_components:
 - Cloud Storage Enumeration
 source: aws_asl
 sourcetype: aws:asl
+logsource:
+  product: aws
+  service: cloudtrail
 separator: api.operation
 supported_TA:
 - name: Splunk Add-on for AWS

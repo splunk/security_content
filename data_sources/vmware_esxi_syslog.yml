@@ -6,6 +6,9 @@ author: Raven Tait, Splunk
 description: Data source object for syslog data from VMWare ESXi
 source: vmware:esxlog
 sourcetype: vmw-syslog
+logsource:
+  product: vmware
+  service: esxi
 supported_TA:
 - name: Add-on for VMware ESXi Logs
   url: https://splunkbase.splunk.com/app/5603

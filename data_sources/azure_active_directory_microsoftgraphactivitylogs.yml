@@ -6,6 +6,8 @@ author: Bhavin Patel, Splunk
 description: Data source object for Azure Active Directory MicrosoftGraphActivityLogs
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
 separator: operationName
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services
@@ -32,3 +34,9 @@ example_log: '{"time": "2024-04-30T01:22:46.4948958Z", "resourceId": "/TENANTS/2
   "ipAddress": "45.83.145.6", "userAgent": "azurehound/v2.1.8", "requestUri": "https://graph.microsoft.com/beta/servicePrincipals/ffe3e001-d8cf-43a4-89ab-bfce35fd7786/owners?%24top=999",
   "userId": "7b934539-7366-494e-a8ac-3517694d32db", "tokenIssuedAt": "2024-04-30T01:17:30.0000000Z"},
   "tenantId": "225e05a1-5914-4688-a404-7030e60f3143"}'
+output_fields:
+- dest
+- user
+- src
+- vendor_account
+- vendor_product

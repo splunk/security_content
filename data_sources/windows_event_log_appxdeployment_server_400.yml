@@ -23,6 +23,9 @@ description: 'This data source captures Windows Event Logs from the Microsoft-Wi
   '
 source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: appxdeployment-server
 separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows

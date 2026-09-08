@@ -12,6 +12,9 @@ mitre_components:
 - Process Metadata
 source: XmlWinEventLog:System
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: system
 separator: EventCode
 separator_value: '7045'
 supported_TA:

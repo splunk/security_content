@@ -13,6 +13,8 @@ mitre_components:
 - Service Modification
 source: ivanti_vtm
 sourcetype: ivanti_vtm_audit
+logsource:
+  product: ivanti
 supported_TA: []
 fields:
 - _time

@@ -12,4 +12,7 @@ mitre_components:
 - OS API Execution
 source: powershell://SubjectInterfacePackage
 sourcetype: PwSh:SubjectInterfacePackage
+logsource:
+  product: windows
+  service: powershell
 supported_TA: []

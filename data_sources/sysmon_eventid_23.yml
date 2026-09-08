@@ -13,6 +13,9 @@ mitre_components:
 - OS API Execution
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  category: file_delete
+  product: windows
 separator: EventID
 separator_value: '23'
 configuration: https://github.com/SwiftOnSecurity/sysmon-config

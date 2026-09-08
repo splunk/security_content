@@ -13,6 +13,8 @@ mitre_components:
 - Active Directory Object Access
 source: ms365_defender_incident_alerts
 sourcetype: ms365:defender:incident:alerts
+logsource:
+  category: antivirus
 supported_TA:
 - name: Splunk Add-on for Microsoft Security
   url: https://splunkbase.splunk.com/app/6207

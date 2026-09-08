@@ -6,6 +6,9 @@ author: Bhavin Patel, Splunk
 description: Data source object for NTLM Operational 8006
 source: XmlWinEventLog:Microsoft-Windows-NTLM/Operational
 sourcetype: XmlWinEventLog:Microsoft-Windows-NTLM/Operational
+logsource:
+  product: windows
+  service: ntlm
 separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows

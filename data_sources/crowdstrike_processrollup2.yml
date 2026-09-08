@@ -14,6 +14,9 @@ mitre_components:
 - OS API Execution
 source: crowdstrike
 sourcetype: crowdstrike:events:sensor
+logsource:
+  category: process_creation
+  product: windows
 separator: event_simpleName
 separator_value: ProcessRollup2
 supported_TA:

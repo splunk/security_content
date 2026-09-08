@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: not_applicable
 sourcetype: pan:traffic
+logsource:
+  category: firewall
+  product: paloalto
 supported_TA:
 - name: Palo Alto Networks Add-on
   url: https://splunkbase.splunk.com/app/7523

@@ -13,6 +13,9 @@ mitre_components:
 - User Account Metadata
 source: XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: certificateservicesclient-lifecycle-system
 separator: EventCode
 separator_value: '1007'
 supported_TA:

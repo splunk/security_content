@@ -10,6 +10,9 @@ mitre_components:
 - Cloud Service Metadata
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: SetDefaultPolicyVersion
 supported_TA:

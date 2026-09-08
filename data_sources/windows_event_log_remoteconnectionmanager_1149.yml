@@ -10,6 +10,9 @@ mitre_components:
 - Logon Session Metadata
 source: WinEventLog:Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational
 sourcetype: wineventlog
+logsource:
+  product: windows
+  service: terminalservices-remoteconnectionmanager
 separator: EventCode
 separator_value: '1149'
 supported_TA:

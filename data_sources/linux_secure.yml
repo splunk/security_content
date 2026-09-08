@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: /var/log/secure
 sourcetype: linux_secure
+logsource:
+  product: linux
+  service: auth
 supported_TA:
 - name: Splunk Add-on for Unix and Linux
   url: https://splunkbase.splunk.com/app/833

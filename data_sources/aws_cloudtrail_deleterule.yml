@@ -12,6 +12,9 @@ mitre_components:
 - Application Log Content
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: DeleteRule
 supported_TA:

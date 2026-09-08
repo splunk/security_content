@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  category: dns_query
+  product: windows
 separator: EventID
 separator_value: '22'
 configuration: https://github.com/SwiftOnSecurity/sysmon-config

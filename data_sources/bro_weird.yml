@@ -13,6 +13,9 @@ mitre_components:
 - Host Status
 source: bro:weird:json
 sourcetype: bro:weird:json
+logsource:
+  product: zeek
+  service: weird
 supported_TA:
 - name: TA for Zeek
   url: https://splunkbase.splunk.com/app/5466

@@ -7,6 +7,9 @@ description: Logs the execution of processes on a Linux system, including detail
   about the executed command, arguments, and the initiating process.
 source: auditd
 sourcetype: auditd
+logsource:
+  product: linux
+  service: auditd
 mitre_components:
 - Command Execution
 - Process Creation

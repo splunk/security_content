@@ -11,6 +11,10 @@ mitre_components:
 - Network Connection Creation
 source: aws_cloudwatchlogs_vpcflow
 sourcetype: aws:cloudwatchlogs:vpcflow
+logsource:
+  category: network
+  product: aws
+  service: vpcflow
 supported_TA:
 - name: Splunk Add-on for AWS
   version: 8.1.0

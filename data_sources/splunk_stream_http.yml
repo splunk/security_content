@@ -13,6 +13,8 @@ mitre_components:
 - Application Log Content
 source: stream:http
 sourcetype: stream:http
+logsource:
+  category: proxy
 supported_TA:
 - name: Splunk Add-on for Stream Wire Data
   url: https://splunkbase.splunk.com/app/5234

@@ -13,6 +13,9 @@ mitre_components:
 - Host Status
 source: bro:x509:json
 sourcetype: bro:x509:json
+logsource:
+  product: zeek
+  service: x509
 supported_TA:
 - name: TA for Zeek
   url: https://splunkbase.splunk.com/app/5466

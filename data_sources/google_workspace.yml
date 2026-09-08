@@ -6,6 +6,9 @@ author: Bhavin Patel, Splunk
 description: Data source object for Google Workspace
 source: google_workspace
 sourcetype: gws:reports:login
+logsource:
+  product: gcp
+  service: google_workspace.admin
 supported_TA:
 - name: Splunk Add-on for Google Workspace
   url: https://splunkbase.splunk.com/app/5556
@@ -104,3 +107,9 @@ example_log: '"kind": "admin#reports#activity", "id": {"time": "2022-10-12T18:00
   "100059258581444193973"}, "ipAddress": "22.33.111.55", "event": {"type": "USER_SETTINGS",
   "name": "UNENROLL_USER_FROM_STRONG_AUTH", "parameters": [{"name": "USER_EMAIL",
   "value": "victim_user@splunkresearch.com"}]}}'
+output_fields:
+- user
+- src_ip
+- vendor_account
+- event.name
+- action

@@ -6,6 +6,10 @@ author: Nasreddine Bencherchali, Splunk
 description: Data source object for Netflow events from Cisco Network Visibility Module
 source: not_applicable
 sourcetype: cisco:nvm:flowdata
+logsource:
+  category: network
+  product: cisco
+  service: netflow
 supported_TA:
 - name: Cisco NVM Add-on for Splunk
   url: https://splunkbase.splunk.com/app/4221

@@ -6,6 +6,9 @@ author: Nasreddine Bencherchali, Splunk
 description: Data source object for Cisco SD-WAN Service Proxy Access Logs
 source: /var/log/nms/containers/service-proxy/serviceproxy-access.log
 sourcetype: cisco:sdwan:access
+logsource:
+  category: webserver
+  product: cisco
 supported_TA: []
 fields:
     - _time

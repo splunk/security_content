@@ -13,6 +13,8 @@ mitre_components:
 - Logon Session Metadata
 source: splunkd_ui_access.log
 sourcetype: splunkd_ui_access
+logsource:
+  product: splunk
 supported_TA: []
 fields:
 - _time

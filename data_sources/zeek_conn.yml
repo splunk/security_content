@@ -6,6 +6,10 @@ author: Patrick Bareiss, Splunk
 description: Data source object for Zeek connection logs
 source: bro:conn:json
 sourcetype: bro:conn:json
+logsource:
+  category: network
+  product: zeek
+  service: connection
 supported_TA:
 - name: TA for Zeek
   url: https://splunkbase.splunk.com/app/5466

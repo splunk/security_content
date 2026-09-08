@@ -14,6 +14,10 @@ mitre_components:
 - Application Log Content
 source: kubernetes
 sourcetype: _json
+logsource:
+  category: application
+  product: kubernetes
+  service: audit
 supported_TA: []
 fields:
 - _time
@@ -68,3 +72,15 @@ example_log: '{"kind":"Event","apiVersion":"audit.k8s.io/v1","level":"RequestRes
   \"batch\" in the namespace \"test2\"","reason":"Forbidden","details":{"group":"batch","kind":"jobs"},"code":403},"responseObject":{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"jobs.batch
   is forbidden: User \"k8s-test-user\" cannot create resource \"jobs\" in API group
   \"batch\" in the namespace \"test2\"","reason":"Forbidden","details":{"group":"batch","kind":"jobs"},"code":403},"requestReceivedTimestamp":"2023-12-07T14:44:53.358394Z","stageTimestamp":"2023-12-07T14:44:53.375985Z","annotations":{"authorization.k8s.io/decision":"forbid","authorization.k8s.io/reason":""}}'
+output_fields:
+- objectRef.name
+- objectRef.namespace
+- objectRef.resource
+- responseStatus.code
+- sourceIPs{}
+- stage
+- user.groups{}
+- user.uid
+- user.username
+- userAgent
+- verb

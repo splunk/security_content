@@ -12,6 +12,9 @@ mitre_components:
 - OS API Execution
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '4887'
 supported_TA:

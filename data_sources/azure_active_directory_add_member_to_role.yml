@@ -13,6 +13,9 @@ mitre_components:
 - Cloud Service Modification
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: auditlogs
 separator: operationName
 separator_value: Add member to role
 supported_TA:

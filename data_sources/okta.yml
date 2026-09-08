@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: Okta
 sourcetype: OktaIM2:log
+logsource:
+  product: okta
+  service: okta
 supported_TA:
 - name: Splunk Add-on for Okta Identity Cloud
   url: https://splunkbase.splunk.com/app/6553

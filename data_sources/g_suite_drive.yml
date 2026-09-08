@@ -13,6 +13,8 @@ mitre_components:
 - Cloud Storage Metadata
 source: http:gsuite
 sourcetype: gsuite:drive:json
+logsource:
+  product: gcp
 supported_TA:
 - name: Splunk Add-on for Google Workspace
   url: https://splunkbase.splunk.com/app/5556
@@ -58,3 +60,12 @@ example_log: '{"type": "acl_change", "name": "change_user_access", "parameters":
   false, "owner": "peter@external_test_email.com", "owner_is_shared_drive": false,
   "owner_is_team_drive": false}, "email": "peter@external_test_email.com", "unique_id":
   "123456789", "ip_address": "null", "timestamp": "2021-08-23T09:19:08.200Z"}'
+output_fields:
+- parameters.owner
+- ip_address
+- phase
+- severity
+- email
+- parameters.target_user
+- parameters.doc_title
+- parameters.doc_type

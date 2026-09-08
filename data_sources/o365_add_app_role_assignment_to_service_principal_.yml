@@ -13,6 +13,9 @@ mitre_components:
 - Group Modification
 source: o365
 sourcetype: o365:management:activity
+logsource:
+  product: m365
+  service: audit
 separator: Operation
 separator_value: Add app role assignment to service principal.
 supported_TA:

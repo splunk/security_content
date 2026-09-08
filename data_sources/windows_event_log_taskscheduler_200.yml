@@ -12,6 +12,9 @@ mitre_components:
 - OS API Execution
 source: WinEventLog:Microsoft-Windows-TaskScheduler/Operational
 sourcetype: wineventlog
+logsource:
+  product: windows
+  service: taskscheduler
 separator: EventCode
 separator_value: '200'
 supported_TA:

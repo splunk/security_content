@@ -13,6 +13,9 @@ mitre_components:
 - Response Metadata
 source: bro:dns:json
 sourcetype: bro:dns:json
+logsource:
+  product: zeek
+  service: dns
 supported_TA:
 - name: TA for Zeek
   url: https://splunkbase.splunk.com/app/5466

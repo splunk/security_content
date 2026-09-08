@@ -12,6 +12,9 @@ mitre_components:
 - Application Log Content
 source: gws:reports:admin
 sourcetype: gws:reports:admin
+logsource:
+  product: gcp
+  service: google_workspace.login
 separator: event.name
 separator_value: login_failure
 supported_TA:
@@ -61,3 +64,7 @@ example_log: '{"kind": "admin#reports#activity", "id": {"time": "2022-10-12T01:0
   "ipAddress": "141.254.89.27", "event": {"type": "login", "name": "login_failure",
   "parameters": [{"name": "login_type", "value": "unknown"}, {"name": "login_challenge_method",
   "multiValue": ["password"]}]}}'
+output_fields:
+- user
+- src_ip
+- login_challenge_method

@@ -6,8 +6,19 @@ author: Patrick Bareiss, Splunk
 description: All AWS CloudTrail events
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 supported_TA:
 - name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876
   version: 8.1.0
+output_fields:
+- dest
+- user
+- user_agent
+- src
+- vendor_account
+- vendor_region
+- vendor_product

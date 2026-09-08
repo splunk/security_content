@@ -9,6 +9,9 @@ mitre_components:
 - Command Execution
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  category: process_creation
+  product: windows
 separator: EventCode
 separator_value: '4688'
 configuration: Enabling Windows event log process command line logging via group policy

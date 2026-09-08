@@ -6,6 +6,8 @@ author: Rod Soto, Splunk
 description: Access Logs from M365 Copilot access via Graph API
 source: AuditLogs.SignIns
 sourcetype: o365:graph:api
+logsource:
+  product: m365
 supported_TA:
 - name: Splunk Add-on for Microsoft Office 365
   url: https://splunkbase.splunk.com/app/4055

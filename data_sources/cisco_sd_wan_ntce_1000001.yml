@@ -6,6 +6,9 @@ author: Nasreddine Bencherchali, Splunk
 description: Data source object for Cisco SD-WAN Notification Event 1000001
 source: /var/log/vsyslog
 sourcetype: cisco:sdwan:syslog
+logsource:
+  product: cisco
+  service: syslog
 supported_TA: []
 fields:
     - _time

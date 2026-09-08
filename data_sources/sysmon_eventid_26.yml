@@ -6,6 +6,9 @@ author: Bhavin Patel, Splunk
 description: Data source object for Sysmon EventID 26
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  category: file_delete
+  product: windows
 separator: EventID
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:

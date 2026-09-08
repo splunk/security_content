@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: bro:ssl:json
 sourcetype: bro:ssl:json
+logsource:
+  product: zeek
+  service: ssl
 supported_TA:
 - name: TA for Zeek
   url: https://splunkbase.splunk.com/app/5466

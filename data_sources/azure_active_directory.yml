@@ -6,6 +6,9 @@ author: Patrick Bareiss, Splunk
 description: All Azure Active Directory events
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: auditlogs
 separator: operationName
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services

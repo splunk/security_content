@@ -13,6 +13,8 @@ mitre_components:
 - Application Log Content
 source: ms_defender_atp_alerts
 sourcetype: ms:defender:atp:alerts
+logsource:
+  category: antivirus
 supported_TA:
 - name: Splunk Add-on for Microsoft Security
   url: https://splunkbase.splunk.com/app/6207

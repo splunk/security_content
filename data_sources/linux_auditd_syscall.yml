@@ -12,6 +12,9 @@ mitre_components:
 - Host Status
 source: auditd
 sourcetype: auditd
+logsource:
+  product: linux
+  service: auditd
 separator: type
 separator_value: syscall
 configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules

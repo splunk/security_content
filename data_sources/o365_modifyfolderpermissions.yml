@@ -12,6 +12,9 @@ mitre_components:
 - Application Log Content
 source: o365
 sourcetype: o365:management:activity
+logsource:
+  product: m365
+  service: audit
 separator: Operation
 separator_value: ModifyFolderPermissions
 supported_TA:

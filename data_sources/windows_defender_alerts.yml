@@ -13,6 +13,8 @@ mitre_components:
 - Host Status
 source: eventhub://windowsdefenderlogs
 sourcetype: mscs:azure:eventhub:defender:advancedhunting
+logsource:
+  category: antivirus
 separator: AlertId
 supported_TA:
 - name: Splunk add on for Microsoft Defender Advanced Hunting

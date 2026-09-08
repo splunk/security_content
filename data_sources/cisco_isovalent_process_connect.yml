@@ -10,6 +10,9 @@ description: "Captures detailed process connection events\u2014including source 
   \ network flows in cloud-native environments."
 source: not_applicable
 sourcetype: cisco:isovalent:processConnect
+logsource:
+  category: network_connection
+  product: linux
 supported_TA:
 - name: Cisco Security Cloud
   url: https://splunkbase.splunk.com/app/7404

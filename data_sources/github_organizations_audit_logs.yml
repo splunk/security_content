@@ -7,6 +7,9 @@ description: Data source object for GitHub Organizations logs using the Splunk A
   for Github using a Personal Access Token.
 source: github
 sourcetype: github:cloud:audit
+logsource:
+  product: github
+  service: audit
 supported_TA:
 - name: Splunk Add-on for Github
   url: https://splunkbase.splunk.com/app/6254
@@ -38,3 +41,17 @@ example_log: '{ @timestamp: 1736850926658 _document_id: fHPRFHOMZNXLxTZrk1w2IQ a
   null user: P4T12ICK user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
   AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 user_id: 8362376
   }'
+output_fields:
+- actor
+- actor_id
+- actor_ip
+- actor_is_bot
+- actor_location.country_code
+- business
+- business_id
+- org
+- org_id
+- repo
+- repo_id
+- user_agent
+- vendor_action

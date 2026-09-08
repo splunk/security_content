@@ -10,6 +10,9 @@ mitre_components:
 - Logon Session Creation
 source: WinEventLog:Microsoft-Windows-TerminalServices-RDPClient/Operational
 sourcetype: WinEventLog
+logsource:
+  product: windows
+  service: terminalservices-rdpclient
 separator: EventCode
 supported_TA: []
 fields:

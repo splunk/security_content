@@ -14,6 +14,9 @@ mitre_components:
 - Cloud Service Metadata
 source: aws
 sourcetype: aws:cloudfront:accesslogs
+logsource:
+  product: aws
+  service: cloudfront
 supported_TA:
 - name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876

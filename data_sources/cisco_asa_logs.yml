@@ -17,6 +17,9 @@ description: "Data source object for Cisco ASA system logs. Cisco ASA logs provi
   \ \n"
 source: not_applicable
 sourcetype: cisco:asa
+logsource:
+  product: cisco
+  service: asa
 separator: null
 supported_TA:
 - name: Cisco Security Cloud

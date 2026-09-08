@@ -12,6 +12,9 @@ mitre_components:
 - Logon Session Metadata
 source: gws:reports:admin
 sourcetype: gws:reports:admin
+logsource:
+  product: gcp
+  service: google_workspace.login
 separator: event.name
 separator_value: login_success
 supported_TA:

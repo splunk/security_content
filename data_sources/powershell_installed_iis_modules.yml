@@ -12,6 +12,9 @@ mitre_components:
 - Application Log Content
 source: powershell://AppCmdModules
 sourcetype: Pwsh:InstalledIISModules
+logsource:
+  product: windows
+  service: powershell
 supported_TA: []
 fields:
 - _time

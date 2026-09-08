@@ -7,6 +7,9 @@ description: Logs process execution events within Cisco Isovalent environments, 
   visibility into process exec ancestry and Kubernetes workload identity.
 source: not_applicable
 sourcetype: cisco:isovalent:processExec
+logsource:
+  category: process_creation
+  product: linux
 supported_TA:
 - name: Cisco Security Cloud
   url: https://splunkbase.splunk.com/app/7404

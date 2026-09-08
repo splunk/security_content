@@ -11,6 +11,9 @@ mitre_components:
 - Service Metadata
 source: WinEventLog:Microsoft-Windows-PrintService/Admin
 sourcetype: WinEventLog
+logsource:
+  product: windows
+  service: printservice-admin
 separator: EventCode
 separator_value: '808'
 supported_TA:

@@ -6,6 +6,8 @@ author: Bhavin Patel, Splunk
 description: Data source object for Splunk CIM
 source: not_applicable
 sourcetype: not_applicable
+logsource:
+  product: splunk
 supported_TA:
 - name: Splunk Common Information Model (CIM)
   url: https://splunkbase.splunk.com/app/1621

@@ -8,6 +8,9 @@ mitre_components:
 - Cloud Service Modification
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: DeleteGuardrail
 supported_TA:

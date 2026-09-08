@@ -6,6 +6,9 @@ author: Bhavin Patel, Splunk
 description: Data source object for AWS CloudTrail DescribeSnapshotAttribute
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 supported_TA:
 - name: Splunk Add-on for AWS

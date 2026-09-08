@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: Syslog:Linux-Sysmon/Operational
 sourcetype: sysmon:linux
+logsource:
+  category: process_creation
+  product: linux
 separator: EventID
 separator_value: '1'
 supported_TA:

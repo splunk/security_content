@@ -14,6 +14,8 @@ mitre_components:
 - Host Status
 source: kubernetes
 sourcetype: kube:container:falco
+logsource:
+  product: falco
 supported_TA: []
 fields:
 - _time
@@ -55,3 +57,11 @@ example_log: '12:18:18.691725165: Notice A shell was spawned in a container with
   proc_exepath=/usr/lib/splunk-otel-collector/agent-bundle/bin/bash parent=runc command=bash
   -il terminal=34816 exe_flags=EXE_WRITABLE container_id=7a2566e8e462 container_image=quay.io/signalfx/splunk-otel-collector
   container_image_tag=0.88.0 container_name=otel-collector k8s_ns=default k8s_pod_name=my-splunk-otel-collector-agent-9sdhr)'
+output_fields:
+- container_image
+- container_image_tag
+- container_name
+- parent
+- proc_exepath
+- process
+- user

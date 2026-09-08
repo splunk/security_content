@@ -10,6 +10,8 @@ description: MCP server activity (JSON-RPC protocol messages capturing AI assist
   of Model Context Protocol communications, enabling detection of unauthorized tool usage,
   anomalous AI behavior, and shadow AI governance. TA available in Splunkbase'
 sourcetype: mcp:jsonrpc
+logsource:
+  product: mcp
 source: mcp.log
 supported_TA:
 - name: MCP TA

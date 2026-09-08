@@ -10,6 +10,9 @@ mitre_components:
 - Logon Session Metadata
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '4624'
 supported_TA:

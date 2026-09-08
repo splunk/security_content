@@ -7,6 +7,9 @@ description: Data source object for raw file events from Cisco Secure Firewall T
   Defense
 source: not_applicable
 sourcetype: cisco:sfw:estreamer
+logsource:
+  category: firewall
+  product: cisco
 supported_TA:
 - name: Cisco Security Cloud
   url: https://splunkbase.splunk.com/app/7404

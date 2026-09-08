@@ -11,6 +11,9 @@ mitre_components:
 - User Account Authentication
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: auditlogs
 separator: operationName
 separator_value: Invite external user
 supported_TA:

@@ -8,6 +8,9 @@ mitre_components:
 - User Account Creation
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '4720'
 supported_TA:

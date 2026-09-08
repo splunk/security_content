@@ -11,6 +11,9 @@ mitre_components:
 - User Account Metadata
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: signinlogs
 separator: operationName
 separator_value: Sign-in activity
 supported_TA:

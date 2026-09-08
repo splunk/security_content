@@ -11,6 +11,9 @@ mitre_components:
 - Cloud Storage Enumeration
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: GetObject
 supported_TA:

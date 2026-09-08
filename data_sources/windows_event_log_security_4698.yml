@@ -9,6 +9,9 @@ mitre_components:
 - Scheduled Job Metadata
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '4698'
 supported_TA:

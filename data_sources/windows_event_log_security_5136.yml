@@ -12,6 +12,9 @@ mitre_components:
 - Application Log Content
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '5136'
 supported_TA:

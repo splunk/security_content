@@ -12,6 +12,9 @@ mitre_components:
 - Service Metadata
 source: XmlWinEventLog:Application
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: application
 separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows

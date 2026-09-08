@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: bro:ocsp:json
 sourcetype: bro:ocsp:json
+logsource:
+  product: zeek
+  service: ocsp
 supported_TA:
 - name: TA for Zeek
   url: https://splunkbase.splunk.com/app/5466

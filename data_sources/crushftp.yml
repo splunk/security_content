@@ -13,6 +13,8 @@ mitre_components:
 - Network Traffic Content
 source: crushftp
 sourcetype: crushftp:sessionlogs
+logsource:
+  product: crushftp
 supported_TA: []
 fields:
 - _time

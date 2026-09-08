@@ -10,6 +10,9 @@ mitre_components:
 - Scheduled Job Metadata
 source: mscs:azure:audit
 sourcetype: mscs:azure:audit
+logsource:
+  product: azure
+  service: activitylogs
 separator: operationName.localizedValue
 separator_value: Create or Update an Azure Automation webhook
 supported_TA:

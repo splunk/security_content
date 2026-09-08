@@ -13,6 +13,8 @@ mitre_components:
 - Application Log Content
 source: osquery
 sourcetype: osquery:results
+logsource:
+  product: osquery
 supported_TA: []
 fields:
 - _time

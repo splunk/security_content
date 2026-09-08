@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: ActiveDirectory
 sourcetype: ActiveDirectory
+logsource:
+  product: windows
+  service: security
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742

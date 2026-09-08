@@ -12,6 +12,9 @@ mitre_components:
 - Instance Modification
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: CopyObject
 supported_TA:

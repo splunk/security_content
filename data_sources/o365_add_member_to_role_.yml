@@ -12,6 +12,9 @@ mitre_components:
 - Cloud Service Modification
 source: o365
 sourcetype: o365:management:activity
+logsource:
+  product: m365
+  service: audit
 separator: Operation
 separator_value: Add member to role.
 supported_TA:

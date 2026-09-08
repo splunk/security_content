@@ -6,6 +6,9 @@ author: Steven Dick
 description: Data source object for Office 365 Reporting Message Trace
 source: o365
 sourcetype: o365:reporting:messagetrace
+logsource:
+  product: m365
+  service: exchange
 separator: Organization
 supported_TA:
 - name: Splunk Microsoft Office 365 Add-on

@@ -12,6 +12,9 @@ mitre_components:
 - Application Log Content
 source: IIS:Configuration:Operational
 sourcetype: IIS:Configuration:Operational
+logsource:
+  product: windows
+  service: iis-configuration
 separator: EventID
 separator_value: '29'
 supported_TA:

@@ -13,6 +13,9 @@ mitre_components:
 - Cloud Service Metadata
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: auditlogs
 separator: operationName
 separator_value: Add app role assignment to service principal
 supported_TA:

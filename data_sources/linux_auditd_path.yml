@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: auditd
 sourcetype: auditd
+logsource:
+  product: linux
+  service: auditd
 separator: type
 separator_value: PATH
 configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules

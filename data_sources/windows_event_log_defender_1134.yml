@@ -6,6 +6,9 @@ author: Bhavin Patel, Splunk
 description: Data source object for Windows Event Log Defender 1134
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: windefend
 separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows

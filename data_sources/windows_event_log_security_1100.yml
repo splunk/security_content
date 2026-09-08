@@ -9,6 +9,9 @@ mitre_components:
 - System Configuration Changes
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '1100'
 supported_TA:

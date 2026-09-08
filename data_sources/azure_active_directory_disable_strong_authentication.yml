@@ -11,6 +11,9 @@ mitre_components:
 - Cloud Service Modification
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: auditlogs
 separator: operationName
 separator_value: Disable Strong Authentication
 supported_TA:

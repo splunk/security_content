@@ -9,6 +9,9 @@ mitre_components:
 - Cloud Service Disable
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: StopLogging
 supported_TA:

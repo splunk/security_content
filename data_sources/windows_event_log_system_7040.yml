@@ -12,6 +12,9 @@ mitre_components:
 - Application Log Content
 source: XmlWinEventLog:System
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: system
 separator: EventCode
 separator_value: '7040'
 supported_TA:

@@ -12,6 +12,8 @@ mitre_components:
 - Scheduled Job Metadata
 source: github
 sourcetype: aws:firehose:json
+logsource:
+  product: github
 supported_TA: []
 fields:
 - _time

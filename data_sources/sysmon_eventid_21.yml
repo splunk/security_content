@@ -12,6 +12,9 @@ mitre_components:
 - OS API Execution
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  category: wmi_event
+  product: windows
 separator: EventID
 separator_value: '21'
 configuration: https://github.com/SwiftOnSecurity/sysmon-config

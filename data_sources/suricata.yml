@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: not_applicable
 sourcetype: suricata
+logsource:
+  category: network
+  product: suricata
 supported_TA:
 - name: CCX Add-on for Suricata
   url: https://splunkbase.splunk.com/app/6994

@@ -9,6 +9,9 @@ description: Data source object for Azure Monitor Activity.  The Splunk Add-on f
   settings > Add diagnostic settings & send events to the activity audit event hub.
 source: Azure AD
 sourcetype: azure:monitor:activity
+logsource:
+  product: azure
+  service: activitylogs
 separator: operationName
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services

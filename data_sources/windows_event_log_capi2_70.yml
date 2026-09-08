@@ -13,6 +13,9 @@ mitre_components:
 - Host Status
 source: XmlWinEventLog:Microsoft-Windows-CAPI2/Operational
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: capi2
 separator: EventCode
 separator_value: '70'
 supported_TA:

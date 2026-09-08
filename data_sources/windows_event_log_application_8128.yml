@@ -6,6 +6,9 @@ author: Michael Haag, Splunk
 description: Data source object for Windows Event Log Application 8128
 source: XmlWinEventLog:Application
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: application
 separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows

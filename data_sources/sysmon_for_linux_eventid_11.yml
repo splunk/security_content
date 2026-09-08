@@ -13,6 +13,9 @@ mitre_components:
 - Application Log Content
 source: Syslog:Linux-Sysmon/Operational
 sourcetype: sysmon:linux
+logsource:
+  category: file_event
+  product: linux
 separator: EventID
 supported_TA:
 - name: Splunk Add-on for Sysmon for Linux

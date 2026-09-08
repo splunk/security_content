@@ -12,6 +12,9 @@ mitre_components:
 - User Account Metadata
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '4769'
 supported_TA:

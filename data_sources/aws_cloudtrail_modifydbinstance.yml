@@ -11,6 +11,9 @@ mitre_components:
 - Instance Metadata
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 separator_value: ModifyDBInstance
 supported_TA:

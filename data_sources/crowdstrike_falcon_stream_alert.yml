@@ -12,6 +12,8 @@ mitre_components:
 - OS API Execution
 source: CrowdStrike:Event:Streams
 sourcetype: CrowdStrike:Event:Streams:JSON
+logsource:
+  product: crowdstrike
 separator: event.DetectName
 supported_TA:
 - name: Splunk Add-on for CrowdStrike FDR

@@ -10,6 +10,9 @@ mitre_components:
 - User Account Metadata
 source: Azure AD
 sourcetype: azure:monitor:aad
+logsource:
+  product: azure
+  service: auditlogs
 separator: operationName
 separator_value: User registered security info
 supported_TA:

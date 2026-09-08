@@ -12,6 +12,9 @@ mitre_components:
 - Host Status
 source: XmlWinEventLog:System
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: system
 separator: EventCode
 separator_value: '7036'
 supported_TA:

@@ -13,6 +13,8 @@ mitre_components:
 - User Account Metadata
 source: /var/log/nginx/access.log
 sourcetype: nginx:plus:kv
+logsource:
+  category: webserver
 supported_TA:
 - name: Splunk Add-on for NGINX
   url: https://splunkbase.splunk.com/app/3258

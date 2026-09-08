@@ -12,6 +12,9 @@ mitre_components:
 - Cloud Service Metadata
 source: o365
 sourcetype: o365:management:activity
+logsource:
+  product: m365
+  service: audit
 separator: Operation
 separator_value: Add app role assignment grant to user.
 supported_TA:

@@ -9,6 +9,8 @@ description: Captures kernel probe (kprobe) telemetry from Cisco Isovalent Runti
   system tampering.
 source: not_applicable
 sourcetype: cisco:isovalent
+logsource:
+  product: linux
 supported_TA:
 - name: Cisco Security Cloud
   url: https://splunkbase.splunk.com/app/7404

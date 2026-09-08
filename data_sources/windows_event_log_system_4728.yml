@@ -12,6 +12,9 @@ mitre_components:
 - Active Directory Object Modification
 source: XmlWinEventLog:System
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: system
 separator: EventCode
 separator_value: '4728'
 supported_TA:

@@ -7,6 +7,9 @@ description: Logs changes made to AWS Key Management Service (KMS) key policies,
   updates and permission assignments.
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
+logsource:
+  product: aws
+  service: cloudtrail
 separator: eventName
 supported_TA:
 - name: Splunk Add-on for AWS
