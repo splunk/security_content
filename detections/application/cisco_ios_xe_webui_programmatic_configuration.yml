@@ -1,13 +1,13 @@
 name: Cisco IOS XE WebUI Programmatic Configuration
 id: f9686576-a23d-4c4d-bfad-a45499dc448a
-version: 1
+version: 2
 creation_date: '2026-05-19'
-modification_date: '2026-05-19'
+modification_date: '2026-09-08'
 author: Nasreddine Bencherchali
 status: production
 type: Anomaly
 description: |
-    This analytic detects Cisco IOS-XE configuration changes performed by the WebUI WSMA process.
+    The following analytic detects Cisco IOS-XE configuration changes performed by the WebUI WSMA process.
 data_source:
     - Cisco IOS Logs
 search: |-
@@ -47,7 +47,8 @@ intermediate_findings:
         - field: user
           type: user
           score: 20
-          message: User $user$ performed Cisco IOS-XE WebUI programmatic configuration on $dest$.
+          message: User [$user$] performed Cisco IOS-XE WebUI programmatic configuration on [$dest$] via [$process$] on [$vty$].
+threat_objects: []
 analytic_story:
     - Salt Typhoon
 asset_type: Network

@@ -1,8 +1,8 @@
 name: Email files written outside of the Outlook directory
 id: 8d52cf03-ba25-4101-aa78-07994aed4f74
-version: 13
+version: 14
 creation_date: '2020-04-29'
-modification_date: '2026-07-02'
+modification_date: '2026-09-08'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -55,6 +55,9 @@ intermediate_findings:
           type: system
           score: 20
           message: A new email file [$file_name$] was written to [$file_path$] on endpoint $dest$ by user $user$.
+threat_objects:
+    - field: file_path
+      type: file_path
 analytic_story:
     - Collection and Staging
 asset_type: Endpoint
