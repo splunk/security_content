@@ -1,8 +1,8 @@
 name: MacOS Account Created
 id: 491004ae-694f-453e-b1e0-fc1e65daeea1
-version: 3
+version: 4
 creation_date: '2026-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-01'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -19,7 +19,7 @@ search: |-
     from datamodel=Endpoint.Processes where
 
     (
-        Processes.process = "*sysadminctl"
+        Processes.process = "*sysadminctl*"
         Processes.process = "*-addUser*"
     )
     OR

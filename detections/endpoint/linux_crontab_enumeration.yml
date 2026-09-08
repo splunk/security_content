@@ -1,0 +1,76 @@
+name: Linux Crontab Enumeration
+id: 8ef82980-0e95-43d7-a802-b488b668d14f
+version: 1
+creation_date: '2026-09-03'
+modification_date: '2026-09-03'
+author: Teoderick Contreras, Bhavin Patel, Onur Mustafa Erdogan, Splunk
+status: production
+type: Hunting
+description: |-
+    The following analytic detects the use of the crontab command with the list parameter (-l) to enumerate scheduled tasks configured in the invoking user's crontab on Linux systems.
+    Adversaries may use this information to identify persistence mechanisms, scheduled execution, or potential privilege escalation opportunities.
+    The use of crontab -l is also common administrative activity and may require tuning based on the executing user, parent process, and environment.
+data_source:
+    - Sysmon for Linux EventID 1
+    - Cisco Isovalent Process Exec
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process_name = "crontab"
+    Processes.process= "* -l*"
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_crontab_enumeration_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
+references:
+    - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+    - https://cert.gov.ua/article/39518
+analytic_story:
+    - Cisco Isovalent Suspicious Activity
+    - Industroyer2
+    - Linux Privilege Escalation
+    - Linux Living Off The Land
+    - Data Destruction
+    - Linux Persistence Techniques
+    - Scheduled Tasks
+    - Gomir
+    - VoidLink Cloud-Native Linux Malware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_list_parameter/sysmon_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux
+      test_type: unit
+    - name: True Positive Test - Cisco Isovalent
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
+          source: not_applicable
+          sourcetype: cisco:isovalent:processExec
+      test_type: unit

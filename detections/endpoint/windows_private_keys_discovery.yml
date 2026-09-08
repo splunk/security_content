@@ -1,36 +1,71 @@
 name: Windows Private Keys Discovery
 id: 5c1c2877-06c0-40ee-a1a2-db71f1372b5b
-version: 12
+version: 13
 creation_date: '2022-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-08-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies processes that retrieve information related to private key files, often used by post-exploitation tools like winpeas. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions that search for private key certificates. This activity is significant as it indicates potential attempts to locate insecurely stored credentials, which adversaries can exploit for privilege escalation, persistence, or remote service authentication. If confirmed malicious, this behavior could allow attackers to access sensitive information, escalate privileges, or maintain persistence within the compromised environment.
+description: |-
+    The following analytic identifies processes that retrieve information related to private key files, often used by post-exploitation tools like winpeas.
+    This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions that search for private key certificates.
+    This activity is significant as it indicates potential attempts to locate insecurely stored credentials, which adversaries can exploit for privilege escalation, persistence, or remote service authentication.
+    If confirmed malicious, this behavior could allow attackers to access sensitive information, escalate privileges, or maintain persistence within the compromised environment.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.process = "*dir *"
-        OR
-        Processes.process = "*findstr*"
-        AND
-        Processes.process IN ( "*.rdg*", "*.gpg*", "*.pgp*", "*.p12*", "*.der*", "*.csr*", "*.cer*", "*.ovpn*", "*.key*",  "*.ppk*", "*.p12*", "*.pem*", "*.pfx*", "*.p7b*", "*.asc*")
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process_name IN (
+        "cmd.exe",
+        "findstr.exe",
+        "powershell.exe",
+        "pwsh.exe"
+    )
+    Processes.process IN (
+        "*.asc*",
+        "*.cer*",
+        "*.csr*",
+        "*.der*",
+        "*.gpg*",
+        "*.key*",
+        "*.ovpn*",
+        "*.p12*",
+        "*.p12*",
+        "*.p7b*",
+        "*.pem*",
+        "*.pfx*",
+        "*.pgp*",
+        "*.ppk*",
+        "*.rdg*"
+    )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
+
+    | regex process="(?i)[^\.\-\_\$a-zA-Z](dir\s|findstr)"
+    | regex process="(?i)\.(?:rdg|gpg|pgp|p12|der|csr|cer|ovpn|key|ppk|p12|pem|pfx|p7b|asc)\b"
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_private_keys_discovery_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: No false positives have been identified at this time.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Very long command line arguments may contain these keywords in irrelevant sections of the code.
 references:
     - https://attack.mitre.org/techniques/T1552/004/
     - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
@@ -49,7 +84,12 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: a process with commandline $process$ that can retrieve information related to private keys on $dest$
+          message: A process with commandline [$process$] that can retrieve information related to private keys was executed on [$dest$]
+threat_objects:
+    - field: parent_process
+      type: process
+    - field: process
+      type: process
 analytic_story:
     - Windows Post-Exploitation
     - Prestige Ransomware

@@ -2,7 +2,12 @@
   <view name="escu_summary" default="true"/>
   <view name="feedback"/>
   <view name="search"/>
-  <view name="dashboards"/>
+  <collection label="Dashboards">
+    <view name="escu__applocker"/>
+    <view name="escu__nist_ai_rmf_control_coverage"/>
+    <view name="escu__rmm_software_tracking"/>
+    <view name="escu__es_content_update_deprecation_assistant"/>
+  </collection>
   <a href="https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update">Docs</a>
   <a href="/app/SplunkEnterpriseSecuritySuite/ess_use_case_library">Explore in ES</a>
 </nav>
