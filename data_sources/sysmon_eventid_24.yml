@@ -1,0 +1,84 @@
+name: Sysmon EventID 24
+id: ae023710-3dbb-4de3-a1b2-5477a8ab74f9
+version: 1
+creation_date: '2024-09-07'
+modification_date: '2024-09-07'
+author: Onur Mustafa Erdogan, Splunk
+description: Logs whenever new content is copied into the clipboard, including details about the associated process, hash of the content, and the time of copying.
+mitre_components:
+    - Process Metadata
+    - Process Access
+    - Application Log Content
+    - OS API Execution
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: XmlWinEventLog
+separator: EventID
+separator_value: '24'
+configuration: https://github.com/SwiftOnSecurity/sysmon-config
+supported_TA:
+    - name: Splunk Add-on for Sysmon
+      url: https://splunkbase.splunk.com/app/5709
+      version: 5.0.1
+fields:
+    - _time
+    - Archived
+    - Channel
+    - ClientInfo
+    - Computer
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
+    - Guid
+    - Hashes
+    - IMPHASH
+    - Image
+    - Keywords
+    - Level
+    - MD5
+    - Name
+    - Opcode
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SHA256
+    - SecurityID
+    - Session
+    - SrcHost
+    - SystemTime
+    - System_Props_Xml
+    - Task
+    - ThreadID
+    - TimeCreated
+    - User
+    - UserID
+    - UtcTime
+    - Version
+    - host
+    - id
+    - index
+    - source
+    - sourcetype
+    - splunk_server
+    - tag
+    - tag::eventtype
+output_fields:
+    - dest
+    - dvc
+    - event_id
+    - process_exec
+    - process_guid
+    - process_hash
+    - process_id
+    - process_name
+    - process_path
+    - severity
+    - splunk_server
+    - user
+    - vendor_product
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>24</EventID><Version>5</Version><Level>4</Level><Task>24</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2026-09-07T14:37:29.0002181Z'/><EventRecordID>274447</EventRecordID><Correlation/><Execution ProcessID='3400' ThreadID='4440'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>EC2AMAZ-FKEOM7G</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2026-09-07 14:37:28.999</Data><Data Name='ProcessGuid'>{1b43529b-bf4f-6a9e-e4eb-020000006600}</Data><Data Name='ProcessId'>8988</Data><Data Name='Image'>C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe</Data><Data Name='Session'>2</Data><Data Name='ClientInfo'>user EC2AMAZ-FKEOM7G\Administrator hostname OERDOGAN-M-7N5Y</Data><Data Name='Hashes'>MD5=F2CD63BD7E2B5F9B738F589AF3BB1F8F,SHA256=397EE4CA855D96072D57E89ABFCA9F83634DAEA133E5302CB0766E87FDC3FEFC,IMPHASH=00000000000000000000000000000000</Data><Data Name='Archived'>false - failed with error 1337</Data><Data Name='User'>EC2AMAZ-FKEOM7G\Administrator</Data></EventData></Event>
