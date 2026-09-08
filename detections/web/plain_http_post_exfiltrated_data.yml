@@ -1,8 +1,8 @@
 name: Plain HTTP POST Exfiltrated Data
 id: e2b36208-a364-11eb-8909-acde48001122
-version: 13
+version: 14
 creation_date: '2021-04-22'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -37,6 +37,9 @@ finding:
         field: src_ip
         type: system
         score: 50
+threat_objects:
+    - field: dest_ip
+      type: ip_address
 analytic_story:
     - Data Exfiltration
     - Command And Control

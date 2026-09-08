@@ -1,8 +1,8 @@
 name: Windows Wermgr Alternate Data Stream in Temp Dir
 id: 65222e9b-9d0b-4bfe-8da1-199b98e1d44a
-version: 1
+version: 2
 creation_date: '2026-06-11'
-modification_date: '2026-06-11'
+modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -47,7 +47,10 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A [$process_name$] created a wermgr.exe alternate stream in the temp directory on $dest$ by $user$
+          message: The process [$process_name$] owned by [$user$] created a Wermgr.exe alternate data stream in [$file_path$] on [$dest$]
+threat_objects:
+    - field: file_path
+      type: file_path
 analytic_story:
     - RoguePlanet
 asset_type: Endpoint
