@@ -1,0 +1,10 @@
+name: cisco_snort_ids_to_threat_mapping
+id: f08ae6ce-d7a8-423e-a778-be7178a719f9
+version: 5
+creation_date: '2025-05-12'
+modification_date: '2026-05-13'
+author: Bhavin Patel, Nasreddine Bencherchali, Splunk Threat Research Team
+lookup_type: csv
+description: Mapping file of Snort IDs to Threats
+min_matches: 1
+case_sensitive_match: false

@@ -1,3 +1,8 @@
-definition: (SubcategoryGuid IN ("{0CCE922B-69AE-11D9-BED3-505054503030}", "{0CCE9215-69AE-11D9-BED3-505054503030}", "{0CCE922F-69AE-11D9-BED3-505054503030}"))
-description: This macro is a placeholder that contains a list of important audit policy sub categories. By default it only monitors the "Audit Audit Policy Change", "Audit Logon" and "Audit Process Creation" sub categories. Customer should modify this macro and add the GUIDs important to them.
 name: important_audit_policy_subcategory_guids
+id: 56cb2846-e9f7-4f9a-b597-5266aae4137e
+version: 1
+creation_date: '2025-02-19'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro is a placeholder that contains a list of important audit policy sub categories. By default it only monitors the "Audit Audit Policy Change", "Audit Logon" and "Audit Process Creation" sub categories. Customer should modify this macro and add the GUIDs important to them.
+definition: (SubcategoryGuid IN ("{0CCE922B-69AE-11D9-BED3-505054503030}", "{0CCE9215-69AE-11D9-BED3-505054503030}", "{0CCE922F-69AE-11D9-BED3-505054503030}"))

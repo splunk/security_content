@@ -1,24 +1,24 @@
 name: G Suite Drive
 id: 5f79120f-a235-4468-bd0d-55203758ac22
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs activities related to Google Drive in G Suite, including file creation,
-  modification, sharing, and access details.
+description: Logs activities related to Google Drive in G Suite, including file creation, modification, sharing, and access details.
 mitre_components:
-- File Access
-- File Creation
-- File Modification
-- Cloud Storage Access
-- Cloud Storage Metadata
+    - File Access
+    - File Creation
+    - File Modification
+    - Cloud Storage Access
+    - Cloud Storage Metadata
 source: http:gsuite
 sourcetype: gsuite:drive:json
 logsource:
   product: gcp
 supported_TA:
-- name: Splunk Add-on for Google Workspace
-  url: https://splunkbase.splunk.com/app/5556
-  version: 3.1.0
+    - name: Splunk Add-on for Google Workspace
+      url: https://splunkbase.splunk.com/app/5556
+      version: 5.0.1
 fields:
 - _time
 - email

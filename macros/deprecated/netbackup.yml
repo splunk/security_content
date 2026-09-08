@@ -1,4 +1,8 @@
-definition: sourcetype="netbackup_logs"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: netbackup
+id: 7454bf9e-ec24-489f-b243-ce66a60a800b
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="netbackup_logs"

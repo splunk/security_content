@@ -1,6 +1,6 @@
 {
-    "create_time": "2021-04-28T19:53:33.624071+00:00",
-    "custom_function_id": "b524eca7afdfcb2a4714529f28e5f0142b12d459",
+    "create_time": "2025-06-12T15:00:35.128777+00:00",
+    "custom_function_id": "a162a4ab36e3561a450f58945cc55483769ef8f7",
     "description": "Merge 2-10 different data paths into a single output data path. For example, if IP addresses are stored in the fields sourceAddress, destinationAddress, and deviceAddress, then those three fields could be merged together to form a single list of IP addresses.",
     "draft_mode": false,
     "inputs": [
@@ -100,10 +100,11 @@
             "contains_type": [
                 "*"
             ],
-            "data_path": "*.item",
+            "data_path": "item",
             "description": "A combined list of all the values from all the input lists"
         }
     ],
-    "platform_version": "4.10.3.51237",
-    "python_version": "3"
+    "outputs_type": "list",
+    "platform_version": "6.3.0.719",
+    "python_version": "3.13"
 }

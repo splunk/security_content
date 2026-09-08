@@ -1,3 +1,8 @@
-definition: "null"
-description: Used inside security_content_summariesonly to adjust the fillnull configuration 
 name: fillnull_config
+id: f6ef0e22-d958-4bb9-ac4a-e8ff828fd5c7
+version: 1
+creation_date: '2024-06-26'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Used inside security_content_summariesonly to adjust the fillnull configuration
+definition: "null"

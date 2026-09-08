@@ -1,4 +1,8 @@
-definition: source=zscaler sourcetype=zscalernss-web
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: zscaler_proxy
+id: 01027503-251e-412d-a1e7-60a422392dc4
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: source=zscaler sourcetype=zscalernss-web

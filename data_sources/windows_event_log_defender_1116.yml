@@ -1,0 +1,89 @@
+name: Windows Event Log Defender 1116
+id: 588d6a99-14eb-4061-aec3-55cc54d11d6b
+version: 1
+creation_date: '2026-08-17'
+modification_date: '2026-08-17'
+author: Onur Mustafa Erdogan, Splunk
+description: Logs an event when a Windows Defender detects a malware or potentially unwanted software.
+mitre_components:
+    - Application Log Content
+    - Host Status
+    - Process Creation
+source: WinEventLog:Microsoft-Windows-Windows Defender/Operational
+sourcetype: XmlWinEventLog
+separator: EventCode
+separator_value: '1116'
+supported_TA:
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 11.0.2
+fields:
+    - _time
+    - Action_ID
+    - Action_Name
+    - ActivityID
+    - Additional_Actions_ID
+    - Additional_Actions_String
+    - Category_ID
+    - Category_Name
+    - Channel
+    - Computer
+    - Detection_ID
+    - Detection_Time
+    - Detection_User
+    - dvc
+    - dvc_nt_host
+    - Engine_Version
+    - Error_Code
+    - Error_Description
+    - event_id
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - eventtype
+    - Execution_ID
+    - Execution_Name
+    - FWLink
+    - Guid
+    - id
+    - Keywords
+    - Level
+    - Name
+    - Opcode
+    - Origin_ID
+    - Origin_Name
+    - Path
+    - Post_Clean_Status
+    - Pre_Execution_Status
+    - Process_Name
+    - ProcessID
+    - Product_Name
+    - Product_Version
+    - RecordNumber
+    - Security_intelligence_Version
+    - severity
+    - Severity_ID
+    - severity_id
+    - Severity_Name
+    - signature_id
+    - Source_ID
+    - Source_Name
+    - splunk_server
+    - State
+    - Status_Code
+    - System_Props_Xml
+    - SystemTime
+    - tag
+    - Task
+    - TaskCategory
+    - ThreadID
+    - Threat_ID
+    - Threat_Name
+    - Type_ID
+    - Type_Name
+    - user_id
+    - UserID
+    - vendor_product
+    - Version
+example_log: "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Windows Defender' Guid='{11cd958a-c507-4ef3-b3f2-5fd9dfbd2c78}'/><EventID>1116</EventID><Version>0</Version><Level>3</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2026-08-14T16:03:24.4014137Z'/><EventRecordID>1799</EventRecordID><Correlation ActivityID='{262bcfb4-42e2-4bf5-a88f-74aeb3ef10fc}'/><Execution ProcessID='380' ThreadID='8024'/><Channel>Microsoft-Windows-Windows Defender/Operational</Channel><Computer>EC2AMAZ-FKEOM7G</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='Product Name'>Microsoft Defender Antivirus</Data><Data Name='Product Version'>4.18.26070.9</Data><Data Name='Detection ID'>{8D3B4441-6828-4720-8030-B059CF1D35D5}</Data><Data Name='Detection Time'>2026-08-14T16:03:24.393Z</Data><Data Name='Unused'></Data><Data Name='Unused2'></Data><Data Name='Threat ID'>2147519003</Data><Data Name='Threat Name'>Virus:DOS/EICAR_Test_File</Data><Data Name='Severity ID'>5</Data><Data Name='Severity Name'>Severe</Data><Data Name='Category ID'>42</Data><Data Name='Category Name'>Virus</Data><Data Name='FWLink'>https://go.microsoft.com/fwlink/?linkid=37020&amp;name=Virus:DOS/EICAR_Test_File&amp;threatid=2147519003&amp;enterprise=0</Data><Data Name='Status Code'>1</Data><Data Name='Status Description'></Data><Data Name='State'>1</Data><Data Name='Source ID'>1</Data><Data Name='Source Name'>User</Data><Data Name='Process Name'>Unknown</Data><Data Name='Detection User'>EC2AMAZ-FKEOM7G\\Administrator</Data><Data Name='Unused3'></Data><Data Name='Path'>containerfile:_\\\\.\\globalroot\\BaseNamedObjects\\Restricted\\WD_SHADOW_{AA51B3A0-AA64-4D31-8BD6-ACB4EE2000E7}\\WD_SCAN\\BERLIN; file:_\\\\.\\globalroot\\BaseNamedObjects\\Restricted\\WD_SHADOW_{AA51B3A0-AA64-4D31-8BD6-ACB4EE2000E7}\\WD_SCAN\\BERLIN-&gt;eicar.com</Data><Data Name='Origin ID'>2</Data><Data Name='Origin Name'>Network share</Data><Data Name='Execution ID'>0</Data><Data Name='Execution Name'>Unknown</Data><Data Name='Type ID'>0</Data><Data Name='Type Name'>Concrete</Data><Data Name='Pre Execution Status'>0</Data><Data Name='Action ID'>9</Data><Data Name='Action Name'>Not Applicable</Data><Data Name='Unused4'></Data><Data Name='Error Code'>0x00000000</Data><Data Name='Error Description'>The operation completed successfully. </Data><Data Name='Unused5'></Data><Data Name='Post Clean Status'>0</Data><Data Name='Additional Actions ID'>0</Data><Data Name='Additional Actions String'>No additional actions required</Data><Data Name='Remediation User'></Data><Data Name='Unused6'></Data><Data Name='Security intelligence Version'>AV: 1.457.160.0, AS: 1.457.160.0, NIS: 1.457.160.0</Data><Data Name='Engine Version'>AM: 1.1.26070.7, NIS: 1.1.26070.7</Data></EventData></Event>"

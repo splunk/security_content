@@ -1,4 +1,8 @@
-definition: (source="WinEventLog:Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" OR source="XmlWinEventLog:Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational")
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: remoteconnectionmanager
+id: ed422353-90fa-4ceb-9be9-65ceabbc8de2
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: (source="WinEventLog:Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" OR source="XmlWinEventLog:Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational")

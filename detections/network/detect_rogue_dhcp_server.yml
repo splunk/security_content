@@ -1,7 +1,8 @@
 name: Detect Rogue DHCP Server
 id: 6e1ada88-7a0d-4ac1-92c6-03d354686079
-version: 9
-date: '2026-03-10'
+version: 10
+creation_date: '2020-08-11'
+modification_date: '2026-05-13'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -18,24 +19,23 @@ search: |-
 how_to_implement: This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with DHCP Snooping enabled (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-0_2_EX/security/configuration_guide/b_sec_152ex_2960-x_cg/b_sec_152ex_2960-x_cg_chapter_01101.html) and log with a severity level of minimum "5 - notification". The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
 known_false_positives: This search might be prone to high false positives if DHCP Snooping has been incorrectly configured or in the unlikely event that the DHCP server has been moved to another network interface.
 references: []
-rba:
-    message: DHCP Snooping detected by $host$
-    risk_objects:
-        - field: host
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Router and Infrastructure Security
-        - Scattered Lapsus$ Hunters
-    asset_type: Infrastructure
-    mitre_attack_id:
-        - T1200
-        - T1498
-        - T1557
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: DHCP Snooping detected by $host$
+    entity:
+        field: host
+        type: system
+        score: 50
+analytic_story:
+    - Router and Infrastructure Security
+    - Scattered Lapsus$ Hunters
+asset_type: Infrastructure
+mitre_attack_id:
+    - T1200
+    - T1498
+    - T1557
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network

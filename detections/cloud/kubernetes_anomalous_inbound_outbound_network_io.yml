@@ -1,7 +1,8 @@
 name: Kubernetes Anomalous Inbound Outbound Network IO
 id: 4f3b0c97-657e-4547-a89a-9a50c656e3cd
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2024-01-10'
+modification_date: '2026-05-13'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
@@ -12,21 +13,22 @@ how_to_implement: "To implement this detection, follow these steps:\n* Deploy th
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://github.com/signalfx/splunk-otel-collector-chart
-rba:
-    message: Kubernetes Anomalous Inbound Outbound Network IO from container on host $host$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: host
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
-    asset_type: Kubernetes
-    mitre_attack_id:
-        - T1204
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Kubernetes Anomalous Inbound Outbound Network IO from container on host $host$
+analytic_story:
+    - Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
+asset_type: Kubernetes
+mitre_attack_id:
+    - T1204
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: network
+baselines:
+    - Baseline Of Kubernetes Container Network IO

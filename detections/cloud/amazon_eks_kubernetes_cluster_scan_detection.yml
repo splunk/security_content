@@ -1,7 +1,8 @@
 name: Amazon EKS Kubernetes cluster scan detection
 id: 294c4686-63dd-4fe6-93a2-ca807626704a
-version: 6
-date: '2026-02-25'
+version: 7
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
@@ -18,14 +19,14 @@ search: |-
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch EKS Logs inputs.
 known_false_positives: Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
 references: []
-tags:
-    analytic_story:
-        - Kubernetes Scanning Activity
-    asset_type: Amazon EKS Kubernetes cluster
-    mitre_attack_id:
-        - T1526
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+analytic_story:
+    - Kubernetes Scanning Activity
+asset_type: Amazon EKS Kubernetes cluster
+mitre_attack_id:
+    - T1526
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat

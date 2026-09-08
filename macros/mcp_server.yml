@@ -1,3 +1,8 @@
-definition: (sourcetype="mcp:jsonrpc")
-description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
 name: mcp_server
+id: e8199280-e00f-4b74-85fa-000f1ec28e1a
+version: 1
+creation_date: '2025-01-23'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
+definition: (sourcetype="mcp:jsonrpc")

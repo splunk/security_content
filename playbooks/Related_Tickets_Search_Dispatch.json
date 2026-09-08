@@ -4,7 +4,7 @@
     "category": "Related Tickets Search",
     "coa": {
         "data": {
-            "description": "Detects available indicators and routes them to dispatch related ticket search playbooks. The output of the analysis will update any artifacts, tasks, and indicator tags.",
+            "description": "Detects available indicators and routes them to dynamic related ticket search playbooks. The output of the analysis will update any artifacts, tasks, and indicator tags.",
             "edges": [
                 {
                     "conditions": [
@@ -722,7 +722,7 @@
         "input_spec": null,
         "output_spec": null,
         "playbook_type": "automation",
-        "python_version": "3",
+        "python_version": "3.13",
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },

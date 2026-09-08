@@ -1,0 +1,12 @@
+name: 3cx_ioc_domains
+id: 65c25399-4081-4ef1-b791-86f497d3380d
+version: 3
+creation_date: '2023-03-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of domains from the 3CX supply chain attack.
+match_type:
+    - WILDCARD(domain)
+min_matches: 1
+case_sensitive_match: false

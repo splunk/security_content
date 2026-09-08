@@ -1,25 +1,22 @@
 name: SQL Server Abuse
 id: e06d851e-774e-4c34-9813-6a26becccd71
-version: 1
-status: production
-date: '2025-02-04'
+version: 2
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
 description: This analytic story addresses various techniques used by threat actors to abuse Microsoft SQL Server for maintaining persistence, executing malicious commands, and exfiltrating data. It focuses on detecting suspicious SQLCMD usage, startup procedure modifications, DLL procedure loads, and other SQL Server abuse patterns that may indicate compromise.
-narrative: Microsoft SQL Server is a common target for threat actors due to its widespread enterprise deployment and powerful capabilities. Attackers often abuse SQL Server features and components to achieve their objectives. Common attack patterns include using SQLCMD.exe for command execution and data exfiltration, modifying or creating startup procedures for persistence, and loading malicious DLLs through SQL Server procedures. Threat actors also frequently execute commands through xp_cmdshell and other extended stored procedures, leverage SQL Server Agent for scheduled task execution, and abuse trusted connections and elevated privileges.
-  This story contains detections for various SQL Server abuse techniques. The detections focus on identifying suspicious SQLCMD.exe execution patterns and modifications to SQL Server startup procedures. They also monitor for unusual DLL loading through SQL Server, suspicious query patterns and command execution, anomalous authentication attempts, and potential data exfiltration indicators.
-  Organizations should monitor SQL Server activity closely, especially usage of administrative features and extended stored procedures. A comprehensive security approach should include implementation of least privilege access principles, proper auditing mechanisms, and regular review of SQL Server configurations. These measures can help mitigate the risks posed by SQL Server abuse techniques commonly employed by threat actors.
-references: 
-- https://www.microsoft.com/en-us/security/blog/2023/10/03/defending-new-vectors-threat-actors-attempt-sql-server-to-cloud-lateral-movement/
-- https://www.netspi.com/blog/technical-blog/network-pentesting/hijacking-sql-server-credentials-with-agent-jobs-for-domain-privilege-escalation/
-- https://www.huntress.com/blog/attacking-mssql-servers
-- https://www.netspi.com/blog/technical-blog/network-pentesting/hacking-sql-server-stored-procedures-part-2-user-impersonation/
-- https://www.slideshare.net/slideshow/def-con-31-demo-labs-2023-abusing-microsoft-sql-server-with-sqlrecon-259778942/259778942#1
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
-  cve: []
+narrative: Microsoft SQL Server is a common target for threat actors due to its widespread enterprise deployment and powerful capabilities. Attackers often abuse SQL Server features and components to achieve their objectives. Common attack patterns include using SQLCMD.exe for command execution and data exfiltration, modifying or creating startup procedures for persistence, and loading malicious DLLs through SQL Server procedures. Threat actors also frequently execute commands through xp_cmdshell and other extended stored procedures, leverage SQL Server Agent for scheduled task execution, and abuse trusted connections and elevated privileges. This story contains detections for various SQL Server abuse techniques. The detections focus on identifying suspicious SQLCMD.exe execution patterns and modifications to SQL Server startup procedures. They also monitor for unusual DLL loading through SQL Server, suspicious query patterns and command execution, anomalous authentication attempts, and potential data exfiltration indicators. Organizations should monitor SQL Server activity closely, especially usage of administrative features and extended stored procedures. A comprehensive security approach should include implementation of least privilege access principles, proper auditing mechanisms, and regular review of SQL Server configurations. These measures can help mitigate the risks posed by SQL Server abuse techniques commonly employed by threat actors.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2023/10/03/defending-new-vectors-threat-actors-attempt-sql-server-to-cloud-lateral-movement/
+    - https://www.netspi.com/blog/technical-blog/network-pentesting/hijacking-sql-server-credentials-with-agent-jobs-for-domain-privilege-escalation/
+    - https://www.huntress.com/blog/attacking-mssql-servers
+    - https://www.netspi.com/blog/technical-blog/network-pentesting/hacking-sql-server-stored-procedures-part-2-user-impersonation/
+    - https://www.slideshare.net/slideshow/def-con-31-demo-labs-2023-abusing-microsoft-sql-server-with-sqlrecon-259778942/259778942#1
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

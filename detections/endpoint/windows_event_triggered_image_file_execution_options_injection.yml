@@ -1,7 +1,8 @@
 name: Windows Event Triggered Image File Execution Options Injection
 id: f7abfab9-12ea-44e8-8745-475f9ca6e0a4
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2022-09-09'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -21,20 +22,21 @@ known_false_positives: False positives may be present and tuning will be require
 references:
     - https://blog.thinkst.com/2022/09/sensitive-command-token-so-much-offense.html
     - https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/registry-entries-for-silent-process-exit
-tags:
-    analytic_story:
-        - Windows Persistence Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1546.012
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Windows Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1546.012
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-application.log
           source: XmlWinEventLog:Application
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,8 +1,0 @@
-name: threat_snort_count
-date: 2025-09-24
-version: 3
-id: 48a35e07-ed5f-42f9-a5da-b7f2ab892e3c
-author: Bhavin Patel, Nasreddine Bencherchali, Splunk
-lookup_type: csv
-description: A list of threats and the number of distinct Snort IDs that should be fired to create an alert
-min_matches: 1

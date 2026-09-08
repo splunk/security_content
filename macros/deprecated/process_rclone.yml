@@ -1,3 +1,8 @@
-definition: (Processes.original_file_name=rclone.exe OR Processes.process_name=rclone.exe)
-description: Matches the process with its original file name.
 name: process_rclone
+id: a72c4d42-8878-46a9-bf11-e8ff1f06eda4
+version: 1
+creation_date: '2021-11-29'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name.
+definition: (Processes.original_file_name=rclone.exe OR Processes.process_name=rclone.exe)

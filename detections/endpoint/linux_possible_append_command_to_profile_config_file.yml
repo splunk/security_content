@@ -1,25 +1,57 @@
 name: Linux Possible Append Command To Profile Config File
 id: 9c94732a-61af-11ec-91e3-acde48001122
-version: 9
-date: '2026-03-10'
+version: 12
+creation_date: '2022-01-11'
+modification_date: '2026-08-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious command-lines that modify user profile files to automatically execute scripts or executables upon system reboot. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving profile files like ~/.bashrc and /etc/profile. This activity is significant as it indicates potential persistence mechanisms used by adversaries to maintain access to compromised hosts. If confirmed malicious, this could allow attackers to execute arbitrary code upon reboot, leading to persistent control over the system and potential further exploitation.
+description: |-
+    The following analytic detects suspicious command-lines that modify user profile files to automatically execute scripts or executables upon system reboot.
+    It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving profile files like ~/.bashrc and /etc/profile.
+    This activity is significant as it indicates potential persistence mechanisms used by adversaries to maintain access to compromised hosts.
+    If confirmed malicious, this could allow attackers to execute arbitrary code upon reboot, leading to persistent control over the system and potential further exploitation.
 data_source:
     - Sysmon for Linux EventID 1
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.process = "*echo*"
-        AND
-        Processes.process IN("*~/.bashrc", "*~/.bash_profile", "*/etc/profile", "~/.bash_login", "*~/.profile", "~/.bash_logout")
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process = "*echo*"
+    (
+        Processes.process IN ("*/home/*", "*~/*", "*/etc/*")
+        Processes.process IN (
+            "*/.bash_login*",
+            "*/.bash_logout*",
+            "*/.bash_profile*",
+            "*/.bashrc*",
+            "*/.profile*",
+            "*/profile*"
+        )
+        OR
+        (
+            Processes.process_current_directory = "/home/*"
+            Processes.process IN (
+                "*.bash_login*",
+                "*.bash_logout*",
+                "*.bash_profile*",
+                "*.bashrc*",
+                "*.profile*",
+                "* profile*"
+            )
+        )
+    )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process_current_directory Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -35,31 +67,34 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: a commandline $process$ that may modify profile files on $dest$
-    risk_objects:
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Linux Privilege Escalation
-        - Linux Persistence Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1546.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: The [$process_name$] process is attempting to modify Shell Profile files via the Command Line [$process$] on [$dest$]
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1546.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

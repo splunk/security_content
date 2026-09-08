@@ -1,0 +1,17 @@
+name: previously_seen_cloud_provisioning_activity_sources
+id: be904c28-37df-4d3e-955a-ead70a537327
+version: 3
+creation_date: '2020-08-19'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A table of source IPs, geographic locations, and the first and last time that they have that done cloud provisioning activities
+fields:
+    - _key
+    - src
+    - City
+    - Country
+    - Region
+    - firstTimeSeen
+    - lastTimeSeen
+    - enough_data

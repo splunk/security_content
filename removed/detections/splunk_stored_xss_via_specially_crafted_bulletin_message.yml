@@ -1,0 +1,39 @@
+name: Splunk Stored XSS via Specially Crafted Bulletin Message
+id: fd852b27-1882-4505-9f2c-64dfb96f4fc1
+version: 5
+creation_date: '2025-05-12'
+modification_date: '2026-05-14'
+author: Rod Soto
+status: removed
+type: Hunting
+data_source:
+    - Splunk
+description: The following hunting detection provides fields related to /service/messages endpoints where specially crafted bulletin message can exploit stored XSS.
+search: '| rest /services/messages | search message="*http*" | table id author message title | `splunk_stored_xss_via_specially_crafted_bulletin_message_filter`'
+how_to_implement: Need access to Splunk REST api data via search.
+known_false_positives: Must look at messages field and find malicious suspicious characters or hyperlinks. Not all requests to this endpoint will be malicious.
+references:
+    - https://advisory.splunk.com/SVD-2024-0713
+tags:
+    cve:
+        - CVE-2024-36993
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1189
+    product:
+        - Splunk Enterprise
+    security_domain: endpoint
+    manual_test: This search uses a REST call against a running Splunk instance to fetch messages that have been created on the instance. It cannot be replicated with a normal test or attack data as this data cannot be "replayed" into a Splunk instance.
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/SVD-2024-0713_json_json.log
+            source: _json
+            sourcetype: _json
+            custom_index: _internal
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

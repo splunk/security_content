@@ -1,0 +1,144 @@
+{
+   "additionalProperties": false,
+   "description": "Represents a KVStore Lookup object.",
+   "properties": {
+      "name": {
+         "description": "Each Security Content Object must have a unique name. Due to issues with how local/default stanzas are merged in the Splunk products, these names MUST NOT change between subsequent releases of content packs.",
+         "title": "Name",
+         "type": "string"
+      },
+      "id": {
+         "description": "Each Security Content Object must have a unique identifier. This is particularly important when leveraging many of the Content Versioning features built into Enterprise Security 8+. Unique ids may be generated with a python command such as `uuid.uuid4()` or similar.",
+         "format": "uuid",
+         "title": "Id",
+         "type": "string"
+      },
+      "version": {
+         "description": "The version of this object. This number MUST be incremented in the following circumstances:\n1. Any time the object in this file is modified\n2. Any time that the serialization logic for this object changes, changing what is written in its conf file stanza(s)\n3. Any time that an object this object references, for example via enrichment, causes a change in its associated conf file stanzas(s).\nThis final determination is challenging to make manually, so the `contentctl inspect command` will help identify when this a version increment is required.",
+         "exclusiveMinimum": 0,
+         "title": "Version",
+         "type": "integer"
+      },
+      "creation_date": {
+         "description": "The date that this object was created. This should NEVER be updated.",
+         "format": "date",
+         "title": "Creation Date",
+         "type": "string"
+      },
+      "modification_date": {
+         "description": "The date that this object was last modified. This should be updated whenever the object is modified.",
+         "format": "date",
+         "title": "Modification Date",
+         "type": "string"
+      },
+      "author": {
+         "description": "The author of this object. This is a freeform string that can be used to identify the author of the object. It will eventually be replaced by a more detailed Contributors list.",
+         "title": "Author",
+         "type": "string"
+      },
+      "description": {
+         "description": "A description of the Security Content Object. This should be a human-readable description of the object, including its purpose.",
+         "title": "Description",
+         "type": "string"
+      },
+      "references": {
+         "description": "A list of references to external resources that are relevant to this object. This can include links to documentation, blog posts, or other resources that provide additional context or information about the object.",
+         "items": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "type": "string"
+         },
+         "minItems": 0,
+         "title": "References",
+         "type": "array",
+         "uniqueItems": true
+      },
+      "lookup_type": {
+         "const": "kvstore",
+         "default": "kvstore",
+         "title": "Lookup Type",
+         "type": "string"
+      },
+      "match_type": {
+         "items": {
+            "pattern": "(^WILDCARD|CIDR)\\(.+\\)$",
+            "type": "string"
+         },
+         "title": "Match Type",
+         "type": "array"
+      },
+      "min_matches": {
+         "anyOf": [
+            {
+               "minimum": 0,
+               "type": "integer"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "title": "Min Matches"
+      },
+      "max_matches": {
+         "anyOf": [
+            {
+               "maximum": 1000,
+               "minimum": 1,
+               "type": "integer"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "title": "Max Matches"
+      },
+      "default_match": {
+         "anyOf": [
+            {
+               "type": "string"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "description": "Warning - we often use the string 'false' for this field. This can cause some confusion as pyyaml read this from the file as the boolean value false. Be sure to wrap the value false in quotes in the yml file to prevent this. So instead of 'default_match: false' use 'default_match: \"false\"'.",
+         "title": "Default Match"
+      },
+      "case_sensitive_match": {
+         "anyOf": [
+            {
+               "type": "boolean"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "title": "Case Sensitive Match"
+      },
+      "fields": {
+         "description": "The names of the fields/headings for the KVStore.",
+         "items": {
+            "type": "string"
+         },
+         "minItems": 1,
+         "title": "Fields",
+         "type": "array"
+      }
+   },
+   "required": [
+      "name",
+      "id",
+      "version",
+      "creation_date",
+      "modification_date",
+      "author",
+      "description"
+   ],
+   "title": "KVStoreLookup",
+   "type": "object"
+}

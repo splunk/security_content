@@ -24,8 +24,8 @@
       <html>
         <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; padding: 15px; margin-bottom: 20px;">
           <h2 style="color: #721c24; margin: 0;">
-            <i class="icon-info-circle" style="margin-right: 10px;"></i>
-            Explore Splunk Security Content using 
+            <i class="icon-info-circle" style="margin-right: 10px;"/>
+            Explore Splunk Security Content using
             <a href="/app/SplunkEnterpriseSecuritySuite/ess_use_case_library" style="color: #721c24; text-decoration: underline;">Splunk Enterprise Security</a>
           </h2>
         </div>
@@ -124,9 +124,9 @@
       <chart>
         <search>
           <query>
-                   | rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *" 
-|  spath input=action.correlationsearch.annotations path=mitre_attack{} output="MITRE Technique ID" 
-|  spath input=action.correlationsearch.annotations path=analytic_story{} output=story_name 
+                   | rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *"
+|  spath input=action.correlationsearch.annotations path=mitre_attack{} output="MITRE Technique ID"
+|  spath input=action.correlationsearch.annotations path=analytic_story{} output=story_name
  | stats dc(story_name) as "Analytic Stories" by "MITRE Technique ID"
           </query>
         </search>
@@ -144,12 +144,12 @@
         <label>Analytic Story</label>
         <choice value="*">All</choice>
         <search>
-          <latest>now</latest>
-          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
-|  search action.escu.search_type = detection 
-| spath input=action.correlationsearch.annotations path=analytic_story{} output="story" 
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0
+| search title=ESCU*
+| spath input=action.correlationsearch.annotations path=analytic_story{} output="story"
 |  mvexpand story
 | dedup story | fields story</query>
+          <latest>now</latest>
         </search>
         <fieldForLabel>story</fieldForLabel>
         <fieldForValue>story</fieldForValue>
@@ -164,19 +164,21 @@
       <table>
         <title>Analytic Story Details</title>
         <search>
-          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
-| search action.escu.search_type = detection 
-| spath input=action.correlationsearch.annotations path=analytic_story{} output="analytic_story" 
-| spath input=action.correlationsearch.annotations path=mitre_attack{} output="mitre_attack" 
-| spath input=action.escu.data_models path={} output="Data Models" 
-| rename title as "Detections" 
-| join  analytic_story 
-    [| rest /services/configs/conf-analyticstories splunk_server=local count=0 
-    | search title="analytic_story://*" 
-    | eval "analytic_story"=replace(title,"analytic_story://","" ) 
-        ] 
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0
+| search title=ESCU*
+| spath input=action.correlationsearch.annotations path=analytic_story{} output="analytic_story"
+| spath input=action.correlationsearch.annotations path=mitre_attack{} output="mitre_attack"
+| rename title as "Detections"
+| join  analytic_story
+    [| rest /services/configs/conf-analyticstories splunk_server=local count=0
+    | search title="analytic_story://*"
+    | eval "analytic_story"=replace(title,"analytic_story://","" )
+        ]
 | search analytic_story=  $story$
-|stats values(Detections) as Detections values(mitre_attack) as "MITRE Technique ID" values(last_updated) as "Last Updated"  by analytic_story description| rename analytic_story as "Analytic Story"| rename description as Description| table "Analytic Story" Description Detections "MITRE Technique ID" "Last Updated"</query>
+| stats values(Detections) as Detections values(mitre_attack) as "MITRE Technique ID" values(last_updated) as "Last Updated"  by analytic_story description
+| rename analytic_story as "Analytic Story"
+| rename description as Description
+| table "Analytic Story" Description Detections "MITRE Technique ID" "Last Updated"</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>

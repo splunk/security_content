@@ -1,29 +1,27 @@
 name: Unsuccessful Netbackup backups
 id: a34aae96-ccf8-4aaa-952c-3ea21444444f
 version: 4
-date: '2024-11-14'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: removed
 type: Hunting
-description: This search gives you the hosts where a backup was attempted and then
-  failed.
+description: This search gives you the hosts where a backup was attempted and then failed.
 data_source: []
-search: '`netbackup` | stats latest(_time) as latestTime by COMPUTERNAME, MESSAGE
-  | search MESSAGE="An error occurred, failed to backup." | `security_content_ctime(latestTime)`
-  | rename COMPUTERNAME as dest, MESSAGE as signature | table latestTime, dest, signature
-  | `unsuccessful_netbackup_backups_filter`'
-how_to_implement: To successfully implement this search you need to obtain data from
-  your backup solution, either from the backup logs on your endpoints or from a central
-  server responsible for performing the backups. If you do not use Netbackup, you
-  can modify this search for your specific backup solution.
+search: '`netbackup` | stats latest(_time) as latestTime by COMPUTERNAME, MESSAGE | search MESSAGE="An error occurred, failed to backup." | `security_content_ctime(latestTime)` | rename COMPUTERNAME as dest, MESSAGE as signature | table latestTime, dest, signature | `unsuccessful_netbackup_backups_filter`'
+how_to_implement: To successfully implement this search you need to obtain data from your backup solution, either from the backup logs on your endpoints or from a central server responsible for performing the backups. If you do not use Netbackup, you can modify this search for your specific backup solution.
 known_false_positives: None identified
 references: []
 tags:
-  analytic_story:
-  - Monitor Backup Solution
-  asset_type: Endpoint
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Monitor Backup Solution
+    asset_type: Endpoint
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.2.0
+    replacement_content: []

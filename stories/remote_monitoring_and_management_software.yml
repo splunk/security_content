@@ -1,25 +1,25 @@
 name: Remote Monitoring and Management Software
 id: e405907a-273c-41c9-928c-768c9355c1f7
-version: 1
-date: '2025-01-14'
+version: 2
+creation_date: '2025-02-06'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 description: |-
-  Fortify your remote access and unapproved software monitoring with searches that monitor for and help you investigate the use of unappoved or malicious remote monitoring and management softwares (RMM).
+    Fortify your remote access and unapproved software monitoring with searches that monitor for and help you investigate the use of unappoved or malicious remote monitoring and management softwares (RMM).
 narrative: |-
-  Attackers can leverage a variety of 3rd party software to establish unapproved remote access or c2 channels to an enterprise network. Common techniques include the installation of these remote access software via channels via phishing, scam, or driveby malware compromise situations. While this Analytic Story is not a comprehensive listing of all RMM software it provides a useful starting point for well known indicators.
-  
-  Be sure to leverage the "RMM Software Tracking" dashboard provided with this story for a convienent way to vizualize RMM usage in your enviroment.
+    Attackers can leverage a variety of 3rd party software to establish unapproved remote access or c2 channels to an enterprise network. Common techniques include the installation of these remote access software via channels via phishing, scam, or driveby malware compromise situations. While this Analytic Story is not a comprehensive listing of all RMM software it provides a useful starting point for well known indicators.
+
+    Be sure to leverage the "RMM Software Tracking" dashboard provided with this story for a convienent way to vizualize RMM usage in your enviroment.
 references:
-- https://attack.mitre.org/techniques/T1219/
-- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
-- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
-tags:
-  category:
-  - Malware
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Security Monitoring
+    - https://attack.mitre.org/techniques/T1219/
+    - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+    - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+category:
+    - Malware
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Security Monitoring

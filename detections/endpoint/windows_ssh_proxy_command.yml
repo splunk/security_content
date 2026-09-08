@@ -1,7 +1,8 @@
 name: Windows SSH Proxy Command
 id: ac520039-21f1-4567-b528-5b7133dba76f
-version: 4
-date: '2026-03-10'
+version: 6
+creation_date: '2025-03-24'
+modification_date: '2026-05-13'
 author: Michael Haag, AJ King, Nasreddine Bencherchali, Splunk, Jesse Hunter, Splunk Community Contributor
 status: production
 type: Anomaly
@@ -11,7 +12,7 @@ description: |
     This technique can be used by attackers to execute arbitrary commands through SSH proxy configurations, potentially enabling command & control activities or remote code execution. The detection focuses on commonly abused Windows scripting engines and web requests that may indicate malicious activity when spawned through SSH proxy commands.
 data_source:
     - Sysmon EventID 1
-    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -66,41 +67,43 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: Suspicious process execution $process$ detected through SSH $parent_process$ on $dest$ by user $user$
-    risk_objects:
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: Suspicious process execution $process$ detected through SSH $parent_process$ on $dest$ by user $user$
         - field: user
           type: user
           score: 20
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - ZDI-CAN-25373 Windows Shortcut Exploit Abused as Zero-Day
-        - Living Off The Land
-        - Hellcat Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1572
-        - T1059.001
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious process execution $process$ detected through SSH $parent_process$ on $dest$ by user $user$
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - ZDI-CAN-25373 Windows Shortcut Exploit Abused as Zero-Day
+    - Living Off The Land
+    - Hellcat Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1572
+    - T1059.001
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/ssh_proxy_command/sshproxycommand_windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit

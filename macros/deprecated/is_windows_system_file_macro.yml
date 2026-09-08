@@ -1,6 +1,9 @@
-definition: lookup update=true is_windows_system_file filename as process_name
-  OUTPUT systemFile | search systemFile=true
-description: This macro limits the output to process names that are in the Windows
-  System directory
 name: is_windows_system_file_macro
 
+id: c0939f4d-d9b3-4375-9732-30347f07fe48
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro limits the output to process names that are in the Windows System directory
+definition: lookup update=true is_windows_system_file filename as process_name OUTPUT systemFile | search systemFile=true

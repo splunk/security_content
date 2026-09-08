@@ -1,4 +1,8 @@
-definition: sourcetype=appdynamics_security
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: appdynamics_security
+id: a6eb6e52-7b54-4163-b574-665c1f79419b
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=appdynamics_security

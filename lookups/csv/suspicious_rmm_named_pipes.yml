@@ -1,0 +1,12 @@
+name: suspicious_rmm_named_pipes
+id: cd3deab2-fc3f-488c-92fd-0d854bb58d8e
+version: 2
+creation_date: '2025-12-08'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+lookup_type: csv
+description: A list of named pipes used with known RMM tooling.
+match_type:
+    - WILDCARD(suspicious_pipe_name)
+min_matches: 1
+case_sensitive_match: false

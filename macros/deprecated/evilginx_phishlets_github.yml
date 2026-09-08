@@ -1,4 +1,8 @@
-definition: (query=api* AND query = github*)
-description: This limits the query fields to domains that are associated with evilginx
-  masquerading as GitHub
 name: evilginx_phishlets_github
+id: 8108759f-746c-4f93-88f1-5be635f33ca3
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This limits the query fields to domains that are associated with evilginx masquerading as GitHub
+definition: (query=api* AND query = github*)

@@ -1,3 +1,8 @@
-definition: "true"
-description: Used inside security_content_summariesonly to adjust the allow_old_summaries configuration 
 name: oldsummaries_config
+id: 02437c70-d202-47c7-9c96-29ed6d744dad
+version: 1
+creation_date: '2024-06-26'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Used inside security_content_summariesonly to adjust the allow_old_summaries configuration
+definition: "true"

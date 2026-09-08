@@ -1,4 +1,8 @@
-definition: sourcetype=PwSh:DriverInventory
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: driverinventory
+id: 3c2fadfe-6b1d-40bb-89ea-1831b8712412
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=PwSh:DriverInventory

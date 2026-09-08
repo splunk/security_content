@@ -1,3 +1,8 @@
-definition: "\"(?i)password|credential|login|passwd|shadow|active directory|account|username|network|computer|access|MFA|bank|deposit|payroll|EFT|Electonic Funds|routing\""
-description: A regex used with match statements preloaded with generic suspicious terms or phrases. Is used to detect malicious actor or insider threat searches, replace/modify these terms to suit your organization.
 name: o365_suspect_search_terms_regex
+id: ae01c1cb-f7ca-4f6c-9153-00f02eae8bd2
+version: 1
+creation_date: '2025-02-27'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: A regex used with match statements preloaded with generic suspicious terms or phrases. Is used to detect malicious actor or insider threat searches, replace/modify these terms to suit your organization.
+definition: "\"(?i)password|credential|login|passwd|shadow|active directory|account|username|network|computer|access|MFA|bank|deposit|payroll|EFT|Electonic Funds|routing\""

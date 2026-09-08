@@ -1,0 +1,16 @@
+name: previously_seen_provisioning_activity_src
+id: aa2db10e-465d-4828-88d4-545a35707b81
+version: 2
+creation_date: '2025-01-03'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A placeholder for the list of previously seen AWS provisioning activity
+fields:
+    - _key
+    - firstTime
+    - lastTime
+    - sourceIPAddress
+    - City
+    - Region
+    - Country

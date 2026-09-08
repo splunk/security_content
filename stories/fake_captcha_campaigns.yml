@@ -1,22 +1,22 @@
 name: Fake CAPTCHA Campaigns
 id: b6578255-250a-4620-8e5e-7946e11ac2e9
-version: 1
-status: production
-date: '2025-05-14'
+version: 2
+creation_date: '2025-05-19'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
 description: This analytic story addresses the emerging threat of Fake CAPTCHA and ClickFix campaigns that exploit users' familiarity with verification systems to deliver malware through clipboard manipulation techniques. First observed in early 2024 and increasing through 2025, these campaigns use deceptive interfaces that mimic legitimate CAPTCHA systems to trick users into executing malicious commands.
 narrative: Fake CAPTCHA campaigns represent a sophisticated evolution in social engineering attacks that rely entirely on manipulating user behavior rather than exploiting technical vulnerabilities. These attacks begin with victims landing on malicious websites through phishing emails, malvertising, or compromised legitimate sites. The site presents what appears to be a standard CAPTCHA verification interface with familiar branding from Google reCAPTCHA or Cloudflare. When users interact with the fake CAPTCHA, malicious JavaScript silently copies commands to their clipboard. Users are then instructed to perform additional verification steps such as pressing Windows+R followed by Ctrl+V, unknowingly pasting and executing malicious commands. These commands typically download and run additional malware using PowerShell scripts that operate in hidden windows. Common payloads include information stealers (Lumma, Redline, Vidar, PureLog), Remote Access Trojans (NetSupport, XWorm, AsyncRAT, Quasar), and multi-stage payloads that can deploy multiple malware families from a single infection.
 references:
-- https://urlhaus.abuse.ch/
-- https://www.proofpoint.com/us/blog/threat-insight/security-brief-clickfix-social-engineering-technique-floods-threat-landscape
-- https://reliaquest.com/blog/using-captcha-for-compromise/
-- https://attack.mitre.org/techniques/T1204/001/
-- https://github.com/MHaggis/ClickGrab
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://urlhaus.abuse.ch/
+    - https://www.proofpoint.com/us/blog/threat-insight/security-brief-clickfix-social-engineering-technique-floods-threat-landscape
+    - https://reliaquest.com/blog/using-captcha-for-compromise/
+    - https://attack.mitre.org/techniques/T1204/001/
+    - https://github.com/MHaggis/ClickGrab
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

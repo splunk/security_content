@@ -1,0 +1,109 @@
+name: Windows Cloud Sensitive File Read Access By Uncommon Process
+id: 313e4f5c-add3-4b4d-8348-6a009ce5fe40
+version: 1
+creation_date: '2026-08-19'
+modification_date: '2026-08-19'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects uncommon processes reading or requesting read access to sensitive files from cloud providers on Windows endpoints.
+    It monitors Windows Security Event 4663 for ReadData (AccessMask 0x1) operations against sensitive files from cloud providers such as Azure.
+    Access by any process outside the known toolchain may indicate credential theft or cloud identity reconnaissance activity, including infostealer behavior such as one observed in Vidar Stealer variants.
+    This detection currently only supports Azure sensitive files, but will be extended to support other cloud providers in the future.
+data_source:
+    - Windows Event Log Security 4663
+search: |-
+    `wineventlog_security`
+    EventCode=4663
+    ObjectType="File"
+    NOT process_path IN (
+        "*:\\AppData\\Local\\Programs\\Python\\*\\python.exe",
+        "*:\\AppData\\Local\\Python\\bin\\python.exe",
+        "*:\\AppData\\Local\\Python\\pythoncore-*\\python.exe",
+        "*:\\Program Files\\Azure Dev CLI\\azd.exe",
+        "*:\\Program Files\\Microsoft SDKs\\Azure\\CLI2\\python.exe",
+        "*:\\Program Files\\Microsoft VS Code\\Code.exe",
+        "*:\\Program Files\\nodejs\\node.exe",
+        "*:\\Program Files\\PowerShell\\7-preview\\pwsh.exe",
+        "*:\\Program Files\\PowerShell\\7\\pwsh.exe",
+        "*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "*\\.azd\\bin\\azd.exe",
+        "*\\AppData\\Local\\Microsoft\\powershell\\pwsh.exe",
+        "*\\AppData\\Local\\Programs\\Azure Dev CLI\\azd.exe",
+        "*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+    )
+    ObjectName IN (
+        "*\\.azure\\accessTokens.json",
+        "*\\.azure\\azureProfile.json",
+        "*\\.azure\\msal_token_cache.json",
+        "*\\.azure\\TokenCache.dat",
+        "*\\Windows Azure Powershell\\TokenCache.dat"
+    )
+
+    ```
+    We select only read-related operations:
+        0x1 = ReadData (or ListDirectory)
+    ```
+
+    | eval AccessMask_ = tonumber(AccessMask, 16)
+    | where (bit_and(AccessMask_, 1) != 0)
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by signature_id signature
+         ObjectType file_path file_name
+         process_path process_name process_id
+         AccessMask src_user dest
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_cloud_sensitive_file_read_access_by_uncommon_process_filter`
+how_to_implement: |-
+    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663.
+    To enable Event ID 4663, enable object access auditing through Group Policy: Computer Configuration > Windows Settings > Security Settings > Advanced Audit Policy Configuration > Audit Policies > Object Access > Audit File System, then enable Success auditing. Enable Failure auditing if your environment also requires denied access attempts.
+    Event ID 4663 is only generated for files with a matching System Access Control List (SACL), so configure auditing on the relevant sensitive files from cloud providers.
+known_false_positives: |-
+    False positives are expected from legitimate tooling.
+    The detection excludes the Azure CLI bundled Python interpreter, Windows PowerShell, PowerShell 7+, VS Code, and the Azure Developer CLI by process path.
+    Residual false positives may arise from CI/CD agents (e.g., Azure DevOps self-hosted runners, GitHub Actions runners) that invoke az or Azure PowerShell from non-standard install paths not covered by the exclusion list, backup or DLP agents that scan user profile directories, and custom automation scripts that shell out to Azure CLI from an unexpected working directory.
+    Tune by adding confirmed-legitimate process paths and file paths to the companion filter macro windows_cloud_sensitive_file_read_access_by_uncommon_process_filter.
+references:
+    - https://www.trendmicro.com/en_us/research/25/j/how-vidar-stealer-2-upgrades-infostealer-capabilities.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: An uncommon process [$process_name$] accessing sensitive file [$file_path$] with AccessMask [$AccessMask$] on $dest$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Vidar Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1528
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/vidar_azure_file_access/azure_vidar_access.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit

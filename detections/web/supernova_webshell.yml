@@ -1,7 +1,8 @@
 name: Supernova Webshell
 id: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
-version: 9
-date: '2026-03-10'
+version: 10
+creation_date: '2021-01-06'
+modification_date: '2026-05-13'
 author: John Stoner, Splunk
 status: experimental
 type: TTP
@@ -25,27 +26,29 @@ known_false_positives: There might be false positives associted with this detect
 references:
     - https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html
     - https://www.guidepointsecurity.com/blog/supernova-solarwinds-net-webshell-analysis/
-rba:
-    message: Potential Supernova Webshell on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Potential Supernova Webshell on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - NOBELIUM Group
-        - Earth Alux
-        - GhostRedirector IIS Module and Rungan Backdoor
-    asset_type: Web Server
-    mitre_attack_id:
-        - T1505.003
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Potential Supernova Webshell on $dest$
+analytic_story:
+    - NOBELIUM Group
+    - Earth Alux
+    - GhostRedirector IIS Module and Rungan Backdoor
+asset_type: Web Server
+mitre_attack_id:
+    - T1505.003
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network

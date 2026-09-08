@@ -1,3 +1,8 @@
-definition: (Processes.process_name=ntdsutil.exe OR Processes.original_file_name=ntdsutil.exe)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_ntdsutil
+id: 32e3ff2a-1213-4889-aee2-23771852fe9a
+version: 1
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=ntdsutil.exe OR Processes.original_file_name=ntdsutil.exe)

@@ -1,23 +1,23 @@
 name: G Suite Gmail
 id: 706c3978-41de-406b-b6e0-75bd01e12a5d
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs Gmail activities in G Suite, including email sending, receiving,
-  and access details, as well as potential security-related events.
+description: Logs Gmail activities in G Suite, including email sending, receiving, and access details, as well as potential security-related events.
 mitre_components:
-- Application Log Content
-- User Account Metadata
-- Email Metadata
-- Cloud Service Metadata
+    - Application Log Content
+    - User Account Metadata
+    - Email Metadata
+    - Cloud Service Metadata
 source: http:gsuite
 sourcetype: gsuite:gmail:bigquery
 logsource:
   product: gcp
 supported_TA:
-- name: Splunk Add-on for Google Workspace
-  url: https://splunkbase.splunk.com/app/5556
-  version: 3.1.0
+    - name: Splunk Add-on for Google Workspace
+      url: https://splunkbase.splunk.com/app/5556
+      version: 5.0.1
 fields:
 - _time
 - action_type

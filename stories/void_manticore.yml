@@ -1,7 +1,8 @@
 name: Void Manticore
 id: a8c98827-907a-4121-a4fe-83e22001e616
-version: 1
-date: '2026-03-16'
+version: 2
+creation_date: '2026-03-23'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: |
@@ -21,13 +22,12 @@ narrative: |
     This story ties detections to these TTPs so analysts can identify Void Manticore tradecraft, prioritize VPN and RDP monitoring (especially from default-named machines and high-risk geographies), and respond to wiper and credential-theft activity before or during destructive phases.
 references:
     - https://research.checkpoint.com/2026/handala-hack-unveiling-groups-modus-operandi/
-tags:
-    category:
-        - Data Destruction
-        - Malware
-        - Adversary Tactics
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    usecase: Advanced Threat Detection
+category:
+    - Data Destruction
+    - Malware
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

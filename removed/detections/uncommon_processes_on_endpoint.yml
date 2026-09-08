@@ -1,39 +1,33 @@
 name: Uncommon Processes On Endpoint
 id: 29ccce64-a10c-4389-a45f-337cb29ba1f7
 version: 7
-date: '2024-11-14'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: removed
 type: Hunting
-description: This search looks for applications on the endpoint that you have marked
-  as uncommon.
+description: This search looks for applications on the endpoint that you have marked as uncommon.
 data_source:
-- Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process
-  Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_on_endpoint_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+    - Sysmon EventID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_on_endpoint_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: None identified
 references: []
 tags:
-  analytic_story:
-  - Windows Privilege Escalation
-  - Unusual Processes
-  - Hermetic Wiper
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1204.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Windows Privilege Escalation
+        - Unusual Processes
+        - Hermetic Wiper
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1204.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.2.0
+    replacement_content:
+        - Attacker Tools On Endpoint

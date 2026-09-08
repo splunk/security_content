@@ -1,7 +1,8 @@
 name: Cisco SD-WAN Service Proxy Access Logs
 id: 350c5a45-24df-4339-ba57-8b8c09f2865f
-version: 1
-date: '2026-03-09'
+version: 2
+creation_date: '2026-03-12'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 description: Data source object for Cisco SD-WAN Service Proxy Access Logs
 source: /var/log/nms/containers/service-proxy/serviceproxy-access.log

@@ -1,3 +1,8 @@
-definition: (source="WinEventLog:Microsoft-Windows-AppLocker/*" OR source="XmlWinEventLog:Microsoft-Windows-AppLocker/*")
-description: This macro is designed to simplify the search for AppLocker events by providing a predefined search query. AppLocker, a feature in Windows, helps administrators control which executables, scripts, and libraries can run on their systems. By using this macro, analysts can quickly query AppLocker logs to monitor application control policies and investigate potential unauthorized software executions or policy violations. To modify this macro for a customer environment, you may need to adjust the source field to match the specific log source or index where AppLocker events are stored. Additionally, if the organization uses custom naming conventions or has AppLocker logs aggregated with other data, further refinement of the search query might be necessary to accurately filter for relevant events.
 name: applocker
+id: d7e1567e-5e93-4337-b4d2-c488bece65f5
+version: 1
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro is designed to simplify the search for AppLocker events by providing a predefined search query. AppLocker, a feature in Windows, helps administrators control which executables, scripts, and libraries can run on their systems. By using this macro, analysts can quickly query AppLocker logs to monitor application control policies and investigate potential unauthorized software executions or policy violations. To modify this macro for a customer environment, you may need to adjust the source field to match the specific log source or index where AppLocker events are stored. Additionally, if the organization uses custom naming conventions or has AppLocker logs aggregated with other data, further refinement of the search query might be necessary to accurately filter for relevant events.
+definition: (source="WinEventLog:Microsoft-Windows-AppLocker/*" OR source="XmlWinEventLog:Microsoft-Windows-AppLocker/*")

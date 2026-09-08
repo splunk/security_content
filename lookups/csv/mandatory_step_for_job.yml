@@ -1,0 +1,8 @@
+name: mandatory_step_for_job
+id: ac92a35c-26c4-4f6c-a005-d152b5b343b2
+version: 3
+creation_date: '2021-09-01'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A lookup file that will be used to define the mandatory step for job

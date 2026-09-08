@@ -1,17 +1,17 @@
 name: Kubernetes Audit
 id: 6c25181a-0c07-4aaf-90e6-77ab1f0e6699
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs activities within a Kubernetes cluster, including API server requests,
-  resource access, configuration changes, and user authentication events.
+description: Logs activities within a Kubernetes cluster, including API server requests, resource access, configuration changes, and user authentication events.
 mitre_components:
-- Pod Metadata
-- Pod Modification
-- Cluster Metadata
-- User Account Authentication
-- Configuration Modification
-- Application Log Content
+    - Pod Metadata
+    - Pod Modification
+    - Cluster Metadata
+    - User Account Authentication
+    - Configuration Modification
+    - Application Log Content
 source: kubernetes
 sourcetype: _json
 logsource:

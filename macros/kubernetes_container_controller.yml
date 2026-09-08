@@ -1,3 +1,8 @@
-definition: sourcetype=kube:container:controller
-description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes data. Replace the macro definition with configurations for your Splunk Environment.
 name: kubernetes_container_controller
+id: 0e5536df-aad2-47c6-b8dd-f382aabd14b3
+version: 1
+creation_date: '2021-08-23'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes data. Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=kube:container:controller

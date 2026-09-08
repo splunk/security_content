@@ -1,3 +1,8 @@
-definition: (Processes.process_name=msiexec.exe OR Processes.original_file_name=msiexec.exe)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_msiexec
+id: d57ec0f4-0b94-45c0-9405-fa9f5babad8d
+version: 1
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=msiexec.exe OR Processes.original_file_name=msiexec.exe)

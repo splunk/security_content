@@ -1,14 +1,14 @@
 {
-    "create_time": "2021-10-08T21:01:32.942530+00:00",
-    "custom_function_id": "71ecfbca11ceb4ee5cf40d6307e00cf9505bac12",
-    "description": "Update a workbook task by task name",
+    "create_time": "2025-01-22T19:50:05.327304+00:00",
+    "custom_function_id": "70ba9e8ebf5c903af30b81fd47a9592930820d4d",
+    "description": "Update a workbook task by task name or the task where the currently running playbook appears. Requires a task_name, container_id, and a note_title, note_content, owner, or status.",
     "draft_mode": false,
     "inputs": [
         {
             "contains_type": [
                 "*"
             ],
-            "description": "Name of a workbook task (Required)",
+            "description": "Name of a workbook task or keyword 'playbook' to update the task where the currently running playbook appears. (Required)",
             "input_type": "item",
             "name": "task_name",
             "placeholder": "my_task"
@@ -17,7 +17,7 @@
             "contains_type": [
                 "*"
             ],
-            "description": "Note title goes here (Optional)",
+            "description": "Note title. (Optional)",
             "input_type": "item",
             "name": "note_title",
             "placeholder": "My Title"
@@ -26,7 +26,7 @@
             "contains_type": [
                 "*"
             ],
-            "description": "Body of note goes here (Optional)",
+            "description": "Note content. (Optional)",
             "input_type": "item",
             "name": "note_content",
             "placeholder": "My notes"
@@ -35,7 +35,7 @@
             "contains_type": [
                 "*"
             ],
-            "description": "One of: incomplete, in_progress, complete (Optional)",
+            "description": "Accepts 'incomplete', 'in_progress, or 'complete'. (Optional)",
             "input_type": "item",
             "name": "status",
             "placeholder": "in_progress"
@@ -44,7 +44,7 @@
             "contains_type": [
                 "*"
             ],
-            "description": "Assigns task to provided owner. Accepts keyword 'current\" to assign task to currently running playbook user. (Optional)",
+            "description": "A user to assign as the task owner or keyword 'current\" to assign the task to the user that launched the playbook. (Optional)",
             "input_type": "item",
             "name": "owner",
             "placeholder": "username"
@@ -53,7 +53,7 @@
             "contains_type": [
                 "phantom container id"
             ],
-            "description": "ID of Phantom Container (Required)",
+            "description": "The ID of a SOAR Container. (Required)",
             "input_type": "item",
             "name": "container",
             "placeholder": "container:id"
@@ -63,9 +63,10 @@
         {
             "contains_type": [],
             "data_path": "note_id",
-            "description": "Returns note_id if a note was added"
+            "description": "Returns note_id if a note was added. A closing note on a required task note will not produce a note_id."
         }
     ],
-    "platform_version": "5.0.1.66250",
-    "python_version": "3"
+    "outputs_type": "item",
+    "platform_version": "6.3.1.176",
+    "python_version": "3.13"
 }

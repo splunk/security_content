@@ -1,0 +1,14 @@
+name: previously_seen_cloud_compute_images
+id: ef8c1c7d-19eb-41d6-b6a1-9fc5ce5fc477
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A table of previously seen Cloud image IDs
+fields:
+    - _key
+    - firstTimeSeen
+    - lastTimeSeen
+    - image_id
+    - enough_data

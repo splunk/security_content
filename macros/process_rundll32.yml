@@ -1,3 +1,8 @@
-definition: (Processes.process_name=rundll32.exe OR Processes.original_file_name=RUNDLL32.EXE)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_rundll32
+id: 15de32cd-b39f-4ed6-b7ca-4a9b3dc2adcb
+version: 1
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=rundll32.exe OR Processes.original_file_name=RUNDLL32.EXE)

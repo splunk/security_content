@@ -1,0 +1,11 @@
+name: suspicious_writes_lookup
+id: 4a189c42-84d1-49b6-817e-7bc59318f960
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of suspicious file names
+match_type:
+    - WILDCARD(file)
+min_matches: 1

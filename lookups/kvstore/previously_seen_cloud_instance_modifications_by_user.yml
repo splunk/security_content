@@ -1,0 +1,14 @@
+name: previously_seen_cloud_instance_modifications_by_user
+id: d44862cb-39af-435e-9a1b-7fd087b0901a
+version: 3
+creation_date: '2020-09-03'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A table of users seen making instance modifications, and the first and last time that the activity was observed
+fields:
+    - _key
+    - firstTimeSeen
+    - lastTimeSeen
+    - user
+    - enough_data

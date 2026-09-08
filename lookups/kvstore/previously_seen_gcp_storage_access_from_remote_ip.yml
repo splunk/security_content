@@ -1,0 +1,16 @@
+name: previously_seen_gcp_storage_access_from_remote_ip
+id: 343f625b-79a2-4ce6-82f2-90abde577371
+version: 3
+creation_date: '2022-01-26'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A place holder for a list of GCP storage access from remote IPs
+fields:
+    - _key
+    - firstTime
+    - lastTime
+    - bucket_name
+    - remote_ip
+    - operation
+    - request_uri

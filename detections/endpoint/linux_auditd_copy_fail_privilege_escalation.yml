@@ -1,0 +1,131 @@
+name: Linux Auditd Copy Fail Privilege Escalation
+id: dd16294f-44d2-40b4-a869-542c0b85113a
+version: 2
+creation_date: '2026-05-04'
+modification_date: '2026-05-13'
+author: Raven Tait, Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    Detects the exploitation pattern associated with Copy Fail.
+    Copy Fail (CVE-2026-31431) is a logic bug in the Linux kernel's authentication cryptographic template.
+    It lets an unprivileged local user trigger a deterministic, controlled 4-byte write into the page cache of any readable file on the system.
+    A single 732-byte Python script can edit a setuid binary and obtain root on essentially all Linux distributions shipped since 2017.
+    This search relies on the auditd configuration linked in the references section. If you are using a custom configuration, make sure the Key names are the same or adapt the search accordingly.
+data_source:
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd`
+    type=SYSCALL
+    key IN (
+        "af_alg",
+        "process_creation",
+        "splice_user"
+    )
+    | eval setuid_binary = case(
+        name IN (
+            "/usr/bin/chfn",
+            "/usr/bin/chsh",
+            "/usr/bin/fusermount3",
+            "/usr/bin/gpasswd",
+            "/usr/bin/mount",
+            "/usr/bin/newgrp",
+            "/usr/bin/passwd",
+            "/usr/bin/su",
+            "/usr/bin/sudo",
+            "/usr/bin/umount",
+            "/usr/lib/dbus-1.0/dbus-daemon-launch-helper",
+            "/usr/lib/landscape/apt-update",
+            "/usr/lib/openssh/ssh-keysign",
+            "/usr/lib/polkit-1/polkit-agent-helper-1"
+        ), name,
+        exe IN (
+            "/usr/bin/chfn",
+            "/usr/bin/chsh",
+            "/usr/bin/fusermount3",
+            "/usr/bin/gpasswd",
+            "/usr/bin/mount",
+            "/usr/bin/newgrp",
+            "/usr/bin/passwd",
+            "/usr/bin/su",
+            "/usr/bin/sudo",
+            "/usr/bin/umount",
+            "/usr/lib/dbus-1.0/dbus-daemon-launch-helper",
+            "/usr/lib/landscape/apt-update",
+            "/usr/lib/openssh/ssh-keysign",
+            "/usr/lib/polkit-1/polkit-agent-helper-1"
+        ), exe,
+        true(), null()
+    )
+    | eval indicator = case(
+        key="af_alg",        "AF_ALG socket",
+        key="splice_user",   "splice syscall",
+        isnotnull(setuid_binary), "setuid_exec:" . setuid_binary,
+        true(),              null()
+    )
+    | where isnotnull(indicator)
+    | stats
+        dc(indicator) as unique_signals
+        max(_time) as lastTime
+        min(_time) as firstTime
+        values(comm) as comm
+        values(exe) as exe
+        values(name) as name
+        values(host) as dest
+        values(indicator) as signals
+        values(setuid_binary) as setuid_binaries
+        values(pid) as pid
+        values(ppid) as ppid
+        values(uid) as uid
+        by auid
+    | where unique_signals >= 3
+    | eval risk_score_factor = unique_signals * 25
+    | sort - risk_score_factor
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_auditd_copy_fail_privilege_escalation_filter`
+how_to_implement: |-
+    To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. Ensure specifically that AF_ALG socket creation and splice syscall is being monitored. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling and make sure the type=CWD record type is activate in your auditd configuration. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.
+known_false_positives: No false positives have been identified at this time.
+references:
+    - https://xint.io/blog/copy-fail-linux-distributions
+    - https://github.com/theori-io/copy-fail-CVE-2026-31431
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Privilege escalation attempt leveraging the Copy Fail vulnerability was observed on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: exe
+      type: process
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2026-31431
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_auditd_copy_fail/linux_auditd.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit

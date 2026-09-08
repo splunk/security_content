@@ -1,7 +1,8 @@
 name: Windows System Remote Discovery With Query
 id: 94859172-a521-474f-97ac-4cf4b09634a3
-version: 7
-date: '2026-03-24'
+version: 8
+creation_date: '2025-01-06'
+modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: Hunting
@@ -33,21 +34,22 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
     - https://attack.mitre.org/techniques/T1033/
-tags:
-    analytic_story:
-        - Active Directory Discovery
-        - Medusa Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1033
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Discovery
+    - Medusa Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1033
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/query_remote_usage/query_remote_usage.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

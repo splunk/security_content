@@ -1,6 +1,6 @@
 {
-    "create_time": "2022-03-02T15:10:11.903102+00:00",
-    "custom_function_id": "1a37fa07ccabdb1d166e84cf508cfd7a15d8d662",
+    "create_time": "2026-03-12T01:52:29.767919+00:00",
+    "custom_function_id": "b705f07c883eae033c60aebe4779bd4eba61121d",
     "description": "Create a new artifact with the specified attributes. Supports all fields available in /rest/artifact. Add any unlisted inputs as dictionary keys in input_json. Unsupported keys will automatically be dropped.",
     "draft_mode": false,
     "inputs": [
@@ -90,6 +90,7 @@
             "description": "The ID of the created artifact."
         }
     ],
-    "platform_version": "5.2.1.78411",
-    "python_version": "3"
+    "outputs_type": "item",
+    "platform_version": "8.4.0.158",
+    "python_version": "3.13"
 }

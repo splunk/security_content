@@ -1,7 +1,8 @@
 name: Detect DNS Data Exfiltration using pretrained model in DSDL
 id: 92f65c3a-168c-11ed-71eb-0242ac120012
 version: 8
-date: '2026-02-25'
+creation_date: '2023-05-02'
+modification_date: '2026-05-13'
 status: removed
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
@@ -54,3 +55,7 @@ tags:
         - Splunk Enterprise Security
         - Splunk Cloud
     security_domain: network
+deprecation_info:
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+    removed_in_version: 5.26.0
+    replacement_content: []

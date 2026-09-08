@@ -1,7 +1,8 @@
 name: Detect HTML Help Renamed
 id: 62fed254-513b-460e-953d-79771493a9f3
-version: 13
-date: '2026-02-25'
+version: 14
+creation_date: '2021-02-11'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -32,22 +33,23 @@ references:
     - https://attack.mitre.org/techniques/T1218/001/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
     - https://lolbas-project.github.io/lolbas/Binaries/Hh/
-tags:
-    analytic_story:
-        - Suspicious Compiled HTML Activity
-        - Living Off The Land
-        - APT37 Rustonotto and FadeStealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Suspicious Compiled HTML Activity
+    - Living Off The Land
+    - APT37 Rustonotto and FadeStealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

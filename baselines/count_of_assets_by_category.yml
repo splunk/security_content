@@ -1,28 +1,18 @@
 name: Count of assets by category
 id: dcfd6b40-42f9-469d-a433-2e53f7489ff9
-version: 2
-date: '2026-01-14'
+version: 3
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
-type: Baseline
 status: production
-description: This search shows you every asset category you have and the assets that
-  belong to those categories.
-search: '| from datamodel Identity_Management.All_Assets | stats count values(nt_host)
-  by category | sort -count'
-how_to_implement: To successfully implement this search you must first leverage the
-  Assets and Identity framework in Enterprise Security to populate your assets_by_str.csv
-  file which should then be mapped to the Identity_Management data model. The Identity_Management
-  data model will contain a list of known authorized company assets. Ensure that all
-  inventoried systems are constantly vetted and updated.
+description: This search shows you every asset category you have and the assets that belong to those categories.
+search: '| from datamodel Identity_Management.All_Assets | stats count values(nt_host) by category | sort -count'
+how_to_implement: To successfully implement this search you must first leverage the Assets and Identity framework in Enterprise Security to populate your assets_by_str.csv file which should then be mapped to the Identity_Management data model. The Identity_Management data model will contain a list of known authorized company assets. Ensure that all inventoried systems are constantly vetted and updated.
 known_false_positives: No false positives have been identified at this time.
 references: []
-tags:
-  analytic_story:
-  - Asset Tracking
-  detections:
-  - Detect Unauthorized Assets by MAC address
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+security_domain: endpoint
+schedule: Default Baseline

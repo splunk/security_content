@@ -1,23 +1,17 @@
 name: Remote Employment Fraud
 id: 81a785e2-1046-44ea-80d7-badf381aa49a
-version: 1
-status: production
-date: '2025-06-02'
+version: 2
+creation_date: '2025-06-12'
+modification_date: '2026-05-13'
 author: Raven Tait
-description: Fortify your insider threat monitoring with searches that monitor for and help you 
-  investigate possible remote employment fraud.
-narrative: Remote employment fraud involves threat actors posing as job seekers or employers to 
-  gain unauthorized access to organizations, often using fake or stolen identities. This can result 
-  in insider threats, data breaches, financial loss, and reputational damage, as attackers exploit 
-  remote onboarding processes to infiltrate systems or harvest sensitive information. Strong 
-  identity verification, background checks, and ongoing monitoring are critical to mitigating 
-  these risks.
+status: production
+description: Fortify your insider threat monitoring with searches that monitor for and help you investigate possible remote employment fraud.
+narrative: Remote employment fraud involves threat actors posing as job seekers or employers to gain unauthorized access to organizations, often using fake or stolen identities. This can result in insider threats, data breaches, financial loss, and reputational damage, as attackers exploit remote onboarding processes to infiltrate systems or harvest sensitive information. Strong identity verification, background checks, and ongoing monitoring are critical to mitigating these risks.
 references: []
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Insider Threat
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Insider Threat

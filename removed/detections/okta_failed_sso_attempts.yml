@@ -1,40 +1,38 @@
 name: Okta Failed SSO Attempts
 id: 371a6545-2618-4032-ad84-93386b8698c5
 version: 6
-date: '2025-02-10'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Michael Haag, Rico Valdez, Splunk
 status: removed
 type: Anomaly
-description: '**DEPRECATION NOTE** - This search has been deprecated and replaced
-  with this detection `Okta Unauthorized Access to Application - DM`.  The following
-  anomaly identifies failed Okta SSO events utilizing the legacy Okta event "unauth
-  app access attempt".'
+description: '**DEPRECATION NOTE** - This search has been deprecated and replaced with this detection `Okta Unauthorized Access to Application - DM`.  The following anomaly identifies failed Okta SSO events utilizing the legacy Okta event "unauth app access attempt".'
 data_source: []
-search: '`okta` eventType=app.generic.unauth_app_access_attempt | stats min(_time)
-  as firstTime max(_time) as lastTime values(app) as Apps count by src_user, result
-  ,displayMessage, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `okta_failed_sso_attempts_filter`'
-how_to_implement: This search is specific to Okta and requires Okta logs are being
-  ingested in your Splunk deployment.
-known_false_positives: There may be a faulty config preventing legitmate users from
-  accessing apps they should have access to.
+search: '`okta` eventType=app.generic.unauth_app_access_attempt | stats min(_time) as firstTime max(_time) as lastTime values(app) as Apps count by src_user, result ,displayMessage, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_failed_sso_attempts_filter`'
+how_to_implement: This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.
+known_false_positives: There may be a faulty config preventing legitmate users from accessing apps they should have access to.
 references:
-- https://developer.okta.com/docs/reference/api/event-types/?q=app.generic.unauth_app_access_attempt
+    - https://developer.okta.com/docs/reference/api/event-types/?q=app.generic.unauth_app_access_attempt
 rba:
-  message: $src_user$ failed SSO authentication to the app.
-  risk_objects:
-  - field: src_user
-    type: user
-    score: 16
-  threat_objects: []
+    message: $src_user$ failed SSO authentication to the app.
+    risk_objects:
+        - field: src_user
+          type: user
+          score: 16
+    threat_objects: []
 tags:
-  analytic_story:
-  - Suspicious Okta Activity
-  asset_type: Infrastructure
-  mitre_attack_id:
-  - T1078.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: access
+    analytic_story:
+        - Suspicious Okta Activity
+    asset_type: Infrastructure
+    mitre_attack_id:
+        - T1078.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: access
+deprecation_info:
+    reason: Detections updated to use the new search logic and field names due to the TA update
+    removed_in_version: 5.2.0
+    replacement_content:
+        - Okta Unauthorized Access to Application

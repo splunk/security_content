@@ -1,0 +1,13 @@
+name: previously_seen_aws_regions
+id: 804c385e-5942-4e0c-87eb-69890483fe73
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A place holder for a list of used AWS regions
+fields:
+    - _key
+    - earliest
+    - latest
+    - awsRegion

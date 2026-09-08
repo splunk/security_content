@@ -1,4 +1,8 @@
-definition: 'EventCode=7036 | spath input=EventData_Xml path="Binary" output=binary_data | eval trimmed_hexbytes = mvjoin(split(trim(binary_data, "0"), "00"), "") | eval normalized_service_name = if(match(trimmed_hexbytes,"^[0-9A-F]+$"),urldecode(replace(trimmed_hexbytes,"([0-9A-F]{2})","%\1")),trimmed_hexbytes)'
-description: customer specific splunk configurations to normalized Windows Event Log System 7036 to recover actual services execution.
-  Replace the macro definition with configurations for your Splunk Environment.
 name: normalized_service_binary_field
+id: dae2ab69-698a-4228-be14-cb26166f007a
+version: 1
+creation_date: '2025-01-23'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations to normalized Windows Event Log System 7036 to recover actual services execution. Replace the macro definition with configurations for your Splunk Environment.
+definition: 'EventCode=7036 | spath input=EventData_Xml path="Binary" output=binary_data | eval trimmed_hexbytes = mvjoin(split(trim(binary_data, "0"), "00"), "") | eval normalized_service_name = if(match(trimmed_hexbytes,"^[0-9A-F]+$"),urldecode(replace(trimmed_hexbytes,"([0-9A-F]{2})","%\1")),trimmed_hexbytes)'

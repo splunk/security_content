@@ -1,4 +1,8 @@
-definition: sourcetype="f5:bigip:rogue"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: f5_bigip_rogue
+id: 7bdddf2a-d578-49d3-b963-f857e4f3c6f7
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="f5:bigip:rogue"

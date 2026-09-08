@@ -14,30 +14,11 @@
                     "targetPort": "7_in"
                 },
                 {
-                    "id": "port_8_to_port_11",
-                    "sourceNode": "8",
-                    "sourcePort": "8_out",
-                    "targetNode": "11",
-                    "targetPort": "11_in"
-                },
-                {
                     "id": "port_15_to_port_16",
                     "sourceNode": "15",
                     "sourcePort": "15_out",
                     "targetNode": "16",
                     "targetPort": "16_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_16_to_port_17",
-                    "sourceNode": "16",
-                    "sourcePort": "16_out",
-                    "targetNode": "17",
-                    "targetPort": "17_in"
                 },
                 {
                     "id": "port_18_to_port_19",
@@ -47,42 +28,11 @@
                     "targetPort": "19_in"
                 },
                 {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_7_to_port_8",
-                    "sourceNode": "7",
-                    "sourcePort": "7_out",
-                    "targetNode": "8",
-                    "targetPort": "8_in"
-                },
-                {
-                    "id": "port_33_to_port_15",
-                    "sourceNode": "33",
-                    "sourcePort": "33_out",
-                    "targetNode": "15",
-                    "targetPort": "15_in"
-                },
-                {
                     "id": "port_11_to_port_34",
                     "sourceNode": "11",
                     "sourcePort": "11_out",
                     "targetNode": "34",
                     "targetPort": "34_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_34_to_port_33",
-                    "sourceNode": "34",
-                    "sourcePort": "34_out",
-                    "targetNode": "33",
-                    "targetPort": "33_in"
                 },
                 {
                     "id": "port_15_to_port_18",
@@ -104,9 +54,66 @@
                     "sourcePort": "19_out",
                     "targetNode": "1",
                     "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_34_to_port_33",
+                    "sourceNode": "34",
+                    "sourcePort": "34_out",
+                    "targetNode": "33",
+                    "targetPort": "33_in"
+                },
+                {
+                    "id": "port_33_to_port_15",
+                    "sourceNode": "33",
+                    "sourcePort": "33_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_11",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_17_to_port_1",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_16_to_port_36",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "36",
+                    "targetPort": "36_in"
+                },
+                {
+                    "id": "port_36_to_port_17",
+                    "sourceNode": "36",
+                    "sourcePort": "36_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
                 }
             ],
-            "hash": "ab7a6a505a05ce38a01f94104475c55ce339ef12",
+            "hash": "0d31da8be18f625ab14efd3a8bb5ee37978f33e0",
             "nodes": {
                 "0": {
                     "data": {
@@ -120,8 +127,8 @@
                     "errors": {},
                     "id": "0",
                     "type": "start",
-                    "x": 1000,
-                    "y": 520
+                    "x": 190,
+                    "y": 0
                 },
                 "1": {
                     "data": {
@@ -136,9 +143,9 @@
                     "errors": {},
                     "id": "1",
                     "type": "end",
-                    "userCode": "\t\n    # Error handling in case of playbook not being able to import data properly\n    if not format_summary_note:\n        raise RuntimeError(\"Error occured  during import data and summary note is missing\")\n    \n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
-                    "x": 960,
-                    "y": 1800
+                    "userCode": "\t\n    # Error handling in case of playbook not being able to import data properly\n    if not format_summary_note:\n        raise RuntimeError(\"Error occured during import data and summary note is missing\")\n    \n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 190,
+                    "y": 1682
                 },
                 "11": {
                     "data": {
@@ -155,26 +162,43 @@
                         "connectorConfigs": [
                             "splunk"
                         ],
-                        "connectorId": 129,
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
                         "connectorVersion": "v1",
                         "functionId": 2,
                         "functionName": "run_risk_rule_query",
                         "id": "11",
                         "parameters": {
-                            "command": "search",
-                            "parse_only": true,
-                            "query": "format_risk_query:formatted_data"
+                            "command": "| from ",
+                            "query": {
+                                "functionId": 2,
+                                "parameters": [
+                                    "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object",
+                                    "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_min_time",
+                                    "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_max_time",
+                                    "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object_type"
+                                ],
+                                "template": " datamodel:Risk \n| search risk_object=\"{0}\" risk_object_type=\"{3}\" \n| where _time>={1} AND _time<={2}  | eval risk_event_id = if(isnull(risk_event_id), index + \"_\" + _cd + \"_\" + splunk_server, risk_event_id) | eventstats count by risk_event_id | where count < 2 \n| eval risk_message=coalesce(risk_message,source) \n| eval threat_zip = mvzip(threat_object, threat_object_type) \n| rename annotations.mitre_attack.mitre_technique_id as mitre_technique_id annotations.mitre_attack.mitre_tactic as mitre_tactic annotations.mitre_attack.mitre_technique as mitre_technique \n| fields - annotations* orig_sid orig_rid risk_factor* splunk_server host sourcetype tag threat_object* \n| stats list(risk_event_id) as risk_event_ids list(_time) as original_timestamps count as _event_count sum(calculated_risk_score) as _total_risk_score earliest(_time) as earliest latest(_time) as latest values(*) as * by search_name risk_message \n| where NOT (match(source, \"Splunk\\sSOAR\") AND _total_risk_score<=0) \n| fields mitre* _event_count _total_risk_score original_timestamps threat_zip risk_event_ids threat_object\n    [| rest /services/datamodel/model \n    | search eai:acl.app IN (Splunk_SA_CIM, SA-IdentityManagement, SA-NetworkProtection, SA-ThreatIntelligence, DA-ESS-ThreatIntelligence) \n    | fields description \n    | spath input=description path=objects{{}}.fields{{}}.fieldName \n    | spath input=description path=objects{{}}.calculations{{}}.outputFields{{}}.fieldName \n    | eval fieldNames=mvappend('objects{{}}.fields{{}}.fieldName', 'objects{{}}.calculations{{}}.outputFields{{}}.fieldName') \n    | stats values(fieldNames) as fieldNames \n    | mvexpand fieldNames \n    | regex fieldNames=\"^[_a-z]+$\" \n    | stats values(fieldNames) as search] \n| sort + latest \n| `uitime(earliest)` \n| `uitime(latest)` \n| eval _time=latest \n| rex field=threat_zip \"(?<threat_object>.*)\\,(?<threat_object_type>.*)\" \n| fields - threat_zip"
+                            }
                         },
                         "requiredParameters": [
-                            "query"
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "query"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "search",
+                                "field": "command"
+                            }
                         ],
                         "type": "action"
                     },
                     "errors": {},
                     "id": "11",
                     "type": "action",
-                    "x": 980,
-                    "y": 1000
+                    "x": 170,
+                    "y": 492
                 },
                 "15": {
                     "data": {
@@ -327,8 +351,8 @@
                     "errors": {},
                     "id": "15",
                     "type": "utility",
-                    "x": 1140,
-                    "y": 1380
+                    "x": 170,
+                    "y": 998
                 },
                 "16": {
                     "data": {
@@ -346,13 +370,18 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": ">=",
+                                        "param": "artifact:*.cef.calculated_risk_score",
+                                        "value": "70"
+                                    },
+                                    {
+                                        "op": ">=",
                                         "param": "artifact:*.cef.risk_score",
-                                        "value": "50"
+                                        "value": "250"
                                     }
                                 ],
                                 "conditionIndex": 0,
-                                "customName": "risk score above 50",
-                                "logic": "and"
+                                "customName": "risk score above 70",
+                                "logic": "or"
                             }
                         ],
                         "functionId": 2,
@@ -363,8 +392,8 @@
                     "errors": {},
                     "id": "16",
                     "type": "filter",
-                    "x": 1200,
-                    "y": 1500
+                    "x": 400,
+                    "y": 1146
                 },
                 "17": {
                     "data": {
@@ -434,15 +463,15 @@
                             "mark_evidence": {
                                 "container": "container:id",
                                 "content_type": "artifact_id",
-                                "input_object": "filtered-data:filter_artifact_score:condition_1:artifact:*.cef.event_id"
+                                "input_object": "filtered-data:filter_artifact_score:condition_1:artifact:*.id"
                             }
                         }
                     },
                     "errors": {},
                     "id": "17",
                     "type": "utility",
-                    "x": 1580,
-                    "y": 1640
+                    "x": 340,
+                    "y": 1519
                 },
                 "18": {
                     "data": {
@@ -465,9 +494,9 @@
                     "errors": {},
                     "id": "18",
                     "type": "code",
-                    "userCode": "    from collections import OrderedDict \n    from operator import getitem \n    \n    def mitre_sorter(item):\n        tactic_list = ['reconnaissance', 'resource-development', 'initial-access', 'execution', \n                       'persistence', 'privilege-escalation', 'defense-evasion', 'credential-access', \n                       'discovery', 'lateral-movement', 'collection', 'command-and-control', 'exfiltration', 'impact']\n        index_map = {v: i for i, v in enumerate(tactic_list)}\n        if ',' in item[0]:\n            first_item = item[0].split(', ')[1]\n            #first_item = json.loads(item[0])[1]\n            return index_map[first_item]\n        else:\n            return index_map[item[0]]\n\n    artifact_data = phantom.collect2(\n        container=container, datapath=[\n            'artifact:*.cef.mitre_tactic', \n            'artifact:*.cef.mitre_technique', \n            'artifact:*.cef.mitre_technique_id', \n            'artifact:*.cef.description'\n        ], \n        scope='all'\n    )\n\n    mitre_dictionary = {}\n    for mitre_tactic, mitre_technique, mitre_technique_id, risk_message in artifact_data:\n        if isinstance(mitre_tactic, list):\n            mitre_tactic = json.dumps(mitre_tactic)\n        if mitre_tactic and mitre_tactic not in mitre_dictionary.keys():\n            mitre_dictionary[mitre_tactic] = {mitre_technique: {'id': mitre_technique_id, 'risk_message': [risk_message]}}\n        elif mitre_tactic and mitre_tactic in mitre_dictionary.keys():\n            if mitre_technique and mitre_technique not in mitre_dictionary[mitre_tactic].keys():\n                mitre_dictionary[mitre_tactic][mitre_technique] = {'id': mitre_technique_id, 'risk_message': [risk_message]}\n            elif mitre_technique and mitre_technique in mitre_dictionary[mitre_tactic].keys():\n                if risk_message not in mitre_dictionary[mitre_tactic][mitre_technique]['risk_message']:\n                    mitre_dictionary[mitre_tactic][mitre_technique]['risk_message'].append(risk_message)\n    \n    mitre_copy = mitre_dictionary.copy()\n    for k,v in mitre_copy.items():\n        sorted_techniques = OrderedDict(sorted(v.items(),\n                                               key = lambda x: getitem(x[1], 'id')\n                                              )\n                                       ) \n        for a,b in sorted_techniques.items():\n            sorted_techniques[a] = b['risk_message']\n        mitre_copy[k] = sorted_techniques\n\n    final_dictionary = sorted(mitre_copy.items(), key=mitre_sorter)\n    final_format = \"\"\n    for tactics in final_dictionary:\n        if ',' in tactics[0]:\n            tactic_list = tactics[0].split(', ')\n            final_format += \"\\n ## \"\n            for tactic in tactic_list[:-1]:\n                split_tactic = tactic.split('-')\n                for item in split_tactic[:-1]:\n                    final_format += \"{} \".format(item.capitalize())\n                final_format += \"{}, \".format(split_tactic[-1].capitalize())\n            split_tactic = tactic_list[-1].split('-')\n            for item in split_tactic[:-1]:\n                final_format += \"{} \".format(item.capitalize())\n            final_format += \"{}\".format(split_tactic[-1].capitalize())\n        else:\n            tactic_list = tactics[0].split('-')\n            final_format += \"\\n ## \"\n            for tactic in tactic_list[:-1]:\n                final_format += \"{} \".format(tactic.capitalize())\n            final_format += \"{}\".format(tactic_list[-1].capitalize())\n        for k,v in tactics[1].items():\n            final_format += \"\\n - #### {}: {}\".format(k, mitre_dictionary[tactics[0]][k]['id'])\n            for risk_message in v:\n                final_format += \"\\n   - ```{}```\".format(risk_message)\n        final_format += \"\\n\"\n    \n\n    if final_format:\n    \tmitre_format__output = final_format\n    else:\n        mitre_format__output = \"No Tactics / Techniques available in contributing risk events.\"\n\t\n\n",
-                    "x": 940,
-                    "y": 1500
+                    "userCode": "    from collections import OrderedDict \n    from operator import getitem \n    \n    def mitre_sorter(item):\n        tactic_list = [\n            'reconnaissance', 'resource-development', 'initial-access', 'execution', \n            'persistence', 'privilege-escalation', 'defense-evasion', 'credential-access', \n            'discovery', 'lateral-movement', 'collection', 'command-and-control', \n            'exfiltration', 'impact'\n        ]\n        index_map = {v: i for i, v in enumerate(tactic_list)}\n        if ',' in item[0]:\n            first_item = item[0].split(', ')[1]\n            return index_map[first_item]\n        else:\n            return index_map[item[0]]\n\n    artifact_data = phantom.collect2(\n        container=container, datapath=[\n            'artifact:*.cef.mitre_tactic', \n            'artifact:*.cef.mitre_technique', \n            'artifact:*.cef.mitre_technique_id', \n            'artifact:*.description'\n        ], \n        scope='all'\n    )\n    \n    def replace_all(text):\n        char_list = ['[', ']', '\"', \"'\"]\n        for char in char_list:\n            text = text.replace(char, '')\n        return text\n\n    mitre_dictionary = {}\n    for mitre_tactic, mitre_technique, mitre_technique_id, risk_message in artifact_data:\n        \n        mitre_tactic = replace_all(json.dumps(mitre_tactic)) if mitre_tactic else None\n        mitre_technique = replace_all(json.dumps(mitre_technique)) if mitre_technique else None\n        mitre_technique_id = replace_all(json.dumps(mitre_technique_id)) if mitre_technique_id else None\n        \n        if mitre_tactic and mitre_tactic not in mitre_dictionary.keys():\n            mitre_dictionary[mitre_tactic] = {mitre_technique: {'id': mitre_technique_id, 'risk_message': [risk_message]}}\n        elif mitre_tactic and mitre_tactic in mitre_dictionary.keys():\n            if mitre_technique and mitre_technique not in mitre_dictionary[mitre_tactic].keys():\n                mitre_dictionary[mitre_tactic][mitre_technique] = {'id': mitre_technique_id, 'risk_message': [risk_message]}\n            elif mitre_technique and mitre_technique in mitre_dictionary[mitre_tactic].keys():\n                if risk_message not in mitre_dictionary[mitre_tactic][mitre_technique]['risk_message']:\n                    mitre_dictionary[mitre_tactic][mitre_technique]['risk_message'].append(risk_message)\n    \n    mitre_copy = mitre_dictionary.copy()\n    for k,v in mitre_copy.items():\n        sorted_techniques = OrderedDict(sorted(v.items(),\n                                               key = lambda x: getitem(x[1], 'id')\n                                              )\n                                       ) \n        for a,b in sorted_techniques.items():\n            sorted_techniques[a] = b['risk_message']\n        mitre_copy[k] = sorted_techniques\n\n    final_dictionary = sorted(mitre_copy.items(), key=mitre_sorter)\n    final_format = \"\"\n    for tactics in final_dictionary:\n        if ',' in tactics[0]:\n            tactic_list = tactics[0].split(', ')\n            final_format += \"\\n ## \"\n            for tactic in tactic_list[:-1]:\n                split_tactic = tactic.split('-')\n                for item in split_tactic[:-1]:\n                    final_format += \"{} \".format(item.capitalize())\n                final_format += \"{}, \".format(split_tactic[-1].capitalize())\n            split_tactic = tactic_list[-1].split('-')\n            for item in split_tactic[:-1]:\n                final_format += \"{} \".format(item.capitalize())\n            final_format += \"{}\".format(split_tactic[-1].capitalize())\n        else:\n            tactic_list = tactics[0].split('-')\n            final_format += \"\\n ## \"\n            for tactic in tactic_list[:-1]:\n                final_format += \"{} \".format(tactic.capitalize())\n            final_format += \"{}\".format(tactic_list[-1].capitalize())\n        for k,v in tactics[1].items():\n            final_format += \"\\n - #### {}: {}\".format(k, mitre_dictionary[tactics[0]][k]['id'])\n            for risk_message in v:\n                final_format += \"\\n   - ```{}```\".format(risk_message)\n        final_format += \"\\n\"\n    \n\n    if final_format:\n    \tmitre_format__output = final_format\n    else:\n        mitre_format__output = \"No Tactics / Techniques available in contributing risk events.\"\n\t\n\n",
+                    "x": 0,
+                    "y": 1326
                 },
                 "19": {
                     "data": {
@@ -493,14 +522,14 @@
                             "run_risk_rule_query:action_result.data.*._time",
                             "run_risk_rule_query:action_result.data.*.risk_message"
                         ],
-                        "template": "#### Splunk Enterprise Security has detected that {0} '**{1}**' generated {2} points of risk.\n\nFull statistics and timeline on this user's risk behavior can be found [here](https://{3}/en-US/app/SplunkEnterpriseSecuritySuite/risk_analysis?earliest={4}&latest={5}&form.risk_object_type_raw={0}&form.risk_object_raw={1})\n\n| _time | event |\n| --- | --- |\n%%\n| **{7}** | `{8}` |\n%%\n\n![](https://attack.mitre.org/theme/images/mitrelogowhiteontrans.gif)\n\n{6}",
+                        "template": "### Splunk Enterprise Security has detected that {0} '**{1}**' generated {2} points of risk.\n\n### Full statistics and timeline on this user's risk behavior can be found [here](https://{3}/en-US/app/SplunkEnterpriseSecuritySuite/risk_analysis?earliest={4}&latest={5}&form.risk_object_type_raw={0}&form.risk_object_raw={1})\n\n| _time | event |\n| --- | --- |\n%%\n| **{7}** | `{8}` |\n%%\n\n&nbsp;\n\n# MITRE ATT&CK\u00ae\nSplunk SOAR has aggregated and aligned the following risk rules to ATT&CK Tactics and Techniques.\n\n{6}",
                         "type": "format"
                     },
                     "errors": {},
                     "id": "19",
                     "type": "format",
-                    "x": 940,
-                    "y": 1640
+                    "x": 0,
+                    "y": 1504
                 },
                 "33": {
                     "data": {
@@ -667,9 +696,9 @@
                     "errors": {},
                     "id": "33",
                     "type": "utility",
-                    "userCode": "    from dateutil.parser import parse\n    from django.utils.dateparse import parse_datetime\n    import re\n    \n    search_json = run_risk_rule_query_result_item_0[0]\n    \n    # overwrite parameters\n    parameters = []\n\n    # Helper recursive function to flatten nested lists\n    def flatten(input_list):\n        if not input_list:\n            return input_list\n        if isinstance(input_list[0], list):\n            return flatten(input_list[0]) + flatten(input_list[1:])\n        return input_list[:1] + flatten(input_list[1:])\n    \n    # Declare dictionary for cim to cef translation\n    # adjust as needed\n    cim_cef = {\n        \"action\": \"act\", \n        \"action_name\": \"act\", \n        \"app\": \"app\", \n        \"bytes_in\": \"bytesIn\", \n        \"bytes_out\": \"bytesOut\", \n        \"category\": \"cat\",\n        \"dest\": \"destinationAddress\", \n        \"dest_ip\": \"destinationAddress\", \n        \"dest_mac\": \"destinationMacAddress\", \n        \"dest_nt_domain\": \"destinationNtDomain\", \n        \"dest_port\": \"destinationPort\", \n        \"dest_translated_ip\": \"destinationTranslatedAddress\", \n        \"dest_translated_port\": \"destinationTranslatedPort\", \n        \"direction\": \"deviceDirection\",\n        \"dns\": \"destinationDnsDomain\", \n        \"dvc\": \"dvc\", \n        \"dvc_ip\": \"deviceAddress\", \n        \"dvc_mac\": \"deviceMacAddress\", \n        \"file_create_time\": \"fileCreateTime\", \n        \"file_hash\": \"fileHash\", \n        \"file_modify_time\": \"fileModificationTime\", \n        \"file_name\": \"fileName\", \n        \"file_path\": \"filePath\", \n        \"file_size\": \"fileSize\", \n        \"message\": \"message\", \n        \"protocol\": \"transportProtocol\", \n        \"request_payload\": \"request\", \n        \"request_payload_type\": \"requestMethod\", \n        \"src\": \"sourceAddress\", \n        \"src_dns\": \"sourceDnsDomain\", \n        \"src_ip\": \"sourceAddress\", \n        \"src_mac\": \"sourceMacAddress\", \n        \"src_nt_domain\": \"sourceNtDomain\", \n        \"src_port\": \"sourcePort\", \n        \"src_translated_ip\": \"sourceTranslatedAddress\", \n        \"src_translated_port\": \"sourceTranslatedPort\", \n        \"src_user\": \"sourceUserId\", \n        \"transport\": \"transportProtocol\", \n        \"url\": \"requestURL\", \n        \"user\": \"destinationUserName\", \n        \"user_id\": \"destinationUserId\", \n    }\n    \n    \n    # Iterate through Splunk search results\n    for index, artifact_json in enumerate(search_json):\n        field_mapping = {}\n        \n        for k,v in artifact_json.items():\n            tags = []\n            # Swap CIM for CEF values\n            if k.lower() in cim_cef.keys():\n                if k.lower() == 'dest':\n                    # if 'dest' matches an IP, use 'dest', otherwise use 'destinationHostName'\n                    if re.match('(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', k):\n                        artifact_json[cim_cef[k]] = artifact_json.pop(k)\n                    else:\n                        artifact_json['destinationHostName'] = artifact_json.pop(k)\n                elif k.lower() == 'src':\n                    # if 'src' matches an IP, use 'src', otherwise use 'sourceHostName'\n                    if re.match('(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', k):\n                        artifact_json[cim_cef[k]] = artifact_json.pop(k)\n                    else:\n                        artifact_json['sourceHostName'] = artifact_json.pop(k)\n                else:\n                    artifact_json[cim_cef[k.lower()]] = artifact_json.pop(k)\n                    \n        for k,v in artifact_json.items():\n            if type(v) == list:\n                artifact_json[k] = \", \".join(flatten(v))\n                \n        # Swap risk_message for description\n        if 'risk_message' in artifact_json.keys():\n            artifact_json['description'] = artifact_json.pop('risk_message')\n\n        # Make _time easier to read\n        if '_time' in artifact_json.keys():\n            timestring = parse(artifact_json['_time'])\n            artifact_json['_time'] = \"{} {}\".format(timestring.date(), timestring.time())\n\n        # Add threat_object_type to threat_object field_mapping\n        if 'threat_object' in artifact_json.keys() and 'threat_object_type' in artifact_json.keys():\n            field_mapping['threat_object'] = [artifact_json['threat_object_type']]                  \n\n        # Set the underlying data type in field mapping based on the risk_object_type     \n        if 'risk_object' in artifact_json.keys() and 'risk_object_type' in artifact_json.keys():\n            if 'user' in artifact_json['risk_object_type']:\n                field_mapping['risk_object'] = [\"user name\"]\n            elif artifact_json['risk_object_type'] == 'system':\n                field_mapping['risk_object'] = [\"host name\", \"hostname\"]\n            else:\n                field_mapping['risk_object'] = artifact_json['risk_object_type']\n            \n        # Extract tags\n        if 'rule_attack_tactic_technique' in artifact_json.keys():\n            for match in re.findall('(^|\\|)(\\w+)\\s+',artifact_json['rule_attack_tactic_technique']):\n                tags.append(match[1])\n            tags=list(set(tags))\n\n        # Final setp is to build the output. This is reliant on the source field existing which should be present in all Splunk search results\n        if 'source' in artifact_json.keys():\n            if index < len(search_json[0]) - 1:\n                name = artifact_json.pop('source')\n                parameters.append({'input_1': json.dumps({'cef_data': artifact_json, 'tags': tags, 'name': name, 'field_mapping': field_mapping, 'run_automation': False})})\n            else:\n                name = artifact_json.pop('source')\n                parameters.append({'input_1': json.dumps({'cef_data': artifact_json, 'tags': tags, 'name': name, 'field_mapping': field_mapping, 'run_automation': True})})\n\t\n\n\n",
-                    "x": 1140,
-                    "y": 1280
+                    "userCode": "    from dateutil.parser import parse\n    from django.utils.dateparse import parse_datetime\n    import re\n    from hashlib import sha256\n    \n    search_json = run_risk_rule_query_result_item_0[0]\n\n    # overwrite parameters\n    parameters = []\n    \n    cef_metadata_url = phantom.build_phantom_rest_url('cef_metadata')\n    global_cef_mapping = phantom.requests.get(cef_metadata_url, verify=False).json()['cef']\n        \n    \n    # Declare dictionary for cim to cef translation\n    # adjust as needed\n    cim_cef = {\n        \"action\": \"act\", \n        \"action_name\": \"act\", \n        \"app\": \"app\", \n        \"bytes_in\": \"bytesIn\", \n        \"bytes_out\": \"bytesOut\", \n        \"category\": \"cat\",\n        \"dest\": \"destinationAddress\", \n        \"dest_ip\": \"destinationAddress\", \n        \"dest_mac\": \"destinationMacAddress\", \n        \"dest_nt_domain\": \"destinationNtDomain\", \n        \"dest_port\": \"destinationPort\", \n        \"dest_translated_ip\": \"destinationTranslatedAddress\", \n        \"dest_translated_port\": \"destinationTranslatedPort\", \n        \"direction\": \"deviceDirection\",\n        \"dns\": \"destinationDnsDomain\", \n        \"dvc\": \"dvc\", \n        \"dvc_ip\": \"deviceAddress\", \n        \"dvc_mac\": \"deviceMacAddress\", \n        \"file_create_time\": \"fileCreateTime\", \n        \"file_hash\": \"fileHash\", \n        \"file_modify_time\": \"fileModificationTime\", \n        \"file_name\": \"fileName\", \n        \"file_path\": \"filePath\", \n        \"file_size\": \"fileSize\", \n        \"message\": \"message\", \n        \"protocol\": \"transportProtocol\", \n        \"request_payload\": \"request\", \n        \"request_payload_type\": \"requestMethod\", \n        \"src\": \"sourceAddress\", \n        \"src_dns\": \"sourceDnsDomain\", \n        \"src_ip\": \"sourceAddress\", \n        \"src_mac\": \"sourceMacAddress\", \n        \"src_nt_domain\": \"sourceNtDomain\", \n        \"src_port\": \"sourcePort\", \n        \"src_translated_ip\": \"sourceTranslatedAddress\", \n        \"src_translated_port\": \"sourceTranslatedPort\", \n        \"src_user\": \"sourceUserId\", \n        \"transport\": \"transportProtocol\", \n        \"url\": \"requestURL\", \n        \"user\": \"destinationUserName\", \n        \"user_id\": \"destinationUserId\", \n    }\n    \n    \n    # Iterate through Splunk search results\n    for index, artifact_json in enumerate(search_json):\n        field_mapping = {}\n        data = []\n        risk_event_set = set()\n        for key in list(artifact_json.keys()):\n            tags = []\n            # Swap CIM for CEF values\n            if cim_cef.get(key.lower()):\n                # if src or dest matches an IP use src or dest' otherwise use sourceHostName or destinationHostName'\n                if key.lower() == 'dest' or key.lower() == 'src':\n                    hostname_map = { 'src': 'sourceHostName', 'dest': 'destinationHostName' }\n                    if re.match('(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', artifact_json[key]):\n                        artifact_json[cim_cef[key.lower()]] = artifact_json.pop(key)\n                    else:\n                        cef_equivalent = hostname_map[key.lower()]\n                        artifact_json[cef_equivalent] = artifact_json.pop(key)\n                else:\n                    artifact_json[cim_cef[key.lower()]] = artifact_json.pop(key)\n        \n        \n        temp_dictionary = artifact_json.copy()\n        for k,v in temp_dictionary.items():\n            if isinstance(v, list) and k not in ['threat_object', 'threat_object_type', 'risk_event_ids', 'original_timestamps']:\n                sub_dictionary = {}\n                # Enumerate items in the globval cef mapping.\n                # Up to 25 for contains types up to 10 for non contains types.\n                if global_cef_mapping.get(k) and global_cef_mapping[k]['contains']:\n                    for idx, item in enumerate(v[:25]):\n                        sub_dictionary[f'{k}_{idx + 1}'] = item\n                        field_mapping[f'{k}_{idx + 1}'] = global_cef_mapping[k]['contains']\n                    if len(v) > 25:\n                        phantom.debug(\"Limiting number of subfields with contains types to 25\")\n                    artifact_json.pop(k)\n                    artifact_json.update(sub_dictionary)\n                elif global_cef_mapping.get(k):\n                    for idx, item in enumerate(v[:10]):\n                        sub_dictionary[f'{k}_{idx + 1}'] = item\n                    if len(v) > 10:\n                        phantom.debug(\"Limiting number of subfields without contains types to 10\")\n                    artifact_json.pop(k)\n                    artifact_json.update(sub_dictionary)\n                else:\n                    artifact_json[k] = str(v)\n        \n        # Add extra data to data attribute of artifact\n        if isinstance(artifact_json.get('threat_object'), list):\n            data.extend([{'threat_object': item} for item in artifact_json.get('threat_object', [])])\n        elif artifact_json.get('threat_object'):\n            data.append({'threat_object': artifact_json['threat_object']})\n        if artifact_json.get('risk_event_ids') and artifact_json.get('original_timestamps'):\n            risk_event_ids = artifact_json['risk_event_ids']\n            original_timestamps = artifact_json['original_timestamps']\n            # Both should be lists so only checking one.\n            # If both aren't lists, something went wrong with the search.\n            # Since risk_event_ids and original timestamps are optional for resetting risk scores, \n            # this will not error out at this time.\n            if isinstance(risk_event_ids, list) and isinstance(original_timestamps, list):\n                for event_id, timestamp in zip(risk_event_ids, original_timestamps):\n                    data.append({'risk_event': {'id': event_id, 'timestamp': timestamp}})\n                    risk_event_set.add(event_id)\n                artifact_json.pop('risk_event_ids')\n                artifact_json.pop('original_timestamps')\n            else:\n                risk_event_set.add(risk_event_ids)\n                data.append({'risk_event': {'id': risk_event_ids, 'timestamp': original_timestamps}})\n            \n        # Make _time easier to read\n        if artifact_json.get('_time'):\n            timestring = parse(artifact_json['_time'])\n            artifact_json['_time'] = \"{} {}\".format(timestring.date(), timestring.time())\n\n        # Add threat_object_type to threat_object field_mapping\n        if artifact_json.get('threat_object') and artifact_json.get('threat_object_type'):\n            if isinstance(artifact_json['threat_object'], list) and isinstance(artifact_json['threat_object_type'], list):\n                sub_dictionary = {}\n                for idx, (threat_object, threat_object_type) in enumerate(zip(artifact_json['threat_object'], artifact_json['threat_object_type'])):\n                    # remove unknown threat_objects\n                    if threat_object != 'unknown':\n                        sub_dictionary[f'threat_object_{idx + 1}'] = threat_object\n                        sub_dictionary[f'threat_object_{idx + 1}_type'] = threat_object_type\n                        field_mapping[f'threat_object_{idx + 1}'] = [threat_object_type]\n                \n                artifact_json.pop('threat_object')\n                artifact_json.pop('threat_object_type')\n                artifact_json.update(sub_dictionary)                              \n            else:\n                field_mapping['threat_object'] = [artifact_json['threat_object_type']]\n            \n\n        # Set the underlying data type in field mapping based on the risk_object_type     \n        if artifact_json.get('risk_object') and artifact_json.get('risk_object_type'):\n            if 'user' in artifact_json['risk_object_type']:\n                field_mapping['risk_object'] = [\"user name\"]\n            elif artifact_json['risk_object_type'] == 'system':\n                field_mapping['risk_object'] = [\"host name\"]\n            else:\n                field_mapping['risk_object'] = [artifact_json['risk_object_type']]\n            \n        # Extract tags\n        if artifact_json.get('rule_attack_tactic_technique'):\n            for match in re.findall('(^|\\|)(\\w+)\\s+',artifact_json['rule_attack_tactic_technique']):\n                tags.append(match[1])\n            tags=list(set(tags))\n\n        # Final setp is to build the output. This is reliant on the source field existing which should be present in all Splunk search results\n        if artifact_json.get('search_name'):  \n            # populate artifact description\n            if artifact_json.get('risk_message'):\n                description = artifact_json['risk_message']\n            elif artifact_json.get('description'):\n                description = artifact_json.pop('description')\n            else:\n                description = None\n                \n            name = artifact_json.pop('search_name')\n            if risk_event_set:\n                data_id = sha256(''.join(risk_event_set).encode('utf-8')).hexdigest()\n            else:\n                data_id = None\n            parameters.append(\n                {\n                    'input_1': json.dumps(\n                        {\n                            'cef_data': artifact_json, \n                            'data': data,\n                            'tags': tags, \n                            'name': name, \n                            'source_data_identifier': data_id,\n                            'description': description, \n                            'field_mapping': field_mapping, \n                            'run_automation': False if index < len(search_json[0]) - 1 else True\n                        }\n                    )\n                }\n            )\n\n",
+                    "x": 170,
+                    "y": 850
                 },
                 "34": {
                     "data": {
@@ -703,8 +732,161 @@
                     "errors": {},
                     "id": "34",
                     "type": "decision",
-                    "x": 1060,
-                    "y": 1140
+                    "x": 250,
+                    "y": 670
+                },
+                "36": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "artifact_update",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "artifact_update_2",
+                        "id": "36",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "artifact_update": {
+                                "description": "Update an artifact with the specified attributes. All parameters are optional, except that an artifact_id must be provided and if one of cef_field or cef_value is provided then they must both be provided. Supports all fields available in /rest/artifact. Add any unlisted inputs as dictionary keys in input_json. Unsupported keys will automatically be dropped.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom artifact id"
+                                        ],
+                                        "description": "ID of the artifact to update, which is required unless artifact_id is a key within input_json",
+                                        "inputType": "item",
+                                        "label": "artifact_id",
+                                        "name": "artifact_id",
+                                        "placeholder": "1234",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Change the name of the artifact.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "artifact",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "Change the label of the artifact.",
+                                        "inputType": "item",
+                                        "label": "label",
+                                        "name": "label",
+                                        "placeholder": "events",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Change the severity of the artifact. Typically this is either \"High\", \"Medium\", or \"Low\".",
+                                        "inputType": "item",
+                                        "label": "severity",
+                                        "name": "severity",
+                                        "placeholder": "Medium",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the CEF field to populate in the artifact, such as \"destinationAddress\" or \"sourceDnsDomain\". Required only if cef_value is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_field",
+                                        "name": "cef_field",
+                                        "placeholder": "destinationAddress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The value of the CEF field to populate in the artifact, such as the IP address, domain name, or file hash. Required only if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_value",
+                                        "name": "cef_value",
+                                        "placeholder": "192.0.2.192",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The CEF data type of the data in cef_value. For example, this could be \"ip\", \"hash\", or \"domain\". Optional, but only operational if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_data_type",
+                                        "name": "cef_data_type",
+                                        "placeholder": "ip",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "A comma-separated list of tags to apply to the artifact, which is optional.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1, tag2, tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional input. Either True or False with default as False. If set to True, existing tags on the indicator record will be replaced by the provided input. If set to False, the new tags will be appended to the existing indicator tags.",
+                                        "inputType": "item",
+                                        "label": "overwrite_tags",
+                                        "name": "overwrite_tags",
+                                        "placeholder": "True or False",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to modify any extra attributes of the artifact. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+                                        "inputType": "item",
+                                        "label": "input_json",
+                                        "name": "input_json",
+                                        "placeholder": "{\"source_data_identifier\": \"1234\", \"data\": \"5678\"}",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "artifact_update",
+                                "name": "artifact_update"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "artifact_update": {
+                                "artifact_id": "filtered-data:filter_artifact_score:condition_1:artifact:*.id",
+                                "cef_data_type": null,
+                                "cef_field": null,
+                                "cef_value": null,
+                                "input_json": null,
+                                "label": null,
+                                "name": null,
+                                "overwrite_tags": null,
+                                "severity": null,
+                                "tags": "high_risk_score"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "36",
+                    "type": "utility",
+                    "x": 340,
+                    "y": 1341
                 },
                 "6": {
                     "data": {
@@ -758,8 +940,8 @@
                     "errors": {},
                     "id": "6",
                     "type": "utility",
-                    "x": 980,
-                    "y": 640
+                    "x": 170,
+                    "y": 148
                 },
                 "7": {
                     "data": {
@@ -794,35 +976,8 @@
                     "errors": {},
                     "id": "7",
                     "type": "filter",
-                    "x": 1040,
-                    "y": 740
-                },
-                "8": {
-                    "data": {
-                        "advanced": {
-                            "customName": "format risk query",
-                            "customNameId": 0,
-                            "description": "Formats a query to reach back into the risk index to pull out all the detections that led up to the notable triggering. The time tokens contain the earliest and latest times found in info_min_time and info_max_time",
-                            "join": [],
-                            "note": "Formats a query to reach back into the risk index to pull out all the detections that led up to the notable triggering. The time tokens contain the earliest and latest times found in info_min_time and info_max_time",
-                            "scope": "all"
-                        },
-                        "functionId": 1,
-                        "functionName": "format_risk_query",
-                        "id": "8",
-                        "parameters": [
-                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object",
-                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_min_time",
-                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_max_time"
-                        ],
-                        "template": "index=risk risk_object=\"{0}\"\nearliest=\"{1}\"\nlatest=\"{2}\"  | rex field=source \".*-\\s(?<source>.*)\\s+-\\s+\\w+\\s+-\\s+Rule\" \n| eval risk_message=coalesce(risk_message,source), threat_object=coalesce(threat_object, \"unknown\"), threat_object_type=coalesce(threat_object_type, \"unknown\") \n| eval threat_zip = mvzip(threat_object, threat_object_type) \n| stats earliest(_time) as earliest_time latest(_time) as latest_time values(*) as * by source threat_zip risk_message \n| rex field=threat_zip \"(?<threat_object>.*)\\,(?<threat_object_type>.*)\" | rename annotations.mitre_attack.mitre_technique_id as mitre_technique_id annotations.mitre_attack.mitre_tactic as mitre_tactic annotations.mitre_attack.mitre_technique as mitre_technique | fields - annotations* risk_object_* date_* orig_* user_* src_user_* src_* dest_* dest_user_* info_* search_* splunk_* tag* risk_modifier* risk_rule* sourcetype timestamp index next_cron_time timeendpos timestartpos testmode linecount threat_zip | sort + latest_time | `uitime(earliest_time)` \n| `uitime(latest_time)` \n| eval _time=latest_time\n| dedup earliest_time latest_time source threat_object threat_object_type",
-                        "type": "format"
-                    },
-                    "errors": {},
-                    "id": "8",
-                    "type": "format",
-                    "x": 980,
-                    "y": 880
+                    "x": 230,
+                    "y": 312
                 }
             },
             "notes": "For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack"
@@ -851,11 +1006,11 @@
             }
         ],
         "playbook_type": "automation",
-        "python_version": "3",
-        "schema": "5.0.3",
-        "version": "5.0.1.66250"
+        "python_version": "3.13",
+        "schema": "5.0.8",
+        "version": "5.4.0.101028"
     },
-    "create_time": "2021-10-19T20:23:02.160676+00:00",
+    "create_time": "2022-10-26T15:41:15.159132+00:00",
     "draft_mode": false,
     "labels": [
         "risk_notable"

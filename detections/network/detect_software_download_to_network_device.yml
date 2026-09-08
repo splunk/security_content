@@ -1,7 +1,8 @@
 name: Detect Software Download To Network Device
 id: cc590c66-f65f-48f2-986a-4797244762f8
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2020-10-28'
+modification_date: '2026-05-13'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -23,21 +24,20 @@ search: |-
 how_to_implement: This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from network devices. Make sure to tag any network devices as network, router or switch in order for this detection to work. If the TFTP traffic doesn't traverse a firewall nor packet inspection, these events will not be logged. This is typically an issue if the TFTP server is on the same subnet as the network device. There is also a chance of the network device loading software using a DHCP assigned IP address (netboot) which is not in the Asset inventory.
 known_false_positives: This search will also report any legitimate attempts of software downloads to network devices as well as outbound SSH sessions from network devices.
 references: []
-rba:
-    message: Potentially unauthorized software download to $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Router and Infrastructure Security
-    asset_type: Infrastructure
-    mitre_attack_id:
-        - T1542.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+finding:
+    title: Potentially unauthorized software download to $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Router and Infrastructure Security
+asset_type: Infrastructure
+mitre_attack_id:
+    - T1542.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network

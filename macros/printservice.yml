@@ -1,4 +1,8 @@
-definition: (source="Wineventlog:microsoft-windows-printservice/operational" OR source="XmlWineventlog:microsoft-windows-printservice/operational" OR source="WinEventLog:Microsoft-Windows-PrintService/Admin" OR source="XmlWinEventLog:Microsoft-Windows-PrintService/Admin")
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: printservice
+id: 34c9edd4-c422-4b35-8870-85bce2aec7dd
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: (source="Wineventlog:microsoft-windows-printservice/operational" OR source="XmlWineventlog:microsoft-windows-printservice/operational" OR source="WinEventLog:Microsoft-Windows-PrintService/Admin" OR source="XmlWinEventLog:Microsoft-Windows-PrintService/Admin")

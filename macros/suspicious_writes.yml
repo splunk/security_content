@@ -1,5 +1,8 @@
-definition: lookup suspicious_writes_lookup file as file_name OUTPUT note as "Reference"
-  | search "Reference" != False
-description: This macro limites the output to file names that have been marked as
-  suspicious
 name: suspicious_writes
+id: 6983de37-2a08-4c42-80a2-fe404edd19b4
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro limites the output to file names that have been marked as suspicious
+definition: lookup suspicious_writes_lookup file as file_name OUTPUT note as "Reference" | search "Reference" != False

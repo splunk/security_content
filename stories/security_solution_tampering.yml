@@ -1,22 +1,22 @@
 name: Security Solution Tampering
 id: c17cde5f-9f00-472b-9d4e-fceb2f47d656
-version: 1
-date: '2025-01-21'
+version: 2
+creation_date: '2025-01-21'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 description: This analytic story focuses on identifying behaviors associated with the misuse of security solution utilities, such as antivirus (AV) and endpoint detection and response (EDR) tools, on endpoints. Adversaries often exploit these utilities to disable critical security services, modify configurations, or execute defense evasion actions. Such activities are typically aimed at bypassing detection mechanisms, disrupting incident response efforts, and maintaining persistence within a compromised environment. By monitoring for these suspicious behaviors, this story empowers security teams to detect, investigate, and respond to potential tampering or manipulation of endpoint defenses effectively.
 narrative: Attackers often target security solutions as part of their defense evasion strategies. By disabling or tampering with AV and EDR services, they can reduce the likelihood of detection and freely execute malicious activities. This analytic story focuses on detecting such malicious interactions with security utilities, helping organizations to identify and respond to potential threats promptly. The detections within this story leverage various data sources to monitor for suspicious activities, such as the execution of known security utility binaries with parameters that disable protections, unexpected stopping of security services, or modification of security-related registry keys. Implementing these detections enables security teams to enhance their visibility into potential tampering attempts and strengthen their overall security posture.
 references:
-- https://www.cisco.com/c/en/us/support/docs/security/amp-endpoints/213690-amp-for-endpoint-command-line-switches.html
-- https://techdocs.broadcom.com/us/en/symantec-security-software/endpoint-security-and-management/endpoint-protection/all/appendices/windows-commands-for-the-endpoint-protection-clien-v9567615-d19e6200.html
-- https://learn.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2025-ps
-- https://support.kaspersky.com/keswin/11.1.1/en-US/178723.htm
-- https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/av-edr-evasion/defender
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.cisco.com/c/en/us/support/docs/security/amp-endpoints/213690-amp-for-endpoint-command-line-switches.html
+    - https://techdocs.broadcom.com/us/en/symantec-security-software/endpoint-security-and-management/endpoint-protection/all/appendices/windows-commands-for-the-endpoint-protection-clien-v9567615-d19e6200.html
+    - https://learn.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2025-ps
+    - https://support.kaspersky.com/keswin/11.1.1/en-US/178723.htm
+    - https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/av-edr-evasion/defender
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

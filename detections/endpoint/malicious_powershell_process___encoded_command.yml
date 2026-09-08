@@ -1,7 +1,8 @@
 name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 20
-date: '2026-03-25'
+version: 21
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Michael Haag, Splunk, SirDuckly, GitHub Community
 status: production
 type: Hunting
@@ -47,36 +48,37 @@ references:
     - https://twitter.com/M_haggis/status/1440758396534214658?s=20
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
-tags:
-    analytic_story:
-        - SolarWinds WHD RCE Post Exploitation
-        - CISA AA22-320A
-        - Hermetic Wiper
-        - Sandworm Tools
-        - Qakbot
-        - Volt Typhoon
-        - NOBELIUM Group
-        - Data Destruction
-        - Lumma Stealer
-        - Malicious PowerShell
-        - DarkCrystal RAT
-        - WhisperGate
-        - Crypto Stealer
-        - Microsoft SharePoint Vulnerabilities
-        - Scattered Spider
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Microsoft WSUS CVE-2025-59287
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1027
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - SolarWinds WHD RCE Post Exploitation
+    - CISA AA22-320A
+    - Hermetic Wiper
+    - Sandworm Tools
+    - Qakbot
+    - Volt Typhoon
+    - NOBELIUM Group
+    - Data Destruction
+    - Lumma Stealer
+    - Malicious PowerShell
+    - DarkCrystal RAT
+    - WhisperGate
+    - Crypto Stealer
+    - Microsoft SharePoint Vulnerabilities
+    - Scattered Spider
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Microsoft WSUS CVE-2025-59287
+asset_type: Endpoint
+mitre_attack_id:
+    - T1027
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

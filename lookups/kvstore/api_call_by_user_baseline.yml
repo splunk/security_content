@@ -1,0 +1,15 @@
+name: api_call_by_user_baseline
+id: 6f4b0d42-5f24-4992-98f9-aebbc7ced9bf
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A collection that will contain the baseline information for number of AWS API calls per user
+fields:
+    - _key
+    - arn
+    - latestCount
+    - numDataPoints
+    - avgApiCalls
+    - stdevApiCalls

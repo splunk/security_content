@@ -1,3 +1,8 @@
-definition: (Processes.process_name=procdump.exe OR Processes.process_name=procdump64.exe OR Processes.original_file_name=procdump)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_procdump
+id: ff4a950f-615e-46ad-b04a-216bdc3fc5c7
+version: 1
+creation_date: '2021-09-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=procdump.exe OR Processes.process_name=procdump64.exe OR Processes.original_file_name=procdump)

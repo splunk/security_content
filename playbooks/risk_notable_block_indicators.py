@@ -225,7 +225,7 @@ def format_note(action=None, success=None, container=None, results=None, handle=
     ## Custom Code End
     ################################################################################
 
-    phantom.format(container=container, template=template, parameters=parameters, name="format_note")
+    phantom.format(container=container, template=template, parameters=parameters, name="format_note", drop_none=True)
 
     return
 

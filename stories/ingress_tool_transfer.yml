@@ -1,28 +1,18 @@
 name: Ingress Tool Transfer
 id: b3782036-8cbd-11eb-9d8e-acde48001122
-version: 1
-date: '2021-03-24'
+version: 2
+creation_date: '2021-03-24'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
-description: Adversaries may transfer tools or other files from an external system
-  into a compromised environment. Files may be copied from an external adversary controlled
-  system through the Command And Control channel to bring tools into the victim network
-  or through alternate protocols with another tool such as FTP.
-narrative: Ingress tool transfer is a Technique under tactic Command And Control.
-  Behaviors will include the use of living off the land binaries to download implants
-  or binaries over alternate communication ports. It is imperative to baseline applications
-  on endpoints to understand what generates network activity, to where, and what is
-  its native behavior. These utilities, when abused, will write files to disk in world
-  writeable paths.\ During triage, review the reputation of the remote public destination
-  IP or domain. Capture any files written to disk and perform analysis. Review other
-  parrallel processes for additional behaviors.
+description: Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the Command And Control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP.
+narrative: Ingress tool transfer is a Technique under tactic Command And Control. Behaviors will include the use of living off the land binaries to download implants or binaries over alternate communication ports. It is imperative to baseline applications on endpoints to understand what generates network activity, to where, and what is its native behavior. These utilities, when abused, will write files to disk in world writeable paths.\ During triage, review the reputation of the remote public destination IP or domain. Capture any files written to disk and perform analysis. Review other parrallel processes for additional behaviors.
 references:
-- https://attack.mitre.org/techniques/T1105/
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://attack.mitre.org/techniques/T1105/
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

@@ -1,4 +1,8 @@
-definition: event.parameters{}.multiValue{} IN ("backup_code", "google_authenticator", "google_prompt", "idv_any_phone", "idv_preregistered_phone", "internal_two_factor", "knowledge_employee_id", "knowledge_preregistered_email", "login_location", "knowledge_preregistered_phone", "offline_otp", "security_key", "security_key_otp")
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: gws_login_mfa_methods
+id: 017bc176-8c6e-4ada-b02c-ac40c5473a0f
+version: 1
+creation_date: '2022-10-14'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: event.parameters{}.multiValue{} IN ("backup_code", "google_authenticator", "google_prompt", "idv_any_phone", "idv_preregistered_phone", "internal_two_factor", "knowledge_employee_id", "knowledge_preregistered_email", "login_location", "knowledge_preregistered_phone", "offline_otp", "security_key", "security_key_otp")

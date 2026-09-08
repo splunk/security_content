@@ -1,7 +1,8 @@
-definition: (eventName=AuthorizeSecurityGroupIngress OR eventName=CreateSecurityGroup
-  OR eventName=DeleteSecurityGroup OR eventName=DescribeClusterSecurityGroups OR eventName=DescribeDBSecurityGroups
-  OR eventName=DescribeSecurityGroupReferences OR eventName=DescribeSecurityGroups
-  OR eventName=DescribeStaleSecurityGroups OR eventName=RevokeSecurityGroupIngress
-  OR eventName=UpdateSecurityGroupRuleDescriptionsIngress)
-description: This macro is a list of AWS event names associated with security groups
 name: security_group_api_calls
+id: 1905be11-02bd-47a6-a34b-f3d54915f89a
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro is a list of AWS event names associated with security groups
+definition: (eventName=AuthorizeSecurityGroupIngress OR eventName=CreateSecurityGroup OR eventName=DeleteSecurityGroup OR eventName=DescribeClusterSecurityGroups OR eventName=DescribeDBSecurityGroups OR eventName=DescribeSecurityGroupReferences OR eventName=DescribeSecurityGroups OR eventName=DescribeStaleSecurityGroups OR eventName=RevokeSecurityGroupIngress OR eventName=UpdateSecurityGroupRuleDescriptionsIngress)

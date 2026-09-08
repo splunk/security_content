@@ -1,9 +1,16 @@
 {
-    "create_time": "2021-04-19T20:11:08.343196+00:00",
-    "custom_function_id": "e77ff64b3274a644f799579652c234f9a7f2de28",
+    "create_time": "2023-05-17T18:14:40.682361+00:00",
+    "custom_function_id": "e3b6cb911c14ffc3f546ccb209de5b41ea64be12",
     "description": "Filter values in a list using a regex and either keep or drop values that match, depending on the action parameter.",
     "draft_mode": false,
     "inputs": [
+        {
+            "contains_type": [],
+            "description": "Either 'keep' or 'drop' to specify what to do with the items that match the regular expression. The default is 'keep'.",
+            "input_type": "item",
+            "name": "action",
+            "placeholder": "'keep' or 'drop'"
+        },
         {
             "contains_type": [
                 "*"
@@ -19,13 +26,6 @@
             "input_type": "item",
             "name": "regex",
             "placeholder": "\\w+\\.exe"
-        },
-        {
-            "contains_type": [],
-            "description": "Either 'keep' or 'drop' to specify what to do with the items that match the regular expression. The default is 'keep'.",
-            "input_type": "list",
-            "name": "action",
-            "placeholder": "'keep' or 'drop'"
         }
     ],
     "outputs": [
@@ -33,10 +33,11 @@
             "contains_type": [
                 "*"
             ],
-            "data_path": "*.item",
+            "data_path": "item",
             "description": "List of output items"
         }
     ],
-    "platform_version": "4.10.3.51237",
-    "python_version": "3"
+    "outputs_type": "list",
+    "platform_version": "5.5.0.108488",
+    "python_version": "3.13"
 }

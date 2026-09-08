@@ -1,5 +1,8 @@
-definition: lookup ransomware_notes_lookup ransomware_notes as file_name OUTPUT status
-  as "Known Ransomware Notes" | search "Known Ransomware Notes"=True
-description: This macro limits the output to files that have been identified as a
-  ransomware note
 name: ransomware_notes
+id: c23293ff-6395-4581-9426-bd019dccda6c
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro limits the output to files that have been identified as a ransomware note
+definition: lookup ransomware_notes_lookup ransomware_notes as file_name OUTPUT status as "Known Ransomware Notes" | search "Known Ransomware Notes"=True

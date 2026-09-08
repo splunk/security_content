@@ -1,17 +1,17 @@
 name: Kubernetes Falco
 id: 23c0eeed-840a-4711-a41b-6819c1ffbba5
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs suspicious or anomalous activities within a Kubernetes environment
-  detected by Falco, including system calls, file access, and network activity.
+description: Logs suspicious or anomalous activities within a Kubernetes environment detected by Falco, including system calls, file access, and network activity.
 mitre_components:
-- File Access
-- Network Traffic Content
-- Process Creation
-- Process Modification
-- Application Log Content
-- Host Status
+    - File Access
+    - Network Traffic Content
+    - Process Creation
+    - Process Modification
+    - Application Log Content
+    - Host Status
 source: kubernetes
 sourcetype: kube:container:falco
 logsource:

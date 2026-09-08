@@ -1,0 +1,13 @@
+name: previously_seen_ec2_instance_types_lookup
+id: 37507f63-27c5-488e-ba5b-cf38274997ff
+version: 3
+creation_date: '2025-01-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A place holder for a list of used previously seen EC2 instance types.
+fields:
+    - _key
+    - earliest
+    - latest
+    - instanceType

@@ -1,7 +1,8 @@
 name: Child Processes of Spoolsv exe
 id: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
@@ -29,28 +30,30 @@ search: |-
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate printer-related processes may show up as children of spoolsv.exe. You should confirm that any activity as legitimate and may be added as exclusions in the search.
 references: []
-rba:
-    message: Potentially suspicious child processes of spoolsv.exe on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Potentially suspicious child processes of spoolsv.exe on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Data Destruction
-        - Hermetic Wiper
-        - Windows Privilege Escalation
-    asset_type: Endpoint
-    cve:
-        - CVE-2018-8440
-    mitre_attack_id:
-        - T1068
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Potentially suspicious child processes of spoolsv.exe on $dest$
+analytic_story:
+    - Data Destruction
+    - Hermetic Wiper
+    - Windows Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2018-8440
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

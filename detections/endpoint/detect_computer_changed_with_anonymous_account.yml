@@ -1,7 +1,8 @@
 name: Detect Computer Changed with Anonymous Account
 id: 1400624a-d42d-484d-8843-e6753e6e3645
-version: 10
-date: '2026-03-18'
+version: 11
+creation_date: '2020-09-18'
+modification_date: '2026-05-13'
 author: Rod Soto, Jose Hernandez, Splunk
 status: production
 type: Hunting
@@ -33,22 +34,23 @@ references:
     - https://www.lares.com/blog/from-lares-labs-defensive-guidance-for-zerologon-cve-2020-1472/
     - https://netwrix.com/en/cybersecurity-glossary/cyber-security-attacks/zerologon-vulnerability/
     - https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES/blob/master/Credential%20Access/Zerologon_VoidSec_CVE-2020-1472_4626_LT3_Anonym_follwedby_4742_DC_Anony_DC.evtx
-tags:
-    analytic_story:
-        - Detect Zerologon Attack
-    asset_type: Windows
-    cve:
-        - CVE-2020-1472
-    mitre_attack_id:
-        - T1210
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Detect Zerologon Attack
+asset_type: Windows
+cve:
+    - CVE-2020-1472
+mitre_attack_id:
+    - T1210
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/zerologon/zerologon.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

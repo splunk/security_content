@@ -1,29 +1,21 @@
 name: PHP-CGI RCE Attack on Japanese Organizations
 id: e347c55f-439b-4758-8e08-9e2a37a806bc
-version: 1
-status: production
-date: '2025-03-17'
+version: 2
+creation_date: '2025-03-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
 description: This analytic story covers attacks exploiting CVE-2024-4577, a remote code execution (RCE) vulnerability in the PHP-CGI implementation on Windows. Attackers leverage this vulnerability to gain initial access, deploy Cobalt Strike using the "TaoWu" kit for post-exploitation activities, and establish persistence. The attacks primarily target organizations across various sectors including technology, telecommunications, entertainment, education, and e-commerce.
-narrative: The attack begins with the exploitation of CVE-2024-4577, a critical RCE vulnerability in Windows-based PHP installations using CGI configurations. The vulnerability arises from the "Best-Fit" behavior in Windows code pages, where certain characters are replaced in command-line inputs, causing the PHP-CGI module to misinterpret these characters as PHP options and allowing arbitrary code execution.
-
-  After identifying vulnerable targets, attackers use a Python exploit script to send specially crafted POST requests containing PHP code. Upon successful exploitation, a PowerShell download cradle retrieves and executes a PowerShell injector script from a command and control (C2) server, which deploys Cobalt Strike reverse HTTP shellcode.
-
-  Post-exploitation activities include reconnaissance (gathering system information), privilege escalation (using JuicyPotato, RottenPotato, SweetPotato exploits), persistence (modifying registry keys, creating scheduled tasks, and Windows services), defense evasion (clearing event logs), lateral movement (network scanning and abusing Group Policy Objects), and credential theft (using Mimikatz).
-
-  The attackers utilize the "TaoWu" Cobalt Strike kit for many of these actions and have access to additional adversarial frameworks hosted on an Alibaba cloud container Registry, including Blue-Lotus (JavaScript webshell XSS framework), BeEF (Browser Exploitation Framework), and Viper C2.
-
-  Detection opportunities include monitoring for suspicious PowerShell download cradles, unusual process spawning patterns, registry modifications for persistence, scheduled task creation, Windows service creation, event log clearing, and network scanning activities.
+narrative: "The attack begins with the exploitation of CVE-2024-4577, a critical RCE vulnerability in Windows-based PHP installations using CGI configurations. The vulnerability arises from the \"Best-Fit\" behavior in Windows code pages, where certain characters are replaced in command-line inputs, causing the PHP-CGI module to misinterpret these characters as PHP options and allowing arbitrary code execution.\nAfter identifying vulnerable targets, attackers use a Python exploit script to send specially crafted POST requests containing PHP code. Upon successful exploitation, a PowerShell download cradle retrieves and executes a PowerShell injector script from a command and control (C2) server, which deploys Cobalt Strike reverse HTTP shellcode.\nPost-exploitation activities include reconnaissance (gathering system information), privilege escalation (using JuicyPotato, RottenPotato, SweetPotato exploits), persistence (modifying registry keys, creating scheduled tasks, and Windows services), defense evasion (clearing event logs), lateral movement (network scanning and abusing Group Policy Objects), and credential theft (using Mimikatz).\nThe attackers utilize the \"TaoWu\" Cobalt Strike kit for many of these actions and have access to additional adversarial frameworks hosted on an Alibaba cloud container Registry, including Blue-Lotus (JavaScript webshell XSS framework), BeEF (Browser Exploitation Framework), and Viper C2.\nDetection opportunities include monitoring for suspicious PowerShell download cradles, unusual process spawning patterns, registry modifications for persistence, scheduled task creation, Windows service creation, event log clearing, and network scanning activities."
 references:
-- https://blog.talosintelligence.com/new-persistent-attacks-japan/
-- https://github.com/watchtowrlabs/CVE-2024-4577/blob/main/watchTowr-vs-php_cve-2024-4577.py
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
-  cve:
-  - CVE-2024-4577
+    - https://blog.talosintelligence.com/new-persistent-attacks-japan/
+    - https://github.com/watchtowrlabs/CVE-2024-4577/blob/main/watchTowr-vs-php_cve-2024-4577.py
+cve:
+    - CVE-2024-4577
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

@@ -1,7 +1,8 @@
 name: Cisco ASA - Core Syslog Message Volume Drop
 id: 4b4f8fdd-1f9e-45d8-9b0f-1f64c0b297a4
-version: 3
-date: '2025-10-13'
+version: 5
+creation_date: '2025-09-25'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Micheal Haag, Splunk
 status: production
 type: Hunting
@@ -41,24 +42,25 @@ references:
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
     - https://www.cisa.gov/news-events/directives/ed-25-03-identify-and-mitigate-potential-compromise-cisco-devices
     - https://www.ncsc.gov.uk/news/persistent-malicious-targeting-cisco-devices
-tags:
-    analytic_story:
-        - Suspicious Cisco Adaptive Security Appliance Activity
-        - ArcaneDoor
-    asset_type: Network
-    mitre_attack_id:
-        - T1562
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2025-20333
-        - CVE-2025-20362
+analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+    - ArcaneDoor
+asset_type: Network
+cve:
+    - CVE-2025-20333
+    - CVE-2025-20362
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/arcane_door/cisco_asa.log
           source: not_applicable
           sourcetype: cisco:asa
+      test_type: unit

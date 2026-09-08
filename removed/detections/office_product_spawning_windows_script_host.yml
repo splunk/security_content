@@ -1,90 +1,65 @@
 name: Office Product Spawning Windows Script Host
 id: b3628a5b-8d02-42fa-a891-eebf2351cbe1
 version: 12
-date: '2025-02-10'
+creation_date: '2021-04-27'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: removed
 type: TTP
-description: The following analytic has been deprecated in favour of a more generic
-  approach in "Windows Office Product Spawned Uncommon Process". The following analytic
-  detects an Office product spawning WScript.exe or CScript.exe. It leverages data
-  from Endpoint Detection and Response (EDR) agents, focusing on process creation
-  events where Office applications are the parent processes. This activity is significant
-  because it may indicate the execution of potentially malicious scripts through Office
-  products, a common tactic in phishing attacks and malware delivery. If confirmed
-  malicious, this behavior could lead to unauthorized code execution, data exfiltration,
-  or further system compromise.
+description: The following analytic has been deprecated in favour of a more generic approach in "Windows Office Product Spawned Uncommon Process". The following analytic detects an Office product spawning WScript.exe or CScript.exe. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where Office applications are the parent processes. This activity is significant because it may indicate the execution of potentially malicious scripts through Office products, a common tactic in phishing attacks and malware delivery. If confirmed malicious, this behavior could lead to unauthorized code execution, data exfiltration, or further system compromise.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
-  "msaccess.exe","Graph.exe","winproj.exe") Processes.process_name IN ("wscript.exe",
-  "cscript.exe") by  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
-  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `office_product_spawning_windows_script_host_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be present based on macro based approved
-  documents in the organization. Filtering may be needed.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe", "msaccess.exe","Graph.exe","winproj.exe") Processes.process_name IN ("wscript.exe", "cscript.exe") by  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `office_product_spawning_windows_script_host_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may be present based on macro based approved documents in the organization. Filtering may be needed.
 references:
-- https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
-- https://www.fortinet.com/blog/threat-research/latest-remcos-rat-phishing
-- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+    - https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
+    - https://www.fortinet.com/blog/threat-research/latest-remcos-rat-phishing
+    - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Office process $parent_process_name$ observed executing a suspicious child
-    process $process_name$ on host $dest$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 63
-  threat_objects:
-  - field: parent_process_name
-    type: parent_process_name
-  - field: process_name
-    type: process_name
+    message: Office process $parent_process_name$ observed executing a suspicious child process $process_name$ on host $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 63
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Spearphishing Attachments
-  - Remcos
-  - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
-  - Compromised Windows Host
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1566.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Spearphishing Attachments
+        - Remcos
+        - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
+        - Compromised Windows Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1566.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-sysmon.log
+            source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+            sourcetype: XmlWinEventLog
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.2.0
+    replacement_content:
+        - Windows Office Product Spawned Uncommon Process

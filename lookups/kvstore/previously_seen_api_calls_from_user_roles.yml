@@ -1,0 +1,14 @@
+name: previously_seen_api_calls_from_user_roles
+id: 80620693-2a0f-4c17-8579-2f9a6a2bfa15
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A placeholder for a list of IPs that have access S3
+fields:
+    - _key
+    - earliest
+    - latest
+    - userName
+    - eventName

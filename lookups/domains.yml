@@ -1,7 +1,0 @@
-name: domains
-date: 2024-12-23
-version: 2
-id: b34f12f1-952d-4fe1-a5d9-18b81ca32244
-author: Splunk Threat Research Team
-lookup_type: csv
-description: A list of domains that can be ignored

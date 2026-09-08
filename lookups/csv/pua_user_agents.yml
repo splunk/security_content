@@ -1,0 +1,12 @@
+name: pua_user_agents
+id: d7fe0258-349e-4557-89be-148d6d0abe87
+version: 2
+creation_date: '2026-01-06'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+lookup_type: csv
+description: A list of user agents used with unwanted applications.
+match_type:
+    - WILDCARD(pua_user_agent)
+min_matches: 1
+case_sensitive_match: true

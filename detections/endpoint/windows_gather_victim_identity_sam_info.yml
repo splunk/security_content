@@ -1,7 +1,8 @@
 name: Windows Gather Victim Identity SAM Info
 id: a18e85d7-8b98-4399-820c-d46a1ca3516f
-version: 7
-date: '2025-05-02'
+version: 8
+creation_date: '2022-08-31'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -14,20 +15,21 @@ known_false_positives: this module can be loaded by a third party application. F
 references:
     - https://redcanary.com/blog/active-breach-evading-defenses/
     - https://strontic.github.io/xcyclopedia/library/samlib.dll-0BDF6351009F6EBA5BA7E886F23263B1.html
-tags:
-    analytic_story:
-        - Brute Ratel C4
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1589.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Brute Ratel C4
+asset_type: Endpoint
+mitre_attack_id:
+    - T1589.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/loading_samlib/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

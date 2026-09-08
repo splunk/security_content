@@ -1,24 +1,25 @@
 name: AWS Network ACL Details from ID
 id: 2e11293f-c795-41bd-b470-fc87adc4e196
 version: 1
-date: '2017-01-22'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 type: Investigation
 status: removed
-description: This search queries AWS description logs and returns all the information
-  about a specific network ACL via network ACL ID
-search: '`aws_description` | rename id as networkAclId | search  networkAclId=$networkAclId$
-  | table id account_id vpc_id network_acl_entries{}.*'
-how_to_implement: In order to implement this search, you must install the AWS App
-  for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later)
-  and configure your AWS description inputs.
+description: This search queries AWS description logs and returns all the information about a specific network ACL via network ACL ID
+search: '`aws_description` | rename id as networkAclId | search  networkAclId=$networkAclId$ | table id account_id vpc_id network_acl_entries{}.*'
+how_to_implement: In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - AWS Network ACL Activity
-  - Suspicious AWS Traffic
-  - Command And Control
-  product:
-  - Splunk Phantom
-  security_domain: network
+    analytic_story:
+        - AWS Network ACL Activity
+        - Suspicious AWS Traffic
+        - Command And Control
+    product:
+        - Splunk Phantom
+    security_domain: network
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

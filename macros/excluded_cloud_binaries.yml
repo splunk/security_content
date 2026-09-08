@@ -1,3 +1,8 @@
-definition: search binary != "*/app/aws-vpc-cni" AND binary != "*/bin/amazon-ssm-agent" AND binary != "*/bin/ssm-agent-worker"
-description: This macro is intended to exclude binaries that are common in Kubernetes environments that are known to access the cloud metadata service.
 name: excluded_cloud_binaries
+id: 15017d20-ceb5-4e6c-ad00-be03aa628383
+version: 1
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro is intended to exclude binaries that are common in Kubernetes environments that are known to access the cloud metadata service.
+definition: search binary != "*/app/aws-vpc-cni" AND binary != "*/bin/amazon-ssm-agent" AND binary != "*/bin/ssm-agent-worker"

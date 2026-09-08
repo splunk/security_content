@@ -1,4 +1,8 @@
-definition: sourcetype=ms:defender:atp:alerts
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: ms_defender_atp_alerts
+id: 95050e1b-6508-421b-9c8d-47ec9390d261
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=ms:defender:atp:alerts

@@ -1,4 +1,8 @@
-definition: (source="XmlWinEventLog:Microsoft-Windows-TaskScheduler/Operational" OR source="WinEventLog:Microsoft-Windows-TaskScheduler/Operational")
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk environment.
 name: wineventlog_task_scheduler
+id: 6d675c6c-0518-4c87-a6c4-2b968c85ab32
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk environment.
+definition: (source="XmlWinEventLog:Microsoft-Windows-TaskScheduler/Operational" OR source="WinEventLog:Microsoft-Windows-TaskScheduler/Operational")

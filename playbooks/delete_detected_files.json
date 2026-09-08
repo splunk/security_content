@@ -1740,7 +1740,7 @@
             },
             "notes": "Windows Remote Management must be enabled on the remote computer."
         },
-        "python_version": "3",
+        "python_version": "3.13",
         "schema": 4,
         "version": "4.10.2.47587"
     },

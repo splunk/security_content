@@ -1,18 +1,18 @@
 name: Medusa Ransomware
 id: fffb273c-3f8c-45ef-9e23-2d8913d2783b
-version: 1
-date: '2025-03-14'
+version: 2
+creation_date: '2025-03-14'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: Medusa ransomware is a sophisticated malware variant that encrypts victims' files and demands a ransom for decryption. It infiltrates systems through phishing emails, malicious downloads, or exploited vulnerabilities. Once inside, it encrypts files, appends specific extensions, and drops ransom notes with payment instructions. Medusa may also disable security tools, delete backups, and threaten to leak stolen data. Detection methods include monitoring unusual file encryption activity, identifying changes in file extensions, detecting unauthorized system modifications, and analyzing ransom notes. Advanced cybersecurity solutions use behavior-based detection, machine learning, and endpoint protection to identify and block Medusa ransomware before it executes. Regular updates, network monitoring, and employee awareness are crucial for preventing infections.
 narrative: The RaaS Medusa variant has been used to conduct ransomware attacks from 2021 to present. Medusa originally operated as a closed ransomware variant, meaning all development and associated operations were controlled by the same group of cyber threat actors. While Medusa has since progressed to using an affiliate model, important operations such as ransom negotiation are still centrally controlled by the developers. Both Medusa developers and affiliates—referred to as “Medusa actors”. Medusa is a ransomware-as-a-service (RaaS) variant first identified in June 2021. As of February 2025, Medusa developers and affiliates have impacted over 300 victims from a variety of critical infrastructure sectors with affected industries including medical, education, legal, insurance, technology, and manufacturing. The Medusa ransomware variant is unrelated to the MedusaLocker variant and the Medusa mobile malware variant per the FBI’s investigation. FBI, CISA, and MS-ISAC encourage organizations to implement the recommendations in the Mitigations section of this advisory to reduce the likelihood and impact of Medusa ransomware incidents.
 references:
-- https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

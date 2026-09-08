@@ -1,7 +1,8 @@
 name: Okta MFA Exhaustion Hunt
 id: 97e2fe57-3740-402c-988a-76b64ce04b8d
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2022-12-19'
+modification_date: '2026-05-13'
 author: Michael Haag, Marissa Bower, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -29,22 +30,23 @@ references:
     - https://developer.okta.com/docs/reference/api/event-types/?q=user.acount.lock
     - https://sec.okta.com/everythingisyes
     - https://splunkbase.splunk.com/app/6553
-tags:
-    analytic_story:
-        - Okta Account Takeover
-        - Okta MFA Exhaustion
-        - Scattered Lapsus$ Hunters
-    asset_type: Okta Tenant
-    mitre_attack_id:
-        - T1110
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: access
+analytic_story:
+    - Okta Account Takeover
+    - Okta MFA Exhaustion
+    - Scattered Lapsus$ Hunters
+asset_type: Okta Tenant
+mitre_attack_id:
+    - T1110
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: access
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_multiple_failed_mfa_pushes/okta_multiple_failed_mfa_pushes.log
           source: Okta
           sourcetype: OktaIM2:log
+      test_type: unit

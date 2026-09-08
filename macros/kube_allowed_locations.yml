@@ -1,3 +1,8 @@
-definition: Country="United States"
-description: Define your locations which are allowed to connect to your kubernetes cluster.
 name: kube_allowed_locations
+id: dd0b4902-f768-4c56-9d4d-daf79f63fb43
+version: 1
+creation_date: '2023-12-20'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Define your locations which are allowed to connect to your kubernetes cluster.
+definition: Country="United States"

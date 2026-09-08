@@ -1,19 +1,28 @@
 name: MacOS AMOS Stealer - Virtual Machine Check Activity
 id: 4e41ad21-9761-426d-8aa1-083712ff9f30
-version: 5
-date: '2026-03-10'
+version: 7
+creation_date: '2025-04-25'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk, Alex Karkins
 status: production
 type: Anomaly
 description: |
-    The following analytic detects AMOS Stealer VM check activity on macOS. It leverages osquery to monitor process events and identifies the execution of the "osascript" command along with specific commandline strings. This activity is significant
-    as AMOS stealer was seen using this pattern in order to check if the host is a Virtual Machine or not. If confirmed malicious, this behavior indicate that the host is already infected by the AMOS stealer, which could allow attackers to execute arbitrary code, escalate privileges, steal information, or persist within the environment, posing a significant security risk.
+    The following analytic detects AMOS Stealer VM check activity on macOS. It leverages osquery to monitor process events and identifies the execution of the "osascript" command along with specific commandline strings.
+    This activity is significant as AMOS stealer was seen using this pattern in order to check if the host is a Virtual Machine or not.
+    If confirmed malicious, this behavior indicate that the host is already infected by the AMOS stealer, which could allow attackers to execute arbitrary code, escalate privileges, steal information, or persist within the environment, posing a significant security risk.
 data_source:
-    - osquery
+    - Osquery Results
 search: |
-    `osquery_macro` name=es_process_events
-    columns.cmdline="*osascript*" AND columns.cmdline="* -e *" AND columns.cmdline="*set*" AND columns.cmdline="*system_profiler*" AND columns.cmdline IN ("*VMware*", "*QEMU*")
+    `osquery_macro`
+    name=es_process_events
+    columns.cmdline="*osascript*"
+    columns.cmdline="* -e *"
+    columns.cmdline="*set*"
+    columns.cmdline="*system_profiler*"
+    columns.cmdline IN ("*VMware*", "*QEMU*")
+
     | rename columns.* as *
+
     | stats  min(_time) as firstTime max(_time) as lastTime
       values(cmdline) as cmdline,
       values(pid) as pid,
@@ -21,12 +30,14 @@ search: |
       values(path) as path,
       values(signing_id) as signing_id,
       by username host
+
     | rename
       username as user,
       cmdline as process,
       parent as parent_process,
       path as process_path,
       host as dest
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_amos_stealer___virtual_machine_check_activity_filter`
@@ -42,34 +53,35 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: AMOS Stealer activity on host $dest$ by user $user$
-    risk_objects:
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
+          message: AMOS Stealer activity on host $dest$ by user $user$
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - AMOS Stealer
-        - Hellcat Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: AMOS Stealer activity on host $dest$ by user $user$
+analytic_story:
+    - AMOS Stealer
+    - Hellcat Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.002/amos_stealer/amos_stealer.log
           source: osquery
           sourcetype: osquery:results
+      test_type: unit

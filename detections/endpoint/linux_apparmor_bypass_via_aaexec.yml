@@ -1,0 +1,71 @@
+name: Linux Apparmor Bypass Via Aaexec
+id: b6d2a2b8-ad52-4a12-8956-dbf10012d1b8
+version: 1
+creation_date: '2026-06-30'
+modification_date: '2026-06-30'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic detects aa-exec being used to launch a binary under the trinity, chrome, or flatpak AppArmor profiles where the executed target is not the legitimate application those profiles are intended to confine. This behavior is consistent with abuse of userns,-carrying AppArmor profiles to bypass Ubuntu's unprivileged user namespace restrictions as seen in the CVE-2026-46331 privilege escalation exploit. The analytic flags execution when the target command following -- is invoked via a relative path, resolves outside standard trusted  install directories for these applications, or shares the same binary name as the calling parent process. Adversaries and red teams may abuse this technique to escalate privileges by tricking aa-exec into granting a namespace-creation capability to an arbitrary binary rather than the trusted application the profile was written for.
+data_source:
+    - Sysmon for Linux EventID 1
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    from datamodel=Endpoint.Processes where
+        Processes.process_name="*aa-exec"
+        AND Processes.process="* -p *"
+        AND Processes.process="*--*"
+        AND Processes.process IN ("*trinity*","*chrome*","*flatpak*")
+        AND NOT Processes.process IN ("/user*","/opt*","/snap*","/var/lib/flatpak*")
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+    Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+    Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id
+    Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_apparmor_bypass_via_aaexec_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Chrome, Flatpak, and the trinity profile are never legitimately re-executed with extraneious arguments from a non-browser binary path
+references:
+    - https://github.com/sgkdev/packet_edit_meme
+    - https://tuxcare.com/blog/pedit-cow-cve/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: AppArmor bypass leveraging aa-exec was observed on $dest$.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: parent_process_name
+      type: process
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2026-46331
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_pedit/sysmon_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux
+      test_type: unit

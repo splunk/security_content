@@ -1,7 +1,8 @@
 name: Kubernetes AWS detect suspicious kubectl calls
 id: 042a3d32-8318-4763-9679-09db2644a8f2
-version: 8
-date: '2026-03-10'
+version: 9
+creation_date: '2020-06-23'
+modification_date: '2026-05-13'
 author: Rod Soto, Patrick Bareiss, Splunk
 status: experimental
 type: Anomaly
@@ -22,19 +23,19 @@ search: |-
 how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster. Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities. Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server. Use the Splunk OpenTelemetry Collector for Kubernetes to collect the logs. This doc will describe how to collect the audit log file https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/migration-from-sck.md. When you want to use this detection with AWS EKS, you need to enable EKS control plane logging https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html. Then you can collect the logs from Cloudwatch using the AWS TA https://splunk.github.io/splunk-add-on-for-amazon-web-services/CloudWatchLogs/.
 known_false_positives: Kubectl calls are not malicious by nature. However source IP, verb and Object can reveal potential malicious activity, specially anonymous suspicious IPs and sensitive objects such as configmaps or secrets
 references: []
-rba:
-    message: Suspicious kubectl API calls from $user$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: user
           type: user
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Kubernetes Security
-    asset_type: Kubernetes
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+          message: Suspicious kubectl API calls from $user$
+analytic_story:
+    - Kubernetes Security
+asset_type: Kubernetes
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat

@@ -1,15 +1,16 @@
 name: Windows Delete or Modify System Firewall
 id: b188d11a-eba7-419d-b8b6-cc265b4f2c4f
-version: 11
-date: '2026-03-26'
+version: 13
+creation_date: '2023-09-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
+description: The following analytic identifies 'netsh' processes that delete or modify firewall configurations. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions containing specific keywords. This activity is significant because it can indicate malware, such as NJRAT, attempting to alter firewall settings to evade detection or remove traces. If confirmed malicious, this behavior could allow an attacker to disable security measures, facilitating further compromise and persistence within the network.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic identifies 'netsh' processes that delete or modify firewall configurations. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions containing specific keywords. This activity is significant because it can indicate malware, such as NJRAT, attempting to alter firewall settings to evade detection or remove traces. If confirmed malicious, this behavior could allow an attacker to disable security measures, facilitating further compromise and persistence within the network.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_netsh` Processes.process = "* firewall *" Processes.process = "* del*"
@@ -28,21 +29,22 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrator may modify or delete firewall configuration.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
-tags:
-    analytic_story:
-        - NjRAT
-        - ShrinkLocker
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1562.004
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - NjRAT
+    - ShrinkLocker
+asset_type: Endpoint
+mitre_attack_id:
+    - T1686
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/njrat_delete_firewall/njrat_delete_firewall.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

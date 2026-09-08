@@ -1,15 +1,16 @@
 name: Windows SQL Spawning CertUtil
 id: dfc18a5a-946e-44ee-a373-c0f60d06e676
-version: 13
-date: '2026-03-10'
+version: 14
+creation_date: '2023-08-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
+description: The following analytic detects the use of certutil to download software, specifically when spawned by SQL-related processes. This detection leverages Endpoint Detection and Response (EDR) data, focusing on command-line executions involving certutil with parameters like *urlcache* and *split*. This activity is significant as it may indicate a compromise by threat actors, such as Flax Typhoon, who use certutil to establish persistent VPN connections. If confirmed malicious, this behavior could allow attackers to maintain access, monitor system availability, and potentially escalate to data theft or ransomware deployment.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic detects the use of certutil to download software, specifically when spawned by SQL-related processes. This detection leverages Endpoint Detection and Response (EDR) data, focusing on command-line executions involving certutil with parameters like *urlcache* and *split*. This activity is significant as it may indicate a compromise by threat actors, such as Flax Typhoon, who use certutil to establish persistent VPN connections. If confirmed malicious, this behavior could allow attackers to maintain access, monitor system availability, and potentially escalate to data theft or ransomware deployment.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.parent_process_name IN ("sqlservr.exe", "sqlagent.exe", "sqlps.exe", "launchpad.exe", "sqldumper.exe") `process_certutil` (Processes.process="*urlcache*"
@@ -30,29 +31,31 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: The occurrence of false positives should be minimal, given that the SQL agent does not typically download software using CertUtil.
 references:
     - https://www.microsoft.com/en-us/security/blog/2023/08/24/flax-typhoon-using-legitimate-software-to-quietly-access-taiwanese-organizations/
-rba:
-    message: $process_name$ was launched on $dest$ by $user$. This behavior is uncommon with the SQL process identified.
-    risk_objects:
+finding:
+    title: $process_name$ was launched on $dest$ by $user$. This behavior is uncommon with the SQL process identified.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - SQL Server Abuse
-        - Flax Typhoon
-        - Storm-2460 CLFS Zero Day Exploitation
-    asset_type: Endpoint
-    atomic_guid: []
-    mitre_attack_id:
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: $process_name$ was launched on $dest$ by $user$. This behavior is uncommon with the SQL process identified.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - SQL Server Abuse
+    - Flax Typhoon
+    - Storm-2460 CLFS Zero Day Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

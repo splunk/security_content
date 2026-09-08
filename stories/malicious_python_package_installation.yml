@@ -1,0 +1,28 @@
+name: Malicious Python Package Installation
+id: 12e51c50-6b66-4ce7-83b8-95125ffd31e9
+version: 1
+creation_date: '2026-08-21'
+modification_date: '2026-08-21'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+description: |-
+    This analytic story provides detection coverage for abuse of the Python package installation lifecycle, including install-time code execution, persistence via `.pth` path configuration files, Python site hooks, and PYTHONPATH environment variable manipulation.
+narrative: |-
+    Python's popularity, readable syntax, and extensive third-party library ecosystem make it an attractive target for threat actors seeking to compromise developer devices and infrastructure.
+    Malicious packages and supply-chain attacks exploit the trust built into Python's packaging ecosystem to execute payloads at the moment of installation, without any direct interaction from the victim. Adversaries abuse several native Python features to achieve this.
+    `setup.py` build scripts can leverage `distutils`/`setuptools` command classes to execute arbitrary code, including
+    network beacons, during package installation.
+    Path configuration files (`.pth`) placed in `site-packages`/`dist-packages` are executed on every subsequent Python invocation, providing persistence; this technique was used by the threat actor group TeamPCP during the supply-chain compromise of the `litellm` package. Python's `site` module also loads `sitecustomize.py` and `usercustomize.py` hook files from directories on `sys.path`, which adversaries can plant or manipulate to hijack the Python environment and achieve persistence, as seen with the VIPERTUNNEL backdoor. 
+    Finally, adversaries who can modify a user's `PYTHONPATH` environment variable can redirect module imports to attacker-controlled directories,achieving user-level persistence across new shell sessions.
+    This story detects these behaviors by correlating process creation, file creation, and registry modification telemetry around Python package installation activity.
+references:
+    - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
+category:
+    - Adversary Tactics
+usecase: Advanced Threat Detection
+threat_group:
+    - TeamPCP
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud

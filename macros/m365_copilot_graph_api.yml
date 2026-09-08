@@ -1,3 +1,8 @@
-definition: (sourcetype="o365:graph:api" OR source="AuditLogs.SignIns")
-description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
 name: m365_copilot_graph_api
+id: 07e8d8ff-f372-45a7-886b-f14885d0bfde
+version: 1
+creation_date: '2025-01-23'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
+definition: (sourcetype="o365:graph:api" OR source="AuditLogs.SignIns")

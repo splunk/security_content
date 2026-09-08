@@ -1,23 +1,30 @@
 {
-    "create_time": "2022-02-10T18:24:50.244936+00:00",
-    "custom_function_id": "5781e3d5a4773b2c48afd429768fd81b5e733e54",
-    "description": "Takes a provided list of indicator values to search for and finds all related containers. It will produce a list of the related container details.",
+    "create_time": "2023-06-08T22:31:47.040451+00:00",
+    "custom_function_id": "3f25b298ab0e3ca7d88f890d1091fd29b6c4211b",
+    "description": "Takes a list of indicator values or field names that may appear in other containers on the system. If any related containers are found, it will produce a list of the related container details.",
     "draft_mode": false,
     "inputs": [
         {
             "contains_type": [
                 "*"
             ],
-            "description": "An indicator value to search on, such as a file hash or IP address. To search on all indicator values in the container, use \"*\".",
+            "description": "A comma separated list of fields to search on. Do not use data paths, only field names. Not compatible with value_list. Field/value combinations are OR'd together. Only containers that share the exact value(s) contained in the exact field(s) will contribute to minimum_match_count. ",
             "input_type": "list",
-            "name": "value_list",
-            "placeholder": "*"
+            "name": "field_list",
+            "placeholder": "destinationAddress, requestURL"
         },
         {
             "contains_type": [
                 "*"
             ],
-            "description": "The minimum number of similar indicator records that a container must have to be considered \"related.\"  If no match count provided, this will default to 1.",
+            "description": "A list of indicator values to search on, such as a file hash or IP address. Values are OR'd together. To search on all indicator values in the container, use \"*\". Not compatible with field_list.",
+            "input_type": "list",
+            "name": "value_list",
+            "placeholder": "artifact:*.cef.destinationAddress"
+        },
+        {
+            "contains_type": [],
+            "description": "The minimum number of values from the value_list parameter or the fields from the field_list that must match with related containers. Supports an integer or the string 'all'. Adding 'all' will set the minimum_match_count to the length of the number of unique values in the value_list or the number of unique fields in the field_list. If no match count provided, this will default to 1.",
             "input_type": "item",
             "name": "minimum_match_count",
             "placeholder": "1-100"
@@ -39,29 +46,33 @@
             "placeholder": "-30d"
         },
         {
-            "contains_type": [],
-            "description": "Optional comma-separated list of statuses to filter on. Only containers that have statuses matching an item in this list will be included.",
-            "input_type": "item",
+            "contains_type": [
+                ""
+            ],
+            "description": "Optional comma-separated list of status IDs or status names to filter on. Only containers that have statuses matching an item in this list will be included. If status names are provided, the automation user must have administrator privileges. Use `/rest/container_status` to obtain status ids instead of adding administrator privileges.",
+            "input_type": "list",
             "name": "filter_status",
             "placeholder": "open"
         },
         {
-            "contains_type": [],
+            "contains_type": [
+                "phantom container label"
+            ],
             "description": "Optional comma-separated list of labels to filter on. Only containers that have labels matching an item in this list will be included.",
-            "input_type": "item",
+            "input_type": "list",
             "name": "filter_label",
             "placeholder": "events"
         },
         {
             "contains_type": [],
             "description": "Optional comma-separated list of severities to filter on. Only containers that have severities matching an item in this list will be included.",
-            "input_type": "item",
+            "input_type": "list",
             "name": "filter_severity",
             "placeholder": "medium"
         },
         {
             "contains_type": [],
-            "description": "Optional parameter to filter containers that are in a case or not. Defaults to True (drop containers that are already in a case).",
+            "description": "Optional parameter to filter containers that are in a case or not. True for only containers in cases, False for only containers not in cases. Default is all containers.",
             "input_type": "item",
             "name": "filter_in_case",
             "placeholder": "True or False"
@@ -78,7 +89,7 @@
         {
             "contains_type": [],
             "data_path": "*.container_indicator_match_count",
-            "description": "The number of indicators matched to the related container"
+            "description": "The number of indicators matched to the related container if value_list provided"
         },
         {
             "contains_type": [],
@@ -103,7 +114,7 @@
         {
             "contains_type": [],
             "data_path": "*.indicator_ids",
-            "description": "Indicator ID that matched"
+            "description": "Indicator ID that matched if value list provided"
         },
         {
             "contains_type": [
@@ -111,8 +122,14 @@
             ],
             "data_path": "*.container_url",
             "description": "Link to container"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.container_field_list",
+            "description": "List of fields that matched if field_list provided."
         }
     ],
-    "platform_version": "5.2.1.78411",
-    "python_version": "3"
+    "outputs_type": "item",
+    "platform_version": "5.5.0.108488",
+    "python_version": "3.13"
 }

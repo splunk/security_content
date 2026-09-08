@@ -1,3 +1,8 @@
-definition: (Processes.parent_process_name IN ("EQNEDT32.exe", "excel.exe", "Graph.exe", "msaccess.exe", "mspub.exe", "onenote.exe", "onenoteim.exe", "onenotem.exe", "outlook.exe", "powerpnt.exe", "visio.exe", "winproj.exe", "winword.exe"))
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_office_products_parent
+id: c50f9b91-a584-4e4f-a6d1-f05c49bedf10
+version: 1
+creation_date: '2025-01-14'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.parent_process_name IN ("EQNEDT32.exe", "excel.exe", "Graph.exe", "msaccess.exe", "mspub.exe", "onenote.exe", "onenoteim.exe", "onenotem.exe", "outlook.exe", "powerpnt.exe", "visio.exe", "winproj.exe", "winword.exe"))

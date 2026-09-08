@@ -1,7 +1,8 @@
 name: Remote Desktop Process Running On System
 id: f5939373-8054-40ad-8c64-cec478a22a4a
-version: 13
-date: '2026-02-25'
+version: 14
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: experimental
 type: Hunting
@@ -29,16 +30,16 @@ search: |-
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Remote Desktop may be used legitimately by users on the network.
 references: []
-tags:
-    analytic_story:
-        - Hidden Cobra Malware
-        - Active Directory Lateral Movement
-        - Windows RDP Artifacts and Defense Evasion
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1021.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Hidden Cobra Malware
+    - Active Directory Lateral Movement
+    - Windows RDP Artifacts and Defense Evasion
+asset_type: Endpoint
+mitre_attack_id:
+    - T1021.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

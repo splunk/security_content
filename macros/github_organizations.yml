@@ -1,4 +1,8 @@
-definition: sourcetype=github:cloud:audit
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: github_organizations
+id: 683ca380-3822-4f91-b6ea-6f1807e1eb25
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=github:cloud:audit

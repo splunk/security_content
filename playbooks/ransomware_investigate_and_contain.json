@@ -6306,7 +6306,7 @@
             },
             "notes": ""
         },
-        "python_version": "3",
+        "python_version": "3.13",
         "schema": 4,
         "version": "4.10.0.40961"
     },

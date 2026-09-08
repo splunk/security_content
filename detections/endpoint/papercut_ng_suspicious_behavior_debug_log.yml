@@ -1,12 +1,13 @@
 name: PaperCut NG Suspicious Behavior Debug Log
 id: 395163b8-689b-444b-86c7-9fe9ad624734
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2023-05-15'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-data_source: []
 description: The following analytic identifies potential exploitation attempts on a PaperCut NG server by analyzing its debug log data. It detects unauthorized or suspicious access attempts from public IP addresses and searches for specific URIs associated with known exploits. The detection leverages regex to parse unstructured log data, focusing on admin login activities. This activity is significant as it can indicate an active exploitation attempt on the server. If confirmed malicious, attackers could gain unauthorized access, potentially leading to data breaches or further compromise of the server.
+data_source: []
 search: |-
     `papercutng`
     (loginType=Admin OR userName=admin)
@@ -28,22 +29,22 @@ references:
     - https://www.horizon3.ai/papercut-cve-2023-27350-deep-dive-and-indicators-of-compromise/
     - https://www.bleepingcomputer.com/news/security/hackers-actively-exploit-critical-rce-bug-in-papercut-servers/
     - https://www.huntress.com/blog/critical-vulnerabilities-in-papercut-print-management-software
-tags:
-    analytic_story:
-        - PaperCut MF NG Vulnerability
-    asset_type: Web Server
-    atomic_guid: []
-    mitre_attack_id:
-        - T1190
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - PaperCut MF NG Vulnerability
+asset_type: Web Server
+mitre_attack_id:
+    - T1190
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/papercut/server.log
           source: papercutng
           sourcetype: papercutng
+      test_type: unit

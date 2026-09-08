@@ -1,18 +1,18 @@
 name: Backdoor Pingpong
 id: 1231ff23-543e-4eb9-b9e0-a97d9333bebc
-version: 1
-date: '2025-01-27'
+version: 2
+creation_date: '2025-01-27'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: Leverage searches that allow you to detect and investigate unusual activities that might relate to Backdoor.PingPong malware, a legacy threat that provides unauthorized remote access to compromised systems. Look for signs such as unexpected pings or ICMP traffic patterns that deviate from normal behavior. Investigate unauthorized processes or network connections, particularly those attempting to establish external communication. Combining threat intelligence with behavioral analytics helps identify this backdoor’s attempts to exploit vulnerabilities. Early detection and response are critical to mitigating the risk of this malware.
 narrative: Backdoor.PingPong is an older malware family designed to provide unauthorized remote access to compromised systems. It often utilizes ICMP traffic, including ping requests, as a covert communication channel to receive commands or exfiltrate data. Despite its simplicity compared to modern threats, it can still be effective in environments with inadequate monitoring. By exploiting system vulnerabilities or poor network segmentation, PingPong enables attackers to maintain persistence and control. Detecting its activity requires careful analysis of network traffic and unusual process behaviors.
 references:
-- https://www.crowdstrike.com/en-us/blog/an-analysis-of-lightbasin-telecommunications-attacks/
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.crowdstrike.com/en-us/blog/an-analysis-of-lightbasin-telecommunications-attacks/
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

@@ -1,22 +1,22 @@
 name: Windows Audit Policy Tampering
 id: 29ed7ffa-df10-4e85-847f-bd417a8ca355
-version: 1
-date: '2025-01-28'
+version: 2
+creation_date: '2025-02-19'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 description: Adversaries often attempt to manipulate Windows audit policies to disable or suppress logging, allowing malicious activities to go undetected. This analytic story covers groups searches that are designed to monitor and detect suspicious actions involving `auditpol.exe` or other methods used to modify, clear, or remove audit policy configurations.
 narrative: Windows audit policies play a critical role in ensuring that key system activities are logged for monitoring and forensic purposes. Attackers often target audit policies by modifying, clearing, or disabling them, typically using utilities like `auditpol.exe`, to avoid detection during their operations. Monitoring for changes to audit policies is an industry-recognized best practice and helps uncover potential malicious activity. While legitimate administrators may occasionally modify audit policies, it is vital to track who performed the modifications, when they occurred, and the specific changes made. Unauthorized tampering with audit configurations may indicate an attempt to suppress evidence or disrupt security monitoring. This Analytic Story provides a framework to detect suspicious activities involving audit policy manipulation. It includes analytics to identify the use of `auditpol.exe` with specific flags (e.g., `/set`, `/clear`) and other patterns of audit tampering. These detections are critical for investigating potential breaches and maintaining the integrity of security monitoring mechanisms.
 references:
-- https://www.microsoft.com/en-us/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
-- https://www.cybereason.com/blog/research/prometei-botnet-exploiting-microsoft-exchange-vulnerabilities
-- https://attack.mitre.org/techniques/T1562/002/
-- https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-clear
-- https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-remove
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Security Monitoring
+    - https://www.microsoft.com/en-us/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+    - https://www.cybereason.com/blog/research/prometei-botnet-exploiting-microsoft-exchange-vulnerabilities
+    - https://attack.mitre.org/techniques/T1562/002/
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-clear
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-remove
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Security Monitoring

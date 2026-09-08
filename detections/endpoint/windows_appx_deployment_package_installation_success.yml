@@ -1,7 +1,8 @@
 name: Windows AppX Deployment Package Installation Success
 id: 1234abcd-5678-90ef-1234-56789abcdef0
-version: 3
-date: '2026-03-10'
+version: 4
+creation_date: '2025-08-18'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -35,30 +36,30 @@ drilldown_searches:
       search: 'source="XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational" EventCode=400 HasFullTrust="true" host="$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-rba:
-    message: A MSIX/AppX package $PackagePath$ was successfully installed on $dest$ by user $user_id$.
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: PackagePath
-          type: file_path
-tags:
-    analytic_story:
-        - MSIX Package Abuse
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+          message: A MSIX/AppX package $PackagePath$ was successfully installed on $dest$ by user $user_id$.
+threat_objects:
+    - field: PackagePath
+      type: file_path
+analytic_story:
+    - MSIX Package Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/appx/windows_appxdeploymentserver.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational
+      test_type: unit

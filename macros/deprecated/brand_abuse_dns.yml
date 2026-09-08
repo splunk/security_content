@@ -1,5 +1,8 @@
-definition: lookup update=true brandMonitoring_lookup domain as query OUTPUT domain_abuse
-  | search domain_abuse=true
-description: This macro limits the output to only domains that are in the brand monitoring
-  lookup file
 name: brand_abuse_dns
+id: 5ff8a324-d441-40ef-87f2-b220d6301dc2
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro limits the output to only domains that are in the brand monitoring lookup file
+definition: lookup update=true brandMonitoring_lookup domain as query OUTPUT domain_abuse | search domain_abuse=true

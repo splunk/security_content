@@ -1,7 +1,8 @@
 name: Lotus Blossom Chrysalis Backdoor
 id: 4c58f09f-f76f-4261-bbf8-3be406d2fbad
-version: 1
-date: '2026-02-03'
+version: 2
+creation_date: '2026-03-16'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 description: |
@@ -24,11 +25,10 @@ references:
     - https://www.rapid7.com/blog/post/tr-chrysalis-backdoor-dive-into-lotus-blossoms-toolkit/
     - https://securelist.com/notepad-supply-chain-attack/118708/
     - https://attack.mitre.org/groups/G0065/
-tags:
-    category:
-        - Malware
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    usecase: Advanced Threat Detection
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

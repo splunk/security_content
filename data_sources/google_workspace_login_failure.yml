@@ -1,15 +1,15 @@
 name: Google Workspace login_failure
 id: cabec7cf-4008-4899-b47e-39c34a9a1255
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs failed login attempts to Google Workspace accounts, including details
-  about the user, IP address, and reason for failure.
+description: Logs failed login attempts to Google Workspace accounts, including details about the user, IP address, and reason for failure.
 mitre_components:
-- User Account Authentication
-- Logon Session Metadata
-- User Account Metadata
-- Application Log Content
+    - User Account Authentication
+    - Logon Session Metadata
+    - User Account Metadata
+    - Application Log Content
 source: gws:reports:admin
 sourcetype: gws:reports:admin
 logsource:
@@ -18,9 +18,9 @@ logsource:
 separator: event.name
 separator_value: login_failure
 supported_TA:
-- name: Splunk Add-on for Google Workspace
-  url: https://splunkbase.splunk.com/app/5556
-  version: 3.1.0
+    - name: Splunk Add-on for Google Workspace
+      url: https://splunkbase.splunk.com/app/5556
+      version: 5.0.1
 fields:
 - _time
 - actor.email

@@ -1,7 +1,8 @@
 name: Windows Explorer.exe Spawning PowerShell or Cmd
 id: 593854c5-2182-49dd-9f31-18ef697445b9
-version: 2
-date: '2025-05-02'
+version: 3
+creation_date: '2022-06-17'
+modification_date: '2026-05-13'
 author: Michael Haag, AJ King, Splunk, Jesse Hunter, Splunk Community Contributor
 status: production
 type: Hunting
@@ -15,21 +16,22 @@ known_false_positives: Some legitimate user actions may trigger Explorer.exe to 
 references:
     - https://www.zerodayinitiative.com/advisories/ZDI-CAN-25373/
     - https://www.trendmicro.com/en_us/research/25/c/windows-shortcut-zero-day-exploit.html
-tags:
-    analytic_story:
-        - ZDI-CAN-25373 Windows Shortcut Exploit Abused as Zero-Day
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1059.001
-        - T1204.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - ZDI-CAN-25373 Windows Shortcut Exploit Abused as Zero-Day
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+    - T1204.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/encoded_powershell/explorer_spawns_windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit

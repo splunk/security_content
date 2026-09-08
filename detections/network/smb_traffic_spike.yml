@@ -1,7 +1,8 @@
 name: SMB Traffic Spike
 id: 7f5fb3e1-4209-4914-90db-0ec21b936378
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -26,24 +27,23 @@ search: |-
 how_to_implement: This search requires you to be ingesting your network traffic logs and populating the `Network_Traffic` data model.
 known_false_positives: A file server may experience high-demand loads that could cause this analytic to trigger.
 references: []
-rba:
-    message: Anomalous splike of SMB traffic sent from $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Emotet Malware DHS Report TA18-201A
-        - Hidden Cobra Malware
-        - Ransomware
-        - DHS Report TA18-074A
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1021.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Anomalous splike of SMB traffic sent from $src$
+analytic_story:
+    - Emotet Malware DHS Report TA18-201A
+    - Hidden Cobra Malware
+    - Ransomware
+    - DHS Report TA18-074A
+asset_type: Endpoint
+mitre_attack_id:
+    - T1021.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network

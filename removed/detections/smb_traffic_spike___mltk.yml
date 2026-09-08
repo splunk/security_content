@@ -1,7 +1,8 @@
 name: SMB Traffic Spike - MLTK
 id: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 version: 11
-date: '2026-03-10'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: removed
 type: Anomaly
@@ -48,3 +49,7 @@ tags:
         - Splunk Enterprise Security
         - Splunk Cloud
     security_domain: network
+deprecation_info:
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+    removed_in_version: 5.26.0
+    replacement_content: []

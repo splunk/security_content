@@ -1,4 +1,8 @@
-definition: sourcetype = PwSh:bootloader
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: bootloader_inventory
+id: 741d1ddc-bacb-4dbc-ab45-9a139d99c72f
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype = PwSh:bootloader

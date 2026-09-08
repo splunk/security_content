@@ -595,7 +595,7 @@
         "input_spec": null,
         "output_spec": null,
         "playbook_type": "automation",
-        "python_version": "3",
+        "python_version": "3.13",
         "schema": "5.0.10",
         "version": "6.0.1.123902"
     },

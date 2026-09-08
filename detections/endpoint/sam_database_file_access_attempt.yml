@@ -1,7 +1,8 @@
 name: SAM Database File Access Attempt
 id: 57551656-ebdb-11eb-afdf-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+creation_date: '2021-07-23'
+modification_date: '2026-05-13'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -18,24 +19,25 @@ references:
     - https://github.com/GossiTheDog/HiveNightmare
     - https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
     - https://en.wikipedia.org/wiki/Security_Account_Manager
-tags:
-    analytic_story:
-        - Credential Dumping
-        - Graceful Wipe Out Attack
-        - Rhysida Ransomware
-    asset_type: Endpoint
-    cve:
-        - CVE-2021-36934
-    mitre_attack_id:
-        - T1003.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Credential Dumping
+    - Graceful Wipe Out Attack
+    - Rhysida Ransomware
+asset_type: Endpoint
+cve:
+    - CVE-2021-36934
+mitre_attack_id:
+    - T1003.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/serioussam/windows-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit

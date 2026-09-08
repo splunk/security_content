@@ -1,7 +1,0 @@
-name: legit_domains
-date: 2024-12-23
-version: 2
-id: 06602f3e-0dcc-47ef-aabc-85a4ad782442
-author: Splunk Threat Research Team
-lookup_type: csv
-description: A list of legit domains to be used as an ignore list for possible phishing sites

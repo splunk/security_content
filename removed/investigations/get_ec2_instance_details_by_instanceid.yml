@@ -1,32 +1,27 @@
 name: Get EC2 Instance Details by instanceId
 id: de4aed1d-f13a-4d2f-a97a-73c60e2e6b56
 version: 1
-date: '2018-02-12'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 type: Investigation
 status: removed
-description: This search queries AWS description logs and returns all the information
-  about a specific instance via the instanceId field
-search: '`aws_description` | dedup id sortby -_time |rename id as instanceId|  search
-  instanceId=$instanceId$ | spath output=tags path=tags | eval tags=mvzip(key,value,"
-  = "), ip_address=if((ip_address == "null"),private_ip_address,ip_address) | table
-  id, tags.Name, aws_account_id, placement, instance_type, key_name, ip_address, launch_time,
-  state, vpc_id, subnet_id, tags | rename aws_account_id as "Account ID", id as ID,
-  instance_type as Type, ip_address as "IP Address", key_name as "Key Pair", launch_time
-  as "Launch Time", placement as "Availability Zone", state as State, subnet_id as
-  Subnet, "tags.Name" as Name, vpc_id as VPC'
-how_to_implement: In order to implement this search, you must install the AWS App
-  for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later)
-  and configure your AWS description inputs.
+description: This search queries AWS description logs and returns all the information about a specific instance via the instanceId field
+search: '`aws_description` | dedup id sortby -_time |rename id as instanceId|  search instanceId=$instanceId$ | spath output=tags path=tags | eval tags=mvzip(key,value," = "), ip_address=if((ip_address == "null"),private_ip_address,ip_address) | table id, tags.Name, aws_account_id, placement, instance_type, key_name, ip_address, launch_time, state, vpc_id, subnet_id, tags | rename aws_account_id as "Account ID", id as ID, instance_type as Type, ip_address as "IP Address", key_name as "Key Pair", launch_time as "Launch Time", placement as "Availability Zone", state as State, subnet_id as Subnet, "tags.Name" as Name, vpc_id as VPC'
+how_to_implement: In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - AWS Cryptomining
-  - Cloud Cryptomining
-  - Suspicious AWS EC2 Activities
-  - Unusual AWS EC2 Modifications
-  - AWS Security Hub Alerts
-  product:
-  - Splunk Phantom
-  security_domain: network
+    analytic_story:
+        - AWS Cryptomining
+        - Cloud Cryptomining
+        - Suspicious AWS EC2 Activities
+        - Unusual AWS EC2 Modifications
+        - AWS Security Hub Alerts
+    product:
+        - Splunk Phantom
+    security_domain: network
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

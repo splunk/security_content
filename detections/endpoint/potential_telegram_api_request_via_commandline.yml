@@ -1,7 +1,8 @@
 name: Potential Telegram API Request Via CommandLine
 id: d6b0d627-d0bf-46b1-936f-c48284767d21
-version: 8
-date: '2026-03-10'
+version: 10
+creation_date: '2025-02-19'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk, Zaki Zarkasih Al Mustafa
 status: production
 type: Anomaly
@@ -37,37 +38,38 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: Process $process_name$ with command line $process$ in $dest$
-    risk_objects:
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - XMRig
-        - Water Gamayun
-        - 0bj3ctivity Stealer
-        - Hellcat Ransomware
-        - BlankGrabber Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1102.002
-        - T1041
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Process $process_name$ with command line $process$ in $dest$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - XMRig
+    - Water Gamayun
+    - 0bj3ctivity Stealer
+    - Hellcat Ransomware
+    - BlankGrabber Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1102.002
+    - T1041
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1102.002/telegram_api_cli/telegram_cli.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

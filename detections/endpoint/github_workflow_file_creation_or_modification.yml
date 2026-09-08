@@ -1,7 +1,8 @@
 name: GitHub Workflow File Creation or Modification
 id: 2a9f3a2e-2c07-4c5f-9e42-8f8f0b6b6a12
-version: 1
-date: '2025-11-25'
+version: 2
+creation_date: '2025-11-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -50,27 +51,29 @@ references:
     - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
     - https://github.com/SigmaHQ/sigma/pull/5658/files
     - https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
-tags:
-    analytic_story:
-        - NPM Supply Chain Compromise
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1574.006
-        - T1554
-        - T1195
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - NPM Supply Chain Compromise
+asset_type: Endpoint
+mitre_attack_id:
+    - T1574.006
+    - T1554
+    - T1195
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test - Linux
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/workflow_yml_sysmon.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit
     - name: True Positive Test - Windows
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/windows_workflow_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

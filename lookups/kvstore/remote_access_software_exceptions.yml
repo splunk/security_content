@@ -1,0 +1,16 @@
+name: remote_access_software_exceptions
+id: 2742e885-0706-494b-8f56-a90a3e8d33b4
+version: 3
+creation_date: '2024-07-09'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A list used to provide global exceptions to remote access monitoring content.
+fields:
+    - _key
+    - asset
+    - software
+    - exception_date
+    - exception_ttl_days
+    - exception
+    - comment

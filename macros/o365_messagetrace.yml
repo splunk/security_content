@@ -1,3 +1,8 @@
-definition: sourcetype IN ("ms:o365:reporting:messagetrace","o365:reporting:messagetrace") 
-description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
 name: o365_messagetrace
+id: 1ead5eb3-85e8-40fb-9eb4-6936843f08d6
+version: 1
+creation_date: '2025-01-23'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
+definition: sourcetype IN ("ms:o365:reporting:messagetrace","o365:reporting:messagetrace")

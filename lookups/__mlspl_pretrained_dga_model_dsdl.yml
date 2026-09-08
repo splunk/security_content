@@ -1,8 +1,0 @@
-name: __mlspl_pretrained_dga_model_dsdl
-date: 2024-12-23
-version: 2
-id: 6c55ccdb-7006-4367-80b6-55bee5eae1a2
-author: Splunk Threat Research Team
-lookup_type: mlmodel
-description: Detect DGA domains using Pretrained Model in DSDL
-case_sensitive_match: false

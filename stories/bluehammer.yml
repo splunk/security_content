@@ -1,0 +1,22 @@
+name: BlueHammer
+id: 9e2f91be-796f-4363-8c6f-a6d5dbdaede6
+version: 1
+status: production
+creation_date: '2026-04-29'
+modification_date: '2026-04-29'
+author: Raven Tait, Splunk
+description: Detect activity associated with BlueHammer exploit. Released by Nightmare-Eclipse on GitHub alongside RedSun and UnDefend, it is part of a set of attacks that abuse Windows Defender to disrupt the system or elevate privileges.
+narrative: BlueHammer is a Windows local privilege escalation (LPE) exploit that allows a threat actor who already has a foothold on a system to elevate from a low-privileged user account to full SYSTEM-level control. It abuses the Windows Defender update process via Volume Shadow Copy, using Cloud Files callbacks and oplocks to pause Defender at a critical moment — exposing the SAM, SYSTEM, and SECURITY registry hives. This enables an attacker to read the SAM database, decrypt NTLM password hashes, take over a local administrator account, and spawn a SYSTEM-level shell, while restoring the original hash to avoid detection.
+references:
+- https://github.com/Nightmare-Eclipse/BlueHammer
+- http://huntress.com/blog/nightmare-eclipse-intrusion
+- https://www.picussecurity.com/resource/blog/bluehammer-redsun-windows-defender-cve-2026-33825-zero-day-vulnerability-explained
+category:
+- Adversary Tactics
+product:
+- Splunk Enterprise
+- Splunk Enterprise Security
+- Splunk Cloud
+usecase: Advanced Threat Detection
+cve:
+- CVE-2026-33825

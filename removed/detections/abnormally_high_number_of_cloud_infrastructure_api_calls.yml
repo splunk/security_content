@@ -1,7 +1,8 @@
 name: Abnormally High Number Of Cloud Infrastructure API Calls
 id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
 version: 12
-date: '2026-03-10'
+creation_date: '2020-10-27'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: removed
 type: Anomaly
@@ -63,6 +64,10 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
-          sourcetype: aws:cloudtrail
-          source: aws_cloudtrail
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+            sourcetype: aws:cloudtrail
+            source: aws_cloudtrail
+deprecation_info:
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+    removed_in_version: 5.26.0
+    replacement_content: []

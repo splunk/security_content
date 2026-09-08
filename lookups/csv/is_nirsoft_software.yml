@@ -1,0 +1,12 @@
+name: is_nirsoft_software
+id: 28966a08-55e4-4ccb-a20d-dc4cc154b09c
+version: 5
+creation_date: '2022-01-24'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A subset of utilities provided by NirSoft that may be used by adversaries.
+match_type:
+    - WILDCARD(filename)
+min_matches: 1
+case_sensitive_match: false

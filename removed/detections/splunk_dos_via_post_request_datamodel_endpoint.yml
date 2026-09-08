@@ -1,0 +1,40 @@
+name: Splunk DoS via POST Request Datamodel Endpoint
+id: 45766810-dbb2-44d4-b889-b4ba3ee0d1f5
+version: 5
+creation_date: '2024-07-01'
+modification_date: '2026-05-14'
+status: removed
+author: Rod Soto
+type: Hunting
+data_source: []
+description: The following is a hunting search that allows investigation of error messages indicating Splunk HTTP engine shutdown as a result of a crafted posted request against '/datamodel/model' endpoint.
+search: >-
+    `splunkd_webs` log_level=INFO message="ENGINE: HTTP Server cherrypy._cpwsgi_server.CPWSGIServer(('127.0.0.1', 8065)) shut down"  | stats count min(_time) as firstTime max(_time) as lastTime by splunk_server message  | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `splunk_dos_via_post_request_datamodel_endpoint_filter`
+how_to_implement: Need access to the internal indexes.
+known_false_positives: This is a hunting search and will produce false positives as other causes can also shut down splunk HTTP engine, however this denial of service error is associated to a request to the datamodel/model endpoing which operator can research and find proximity of request and message in logs.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-0710
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1499
+    product:
+        - Splunk Enterprise
+    security_domain: endpoint
+    cve:
+        - CVE-2024-36986
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499/splunk/SVD-2024-0710_web_service_splunk_web_service.log
+            source: /opt/splunk/var/log/splunk/web_service.log
+            sourcetype: splunk_web_service
+            custom_index: _internal
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

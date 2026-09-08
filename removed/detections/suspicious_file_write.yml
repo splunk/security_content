@@ -1,43 +1,28 @@
 name: Suspicious File Write
 id: 57f76b8a-32f0-42ed-b358-d9fa3ca7bac8
 version: 7
-date: '2024-11-14'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: removed
 type: Hunting
-description: The search looks for files created with names that have been linked to
-  malicious activity.
+description: The search looks for files created with names that have been linked to malicious activity.
 data_source:
-- Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count values(Filesystem.action)
-  as action values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.action Filesystem.dest
-  Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
-  Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size
-  Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)`
-  | `suspicious_writes` | `suspicious_file_write_filter`'
-how_to_implement: You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint file-system data model node. This is typically
-  populated via endpoint detection-and-response product, such as Carbon Black, or
-  via other endpoint data sources, such as Sysmon. The data used for this search is
-  typically generated via logs that report file system reads and writes. In addition,
-  this search leverages an included lookup file that contains the names of the files
-  to watch for, as well as a note to communicate why that file name is being monitored.
-  This lookup file can be edited to add or remove file the file names you want to
-  monitor.
-known_false_positives: It's possible for a legitimate file to be created with the
-  same name as one noted in the lookup file. Filenames listed in the lookup file should
-  be unique enough that collisions are rare. Looking at the location of the file and
-  the process responsible for the activity can help determine whether or not the activity
-  is legitimate.
+    - Sysmon EventID 11
+search: '| tstats `security_content_summariesonly` count values(Filesystem.action) as action values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)` | `suspicious_writes` | `suspicious_file_write_filter`'
+how_to_implement: You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file system reads and writes. In addition, this search leverages an included lookup file that contains the names of the files to watch for, as well as a note to communicate why that file name is being monitored. This lookup file can be edited to add or remove file the file names you want to monitor.
+known_false_positives: It's possible for a legitimate file to be created with the same name as one noted in the lookup file. Filenames listed in the lookup file should be unique enough that collisions are rare. Looking at the location of the file and the process responsible for the activity can help determine whether or not the activity is legitimate.
 references: []
 tags:
-  analytic_story:
-  - Hidden Cobra Malware
-  asset_type: Endpoint
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Hidden Cobra Malware
+    asset_type: Endpoint
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.2.0
+    replacement_content: []

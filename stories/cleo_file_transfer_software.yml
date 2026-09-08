@@ -1,21 +1,21 @@
 name: Cleo File Transfer Software
 id: 058be65c-f007-4a3a-90f6-d2604f98a18b
-version: 1
-date: '2024-12-11'
+version: 2
+creation_date: '2024-12-11'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 description: This analytic story addresses the exploitation of Cleo file transfer software products (LexiCom, VLTrader, and Harmony) through CVE-2024-50623. This vulnerability allows unauthenticated attackers to execute arbitrary system commands through the web interface, potentially leading to remote code execution and system compromise.
 narrative: In December 2024, threat actors began actively exploiting a critical vulnerability (CVE-2024-50623) in Cleo's file transfer software suite. The vulnerability affects multiple Cleo products including LexiCom, VLTrader, and Harmony. Attackers can exploit this flaw to execute system commands without authentication through the web interface, typically leveraging PowerShell commands for payload delivery and execution. The exploitation often involves accessing the software's autorun functionality and web interface to deploy malicious commands, potentially leading to data theft, ransomware deployment, or establishment of persistent access. Common installation paths include C:\LexiCom, C:\VLTrader, and C:\Harmony, with critical activity logged in their respective XML log files.
-references: 
-- https://www.rapid7.com/blog/post/2024/12/10/etr-widespread-exploitation-of-cleo-file-transfer-software-cve-2024-50623/
-- https://www.huntress.com/blog/threat-advisory-oh-no-cleo-cleo-software-actively-being-exploited-in-the-wild
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
-  cve:
-  - CVE-2024-50623
+references:
+    - https://www.rapid7.com/blog/post/2024/12/10/etr-widespread-exploitation-of-cleo-file-transfer-software-cve-2024-50623/
+    - https://www.huntress.com/blog/threat-advisory-oh-no-cleo-cleo-software-actively-being-exploited-in-the-wild
+cve:
+    - CVE-2024-50623
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

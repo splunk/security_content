@@ -275,7 +275,7 @@
                             }
                         },
                         "playbookName": "dispatch_input_playbooks",
-                        "playbookRepo": 3,
+                        "playbookRepo": 1,
                         "playbookRepoName": "community",
                         "playbookType": "data",
                         "synchronous": true,
@@ -811,7 +811,7 @@
         "input_spec": null,
         "output_spec": null,
         "playbook_type": "automation",
-        "python_version": "3",
+        "python_version": "3.13",
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },

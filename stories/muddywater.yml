@@ -1,7 +1,8 @@
 name: MuddyWater
 id: 6e912210-02ec-488a-aafb-06e7d531886a
-version: 1
-date: '2026-03-10'
+version: 2
+creation_date: '2026-03-12'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: |
@@ -14,11 +15,10 @@ references:
     - https://blog.talosintelligence.com/recent-muddywater-associated-blackwater
     - https://blog.talosintelligence.com/iranian-apt-muddywater-targets-turkey/
     - https://unit42.paloaltonetworks.com/unit42-muddying-the-water-targeted-attacks-in-the-middle-east/
-tags:
-    category:
-        - Malware
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    usecase: Advanced Threat Detection
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

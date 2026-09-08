@@ -1,5 +1,8 @@
-definition: lookup update=true is_suspicious_file_extension_lookup file_name OUTPUT suspicious
-  | search suspicious=true
-description: This macro limits the output to email attachments that have suspicious
-  extensions
 name: suspicious_email_attachments
+id: 32fb7f25-0381-4280-b472-d6b9e9cba1c3
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro limits the output to email attachments that have suspicious extensions
+definition: lookup update=true is_suspicious_file_extension_lookup file_name OUTPUT suspicious | search suspicious=true

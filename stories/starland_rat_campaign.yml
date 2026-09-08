@@ -1,0 +1,34 @@
+name: Starland RAT Campaign
+id: 77049a4c-74f0-4ab3-bcb9-9995ad6c0c0f
+version: 1
+creation_date: '2026-07-20'
+modification_date: '2026-07-20'
+author: Teoderick Contreras, Splunk
+status: production
+description: |-
+    UAT-11795 is a Russian-speaking, financially motivated threat actor active since at least June 2025 that deploys a novel Python-based remote access trojan named Starland RAT alongside a bespoke PowerShell C2 memory implant called WLDR Agent.
+    The campaign uses ClickFix social engineering and trojanized software installers mimicking popular tools such as MobaXterm, WebEx, Zoom, and DBeaverCommunity to deliver a multi-stage infection chain.
+    Starland RAT provides persistent remote access, cryptocurrency wallet enumeration, screenshot capture, and shellcode injection capabilities, while the WLDR Agent provides an encrypted, memory-resident beaconing capability with multi-threaded PowerShell execution.
+    The actor further supports operations with CastleStealer, a .NET infostealer targeting credentials and crypto wallets, and Remcos RAT as supplemental tooling.
+    C2 resilience is achieved through a blockchain-anchored fallback mechanism using a Polygon smart contract to store XOR-encrypted backup domains, and Telegram bots for victim notification.
+narrative: |-
+    The infection chain begins when a victim is directed via ClickFix lures to execute a command that downloads and launches a weaponized HTA file through mshta.exe.
+    The HTA file establishes an initial foothold by writing a Registry Run key for persistence and then fetches a trojanized NSIS installer from an actor-controlled staging domain.
+    The installer drops a Python loader disguised as a LICENSE.txt file, which XOR-decrypts (key 0xC6) and reflectively executes Starland RAT entirely in memory to minimize on-disk artifacts.
+    At startup, Starland RAT performs sandbox evasion by comparing system usernames and hostnames against known analysis environments such as WDAGUtilityAccount, Cuckoo, Any.Run, and Joe Sandbox, and verifies the presence of Zone.Identifier alternate data stream markers.
+    It then collects extensive host reconnaissance including hardware ID derived from the C drive volume serial number, RAM capacity, installed antivirus products, Active Directory membership and domain privilege status, cryptocurrency wallet presence across more than 40 wallet types, and a Base64-encoded screenshot.
+    This telemetry is transmitted via HTTP POST with XOR and Base64 encoding to primary C2 domains, with polling every 50 to 60 seconds. Should primary infrastructure become unavailable, the implant queries a Polygon smart contract to retrieve XOR-encrypted fallback C2 domains at runtime.
+    Persistence is established through a randomized scheduled task named PythonLauncher followed by three characters with an AtLogOn trigger, a startup folder LNK shortcut, and the Registry Run key set during initial HTA execution.
+    At the operator discretion, Starland RAT deploys the WLDR Agent by executing an embedded PowerShell script that beacons to a separate set of staging domains over HTTPS using AES-256-CBC encryption with HMAC-SHA256 authentication and PBKDF2-SHA256 key derivation.
+    WLDR runs a PowerShell RunspacePool of up to ten concurrent threads, enabling parallelized command execution with real-time output streaming and a mutex guard to prevent duplicate instances.
+    Telegram bots are used to notify operators of new victim check-ins.
+    The campaign primarily targets users in the United States and Europe through opportunistic, volume-driven distribution across developer tooling, IT administration, enterprise collaboration, and consumer gaming software categories, with the financial objective of credential and cryptocurrency asset theft.
+references:
+    - https://blog.talosintelligence.com/uat-11795-deploys-novel-starland-rat-and-bespoke-wldr-c2-implant-in-financially-motivated-campaign/
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

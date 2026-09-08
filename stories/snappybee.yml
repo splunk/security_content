@@ -1,20 +1,20 @@
 name: SnappyBee
 id: 99f066e0-2492-45ed-acb4-a42abbd585fd
-version: 1
-date: '2025-02-07'
+version: 2
+creation_date: '2025-02-07'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: SnappyBee is a stealthy malware variant designed to exfiltrate sensitive data while evading traditional security measures. It primarily spreads through phishing emails, malicious attachments, and drive-by downloads. Once executed, SnappyBee establishes persistence by modifying system registries and injecting malicious code into legitimate processes. It employs advanced obfuscation techniques to avoid detection, including polymorphic encryption and sandbox evasion. The malware actively monitors user activities, capturing credentials, keystrokes, and network traffic before transmitting the stolen data to a remote command-and-control (C2) server. This analytic story is designed to detect possible mitre attack tatics and technique related to SnappyBee malware.
 narrative: SnappyBee emerged as a highly evasive malware designed for data theft and espionage. Initially spotted in targeted phishing campaigns, it quickly gained notoriety for its stealth and adaptability. Cybersecurity researchers found that SnappyBee disguises itself as legitimate software, infecting systems through malicious email attachments, compromised websites, and software cracks. Once activated, it burrows deep into the system, modifying registries and injecting code into trusted processes to remain undetected. Advanced evasion techniques, such as polymorphic encryption and sandbox detection, make traditional signature-based security ineffective. SnappyBee’s primary goal is to steal credentials, keystrokes, and network data, transmitting them to remote attackers. Continuous monitoring and proactive threat intelligence remain crucial to counter this evolving cyber menace.
 references:
-- https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
-tags:
-  category:
-  - Data Destruction
-  - Malware
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
+category:
+    - Data Destruction
+    - Malware
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

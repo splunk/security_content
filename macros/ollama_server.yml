@@ -1,3 +1,8 @@
-definition: (sourcetype="ollama:server")
-description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
 name: ollama_server
+id: eab4e109-1137-453d-b35c-02c659a396db
+version: 1
+creation_date: '2025-01-23'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
+definition: (sourcetype="ollama:server")

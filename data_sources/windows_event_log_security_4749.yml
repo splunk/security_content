@@ -1,7 +1,8 @@
 name: Windows Event Log Security 4749
 id: eb322056-01a3-4cd5-bc09-01140d33194a
-version: 2
-date: '2025-07-10'
+version: 3
+creation_date: '2025-02-21'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Windows Event Log Security 4749
 source: XmlWinEventLog:Security
@@ -11,11 +12,11 @@ logsource:
   service: security
 separator: EventCode
 supported_TA:
-- name: Splunk Add-on for Microsoft Windows
-  url: https://splunkbase.splunk.com/app/742
-  version: 9.1.2
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 11.0.2
 fields:
-- _time
+    - _time
 output_fields:
-- dest
+    - dest
 example_log: ''

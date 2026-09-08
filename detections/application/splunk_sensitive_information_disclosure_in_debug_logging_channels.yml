@@ -1,0 +1,60 @@
+name: Splunk Sensitive Information Disclosure in DEBUG Logging Channels
+id: 93dc7182-c5da-4085-82ec-401abf33d623
+version: 6
+creation_date: '2024-10-14'
+modification_date: '2026-05-14'
+author: Rod Soto, Eric McGinnis, Splunk
+status: production
+type: Hunting
+description: In Splunk versions 9.3, 9.2, 9.1, 9.1.5 Applications which have been enabled with logging level DEBUG may write sensitive information such as keys, tokens, or other sensitive strings into the internal index.
+data_source:
+    - Splunk
+search: |-
+    `splunkd` log_level="DEBUG" AND component IN ("REST_Calls", "AdminManager", "JSONWebToken")
+    | stats count min(_time) as firstTime max(_time) as lastTime by host splunk_server log_level component event_message
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `splunk_sensitive_information_disclosure_in_debug_logging_channels_filter`
+how_to_implement: Requires access to _internal index. It is recommended to inventory and modify the search for specific apps that may have DEBUG logging enabled.
+known_false_positives: There will be false positives as not every message to the DEBUG log will expose sensitive information, such as keys or other secrets.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-0301
+    - https://advisory.splunk.com/advisories/SVD-2024-1008
+    - https://advisory.splunk.com/advisories/SVD-2024-1009
+analytic_story:
+    - Splunk Vulnerabilities
+asset_type: Splunk Server
+cve:
+    - CVE-2024-29945
+    - CVE-2024-45738
+    - CVE-2024-45739
+mitre_attack_id:
+    - T1552
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test of JsonWebToken DEBUG Logging Channel
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1654/splunk/jsonwebtokenplaintokensvd_splunkd.log
+          source: /opt/splunk/var/log/splunk/splunkd.log
+          sourcetype: splunkd
+          index: _internal
+      test_type: unit
+    - name: True Positive Test of REST_Calls DEBUG Logging Channel
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552/splunk/svd-2024-1008.log
+          sourcetype: splunkd
+          source: /opt/splunk/var/log/splunk/splunkd.log
+          index: _internal
+      test_type: unit
+    - name: True Positive Test of AdminManager DEBUG Logging Channel
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552/splunk/svd-2024-1009.log
+          sourcetype: splunkd
+          source: /opt/splunk/var/log/splunk/splunkd.log
+          index: _internal
+      test_type: unit

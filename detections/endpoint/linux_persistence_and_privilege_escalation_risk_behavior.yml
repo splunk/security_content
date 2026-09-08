@@ -1,7 +1,8 @@
 name: Linux Persistence and Privilege Escalation Risk Behavior
 id: ad5ac21b-3b1e-492c-8e19-ea5d5e8e5cf1
-version: 9
-date: '2026-02-25'
+version: 11
+creation_date: '2022-07-21'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Correlation
@@ -31,24 +32,31 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$risk_object$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-tags:
-    analytic_story:
-        - Linux Privilege Escalation
-        - Linux Persistence Techniques
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1548
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: audit
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Linux Persistence and Privilege Escalation Risk Behavior - $risk_object$
+    entity:
+        field: risk_object
+        type: system
+        score: 0
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1548
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: audit
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/linux_risk/linuxrisk.log
           source: linuxrisk
           sourcetype: stash
+      test_type: unit

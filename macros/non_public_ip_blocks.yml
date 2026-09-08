@@ -1,0 +1,12 @@
+name: non_public_ip_blocks
+id: 6f616708-a1f4-4652-ae5a-3526fe958b64
+version: 1
+creation_date: '2026-04-29'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: |
+    This macro defines non-public (private, reserved, or special-use) IPv4 and IPv6 address blocks as per RFC 1918, RFC 6598, RFC 5737, RFC 3927, RFC 5156, RFC 2544, and others.
+    These include private LAN, loopback, link-local, reserved multicast, documentation, and certain experimental ranges.
+    It can be used to filter out internal or non-routable IP addresses in detection searches and analytics.
+    Update the macro definition if your environment includes unique non-public blocks or excludes any for your specific use case.
+definition: ( "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10", "127.0.0.0/8", "::1", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32", "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24", "198.51.100.0/24", "203.0.113.0/24", "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "192.175.48.0/24", "198.18.0.0/15", "224.0.0.0/4", "240.0.0.0/4" )

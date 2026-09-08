@@ -1,0 +1,88 @@
+name: Linux Suspicious Staging of Alternate System Files
+id: 250fd1b5-e62a-4515-baff-3010b52b4c12
+version: 1
+creation_date: '2026-07-08'
+modification_date: '2026-07-08'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects the creation of sensitive system files such as nsswitch.conf, passwd, shadow, sudoers, and NSS shared libraries outside of their canonical /etc or /var/lib/docker paths.
+    This technique is associated with CVE-2025-32463 (chwoot), where an attacker stages a fake root directory containing spoofed system configuration files and NSS libraries to manipulate how privileged processes such as sudo resolve name services, enabling local privilege escalation by hijacking library loading without modifying the real /etc directory.
+data_source:
+    - Sysmon for Linux EventID 11
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Filesystem WHERE
+
+    Filesystem.file_path IN (
+        "*/etc/group",
+        "*/etc/nsswitch.conf",
+        "*/etc/pam.conf",
+        "*/etc/passwd",
+        "*/etc/shadow",
+        "*/etc/sudo.conf",
+        "*/etc/sudoers",
+        "*/libnss_*"
+    )
+    NOT Filesystem.file_path IN (
+        "/etc/*",
+        "/var/lib/docker/*"
+    )
+
+    BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+       Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+       Filesystem.file_name Filesystem.file_path Filesystem.process_guid
+       Filesystem.process_id Filesystem.user Filesystem.vendor_product
+
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_suspicious_staging_of_alternate_system_files_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Developers or system administrators may stage alternate system files for legitimate testing or containerized environments. Filter based on known development or testing systems.
+references:
+    - https://www.bleepingcomputer.com/news/security/cisa-warns-of-critical-linux-sudo-flaw-exploited-in-attacks/
+    - https://github.com/pr0v3rbs/CVE-2025-32463_chwoot
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Suspicious Staging of Alternate System File - [$file_name$] observed on [$dest$].
+threat_objects:
+    - field: file_name
+      type: file_name
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Post-Exploitation
+    - Linux Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1036
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/linux_suspicious_staging_of_alternate_system_files/snapattack_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

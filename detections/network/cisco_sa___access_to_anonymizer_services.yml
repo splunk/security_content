@@ -1,0 +1,65 @@
+name: Cisco SA - Access to Anonymizer Services
+id: a7c8613a-92e2-4232-b64d-bd39d33dee8b
+version: 1
+creation_date: '2026-05-06'
+modification_date: '2026-06-09'
+author: Mahamudul Chowdhury, Bhavin Patel, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic detects attempts to access proxy-evasion or anonymizer services using Cisco Secure Access DNS and secure web proxy telemetry.
+    Users who reach anonymizer or proxy-evasion infrastructure are often trying to bypass corporate controls such as secure web gateway inspection, DLP monitoring, CASB visibility, and threat-detection systems. These services frequently establish encrypted tunnels that hide subsequent traffic from inspection.
+    Early identification helps security teams spot circumvention attempts before potential data exfiltration or follow-on malicious activity. Correlating DNS resolution and proxy session data strengthens confidence that access was intentional.
+data_source:
+    - Cisco Secure Access DNS
+search: |-
+    `cisco_secure_access_dns`
+    action = "allowed" category= "*anonymizer*"
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime values(domain) as domain values(query) as query values(reply_code) as reply_code values(record_type) as record_type by src_ip src_external_ip user identity_type action category sourcetype
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_sa___access_to_anonymizer_services_filter`
+how_to_implement: |
+    Ingest Cisco Secure Access DNS and proxy events into Splunk using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    Update the `cisco_secure_access_dns` macro so it resolves to the indexes, sources, and sourcetypes used in your environment.
+known_false_positives: |
+    Security research, approved privacy tools, or mis-categorized destinations may appear as anonymizer traffic. Tune this analytic with the filter macro or allow-lists for known-good users, networks, and domains after validating business justification.
+references:
+    - https://attack.mitre.org/techniques/T1090/003
+drilldown_searches:
+    - name: View the detection results for user $user$ and source $src_ip$
+      search: '%original_detection_search% | search user = "$user$" src_ip = "$src_ip$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for $user$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 20
+          message: User $user$ from $src_ip$ accessed proxy-evasion or anonymizer infrastructure (domains=$domain$, categories=$category$).
+threat_objects:
+    - field: domain
+      type: domain
+analytic_story:
+    - Cisco Secure Access Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1090.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test - DNS telemetry
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/dns/anonymizer_dns.log
+          source: not_applicable
+          sourcetype: cisco:cloud_security:dns
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Windows Process Injection Remote Thread
 id: 8a618ade-ca8f-4d04-b972-2d526ba59924
-version: 11
-date: '2026-03-10'
+version: 15
+creation_date: '2022-10-28'
+modification_date: '2026-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,14 +33,12 @@ search: |-
     )
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
-    by EventID Guid NewThreadId ProcessID SecurityID SourceImage
-       SourceProcessGuid SourceProcessId StartAddress StartFunction
-       StartModule TargetImage TargetProcessGuid TargetProcessId UserID
-       dest parent_process_exec parent_process_guid parent_process_id
-       parent_process_name parent_process_path process_exec process_guid
-       process_id process_name process_path signature signature_id
-       user_id vendor_product
-
+                  values(NewThreadId) as "NewThreadId"
+                  values(StartAddress) as "StartAddress"
+      by dest signature_id signature
+         SourceProcessGuid SourceProcessId SourceImage
+         TargetProcessGuid TargetProcessId TargetImage
+         StartModule StartFunction vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_process_injection_remote_thread_filter`
@@ -54,36 +53,39 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: process $SourceImage$ created a remote thread in target process $TargetImage$ on host $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-    threat_objects:
-        - field: SourceImage
-          type: process
-tags:
-    analytic_story:
-        - Qakbot
-        - Graceful Wipe Out Attack
-        - Warzone RAT
-        - Earth Alux
-        - Water Gamayun
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1055.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: process $SourceImage$ created a remote thread in target process $TargetImage$ on host $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: SourceImage
+      type: process
+analytic_story:
+    - Qakbot
+    - Graceful Wipe Out Attack
+    - Warzone RAT
+    - Earth Alux
+    - Water Gamayun
+    - Phantom Stealer
+    - Vidar Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1055.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

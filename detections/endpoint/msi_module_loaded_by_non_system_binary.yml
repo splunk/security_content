@@ -1,7 +1,8 @@
 name: MSI Module Loaded by Non-System Binary
 id: ccb98a66-5851-11ec-b91c-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+creation_date: '2021-12-08'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -15,24 +16,25 @@ references:
     - https://attackerkb.com/topics/7LstI2clmF/cve-2021-41379/rapid7-analysis
     - https://github.com/AlexandrVIvanov/InstallerFileTakeOver
     - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/msi.dll%20Hijack%20(Methodology).ioc
-tags:
-    analytic_story:
-        - Data Destruction
-        - Hermetic Wiper
-        - Windows Privilege Escalation
-    asset_type: Endpoint
-    cve:
-        - CVE-2021-41379
-    mitre_attack_id:
-        - T1574.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Data Destruction
+    - Hermetic Wiper
+    - Windows Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2021-41379
+mitre_attack_id:
+    - T1574.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/msi_module_load/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

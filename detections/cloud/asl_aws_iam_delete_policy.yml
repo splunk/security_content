@@ -1,7 +1,8 @@
 name: ASL AWS IAM Delete Policy
 id: 609ced68-d420-4ff7-8164-ae98b4b4018c
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2021-04-06'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: Hunting
@@ -24,20 +25,21 @@ known_false_positives: This detection will require tuning to provide high fideli
 references:
     - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html
     - https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
-tags:
-    analytic_story:
-        - AWS IAM Privilege Escalation
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1098
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: access
+analytic_story:
+    - AWS IAM Privilege Escalation
+asset_type: AWS Account
+mitre_attack_id:
+    - T1098
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: access
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/asl_ocsf_cloudtrail.json
           sourcetype: aws:asl
           source: aws_asl
+      test_type: unit

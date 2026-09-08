@@ -1,29 +1,29 @@
 name: Water Gamayun
 id: f3a9e8b6-7d21-42c5-9f6b-e4f8d1c936ea
-version: 1
-date: '2025-04-17'
+version: 2
+creation_date: '2025-04-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 description: This analytic story contains detections for techniques used by the Water Gamayun threat actor, which targets telecommunications and financial sectors. The group employs various techniques including MSC EvilTwin exploitation, custom backdoors, information stealers, and sophisticated reconnaissance methods.
 narrative: |
-  Water Gamayun is a threat actor that has been active since at least late 2023. They target organizations primarily in the telecommunications and financial sectors through a combination of sophisticated techniques and custom malware. Their initial access vectors include signed MSI files, Living Off The Land Binaries and Scripts (LOLBAS), and exploitation of MSC vulnerability (dubbed "EvilTwin") which manipulates directory paths with spaces to bypass security controls.
-  
-  The actor's toolkit includes several custom components:
-  - SilentPrism: A backdoor for command and control
-  - DarkWisp: A backdoor with TCP communication capabilities
-  - EncryptHub: An information stealer targeting credentials and system information
-  
-  The group is notable for their use of Telegram as a command and control channel, the exploitation of the MSC EvilTwin technique (CVE-2025-26633), and detailed reconnaissance of victim systems including geolocation data collection.
-  
-  Defensive recommendations include implementing application control policies, monitoring for unusual PowerShell activities and MSC file executions with abnormal command-line parameters, and securing administrative tools that could be abused by attackers.
+    Water Gamayun is a threat actor that has been active since at least late 2023. They target organizations primarily in the telecommunications and financial sectors through a combination of sophisticated techniques and custom malware. Their initial access vectors include signed MSI files, Living Off The Land Binaries and Scripts (LOLBAS), and exploitation of MSC vulnerability (dubbed "EvilTwin") which manipulates directory paths with spaces to bypass security controls.
+
+    The actor's toolkit includes several custom components:
+    - SilentPrism: A backdoor for command and control
+    - DarkWisp: A backdoor with TCP communication capabilities
+    - EncryptHub: An information stealer targeting credentials and system information
+
+    The group is notable for their use of Telegram as a command and control channel, the exploitation of the MSC EvilTwin technique (CVE-2025-26633), and detailed reconnaissance of victim systems including geolocation data collection.
+
+    Defensive recommendations include implementing application control policies, monitoring for unusual PowerShell activities and MSC file executions with abnormal command-line parameters, and securing administrative tools that could be abused by attackers.
 references:
-  - https://securityintelligence.com/posts/new-threat-actor-water-gamayun-targets-telecom-finance/
-  - https://www.ncsc.gov.uk/report/weekly-threat-report-12th-april-2024
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection  
+    - https://securityintelligence.com/posts/new-threat-actor-water-gamayun-targets-telecom-finance/
+    - https://www.ncsc.gov.uk/report/weekly-threat-report-12th-april-2024
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

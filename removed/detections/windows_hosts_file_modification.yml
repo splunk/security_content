@@ -1,44 +1,35 @@
 name: Windows hosts file modification
 id: 06a6fc63-a72d-41dc-8736-7e3dd9612116
 version: 5
-date: '2024-11-14'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: removed
 type: TTP
-description: The search looks for modifications to the hosts file on all Windows endpoints
-  across your environment.
+description: The search looks for modifications to the hosts file on all Windows endpoints across your environment.
 data_source:
-- Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.action Filesystem.dest
-  Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
-  Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size
-  Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | search
-  Filesystem.file_name=hosts AND Filesystem.file_path=*Windows\\System32\\* | `drop_dm_object_name(Filesystem)`
-  | `windows_hosts_file_modification_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records the file-system activity from your hosts to populate the Endpoint.Filesystem
-  data model node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
-  The data used for this search is typically generated via logs that report file-system
-  reads and writes.
-known_false_positives: There may be legitimate reasons for system administrators to
-  add entries to this file.
+    - Sysmon EventID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | search Filesystem.file_name=hosts AND Filesystem.file_path=*Windows\\System32\\* | `drop_dm_object_name(Filesystem)` | `windows_hosts_file_modification_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or by other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
+known_false_positives: There may be legitimate reasons for system administrators to add entries to this file.
 references: []
 rba:
-  message: Host file modified on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: Host file modified on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Host Redirection
-  asset_type: Endpoint
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Host Redirection
+    asset_type: Endpoint
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.2.0
+    replacement_content: []

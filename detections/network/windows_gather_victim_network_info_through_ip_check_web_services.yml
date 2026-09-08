@@ -1,7 +1,8 @@
 name: Windows Gather Victim Network Info Through Ip Check Web Services
 id: 70f7c952-0758-46d6-9148-d8969c4481d1
-version: 18
-date: '2026-03-16'
+version: 22
+creation_date: '2022-06-24'
+modification_date: '2026-07-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -30,44 +31,47 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: a network connection on known abused web services from $dvc$
-    risk_objects:
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
         - field: dvc
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Azorult
-        - DarkCrystal RAT
-        - Phemedrone Stealer
-        - Snake Keylogger
-        - Handala Wiper
-        - PXA Stealer
-        - Meduza Stealer
-        - Water Gamayun
-        - Quasar RAT
-        - 0bj3ctivity Stealer
-        - Castle RAT
-        - Void Manticore
-        - BlankGrabber Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1590.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: a network connection on known abused web services from $dvc$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Azorult
+    - DarkCrystal RAT
+    - Phemedrone Stealer
+    - Snake Keylogger
+    - Handala Wiper
+    - PXA Stealer
+    - Meduza Stealer
+    - Water Gamayun
+    - Quasar RAT
+    - 0bj3ctivity Stealer
+    - Castle RAT
+    - Void Manticore
+    - BlankGrabber Stealer
+    - VIP Keylogger
+    - Starland RAT Campaign
+asset_type: Endpoint
+mitre_attack_id:
+    - T1590.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

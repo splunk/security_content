@@ -1,8 +1,0 @@
-name: __mlspl_detect_dns_data_exfiltration_using_pretrained_model_in_dsdl
-date: 2024-12-23
-version: 2
-id: db5df924-c34c-4b0f-9333-a08b2af98e65
-author: Splunk Threat Research Team
-lookup_type: mlmodel
-description: Detect DNS Data Exfiltration using pretrained Model in DSDL
-case_sensitive_match: false

@@ -1,0 +1,21 @@
+name: decommissioned_buckets
+id: b3a95eff-87cf-40f3-b6e0-5b1a11eed68f
+version: 2
+creation_date: '2025-02-13'
+modification_date: '2026-05-13'
+author: Bhavin Patel
+lookup_type: kvstore
+description: A lookup table of decommissioned S3 buckets created by baseline - Baseline of Open S3 Bucket Decommissioning. This lookup table is used by detections searches to trigger alerts when decommissioned buckets are detected.
+fields:
+    - _key
+    - bucketName
+    - hosts
+    - firstEvent
+    - lastEvent
+    - events
+    - policy_details
+    - website_details
+    - accountIds
+    - userARNs
+    - awsRegions
+min_matches: 1

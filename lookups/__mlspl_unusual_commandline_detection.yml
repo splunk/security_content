@@ -1,9 +1,0 @@
-name: __mlspl_unusual_commandline_detection
-date: 2024-12-23
-version: 2
-id: e340177d-f2c5-4cb7-8b13-9f484934f648
-author: Splunk Threat Research Team
-lookup_type: mlmodel
-description: An MLTK model for detecting malicious commandlines
-case_sensitive_match: false
-min_matches: 1

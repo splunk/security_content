@@ -1,3 +1,8 @@
-definition: search *
-description: This macro is deprecated. Update this macro to look for prohibited softwares in your environment
 name: prohibited_softwares
+id: a9e0936b-520e-4e8b-b6e6-de9623efeb5c
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro is deprecated. Update this macro to look for prohibited softwares in your environment
+definition: search *

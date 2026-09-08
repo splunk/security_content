@@ -1,7 +1,8 @@
 name: System Info Gathering Using Dxdiag Application
 id: f92d74f2-4921-11ec-b685-acde48001122
-version: 7
-date: '2025-12-15'
+version: 8
+creation_date: '2021-11-19'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -26,20 +27,21 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: This commandline can be used by a network administrator to audit host machine specifications. Thus, a filter is needed.
 references:
     - https://app.any.run/tasks/df0baf9f-8baf-4c32-a452-16562ecb19be/
-tags:
-    analytic_story:
-        - Remcos
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1592
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Remcos
+asset_type: Endpoint
+mitre_attack_id:
+    - T1592
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

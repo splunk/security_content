@@ -1,4 +1,8 @@
-definition: index=zoom
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: zoom_index
+id: ca40c05a-4ea1-4b2e-ae78-6a9a49f4fe4e
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: index=zoom

@@ -1,19 +1,19 @@
 name: GitHub Organizations Audit Logs
 id: ce520b1c-79fe-48ef-a0f9-71fbbd4837b0
-version: 1
-date: '2025-01-15'
+version: 2
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Data source object for GitHub Organizations logs using the Splunk Add-on
-  for Github using a Personal Access Token.
+description: Data source object for GitHub Organizations logs using the Splunk Add-on for Github using a Personal Access Token.
 source: github
 sourcetype: github:cloud:audit
 logsource:
   product: github
   service: audit
 supported_TA:
-- name: Splunk Add-on for Github
-  url: https://splunkbase.splunk.com/app/6254
-  version: 3.2.0
+    - name: Splunk Add-on for Github
+      url: https://splunkbase.splunk.com/app/6254
+      version: 4.0.0
 fields:
 - _document_id
 - action

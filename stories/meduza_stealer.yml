@@ -1,21 +1,21 @@
 name: Meduza Stealer
 id: c3328a8a-565b-435e-b9cc-5410e34b821b
-version: 1
-date: '2024-11-28'
+version: 2
+creation_date: '2024-12-02'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: Meduza Stealer is a sophisticated and rapidly evolving malware designed to extract sensitive data from compromised systems. Detected primarily through anomalous network activities, its behavior often involves outbound connections to command-and-control (C2) servers, encrypting and exfiltrating stolen credentials, financial data, and other personal information. Analysts have identified Meduza Stealer leveraging advanced evasion techniques, including dynamic obfuscation, anti-analysis methods, and the use of polymorphic code to bypass detection by traditional antivirus systems. Once deployed, it scans for browser-stored passwords, cryptocurrency wallets, and keylogging opportunities, potentially exploiting unpatched software vulnerabilities. Security tools flag it through heuristic detections, anomalous process executions, or unusual registry modifications. Meduza Stealer's malicious payloads are often distributed via phishing emails, malicious attachments, or trojanized software downloads. Effective defense requires a multi-layered security approach, regular software updates, and employee training to minimize risks posed by this potent cyber threat.
 narrative: Meduza Stealer is a relatively new entrant in the cybercrime landscape, first identified in early 2023. It quickly gained notoriety among threat actors for its effectiveness and adaptability. Designed as a data-stealing malware, it targets sensitive information such as login credentials, financial details, and cryptocurrency wallets. Its developers market it on underground forums, often touting its advanced features like dynamic obfuscation and anti-analysis mechanisms, making it difficult for traditional antivirus solutions to detect. Meduza Stealer typically spreads through phishing campaigns, malicious email attachments, and trojanized software downloads. Once executed, it infiltrates systems silently, harvesting data from web browsers, password managers, and clipboard activities. It then transmits the stolen information to its command-and-control (C2) servers using encrypted communication channels, further complicating detection and analysis. Security researchers have noted its use of polymorphic code, enabling it to modify its structure with each infection to evade heuristic and signature-based detection methods.Meduza Stealer highlights a growing trend in sophisticated, modular malware that appeals to cybercriminals due to its efficiency and ease of deployment. Effective mitigation strategies include adopting behavioral analysis tools, implementing robust endpoint security solutions, and maintaining user awareness through regular cybersecurity training. Proactive measures are essential to combat the escalating threat posed by this advanced malware.
 references:
-- https://www.fortinet.com/blog/threat-research/exploiting-cve-2024-21412-stealer-campaign-unleashed
-- https://cert.gov.ua/article/6276652
-- https://cert.gov.ua/article/6281018
-- https://g0njxa.medium.com/approaching-stealers-devs-a-brief-interview-with-meduza-f1bbd2efb84f
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.fortinet.com/blog/threat-research/exploiting-cve-2024-21412-stealer-campaign-unleashed
+    - https://cert.gov.ua/article/6276652
+    - https://cert.gov.ua/article/6281018
+    - https://g0njxa.medium.com/approaching-stealers-devs-a-brief-interview-with-meduza-f1bbd2efb84f
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

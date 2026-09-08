@@ -373,7 +373,7 @@ def format_url_report(action=None, success=None, container=None, results=None, h
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Score Id | Classifications | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA) |\n%%\n\nScreenshots associated with the detonated URLs are shown below (if available):\n\n{5}\n"""
+    template = """SOAR analyzed URL(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Score Id | Classifications | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {6} | Splunk Attack Analyzer (SAA) |\n%%\n\nScreenshots associated with the detonated URLs are shown below (if available):\n\n{5}\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -382,7 +382,8 @@ def format_url_report(action=None, success=None, container=None, results=None, h
         "normalized_url_summary_output:custom_function:score_id",
         "normalized_url_summary_output:custom_function:classifications",
         "normalized_url_summary_output:custom_function:job_id",
-        "url_screenshot_formatting:custom_function:report"
+        "url_screenshot_formatting:custom_function:report",
+        "get_url_summary_output:action_result.summary.AppURL"
     ]
 
     ################################################################################
@@ -411,9 +412,12 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     # the observables data path.
     ################################################################################
 
+    get_url_summary_output_result_data = phantom.collect2(container=container, datapath=["get_url_summary_output:action_result.summary.AppURL"], action_results=results)
     normalized_url_summary_output__url = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_summary_output:url")) != "" else "null")  # pylint: disable=used-before-assignment
     normalized_url_summary_output__job_id = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_summary_output:job_id")) != "" else "null")  # pylint: disable=used-before-assignment
     normalized_url_summary_output__url_score_object = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_summary_output:url_score_object")) != "" else "null")  # pylint: disable=used-before-assignment
+
+    get_url_summary_output_summary_appurl = [item[0] for item in get_url_summary_output_result_data]
 
     build_url_output__observable_array = None
 
@@ -428,7 +432,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     # Build URL
 
         
-    for url, external_id, url_object in zip(normalized_url_summary_output__url, normalized_url_summary_output__job_id, normalized_url_summary_output__url_score_object):
+    for url, external_id, url_object, app_url in zip(normalized_url_summary_output__url, normalized_url_summary_output__job_id, normalized_url_summary_output__url_score_object, get_url_summary_output_summary_appurl):
         parsed_url = urlparse(url)
         #phantom.debug("url: {} jobs_id:{}".format(url, external_id))
         #phantom.debug("parsed_url: {}, url_object: {}".format(parsed_url, url_object))
@@ -449,7 +453,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
                 "classification_ids": url_object['classification_ids']
             },
             "source": "Splunk Attack Analyzer",
-            "source_link": f"https://app.twinwave.io/job/{external_id}"
+            "source_link": f"{app_url}"
         }
         if url_object.get('related_observables'):
             observable_object["related_observables"] = url_object['related_observables']
@@ -811,7 +815,7 @@ def format_file_report(action=None, success=None, container=None, results=None, 
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed File(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| File Name | Normalized Score | Score Id  | Classifications | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA) |\n%%\n\nScreenshots associated with the detonated Files are shown below (if available):\n\n{5}\n\n"""
+    template = """SOAR analyzed File(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| File Name | Normalized Score | Score Id  | Classifications | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {6} | Splunk Attack Analyzer (SAA) |\n%%\n\nScreenshots associated with the detonated Files are shown below (if available):\n\n{5}\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -820,7 +824,8 @@ def format_file_report(action=None, success=None, container=None, results=None, 
         "normalized_file_summary_output:custom_function:score_id",
         "normalized_file_summary_output:custom_function:classifications",
         "normalized_file_summary_output:custom_function:job_id",
-        "file_screenshot_formatting:custom_function:report"
+        "file_screenshot_formatting:custom_function:report",
+        "get_file_summary_output:action_result.summary.AppURL"
     ]
 
     ################################################################################
@@ -849,9 +854,12 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     # the observables data path.
     ################################################################################
 
+    get_file_summary_output_result_data = phantom.collect2(container=container, datapath=["get_file_summary_output:action_result.summary.AppURL"], action_results=results)
     normalized_file_summary_output__file = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_summary_output:file")) != "" else "null")  # pylint: disable=used-before-assignment
     normalized_file_summary_output__job_id = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_summary_output:job_id")) != "" else "null")  # pylint: disable=used-before-assignment
     normalized_file_summary_output__file_score_object = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_summary_output:file_score_object")) != "" else "null")  # pylint: disable=used-before-assignment
+
+    get_file_summary_output_summary_appurl = [item[0] for item in get_file_summary_output_result_data]
 
     build_file_output__observable_array = None
 
@@ -861,7 +869,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 
     # Write your custom code here...
     build_file_output__observable_array = []
-    for _vault_id, external_id, file_object in zip(normalized_file_summary_output__file, normalized_file_summary_output__job_id, normalized_file_summary_output__file_score_object):
+    for _vault_id, external_id, file_object, app_url in zip(normalized_file_summary_output__file, normalized_file_summary_output__job_id, normalized_file_summary_output__file_score_object, get_file_summary_output_summary_appurl):
         #phantom.debug("vault: {} id: {}".format(_vault_id, external_id))
         observable_object = {
             "value": _vault_id,
@@ -877,7 +885,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
                 "classification_ids": file_object['classification_ids']
             },
             "source": "Splunk Attack Analyzer",
-            "source_link":f"https://app.twinwave.io/job/{external_id}"
+            "source_link":f"{app_url}"
         }
         if file_object.get('related_observables'):
             observable_object["related_observables"] = file_object['related_observables']

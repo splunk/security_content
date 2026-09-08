@@ -1,7 +1,8 @@
 name: Windows System User Discovery Via Quser
 id: 0c3f3e09-e47a-410e-856f-a02a5c5fafb0
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2022-12-13'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -32,22 +33,23 @@ references:
     - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/quser
     - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
     - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
-tags:
-    analytic_story:
-        - Prestige Ransomware
-        - Crypto Stealer
-        - Windows Post-Exploitation
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1033
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Prestige Ransomware
+    - Crypto Stealer
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1033
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

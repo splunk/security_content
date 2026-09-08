@@ -1,7 +1,8 @@
 name: Elevated Group Discovery with PowerView
 id: 10d62950-0de5-4199-a710-cff9ea79b413
-version: 10
-date: '2026-02-25'
+version: 11
+creation_date: '2021-08-27'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -27,17 +28,17 @@ references:
     - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainGroupMember/
     - https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory
     - https://attack.mitre.org/techniques/T1069/002/
-tags:
-    analytic_story:
-        - Active Directory Discovery
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1069.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Discovery
+asset_type: Endpoint
+mitre_attack_id:
+    - T1069.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
@@ -47,3 +48,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-xml.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

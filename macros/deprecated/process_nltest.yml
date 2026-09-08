@@ -1,3 +1,8 @@
-definition: (Processes.process_name=nltest.exe OR Processes.original_file_name=nltestrk.exe)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_nltest
+id: 59856ed0-831b-425d-a3d1-7086cd7a27c1
+version: 1
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=nltest.exe OR Processes.original_file_name=nltestrk.exe)

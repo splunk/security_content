@@ -1,7 +1,8 @@
 name: Windows Service Stop By Deletion
 id: 196ff536-58d9-4d1b-9686-b176b04e430b
-version: 9
-date: '2026-03-24'
+version: 10
+creation_date: '2022-06-22'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -35,22 +36,23 @@ references:
     - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
     - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md
-tags:
-    analytic_story:
-        - Azorult
-        - Graceful Wipe Out Attack
-        - Crypto Stealer
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1489
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Azorult
+    - Graceful Wipe Out Attack
+    - Crypto Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1489
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

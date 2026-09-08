@@ -1,0 +1,451 @@
+{
+   "$defs": {
+      "ConvertToLogSource": {
+         "additionalProperties": false,
+         "description": "Represents a conversion of a data source to a log source.\n\nThese conversions allow raw events from a given data_source to\nbe converted to a another 'compatible' log source. For instance,\nthis may be used to map:\nSysmon Event ID 1\nto one of\n[Windows Event Log Security 4688, Crowdstrike Process]",
+         "properties": {
+            "data_source": {
+               "description": "The data source to convert to a log source.",
+               "title": "Data Source",
+               "type": "string"
+            },
+            "mapping": {
+               "additionalProperties": {
+                  "type": "string"
+               },
+               "description": "The KEY represents the name of the field in this datasource. The VALUE represents the name of the filed in the target datasource.",
+               "title": "Mapping",
+               "type": "object"
+            }
+         },
+         "required": [
+            "data_source",
+            "mapping"
+         ],
+         "title": "ConvertToLogSource",
+         "type": "object"
+      },
+      "DataModelsAndSubmodels": {
+         "description": "Non-exhaustive list of datamodels/submodels currently in use for data sources.\n\nTODO: Determine how we want to define all the datamodels for data_sources.\nIs All_Traffic a valid datamodel, or should it be Network_Traffic.All_Traffic?\nWhat about DNS vs Network_Resolution?\nThis will likely come from continued discussion with the DLX team as well.",
+         "enum": [
+            "DNS",
+            "All_Traffic",
+            "Endpoint.Processes",
+            "Endpoint.Registry",
+            "Endpoint.Filesystem",
+            "Web",
+            "Change",
+            "Network_Traffic",
+            "Network_Traffic.All_Traffic",
+            "Risk.All_Risk",
+            "Network_Resolution",
+            "Authentication"
+         ],
+         "title": "DataModelsAndSubmodels",
+         "type": "string"
+      },
+      "FieldMapping": {
+         "additionalProperties": false,
+         "description": "Represents a field mapping for a data source.\n\nThis object uses some overloaded terminology for legacy purposes\nin the naming of the data_set vs data_model fields.\n\nThe \"mapping\" object, specifically, maps a field in the raw\ndata to a field in the target data_set.  For instance,\nthis can be used to convert a fields in a RAW data_source\nto equivalent fields in CIM or OCSF.",
+         "properties": {
+            "data_set": {
+               "anyOf": [
+                  {
+                     "$ref": "#/$defs/DataModelsAndSubmodels"
+                  },
+                  {
+                     "type": "null"
+                  }
+               ],
+               "default": null,
+               "description": "The Common Information Model (CIM) datamodel that these fields in the mappings below map to."
+            },
+            "data_model": {
+               "$ref": "#/$defs/FieldMappingDataModel",
+               "description": "The data mode for this mapping. This is used to determine how the data should be mapped."
+            },
+            "mapping": {
+               "additionalProperties": {
+                  "type": "string"
+               },
+               "description": "The KEY represents the name of the field in this datasource. The VALUE represents the name of the filed in the target datasource.",
+               "title": "Mapping",
+               "type": "object"
+            }
+         },
+         "required": [
+            "data_model",
+            "mapping"
+         ],
+         "title": "FieldMapping",
+         "type": "object"
+      },
+      "FieldMappingDataModel": {
+         "description": "The data model for this mapping.\n\nFor legacy reasons, the naming of this field, 'data model' is a bit\noverloaded.  'data models' here are not the same as 'CIM Data Models'.\nWe anticipate that this naming may change as as certain DLX requirements\ncontinue to evolve.",
+         "enum": [
+            "cim",
+            "ocsf",
+            "custom_cim"
+         ],
+         "title": "FieldMappingDataModel",
+         "type": "string"
+      },
+      "MITREComponent": {
+         "description": "Represents a MITRE Component.\n\nMITRE Components are derived exhaustively from the following list:\nhttps://misp-galaxy.org/mitre-data-component/\"\n\nTODO: As indicated by the print statement below, we have some annotations that\ndo not exist in the list above. Should these be removed or re-mapped?\nThis print out should continue to occur at runtime until we have\nresolved this TODO.",
+         "enum": [
+            "Configuration Modification",
+            "Cloud Service Creation",
+            "Scheduled Job Execution",
+            "Email Metadata",
+            "Certificate Metadata",
+            "System Configuration Changes",
+            "Cloud Service Usage",
+            "Cloud Service Discovery",
+            "Security Policy Modification",
+            "API Calls",
+            "Active DNS",
+            "Active Directory Credential Request",
+            "Active Directory Object Access",
+            "Active Directory Object Creation",
+            "Active Directory Object Deletion",
+            "Active Directory Object Modification",
+            "Application Assets",
+            "Application Log Content",
+            "Certificate Registration",
+            "Cloud Service Disable",
+            "Cloud Service Enumeration",
+            "Cloud Service Metadata",
+            "Cloud Service Modification",
+            "Cloud Storage Access",
+            "Cloud Storage Creation",
+            "Cloud Storage Deletion",
+            "Cloud Storage Enumeration",
+            "Cloud Storage Metadata",
+            "Cloud Storage Modification",
+            "Cluster Metadata",
+            "Command Execution",
+            "Container Creation",
+            "Container Enumeration",
+            "Container Metadata",
+            "Container Start",
+            "Domain Registration",
+            "Drive Access",
+            "Drive Creation",
+            "Drive Modification",
+            "Driver Load",
+            "Driver Metadata",
+            "File Access",
+            "File Creation",
+            "File Deletion",
+            "File Metadata",
+            "File Modification",
+            "Firewall Disable",
+            "Firewall Enumeration",
+            "Firewall Metadata",
+            "Firewall Rule Modification",
+            "Firmware Modification",
+            "Group Enumeration",
+            "Group Metadata",
+            "Group Modification",
+            "Host Status",
+            "Image Creation",
+            "Image Deletion",
+            "Image Metadata",
+            "Image Modification",
+            "Instance Creation",
+            "Instance Deletion",
+            "Instance Enumeration",
+            "Instance Metadata",
+            "Instance Modification",
+            "Instance Start",
+            "Instance Stop",
+            "Kernel Module Load",
+            "Logon Session Creation",
+            "Logon Session Metadata",
+            "Malware Content",
+            "Malware Metadata",
+            "Module Load",
+            "Named Pipe Metadata",
+            "Network Communication",
+            "Network Connection Creation",
+            "Network Share Access",
+            "Network Traffic Content",
+            "Network Traffic Flow",
+            "OS API Execution",
+            "Passive DNS",
+            "Permissions Request",
+            "Permissions Requests",
+            "Pod Creation",
+            "Pod Enumeration",
+            "Pod Metadata",
+            "Pod Modification",
+            "Process Access",
+            "Process Creation",
+            "Process Metadata",
+            "Process Modification",
+            "Process Termination",
+            "Protected Configuration",
+            "Response Content",
+            "Response Metadata",
+            "Scheduled Job Creation",
+            "Scheduled Job Metadata",
+            "Scheduled Job Modification",
+            "Script Execution",
+            "Service Creation",
+            "Service Metadata",
+            "Service Modification",
+            "Snapshot Creation",
+            "Snapshot Deletion",
+            "Snapshot Enumeration",
+            "Snapshot Metadata",
+            "Snapshot Modification",
+            "Social Media",
+            "System Notifications",
+            "System Settings",
+            "User Account Authentication",
+            "User Account Creation",
+            "User Account Deletion",
+            "User Account Metadata",
+            "User Account Modification",
+            "Volume Creation",
+            "Volume Deletion",
+            "Volume Enumeration",
+            "Volume Metadata",
+            "Volume Modification",
+            "WMI Creation",
+            "Web Credential Creation",
+            "Web Credential Usage",
+            "Windows Registry Key Access",
+            "Windows Registry Key Creation",
+            "Windows Registry Key Deletion",
+            "Windows Registry Key Modification"
+         ],
+         "title": "MITREComponent",
+         "type": "string"
+      },
+      "TA": {
+         "additionalProperties": false,
+         "description": "Represents a TA object that is required to process this data source.\n\nThis TA, and its specific version, are what the test environment\nshould use for testing purposes.  Content must be tested against\nspecific, known versions of given apps/TAs.\n\nTODO: Is there any additional information that we want to include here?\nOr do we want to enrich it further with even more information?  A simple\nAPI endpoint that provides lots of Splunkbase infromation is:\nhttps://cdn.splunkbase.splunk.com/public/report/apps_dump.json\nWhich could be used for quick/immediate validations.\n\nTODO: Do we need to support \"local\" apps in data sources that are\nNOT available/validatable via Splunkbase?",
+         "properties": {
+            "name": {
+               "description": "The name of the TA. In proper Splunkbase Terminology, this is the 'title' of the app.",
+               "title": "Name",
+               "type": "string"
+            },
+            "url": {
+               "description": "The URL of the TA. For instance, for the Microsoft Sysmon TA this would be https://splunkbase.splunk.com/app/5709/.",
+               "format": "uri",
+               "maxLength": 2083,
+               "minLength": 1,
+               "title": "Url",
+               "type": "string"
+            },
+            "version": {
+               "description": "The version of the TA. While most things on Splunkbase are Semantic Versioned, this is not a strict requirement. Via the API at https://splunkbase.splunk.com/app/5709/, this falls under the releases[0][title] field.",
+               "title": "Version",
+               "type": "string"
+            }
+         },
+         "required": [
+            "name",
+            "url",
+            "version"
+         ],
+         "title": "TA",
+         "type": "object"
+      }
+   },
+   "additionalProperties": false,
+   "description": "Represents a DataSource object.\n\nDataSources are highly specific, raw data that can power detections in ESCU.\nThey are far more specific than mapping to a specific Data Model.  For example,\nan Endpoint.Processes mapping Data Model mapping does not account for whether\na detection only works on Windows, Linux, macOS, or another platform.  But a\nDataSource mapping to 'Windows Sysmon EventID 1' for instance, is VERY specific\nand gives high confidence of the EXACT data a detection should work against.",
+   "properties": {
+      "name": {
+         "description": "Each Security Content Object must have a unique name. Due to issues with how local/default stanzas are merged in the Splunk products, these names MUST NOT change between subsequent releases of content packs.",
+         "title": "Name",
+         "type": "string"
+      },
+      "id": {
+         "description": "Each Security Content Object must have a unique identifier. This is particularly important when leveraging many of the Content Versioning features built into Enterprise Security 8+. Unique ids may be generated with a python command such as `uuid.uuid4()` or similar.",
+         "format": "uuid",
+         "title": "Id",
+         "type": "string"
+      },
+      "version": {
+         "description": "The version of this object. This number MUST be incremented in the following circumstances:\n1. Any time the object in this file is modified\n2. Any time that the serialization logic for this object changes, changing what is written in its conf file stanza(s)\n3. Any time that an object this object references, for example via enrichment, causes a change in its associated conf file stanzas(s).\nThis final determination is challenging to make manually, so the `contentctl inspect command` will help identify when this a version increment is required.",
+         "exclusiveMinimum": 0,
+         "title": "Version",
+         "type": "integer"
+      },
+      "creation_date": {
+         "description": "The date that this object was created. This should NEVER be updated.",
+         "format": "date",
+         "title": "Creation Date",
+         "type": "string"
+      },
+      "modification_date": {
+         "description": "The date that this object was last modified. This should be updated whenever the object is modified.",
+         "format": "date",
+         "title": "Modification Date",
+         "type": "string"
+      },
+      "author": {
+         "description": "The author of this object. This is a freeform string that can be used to identify the author of the object. It will eventually be replaced by a more detailed Contributors list.",
+         "title": "Author",
+         "type": "string"
+      },
+      "description": {
+         "description": "A description of the Security Content Object. This should be a human-readable description of the object, including its purpose.",
+         "title": "Description",
+         "type": "string"
+      },
+      "references": {
+         "description": "A list of references to external resources that are relevant to this object. This can include links to documentation, blog posts, or other resources that provide additional context or information about the object.",
+         "items": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "type": "string"
+         },
+         "minItems": 0,
+         "title": "References",
+         "type": "array",
+         "uniqueItems": true
+      },
+      "mitre_components": {
+         "description": "The list of MITRE components that this data is related to.",
+         "items": {
+            "$ref": "#/$defs/MITREComponent"
+         },
+         "title": "Mitre Components",
+         "type": "array"
+      },
+      "source": {
+         "description": "The Splunk 'source' field for this data.",
+         "title": "Source",
+         "type": "string"
+      },
+      "sourcetype": {
+         "description": "The Splunk 'sourcetype' field for this data.",
+         "title": "Sourcetype",
+         "type": "string"
+      },
+      "separator": {
+         "anyOf": [
+            {
+               "type": "string"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "description": "The separator used to parse the data.",
+         "title": "Separator"
+      },
+      "separator_value": {
+         "anyOf": [
+            {
+               "type": "string"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "title": "Separator Value"
+      },
+      "configuration": {
+         "anyOf": [
+            {
+               "type": "string"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "title": "Configuration"
+      },
+      "supported_TA": {
+         "description": "The list of Splunk TA(s) that can parse this data. It is STRONGLY suggested to include at least 1 TA here, however some raw data does not have a supporting TA to parse it. In that case, it is acceptable not to populate this list.",
+         "items": {
+            "$ref": "#/$defs/TA"
+         },
+         "title": "Supported Ta",
+         "type": "array"
+      },
+      "fields": {
+         "anyOf": [
+            {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "description": "The list of fields in this data. While populating this list is STRONGLY suggested, it is not required.",
+         "title": "Fields"
+      },
+      "output_fields": {
+         "default": [],
+         "items": {
+            "type": "string"
+         },
+         "title": "Output Fields",
+         "type": "array"
+      },
+      "field_mappings": {
+         "anyOf": [
+            {
+               "items": {
+                  "$ref": "#/$defs/FieldMapping"
+               },
+               "type": "array"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "description": "The list of mappings from this type of data to another type of data such as cim or OCSF.",
+         "title": "Field Mappings"
+      },
+      "convert_to_log_source": {
+         "default": [],
+         "items": {
+            "$ref": "#/$defs/ConvertToLogSource"
+         },
+         "title": "Convert To Log Source",
+         "type": "array"
+      },
+      "example_log": {
+         "anyOf": [
+            {
+               "type": "string"
+            },
+            {
+               "type": "null"
+            }
+         ],
+         "default": null,
+         "description": "An example log for this data. This is helpful, additional documentation so that users can immedaitely understand what the raw data looks like.",
+         "title": "Example Log"
+      }
+   },
+   "required": [
+      "name",
+      "id",
+      "version",
+      "creation_date",
+      "modification_date",
+      "author",
+      "description",
+      "source",
+      "sourcetype"
+   ],
+   "title": "DataSource",
+   "type": "object"
+}

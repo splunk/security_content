@@ -1,22 +1,18 @@
 name: VanHelsing Ransomware
 id: 6de5e506-b846-4184-90f6-feb0b84418ab
-version: 1
-status: production
-date: '2025-03-24'
+version: 2
+creation_date: '2025-03-24'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
 description: VanHelsing is a rapidly growing ransomware-as-a-service (RaaS) program launched in March 2025. The ransomware targets Windows systems with additional variants for Linux, BSD, ARM, and ESXi systems. It uses various techniques including shadow copy deletion, process hollowing, and command-line arguments to control encryption behavior. Files are encrypted with the .vanhelsing extension, and a ransom note (README.txt) is dropped in each folder.
-narrative: VanHelsingRaaS emerged as a new ransomware threat in March 2025, quickly gaining traction in the cybercrime landscape. The RaaS program allows affiliates to join with a $5,000 deposit, offering them 80% of the ransom payments while operators retain 20%. The ransomware demonstrates sophisticated capabilities through its multi-stage attack process.
-  The initial access and execution phase typically involves lateral movement using PsExec, with the ransomware supporting multiple command-line arguments for customized execution. To maintain control over its operation, it creates a mutex "Global\VanHelsing" to prevent multiple instances from running simultaneously.
-  For defense evasion, the ransomware employs several sophisticated techniques. It attempts to delete shadow copies using various methods to prevent system recovery, includes stealth options like --Silent and --no-logs to minimize detection, and utilizes process hollowing techniques to evade security controls.
-  The ransomware's impact on target systems is extensive. It encrypts files with the .vanhelsing extension and drops a ransom note named README.txt in each folder it processes. The malware changes the desktop background to a custom image (vhlocker.png) and targets both local and network drives. During encryption, files are processed in chunks of approximately 1MB to optimize performance.
-  For communication and payment, VanHelsing utilizes onion domains for ransom negotiation and TOX for secure communication with victims. The operators demand payment in Bitcoin, with known ransom demands reaching approximately $500,000. Notably, the ransomware specifically avoids targeting CIS (Commonwealth of Independent States) countries, a common practice among Russian cybercrime groups. Within just two weeks of its launch, VanHelsing had already claimed multiple victims, demonstrating its rapid adoption and effectiveness as a ransomware threat.
-references: 
-  - https://research.checkpoint.com/2025/vanhelsing-new-raas-in-town/
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+narrative: VanHelsingRaaS emerged as a new ransomware threat in March 2025, quickly gaining traction in the cybercrime landscape. The RaaS program allows affiliates to join with a $5,000 deposit, offering them 80% of the ransom payments while operators retain 20%. The ransomware demonstrates sophisticated capabilities through its multi-stage attack process. The initial access and execution phase typically involves lateral movement using PsExec, with the ransomware supporting multiple command-line arguments for customized execution. To maintain control over its operation, it creates a mutex "Global\VanHelsing" to prevent multiple instances from running simultaneously. For defense evasion, the ransomware employs several sophisticated techniques. It attempts to delete shadow copies using various methods to prevent system recovery, includes stealth options like --Silent and --no-logs to minimize detection, and utilizes process hollowing techniques to evade security controls. The ransomware's impact on target systems is extensive. It encrypts files with the .vanhelsing extension and drops a ransom note named README.txt in each folder it processes. The malware changes the desktop background to a custom image (vhlocker.png) and targets both local and network drives. During encryption, files are processed in chunks of approximately 1MB to optimize performance. For communication and payment, VanHelsing utilizes onion domains for ransom negotiation and TOX for secure communication with victims. The operators demand payment in Bitcoin, with known ransom demands reaching approximately $500,000. Notably, the ransomware specifically avoids targeting CIS (Commonwealth of Independent States) countries, a common practice among Russian cybercrime groups. Within just two weeks of its launch, VanHelsing had already claimed multiple victims, demonstrating its rapid adoption and effectiveness as a ransomware threat.
+references:
+    - https://research.checkpoint.com/2025/vanhelsing-new-raas-in-town/
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

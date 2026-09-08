@@ -1,4 +1,8 @@
-definition: sourcetype=o365:management:activity
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: o365_management_activity
+id: 0196e1a8-3078-41ce-a2a8-ae43109d6804
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=o365:management:activity

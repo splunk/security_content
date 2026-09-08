@@ -1,3 +1,8 @@
+name: previously_seen_cloud_api_calls_per_user_role_forget_window
+id: a81b10d7-5d12-4a29-84aa-69862a89e67b
+version: 1
+creation_date: '2020-09-04'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
 description: Use this macro to determine how long to keep track of cloud api calls per user role
 definition: '"-90d@d"'
-name: previously_seen_cloud_api_calls_per_user_role_forget_window

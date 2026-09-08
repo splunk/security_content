@@ -1,25 +1,18 @@
 name: GitHub Malicious Activity
 id: 9abdd884-909d-46a8-bf11-9fbcd076fac2
-version: 1
-date: '2025-01-14'
+version: 2
+creation_date: '2025-02-06'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
-description: Leverage searches that allow you to detect and investigate suspicious GitHub activities
-  that might indicate malicious behavior, including pull requests from unknown users, disabled security
-  workflows, and other potentially harmful repository modifications. These detections help identify
-  attempts to compromise repositories through unauthorized code changes, bypassed security controls,
-  and other suspicious actions that could lead to supply chain attacks or data breaches.
-narrative: GitHub is a popular platform for developers to collaborate on code and manage projects.
-  However, it can also be used by malicious actors to conduct various types of attacks, including
-  supply chain attacks, data breaches, and other malicious activities.
+description: Leverage searches that allow you to detect and investigate suspicious GitHub activities that might indicate malicious behavior, including pull requests from unknown users, disabled security workflows, and other potentially harmful repository modifications. These detections help identify attempts to compromise repositories through unauthorized code changes, bypassed security controls, and other suspicious actions that could lead to supply chain attacks or data breaches.
+narrative: GitHub is a popular platform for developers to collaborate on code and manage projects. However, it can also be used by malicious actors to conduct various types of attacks, including supply chain attacks, data breaches, and other malicious activities.
 references:
-- https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
-tags:
-  category:
-  - Cloud Security
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Security Monitoring
-
+    - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
+category:
+    - Cloud Security
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Security Monitoring

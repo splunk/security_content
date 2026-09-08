@@ -1,4 +1,8 @@
-definition: (Processes.process_name IN ("cmd.exe", "powershell.exe", "powershell_ise.exe", "pwsh.exe", "sh.exe", "bash.exe", "wscript.exe","cscript.exe", "wt.exe", "WindowsTerminal.exe", "mshta.exe"))
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: windows_shells
+id: 6fbc8114-67d2-4ac3-8490-84c1658f251b
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: (Processes.process_name IN ("cmd.exe", "powershell.exe", "powershell_ise.exe", "pwsh.exe", "sh.exe", "bash.exe", "wscript.exe","cscript.exe", "wt.exe", "WindowsTerminal.exe", "mshta.exe"))

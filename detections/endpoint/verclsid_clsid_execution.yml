@@ -1,7 +1,8 @@
 name: Verclsid CLSID Execution
 id: 61e9a56a-20fa-11ec-8ba3-acde48001122
-version: 8
-date: '2025-12-15'
+version: 9
+creation_date: '2021-09-29'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -34,20 +35,21 @@ known_false_positives: windows can used this application for its normal COM obje
 references:
     - https://gist.github.com/NickTyrer/0598b60112eaafe6d07789f7964290d5
     - https://bohops.com/2018/08/18/abusing-the-com-registry-structure-part-2-loading-techniques-for-evasion-and-persistence/
-tags:
-    analytic_story:
-        - Unusual Processes
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218.012
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Unusual Processes
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218.012
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.012/verclsid_exec/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

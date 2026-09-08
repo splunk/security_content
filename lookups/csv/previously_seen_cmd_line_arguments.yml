@@ -1,0 +1,8 @@
+name: previously_seen_cmd_line_arguments
+id: d8be0813-d09e-4fb8-8999-641d2f4b80e1
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A placeholder for a list of cmd line arugments that been seen before

@@ -1,7 +1,8 @@
 name: WinEvent Windows Task Scheduler Event Action Started
 id: b3632472-310b-11ec-9aab-acde48001122
-version: 12
-date: '2026-02-09'
+version: 13
+creation_date: '2021-10-21'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -15,40 +16,41 @@ known_false_positives: False positives will be present. Filter based on ActionNa
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md
     - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
-tags:
-    analytic_story:
-        - SolarWinds WHD RCE Post Exploitation
-        - IcedID
-        - BlackSuit Ransomware
-        - Windows Persistence Techniques
-        - Prestige Ransomware
-        - Winter Vivern
-        - CISA AA22-257A
-        - Amadey
-        - AsyncRAT
-        - ValleyRAT
-        - SystemBC
-        - Malicious Inno Setup Loader
-        - Scheduled Tasks
-        - Data Destruction
-        - CISA AA24-241A
-        - DarkCrystal RAT
-        - Qakbot
-        - Sandworm Tools
-        - Industroyer2
-        - PlugX
-        - Remcos
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - SolarWinds WHD RCE Post Exploitation
+    - IcedID
+    - BlackSuit Ransomware
+    - Windows Persistence Techniques
+    - Prestige Ransomware
+    - Winter Vivern
+    - CISA AA22-257A
+    - Amadey
+    - AsyncRAT
+    - ValleyRAT
+    - SystemBC
+    - Malicious Inno Setup Loader
+    - Scheduled Tasks
+    - Data Destruction
+    - CISA AA24-241A
+    - DarkCrystal RAT
+    - Qakbot
+    - Sandworm Tools
+    - Industroyer2
+    - PlugX
+    - Remcos
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_windows_task_scheduler_event_action_started/windows-xml.log
           source: XmlWinEventLog:Microsoft-Windows-TaskScheduler/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

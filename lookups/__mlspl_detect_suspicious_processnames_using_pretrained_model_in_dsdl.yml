@@ -1,8 +1,0 @@
-name: __mlspl_detect_suspicious_processnames_using_pretrained_model_in_dsdl
-date: 2024-12-23
-version: 2
-id: 4660425a-4fdb-4a25-895b-abbd2557aa64
-author: Splunk Threat Research Team
-lookup_type: mlmodel
-description: Detect a suspicious processname using Pretrained Model in DSDL
-case_sensitive_match: false

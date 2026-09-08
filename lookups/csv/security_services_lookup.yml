@@ -1,0 +1,12 @@
+name: security_services_lookup
+id: c9038bad-c77b-4caa-9df2-09dc4454ac77
+version: 5
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of services that deal with security, such as Antivirus, Endpoint Detection and Response, etc.
+match_type:
+    - WILDCARD(service)
+min_matches: 1
+case_sensitive_match: false

@@ -1,15 +1,16 @@
 name: Windows Debugger Tool Execution
 id: e14d94a3-07fb-4b47-8406-f5e37180d422
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: This analysis detects the use of debugger tools within a production environment. While these tools are legitimate for file analysis and debugging, they are abused by malware like PlugX and DarkGate for malicious DLL side-loading. The hunting query aids Security Operations Centers (SOCs) in identifying potentially suspicious tool executions, particularly for non-technical users in the production network.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-type: Hunting
-status: production
-description: This analysis detects the use of debugger tools within a production environment. While these tools are legitimate for file analysis and debugging, they are abused by malware like PlugX and DarkGate for malicious DLL side-loading. The hunting query aids Security Operations Centers (SOCs) in identifying potentially suspicious tool executions, particularly for non-technical users in the production network.
 search: |-
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name = "x32dbg.exe"
@@ -33,21 +34,22 @@ known_false_positives: administrator or IT professional may execute this applica
 references:
     - https://www.splunk.com/en_us/blog/security/enter-the-gates-an-analysis-of-the-darkgate-autoit-loader.html
     - https://www.trendmicro.com/en_us/research/23/b/investigating-the-plugx-trojan-disguised-as-a-legitimate-windows.html
-tags:
-    analytic_story:
-        - DarkGate Malware
-        - PlugX
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1036
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - DarkGate Malware
+    - PlugX
+asset_type: Endpoint
+mitre_attack_id:
+    - T1036
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/debugger_execution/debugger.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

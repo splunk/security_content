@@ -9,18 +9,6 @@
                 {
                     "conditions": [
                         {
-                            "index": 1
-                        }
-                    ],
-                    "id": "port_3_to_port_4",
-                    "sourceNode": "3",
-                    "sourcePort": "3_out",
-                    "targetNode": "4",
-                    "targetPort": "4_in"
-                },
-                {
-                    "conditions": [
-                        {
                             "index": 0
                         }
                     ],
@@ -113,9 +101,21 @@
                     "sourcePort": "0_out",
                     "targetNode": "3",
                     "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
                 }
             ],
-            "hash": "95559ec6b932f68ec3d455fbfb09d8c65c0f6804",
+            "hash": "566817a629dbf85852cfaf46518f0961d0cb6b20",
             "nodes": {
                 "0": {
                     "data": {
@@ -130,7 +130,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 200,
-                    "y": 179.9999999999998
+                    "y": 179.99999999999974
                 },
                 "1": {
                     "data": {
@@ -308,7 +308,7 @@
                         "connectorConfigs": [
                             "splunk"
                         ],
-                        "connectorId": 167,
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
                         "connectorVersion": "v1",
                         "functionId": 1,
                         "functionName": "update_notable",
@@ -319,7 +319,11 @@
                             "status": "in progress"
                         },
                         "requiredParameters": [
-                            "event_ids"
+                            {
+                                "data_type": "",
+                                "default": "",
+                                "field": "event_ids"
+                            }
                         ],
                         "type": "action"
                     },
@@ -635,9 +639,9 @@
                         "values": {
                             "artifact_update": {
                                 "artifact_id": "filtered-data:event_id_filter:condition_1:artifact:*.id",
-                                "cef_data_type": null,
-                                "cef_field": null,
-                                "cef_value": null,
+                                "cef_data_type": "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object_type",
+                                "cef_field": "risk_object",
+                                "cef_value": "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object",
                                 "input_json": null,
                                 "label": null,
                                 "name": null,
@@ -834,9 +838,9 @@
                         "values": {
                             "artifact_update": {
                                 "artifact_id": "filtered-data:event_id_filter:condition_2:artifact:*.id",
-                                "cef_data_type": null,
-                                "cef_field": null,
-                                "cef_value": null,
+                                "cef_data_type": "",
+                                "cef_field": "",
+                                "cef_value": "",
                                 "input_json": null,
                                 "label": null,
                                 "name": "Notable Artifact",
@@ -1014,11 +1018,11 @@
         "input_spec": null,
         "output_spec": null,
         "playbook_type": "automation",
-        "python_version": "3",
-        "schema": "5.0.3",
-        "version": "5.0.1.66250"
+        "python_version": "3.13",
+        "schema": "5.0.6",
+        "version": "5.3.1.84890"
     },
-    "create_time": "2021-10-19T20:23:56.075988+00:00",
+    "create_time": "2022-06-12T23:37:52.044525+00:00",
     "draft_mode": false,
     "labels": [
         "risk_notable"

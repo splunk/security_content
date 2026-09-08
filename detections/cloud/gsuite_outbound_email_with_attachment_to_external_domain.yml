@@ -1,7 +1,8 @@
 name: Gsuite Outbound Email With Attachment To External Domain
 id: dc4dc3a8-ff54-11eb-8bf7-acde48001122
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 status: production
 type: Hunting
@@ -26,21 +27,22 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
 references:
     - https://www.redhat.com/en/topics/devops/what-is-devsecops
-tags:
-    analytic_story:
-        - Dev Sec Ops
-        - Insider Threat
-    asset_type: GSuite
-    mitre_attack_id:
-        - T1048.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Dev Sec Ops
+    - Insider Threat
+asset_type: GSuite
+mitre_attack_id:
+    - T1048.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
           source: http:gsuite
           sourcetype: gsuite:gmail:bigquery
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Email servers sending high volume traffic to hosts
 id: 7f5fb3e1-4209-4914-90db-0ec21b556378
-version: 9
-date: '2026-03-10'
+version: 10
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -23,22 +24,21 @@ search: |-
 how_to_implement: This search requires you to be ingesting your network traffic and populating the Network_Traffic data model.  Your email servers must be categorized as "email_server" for the search to work, as well. You may need to adjust the deviation_threshold and minimum_data_samples values based on the network traffic in your environment. The "deviation_threshold" field is a multiplying factor to control how much variation you're willing to tolerate. The "minimum_data_samples" field is the minimum number of connections of data samples required for the statistic to be valid.
 known_false_positives: The false-positive rate will vary based on how you set the deviation_threshold and data_samples values. Our recommendation is to adjust these values based on your network traffic to and from your email servers.
 references: []
-rba:
-    message: High volume of network traffic from $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Collection and Staging
-        - HAFNIUM Group
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1114.002
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: High volume of network traffic from $dest$
+analytic_story:
+    - Collection and Staging
+    - HAFNIUM Group
+asset_type: Endpoint
+mitre_attack_id:
+    - T1114.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network

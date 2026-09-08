@@ -1,4 +1,8 @@
-definition: sourcetype=gsuite:gmail:bigquery
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: gsuite_gmail
+id: 3709c275-ab1e-4965-a4bc-53ec4178ddde
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=gsuite:gmail:bigquery

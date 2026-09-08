@@ -1,18 +1,18 @@
 name: PXA Stealer
 id: 66f64651-e4e0-4d3b-8d7d-41d8e598e4e1
-version: 1
-date: '2024-11-18'
+version: 2
+creation_date: '2024-11-18'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: This following analytic story contains detections related to the PXA Stealer, a malicious software tool designed to covertly extract sensitive information from infected systems. This data-stealing malware targets credentials, personal data, browsing information, and financial information by exploiting system vulnerabilities or tricking users into downloading it via phishing campaigns or malicious links. PXA Stealer often operates stealthily, bypassing security measures and transmitting stolen data to cybercriminals. Its capabilities make it a significant threat to individuals and organizations, emphasizing the need for robust cybersecurity defenses and awareness.
 narrative: The PXA Stealer initiates its attack in disguise, often concealed within phishing emails or dubious downloads. Once executed, it infiltrates the system undetected, harvesting credentials, financial information, and personal files. Its cunning lies in its ability to evade antivirus software and blend into normal processes. However, its subtle movements leave traces. Unusual system slowdowns, unauthorized login attempts, or increased network activity can indicate its presence. To detect and prevent it, maintain updated antivirus software, enable multi-factor authentication, and avoid clicking on suspicious links or attachments. Vigilance and proactive monitoring are key defenses against this silent intruder.
 references:
-  - https://blog.talosintelligence.com/new-pxa-stealer/
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://blog.talosintelligence.com/new-pxa-stealer/
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

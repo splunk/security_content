@@ -1,3 +1,8 @@
-definition: (TargetFilename IN ("*.exe", "*.dll", "*.sys", "*.ocx", "*.scr", "*.cpl", "*.efi", "*.drv", "*.bpl", "*.ax", "*.ime", "*.acm", "*.rll", "*.tsp"))
-description: matches known executable file extension
 name: executable_extensions
+id: 86bddc97-c671-469d-bc8f-973969be6097
+version: 1
+creation_date: '2025-11-21'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: matches known executable file extension
+definition: (TargetFilename IN ("*.exe", "*.dll", "*.sys", "*.ocx", "*.scr", "*.cpl", "*.efi", "*.drv", "*.bpl", "*.ax", "*.ime", "*.acm", "*.rll", "*.tsp"))

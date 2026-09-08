@@ -1,7 +1,8 @@
 name: Windows DLL Search Order Hijacking Hunt with Sysmon
 id: 79c7d1fc-64c7-91be-a616-ccda752efe81
-version: 11
-date: '2025-05-26'
+version: 12
+creation_date: '2022-08-19'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -13,23 +14,24 @@ how_to_implement: The search is written against the latest Sysmon TA 4.0 https:/
 known_false_positives: False positives will be present based on paths. Filter or add other paths to the exclusion as needed. Some applications may legitimately load libraries from non-standard paths.
 references:
     - https://hijacklibs.net
-tags:
-    analytic_story:
-        - Qakbot
-        - Windows Defense Evasion Tactics
-        - Living Off The Land
-        - Malicious Inno Setup Loader
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1574.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Qakbot
+    - Windows Defense Evasion Tactics
+    - Living Off The Land
+    - Malicious Inno Setup Loader
+asset_type: Endpoint
+mitre_attack_id:
+    - T1574.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.001/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

@@ -1,7 +1,8 @@
 name: Gdrive suspicious file sharing
 id: a7131dae-34e3-11ec-a2de-acde48001122
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2021-10-24'
+modification_date: '2026-05-13'
 author: Rod Soto, Teoderick Contreras
 status: experimental
 type: Hunting
@@ -19,16 +20,16 @@ how_to_implement: Need to implement Gsuite logging targeting Google suite drive 
 known_false_positives: This is an anomaly search, you must specify your domain in the parameters so it either filters outside domains or focus on internal domains. This search may also help investigate compromise of accounts. By looking at for example source ip addresses, document titles and abnormal number of shares and shared target users.
 references:
     - https://www.splunk.com/en_us/blog/security/investigating-gsuite-phishing-attacks-with-splunk.html
-tags:
-    analytic_story:
-        - Spearphishing Attachments
-        - Data Exfiltration
-        - Scattered Lapsus$ Hunters
-    asset_type: GDrive
-    mitre_attack_id:
-        - T1566
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: threat
+analytic_story:
+    - Spearphishing Attachments
+    - Data Exfiltration
+    - Scattered Lapsus$ Hunters
+asset_type: GDrive
+mitre_attack_id:
+    - T1566
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat

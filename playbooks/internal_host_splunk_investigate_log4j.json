@@ -372,7 +372,7 @@
         ],
         "output_spec": null,
         "playbook_type": "data",
-        "python_version": "3",
+        "python_version": "3.13",
         "schema": "5.0.4",
         "version": "5.1.0.70187"
     },

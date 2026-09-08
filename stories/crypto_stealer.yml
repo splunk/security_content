@@ -1,18 +1,18 @@
 name: Crypto Stealer
 id: 71efef85-aec7-46c7-bdaa-693b9d2bef4b
-version: 1
-date: '2024-12-17'
+version: 2
+creation_date: '2024-12-17'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: Crypto Stealer is a malware strain designed to exfiltrate cryptocurrency-related data from compromised systems. It scans the infected machine for wallet files, clipboard activity, and other cryptocurrency artifacts, focusing on intercepting sensitive information like private keys or transaction details. The malware communicates with a command-and-control (C2) server to transmit the harvested data and can dynamically adapt its behavior based on instructions received. Detection indicators include unusual network activity to suspicious IP addresses, unauthorized file access targeting cryptocurrency wallet directories, and anomalous clipboard usage associated with cryptocurrency strings (e.g., wallet addresses). Security solutions should monitor for these behaviors and implement heuristic analysis to identify deviations from normal system operations. Users are encouraged to maintain updated endpoint protection and avoid downloading files from untrusted sources to mitigate the risk posed by Crypto Stealer.
 narrative: In the ever-evolving landscape of cybercrime, Crypto Stealer emerges as a sophisticated malware targeting the lucrative world of cryptocurrency. By exploiting system vulnerabilities, the malware actively scans for wallet files, clipboard data, and other digital assets, focusing on intercepting sensitive information like private keys and transaction details. Once deployed, Crypto Stealer communicates with a command-and-control (C2) server to exfiltrate stolen data and receive updated instructions for further exploitation. Notably, it often works in tandem with other malicious components, such as XMRig, a widely abused cryptocurrency miner that hijacks system resources for illicit mining operations, and ClipBanker, which manipulates clipboard activity to replace wallet addresses in transactions with those controlled by attackers. These combined tactics maximize the attack's profitability while minimizing the victim's ability to detect the theft. Indicators of compromise include unauthorized access to cryptocurrency wallet files, suspicious clipboard behavior, and outbound connections to known malicious IP addresses. By understanding and recognizing these patterns, defenders can develop effective strategies to detect and mitigate threats like Crypto Stealer before significant damage occurs.
 
 references: []
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

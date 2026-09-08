@@ -1,33 +1,21 @@
 name: Previously Seen Cloud Compute Instance Types - Initial
 id: 3c78025c-1ffe-4976-a640-75ef604842be
-version: 2
-date: '2026-01-14'
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
-type: Baseline
 status: production
-description: This search builds a table of previously seen cloud compute instance
-  types
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type
-  | `drop_dm_object_name("All_Changes.Instance_Changes")` | where instance_type !=
-  "unknown" | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data
-  = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) | outputlookup previously_seen_cloud_compute_instance_types'
-how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
-  and have the Security Research cloud data model installed.
+description: This search builds a table of previously seen cloud compute instance types
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type | `drop_dm_object_name("All_Changes.Instance_Changes")` | where instance_type != "unknown" | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) | outputlookup previously_seen_cloud_compute_instance_types'
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs and have the Security Research cloud data model installed.
 known_false_positives: No false positives have been identified at this time.
 references: []
-tags:
-  analytic_story:
-  - Cloud Cryptomining
-  detections:
-  - Cloud Compute Instance Created With Previously Unseen Instance Type
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-deployment:
-  scheduling:
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+security_domain: network
+custom_schedule:
     cron_schedule: 0 2 * * 0
     earliest_time: -90d@d
     latest_time: -1d@d

@@ -1,7 +1,0 @@
-name: ace_type_lookup
-date: 2024-12-23
-version: 2
-id: 86e4531f-a37e-430c-9d5f-1447af2bc619
-author: Splunk Threat Research Team
-lookup_type: csv
-description: A lookup file that will contain translations for AD object ace type strings

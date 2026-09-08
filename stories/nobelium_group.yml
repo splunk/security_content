@@ -1,22 +1,22 @@
 name: NOBELIUM Group
 id: 758196b5-2e21-424f-a50c-6e421ce926c2
-version: 3
-date: '2020-12-14'
+version: 4
+creation_date: '2020-12-14'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Michael Haag, Mauricio Velazco, Splunk
 status: production
 description: NOBELIUM, also known as APT29, The Dukes, Cozy Bear, CozyDuke, Blue Kitsune, and Midnight Blizzard, is a sophisticated nation-state threat actor, reportedly associated with Russian intelligence. Active since at least 2008, this group primarily targets government networks in Europe and NATO member countries, along with research institutes and think tanks. Their operations typically involve advanced persistent threats (APT), leveraging techniques like spear-phishing, malware deployment, and long-term network compromise to achieve information theft and espionage. Notably, APT29 has been implicated in significant cyber espionage incidents, including the 2015 breach of the Pentagon's Joint Staff email system and attacks on the Democratic National Committee in 2016. Their advanced tactics and persistent approach underscore the serious nature of threats posed by this group to global cybersecurity.
 narrative: This Analytic Story groups detections designed to trigger on a comprehensive range of Tactics, Techniques, and Procedures (TTPs) leveraged by the NOBELIUM Group, with a focus on their methods as observed in well-known public breaches.
 references:
-- https://attack.mitre.org/groups/G0016/
-- https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/
-- https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
-- https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
-- https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://attack.mitre.org/groups/G0016/
+    - https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/
+    - https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+    - https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
+    - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

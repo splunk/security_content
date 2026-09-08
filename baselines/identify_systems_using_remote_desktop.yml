@@ -1,29 +1,18 @@
 name: Identify Systems Using Remote Desktop
 id: 063dfe9f-b1d7-4254-a16d-1e2e7eadd6a8
-version: 2
-date: '2026-01-14'
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
-type: Baseline
 status: production
-description: This search counts the numbers of times the remote desktop process, mstsc.exe,
-  has run on each system.
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
-  where Processes.process_name="*mstsc.exe*" by Processes.dest Processes.process_name
-  | `drop_dm_object_name(Processes)` | sort - count'
-how_to_implement: To successfully implement this search you must be ingesting endpoint
-  data that records process activity.
+description: This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes where Processes.process_name="*mstsc.exe*" by Processes.dest Processes.process_name | `drop_dm_object_name(Processes)` | sort - count'
+how_to_implement: To successfully implement this search you must be ingesting endpoint data that records process activity.
 known_false_positives: No false positives have been identified at this time.
 references: []
-tags:
-  analytic_story:
-  - SamSam Ransomware
-  - Ryuk Ransomware
-  - Hidden Cobra Malware
-  - Active Directory Lateral Movement
-  detections:
-  - Remote Desktop Network Traffic
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+security_domain: endpoint
+schedule: Default Baseline

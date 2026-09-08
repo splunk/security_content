@@ -1,3 +1,8 @@
-definition: (IngressZone="inside" EgressZone="outside")
-description: Replace the macro definition with configurations for your Splunk Environment. IngressZone should represent internal zones and EgressZone should represent the internet or and untrusted zone.
 name: cisco_secure_firewall_inside_to_outside
+id: c5dfac64-0842-4b24-865b-61eaea39980b
+version: 1
+creation_date: '2025-04-03'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Replace the macro definition with configurations for your Splunk Environment. IngressZone should represent internal zones and EgressZone should represent the internet or and untrusted zone.
+definition: (IngressZone="inside" EgressZone="outside")

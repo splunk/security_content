@@ -1,25 +1,25 @@
 name: Cisco Isovalent Suspicious Activity
 id: 245ac99a-1355-44fe-9ef7-a7e826e20c6f
-version: 1
-date: '2025-11-18'
+version: 2
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 description: This analytics story focuses on identifying suspicious activities and potential security threats within environments using Cisco Isovalent in Kubernetes. It provides detection analytics and guidance to help security teams recognize signs of adversary tactics such as unauthorized access attempts, unusual network activity, and other behaviors indicative of potential compromise in their Kubernetes environments.
 narrative: |
-  Cisco Isovalent, leveraging Tetragon and powered by Cilium's advanced eBPF technology, provides unparalleled, real-time visibility directly from the Linux kernel—a depth unattainable with traditional logging or agent-based approaches. Cilium underpins Kubernetes networking with high-performance, identity-aware security, enabling deep inspection and enforcement of network, process, and workload interactions. Tetragon extends this with actionable, runtime observability, correlating every process execution, file access, and network flow with rich Kubernetes context—such as pod, namespace, and deployment labels—while preserving the full ancestry of each process. This unique combination allows security teams to detect and trace sophisticated attack techniques—like container escapes, ServiceAccount token abuse, in-cluster lateral movement, metadata credential harvesting (IMDS access), misused kubectl, hidden C2 channels, or abused cloud and SaaS services—often before they can escalate.
+    Cisco Isovalent, leveraging Tetragon and powered by Cilium's advanced eBPF technology, provides unparalleled, real-time visibility directly from the Linux kernel—a depth unattainable with traditional logging or agent-based approaches. Cilium underpins Kubernetes networking with high-performance, identity-aware security, enabling deep inspection and enforcement of network, process, and workload interactions. Tetragon extends this with actionable, runtime observability, correlating every process execution, file access, and network flow with rich Kubernetes context—such as pod, namespace, and deployment labels—while preserving the full ancestry of each process. This unique combination allows security teams to detect and trace sophisticated attack techniques—like container escapes, ServiceAccount token abuse, in-cluster lateral movement, metadata credential harvesting (IMDS access), misused kubectl, hidden C2 channels, or abused cloud and SaaS services—often before they can escalate.
 
-  This powerful, kernel-level telemetry enables security analytics to observe subtle deviations from baseline workload behavior and surface indicators of compromise that otherwise go undetected. By continuously monitoring granular audit events such as process_exec, process_connect, and custom kprobes mapped to application or system activity, analysts gain the context needed to identify late process launches, unexpected shells, suspicious outbound connections, crypto-mining, malicious persistence mechanisms, and adversary tradecraft targeting the Kubernetes control and data plane. The result is accelerated detection and response, minimized attacker dwell time, and containment of breaches before they can propagate across your cloud-native infrastructure.
+    This powerful, kernel-level telemetry enables security analytics to observe subtle deviations from baseline workload behavior and surface indicators of compromise that otherwise go undetected. By continuously monitoring granular audit events such as process_exec, process_connect, and custom kprobes mapped to application or system activity, analysts gain the context needed to identify late process launches, unexpected shells, suspicious outbound connections, crypto-mining, malicious persistence mechanisms, and adversary tradecraft targeting the Kubernetes control and data plane. The result is accelerated detection and response, minimized attacker dwell time, and containment of breaches before they can propagate across your cloud-native infrastructure.
 references:
-- https://isovalent.com/blog/post/isovalent-splunk-better-together/
-- https://isovalent.com/blog/post/mitre-attack-tetragon/
-- https://www.reddit.com/r/kubernetes/comments/l6e5yr/one_of_our_kubernetes_containers_was_compromised/
-- https://attack.mitre.org/matrices/enterprise/containers/
-tags:
-  category:
-  - Adversary Tactics
-  - Cloud Security
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://isovalent.com/blog/post/isovalent-splunk-better-together/
+    - https://isovalent.com/blog/post/mitre-attack-tetragon/
+    - https://www.reddit.com/r/kubernetes/comments/l6e5yr/one_of_our_kubernetes_containers_was_compromised/
+    - https://attack.mitre.org/matrices/enterprise/containers/
+category:
+    - Adversary Tactics
+    - Cloud Security
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

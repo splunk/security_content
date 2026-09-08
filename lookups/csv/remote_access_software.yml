@@ -1,0 +1,15 @@
+name: remote_access_software
+id: f3b92ff9-667c-481f-b29d-458e10d48508
+version: 5
+creation_date: '2022-08-22'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of Remote Access Software
+match_type:
+    - WILDCARD(remote_utility)
+    - WILDCARD(remote_domain)
+    - WILDCARD(remote_utility_fileinfo)
+min_matches: 1
+max_matches: 1
+case_sensitive_match: false

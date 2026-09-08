@@ -1,0 +1,13 @@
+name: previously_seen_running_windows_services
+id: d997cadc-75ac-48a5-bebc-ccbc94c4023a
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: kvstore
+description: A placeholder for the list of Windows Services running
+fields:
+    - _key
+    - service
+    - firstTimeSeen
+    - lastTimeSeen

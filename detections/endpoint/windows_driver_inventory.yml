@@ -1,7 +1,8 @@
 name: Windows Driver Inventory
 id: f87aa96b-369b-4a3e-9021-1bbacbfcb8fb
-version: 7
-date: '2026-02-25'
+version: 8
+creation_date: '2023-02-03'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -19,21 +20,22 @@ how_to_implement: To capture the drivers by host, utilize the referenced Gist to
 known_false_positives: Filter and modify the analytic as you'd like. Filter based on path. Remove the system32\drivers and look for non-standard paths.
 references:
     - https://gist.github.com/MHaggis/3e4dc85c69b3f7a4595a06c8a692f244
-tags:
-    analytic_story:
-        - Windows Drivers
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1068
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    manual_test: Cannot be tested automatically, as it needs additional transforms and props to make the data ready.
+analytic_story:
+    - Windows Drivers
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/driver_inventory.log
           source: PwSh:DriverInventory
           sourcetype: PwSh:DriverInventory
+      description: PORTED MANUAL TEST - Cannot be tested automatically, as it needs additional transforms and props to make the data ready.
+      test_type: experimental

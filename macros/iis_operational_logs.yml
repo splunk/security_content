@@ -1,4 +1,8 @@
-definition: sourcetype="IIS:Configuration:Operational"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: iis_operational_logs
+id: 3eacc63c-14e0-4075-a6b7-7d519237c317
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="IIS:Configuration:Operational"

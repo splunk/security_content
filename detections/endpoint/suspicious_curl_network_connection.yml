@@ -1,7 +1,8 @@
 name: Suspicious Curl Network Connection
 id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
-version: 11
-date: '2026-03-10'
+version: 12
+creation_date: '2021-02-25'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -32,29 +33,31 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://redcanary.com/blog/clipping-silver-sparrows-wings/
-rba:
-    message: Suspicious usage of curl on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: Suspicious usage of curl on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - Silver Sparrow
-        - Ingress Tool Transfer
-        - Linux Living Off The Land
-        - APT37 Rustonotto and FadeStealer
-        - GhostRedirector IIS Module and Rungan Backdoor
-        - Hellcat Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1105
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Suspicious usage of curl on $dest$
+analytic_story:
+    - Silver Sparrow
+    - Ingress Tool Transfer
+    - Linux Living Off The Land
+    - APT37 Rustonotto and FadeStealer
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Hellcat Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

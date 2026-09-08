@@ -1,0 +1,10 @@
+name: scripting_tools_user_agents
+id: 9f7de24e-f3f5-47ba-ad65-409edbc37dc5
+version: 2
+creation_date: '2025-10-21'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of user agents that have been marked as suspicious
+match_type:
+    - WILDCARD(tool_user_agent)

@@ -1,13 +1,14 @@
 name: Network Traffic to Active Directory Web Services Protocol
 id: 68a0056c-34cb-455f-b03d-df935ea62c4f
-version: 10
-date: '2026-02-25'
+version: 11
+creation_date: '2024-02-14'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
+description: The following analytic identifies network traffic directed to the Active Directory Web Services Protocol (ADWS) on port 9389. It leverages network traffic logs, focusing on source and destination IP addresses, application names, and destination ports. This activity is significant as ADWS is used to manage Active Directory, and unauthorized access could indicate malicious intent. If confirmed malicious, an attacker could manipulate Active Directory, potentially leading to privilege escalation, unauthorized access, or persistent control over the environment.
 data_source:
     - Sysmon EventID 3
-description: The following analytic identifies network traffic directed to the Active Directory Web Services Protocol (ADWS) on port 9389. It leverages network traffic logs, focusing on source and destination IP addresses, application names, and destination ports. This activity is significant as ADWS is used to manage Active Directory, and unauthorized access could indicate malicious intent. If confirmed malicious, an attacker could manipulate Active Directory, potentially leading to privilege escalation, unauthorized access, or persistent control over the environment.
 search: |-
     | tstats count FROM datamodel=Network_Traffic
       WHERE All_Traffic.dest_port=9389
@@ -24,25 +25,25 @@ how_to_implement: The detection is based on data that originates from network tr
 known_false_positives: False positives should be limited as the destination port is specific to Active Directory Web Services Protocol, however we recommend utilizing this analytic to hunt for non-standard processes querying the ADWS port. Filter by App or dest_ip to AD servers and remove known processes querying ADWS.
 references:
     - https://github.com/FalconForceTeam/SOAPHound
-tags:
-    analytic_story:
-        - Windows Discovery Techniques
-    asset_type: Network
-    atomic_guid: []
-    mitre_attack_id:
-        - T1069.001
-        - T1069.002
-        - T1087.001
-        - T1087.002
-        - T1482
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Windows Discovery Techniques
+asset_type: Network
+mitre_attack_id:
+    - T1069.001
+    - T1069.002
+    - T1087.001
+    - T1087.002
+    - T1482
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/soaphound/sysmon_soaphound.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

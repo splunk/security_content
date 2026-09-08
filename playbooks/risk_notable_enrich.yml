@@ -1,24 +1,24 @@
 name: Risk Notable Enrich
 id: 010edc96-ff2b-48b0-9f6f-43da3783fd63
-version: 1
-date: '2021-10-22'
+version: 2
+creation_date: '2021-11-10'
+modification_date: '2026-05-19'
 author: Kelby Shelton, Splunk
 type: Investigation
 description: This playbook collects the available Indicator data types within the event as well as available investigative playbooks. It will launch any playbooks that meet the filtered criteria.
 playbook: risk_notable_enrich
 how_to_implement: For detailed implementation see https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/get-started-with-the-risk-notable-playbook-pack-for-splunk-soar
 references:
-  - https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/build-playbooks-compatible-with-the-dispatch_input_playbooks-utility
+    - https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/build-playbooks-compatible-with-the-dispatch_input_playbooks-utility
 app_list: []
-tags:
-  labels:
+labels:
     - risk_notable
-  playbook_outputs:
+playbook_outputs:
     - note_title
     - note_content
-  playbook_type: Automation
-  vpe_type: Modern
-  platform_tags:
+platform_tags:
     - Risk Notable
-  product:
+playbook_type: Automation
+vpe_type: Modern
+product:
     - Splunk SOAR

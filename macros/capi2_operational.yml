@@ -1,4 +1,8 @@
-definition: (source=XmlWinEventLog:Microsoft-Windows-CAPI2/Operational)
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: capi2_operational
+id: 57abe47e-782c-4adf-ac83-fcadd33d0f5f
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: (source=XmlWinEventLog:Microsoft-Windows-CAPI2/Operational)

@@ -1,32 +1,28 @@
 name: Identify New User Accounts
 id: 475b9e27-17e4-46e2-b7e2-648221be3b89
 version: 4
-date: '2024-11-14'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: removed
 type: Hunting
-description: This detection search will help profile user accounts in your environment
-  by identifying newly created accounts that have been added to your network in the
-  past week.
+description: This detection search will help profile user accounts in your environment by identifying newly created accounts that have been added to your network in the past week.
 data_source: []
-search: '| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800,
-  "Accounts created in last week") | search empStatus="Accounts created in last week"|
-  `security_content_ctime(endDate)` | `security_content_ctime(startDate)`| table identity
-  empStatus endDate startDate | `identify_new_user_accounts_filter`'
-how_to_implement: To successfully implement this search, you need to be populating
-  the Enterprise Security Identity_Management data model in the assets and identity
-  framework.
-known_false_positives: If the Identity_Management data model is not updated regularly,
-  this search could give you false positive alerts. Please consider this and investigate
-  appropriately.
+search: '| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800, "Accounts created in last week") | search empStatus="Accounts created in last week"| `security_content_ctime(endDate)` | `security_content_ctime(startDate)`| table identity empStatus endDate startDate | `identify_new_user_accounts_filter`'
+how_to_implement: To successfully implement this search, you need to be populating the Enterprise Security Identity_Management data model in the assets and identity framework.
+known_false_positives: If the Identity_Management data model is not updated regularly, this search could give you false positive alerts. Please consider this and investigate appropriately.
 references: []
 tags:
-  analytic_story: []
-  asset_type: Domain Server
-  mitre_attack_id:
-  - T1078.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: access
+    analytic_story: []
+    asset_type: Domain Server
+    mitre_attack_id:
+        - T1078.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: access
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.2.0
+    replacement_content: []

@@ -1,7 +1,8 @@
 name: Windows DiskCryptor Usage
 id: d56fe0c8-4650-11ec-a8fa-acde48001122
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2021-11-15'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -33,20 +34,21 @@ known_false_positives: It is possible false positives may be present based on th
 references:
     - https://thedfirreport.com/2021/11/15/exchange-exploit-leads-to-domain-wide-ransomware/
     - https://github.com/DavidXanatos/DiskCryptor
-tags:
-    analytic_story:
-        - Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1486
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1486
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/dcrypt/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

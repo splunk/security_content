@@ -1,24 +1,9 @@
-definition: process_name IN (
-      /* --- Network Scanning / Enumeration --- */
-      "nmap", "masscan", "zmap", "amap", "netcat", "nc", "hping3", "ike-scan",
-      "dnsenum", "dnsrecon", "fierce", "theharvester", "sublist3r",
-      
-      /* --- Exploitation Frameworks --- */
-      "metasploit", "msfconsole", "msfvenom", "empire", "pupy", "covenant", "havoc",
-      "sliver-client", "sliver-server", "poshc2", "mythic", "evilginx", "beef-xss",
-
-      /* --- Credential Access / Cracking --- */
-      "hydra", "medusa", "john", "hashcat", "crowbar", "patator", "mimikatz",
-      "impacket-",
-
-      /* --- Reconnaissance / Enumeration --- */
-      "ldapdomaindump", "enum4linux", "smbclient", "smbmap", "crackmapexec",
-      "bloodhound", "sharphound", "linpeas", "linenum", "pspy", "ldpreload",
-      
-      /* --- Privilege Escalation / Persistence --- */
-      "peass-ng", "linpeas", "linux-exploit-suggester", "les", "exploitdb",
-      "persistence", "dirtycow", "dirtypipe", "sudo_killer")
-
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: linux_offsec_tool_processes
+id: 2c43f690-4b51-4288-82fa-009be544461b
+version: 1
+creation_date: '2026-01-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: "process_name IN ( /* --- Network Scanning / Enumeration --- */ \"nmap\", \"masscan\", \"zmap\", \"amap\", \"netcat\", \"nc\", \"hping3\", \"ike-scan\", \"dnsenum\", \"dnsrecon\", \"fierce\", \"theharvester\", \"sublist3r\",\n/* --- Exploitation Frameworks --- */ \"metasploit\", \"msfconsole\", \"msfvenom\", \"empire\", \"pupy\", \"covenant\", \"havoc\", \"sliver-client\", \"sliver-server\", \"poshc2\", \"mythic\", \"evilginx\", \"beef-xss\",\n/* --- Credential Access / Cracking --- */ \"hydra\", \"medusa\", \"john\", \"hashcat\", \"crowbar\", \"patator\", \"mimikatz\", \"impacket-\",\n/* --- Reconnaissance / Enumeration --- */ \"ldapdomaindump\", \"enum4linux\", \"smbclient\", \"smbmap\", \"crackmapexec\", \"bloodhound\", \"sharphound\", \"linpeas\", \"linenum\", \"pspy\", \"ldpreload\",\n/* --- Privilege Escalation / Persistence --- */ \"peass-ng\", \"linpeas\", \"linux-exploit-suggester\", \"les\", \"exploitdb\", \"persistence\", \"dirtycow\", \"dirtypipe\", \"sudo_killer\")"
+

@@ -1,34 +1,34 @@
 name: React2Shell
 id: d0ff3419-275e-4fe9-8ebd-4270fc1632f0
-version: 1
-date: '2025-12-08'
+version: 2
+creation_date: '2025-12-08'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 description: |
-  This analytic story covers the detection content to React2Shell (CVE-2025-55182), a critical pre-authentication Remote Code Execution (RCE) vulnerability in React Server Components.
+    This analytic story covers the detection content to React2Shell (CVE-2025-55182), a critical pre-authentication Remote Code Execution (RCE) vulnerability in React Server Components.
 narrative: |
-  In December 2025, the React and Next.js development teams disclosed a critical pre-authentication remote code execution vulnerability tracked as CVE-2025-55182. The vulnerability exists in React Server Components versions 19.0.0, 19.1.0, 19.1.1, and 19.2.0, specifically affecting the following packages: react-server-dom-parcel, react-server-dom-turbopack, and react-server-dom-webpack.
-  
-  The vulnerable code unsafely deserializes payloads from HTTP requests to Server Function endpoints, allowing attackers to execute arbitrary JavaScript code on the server without authentication.
-  
-  The vulnerability also impacts frameworks that use the affected React packages, including Next.js 15.x and 16.x versions using the App Router. Additionally, experimental canary releases starting with 14.3.0-canary.77 are affected. Organizations should upgrade to patched versions immediately: React 19.0.1, 19.1.2, or 19.2.1; and Next.js 15.0.5, 15.1.9, 15.2.6, 15.3.6, 15.4.8, 15.5.7, 16.0.7, or later stable releases. Users on 14.3 canary builds should downgrade to 14.x stable releases or 14.3.0-canary.76.
-  
-  Once exploited, attackers commonly leverage Node.js child_process APIs (such as child_process.execSync or child_process.spawn) to execute operating system commands on the underlying host. Public proof-of-concept exploits demonstrate patterns where the vulnerable handler triggers process.mainModule.require('child_process').execSync() to execute binaries such as curl, wget, ping, or arbitrary shells. This enables full remote code execution capabilities, allowing attackers to exfiltrate data, establish persistence, pivot to other systems, or deploy malware.
-  
-  This analytic story provides detection coverage for both Windows and Linux environments, focusing on suspicious child processes spawned by Node.js, React, or Next.js server processes. The analytics monitor for execution of shells, scripting interpreters, and system utilities that are commonly abused post-exploitation.
-  
-  Organizations running internet-facing React or Next.js applications should implement these detections and prioritize patching vulnerable versions to mitigate the risk of exploitation.
+    In December 2025, the React and Next.js development teams disclosed a critical pre-authentication remote code execution vulnerability tracked as CVE-2025-55182. The vulnerability exists in React Server Components versions 19.0.0, 19.1.0, 19.1.1, and 19.2.0, specifically affecting the following packages: react-server-dom-parcel, react-server-dom-turbopack, and react-server-dom-webpack.
+
+    The vulnerable code unsafely deserializes payloads from HTTP requests to Server Function endpoints, allowing attackers to execute arbitrary JavaScript code on the server without authentication.
+
+    The vulnerability also impacts frameworks that use the affected React packages, including Next.js 15.x and 16.x versions using the App Router. Additionally, experimental canary releases starting with 14.3.0-canary.77 are affected. Organizations should upgrade to patched versions immediately: React 19.0.1, 19.1.2, or 19.2.1; and Next.js 15.0.5, 15.1.9, 15.2.6, 15.3.6, 15.4.8, 15.5.7, 16.0.7, or later stable releases. Users on 14.3 canary builds should downgrade to 14.x stable releases or 14.3.0-canary.76.
+
+    Once exploited, attackers commonly leverage Node.js child_process APIs (such as child_process.execSync or child_process.spawn) to execute operating system commands on the underlying host. Public proof-of-concept exploits demonstrate patterns where the vulnerable handler triggers process.mainModule.require('child_process').execSync() to execute binaries such as curl, wget, ping, or arbitrary shells. This enables full remote code execution capabilities, allowing attackers to exfiltrate data, establish persistence, pivot to other systems, or deploy malware.
+
+    This analytic story provides detection coverage for both Windows and Linux environments, focusing on suspicious child processes spawned by Node.js, React, or Next.js server processes. The analytics monitor for execution of shells, scripting interpreters, and system utilities that are commonly abused post-exploitation.
+
+    Organizations running internet-facing React or Next.js applications should implement these detections and prioritize patching vulnerable versions to mitigate the risk of exploitation.
 references:
-  - https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components
-  - https://nextjs.org/blog/CVE-2025-66478
-  - https://nvd.nist.gov/vuln/detail/CVE-2025-55182
-  - https://gist.github.com/maple3142/48bc9393f45e068cf8c90ab865c0f5f3
-  - https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Application Security
+    - https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components
+    - https://nextjs.org/blog/CVE-2025-66478
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-55182
+    - https://gist.github.com/maple3142/48bc9393f45e068cf8c90ab865c0f5f3
+    - https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Application Security

@@ -1,0 +1,38 @@
+name: Splunk XSS Via External Urls in Dashboards SSRF
+id: b0a67520-ae82-4cf6-b04e-9f6cce56830d
+version: 5
+creation_date: '2025-05-12'
+modification_date: '2026-05-14'
+author: Rod Soto, Chase Franklin
+status: removed
+type: Hunting
+data_source:
+    - Splunk
+description: This is a hunting search that provides elements to find possible dashboards created with external URL references in order to elicit Server Side Request Forgery from /data/ui/views endpoint.
+search: '`splunkd_web` user=* uri_path="/*/manager/permissions/launcher/data/ui/views/*" file=* | stats count min(_time) as firstTime max(_time) as lastTime by clientip user file host method uri_path uri_query | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_xss_via_external_urls_in_dashboards_ssrf_filter`'
+how_to_implement: Requires access to internal indexes.
+known_false_positives: This is a hunting search and requires an operator to search for specific indicators of Server Side Request Forgery attack against /data/ui/views. It is not possible to grab display the payloads of such requests, so this search provides users, ip addresses, requests, files, and queries that may indicate malicious intent. There will be false positives.
+references:
+    - https://advisory.splunk.com/SVD-2024-0714
+tags:
+    cve:
+        - CVE-2024-36994
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1189
+    product:
+        - Splunk Enterprise
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/SVD-2024-0714_web_access_splunk_web_access.log
+            source: /opt/splunk/var/log/splunk/web_access.log
+            sourcetype: splunk_web_access
+            custom_index: _internal
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

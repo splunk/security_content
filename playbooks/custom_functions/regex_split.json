@@ -1,6 +1,6 @@
 {
-    "create_time": "2021-04-14T20:55:22.433977+00:00",
-    "custom_function_id": "b09e6a45f7ced6a7fd17b98264b078ec1996e27d",
+    "create_time": "2023-06-08T22:39:25.682132+00:00",
+    "custom_function_id": "b7653e07ce4309a75f8df4e933c16f11e67ce25d",
     "description": "Use a regular expression to split an input_string into multiple items.",
     "draft_mode": false,
     "inputs": [
@@ -38,5 +38,5 @@
         }
     ],
     "platform_version": "4.10.3.51237",
-    "python_version": "3"
+    "python_version": "3.13"
 }

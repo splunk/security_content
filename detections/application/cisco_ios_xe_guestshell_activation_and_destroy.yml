@@ -1,0 +1,102 @@
+name: Cisco IOS XE Guestshell Activation and Destroy
+id: ff82a536-8fde-4963-a801-815826fcdf75
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-20'
+author: Nasreddine Bencherchali
+status: production
+type: Anomaly
+description: |
+    This analytic detects Cisco IOS-XE guestshell enable activity followed by activation and destroy lifecycle logs.
+    The detection focuses on HA_EM command logging for "guestshell enable" and "guestshell destroy", VMAN activation and destroy messages, and IM/IOX guestshell activation logs observed on some IOS-XE images.
+data_source:
+    - Cisco IOS Logs
+search: |-
+    `cisco_ios`
+    facility IN ("HA_EM", "VMAN", "IM", "AAA")
+    mnemonic IN ("LOG", "ACTIVATION_STATE", "IOX_INST_INFO", "INSTALL_STATE", "AAA_ACCOUNTING_MESSAGE")
+    message_text IN (
+        "*guestshell enable*",
+        "*guestshell destroy*",
+        "*Successfully activated virtual service 'guestshell*",
+        "*IOX SERVICE guestshell*",
+        "*Destroying virtual service 'guestshell*",
+        "*Successfully destroyed virtual service 'guestshell*"
+    )
+    | eval dest=coalesce(host, dvc, dest, "unknown")
+    | eval event_type=case(
+        like(message_text, "%guestshell enable%"), "guestshell_enable_command",
+        like(message_text, "%guestshell destroy%"), "guestshell_destroy_command",
+        like(message_text, "%Successfully activated virtual service 'guestshell%"), "vman_guestshell_activated",
+        like(message_text, "%IOX SERVICE guestshell%"), "im_iox_guestshell_activated",
+        like(message_text, "%Destroying virtual service 'guestshell%"), "vman_guestshell_destroying",
+        like(message_text, "%Successfully destroyed virtual service 'guestshell%"), "vman_guestshell_destroyed",
+        true(), "other"
+    )
+    | bin _time span=30m
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(event_type) as event_types
+                  values(message_text) as message
+    by _time dest
+    | where
+            (
+                mvfind(event_types, "vman_guestshell_activated") >= 0
+                OR
+                mvfind(event_types, "im_iox_guestshell_activated") >= 0
+                OR
+                mvfind(event_types, "guestshell_enable_command") >= 0
+            )
+            AND
+            (
+                mvfind(event_types, "vman_guestshell_destroying") >= 0
+                OR
+                mvfind(event_types, "vman_guestshell_destroyed") >= 0
+                OR
+                mvfind(event_types, "guestshell_destroy_command") >= 0
+            )
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_guestshell_activation_and_destroy_filter`
+how_to_implement: |
+    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+    Enable EEM catchall command logging to capture the "guestshell enable" and "guestshell destroy" commands as HA_EM/LOG events.
+known_false_positives: |
+    No false positives have been identified at this time.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+    - https://blog.talosintelligence.com/salt-typhoon-analysis/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Cisco IOS-XE device $dest$ had guestshell enabled and destroyed within a short period.
+analytic_story:
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1059
+    - T1611
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_cisco.log
+          source: ctb:catalyst:syslog
+          sourcetype: cisco:ios
+      test_type: unit

@@ -1,4 +1,8 @@
-definition: eventtype="wineventlog_application" OR Channel="application" OR source="XmlWinEventLog:Application" OR source="WinEventLog:Application"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: wineventlog_application
+id: d0a3e399-0e79-467a-b26f-5bad1e800d05
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: eventtype="wineventlog_application" OR Channel="application" OR source="XmlWinEventLog:Application" OR source="WinEventLog:Application"

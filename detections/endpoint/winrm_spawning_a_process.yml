@@ -1,7 +1,8 @@
 name: WinRM Spawning a Process
 id: a081836a-ba4d-11eb-8593-acde48001122
-version: 10
-date: '2026-03-10'
+version: 11
+creation_date: '2021-05-21'
+modification_date: '2026-05-13'
 author: Drew Church, Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -30,29 +31,31 @@ references:
     - https://github.com/SigmaHQ/sigma/blob/9b7fb0c0f3af2e53ed483e29e0d0f88ccf1c08ca/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml
     - https://www.zerodayinitiative.com/blog/2021/5/17/cve-2021-31166-a-wormable-code-execution-bug-in-httpsys
     - https://github.com/0vercl0k/CVE-2021-31166/blob/main/cve-2021-31166.py
-rba:
-    message: winrm.exe spawning a process observed on $dest$
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
+finding:
+    title: winrm.exe spawning a process observed on $dest$
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
-tags:
-    analytic_story:
-        - CISA AA23-347A
-        - Rhysida Ransomware
-        - Unusual Processes
-        - Microsoft WSUS CVE-2025-59287
-    asset_type: Endpoint
-    cve:
-        - CVE-2021-31166
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: winrm.exe spawning a process observed on $dest$
+analytic_story:
+    - CISA AA23-347A
+    - Rhysida Ransomware
+    - Unusual Processes
+    - Microsoft WSUS CVE-2025-59287
+asset_type: Endpoint
+cve:
+    - CVE-2021-31166
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

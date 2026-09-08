@@ -1,0 +1,8 @@
+name: audit_searches
+id: 4e72f7fe-b952-446b-b2bd-dab0c2e21b29
+version: 1
+creation_date: '2022-11-01'
+modification_date: '2026-05-14'
+author: Splunk Threat Research Team
+description: Macro to enable easy searching of audittrail logs for searches
+definition: index=_audit sourcetype=audittrail action=search

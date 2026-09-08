@@ -1,0 +1,44 @@
+name: VIP Keylogger
+id: 98bd9f3b-79e5-4c68-9da8-5529acded365
+version: 2
+creation_date: '2026-04-29'
+modification_date: '2026-05-13'
+author: Teoderick Contreras, Splunk
+status: production
+description: |
+    This analytic story contains detections that help security analysts identify endpoint activity that may be associated with VIP Keylogger, a .NET-based information stealer and keylogger spread through spear-phishing and impersonation-themed campaigns (for example lures that mimic trusted organizations or urgent business documents).
+    The malware is built to harvest sensitive data from the victim system and often relies on defense evasion patterns common to modern crimeware, including abuse of trusted Windows and .NET binaries and stealthy persistence.
+    The searches in this story focus on behavioral signals—such as unusually large values written under user environment-related registry keys and execution of common .NET-related utilities from script parents in low-trust locations—that can indicate this family or closely related .NET stealers.
+    These analytics are useful for triage and hunting because VIP Keylogger shares substantial overlap in tradecraft and tooling with other subscription-style .NET infostealers, notably Snake Keylogger, including comparable credential-theft goals, delivery themes, and overlapping technical classifications in open-source intelligence.
+narrative: |
+    VIP Keylogger is a .NET information stealer and keylogger sold and distributed in crimeware ecosystems.
+
+    Public reporting describes distribution through targeted email with malicious attachments or archives, often using social engineering that impersonates real organizations or urgent business processes—themes that echo broader malspam and spear-phishing tradecraft seen across EU- and sector-focused campaigns.
+
+    Once executed, the malware aims to collect credentials, clipboard content, system and user context, and other data useful for fraud or follow-on access, while employing techniques designed to blend in with normal Windows activity.
+
+    From a technical perspective, VIP Keylogger activity often aligns with behaviors analysts associate with other .NET stealers.
+
+    Researchers and sandboxes frequently highlight abuse of trusted processes, layered loaders or packers, and persistence or configuration touches that show up in endpoint telemetry—patterns that resemble Snake Keylogger and similar families.
+
+    Snake Keylogger is also a .NET-centric stealer with a long track record in commodity campaigns; both families emphasize credential and browser-adjacent theft, may share overlapping implementation idioms (managed code, obfuscation, common exfil channels such as SMTP or web APIs depending on the build), and are sometimes discussed in the same breath because samples or campaigns can exhibit comparable indicators and classification overlap.
+
+    Treating VIP Keylogger in the same analytic lane as Snake Keylogger therefore improves detection economics: behavioral hunts for .NET proxy execution, suspicious script-driven binary invocation, and persistence anomalies can surface multiple related strains—not just a single hash.
+
+    The Splunk detections linked to this story are chosen to catch durable behaviors rather than brittle file names.
+
+    Unusually large data written under user Environment registry paths can reflect staging of payloads, paths, or encoded configuration for persistence and execution.
+
+    Execution of well-known .NET-related utilities  when the parent appears to be a script launched from user-writable or non-standard locations is consistent with signed-binary proxy execution tradecraft (MITRE ATT&CK T1218) seen in stealer and loader workflows. Together, these analytics support early detection, scoping, and correlation with phishing-led intrusions that aim to steal credentials at scale.
+references:
+    - https://www.joesandbox.com/analysis/1817558/0/pdfexecutive
+    - https://www.broadcom.com/support/security-center/protection-bulletin/vip-keylogger-spreads-via-multi-org-impersonation-campaign
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.vipkeylogger
+category:
+    - Malware
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

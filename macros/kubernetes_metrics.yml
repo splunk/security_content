@@ -1,4 +1,8 @@
-definition: index=kubernetes_metrics
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: kubernetes_metrics
+id: 69926967-c61e-423a-bee6-7d33bc677be4
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: index=kubernetes_metrics

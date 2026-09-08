@@ -1,7 +1,8 @@
 name: Google Workspace
 id: f1a044e3-113a-4e4d-84f2-b153ade83087
-version: 1
-date: '2025-02-21'
+version: 2
+creation_date: '2024-07-16'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 description: Data source object for Google Workspace
 source: google_workspace
@@ -10,9 +11,9 @@ logsource:
   product: gcp
   service: google_workspace.admin
 supported_TA:
-- name: Splunk Add-on for Google Workspace
-  url: https://splunkbase.splunk.com/app/5556
-  version: 3.1.0
+    - name: Splunk Add-on for Google Workspace
+      url: https://splunkbase.splunk.com/app/5556
+      version: 5.0.1
 fields:
 - action
 - actor.callerType

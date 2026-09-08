@@ -1,7 +1,8 @@
 name: Unusually Long Content-Type Length
 id: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
-version: 6
-date: '2026-03-10'
+version: 7
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -18,22 +19,23 @@ search: >-
 how_to_implement: This particular search leverages data extracted from Stream:HTTP. You must configure the http stream using the Splunk Stream App on your Splunk Stream deployment server to extract the cs_content_type field.
 known_false_positives: Very few legitimate Content-Type fields will have a length greater than 100 characters.
 references: []
-rba:
-    message: Unusually Long Content-Type Length ($http_content_type_length$ characters) In Web Request from $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
+          message: Unusually Long Content-Type Length ($http_content_type_length$ characters) In Web Request from $src$
         - field: src
           type: system
           score: 20
-    threat_objects: []
-tags:
-    analytic_story:
-        - Apache Struts Vulnerability
-    asset_type: Web Server
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: Unusually Long Content-Type Length ($http_content_type_length$ characters) In Web Request from $src$
+analytic_story:
+    - Apache Struts Vulnerability
+asset_type: Web Server
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network

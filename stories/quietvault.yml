@@ -1,18 +1,18 @@
 name: QuietVault
 id: abe8a796-76dd-47df-b525-e2024213560b
-version: 1
-date: '2026-03-12'
+version: 2
+creation_date: '2026-03-13'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: QUIETVAULT is a JavaScript‑based credential‑stealing malware identified by Google’s Threat Intelligence Group that targets GitHub and npm tokens by exfiltrating them to a publicly accessible GitHub repository. In addition to stealing these credentials, QUIETVAULT leverages on‑host installed AI CLI tools and crafted AI prompts to search the infected system for other sensitive secrets, which it then also exfiltrates. This reflects a broader trend of threat actors integrating AI‑driven tooling into malware to enhance automated discovery and data theft in real‑world operations, signaling a shift toward more adaptable and intelligent malicious software.
 narrative: In recent threat intelligence reporting, security researchers uncovered a new AI‑assisted malware strain called QUIETVAULT that quietly infiltrates systems to steal valuable credentials. Once inside, it not only captures GitHub and npm tokens but also uses local AI command‑line tools with crafted prompts to hunt for other secrets stored on the machine and upload them to a public repository. This demonstrates how attackers are adapting artificial intelligence into their tools to automate deeper data harvesting and expand their reach, increasing the risk and complexity of modern cybercrime.
 references:
-  - https://cloud.google.com/blog/topics/threat-intelligence/threat-actor-usage-of-ai-tools?linkId=60744249
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://cloud.google.com/blog/topics/threat-intelligence/threat-actor-usage-of-ai-tools?linkId=60744249
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

@@ -81,7 +81,7 @@
                 }
             ],
             "globalCustomCode": "",
-            "hash": "e34318e53c4cc459bd1e9663738432d939533b7c",
+            "hash": "5c68c216efd651ea06cbbefca499df97ead112e6",
             "nodes": {
                 "0": {
                     "data": {
@@ -96,7 +96,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 520,
-                    "y": -80.00000000000038
+                    "y": -80.00000000000044
                 },
                 "1": {
                     "data": {
@@ -240,7 +240,7 @@
                     "type": "code",
                     "userCode": "    \n    indicator_value_list = get_marked_indicators_data___indicator_value\n    indicator_cef_type_list = get_marked_indicators_data___indicator_cef_type\n\n    playbook_name = list_block_playbooks_data___full_name\n    playbook_spec = list_block_playbooks_data___input_spec\n\t\n    decide_and_launch_playbooks__names = []\n    playbook_launch_list = {}\n    \n    for pb_name, spec_item in zip(playbook_name, playbook_spec):\n        pb_inputs = {}\n        for cef_value, cef_type in zip(indicator_value_list, indicator_cef_type_list):\n            for type_item in cef_type:\n                # check if any of the investigate type playbooks have inputs that accept this data type\n                for spec in spec_item:\n                    for contains_type in spec['contains']:\n                        if type_item and type_item in contains_type:\n                            phantom.debug(f\"Match found for '{cef_value}' of type '{type_item}' for playbook '{pb_name}' at input '{spec['name']}'\")\n                            if not pb_inputs:\n                                pb_inputs[spec['name']] = [cef_value]\n                            else:\n                                if cef_value not in pb_inputs[spec['name']]:\n                                    pb_inputs[spec['name']].append(cef_value)\n\n        if pb_inputs:\n            playbook_launch_list[pb_name] = pb_inputs\n    \n    if playbook_launch_list:\n        for k,v in playbook_launch_list.items():\n            name = 'playbook_{}'.format(pb_name.split('/')[1].replace(' ','_').lower())\n            decide_and_launch_playbooks__names.append(name)\n            phantom.playbook(playbook=k, container=container, inputs=v, name=name, callback=playbook_wait)\n        \n    else:\n        raise RuntimeError(\"Unable to find match between indicator types and playbook input types\")\n        \n",
                     "x": 500,
-                    "y": 379.99999999999994
+                    "y": 379.9999999999999
                 },
                 "25": {
                     "data": {
@@ -381,6 +381,7 @@
                         "advanced": {
                             "customName": "format note",
                             "customNameId": 0,
+                            "drop_none": true,
                             "join": []
                         },
                         "functionId": 1,
@@ -577,11 +578,11 @@
             }
         ],
         "playbook_type": "automation",
-        "python_version": "3",
-        "schema": "5.0.4",
-        "version": "5.1.0.70187"
+        "python_version": "3.13",
+        "schema": "5.0.5",
+        "version": "5.2.1.78411"
     },
-    "create_time": "2021-11-29T16:21:32.423857+00:00",
+    "create_time": "2022-03-25T13:39:50.002489+00:00",
     "draft_mode": false,
     "labels": [
         "risk_notable"

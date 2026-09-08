@@ -1,56 +1,68 @@
 {
-    "create_time": "2021-08-24T16:17:12.241297+00:00",
-    "custom_function_id": "98612a9a22a18dff43b6644ed00c2c523d348d79",
+    "create_time": "2023-03-03T00:00:37.704553+00:00",
+    "custom_function_id": "b3e34e57be90e0cf7f542a9faa16a7318ae9da75",
     "description": "Collect all artifact values that match the desired CEF data types, such as \"ip\", \"url\", \"sha1\", or \"all\". Optionally also filter for artifacts that have the specified tags.",
     "draft_mode": false,
     "inputs": [
         {
-            "contains_type": [
-                "phantom container id"
-            ],
-            "description": "Container ID or container object.",
+            "contains_type": [],
+            "description": "(Optional) Collect data from this container. Defaults to current container.",
             "input_type": "item",
             "name": "container",
             "placeholder": "container:id"
         },
         {
             "contains_type": [],
-            "description": "The CEF data type to collect values for. This could be a single string or a comma separated list such as \"hash,filehash,file_hash\". The special value \"all\" can also be used to collect all field values from all artifacts.",
-            "input_type": "item",
+            "description": "(Required) The CEF data type to collect values for. This could be a single string or a comma separated list such as \"hash,filehash,file_hash\". The special value \"all\" can also be used to collect all field values from all artifacts.",
+            "input_type": "list",
             "name": "data_types",
             "placeholder": "data_type1, data_type2, data_type3"
         },
         {
             "contains_type": [],
-            "description": "If tags are provided, only return fields from artifacts that have all of the provided tags. This could be an individual tag or a comma separated list.",
-            "input_type": "item",
-            "name": "tags",
-            "placeholder": "tag1,tag2,tag3"
-        },
-        {
-            "contains_type": [],
-            "description": "Defaults to 'new'. Define custom scope. Advanced Settings Scope is not passed to a custom function. Options are 'all' or 'new'.",
+            "description": "(Optional) Define custom scope and defaults to 'new'. Advanced Settings Scope is not passed to a custom function. Options are 'all' or 'new'.",
             "input_type": "item",
             "name": "scope",
             "placeholder": "new"
+        },
+        {
+            "contains_type": [],
+            "description": "(Optional) Only return fields from artifacts that have all of the provided tags. This could be an individual tag or a comma separated list.",
+            "input_type": "list",
+            "name": "tags",
+            "placeholder": "tag1,tag2,tag3"
         }
     ],
     "outputs": [
         {
             "contains_type": [
-                "*"
-            ],
-            "data_path": "*.artifact_value",
-            "description": "The value of the field with the matching CEF data type."
-        },
-        {
-            "contains_type": [
                 "phantom artifact id"
             ],
-            "data_path": "*.artifact_id",
+            "data_path": "artifact_id",
             "description": "ID of the artifact that contains the value."
+        },
+        {
+            "contains_type": [],
+            "data_path": "artifact_tags",
+            "description": "The tags associated with the artifact"
+        },
+        {
+            "contains_type": [],
+            "data_path": "cef_keys",
+            "description": "A list of keys from that artifact where this value appears. This will usually be a list of 1."
+        },
+        {
+            "contains_type": [],
+            "data_path": "cef_types",
+            "description": "A list of cef types associated with this value"
+        },
+        {
+            "contains_type": [],
+            "data_path": "cef_value",
+            "description": "The value of the field with the matching CEF data type."
         }
     ],
-    "platform_version": "4.10.6.61906",
-    "python_version": "3"
+    "outputs_type": "list",
+    "platform_version": "6.0.0.114228",
+    "python_version": "3.13"
 }

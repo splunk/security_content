@@ -1,0 +1,66 @@
+name: Windows CrowdStrike Agent Registry Key Removal
+id: 094e8c62-c071-4b3d-af43-d3c74c4b249f
+version: 2
+creation_date: '2026-05-05'
+modification_date: '2026-05-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    Detects delete events on the CrowdStrike registry keys.
+    These keys are removed as part of the agent uninstallation process.
+    This activity should only occur during planned events and any instances outside that should be evaluated for malicious activity such as CVE-2022-44721.
+data_source:
+    - Sysmon EventID 12
+search: |-
+    `sysmon`
+    EventID="12"
+    TargetObject="*\\SYSTEM\\CrowdStrike"
+    action="deleted"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by Computer EventID TargetObject action dest process_guid process_id registry_hive
+         registry_path registry_key_name status user vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_crowdstrike_agent_registry_key_removal_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Agent uninstallations during planned maintenance or legitimate IT workflows may trigger these detections. Review such events to avoid false positive alerts.
+references:
+    - https://github.com/purplededa/CVE-2022-44721-CsFalconUninstaller
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Potential removal of CrowdStrike agent activity observed on $dest$ via $TargetObject$.
+analytic_story:
+    - Windows Defense Evasion Tactics
+    - Security Solution Tampering
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

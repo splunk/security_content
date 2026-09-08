@@ -1,0 +1,12 @@
+name: advanced_audit_policy_guids
+id: e2581a3a-1254-4b93-ae8f-ccde22362f0c
+version: 3
+creation_date: '2023-02-13'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: List of GUIDs associated with Windows advanced audit policies
+match_type:
+    - WILDCARD(GUID)
+min_matches: 1
+case_sensitive_match: false

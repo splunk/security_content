@@ -1,20 +1,20 @@
 name: XWorm
 id: aa6ce371-0cfa-4984-81d6-553e8cc2b709
-version: 1
-date: '2025-05-06'
+version: 2
+creation_date: '2025-05-08'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
-description: Leverage searches that allow you to detect and investigate unusual activities that might relate to the presence of the XWorm remote access trojan (RAT). XWorm is a sophisticated and stealthy malware variant often used in data theft operations. Its capabilities include keylogging, screen capturing, remote desktop control, and data exfiltration, all of which can operate undetected. By utilizing advanced search queries and behavioral analytics, you can uncover anomalies such as unauthorized remote connections, unusual process behavior, or unexpected outbound traffic patterns. These indicators often signal the early stages of compromise, enabling rapid response before significant damage occurs. Implementing detection rules and correlating threat intelligence with system logs further enhances your ability to pinpoint XWorm activity. 
-narrative:  XWorm emerged on the cybercrime scene around 2022 as a commercial Remote Access Trojan (RAT) advertised on underground forums. Originally marketed as a cheap but effective alternative to more established RATs, it quickly gained popularity due to its rich feature set, modular design, and ease of use. Over time, the developers behind XWorm have continuously updated the malware to bypass detection and expand its capabilities, making it a favorite among low- to mid-tier threat actors and ransomware affiliates. XWorm is capable of full remote desktop access, keylogging, clipboard monitoring, webcam hijacking, file theft, and command execution. It also includes features for persistence, anti-analysis, and sandbox evasion. Often delivered through phishing emails or maldocs, it can be used both for espionage and as a precursor to ransomware deployment. Its adaptability and low cost have ensured its continued presence in the threat landscape.
+description: Leverage searches that allow you to detect and investigate unusual activities that might relate to the presence of the XWorm remote access trojan (RAT). XWorm is a sophisticated and stealthy malware variant often used in data theft operations. Its capabilities include keylogging, screen capturing, remote desktop control, and data exfiltration, all of which can operate undetected. By utilizing advanced search queries and behavioral analytics, you can uncover anomalies such as unauthorized remote connections, unusual process behavior, or unexpected outbound traffic patterns. These indicators often signal the early stages of compromise, enabling rapid response before significant damage occurs. Implementing detection rules and correlating threat intelligence with system logs further enhances your ability to pinpoint XWorm activity.
+narrative: XWorm emerged on the cybercrime scene around 2022 as a commercial Remote Access Trojan (RAT) advertised on underground forums. Originally marketed as a cheap but effective alternative to more established RATs, it quickly gained popularity due to its rich feature set, modular design, and ease of use. Over time, the developers behind XWorm have continuously updated the malware to bypass detection and expand its capabilities, making it a favorite among low- to mid-tier threat actors and ransomware affiliates. XWorm is capable of full remote desktop access, keylogging, clipboard monitoring, webcam hijacking, file theft, and command execution. It also includes features for persistence, anti-analysis, and sandbox evasion. Often delivered through phishing emails or maldocs, it can be used both for espionage and as a precursor to ransomware deployment. Its adaptability and low cost have ensured its continued presence in the threat landscape.
 references:
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.xworm
-- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/proton66-part-2-compromised-wordpress-pages-and-malware-campaigns/
-- https://sarviyamalwareanalyst.medium.com/xworm-attack-chain-leveraging-steganography-from-phishing-email-to-keylogging-via-c2-communication-f3a4c91dfd06
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.xworm
+    - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/proton66-part-2-compromised-wordpress-pages-and-malware-campaigns/
+    - https://sarviyamalwareanalyst.medium.com/xworm-attack-chain-leveraging-steganography-from-phishing-email-to-keylogging-via-c2-communication-f3a4c91dfd06
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

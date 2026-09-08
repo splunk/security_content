@@ -1,3 +1,8 @@
-definition: (Processes.process_name IN ("EQNEDT32.exe", "excel.exe", "Graph.exe", "msaccess.exe", "mspub.exe", "onenote.exe", "onenoteim.exe", "onenotem.exe", "outlook.exe", "powerpnt.exe", "visio.exe", "winproj.exe", "winword.exe", "wordpad.exe", "wordview.exe") OR Processes.original_file_name IN ("EQNEDT32.EXE", "Excel.exe", "Graph.exe", "MSACCESS.EXE", "MSPUB.EXE", "OneNote.exe", "OneNoteIm.exe", "OneNoteM.exe", "OUTLOOK.EXE", "POWERPNT.EXE", "VISIO.EXE", "WinProj.exe", "WinWord.exe"))
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_office_products
+id: f4af8224-7285-4da5-9efc-abf13ea155ef
+version: 1
+creation_date: '2025-01-14'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name IN ("EQNEDT32.exe", "excel.exe", "Graph.exe", "msaccess.exe", "mspub.exe", "onenote.exe", "onenoteim.exe", "onenotem.exe", "outlook.exe", "powerpnt.exe", "visio.exe", "winproj.exe", "winword.exe", "wordpad.exe", "wordview.exe") OR Processes.original_file_name IN ("EQNEDT32.EXE", "Excel.exe", "Graph.exe", "MSACCESS.EXE", "MSPUB.EXE", "OneNote.exe", "OneNoteIm.exe", "OneNoteM.exe", "OUTLOOK.EXE", "POWERPNT.EXE", "VISIO.EXE", "WinProj.exe", "WinWord.exe"))

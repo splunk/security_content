@@ -1,0 +1,13 @@
+name: malicious_powershell_strings
+id: d2fcf9eb-c7a4-4b05-9db4-99c6430d0513
+version: 4
+creation_date: '2025-01-13'
+modification_date: '2026-05-13'
+author: Steven Dick, Raven Tait
+lookup_type: csv
+description: A list of commands and commandlets used with known malicious powershell tooling.
+match_type:
+    - WILDCARD(command)
+min_matches: 1
+max_matches: 1
+case_sensitive_match: false

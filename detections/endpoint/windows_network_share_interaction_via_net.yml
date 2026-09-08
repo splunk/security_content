@@ -1,15 +1,16 @@
 name: Windows Network Share Interaction Via Net
 id: e51fbdb0-0be0-474f-92ea-d289f71a695e
-version: 6
-date: '2026-03-24'
+version: 7
+creation_date: '2024-07-11'
+modification_date: '2026-05-13'
 author: Dean Luxton
 status: production
 type: Hunting
+description: The following analytic identifies network share discovery and collection activities performed on Windows systems using the Net command. Attackers often use network share discovery to identify accessible shared resources within a network, which can be a precursor to privilege escalation or data exfiltration. By monitoring Windows Event Logs for the usage of the Net command to list and interact with network shares, this detection helps identify potential reconnaissance and collection activities.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-description: The following analytic identifies network share discovery and collection activities performed on Windows systems using the Net command. Attackers often use network share discovery to identify accessible shared resources within a network, which can be a precursor to privilege escalation or data exfiltration. By monitoring Windows Event Logs for the usage of the Net command to list and interact with network shares, this detection helps identify potential reconnaissance and collection activities.
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
@@ -35,25 +36,26 @@ how_to_implement: The detection is based on data originating from either Endpoin
 known_false_positives: Administrators or power users may use this command. Additional filters needs to be applied.
 references:
     - https://attack.mitre.org/techniques/T1135/
-tags:
-    analytic_story:
-        - Active Directory Discovery
-        - Active Directory Privilege Escalation
-        - Network Discovery
-    asset_type: Endpoint
-    atomic_guid:
-        - ab39a04f-0c93-4540-9ff2-83f862c385ae
-    mitre_attack_id:
-        - T1135
-        - T1039
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Discovery
+    - Active Directory Privilege Escalation
+    - Network Discovery
+asset_type: Endpoint
+atomic_guid:
+    - ab39a04f-0c93-4540-9ff2-83f862c385ae
+mitre_attack_id:
+    - T1135
+    - T1039
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

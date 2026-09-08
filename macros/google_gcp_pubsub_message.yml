@@ -1,4 +1,8 @@
-definition: sourcetype="google:gcp:pubsub:message"
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: google_gcp_pubsub_message
+id: e80f43f0-a46a-403f-869c-27f20292f50d
+version: 1
+creation_date: '2020-05-05'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="google:gcp:pubsub:message"

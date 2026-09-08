@@ -1,4 +1,8 @@
-definition: (query=fls-na* AND query = www* AND query=images*)
-description: This limits the query fields to domains that are associated with evilginx
-  masquerading as Amazon
 name: evilginx_phishlets_amazon
+id: b37a7cb6-46ee-4b99-a1cd-1ace836c35f1
+version: 1
+creation_date: '2019-10-16'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This limits the query fields to domains that are associated with evilginx masquerading as Amazon
+definition: (query=fls-na* AND query = www* AND query=images*)

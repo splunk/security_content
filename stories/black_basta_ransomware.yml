@@ -1,18 +1,18 @@
 name: Black Basta Ransomware
 id: b543afc8-2b65-49d7-8325-a9bca4fd65c8
-version: 1
-date: '2025-02-03'
+version: 2
+creation_date: '2025-03-03'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: Leverage searches for suspicious behaviors associated with Black Basta ransomware, focusing on key indicators such as process execution, registry modifications, and network activity. Monitor for unusual file encryption patterns, particularly involving cmd.exe, powershell.exe, or wmic.exe executing with arguments linked to volume shadow copy deletion (vssadmin delete shadows). Look for registry changes disabling security features or altering startup configurations. Track high-volume file modifications in rapid succession, indicative of ransomware encryption. Additionally, unauthorized remote service executions. Cross-reference endpoint logs, EDR alerts, and SIEM detections to correlate malicious activity. Behavioral analytics and heuristic-based detections can enhance visibility into evolving tactics. Implement robust monitoring and response mechanisms to mitigate Black Basta’s impact effectively.
 narrative: Black Basta ransomware is a highly sophisticated and fast-moving threat that has been targeting organizations worldwide, often disrupting critical operations and demanding hefty ransoms. It operates as a double extortion ransomware, encrypting victim data while simultaneously exfiltrating it to pressure victims into paying. The attack typically begins with initial access via phishing emails, compromised credentials, or exploitation of vulnerabilities in remote desktop services. Once inside, attackers escalate privileges, disable security defenses, and deploy the ransomware payload. The malware rapidly encrypts files across local and networked drives, deleting shadow copies to prevent recovery. It often abuses legitimate system tools like wmic.exe and rundll32.exe, to evade detection. Simultaneously, it establishes command-and-control (C2) connections to exfiltrate sensitive data. The impact is severe—disrupting business operations, exposing confidential information, and leaving organizations with few options for recovery. Early detection, network segmentation, and strong endpoint defenses are crucial to mitigating the risk posed by Black Basta.
 references:
-- https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-131a
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-131a
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

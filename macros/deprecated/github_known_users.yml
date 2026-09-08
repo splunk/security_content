@@ -1,3 +1,8 @@
-definition: user IN (user_names_here)
-description: specify the user allowed to create PRs in Github projects.
 name: github_known_users
+id: 42261a6f-13d4-4025-9b17-fd0779d3b16d
+version: 1
+creation_date: '2021-09-01'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: specify the user allowed to create PRs in Github projects.
+definition: user IN (user_names_here)

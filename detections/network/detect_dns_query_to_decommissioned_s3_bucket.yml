@@ -1,7 +1,8 @@
 name: Detect DNS Query to Decommissioned S3 Bucket
 id: 2f1c5fd1-4b8a-4f5d-a0e9-7d6a8e2f5e1e
-version: 5
-date: '2026-03-10'
+version: 6
+creation_date: '2025-02-12'
+modification_date: '2026-05-13'
 author: Jose Hernandez, Splunk
 status: experimental
 type: Anomaly
@@ -31,35 +32,41 @@ drilldown_searches:
       search: '| from datamodel:Network_Resolution | search src="$src$"'
       earliest_offset: -7d@d
       latest_offset: now
-rba:
-    message: A DNS query to decommissioned S3 bucket $query$ was detected from host $src$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: src
           type: system
           score: 20
-    threat_objects:
-        - field: query
-          type: domain
-tags:
-    analytic_story:
-        - AWS S3 Bucket Security Monitoring
-        - Data Destruction
-    asset_type: Network
-    mitre_attack_id:
-        - T1485
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+          message: A DNS query to decommissioned S3 bucket $query$ was detected from host $src$
+threat_objects:
+    - field: query
+      type: domain
+analytic_story:
+    - AWS S3 Bucket Security Monitoring
+    - Data Destruction
+asset_type: Network
+mitre_attack_id:
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+baselines:
+    - Baseline Of Open S3 Bucket Decommissioning
 tests:
     - name: Baseline Dataset Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/cloudtrail.json
           source: cloudtrail
           sourcetype: aws:cloudtrail
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/dns.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: experimental
+      description: This test is a legacy experimental test and may not be accurate.

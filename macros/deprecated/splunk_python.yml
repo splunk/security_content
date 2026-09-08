@@ -1,0 +1,8 @@
+name: splunk_python
+id: 1b3b6a72-b2d9-453e-a97b-40945d4f5fb3
+version: 1
+creation_date: '2019-12-17'
+modification_date: '2026-05-14'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.
+definition: index=_internal sourcetype=splunk_python

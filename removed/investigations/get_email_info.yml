@@ -1,21 +1,24 @@
 name: Get Email Info
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd75
 version: 1
-date: '2017-11-09'
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 type: Investigation
 status: removed
-description: This search returns all the information Splunk might have collected a
-  specific email message over the last 2 hours.
+description: This search returns all the information Splunk might have collected a specific email message over the last 2 hours.
 search: '| from datamodel Email.All_Email | search message_id=$message_id$'
-how_to_implement: To successfully implement this search you must be ingesting your
-  email logs or capturing unencrypted network traffic which contains email communications.
+how_to_implement: To successfully implement this search you must be ingesting your email logs or capturing unencrypted network traffic which contains email communications.
 known_false_positives: ''
 references: []
 tags:
-  analytic_story:
-  - Brand Monitoring
-  - Suspicious Emails
-  product:
-  - Splunk Phantom
-  security_domain: network
+    analytic_story:
+        - Brand Monitoring
+        - Suspicious Emails
+    product:
+        - Splunk Phantom
+    security_domain: network
+deprecation_info:
+    reason: As of Splunk Enterprise Security version 8.0, Splunk Enterprise Security no longer supports Investigations. As such, all Investigations have been deprecated in ES Content Update.
+    removed_in_version: 5.2.0
+    replacement_content: []

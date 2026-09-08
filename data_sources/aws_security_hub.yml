@@ -1,23 +1,23 @@
 name: AWS Security Hub
 id: b02bfbf3-294f-478e-99a1-e24b8c692d7e
-version: 2
-date: '2025-01-23'
+version: 3
+creation_date: '2024-05-22'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
-description: Logs an event when AWS Security Hub identifies potential security risks
-  or deviations from configured best practices across AWS accounts.
+description: Logs an event when AWS Security Hub identifies potential security risks or deviations from configured best practices across AWS accounts.
 mitre_components:
-- Cloud Service Metadata
-- Cloud Service Enumeration
-- Cloud Service Modification
-- Cloud Service Disable
+    - Cloud Service Metadata
+    - Cloud Service Enumeration
+    - Cloud Service Modification
+    - Cloud Service Disable
 source: aws_securityhub_finding
 sourcetype: aws:securityhub:finding
 logsource:
   product: aws
 supported_TA:
-- name: Splunk Add-on for AWS
-  url: https://splunkbase.splunk.com/app/1876
-  version: 8.1.0
+    - name: Splunk Add-on for AWS
+      url: https://splunkbase.splunk.com/app/1876
+      version: 8.2.2
 fields:
 - _time
 - AwsAccountId

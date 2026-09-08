@@ -1,0 +1,10 @@
+name: cisco_secure_firewall_appid_remote_mgmt_and_desktop_tools
+id: eda38373-77c4-4e42-89c8-f53fa58f5319
+version: 2
+creation_date: '2025-05-28'
+modification_date: '2026-05-13'
+author: Nasreddine Bencherchali, Splunk Threat Research Team
+lookup_type: csv
+description: A list of secure firewall application detectors metadata related to remote desktop and remote management utilities.
+min_matches: 1
+case_sensitive_match: false

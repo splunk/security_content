@@ -1,0 +1,8 @@
+name: cisco_secure_access_proxy
+id: e2e2d95c-2c4b-439d-ab6d-ff89dd811e7c
+version: 1
+creation_date: '2026-06-03'
+modification_date: '2026-06-03'
+author: Mahamudul Chowdhury, Bhavin Patel, Splunk
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype="cisco:cloud_security:proxy"

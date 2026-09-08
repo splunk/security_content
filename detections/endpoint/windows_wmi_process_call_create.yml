@@ -1,7 +1,8 @@
 name: Windows WMI Process Call Create
 id: 0661c2de-93de-11ec-9833-acde48001122
-version: 8
-date: '2026-02-25'
+version: 9
+creation_date: '2022-02-22'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -31,25 +32,26 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/2b804d25418004a5f1ba50e9dc637946ab8733c7/atomics/T1047/T1047.md
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
-tags:
-    analytic_story:
-        - Volt Typhoon
-        - Qakbot
-        - IcedID
-        - Suspicious WMI Use
-        - CISA AA23-347A
-        - Cactus Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1047
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Volt Typhoon
+    - Qakbot
+    - IcedID
+    - Suspicious WMI Use
+    - CISA AA23-347A
+    - Cactus Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1047
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

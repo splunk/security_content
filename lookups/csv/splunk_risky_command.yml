@@ -1,0 +1,13 @@
+name: splunk_risky_command
+id: 86e4521f-a57d-430b-9d5f-1547afabc618
+version: 3
+creation_date: '2023-02-14'
+modification_date: '2026-05-14'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of Risky Splunk Command that are candidates for abuse
+default_match: 'false'
+match_type:
+    - WILDCARD(splunk_risky_command)
+min_matches: 1
+case_sensitive_match: 'false'

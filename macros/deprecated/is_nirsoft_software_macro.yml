@@ -1,3 +1,8 @@
-definition: lookup update=true is_nirsoft_software filename as process_name OUTPUT nirsoftFile | search nirsoftFile=true
-description: This macro is related to potentially identifiable software related to NirSoft. Remove or filter as needed based.
 name: is_nirsoft_software_macro
+id: d228784b-d883-4602-8cdf-5cee79b54603
+version: 1
+creation_date: '2022-01-24'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: This macro is related to potentially identifiable software related to NirSoft. Remove or filter as needed based.
+definition: lookup update=true is_nirsoft_software filename as process_name OUTPUT nirsoftFile | search nirsoftFile=true

@@ -1,18 +1,18 @@
 name: ZOVWiper
 id: 3dfd6bc2-8f98-42dd-945c-d6ab5995a3e4
-version: 1
-date: '2026-02-12'
+version: 2
+creation_date: '2026-02-17'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: ZOVWiper is a destructive data-wiping malware identified by ESET researchers, attributed to the threat group Sandworm with high confidence. First observed in November 2025 targeting a financial institution and later in an energy sector incident, ZOVWiper systematically iterates over fixed drives and overwrites file contents to destroy data irrecoverably. The malware skips key system directories and uses size-based overwrite logic to maximize destructive impact. Its deployment highlights ongoing destructive operations against critical infrastructure and financial entities.
-narrative:  In late 2025, ESET researchers uncovered ZOVWiper during incident response to a destructive malware attack against a financial organization. ZOVWiper’s core function is to traverse all fixed drives, selectively overwrite file contents based on size, and render systems inoperable—a characteristic pattern tied to destructive campaigns by Sandworm. The malware’s directory exclusions and wiping methodology were later noted as technical parallels to other destructive tools such as DynoWiper, reinforcing attribution confidence. ZOVWiper’s operational use against both financial and energy sector targets underscores sustained threat actor focus on disrupting critical functions through targeted data destruction.
+narrative: In late 2025, ESET researchers uncovered ZOVWiper during incident response to a destructive malware attack against a financial organization. ZOVWiper’s core function is to traverse all fixed drives, selectively overwrite file contents based on size, and render systems inoperable—a characteristic pattern tied to destructive campaigns by Sandworm. The malware’s directory exclusions and wiping methodology were later noted as technical parallels to other destructive tools such as DynoWiper, reinforcing attribution confidence. ZOVWiper’s operational use against both financial and energy sector targets underscores sustained threat actor focus on disrupting critical functions through targeted data destruction.
 references:
-- https://www.welivesecurity.com/en/eset-research/dynowiper-update-technical-analysis-attribution/
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.welivesecurity.com/en/eset-research/dynowiper-update-technical-analysis-attribution/
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

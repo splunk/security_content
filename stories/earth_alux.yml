@@ -1,19 +1,18 @@
 name: Earth Alux
 id: 91e57890-73bb-4d98-8c47-8d6ca53c033c
-version: 1
-status: production
-date: '2025-04-16'
+version: 2
+creation_date: '2025-04-16'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
+status: production
 description: Earth Alux is a sophisticated espionage threat actor targeting government, technology, logistics, manufacturing, telecommunications, and IT services sectors primarily in the APAC region and Latin America, using advanced techniques for information theft through a combination of webshells, process injection, DLL side-loading, and credential theft.
 narrative: Earth Alux employs multiple custom tools including VARGEIT, RAILLOAD, RAILSETTER, and COBEACON to establish persistence, steal credentials, and maintain command and control. The group's initial access often involves webshells followed by the use of renamed system binaries like cdb.exe (disguised as fontdrvhost.exe) to execute shellcode. Their tactics include process injection into legitimate Windows processes such as MSPaint, calc.exe, and notepad.exe, combined with sophisticated DLL side-loading techniques using tools like ZeroEye and CloneExportTable. The actor prioritizes credential theft from browsers and uses cloud storage buckets for data exfiltration after collecting and compressing sensitive information. Threat detection should focus on unusual process paths, suspicious DLL loading, credential access activity, and abnormal network connections from trusted Windows binaries.
 references:
-  - https://www.trendmicro.com/en_us/research/25/c/the-espionage-toolkit-of-earth-alux.html
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
-  cve: []
+    - https://www.trendmicro.com/en_us/research/25/c/the-espionage-toolkit-of-earth-alux.html
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

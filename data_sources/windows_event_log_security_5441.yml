@@ -1,0 +1,25 @@
+name: Windows Event Log Security 5441
+id: aac843ab-4cd6-4735-9557-cde0b504c9c9
+version: 1
+creation_date: '2026-08-23'
+modification_date: '2026-08-23'
+author: Nasreddine Bencherchali, Splunk
+description: Logs Windows Filtering Platform filters that were present when the Base Filtering Engine started, including provider, filter, layer, conditions, and filter action metadata.
+mitre_components:
+    - Firewall Metadata
+    - Security Policy Modification
+    - Application Log Content
+source: XmlWinEventLog:Security
+sourcetype: XmlWinEventLog
+separator: EventCode
+separator_value: '5441'
+configuration: Enable the Audit Filtering Platform Policy Change subcategory to collect Windows Filtering Platform policy events.
+supported_TA:
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 11.0.2
+fields:
+    - _time
+output_fields:
+    - dest
+example_log: ''

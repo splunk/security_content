@@ -1,3 +1,8 @@
+name: previously_seen_cloud_compute_images_forget_window
+id: 5488aff7-ab8d-4c4f-9e33-af816f0577de
+version: 1
+creation_date: '2020-05-28'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
 description: Use this macro to determine how long to keep track of cloud instance images
 definition: '"-90d@d"'
-name: previously_seen_cloud_compute_images_forget_window

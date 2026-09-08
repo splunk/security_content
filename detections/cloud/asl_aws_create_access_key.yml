@@ -1,7 +1,8 @@
 name: ASL AWS Create Access Key
 id: 81a9f2fe-1697-473c-af1d-086b0d8b63c8
-version: 6
-date: '2026-02-25'
+version: 7
+creation_date: '2021-03-02'
+modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: Hunting
@@ -24,21 +25,22 @@ known_false_positives: While this search has no known false positives, it is pos
 references:
     - https://bishopfox.com/blog/privilege-escalation-in-aws
     - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
-tags:
-    analytic_story:
-        - AWS IAM Privilege Escalation
-        - Scattered Lapsus$ Hunters
-    asset_type: AWS Account
-    mitre_attack_id:
-        - T1136.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+analytic_story:
+    - AWS IAM Privilege Escalation
+    - Scattered Lapsus$ Hunters
+asset_type: AWS Account
+mitre_attack_id:
+    - T1136.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createaccesskey/asl_ocsf_cloudtrail.json
           sourcetype: aws:asl
           source: aws_asl
+      test_type: unit

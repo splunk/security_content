@@ -5,7 +5,7 @@ def indicator_tag(indicator=None, tags=None, overwrite=None, **kwargs):
     Args:
         indicator (CEF type: *): Specifies the indicator which the tag will be added to. Supports a string indicator value or an indicator id.
         tags (CEF type: *): Comma separated list of tags. Tags should only contain characters Aa-Zz, 0-9, '-', and '_'.
-        overwrite: Optional input. Either "true" or "false" with default as "false". If set to "true", existing tags on the indicator record will be replaced by the provided input. If set to "false", the new tags will be appended to the existing indicator tags.
+        overwrite: Either True or False with default as False. If set to True, existing tags on the indicator record will be replaced by the provided input. If set to False, the new tags will be appended to the existing indicator tags.
     
     Returns a JSON-serializable object that implements the configured data paths:
         indicator_id: The indicator id that was tagged.
@@ -25,18 +25,12 @@ def indicator_tag(indicator=None, tags=None, overwrite=None, **kwargs):
         if any(c not in allowed_characters for c in tag):
             raise ValueError("Tags should only contain characters Aa-Zz, 0-9, '-', and '_'")
 
-    # overwrite must be "true" or "false" and defaults to "false"
-    if overwrite:
-        if not isinstance(overwrite, str):
-            raise TypeError("overwrite must be a string")
-        if overwrite.lower() == 'true':
-            overwrite = True
-        elif overwrite.lower() == 'false':
-            overwrite = False
-        else:
-            raise ValueError("overwrite must be either 'true' or 'false'")
-    else:
+    # overwrite must be True or False and defaults to False
+    if overwrite == None:
         overwrite = False
+    
+    if not isinstance(overwrite, bool):
+        raise TypeError("overwrite must be a boolean (True or False)")
     
     url = phantom.build_phantom_rest_url('indicator')
     

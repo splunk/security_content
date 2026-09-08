@@ -1,7 +1,8 @@
 name: Cisco SD-WAN - Peering Activity
 id: 1d192a47-4bd3-4c06-902d-5dbe2375ec6d
-version: 2
-date: '2026-03-02'
+version: 3
+creation_date: '2026-03-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
@@ -55,22 +56,23 @@ references:
     - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging
     - https://sec.cloudapps.cisco.com/security/center/resources/Cisco-Catalyst-SD-WAN-HardeningGuide
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
-tags:
-    analytic_story:
-        - Cisco Catalyst SD-WAN Analytics
-    asset_type: Network
-    mitre_attack_id:
-        - T1190
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
-    cve:
-        - CVE-2026-20127
+analytic_story:
+    - Cisco Catalyst SD-WAN Analytics
+asset_type: Network
+cve:
+    - CVE-2026-20127
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_sd_wan/vsyslog/vsyslog.log
           source: /var/log/vsyslog
           sourcetype: cisco:sdwan:syslog
+      test_type: unit

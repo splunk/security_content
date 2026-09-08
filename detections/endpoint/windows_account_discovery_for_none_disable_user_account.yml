@@ -1,13 +1,14 @@
 name: Windows Account Discovery for None Disable User Account
 id: eddbf5ba-b89e-47ca-995e-2d259804e55e
-version: 10
-date: '2026-02-25'
+version: 11
+creation_date: '2024-01-10'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
+description: The following analytic detects the execution of the PowerView PowerShell cmdlet Get-NetUser with the UACFilter parameter set to NOT_ACCOUNTDISABLE, indicating an attempt to enumerate Active Directory user accounts that are not disabled. This detection leverages PowerShell Script Block Logging (EventCode 4104) to identify the specific script block text. Monitoring this activity is significant as it may indicate reconnaissance efforts by an attacker to identify active user accounts for further exploitation. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-description: The following analytic detects the execution of the PowerView PowerShell cmdlet Get-NetUser with the UACFilter parameter set to NOT_ACCOUNTDISABLE, indicating an attempt to enumerate Active Directory user accounts that are not disabled. This detection leverages PowerShell Script Block Logging (EventCode 4104) to identify the specific script block text. Monitoring this activity is significant as it may indicate reconnaissance efforts by an attacker to identify active user accounts for further exploitation. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, or lateral movement within the network.
 search: |-
     `powershell` EventCode=4104  ScriptBlockText = "*Get-NetUser*" ScriptBlockText = "*NOT_ACCOUNTDISABLE*" ScriptBlockText = "*-UACFilter*"
       | fillnull
@@ -27,20 +28,21 @@ references:
     - https://powersploit.readthedocs.io/en/stable/Recon/README/
     - https://book.hacktricks.xyz/windows-hardening/basic-powershell-for-pentesters/powerview
     - https://atomicredteam.io/discovery/T1087.001/
-tags:
-    analytic_story:
-        - CISA AA23-347A
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1087.001
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - CISA AA23-347A
+asset_type: Endpoint
+mitre_attack_id:
+    - T1087.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/powerview_get_netuser_preauthnotrequire/get-netuser-not-require-pwh.log
           source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit

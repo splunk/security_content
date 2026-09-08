@@ -1,0 +1,12 @@
+name: asr_rules
+id: 3886d687-ae77-4a61-99eb-e745083e391e
+version: 4
+creation_date: '2023-12-06'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A csv of the ID and rule name for ASR, Microsoft Attack Surface Reduction rules.
+match_type:
+    - WILDCARD(ASR_Rule)
+min_matches: 1
+case_sensitive_match: false

@@ -1,4 +1,8 @@
-definition: sourcetype=ivanti_vtm_audit
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environment.
 name: ivanti_vtm_audit
+id: dfb31a84-6378-41dc-9525-b824887da781
+version: 1
+creation_date: '2020-04-30'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=ivanti_vtm_audit

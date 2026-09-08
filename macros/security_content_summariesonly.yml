@@ -1,3 +1,8 @@
-definition: summariesonly=`summariesonly_config` allow_old_summaries=`oldsummaries_config` fillnull_value=`fillnull_config`
-description: search data model's summaries only 
 name: security_content_summariesonly
+id: 36ffc9a4-dbc9-4337-8996-94ad6cb671c8
+version: 1
+creation_date: '2019-12-11'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: search data model's summaries only
+definition: summariesonly=`summariesonly_config` allow_old_summaries=`oldsummaries_config` fillnull_value=`fillnull_config`

@@ -1,7 +1,8 @@
 name: VMware Server Side Template Injection Hunt
 id: 5796b570-ad12-44df-b1b5-b7e6ae3aabb0
-version: 7
-date: '2026-03-23'
+version: 8
+creation_date: '2022-05-19'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -43,23 +44,24 @@ references:
     - https://www.vmware.com/security/advisories/VMSA-2022-0011.html
     - https://attackerkb.com/topics/BDXyTqY1ld/cve-2022-22954/rapid7-analysis
     - https://twitter.com/wvuuuuuuuuuuuuu/status/1519476924757778433
-tags:
-    analytic_story:
-        - VMware Server Side Injection and Privilege Escalation
-    asset_type: Web Server
-    cve:
-        - CVE-2022-22954
-    mitre_attack_id:
-        - T1190
-        - T1133
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: network
+analytic_story:
+    - VMware Server Side Injection and Privilege Escalation
+asset_type: Web Server
+cve:
+    - CVE-2022-22954
+mitre_attack_id:
+    - T1190
+    - T1133
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/vmware/vmware_scanning_pan_threat.log
           source: not_applicable
           sourcetype: pan:threat
+      test_type: unit

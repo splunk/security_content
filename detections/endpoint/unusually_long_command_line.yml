@@ -1,7 +1,8 @@
 name: Unusually Long Command Line
 id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-version: 13
-date: '2026-03-10'
+version: 14
+creation_date: '2020-04-29'
+modification_date: '2026-05-13'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -34,24 +35,25 @@ search: |-
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate applications start with long command lines.
 references: []
-rba:
-    message: Unusually long command line $process_name$ on $dest$
-    risk_objects:
+intermediate_findings:
+    entities:
         - field: dest
           type: system
           score: 20
-    threat_objects:
-        - field: process_name
-          type: process_name
-tags:
-    analytic_story:
-        - Suspicious Command-Line Executions
-        - Unusual Processes
-        - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-        - Ransomware
-    asset_type: Endpoint
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+          message: Unusually long command line $process_name$ on $dest$
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Suspicious Command-Line Executions
+    - Unusual Processes
+    - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+    - Ransomware
+asset_type: Endpoint
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

@@ -1,3 +1,8 @@
-definition: (Processes.process_name=wbadmin.exe OR Processes.original_file_name=WBADMIN.EXE)
-description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
 name: process_wbadmin
+id: c3278b6b-1603-4a96-88d4-8850f58d63e2
+version: 1
+creation_date: '2021-08-17'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+definition: (Processes.process_name=wbadmin.exe OR Processes.original_file_name=WBADMIN.EXE)

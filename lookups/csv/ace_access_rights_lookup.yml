@@ -1,0 +1,9 @@
+name: ace_access_rights_lookup
+id: 26cf3fc4-cee2-431a-9583-c4a404a25275
+version: 3
+creation_date: '2024-07-01'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A lookup file that will contain translations for AD object ace access rights strings
+

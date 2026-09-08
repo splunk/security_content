@@ -1,20 +1,20 @@
 name: Derusbi
 id: 7cd48610-6f75-4b49-ae1d-3bf2cfff1c1c
-version: 1
-date: '2025-01-27'
+version: 2
+creation_date: '2025-01-27'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 description: Leverage searches that allow you to detect and investigate unusual activities that might relate to Derusbi malware, a sophisticated threat often linked to advanced persistent attacks. Monitor anomalies in network traffic, file execution patterns, and unauthorized access attempts to uncover potential compromises. Utilize behavioral analytics and endpoint detection tools to identify indicators such as pesistence, service creation, lateral movement via removable drive, driver loading and dll side loading. By correlating these findings with known threat intelligence, you can quickly respond to and mitigate Derusbi-related incidents.
 narrative: Derusbi is a stealthy and versatile malware family often associated with advanced persistent threats (APTs) targeting high-value systems. Known for its adaptability, it employs techniques like process injection and encrypted communications to evade detection. This malware family is frequently used for espionage, data theft, and system compromise, leveraging custom modules tailored to specific targets. Derusbi’s ability to remain undetected for extended periods makes it a significant threat, emphasizing the need for robust monitoring and advanced detection mechanisms to mitigate its impact.
 references:
-- https://www.virusbulletin.com/uploads/pdf/conference_slides/2015/Pun-etal-VB2015.pdf
-- https://www.trendmicro.com/en_us/research/21/g/biopass-rat-new-malware-sniffs-victims-via-live-streaming.html
-- https://web.archive.org/web/20180310053107/https://www.rsaconference.com/writable/presentations/file_upload/hta-w02-dissecting-derusbi.pdf
-tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.virusbulletin.com/uploads/pdf/conference_slides/2015/Pun-etal-VB2015.pdf
+    - https://www.trendmicro.com/en_us/research/21/g/biopass-rat-new-malware-sniffs-victims-via-live-streaming.html
+    - https://web.archive.org/web/20180310053107/https://www.rsaconference.com/writable/presentations/file_upload/hta-w02-dissecting-derusbi.pdf
+category:
+    - Malware
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

@@ -1,23 +1,23 @@
 name: Cisco Secure Firewall Threat Defense Analytics
 id: b40110f3-6471-46a6-a6f7-4db817f80a86
-version: 1
-date: '2025-04-03'
+version: 2
+creation_date: '2025-04-03'
+modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 description: |
-  This analytic story provides a suite of detections built to analyze network traffic logs from Cisco Secure Firewall Threat Defense (FTD) appliances.
-  The included analytics focus on uncovering suspicious and potentially malicious behavior such as data exfiltration, encrypted command and control (C2) activity, unauthorized tool downloads, repeated connection attempts to blocked destinations, and traffic involving suspicious SSL certificates or file sharing services.
-  These detections help security teams identify threats that may be missed by traditional rule-based approaches, offering deeper insight into encrypted sessions, protocol misuse, and adversary abuse of legitimate services.
+    This analytic story provides a suite of detections built to analyze network traffic logs from Cisco Secure Firewall Threat Defense (FTD) appliances.
+    The included analytics focus on uncovering suspicious and potentially malicious behavior such as data exfiltration, encrypted command and control (C2) activity, unauthorized tool downloads, repeated connection attempts to blocked destinations, and traffic involving suspicious SSL certificates or file sharing services.
+    These detections help security teams identify threats that may be missed by traditional rule-based approaches, offering deeper insight into encrypted sessions, protocol misuse, and adversary abuse of legitimate services.
 narrative: |
-  Cisco Secure Firewall Threat Defense is a next-generation firewall platform that provides deep visibility into network activity, including rich telemetry such as connection metadata, application identification, and encrypted traffic analysis through the Encrypted Visibility Engine (EVE).
-  This analytic story leverages that visibility to detect behaviors commonly associated with advanced threats and adversary techniques across multiple ATT&CK tactics, including Command and Control, Exfiltration, Execution, and Discovery.
+    Cisco Secure Firewall Threat Defense is a next-generation firewall platform that provides deep visibility into network activity, including rich telemetry such as connection metadata, application identification, and encrypted traffic analysis through the Encrypted Visibility Engine (EVE).
+    This analytic story leverages that visibility to detect behaviors commonly associated with advanced threats and adversary techniques across multiple ATT&CK tactics, including Command and Control, Exfiltration, Execution, and Discovery.
 references:
-- https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
-tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

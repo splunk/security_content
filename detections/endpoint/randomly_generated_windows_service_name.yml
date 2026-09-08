@@ -1,7 +1,8 @@
 name: Randomly Generated Windows Service Name
 id: 2032a95a-5165-11ec-a2c3-3e22fbd008af
-version: 9
-date: '2026-02-25'
+version: 10
+creation_date: '2021-11-30'
+modification_date: '2026-05-13'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
@@ -18,15 +19,15 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Legitimate applications may use random Windows Service names.
 references:
     - https://attack.mitre.org/techniques/T1543/003/
-tags:
-    analytic_story:
-        - Active Directory Lateral Movement
-        - BlackSuit Ransomware
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1543.003
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+analytic_story:
+    - Active Directory Lateral Movement
+    - BlackSuit Ransomware
+asset_type: Endpoint
+mitre_attack_id:
+    - T1543.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

@@ -1,9 +1,0 @@
-name: sslbl_ssl_certificate_blacklist
-date: 2025-04-03
-version: 1
-id: 5850e5c3-543c-45b8-8b82-147ed49aba55
-author: Splunk Threat Research Team
-lookup_type: csv
-case_sensitive_match: false
-description: abuse.ch SSLBL SSL Certificate Blacklist (SHA1 Fingerprints)
-min_matches: 1

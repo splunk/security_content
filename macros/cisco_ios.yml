@@ -1,0 +1,8 @@
+name: cisco_ios
+id: dee2e4eb-4925-4378-9b8d-4b14fbb40132
+version: 1
+creation_date: '2026-06-02'
+modification_date: '2026-06-02'
+author: Nasreddine Bencherchali, Splunk Threat Research Team
+description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: sourcetype=cisco:ios

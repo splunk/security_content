@@ -1,0 +1,38 @@
+name: Splunk Unauthorized Experimental Items Creation
+id: 84afda04-0cd6-466b-869e-70d6407d0a34
+version: 5
+creation_date: '2025-05-12'
+modification_date: '2026-05-14'
+author: Rod Soto, Chase Franklin
+status: removed
+type: Hunting
+data_source:
+    - Splunk
+description: This hunting search provides information on finding possible creation of unauthorized items against /experimental endpoint.
+search: '`splunkda` */experimental/* method=POST | stats count min(_time) as firstTime max(_time) as lastTime by clientip method uri_path uri status | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_unauthorized_experimental_items_creation_filter`'
+how_to_implement: Requires access to internal indexes.
+known_false_positives: Not all requests are going to be malicious, there will be false positives, however operator must find suspicious items that might have been created by an unauthorized user.
+references:
+    - https://advisory.splunk.com/SVD-2024-0715
+tags:
+    cve:
+        - CVE-2024-36995
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1189
+    product:
+        - Splunk Enterprise
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/SVD-2024-0715_splunkd_splunkd_access.log
+            source: /opt/splunk/var/log/splunk/splunkd_access.log
+            sourcetype: splunkd_access
+            custom_index: _internal
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

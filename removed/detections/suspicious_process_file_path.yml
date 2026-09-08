@@ -1,120 +1,96 @@
 name: Suspicious Process File Path
 id: 9be25988-ad82-11eb-a14f-acde48001122
 version: 7
-date: '2025-02-10'
+creation_date: '2021-05-07'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: removed
 type: TTP
-description: This search has been deprecated in favour of -  Windows Suspicious Process File Path. The following analytic identifies processes running from file  paths not
-  typically associated with legitimate software. It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on specific process paths within the Endpoint
-  data model. This activity is significant because adversaries often use unconventional
-  file paths to execute malicious code without requiring administrative privileges.
-  If confirmed malicious, this behavior could indicate an attempt to bypass security
-  controls, leading to unauthorized software execution, potential system compromise,
-  and further malicious activities within the environment.
+description: This search has been deprecated in favour of -  Windows Suspicious Process File Path. The following analytic identifies processes running from file  paths not typically associated with legitimate software. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific process paths within the Endpoint data model. This activity is significant because adversaries often use unconventional file paths to execute malicious code without requiring administrative privileges. If confirmed malicious, this behavior could indicate an attempt to bypass security controls, leading to unauthorized software execution, potential system compromise, and further malicious activities within the environment.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_path IN("*\\windows\\fonts\\*",
-  "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", "*\\Users\\Administrator\\Music\\*",
-  "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*",  "\\Windows\\repair\\*",
-  "*\\temp\\*" , "*\\PerfLogs\\*","*\\windows\\tasks\\*", "*:\\programdata\\*") by
-  Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process_path Processes.dest
-  Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `suspicious_process_file_path_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators may allow execution of specific binaries in
-  non-standard paths. Filter as needed.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path IN("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*",  "\\Windows\\repair\\*", "*\\temp\\*" , "*\\PerfLogs\\*","*\\windows\\tasks\\*", "*:\\programdata\\*") by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process_path Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_process_file_path_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 references:
-- https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
-- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
-- https://twitter.com/pr0xylife/status/1590394227758104576
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
-- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+    - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+    - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://twitter.com/pr0xylife/status/1590394227758104576
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+    - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious process $process_name$ running from a suspicious process path-
-    $process_path$ on host- $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 35
-  threat_objects:
-  - field: process_path
-    type: process_name
+    message: Suspicious process $process_name$ running from a suspicious process path- $process_path$ on host- $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 35
+    threat_objects:
+        - field: process_path
+          type: process_name
 tags:
-  analytic_story:
-  - Volt Typhoon
-  - LockBit Ransomware
-  - Data Destruction
-  - XMRig
-  - DarkGate Malware
-  - Chaos Ransomware
-  - Double Zero Destructor
-  - Hermetic Wiper
-  - Warzone RAT
-  - Phemedrone Stealer
-  - Prestige Ransomware
-  - Graceful Wipe Out Attack
-  - BlackByte Ransomware
-  - IcedID
-  - Handala Wiper
-  - Meduza Stealer
-  - CISA AA23-347A
-  - AsyncRAT
-  - Amadey
-  - Industroyer2
-  - ValleyRAT
-  - Rhysida Ransomware
-  - DarkCrystal RAT
-  - Crypto Stealer
-  - Azorult
-  - Swift Slicer
-  - AgentTesla
-  - Qakbot
-  - Remcos
-  - Trickbot
-  - Brute Ratel C4
-  - RedLine Stealer
-  - PlugX
-  - MoonPeak
-  - WhisperGate
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1543
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Volt Typhoon
+        - LockBit Ransomware
+        - Data Destruction
+        - XMRig
+        - DarkGate Malware
+        - Chaos Ransomware
+        - Double Zero Destructor
+        - Hermetic Wiper
+        - Warzone RAT
+        - Phemedrone Stealer
+        - Prestige Ransomware
+        - Graceful Wipe Out Attack
+        - BlackByte Ransomware
+        - IcedID
+        - Handala Wiper
+        - Meduza Stealer
+        - CISA AA23-347A
+        - AsyncRAT
+        - Amadey
+        - Industroyer2
+        - ValleyRAT
+        - Rhysida Ransomware
+        - DarkCrystal RAT
+        - Crypto Stealer
+        - Azorult
+        - Swift Slicer
+        - AgentTesla
+        - Qakbot
+        - Remcos
+        - Trickbot
+        - Brute Ratel C4
+        - RedLine Stealer
+        - PlugX
+        - MoonPeak
+        - WhisperGate
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1543
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+            source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+            sourcetype: XmlWinEventLog
+deprecation_info:
+    reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+    removed_in_version: 5.4.0
+    replacement_content:
+        - Windows Suspicious Process File Path

@@ -1,6 +1,8 @@
-definition: 'type=PROCTITLE | eval normalized_proctitle_delimiter = if(type=="PROCTITLE" AND isnotnull(proctitle), if(match(proctitle,"^[0-9A-F]+$"), replace(proctitle, "000", "020"),proctitle),null())
-  | eval normalized_proctitle_delimiter  = if(type=="PROCTITLE" AND isnotnull(proctitle), if(match(normalized_proctitle_delimiter,"^[0-9A-F]+$"), replace(normalized_proctitle_delimiter, "00", "20"),normalized_proctitle_delimiter),null())
-  | eval process_exec = if(match(normalized_proctitle_delimiter,"^[0-9A-F]+$"),urldecode(replace(normalized_proctitle_delimiter,"([0-9A-F]{2})","%\1")),normalized_proctitle_delimiter)'
-description: customer specific splunk configurations to normalized auditd PROCTITLE type to recover process commandline.
-  Replace the macro definition with configurations for your Splunk Environment.
 name: linux_auditd_normalized_proctitle_process
+id: c5117ecc-4d46-4b94-b0eb-e5e64434114b
+version: 1
+creation_date: '2024-08-09'
+modification_date: '2026-05-13'
+author: Splunk Threat Research Team
+description: customer specific splunk configurations to normalized auditd PROCTITLE type to recover process commandline. Replace the macro definition with configurations for your Splunk Environment.
+definition: 'type=PROCTITLE | eval normalized_proctitle_delimiter = if(type=="PROCTITLE" AND isnotnull(proctitle), if(match(proctitle,"^[0-9A-F]+$"), replace(proctitle, "000", "020"),proctitle),null()) | eval normalized_proctitle_delimiter  = if(type=="PROCTITLE" AND isnotnull(proctitle), if(match(normalized_proctitle_delimiter,"^[0-9A-F]+$"), replace(normalized_proctitle_delimiter, "00", "20"),normalized_proctitle_delimiter),null()) | eval process_exec = if(match(normalized_proctitle_delimiter,"^[0-9A-F]+$"),urldecode(replace(normalized_proctitle_delimiter,"([0-9A-F]{2})","%\1")),normalized_proctitle_delimiter)'

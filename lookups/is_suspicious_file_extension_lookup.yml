@@ -1,9 +1,0 @@
-name: is_suspicious_file_extension_lookup
-date: 2025-12-29
-version: 3
-id: 183b3599-4fbd-4b76-bff0-9d689ed05e17
-author: Splunk Threat Research Team
-lookup_type: csv
-description: A list of suspicious extensions for email attachments
-match_type: 
-- WILDCARD(file_name)

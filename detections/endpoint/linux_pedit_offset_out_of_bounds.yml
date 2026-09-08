@@ -1,0 +1,58 @@
+name: Linux Pedit Offset Out Of Bounds
+id: 749d9bbf-cfa5-42d0-90e0-eb9300f7750a
+version: 1
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following detects a Linux kernel warning message containing "tc action pedit offset" and "out of bounds" logged to syslog, which indicates the act_pedit attempted to write past the bounds of an allocated packet buffer. This condition is associated with CVE-2026-46331, a kernel vulnerability that can be exploited via crafted pedit netlink configurations combined with page cache poisoning to achieve privilege escalation. The presence of this message on a host is a strong indicator that exploitation of this vulnerability, or triggering of the underlying vulnerable code path, has occurred.
+data_source:
+    - Linux Messages Syslog
+search: >-
+    `linux_syslog` "*tc action pedit offset*" "*out of bounds*"
+    | rename host as dest
+    | stats count min(_time) as firstTime max(_time) as lastTime by dest _raw
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_pedit_offset_out_of_bounds_filter`
+how_to_implement: To successfully implement this search, you need to have relevant kernel logs ingested with the Splunk Add-On for Unix and Linux (https://splunkbase.splunk.com/app/833).
+known_false_positives: This is generated only when the kernel's act_pedit module encounters a write outside the writable SKB region. This never occurs in normal tc pedit usage.
+references:
+    - https://tuxcare.com/blog/pedit-cow-cve/
+    - https://github.com/sgkdev/packet_edit_meme
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Out-of-bounds write by act_pedit on $dest$ indicating possible privilege escalation.
+    entity:
+        field: dest
+        type: system
+        score: 50
+analytic_story:
+    - Linux Privilege Escalation
+asset_type: Endpoint
+cve:
+    - CVE-2026-46331
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/linux_pedit/syslog.log
+          source: /var/log/kern
+          sourcetype: linux_messages_syslog
+      test_type: unit

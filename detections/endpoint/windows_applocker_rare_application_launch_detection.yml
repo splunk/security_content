@@ -1,12 +1,13 @@
 name: Windows AppLocker Rare Application Launch Detection
 id: 9556f7b7-285f-4f18-8eeb-963d989f9d27
-version: 6
-date: '2026-02-25'
+version: 7
+creation_date: '2024-04-17'
+modification_date: '2026-05-13'
 author: Michael Haag, Splunk
-data_source: []
-type: Hunting
 status: production
+type: Hunting
 description: The following analytic detects the launch of rarely used applications within the environment, which may indicate the use of potentially malicious software or tools by attackers. It leverages Windows AppLocker event logs, aggregating application launch counts over time and flagging those that significantly deviate from the norm. This behavior is significant as it helps identify unusual application activity that could signal a security threat. If confirmed malicious, this activity could allow attackers to execute unauthorized code, potentially leading to further compromise of the system.
+data_source: []
 search: |-
     `applocker`
       | spath input=UserData_Xml
@@ -22,21 +23,21 @@ known_false_positives: False positives are possible if legitimate users are laun
 references:
     - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/applocker/using-event-viewer-with-applocker
     - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/operations/querying-application-control-events-centrally-using-advanced-hunting
-tags:
-    analytic_story:
-        - Windows AppLocker
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1218
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
-    cve: []
+analytic_story:
+    - Windows AppLocker
+asset_type: Endpoint
+mitre_attack_id:
+    - T1218
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-AppLocker/MSI and Script
+      test_type: unit

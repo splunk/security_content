@@ -1,18 +1,24 @@
 name: Earth Estries
 id: 608135e2-eb6b-41bf-9f0c-b12f41a1376a
 version: 1
-date: '2025-01-27'
+creation_date: '2025-01-27'
+modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: removed
 description: Leverage searches that allow you to detect and investigate unusual activities that might relate to Earth Estries, a sophisticated threat actor targeting various sectors with espionage-focused campaigns. Monitor for indicators such as spear-phishing emails, unauthorized access attempts, and lateral movement within your network. Investigate anomalous data exfiltration patterns and command-and-control (C2) traffic consistent with known tactics, techniques, and procedures (TTPs) of this group. Combining threat intelligence with advanced monitoring tools helps identify potential Earth Estries activity early, enabling swift response to mitigate risks effectively.
 narrative: Earth Estries is a highly capable threat actor known for conducting targeted espionage campaigns against diverse sectors, including government, technology, and critical infrastructure. This group leverages sophisticated tactics such as spear-phishing, credential theft, and exploiting software vulnerabilities to gain initial access. Once inside a network, Earth Estries demonstrates expertise in lateral movement, privilege escalation, and covert data exfiltration. Their use of custom malware and command-and-control (C2) infrastructures highlights their adaptability. Detecting their activity requires robust threat intelligence and proactive monitoring of unusual behaviors and network anomalies.
 references:
-- https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
+    - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
 tags:
-  category:
-  - Malware
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    category:
+        - Malware
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    usecase: Advanced Threat Detection
+deprecation_info:
+    reason: Analytic Story has been replaced by a new analytic story with a more specific name
+    removed_in_version: 5.4.0
+    replacement_content:
+        - Salt Typhoon
