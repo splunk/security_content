@@ -1,0 +1,64 @@
+name: MCP Suspicious File Deletion
+id: 5a2b38a5-b21d-4d8e-a6a8-7adfb47f0557
+version: 2
+creation_date: '2026-06-15'
+modification_date: '2026-06-29'
+author: Adam Lin
+status: production
+type: TTP
+description: This detection identifies the deletion of security-relevant files, or anomalously high deletion volume, performed through MCP (Model Context Protocol) tool calls. An adversary who has compromised or hijacked an MCP-enabled agent can use its file system or repository tools to destroy data or remove security-relevant files such as SECURITY.md, audit and access logs, or CI and workflow configuration under .github/, achieving data destruction and defense evasion. The search monitors inbound JSON-RPC delete_file operations, matches each deleted path against the editable mcp_security_relevant_deletion_targets macro, and only surfaces hosts that either delete a security-relevant file or exceed a per-host deletion-burst threshold, so the narrowing is performed by the detection logic rather than by deferred tuning.
+data_source:
+    - MCP Server
+search: |
+    `mcp_server` direction=inbound method=delete_file
+    | eval dest=host
+    | eval target_path='params.path'
+    | eval target_repo='params.repo'
+    | eval is_security_relevant=if(match(target_path, `mcp_security_relevant_deletion_targets`), 1, 0)
+    | stats count as deletion_count min(_time) as firstTime max(_time) as lastTime values(method) as method values(target_path) as target_path values(target_repo) as target_repo max(is_security_relevant) as is_security_relevant dc(target_path) as distinct_paths by dest, source
+    | eval is_deletion_burst=if(deletion_count>=10, 1, 0)
+    | where is_security_relevant=1 OR is_deletion_burst=1
+    | eval count=deletion_count
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table dest firstTime lastTime count source method target_path target_repo is_security_relevant is_deletion_burst distinct_paths
+    | `mcp_suspicious_file_deletion_filter`
+how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk configured to ingest JSON-RPC formatted logs from MCP-enabled AI assistants and agents into the appropriate index with sourcetype mcp:jsonrpc. Ensure the TA parses the params.path and params.repo fields so the deleted file path and target repository are available. The detection narrows in-search using the editable mcp_security_relevant_deletion_targets macro (a regular expression of data-destruction and defense-evasion targets such as SECURITY.md, audit and access logs, .github/ CI configuration, and key or secret files) and a per-host deletion-burst threshold of 10 deletions. Edit the mcp_security_relevant_deletion_targets macro to reflect the security-relevant paths in your environment, and tune the threshold or allowlist expected automation in the mcp_suspicious_file_deletion_filter macro.
+known_false_positives: Legitimate cleanup, refactoring, and automated housekeeping may delete files through agent tooling. Because the base search only surfaces deletions of security-relevant paths or high-volume deletion bursts, false positives are most likely when automation is authorized to remove CI configuration or rotate key and secret files. Edit the mcp_security_relevant_deletion_targets macro to remove paths your automation legitimately manages, and tune the mcp_suspicious_file_deletion_filter macro to allowlist expected automation identities.
+references:
+    - https://github.com/Agent-Threat-Rule/agent-threat-rules
+    - https://agentthreatrule.org
+    - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest="$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$dest$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: 'A file deletion ($target_path$) was performed on $dest$ via an MCP server tool call against repository $target_repo$. Deletion of security-relevant files or high deletion volume through an agent may indicate data destruction or defense evasion.'
+    entity:
+        field: dest
+        type: system
+        score: 65
+analytic_story:
+    - Suspicious MCP Activities
+asset_type: Web Application
+mitre_attack_id:
+    - T1485
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
+          sourcetype: mcp:jsonrpc
+          source: mcp.log
+      test_type: unit
