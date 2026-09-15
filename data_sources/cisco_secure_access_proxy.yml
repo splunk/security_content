@@ -9,6 +9,9 @@ description: |
     This data source supports detection of automated web reconnaissance, suspicious browsing patterns, and policy-evasion behavior based on high-volume client errors and URL enumeration activity.
 source: cisco_cloud_security_addon
 sourcetype: cisco:cloud_security:proxy
+logsource:
+  category: proxy
+  product: cisco
 supported_TA:
     - name: Cisco Secure Access Add-on for Splunk
       url: https://splunkbase.splunk.com/app/7569

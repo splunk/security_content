@@ -328,6 +328,35 @@
          "title": "Sourcetype",
          "type": "string"
       },
+      "logsource": {
+         "additionalProperties": false,
+         "description": "Sigma logsource identifying the abstract telemetry this data source provides. At least one of category, product, or service MUST be set.",
+         "minProperties": 1,
+         "properties": {
+            "category": {
+               "description": "Sigma logsource category, such as process_creation, firewall, or dns.",
+               "title": "Category",
+               "type": "string"
+            },
+            "product": {
+               "description": "Sigma logsource product, such as windows, linux, aws, or cisco.",
+               "title": "Product",
+               "type": "string"
+            },
+            "service": {
+               "description": "Sigma logsource service, such as security, cloudtrail, or auditd.",
+               "title": "Service",
+               "type": "string"
+            },
+            "definition": {
+               "description": "Optional Sigma logsource definition with extra onboarding or scoping notes.",
+               "title": "Definition",
+               "type": "string"
+            }
+         },
+         "title": "Logsource",
+         "type": "object"
+      },
       "separator": {
          "anyOf": [
             {
@@ -444,7 +473,8 @@
       "author",
       "description",
       "source",
-      "sourcetype"
+      "sourcetype",
+      "logsource"
    ],
    "title": "DataSource",
    "type": "object"

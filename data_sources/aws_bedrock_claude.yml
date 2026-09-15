@@ -9,6 +9,8 @@ mitre_components:
     - Application Log Content
 source: aws_bedrock
 sourcetype: json_no_timestamp
+logsource:
+  product: aws
 separator: schemaType
 separator_value: ModelInvocationLog
 supported_TA:

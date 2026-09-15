@@ -7,6 +7,9 @@ author: Bhavin Patel, Splunk
 description: Captures firewall connection events from Cisco Secure Access including user identity, source and destination metadata, protocol details, and session statistics. Enables analysis of network traffic patterns, access policy enforcement, brute force attempts, and anomalous connection behavior across cloud-managed network access infrastructure.
 source: cisco_secure_access:firewall
 sourcetype: cisco:cloud_security:firewall
+logsource:
+  category: firewall
+  product: cisco
 supported_TA:
     - name: Cisco Secure Access Add-on for Splunk
       url: https://splunkbase.splunk.com/app/7569

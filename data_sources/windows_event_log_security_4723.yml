@@ -9,6 +9,9 @@ mitre_components:
     - User Account Modification
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '4723'
 supported_TA:

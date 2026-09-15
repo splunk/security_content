@@ -11,6 +11,8 @@ mitre_components:
     - Response Metadata
 source: not_applicable
 sourcetype: log4j
+logsource:
+  product: windchill
 supported_TA: []
 fields:
     - _time

@@ -9,6 +9,9 @@ description: |
     This data source supports detections that correlate user or host activity with high-risk categories such as proxy and anonymizer infrastructure.
 source: not_applicable
 sourcetype: cisco:cloud_security:dns
+logsource:
+  category: dns
+  product: cisco
 supported_TA:
     - name: Cisco Secure Access Add-on for Splunk
       url: https://splunkbase.splunk.com/app/7569

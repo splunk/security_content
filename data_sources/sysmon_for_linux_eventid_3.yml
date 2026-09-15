@@ -13,6 +13,9 @@ mitre_components:
     - OS API Execution
 source: Syslog:Linux-Sysmon/Operational
 sourcetype: sysmon:linux
+logsource:
+  category: network_connection
+  product: linux
 separator: EventID
 separator_value: '3'
 supported_TA:

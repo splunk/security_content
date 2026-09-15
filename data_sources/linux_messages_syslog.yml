@@ -12,6 +12,9 @@ mitre_components:
     - Application Log Content
 source: /var/log/kern
 sourcetype: linux_messages_syslog
+logsource:
+  product: linux
+  service: syslog
 supported_TA:
     - name: Splunk Add-on for Unix and Linux
       url: https://splunkbase.splunk.com/app/833

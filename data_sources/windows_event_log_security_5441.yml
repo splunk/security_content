@@ -11,6 +11,9 @@ mitre_components:
     - Application Log Content
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
+logsource:
+  product: windows
+  service: security
 separator: EventCode
 separator_value: '5441'
 configuration: Enable the Audit Filtering Platform Policy Change subcategory to collect Windows Filtering Platform policy events.
