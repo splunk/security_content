@@ -6,7 +6,8 @@ modification_date: '2026-09-18'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
-description: Utility osascript on a macOS device initiated a network connection lasting longer than 10 minutes. Adversaries may abuse osascript and AppleScript shell execution to establish long-lived command-and-control or remote connections.
+description: |-
+    Utility osascript on a macOS device initiated a network connection lasting longer than 10 minutes. Adversaries may abuse osascript and AppleScript shell execution to establish long-lived command-and-control or remote connections.
 data_source:
     - Cisco Network Visibility Module Flow Data
 search: |-
@@ -16,7 +17,6 @@ search: |-
            StartTimeAsUnix=tonumber(fsms),
            EndTimeAsUnix=tonumber(fems),
            duration_minutes=round((EndTimeAsUnix-StartTimeAsUnix)/60000,2)
-
     | where (
             ParentImage="osascript"
             OR like(ParentPath,"%/osascript")
@@ -24,7 +24,6 @@ search: |-
         AND isnotnull(StartTimeAsUnix)
         AND isnotnull(EndTimeAsUnix)
         AND EndTimeAsUnix > StartTimeAsUnix + 600000
-
     | stats count
         min(StartTimeAsUnix) as firstTime
         max(EndTimeAsUnix) as lastTime
@@ -36,19 +35,14 @@ search: |-
         values(dest) as dest
         values(dh) as dest_hostname
         values(dp) as dest_port
-        by host src udid
-
+        by src udid dest dh dp ppn pppath ppath
     | eval firstTime=firstTime/1000,
            lastTime=lastTime/1000
-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-
-    | table firstTime lastTime host src udid dest dest_hostname dest_port duration_minutes parent_process_name parent_process_path parent_process_arguments process_path
-
+    | table firstTime lastTime src udid dest dest_hostname dest_port duration_minutes parent_process_name parent_process_path parent_process_arguments process_path
     | `macos_osascript_long_lived_connection_to_remote_host_filter`
 how_to_implement: |-
-    how_to_implement: |-
     This detection requires Cisco Network Visibility Module flow data ingested through the Cisco Endpoint Security Analytics Add-on for Splunk. The `cisco_network_visibility_module_flowdata` macro must be configured for the local index, source, and sourcetype. The search uses the raw NVM fields `fsms` and `fems`, which may also be aliased as `flow_start_msec` and `flow_end_msec`.
 known_false_positives: |-
     Legitimate administrative scripting, automation, software deployment, or support workflows that use osascript for long-running network operations.
@@ -58,6 +52,15 @@ references:
     - https://attack.mitre.org/techniques/T1059/002/
     - https://attack.mitre.org/techniques/T1059/004/
     - https://www.loobins.io/binaries/osascript/
+drilldown_searches:
+    - name: View detection results for "$src$" and "$dest$"
+      search: '%original_detection_search% | search src="$src$" dest="$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for "$src$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 intermediate_findings:
     entities:
         - field: src
@@ -65,8 +68,8 @@ intermediate_findings:
           score: 20
           message: The macOS host $src$ used $parent_process_name$ to initiate a network connection to $dest_hostname$ lasting $duration_minutes$ minutes.
 threat_objects:
-        - field: parent_process_name
-          type: process_name
+    - field: parent_process_name
+      type: process_name
 analytic_story:
     - Cisco Network Visibility Module Analytics
 asset_type: Endpoint
