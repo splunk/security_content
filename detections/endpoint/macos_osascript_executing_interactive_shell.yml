@@ -1,0 +1,78 @@
+name: MacOS Osascript Executing Interactive Shell
+id: 01168215-d1c7-4a37-8bd3-c5b64664c947
+version: 1
+creation_date: '2026-09-18'
+modification_date: '2026-09-18'
+author: Radka Viskova, Splunk
+status: production
+type: Anomaly
+description: This analytic detects the macOS osascript utility being used with an interactive Bash invocation, identified by the presence of "bash -i" in the command line. Adversaries may abuse osascript and AppleScript's shell execution capabilities to launch interactive shells, establish remote access, or execute post-exploitation commands.
+data_source:
+    - Osquery Results
+search: |-
+    | tstats `security_content_summariesonly`
+        count
+        min(_time) as firstTime
+        max(_time) as lastTime
+        from datamodel=Endpoint.Processes
+        where Processes.process_name="osascript"
+            AND Processes.process="*bash -i*"
+        by Processes.dest
+           Processes.user
+           Processes.process_name
+           Processes.process
+           Processes.process_id
+           Processes.parent_process_id
+           Processes.original_file_name
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `macos_osascript_executing_interactive_shell_filter`
+how_to_implement: |-
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: |-
+    Legitimate administrative scripts, MDM workflows, software deployment tools, developer automation, or support utilities may use osascript to invoke an interactive shell.
+references:
+    - https://attack.mitre.org/tactics/TA0002/
+    - https://attack.mitre.org/techniques/T1059/002/
+    - https://attack.mitre.org/techniques/T1059/004/
+    - https://redcanary.com/threat-detection-report/techniques/applescript/
+    - https://www.loobins.io/binaries/osascript/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 30
+          message: The osascript utility on $dest$ was observed with an interactive Bash command line - $process$
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - MacOS Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.002
+    - T1059.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/27c7487eb1c1f2aa805c1b7b898a92bb15db73f2/datasets/attack_techniques/T1059.002/osascript_spawns_shell_process/osascript_spawns_shell_process.log
+          source: osquery
+          sourcetype: osquery:results
+      test_type: unit
