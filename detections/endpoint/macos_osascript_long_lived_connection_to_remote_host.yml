@@ -6,8 +6,7 @@ modification_date: '2026-09-18'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
-description: |-
-    Utility osascript on a macOS device initiated a network connection lasting longer than 10 minutes. Adversaries may abuse osascript and AppleScript shell execution to establish long-lived command-and-control or remote connections.
+description: Utility osascript on a macOS device initiated a network connection lasting longer than 10 minutes. Adversaries may abuse osascript and AppleScript shell execution to establish long-lived command-and-control or remote connections.
 data_source:
     - Cisco Network Visibility Module Flow Data
 search: |-
