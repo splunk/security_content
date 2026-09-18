@@ -31,7 +31,6 @@ search: |-
         values(pppath) as parent_process_path
         values(pparg) as parent_process_arguments
         values(ppath) as process_path
-        values(dest) as dest
         values(dh) as dest_hostname
         values(dp) as dest_port
         by src udid dest dh dp ppn pppath ppath
