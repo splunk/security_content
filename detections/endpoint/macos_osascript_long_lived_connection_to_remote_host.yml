@@ -58,6 +58,15 @@ references:
     - https://attack.mitre.org/techniques/T1059/002/
     - https://attack.mitre.org/techniques/T1059/004/
     - https://www.loobins.io/binaries/osascript/
+intermediate_findings:
+    entities:
+        - field: src
+          type: system
+          score: 20
+          message: The macOS host $src$ used $parent_process_name$ to initiate a network connection to $dest_hostname$ lasting $duration_minutes$ minutes.
+threat_objects:
+        - field: parent_process_name
+          type: process_name
 analytic_story:
     - Cisco Network Visibility Module Analytics
 asset_type: Endpoint
@@ -70,15 +79,6 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-intermediate_findings:
-    entities:
-        - field: src
-          type: system
-          score: 20
-          message: The macOS host $src$ used $parent_process_name$ to initiate a network connection to $dest_hostname$ lasting $duration_minutes$ minutes.
-threat_objects:
-        - field: parent_process_name
-          type: process_name
 tests:
     - name: True Positive Test
       attack_data:
