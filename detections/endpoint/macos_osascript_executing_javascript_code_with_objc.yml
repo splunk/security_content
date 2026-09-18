@@ -6,8 +6,7 @@ modification_date: '2026-09-18'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
-description: This analytic detects the macOS osascript utility executing JavaScript for Automation (JXA) code, identified by the "-l JavaScript" interpreter flag, with references to the Objective-C bridge.
-    Adversaries may abuse JXA and Objective-C APIs to interact with macOS applications, access native system functionality, execute commands, or perform post-exploitation activity.
+description: This analytic detects the macOS osascript utility executing JavaScript for Automation (JXA) code, identified by the "-l JavaScript" interpreter flag, with references to the Objective-C bridge. Adversaries may abuse JXA and Objective-C APIs to interact with macOS applications, access native system functionality, execute commands, or perform post-exploitation activity.
 data_source:
     - Osquery Results
 search: |-
