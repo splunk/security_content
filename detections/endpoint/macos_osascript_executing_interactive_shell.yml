@@ -15,13 +15,14 @@ data_source:
     - Osquery Results
 search: |-
     | tstats `security_content_summariesonly`
-    count min(_time) as firstTime
-          max(_time) as lastTime
+      count min(_time) as firstTime
+            max(_time) as lastTime
 
     FROM datamodel=Endpoint.Processes WHERE
 
     Processes.process_name="osascript"
-    Processes.process="*bash -i*"
+    Processes.process="*bash *"
+    Processes.process="* -i*"
 
     BY Processes.action Processes.dest Processes.parent_process Processes.parent_process_exec
         Processes.parent_process_guid Processes.parent_process_id
