@@ -1,8 +1,8 @@
 name: Log4Shell JNDI Payload Injection Attempt
 id: c184f12e-5c90-11ec-bf1f-497c9a704a72
-version: 9
+version: 10
 creation_date: '2021-12-13'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Jose Hernandez
 status: production
 type: Anomaly
@@ -38,6 +38,11 @@ intermediate_findings:
           type: system
           score: 20
           message: CVE-2021-44228 Log4Shell triggered for host $dest$
+threat_objects:
+    - field: http_user_agent
+      type: http_user_agent
+    - field: url
+      type: url
 analytic_story:
     - Log4Shell CVE-2021-44228
     - CISA AA22-257A
