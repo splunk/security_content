@@ -13,7 +13,7 @@ description: |-
 data_source:
     - Cisco Network Visibility Module Flow Data
 search: |-
-    `cisco_network_visibility_module_flowdata`  
+    `cisco_network_visibility_module_flowdata`
       (parent_process_name="osascript" OR process_name="osascript")
     | eval duration=fes-fss
     | where duration>600
@@ -60,7 +60,7 @@ intermediate_findings:
         - field: src
           type: system
           score: 20
-          message: The macOS host $src$ used $parent_process_name$ to initiate a network connection to $dest$ lasting $duration$ minutes.
+          message: The macOS host [$src$] used [$parent_process_name$] to initiate a network connection to [$dest$] lasting [$duration$] minutes.
 threat_objects:
     - field: parent_process_name
       type: process_name
