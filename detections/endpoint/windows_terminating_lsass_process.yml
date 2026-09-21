@@ -55,7 +55,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A process [$SourceImage$] requested PROCESS_TERMINATE access [$GrantedAccess$] to Lsass.exe on [$dest$].
+          message: A process [$SourceImage$] requested PROCESS_TERMINATE access [$granted_access$] to Lsass.exe on [$dest$].
 threat_objects:
     - field: TargetImage
       type: file_path

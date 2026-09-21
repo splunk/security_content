@@ -87,7 +87,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: The process [$SourceImage$] requested a potentially malicious process injection related access mask  [$GrantedAccess$] to [$TargetImage$] on [$dest$].
+          message: The process [$SourceImage$] requested a potentially malicious process injection related access mask  [$granted_access$] to [$TargetImage$] on [$dest$].
 threat_objects:
     - field: SourceImage
       type: file_path

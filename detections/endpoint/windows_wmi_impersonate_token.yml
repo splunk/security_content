@@ -67,7 +67,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: The [$SourceImage$] requested the access mask [$GrantedAccess$] from [$TargetImage$] on [$dest$]. This may indicate WMI token impersonation.
+          message: The [$SourceImage$] requested the access mask [$granted_access$] from [$TargetImage$] on [$dest$]. This may indicate WMI token impersonation.
 threat_objects:
     - field: SourceImage
       type: file_path
