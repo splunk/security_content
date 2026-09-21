@@ -50,7 +50,7 @@ tests:
           sourcetype: XmlWinEventLog
       test_type: unit
 deprecation_info:
-    reason: Detection deprecated as it is inacurate. WinRing0x64.sys is not related to XMRIG. It is a driver that is used to access the hardware ring0.
+    reason: Detection deprecated as it is inaccurate. WinRing0x64.sys is not related to XMRIG. It is a driver that is used to access the hardware ring0.
     removed_in_version: 6.10.0
     replacement_content:
         - Windows Vulnerable Driver Installed
