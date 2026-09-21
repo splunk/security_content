@@ -73,7 +73,7 @@ intermediate_findings:
         - field: src
           type: system
           score: 20
-          message: The macOS host [$src$] used the Osascript utility with the command line [$process$] and a parent process [$parent_process_name$] to initiate a network connection to [$dest$] lasting [$duration$] minutes.
+          message: The macOS host [$src$] used the Osascript utility with the command line [$process$] and a parent process [$parent_process_name$] to initiate a network connection to [$dest$] lasting [$duration$].
 threat_objects:
     - field: parent_process_name
       type: process_name

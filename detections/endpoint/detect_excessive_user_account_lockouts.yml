@@ -1,26 +1,53 @@
 name: Detect Excessive User Account Lockouts
 id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
-version: 15
+version: 16
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
-author: David Dorsey, Splunk
+modification_date: '2026-09-08'
+author: David Dorsey, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies user accounts experiencing an excessive number of lockouts within a short timeframe. It leverages the 'Change' data model, specifically focusing on events where the result indicates a lockout. This activity is significant as it may indicate a brute-force attack or misconfiguration, both of which require immediate attention. If confirmed malicious, this behavior could lead to account compromise, unauthorized access, and potential lateral movement within the network.
-data_source: []
+description: |-
+    The following analytic identifies user accounts experiencing more than 5 account lockouts within a 5-minute time window.
+    It leverages the 'Change' data model and groups account lockout events into 5-minute time buckets to identify a high frequency of lockouts associated with the same user and destination.
+    This activity may indicate password spraying, brute-force activity, or repeated authentication attempts using invalid or outdated credentials.
+    If confirmed malicious, this behavior may indicate an attempt to gain unauthorized access to user accounts and could precede further compromise or lateral movement within the environment.
+data_source:
+    - Windows Event Log Security 4740
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
-      WHERE All_Changes.result="*lock*"
-      BY All_Changes.user All_Changes.result
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+            values(All_Changes.result) as "Result"
+            values(All_Changes.action) as "Action"
+            values(All_Changes.object_category) as "Object Category"
+
+    FROM datamodel=Change.All_Changes WHERE
+
+    All_Changes.action="lockout"
+
+    BY _time span=5m
+       All_Changes.dest All_Changes.user
+
     | `drop_dm_object_name("All_Changes")`
     | `drop_dm_object_name("Account_Management")`
+
+    | eval lockout_count = 5
+    | where count > lockout_count
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | search count > 5
     | `detect_excessive_user_account_lockouts_filter`
-how_to_implement: ou must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment.
-known_false_positives: It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.
-references: []
+how_to_implement: |-
+    You must ingest your Windows Security Event Logs or similar data into the Change data model under the Account_Management node for this search to execute successfully.
+    The detection triggers when more than 5 account lockouts for the same user and destination occur within a 5-minute time bucket.
+    The lockout threshold and time window can be adjusted based on the authentication patterns and account-management practices in your environment.
+known_false_positives: |-
+    Legitimate users may generate multiple account lockouts after repeatedly entering an incorrect password.
+    False positives may also occur when pre-configured accounts continue attempting authentication with outdated stored credentials after a password change. This can commonly occur with credentials configured for printers, network shares, services, scheduled tasks, applications, mapped drives, or other systems that automatically authenticate on behalf of a user.
+references:
+    - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4740
+    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/account-lockout-threshold
+    - https://techcommunity.microsoft.com/blog/microsoft-security-baselines/configuring-account-lockout/701040/
 drilldown_searches:
     - name: View the detection results for - "$user$"
       search: '%original_detection_search% | search  user = "$user$"'
@@ -35,7 +62,7 @@ intermediate_findings:
         - field: user
           type: user
           score: 20
-          message: Excessive user account lockouts for $user$ in a short period of time
+          message: User [$user$] experienced more than [$lockout_count$] account lockouts within a 5-minute time window.
 analytic_story:
     - Active Directory Password Spraying
     - Scattered Lapsus$ Hunters

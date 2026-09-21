@@ -1,30 +1,56 @@
 name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
-version: 14
+version: 15
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Rico Valdez, Splunk
 status: production
-type: TTP
-description: The following analytic detects instances where network traffic, identified by port and transport layer protocol as prohibited in the "lookup_interesting_ports" table, is allowed. It uses the Network_Traffic data model to cross-reference traffic data against predefined security policies. This activity is significant for a SOC as it highlights potential misconfigurations or policy violations that could lead to unauthorized access or data exfiltration. If confirmed malicious, this could allow attackers to bypass network defenses, leading to potential data breaches and compromising the organization's security posture.
+type: Anomaly
+description: |-
+    The following analytic detects instances where network traffic, identified by port and transport layer protocol as prohibited in the "lookup_interesting_ports" table, is allowed.
+    It uses the Network_Traffic data model to cross-reference traffic data against predefined security policies.
+    This activity is significant for a SOC as it highlights potential misconfigurations or policy violations that could lead to unauthorized access or data exfiltration.
+    If confirmed malicious, this could allow attackers to bypass network defenses, leading to potential data breaches and compromising the organization's security posture.
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Traffic
-      WHERE All_Traffic.action IN ("allowed", "allow") [
-    | inputlookup interesting_ports_lookup where is_prohibited="true"
-    | table dest_port transport
-    | dedup dest_port transport
-    | rename dest_port as All_Traffic.dest_port
-    | rename transport as All_Traffic.transport] by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action All_Traffic.dvc All_Traffic.src_port All_Traffic.vendor_product All_Traffic.rule
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+            values(All_Traffic.src_port) as src_port
+            values(All_Traffic.action) as action
+            values(All_Traffic.rule) as rule
+
+    FROM datamodel=Network_Traffic WHERE
+
+    All_Traffic.action IN ("allowed", "allow")
+    [
+        | inputlookup interesting_ports_lookup where is_prohibited="true"
+        | table dest_port transport
+        | dedup dest_port transport
+        | rename dest_port as All_Traffic.dest_port
+        | rename transport as All_Traffic.transport
+    ]
+
+    by All_Traffic.src_ip All_Traffic.dest_ip
+       All_Traffic.dest_port All_Traffic.dvc
+       All_Traffic.vendor_product
+
     | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port transport as All_Traffic.transport OUTPUT app is_prohibited note
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `drop_dm_object_name("All_Traffic")`
     | `prohibited_network_traffic_allowed_filter`
-how_to_implement: In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an 'action' taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
-known_false_positives: No false positives have been identified at this time.
-references: []
+how_to_implement: |-
+    In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment.
+    This is necessary so that the search can identify an 'action' taken on the traffic of interest.
+    The search also requires the Network_Traffic data model be populated.
+known_false_positives: |-
+    The "interesting_ports_lookup" lookup considers communication to ports like 20, 21 for FTP, 23 for Telnet, 110 for POP3, etc. as prohibited traffic. Which may result in a lot of alerts in certain environments that still rely on these ports for legitimate traffic. Tune as needed.
+references:
+    - https://securityscorecard.com/blog/ftp-security-risks/
+    - https://secoraconsulting.com/blog/telnet-security-risks/
 drilldown_searches:
     - name: View the detection results for - "$src_ip$"
       search: '%original_detection_search% | search  src_ip = "$src_ip$"'
@@ -34,12 +60,12 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: Potentially Prohibited Network Traffic allowed from $src_ip$
-    entity:
-        field: src_ip
-        type: system
-        score: 50
+intermediate_findings:
+    entities:
+        - field: src_ip
+          type: system
+          score: 20
+          message: Potentially Prohibited Network Traffic on Port [$dest_port$] via Protocol [$transport$] allowed from [$src_ip$].
 threat_objects:
     - field: dest_ip
       type: ip_address
@@ -57,13 +83,10 @@ product:
     - Splunk Cloud
 category: network
 security_domain: network
-baselines:
-    - Count of Unique IPs Connecting to Ports
 tests:
     - name: Cisco Secure Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
-      description: PORTED MANUAL TEST - This detection uses a builtin lookup from Enterprise Security.
-      test_type: experimental
+      test_type: unit

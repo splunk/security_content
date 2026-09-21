@@ -28,16 +28,24 @@ search: |-
     )
     Processes.process="*js"
     Processes.process_path IN (
-        "*:\\Users\\*",
         "*:\\PerfLogs\\*",
         "*:\\ProgramData\\*",
-        "*:\\Temp\\*")
-    NOT Processes.process_path IN (
-        "*\\AppData\\Local\\*",
-        "*\\AppData\\Roaming\\*",
-        "*\\node\\*",
-        "*\\nodejs\\*",
-        "*\\nvm\\*"
+        "*:\\Temp\\*",
+        "*:\\Users\\*"
+    )
+    (
+        NOT Processes.process_path IN (
+            "*\\AppData\\Roaming\\*",
+            "*\\node\\*",
+            "*\\nodejs\\*",
+            "*\\nvm\\*"
+        )
+        AND
+        (
+            NOT Processes.process_path = "*\\AppData\\Local\\*"
+            OR
+            Processes.process_path = "*\\AppData\\Local\\Temp\\*"
+        )
     )
 
     by Processes.action Processes.dest Processes.original_file_name

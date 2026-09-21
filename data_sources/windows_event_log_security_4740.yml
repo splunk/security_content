@@ -1,0 +1,97 @@
+name: Windows Event Log Security 4740
+id: 387936fa-efa9-425d-9f1b-487425250ea9
+version: 1
+creation_date: '2026-09-08'
+modification_date: '2026-09-08'
+author: Nasreddine Bencherchali, Splunk
+description: Logs when a user account is locked out. It includes details about the account that was locked out, the subject, and additional information.
+mitre_components:
+    - User Account Metadata
+source: XmlWinEventLog:Security
+sourcetype: XmlWinEventLog
+separator: EventCode
+separator_value: '4740'
+supported_TA:
+    - name: Splunk Add-on for Microsoft Windows
+      url: https://splunkbase.splunk.com/app/742
+      version: 11.0.2
+fields:
+    - _time
+    - action
+    - app
+    - Caller_Domain
+    - Caller_User_Name
+    - Category
+    - change_type
+    - Channel
+    - Computer
+    - dest
+    - dest_nt_domain
+    - dvc
+    - dvc_nt_host
+    - Error_Code
+    - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - eventtype
+    - Guid
+    - host
+    - id
+    - Keywords
+    - Level
+    - linecount
+    - Logon_ID
+    - name
+    - Name
+    - object
+    - object_attrs
+    - object_category
+    - Opcode
+    - ProcessID
+    - product
+    - punct
+    - Record
+    - result
+    - session_id
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - src_nt_domain
+    - src_subject_user_id
+    - src_user
+    - src_user_name
+    - status
+    - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
+    - ta_windows_action
+    - ta_windows_security_Category
+    - tag
+    - tag::eventtype
+    - Target_User_Name
+    - TargetSid
+    - TargetUserName
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - user
+    - user_group
+    - user_name
+    - vendor
+    - vendor_product
+    - Version
+output_fields:
+    - dest
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4740</EventID><Version>0</Version><Level>0</Level><Task>13824</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2024-02-02T00:44:42.720147400Z'/><EventRecordID>394306</EventRecordID><Correlation/><Execution ProcessID='600' ThreadID='752'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='TargetUserName'>test</Data><Data Name='TargetDomainName'></Data><Data Name='TargetSid'>ATTACKRANGE\test</Data><Data Name='SubjectUserSid'>NT AUTHORITY\SYSTEM</Data><Data Name='SubjectUserName'>AR-WIN-DC$</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x3e7</Data></EventData></Event>
