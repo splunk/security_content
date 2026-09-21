@@ -1,4 +1,4 @@
-name: Windows Finger.exe Connecting Remote Host
+name: Windows Finger.exe Connecting to a Remote Host
 id: 86a5686a-7bc4-469c-9f88-2620279ede6e
 version: 1
 creation_date: '2026-09-16'
@@ -7,11 +7,9 @@ author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic identifies `cmd.exe` spawning `finger.exe` with a command line containing an `@` character,
-    indicating a remote host/server was specified. The Finger protocol utility is largely obsolete in modern environments
-    and has been abused by adversaries as a living-off-the-land binary (LOLBIN) to retrieve encoded payloads or establish
-    covert command-and-control communication with an attacker-controlled finger server. This behavior is uncommon in
-    legitimate enterprise usage and warrants investigation.
+    The following analytic identifies the `finger.exe` utility being spawned with a command line containing an `@` character, indicating a remote host/server was specified.
+    The Finger protocol utility is largely obsolete in modern environments and has been abused by adversaries as a living-off-the-land binary (LOLBIN) to retrieve encoded payloads or establish covert command-and-control communication with an attacker-controlled finger server.
+    This behavior is uncommon in legitimate enterprise usage and warrants investigation.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -20,9 +18,15 @@ search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE Processes.process_name="finger.exe"
+    FROM datamodel=Endpoint.Processes WHERE
+
+    (
+        Processes.process_name="finger.exe"
+        OR
+        Processes.original_file_name="finger.exe"
+    )
     Processes.process="*@*"
+
     by Processes.action Processes.dest Processes.original_file_name
        Processes.parent_process Processes.parent_process_exec
        Processes.parent_process_guid Processes.parent_process_id
@@ -32,10 +36,11 @@ search: |-
        Processes.process_integrity_level Processes.process_name
        Processes.process_path Processes.user Processes.user_id
        Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_finger_exe_connecting_remote_host_filter`
+    | `windows_finger_exe_connecting_to_a_remote_host_filter`
 how_to_implement: |-
     The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are
     designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this
@@ -57,7 +62,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: '0'
 finding:
-    title: Finger.exe was used to connect to a remote host from [$dest$]
+    title: The [$process_path$] utility was used to connect to a remote host via the Command Line [$process$] from [$dest$]
     entity:
         field: dest
         type: system

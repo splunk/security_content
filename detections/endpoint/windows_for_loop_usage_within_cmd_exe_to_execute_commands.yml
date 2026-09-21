@@ -5,26 +5,30 @@ creation_date: '2026-09-16'
 modification_date: '2026-09-16'
 author: Onur Mustafa Erdogan, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
-    The following analytic identifies the use of a `for /f` loop with the `delims=` option within `cmd.exe`,
-    a technique commonly used to parse and extract data from the output of other commands. Adversaries and
-    malicious scripts leverage this pattern to programmatically process command output for discovery, data
-    extraction, or execution purposes while evading simpler detection logic.
+    The following analytic identifies the use of a `for /f` loop with the `delims=` option within `cmd.exe`, a technique commonly used to parse and extract data from the output of other commands.
+    Adversaries and malicious scripts leverage this pattern to programmatically process command output for discovery, data extraction, or execution purposes while evading simpler detection logic.
 data_source:
     - Sysmon EventID 1
-    - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE Processes.parent_process="*for /f*"
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.parent_process="*for /f*"
     Processes.parent_process="*delims=*"
-    NOT Processes.user=SYSTEM
-    NOT Processes.user=*$
-    AND NOT Processes.parent_process IN ("*__VIARelease*", "*:\\Program Files\\Microsoft SQL Server\\*", "*^| findstr *")
+    NOT Processes.user="SYSTEM"
+    NOT Processes.user="*$"
+    NOT Processes.parent_process IN (
+        "*__VIARelease*",
+        "*:\\Program Files\\Microsoft SQL Server\\*",
+        "*^| findstr *"
+    )
+
     by Processes.action Processes.dest Processes.original_file_name
        Processes.parent_process Processes.parent_process_exec
        Processes.parent_process_guid Processes.parent_process_id
@@ -34,6 +38,7 @@ search: |-
        Processes.process_integrity_level Processes.process_name
        Processes.process_path Processes.user Processes.user_id
        Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -46,7 +51,8 @@ how_to_implement: |-
     must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product.
     The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk
     Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Administrators or power users may use `for /f` loops with `delims=` in legitimate scripts for automation or troubleshooting purposes.
+known_false_positives: |-
+    Administrators or power users may use `for /f` loops with `delims=` in legitimate scripts for automation or troubleshooting purposes.
 references:
     - https://packetwatch.com/resources/threat-profile/clickfix-abuses-finger-to-deliver-castleloader
 drilldown_searches:
@@ -58,12 +64,12 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: '0'
-finding:
-    title: For loop was executed to spawn [$process$] on [$dest$]
-    entity:
-        field: dest
-        type: system
-        score: 50
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: The [$process_name$] utility was invoked with a For loop via the Command Line [$process$] on [$dest$].
 threat_objects:
     - field: process
       type: process

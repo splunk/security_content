@@ -7,10 +7,9 @@ author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic identifies a process command line referencing the IronLanguages GitHub repository, which hosts
-    .NET implementation of popular scripting engines. Adversaries have downloaded these .NET implementations to avoid getting
-    detected by security controls while executing their payloads. This activity is uncommon in typical enterprise environments
-    outside of software development contexts.
+    The following analytic identifies a process command line referencing the IronLanguages GitHub repository, which hosts .NET implementation of popular scripting engines.
+    Adversaries have downloaded these .NET implementations to avoid getting detected by security controls while executing their payloads.
+    This activity is uncommon in typical enterprise environments outside of software development contexts.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -19,9 +18,11 @@ search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE Processes.process="*/ironlanguages/*"
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process="*/ironlanguages/*"
     Processes.process="*github.com*"
+
     by Processes.action Processes.dest Processes.original_file_name
        Processes.parent_process Processes.parent_process_exec
        Processes.parent_process_guid Processes.parent_process_id
@@ -31,6 +32,7 @@ search: |-
        Processes.process_integrity_level Processes.process_name
        Processes.process_path Processes.user Processes.user_id
        Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -43,7 +45,9 @@ how_to_implement: |-
     Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node
     of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and
     speed up the data modeling process.
-known_false_positives: Software developers or DevOps personnel may legitimately clone or download the IronPython repository from GitHub for development purposes. Filter as needed based on known developer hosts or users in your environment.
+known_false_positives: |-
+    Software developers or DevOps personnel may legitimately clone or download the IronPython repository from GitHub for development purposes.
+    Filter as needed based on known developer hosts or users in your environment.
 references:
     - https://packetwatch.com/resources/threat-profile/clickfix-abuses-finger-to-deliver-castleloader
     - https://github.com/IronLanguages/ironpython3
@@ -60,8 +64,8 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 30
-          message: Process [$process$] accessed the IronLanguages GitHub repository on [$dest$]
+          score: 20
+          message: The Process [$process_name$] with the Command Line [$process$] accessed the IronLanguages GitHub repository on [$dest$].
 threat_objects:
     - field: process
       type: process

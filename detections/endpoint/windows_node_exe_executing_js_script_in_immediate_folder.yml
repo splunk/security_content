@@ -7,23 +7,39 @@ author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic identifies `node.exe` directly executing a single `.js` script located in the same
-    directory it was launched from, where that directory is an unusual location such as a user profile, PerfLogs,
-    ProgramData, or Temp folder. Legitimate Node.js application, module, and package manager directories are
-    excluded. This pattern is commonly associated with malware loaders and second-stage payloads that leverage
-    the Node.js runtime to execute JavaScript outside of a typical development or application context.
+    The following analytic identifies `node.exe` directly executing a single `.js` script located in the same directory it was launched from, where that directory is an unusual location such as a user profile, PerfLogs, ProgramData, or Temp folder.
+    Legitimate Node.js application, module, and package manager directories are excluded.
+    This pattern is commonly associated with malware loaders and second-stage payloads that leverage the Node.js runtime to execute JavaScript outside of a typical development or application context.
 data_source:
     - Sysmon EventID 1
+    - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE Processes.process_name="node.exe"
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    (
+        Processes.process_name="node.exe"
+        OR
+        Processes.original_file_name="node.exe"
+    )
     Processes.process="*js"
-    Processes.process_path IN ("*:\\users\\*", "*:\\perflogs\\*", "*:\\programdata\\*", "*:\\temp\\*")
-    NOT Processes.process_path IN ("*\\appdata\\local\\*", "*\\appdata\\roaming\\*", "*\\node\\*", "*\\nodejs\\*", "*\\nvm\\*")
+    Processes.process_path IN (
+        "*:\\Users\\*",
+        "*:\\PerfLogs\\*",
+        "*:\\ProgramData\\*",
+        "*:\\Temp\\*")
+    NOT Processes.process_path IN (
+        "*\\AppData\\Local\\*",
+        "*\\AppData\\Roaming\\*",
+        "*\\node\\*",
+        "*\\nodejs\\*",
+        "*\\nvm\\*"
+    )
+
     by Processes.action Processes.dest Processes.original_file_name
        Processes.parent_process Processes.parent_process_exec
        Processes.parent_process_guid Processes.parent_process_id
@@ -33,12 +49,15 @@ search: |-
        Processes.process_integrity_level Processes.process_name
        Processes.process_path Processes.user Processes.user_id
        Processes.process_current_directory Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
+
     | eval process_args=split(process, " ")
     | eval script_name=mvindex(process_args, 1)
     | eval process_args_count=mvcount(process_args)
     | regex script_name="(?i)^[^\\\/]+\.js$"
     | where like(process_path, process_current_directory.process_name) AND process_args_count=2
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_node_exe_executing_js_script_in_immediate_folder_filter`
@@ -67,7 +86,7 @@ finding:
     entity:
         field: dest
         type: system
-        score: 60
+        score: 50
 threat_objects:
     - field: process
       type: process
