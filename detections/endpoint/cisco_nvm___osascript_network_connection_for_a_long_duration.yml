@@ -7,26 +7,39 @@ author: Radka Viskova, Splunk
 status: production
 type: Anomaly
 description: |-
-    Utility osascript on a macOS device initiated a network connection lasting longer than 10 minutes.
-    Adversaries may abuse osascript and AppleScript shell execution to establish long-lived command-and-control
-    or remote connections.
+    This analytic detects the usage of the Utility osascript on a macOS device initiated a network connection lasting longer than 10 minutes (600 seconds).
+    Adversaries may abuse osascript and AppleScript shell execution to establish long-lived command-and-control or remote connections.
 data_source:
     - Cisco Network Visibility Module Flow Data
 search: |-
     `cisco_network_visibility_module_flowdata`
-      (parent_process_name="osascript" OR process_name="osascript")
+    (
+        parent_process_name="osascript"
+        OR
+        process_name="osascript"
+    )
+
+    ```
+    FSS stands for Flow Start Seconds
+    FES stands for Flow End Seconds
+    ```
     | eval duration=fes-fss
+
     | where duration>600
-    | stats count min(_time) as firstTime max(_time) as lastTime
-      values(parent_process_hash) as parent_process_hash
-      values(process_hash) as process_hash
-      values(dest_port) as dest_port
-      values(dest_hostname) as dest_hostname
-      values(http_method) as http_method
-      by src dest transport parent_process_path parent_process_name
-        parent_process parent_process_id process_path process_name
-        process process_id user duration
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(parent_process_hash) as parent_process_hash
+                  values(process_hash) as process_hash
+                  values(dest_port) as dest_port
+                  values(dest_hostname) as dest_hostname
+                  values(http_method) as http_method
+    by src dest transport parent_process_path parent_process_name
+       parent_process parent_process_id process_path process_name
+       process process_id user duration
+
     | eval duration=tostring(duration)." seconds"
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_nvm___osascript_network_connection_for_a_long_duration_filter`
@@ -60,7 +73,7 @@ intermediate_findings:
         - field: src
           type: system
           score: 20
-          message: The macOS host [$src$] used [$parent_process_name$] to initiate a network connection to [$dest$] lasting [$duration$] minutes.
+          message: The macOS host [$src$] used the Osascript utility with the command line [$process$] and a parent process [$parent_process_name$] to initiate a network connection to [$dest$] lasting [$duration$] minutes.
 threat_objects:
     - field: parent_process_name
       type: process_name
