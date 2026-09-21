@@ -1,8 +1,8 @@
 name: CrushFTP Max Simultaneous Users From IP
 id: 75dfd9f4-ca64-45d0-9422-4bde6d26a59e
-version: 5
+version: 6
 creation_date: '2025-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -31,6 +31,9 @@ intermediate_findings:
           type: system
           score: 20
           message: Potential brute force or automated attack against CrushFTP detected from IP $src_ip$
+threat_objects:
+    - field: src_ip
+      type: ip_address
 analytic_story:
     - CrushFTP Vulnerabilities
 asset_type: Web Server
