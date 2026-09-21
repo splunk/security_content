@@ -1,10 +1,10 @@
 name: MacOS - Re-opened Applications
 id: 40bb64f9-f619-4e3d-8732-328d40377c4b
-version: 8
+version: 9
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-09-18'
 author: Jamie Windley, Splunk
-status: experimental
+status: deprecated
 type: TTP
 description: The following analytic identifies processes referencing plist files that determine which applications are re-opened when a user reboots their MacOS machine. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent processes related to "com.apple.loginwindow." This activity is significant because it can indicate attempts to persist across reboots, a common tactic used by attackers to maintain access. If confirmed malicious, this could allow an attacker to execute code or maintain persistence on the affected system, potentially leading to further compromise.
 data_source:
@@ -43,3 +43,7 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: threat
+deprecation_info:
+    reason: Detection deprecated as it is targeting a method of persistence that has been disabled in MacOS for years. As well, the fact that the detection has been set to experimental since 2020.
+    removed_in_version: 6.10.0
+    replacement_content: []
