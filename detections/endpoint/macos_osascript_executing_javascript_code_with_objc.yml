@@ -1,0 +1,86 @@
+name: MacOS Osascript Executing JavaScript Code With ObjC
+id: 9ad44dce-7291-47f8-84a7-e343a5147242
+version: 1
+creation_date: '2026-09-18'
+modification_date: '2026-09-18'
+author: Radka Viskova, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects the macOS osascript utility executing JavaScript for Automation (JXA) code, identified by
+    the "-l JavaScript" interpreter flag, with references to the Objective-C bridge. Adversaries may abuse JXA and
+    Objective-C APIs to interact with macOS applications, access native system functionality, execute commands, or
+    perform post-exploitation activity.
+data_source:
+    - Osquery Results
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process_name="osascript"
+    Processes.process="*-l *"
+    Processes.process="* JavaScript*"
+    Processes.process="*ObjC.*"
+
+    BY Processes.action Processes.dest Processes.parent_process Processes.parent_process_exec
+        Processes.parent_process_guid Processes.parent_process_id
+        Processes.parent_process_name Processes.parent_process_path
+        Processes.process Processes.process_exec Processes.process_guid
+        Processes.process_hash Processes.process_id Processes.process_integrity_level
+        Processes.process_name Processes.process_path Processes.user
+        Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `macos_osascript_executing_javascript_code_with_objc_filter`
+how_to_implement: |-
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: |-
+    Scripts that legitimately invoke utility Osascript with JavaScript for automation or system management.
+references:
+    - https://attack.mitre.org/tactics/TA0002/
+    - https://attack.mitre.org/techniques/T1059/002/
+    - https://attack.mitre.org/techniques/T1059/007/
+    - https://www.loobins.io/binaries/osascript/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 30
+          message: The Osascript utility with the command line [$process$] was observed on [$dest$] executing JXA code with Objective-C bridge references.
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - MacOS Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.002
+    - T1059.007
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1059.002/osascript_JavaScript_command_execution_Objective_C/osascript_JavaScript_command_execution_Objective_C.log
+          source: osquery
+          sourcetype: osquery:results
+      test_type: unit
