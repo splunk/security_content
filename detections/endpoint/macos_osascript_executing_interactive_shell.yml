@@ -8,16 +8,21 @@ status: production
 type: Anomaly
 description: |-
     This analytic detects the macOS osascript utility being used with an interactive Bash invocation, identified by the presence
-    of "bash -i" in the command line. Adversaries may abuse osascript and AppleScript's shell execution capabilities to launch
+    of "bash -i" in the command line.
+    Adversaries may abuse osascript and AppleScript's shell execution capabilities to launch
     interactive shells, establish remote access, or execute post-exploitation commands.
 data_source:
     - Osquery Results
 search: |-
     | tstats `security_content_summariesonly`
-    count min(_time) as firstTime max(_time) as lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE Processes.process_name="osascript"
-        AND Processes.process="*bash -i*"
+    count min(_time) as firstTime
+          max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process_name="osascript"
+    Processes.process="*bash -i*"
+
     BY Processes.action Processes.dest Processes.parent_process Processes.parent_process_exec
         Processes.parent_process_guid Processes.parent_process_id
         Processes.parent_process_name Processes.parent_process_path
@@ -25,6 +30,7 @@ search: |-
         Processes.process_hash Processes.process_id Processes.process_integrity_level
         Processes.process_name Processes.process_path Processes.user
         Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -53,8 +59,8 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 30
-          message: The osascript utility on [$dest$] was observed with an interactive Bash command line - [$process$]
+          score: 20
+          message: The Osascript utility with the command line [$process$] was observed on [$dest$] executing an interactive Bash command line.
 threat_objects:
     - field: process
       type: process
