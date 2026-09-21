@@ -1,0 +1,104 @@
+name: Cisco NVM - Osascript Network Connection for a Long Duration
+id: 6bc88a9d-f7de-4257-b526-acf15bc5a517
+version: 1
+creation_date: '2026-09-18'
+modification_date: '2026-09-18'
+author: Radka Viskova, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects the usage of the Utility osascript on a macOS device initiated a network connection lasting longer than 10 minutes (600 seconds).
+    Adversaries may abuse osascript and AppleScript shell execution to establish long-lived command-and-control or remote connections.
+data_source:
+    - Cisco Network Visibility Module Flow Data
+search: |-
+    `cisco_network_visibility_module_flowdata`
+    (
+        parent_process_name="osascript"
+        OR
+        process_name="osascript"
+    )
+
+    ```
+    FSS stands for Flow Start Seconds
+    FES stands for Flow End Seconds
+    ```
+    | eval duration=fes-fss
+
+    | where duration>600
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(parent_process_hash) as parent_process_hash
+                  values(process_hash) as process_hash
+                  values(dest_port) as dest_port
+                  values(dest_hostname) as dest_hostname
+                  values(http_method) as http_method
+    by src dest transport parent_process_path parent_process_name
+       parent_process parent_process_id process_path process_name
+       process process_id user duration
+
+    | eval duration=tostring(duration)." seconds"
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_nvm___osascript_network_connection_for_a_long_duration_filter`
+how_to_implement: |-
+    This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+    This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+    Replace the macro definition with configurations for your Splunk environment.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
+known_false_positives: |-
+    Legitimate administrative scripting, automation, software deployment, or support workflows that use osascript for long-running network operations.
+references:
+    - https://attack.mitre.org/tactics/TA0002/
+    - https://attack.mitre.org/tactics/TA0011/
+    - https://attack.mitre.org/techniques/T1059/002/
+    - https://attack.mitre.org/techniques/T1071/001/
+    - https://www.loobins.io/binaries/osascript/
+drilldown_searches:
+    - name: View detection results for "$src$" and "$dest$"
+      search: '%original_detection_search% | search src="$src$" dest="$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for "$src$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: src
+          type: system
+          score: 20
+          message: The macOS host [$src$] used the Osascript utility with the command line [$process$] and a parent process [$parent_process_name$] to initiate a network connection to [$dest$] lasting [$duration$] minutes.
+threat_objects:
+    - field: parent_process_name
+      type: process_name
+    - field: process_name
+      type: process_name
+    - field: dest
+      type: ip_address
+analytic_story:
+    - Command And Control
+    - Cisco Network Visibility Module Analytics
+    - MacOS Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.002
+    - T1071.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1059.002/osascript_long_lived_connection_to_remote_host/osascript_long_lived_connection_to_remote_host.log
+          source: not_applicable
+          sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit
