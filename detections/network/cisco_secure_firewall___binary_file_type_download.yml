@@ -1,8 +1,8 @@
 name: Cisco Secure Firewall - Binary File Type Download
 id: 24b2c2e3-2ff7-4a23-b814-87f8a62028cd
-version: 8
+version: 9
 creation_date: '2025-04-09'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,7 @@ data_source:
 search: |
     `cisco_secure_firewall` EventType=FileEvent FileDirection="Download"
     FileType IN ("ISHIELD_MSI", "BINHEX", "BINARY_DATA", "ELF", "MACHO", "JARPACK", "TORRENT", "AUTORUN", "EICAR", "LNK", "SCR", "UNIX_SCRIPT")
-    | lookup cisco_secure_firewall_filetype_lookup Name as FileType OUTPUT Description
+    | lookup local=t cisco_secure_firewall_filetype_lookup Name as FileType OUTPUT Description
     | stats count min(_time) as firstTime max(_time) as lastTime
             values(uri) as uri
             values(ClientApplication) as ClientApplication

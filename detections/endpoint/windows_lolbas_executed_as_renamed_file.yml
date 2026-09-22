@@ -1,8 +1,8 @@
 name: Windows LOLBAS Executed As Renamed File
 id: fd496996-7d9e-4894-8d40-bb85b6192dc6
-version: 10
+version: 11
 creation_date: '2024-05-03'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: TTP
@@ -11,7 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-search: '|  tstats `security_content_summariesonly` latest(Processes.parent_process) as parent_process, latest(Processes.process) as process, latest(Processes.process_guid) as process_guid count, min(_time) AS firstTime, max(_time) AS lastTime FROM datamodel=Endpoint.Processes where NOT Processes.original_file_name IN("-","unknown") AND NOT Processes.process_path IN ("*\\Program Files*","*\\PROGRA~*","*\\Windows\\System32\\*","*\\Windows\\Syswow64\\*") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product |`drop_dm_object_name(Processes)` | where NOT match(process_name, "(?i)".original_file_name) | lookup lolbas_file_path lolbas_file_name as original_file_name OUTPUT description as desc | search desc!="false" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_lolbas_executed_as_renamed_file_filter`'
+search: '|  tstats `security_content_summariesonly` latest(Processes.parent_process) as parent_process, latest(Processes.process) as process, latest(Processes.process_guid) as process_guid count, min(_time) AS firstTime, max(_time) AS lastTime FROM datamodel=Endpoint.Processes where NOT Processes.original_file_name IN("-","unknown") AND NOT Processes.process_path IN ("*\\Program Files*","*\\PROGRA~*","*\\Windows\\System32\\*","*\\Windows\\Syswow64\\*") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product |`drop_dm_object_name(Processes)` | where NOT match(process_name, "(?i)".original_file_name) | lookup local=t lolbas_file_path lolbas_file_name as original_file_name OUTPUT description as desc | search desc!="false" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_lolbas_executed_as_renamed_file_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: A certain amount of false positives are likely with this detection. MSI based installers often trigger for SETUPAPL.dll and vendors will often copy system exectables to a different path for application usage.
 references:

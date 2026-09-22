@@ -1,8 +1,8 @@
 name: Cloud Provisioning Activity From Previously Unseen Country
 id: 94994255-3acf-4213-9b3f-0494df03bb31
-version: 9
+version: 10
 creation_date: '2020-12-01'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Rico Valdez, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ search: |-
     | `drop_dm_object_name("All_Changes")`
     | iplocation src
     | where isnotnull(Country)
-    | lookup previously_seen_cloud_provisioning_activity_sources Country as Country OUTPUT firstTimeSeen, enough_data
+    | lookup local=t previously_seen_cloud_provisioning_activity_sources Country as Country OUTPUT firstTimeSeen, enough_data
     | eventstats max(enough_data) as enough_data
     | where enough_data=1
     | eval firstTimeSeenCountry=min(firstTimeSeen)

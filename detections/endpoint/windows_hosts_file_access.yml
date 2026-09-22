@@ -1,8 +1,8 @@
 name: Windows Hosts File Access
 id: b34bcf35-5380-4b00-b208-5531303fb751
-version: 4
+version: 5
 creation_date: '2026-03-16'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ search: |
         by _time object_file_path object_file_name dest process_name
            process_path process_id EventCode
     | eval process_path = lower(process_path)
-    | lookup browser_process_and_path browser_process_path as process_path OUTPUT is_valid_browser_path
+    | lookup local=t browser_process_and_path browser_process_path as process_path OUTPUT is_valid_browser_path
     | eval is_valid_browser_path=coalesce(is_valid_browser_path,"false")
     | where is_valid_browser_path = "false"
     | `security_content_ctime(firstTime)`

@@ -1,8 +1,8 @@
 name: Cisco NVM - Installation of Typosquatted Python Package
 id: 5e3f6b44-42cb-4f8a-99f0-59e78a52ea1d
-version: 5
+version: 6
 creation_date: '2025-07-01'
-modification_date: '2026-07-14'
+modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -21,7 +21,7 @@ search: |
       (process_arguments = "*poetry*" process_arguments = "*add*")
     )
     | rex field=process_arguments "(?i)(?:pip|poetry)[^|]*?\s+(?:install|add)\s+(?P<package_name>[^\s\"']+)$"
-    | lookup typo_squatted_python_packages
+    | lookup local=t typo_squatted_python_packages
              typosquatted_package_name as package_name
              OUTPUTNEW comment package_official_url
     | where isnotnull(comment)

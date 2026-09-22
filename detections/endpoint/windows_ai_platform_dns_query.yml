@@ -1,8 +1,8 @@
 name: Windows AI Platform DNS Query
 id: 1ad89d24-c856-4a0e-8fdf-c20c7b9febe1
-version: 6
+version: 7
 creation_date: '2025-08-28'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -12,7 +12,7 @@ data_source:
     - Sysmon EventID 22
 search: |
     `sysmon` EventCode=22 QueryName IN ("router.huggingface.co", "api.openai.com")
-      | lookup update=true browser_app_list browser_process_name AS process_name OUTPUT isAllowed | search isAllowed!=true
+      | lookup local=t update=true browser_app_list browser_process_name AS process_name OUTPUT isAllowed | search isAllowed!=true
       | rename dvc as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
       by answer answer_count dest process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id Image

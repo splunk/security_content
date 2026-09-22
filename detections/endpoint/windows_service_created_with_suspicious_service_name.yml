@@ -1,8 +1,8 @@
 name: Windows Service Created with Suspicious Service Name
 id: 35eb6d19-a497-400c-93c5-645562804b11
-version: 9
+version: 10
 creation_date: '2025-02-07'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ search: |-
     | stats values(ImagePath) as process, count, min(_time) as firstTime, max(_time) as lastTime values(EventCode) as signature by Computer, ServiceName, StartType, ServiceType, UserID
     | eval process_name = replace(mvindex(split(process,"\\"),-1), "\"", "")
     | rename Computer as dest, ServiceName as object_name, ServiceType as object_type, UserID as user_id
-    | lookup windows_suspicious_services service_name as object_name
+    | lookup local=t windows_suspicious_services service_name as object_name
     | where isnotnull(tool_name)
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
