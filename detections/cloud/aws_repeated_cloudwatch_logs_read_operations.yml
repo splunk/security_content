@@ -9,13 +9,11 @@ type: TTP
 description: >-
   The following analytic detects a high volume of Amazon CloudWatch Logs read
   operations performed by the same AWS principal and account within a
-  five-minute period. It identifies more than 500 unique DescribeLogGroups,
+  five-minute period. It identifies more than 500 DescribeLogGroups,
   DescribeLogStreams, DownloadLogEvents, FilterLogEvents, GetLogEvents, or
   GetQueryResults API calls. This activity may indicate automated discovery or
   collection of operational, application, or security telemetry from
-  CloudWatch Logs. The analytic counts unique CloudTrail event identifiers to
-  prevent duplicate delivery or ingestion from inflating the API-operation
-  count.  
+  CloudWatch Logs.
 data_source:
   - AWS CloudTrail
 search: |-
@@ -40,7 +38,6 @@ search: |-
   | eval user_agent=coalesce(user_agent, userAgent)
   | eval vendor_region=coalesce(vendor_region, awsRegion)
   | where isnotnull(user) AND len(trim(user)) > 0
-  | dedup eventID keepempty=true
   | sort 0 _time
   | streamstats time_window=5m count AS event_count
       by user vendor_account
