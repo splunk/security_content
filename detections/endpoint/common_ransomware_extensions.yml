@@ -1,8 +1,8 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
-version: 22
+version: 23
 creation_date: '2019-10-16'
-modification_date: '2026-07-02'
+modification_date: '2026-09-22'
 author: David Dorsey, Michael Haag, Nasreddine Bencherchali, Splunk, Steven Dick
 status: production
 type: TTP
@@ -56,7 +56,7 @@ search: |
         Filesystem.user Filesystem.vendor_product
     | `drop_dm_object_name(Filesystem)`
     | rex field=file_name "(?<file_extension>(\.[^\.]+){1,2})$"
-    | lookup update=true ransomware_extensions_lookup Extensions AS file_extension OUTPUT Extensions Name
+    | lookup local=t update=true ransomware_extensions_lookup Extensions AS file_extension OUTPUT Extensions Name
     | search Name !=False
     | stats min(firstTime) as firstTime
             max(lastTime) as lastTime
@@ -105,6 +105,9 @@ intermediate_findings:
           type: system
           score: 50
           message: The device $dest$ wrote $file_count$ files to $path_count$ path(s) with the $file_extension$ extension. This extension and behavior may indicate a $Name$ ransomware attack.
+threat_objects:
+    - field: file_path
+      type: file_path
 analytic_story:
     - Rhysida Ransomware
     - Prestige Ransomware
