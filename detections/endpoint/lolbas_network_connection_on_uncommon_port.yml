@@ -162,5 +162,5 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
-      expected_results: 0
+      expected_results: 1
       test_type: unit
