@@ -1,6 +1,6 @@
 name: Windows Regsvr32 Renamed Binary
 id: 7349a9e9-3cf6-4171-bb0c-75607a8dcd1a
-version: 13
+version: 14
 creation_date: '2022-10-27'
 modification_date: '2026-09-23'
 author: Teoderick Contreras, Splunk

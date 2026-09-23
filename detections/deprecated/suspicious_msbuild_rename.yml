@@ -1,6 +1,6 @@
 name: Suspicious MSBuild Rename
 id: 4006adac-5937-11eb-ae93-0242ac130002
-version: 14
+version: 15
 creation_date: '2021-01-15'
 modification_date: '2026-09-23'
 author: Michael Haag, Splunk
