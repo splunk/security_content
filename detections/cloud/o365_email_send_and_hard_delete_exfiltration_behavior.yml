@@ -1,8 +1,8 @@
 name: O365 Email Send and Hard Delete Exfiltration Behavior
 id: dd7798cf-c4f5-4114-ad0f-beacd9a33708
-version: 6
+version: 7
 creation_date: '2025-01-23'
-modification_date: '2026-05-13'
+modification_date: '2026-09-23'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -11,11 +11,11 @@ data_source:
     - Office 365 Universal Audit Log
     - Office 365 Reporting Message Trace
 search: |-
-    `o365_messagetrace` Status=Delivered
+    `o365_messagetrace` status_code=Delivered
     | eval mailtime = _time
     | bin _time span=1hr
-    | eval user = lower(SenderAddress), recipient = lower(RecipientAddress)
-    | eval InternetMessageId = lower(MessageId)
+    | eval user = lower(src_user), recipient = lower(recipient)
+    | eval InternetMessageId = lower(message_id)
     | join InternetMessageId, user, max=0
       [
       | search `o365_management_activity` Workload=Exchange (Operation IN ("Send*")) OR (Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions"))
@@ -26,8 +26,8 @@ search: |-
       | stats values(sender) as sender, values(ClientInfoString) as http_user_agent, values(InternetMessageId) as InternetMessageId, values(file_name) as file_name, sum(file_size) as file_size, values(sendtime) as firstTime, values(deltime) as lastTime values(Operation) as signature, dc(Operation) as opcount, count by _time,subject,user
       | where opcount > 1 AND firstTime < lastTime
       ]
-    | stats values(sender) as sender, values(http_user_agent) as http_user_agent, values(signature) as signature, values(file_name) as file_name, sum(file_size) as file_size, min(firstTime) as firstTime, max(lastTime) as lastTime  count by subject,user,recipient,Organization
-    | eval externalRecipient = if(match(lower(recipient),mvindex(split(lower(Organization),"."),0)),0,1)
+    | stats values(sender) as sender, values(http_user_agent) as http_user_agent, values(signature) as signature, values(file_name) as file_name, sum(file_size) as file_size, min(firstTime) as firstTime, max(lastTime) as lastTime  count by subject,user,recipient
+    | eval externalRecipient = if(mvindex(split(lower(recipient),"@"),1)==mvindex(split(lower(user),"@"),1),0,1)
     | where externalRecipient = 1
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
