@@ -2,9 +2,9 @@ name: Detect Renamed PSExec
 id: 683e6196-b8e8-11eb-9a79-acde48001122
 version: 17
 creation_date: '2021-06-03'
-modification_date: '2026-05-13'
+modification_date: '2026-09-23'
 author: Michael Haag, Splunk, Alex Oberkircher, Github Community
-status: production
+status: deprecated
 type: Hunting
 description: The following analytic identifies instances where `PsExec.exe` has been renamed and executed on an endpoint. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names. This activity is significant because renaming `PsExec.exe` is a common tactic to evade detection. If confirmed malicious, this could allow an attacker to execute commands remotely, potentially leading to unauthorized access, lateral movement, or further compromise of the network.
 data_source:
@@ -60,10 +60,8 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-tests:
-    - name: True Positive Test
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-          sourcetype: XmlWinEventLog
-      test_type: unit
+deprecation_info:
+    reason: Detection deprecated due to having a duplicated content with another detection. Renaming of all command interpreter binaries are covered in a single detection instead of having their separate searches, for performance related reasons.
+    removed_in_version: 6.8.0
+    replacement_content:
+        - Windows Renamed Command Interpreter was Executed

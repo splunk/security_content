@@ -1,21 +1,23 @@
-name: Detect HTML Help Renamed
-id: 62fed254-513b-460e-953d-79771493a9f3
-version: 14
-creation_date: '2021-02-11'
-modification_date: '2026-05-13'
+name: Detect Renamed RClone
+id: 6dca1124-b3ec-11eb-9328-acde48001122
+version: 12
+creation_date: '2021-05-13'
+modification_date: '2026-09-23'
 author: Michael Haag, Splunk
-status: production
+status: deprecated
 type: Hunting
-description: The following analytic detects instances where hh.exe (HTML Help) has been renamed and is executing a Compiled HTML Help (CHM) file. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names. This activity is significant because attackers can use renamed hh.exe to execute malicious scripts embedded in CHM files, potentially leading to code execution. If confirmed malicious, this technique could allow attackers to run arbitrary scripts, escalate privileges, or persist within the environment, posing a significant security risk.
+description: The following analytic detects the execution of a renamed `rclone.exe` process, which is commonly used for data exfiltration to remote destinations. This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names and original file names that do not match. This activity is significant because ransomware groups often use RClone to exfiltrate sensitive data. If confirmed malicious, this behavior could indicate an ongoing data exfiltration attempt, potentially leading to significant data loss and further compromise of the affected systems.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.process_name!=hh.exe
-        AND
-        Processes.original_file_name=HH.EXE
+      WHERE (
+            Processes.original_file_name=rclone.exe
+            AND
+            Processes.process_name!=rclone.exe
+        )
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -26,30 +28,29 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `detect_html_help_renamed_filter`
+    | `detect_renamed_rclone_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Although unlikely a renamed instance of hh.exe will be used legitimately, filter as needed.
+known_false_positives: False positives should be limited as this analytic identifies renamed instances of `rclone.exe`. Filter as needed if there is a legitimate business use case.
 references:
-    - https://attack.mitre.org/techniques/T1218/001/
-    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
-    - https://lolbas-project.github.io/lolbas/Binaries/Hh/
+    - https://redcanary.com/blog/rclone-mega-extortion/
+    - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+    - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 analytic_story:
-    - Suspicious Compiled HTML Activity
-    - Living Off The Land
-    - APT37 Rustonotto and FadeStealer
+    - DarkSide Ransomware
+    - Ransomware
+    - Black Basta Ransomware
+    - Cactus Ransomware
 asset_type: Endpoint
 mitre_attack_id:
-    - T1218.001
+    - T1020
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-tests:
-    - name: True Positive Test
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-          sourcetype: XmlWinEventLog
-      test_type: unit
+deprecation_info:
+    reason: Detection deprecated due to having a duplicated content with another detection. Renaming of all popular 3rd party software binaries are covered in a single detection instead of having their separate searches, for performance related reasons.
+    removed_in_version: 6.8.0
+    replacement_content:
+        - Windows Renamed Popular 3rd Party Software was Executed
