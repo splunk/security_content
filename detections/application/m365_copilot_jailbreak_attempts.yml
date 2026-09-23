@@ -1,10 +1,10 @@
 name: M365 Copilot Jailbreak Attempts
 id: b05a4f25-e07d-436f-ab03-f954afa922c0
-version: 6
+version: 7
 creation_date: '2025-10-13'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Rod Soto
-status: experimental
+status: production
 type: Anomaly
 description: Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls. The detection searches exported eDiscovery prompt logs for jailbreak keywords like "pretend you are," "act as," "rules=," "ignore," "bypass," and "override" in the Subject_Title field, assigning severity scores based on the manipulation type (score of 4 for amoral impersonation or explicit rule injection, score of 3 for entity roleplay or bypass commands). Prompts with a jailbreak score of 2 or higher are flagged, prioritizing the most severe attempts to override AI safety mechanisms through direct instruction injection or unauthorized persona adoption.
 data_source:
@@ -66,5 +66,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
           sourcetype: csv
           source: csv
-      test_type: experimental
-      description: This test is a legacy experimental test and may not be accurate.
+      test_type: unit

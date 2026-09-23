@@ -1,10 +1,10 @@
 name: M365 Copilot Impersonation Jailbreak Attack
 id: cc26aba8-7f4a-4078-b91a-052d6a53cb13
-version: 6
+version: 7
 creation_date: '2025-10-13'
-modification_date: '2026-06-04'
+modification_date: '2026-09-24'
 author: Rod Soto
-status: experimental
+status: production
 type: TTP
 description: Detects M365 Copilot impersonation and roleplay jailbreak attempts where users try to manipulate the AI into adopting alternate personas, behaving as unrestricted entities, or impersonating malicious AI systems to bypass safety controls. The detection searches exported eDiscovery prompt logs for roleplay keywords like "pretend you are," "act as," "you are now," "amoral," and "roleplay as" in the Subject_Title field. Prompts are categorized into specific impersonation types (AI_Impersonation, Malicious_AI_Persona, Unrestricted_AI_Persona, etc.) to identify attempts to override the AI's safety guardrails through persona injection attacks.
 data_source:
@@ -53,5 +53,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
           sourcetype: csv
           source: csv
-      test_type: experimental
-      description: This test is a legacy experimental test and may not be accurate.
+      test_type: unit

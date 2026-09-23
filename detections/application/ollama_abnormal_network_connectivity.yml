@@ -1,10 +1,10 @@
 name: Ollama Abnormal Network Connectivity
 id: 19ec30ad-faa2-496a-a6a9-f2e5f778fbdb
-version: 5
+version: 6
 creation_date: '2025-10-13'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Rod Soto
-status: experimental
+status: production
 type: Anomaly
 description: Detects abnormal network activity and connectivity issues in Ollama including non-localhost API access attempts and warning-level network errors such as DNS lookup failures, TCP connection issues, or host resolution problems that may indicate network-based attacks, unauthorized access attempts, or infrastructure reconnaissance activity.
 data_source:
@@ -61,5 +61,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
           sourcetype: ollama:server
           source: app.log
-      test_type: experimental
-      description: This test is a legacy experimental test and may not be accurate.
+      test_type: unit

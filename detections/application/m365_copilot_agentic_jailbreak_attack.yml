@@ -1,10 +1,10 @@
 name: M365 Copilot Agentic Jailbreak Attack
 id: e5c7b380-19da-42e9-9e53-0af4cd27aee3
-version: 5
+version: 6
 creation_date: '2025-10-13'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Rod Soto
-status: experimental
+status: production
 type: Anomaly
 description: Detects agentic AI jailbreak attempts that try to establish persistent control over M365 Copilot through rule injection, universal triggers, response automation, system overrides, and persona establishment techniques. The detection analyzes the PromptText field for keywords like "from now on," "always respond," "ignore previous," "new rule," "override," and role-playing commands (e.g., "act as," "you are now") that attempt to inject persistent instructions. The search computes risk by counting distinct jailbreak indicators per user session, flagging coordinated manipulation attempts.
 data_source:
@@ -61,5 +61,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
           sourcetype: csv
           source: csv
-      test_type: experimental
-      description: This test is a legacy experimental test and may not be accurate.
+      test_type: unit
