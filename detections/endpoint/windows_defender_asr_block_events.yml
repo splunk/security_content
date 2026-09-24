@@ -28,7 +28,7 @@ search: |-
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
       by host EventCode
-         Parent_CommandLine Process_Name Target_Commandline
+         Parent_Commandline Process_Name Target_Commandline
          Path ID RuleType
 
     | lookup local=t asr_rules ID OUTPUT ASR_Rule
@@ -61,8 +61,10 @@ intermediate_findings:
           score: 20
           message: The ASR block event [$ASR_Rule$] was triggered on [$dest$].
 threat_objects:
-    - field: Parent_CommandLine
+    - field: Parent_Commandline
       type: parent_process
+    - field: Target_Commandline
+      type: process
     - field: Process_Name
       type: file_path
 analytic_story:
