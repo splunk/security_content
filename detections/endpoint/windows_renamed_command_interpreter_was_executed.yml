@@ -1,0 +1,97 @@
+name: Windows Renamed Command Interpreter was Executed
+id: 6f4611be-076e-4fa8-bc78-466588a71442
+version: 1
+creation_date: '2026-09-23'
+modification_date: '2026-09-23'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic identifies a Windows command interpreter process being executed where it's process
+    name does not match it's original file name attribute. Processes that have been renamed and executed may
+    be an indicator that an adversary is attempting to evade defenses or execute malicious code.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime
+    FROM datamodel=Endpoint.Processes
+    WHERE
+        NOT Processes.original_file_name IN ("-","unknown")
+        AND [
+        | inputlookup renamed_windows_command_interpreter_binaries.csv
+        | rename original_file_name as Processes.original_file_name
+        | table Processes.original_file_name
+        ]
+        AND NOT [
+        | inputlookup renamed_windows_command_interpreter_binaries.csv
+        | rename original_file_name as Processes.process_name
+        | table Processes.process_name
+        ]
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+      Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+      Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+      Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | eval original_file_name=lower(original_file_name)
+    | where NOT match(process_name, "(?i)^".replace(original_file_name,"(?i).exe",""))
+    | where NOT match(process_name, "(?i)".original_file_name)
+    | lookup renamed_windows_command_interpreter_binaries original_file_name OUTPUT description
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_renamed_command_interpreter_was_executed_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents
+    are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement
+    this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally,
+    you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk
+    Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node
+    of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and
+    speed up the data modeling process.
+known_false_positives: 3rd party software binaries sharing the same name as Windows command interpreter binaries may trigger false positives.
+references:
+    - https://attack.mitre.org/techniques/T1036/
+    - https://attack.mitre.org/techniques/T1036/003/
+    - https://attack.mitre.org/techniques/T1059/
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 30
+          message: Command Interpreter [$original_file_name$] was renamed as [$process_name$] and later executed on [$dest$]
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Living Off The Land
+    - Masquerading - Rename System Utilities
+    - Suspicious Command-Line Executions
+    - Windows Defense Evasion Tactics
+    - Water Gamayun
+asset_type: Endpoint
+mitre_attack_id:
+    - T1036.003
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/renamed_command_interpreter/renamed_command_interpreter.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

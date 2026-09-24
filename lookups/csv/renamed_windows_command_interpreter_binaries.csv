@@ -1,0 +1,13 @@
+original_file_name,description
+bash.exe,"Bourne Again Shell interpreter; ships with WSL/Git for Windows/Cygwin and executes shell scripts and commands."
+cmd.exe,"The native Windows command-line interpreter used to execute batch scripts and commands."
+powershell.exe,"Windows PowerShell (v5.1 and earlier) command-line shell and scripting engine, heavily used for administration and living-off-the-land attacks."
+powershell_ise.exe,"PowerShell Integrated Scripting Environment; GUI host for writing and running PowerShell scripts."
+psexec*.c,"Sysinternals tool for executing processes on remote systems; frequently abused for lateral movement."
+psexec*.exe,"Sysinternals tool for executing processes on remote systems; frequently abused for lateral movement."
+psexec64.exe,"64-bit build of the Sysinternals PsExec remote execution tool."
+pwsh.exe,"PowerShell (Core) 6+ cross-platform command-line shell and scripting engine, successor to powershell.exe."
+sh.exe,"POSIX-compatible shell interpreter, typically bundled with Git for Windows/WSL/Cygwin, used to run shell scripts."
+windowsterminal.exe,"Modern Windows Terminal application host that runs command-line shells (cmd, PowerShell, WSL) in tabs."
+wsl.exe,"Windows Subsystem for Linux launcher; runs a Linux distribution/shell and executes Linux binaries or scripts on Windows."
+wt.exe,"Windows Terminal executable, invoked via the wt command; launches and hosts terminal shell sessions."

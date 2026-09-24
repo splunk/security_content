@@ -1,0 +1,43 @@
+original_file_name,software_name
+7z.exe,7-Zip
+7zg.exe,7-Zip
+7zfm.exe,7-Zip
+7za.exe,7-Zip
+winrar*.exe,WinRAR
+rar.exe,WinRAR
+unrar.exe,WinRAR
+peazip.exe,PeaZip
+anydesk.exe,AnyDesk
+teamviewer*.exe,TeamViewer
+tv_w32.exe,TeamViewer
+tv_x64.exe,TeamViewer
+screenconnect*.exe,ConnectWise ScreenConnect
+ateraagent.exe,Atera
+srserver.exe,Splashtop
+splashtopstreamer.exe,Splashtop
+lmiguardiansvc.exe,LogMeIn
+logmein.exe,LogMeIn
+basupsrvc.exe,N-able Take Control
+tcclient.exe,N-able Take Control
+action1_agent.exe,Action1
+rutserv.exe,Remote Utilities
+rfusclient.exe,Remote Utilities
+advanced_ip_scanner*.exe,Advanced IP Scanner
+advanced_port_scanner*.exe,Advanced Port Scanner
+netscan.exe,SoftPerfect Network Scanner
+ipscan.exe,Angry IP Scanner
+adfind*.exe,AdFind
+processhacker.exe,Process Hacker
+systeminformer.exe,System Informer
+winscp*.exe,WinSCP
+rclone.exe,Rclone
+plink.exe,PuTTY
+putty*.exe,PuTTY
+mobaxterm.exe,MobaXterm
+ngrok.exe,Ngrok
+cloudflared.exe,Cloudflared
+chisel.exe,Chisel
+webbrowserpassview.exe,NirSoft WebBrowserPassView
+mailpv.exe,NirSoft Mail PassView
+autoit3.exe,AutoIt
+aut2exe.exe,AutoIt

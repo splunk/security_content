@@ -1,10 +1,10 @@
 name: Windows Renamed Powershell Execution
 id: c08014de-cc5a-42de-9775-76ecd5b37bbd
-version: 8
+version: 9
 creation_date: '2022-10-27'
-modification_date: '2026-05-13'
+modification_date: '2026-09-23'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
-status: production
+status: deprecated
 type: TTP
 description: The following analytic identifies instances where the PowerShell executable has been renamed and executed under an alternate filename. This behavior is commonly associated with attempts to evade security controls or bypass logging mechanisms that monitor standard PowerShell usage. While rare in legitimate environments, renamed PowerShell binaries are frequently observed in malicious campaigns leveraging Living-off-the-Land Binaries (LOLBins) and fileless malware techniques. This detection flags executions of PowerShell where the process name does not match the default powershell.exe or pwsh.exe, especially when invoked from unusual paths or accompanied by suspicious command-line arguments.
 data_source:
@@ -42,10 +42,8 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-tests:
-    - name: True Positive Test
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/renamed_powershell/renamed_powershell.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-          sourcetype: XmlWinEventLog
-      test_type: unit
+deprecation_info:
+    reason: Detection deprecated due to having a duplicated content with another detection. Renaming of all command interpreter binaries are covered in a single detection instead of having their separate searches, for performance related reasons.
+    removed_in_version: 6.8.0
+    replacement_content:
+        - Windows Renamed Command Interpreter was Executed

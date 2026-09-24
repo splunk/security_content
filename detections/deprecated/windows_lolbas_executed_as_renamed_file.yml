@@ -1,10 +1,10 @@
 name: Windows LOLBAS Executed As Renamed File
 id: fd496996-7d9e-4894-8d40-bb85b6192dc6
-version: 10
+version: 11
 creation_date: '2024-05-03'
-modification_date: '2026-05-13'
+modification_date: '2026-09-23'
 author: Steven Dick
-status: production
+status: deprecated
 type: TTP
 description: The following analytic identifies a LOLBAS process being executed where it's process name does not match it's original file name attribute. Processes that have been renamed and executed may be an indicator that an adversary is attempting to evade defenses or execute malicious code. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
 data_source:
@@ -56,10 +56,8 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-tests:
-    - name: True Positive Test
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/cmd_lolbas_usage/cmd_lolbas_usage.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-          sourcetype: XmlWinEventLog
-      test_type: unit
+deprecation_info:
+    reason: Detection deprecated due to renaming of its newer version.
+    removed_in_version: 6.8.0
+    replacement_content:
+        - Windows Renamed LOLBAS Binary was Executed
