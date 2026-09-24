@@ -1,8 +1,8 @@
 name: PetitPotam Suspicious Kerberos TGT Request
 id: e3ef244e-0a67-11ec-abf2-acde48001122
-version: 11
+version: 12
 creation_date: '2021-09-01'
-modification_date: '2026-07-04'
+modification_date: '2026-09-24'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -13,12 +13,12 @@ search: |-
     `wineventlog_security`
     EventCode=4768
     src!="::1"
-    TargetUserName=*$
+    Target_User_Name=*$
     CertThumbprint!=""
     PreAuthType=2
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
-      BY dest TargetUserName PreAuthType CertThumbprint src action
+      BY dest Target_User_Name PreAuthType CertThumbprint src action
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `petitpotam_suspicious_kerberos_tgt_request_filter`

@@ -1,8 +1,8 @@
 name: Windows DnsAdmins New Member Added
 id: 27e600aa-77f8-4614-bc80-2662a67e2f48
-version: 12
+version: 13
 creation_date: '2023-03-28'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -10,8 +10,8 @@ description: The following analytic detects the addition of a new member to the 
 data_source:
     - Windows Event Log Security 4732
 search: |-
-    `wineventlog_security` EventCode=4732 TargetUserName=DnsAdmins
-      | stats min(_time) as firstTime max(_time) as lastTime values(TargetUserName) as target_users_added values(user) as user
+    `wineventlog_security` EventCode=4732 Target_User_Name=DnsAdmins
+      | stats min(_time) as firstTime max(_time) as lastTime values(Target_User_Name) as target_users_added values(user) as user
         BY dest src_user
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`

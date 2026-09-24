@@ -1,8 +1,8 @@
 name: Windows Computer Account Changed to Domain Controller
 id: f9df6250-fa45-4f62-bc9a-768c60bf99b2
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -19,7 +19,7 @@ search: |-
     | fillnull
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
-      by Computer TargetUserName UserAccountControl EventID
+      by Computer Target_User_Name UserAccountControl EventID
 
     | rename Computer as dest
     | `security_content_ctime(firstTime)`

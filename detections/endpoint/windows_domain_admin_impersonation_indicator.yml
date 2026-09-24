@@ -1,8 +1,8 @@
 name: Windows Domain Admin Impersonation Indicator
 id: 10381f93-6d38-470a-9c30-d25478e3bd3f
-version: 12
+version: 13
 creation_date: '2023-10-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -10,13 +10,13 @@ description: The following analytic identifies potential Kerberos ticket forging
 data_source:
     - Windows Event Log Security 4627
 search: |-
-    `wineventlog_security` EventCode=4627 LogonType=3 NOT TargetUserName IN ("*$", "SYSTEM", "DWM-*","LOCAL SERVICE","NETWORK SERVICE", "ANONYMOUS LOGON", "UMFD-*")
+    `wineventlog_security` EventCode=4627 Logon_Type=3 NOT Target_User_Name IN ("*$", "SYSTEM", "DWM-*","LOCAL SERVICE","NETWORK SERVICE", "ANONYMOUS LOGON", "UMFD-*")
       | where match(GroupMembership, "Domain Admins")
       | stats count
-        BY _time TargetUserName GroupMembership
+        BY _time Target_User_Name GroupMembership
            action app dest
            signature_id user vendor_product
-      | lookup domain_admins username as TargetUserName OUTPUT username
+      | lookup domain_admins username as Target_User_Name OUTPUT username
       | fillnull value=NotDA username
       | search username = "NotDA"
       | `windows_domain_admin_impersonation_indicator_filter`
@@ -28,18 +28,18 @@ references:
     - https://github.com/GhostPack/Rubeus/pull/136
     - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4627
 drilldown_searches:
-    - name: View the detection results for - "$TargetUserName$"
-      search: '%original_detection_search% | search  TargetUserName = "$TargetUserName$"'
+    - name: View the detection results for - "$Target_User_Name$"
+      search: '%original_detection_search% | search  Target_User_Name = "$Target_User_Name$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$TargetUserName$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$TargetUserName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$Target_User_Name$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Target_User_Name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: $TargetUserName$ may be impersonating a Domain Administrator through a forged Kerberos ticket.
+    title: $Target_User_Name$ may be impersonating a Domain Administrator through a forged Kerberos ticket.
     entity:
-        field: TargetUserName
+        field: Target_User_Name
         type: user
         score: 50
 analytic_story:

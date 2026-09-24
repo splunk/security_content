@@ -1,8 +1,8 @@
 name: Windows AD Suspicious Attribute Modification
 id: 5682052e-ce55-4f9f-8d28-59191420b7e0
-version: 10
+version: 11
 creation_date: '2024-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Dean Luxton
 status: production
 type: TTP
@@ -15,7 +15,7 @@ search: |-
       | rename SubjectLogonId as TargetLogonId, src_user as initiator, _time as eventTime
       | appendpipe [
       | map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
-      | stats min(eventTime) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(ObjectDN) as ObjectDN, values(ObjectClass) as ObjectClass, values(src_category) as src_category, values(src_ip) as src_ip values(LogonType) as LogonType values(AttributeValue) as AttributeValue values(AttributeLDAPDisplayName) as AttributeLDAPDisplayName
+      | stats min(eventTime) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(ObjectDN) as ObjectDN, values(ObjectClass) as ObjectClass, values(src_category) as src_category, values(src_ip) as src_ip values(Logon_Type) as Logon_Type values(AttributeValue) as AttributeValue values(AttributeLDAPDisplayName) as AttributeLDAPDisplayName
         BY TargetLogonId
       | rex field=ObjectDN "^CN=(?P<cn>.*?),[A-Z]{2}\="
       | eval dest=if(ObjectClass="computer",cn,null), user=if(ObjectClass="user",cn,null)

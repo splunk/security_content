@@ -1,8 +1,8 @@
 name: Windows Kerberos Local Successful Logon
 id: 8309c3a8-4d34-48ae-ad66-631658214653
-version: 15
+version: 16
 creation_date: '2022-04-28'
-modification_date: '2026-07-27'
+modification_date: '2026-09-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ data_source:
 search: |-
     `wineventlog_security`
     EventCode=4624
-    LogonType=3
+    Logon_Type=3
     AuthenticationPackageName=Kerberos
     action=success
     src=127.0.0.1

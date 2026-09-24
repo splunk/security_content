@@ -1,8 +1,8 @@
 name: Windows Unusual Count Of Users Failed To Authenticate From Process
 id: 25bdb6cb-2e49-4d34-a93c-d6c567c122fe
-version: 12
+version: 13
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -12,7 +12,7 @@ data_source:
 search: |-
     `wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-"
       | bucket span=2m _time
-      | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as user values(dest) as dest values(src) as src
+      | stats dc(Target_User_Name) AS unique_accounts values(Target_User_Name) as user values(dest) as dest values(src) as src
         BY _time, ProcessName, SubjectUserName,
            Computer, action, app,
            authentication_method, signature, signature_id

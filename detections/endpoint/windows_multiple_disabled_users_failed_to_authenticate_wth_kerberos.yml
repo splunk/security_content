@@ -1,8 +1,8 @@
 name: Windows Multiple Disabled Users Failed To Authenticate Wth Kerberos
 id: 98f22d82-9d62-11eb-9fcf-acde48001122
-version: 12
+version: 13
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -10,9 +10,9 @@ description: The following analytic detects a single source endpoint failing to 
 data_source:
     - Windows Event Log Security 4768
 search: |-
-    `wineventlog_security` EventCode=4768 TargetUserName!=*$ Status=0x12
+    `wineventlog_security` EventCode=4768 Target_User_Name!=*$ Status=0x12
       | bucket span=5m _time
-      | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as user values(dest) as dest
+      | stats dc(Target_User_Name) AS unique_accounts values(Target_User_Name) as user values(dest) as dest
         BY _time, IpAddress
       | where unique_accounts > 30
       | `windows_multiple_disabled_users_failed_to_authenticate_wth_kerberos_filter`

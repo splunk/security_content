@@ -1,8 +1,8 @@
 name: Windows Unusual Count Of Users Failed To Authenticate Using NTLM
 id: 6f6c8fd7-6a6b-4af9-a0e9-57cfc47a58b4
-version: 12
+version: 13
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -10,9 +10,9 @@ description: The following analytic identifies a source endpoint failing to auth
 data_source:
     - Windows Event Log Security 4776
 search: |-
-    `wineventlog_security`  EventCode=4776 TargetUserName!=*$ Status=0xC000006A
+    `wineventlog_security`  EventCode=4776 Target_User_Name!=*$ Status=0xC000006A
       | bucket span=2m _time
-      | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts values(dest) as dest
+      | stats dc(Target_User_Name) AS unique_accounts values(Target_User_Name) as tried_accounts values(dest) as dest
         BY _time, Workstation
       | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std
         BY Workstation

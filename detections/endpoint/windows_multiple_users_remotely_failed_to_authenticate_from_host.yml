@@ -1,8 +1,8 @@
 name: Windows Multiple Users Remotely Failed To Authenticate From Host
 id: 80f9d53e-9ca1-11eb-b0d6-acde48001122
-version: 13
+version: 14
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,7 +12,7 @@ data_source:
 search: |-
     `wineventlog_security` EventCode=4625 Logon_Type=3 IpAddress!="-"
       | bucket span=5m _time
-      | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts values(dest) as dest values(src) as src values(user) as user
+      | stats dc(Target_User_Name) AS unique_accounts values(Target_User_Name) as tried_accounts values(dest) as dest values(src) as src values(user) as user
         BY _time, IpAddress, Computer,
            action, app, authentication_method,
            signature, signature_id

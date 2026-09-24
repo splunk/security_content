@@ -1,8 +1,8 @@
 name: Windows Rapid Authentication On Multiple Hosts
 id: 62606c77-d53d-4182-9371-b02cdbbbcef7
-version: 11
+version: 12
 creation_date: '2023-03-23'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -10,10 +10,10 @@ description: The following analytic detects a source computer authenticating to 
 data_source:
     - Windows Event Log Security 4624
 search: |-
-    `wineventlog_security` EventCode=4624 LogonType=3 TargetUserName!="ANONYMOUS LOGON" TargetUserName!="*$"
+    `wineventlog_security` EventCode=4624 Logon_Type=3 Target_User_Name!="ANONYMOUS LOGON" Target_User_Name!="*$"
       | bucket span=5m _time
       | stats dc(Computer) AS unique_targets values(Computer) as host_targets values(dest) as dest values(src) as src values(user) as user
-        BY _time, IpAddress, TargetUserName,
+        BY _time, IpAddress, Target_User_Name,
            action, app, authentication_method,
            signature, signature_id
       | where unique_targets > 30

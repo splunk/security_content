@@ -1,8 +1,8 @@
 name: Windows Steal Authentication Certificates - ESC1 Authentication
 id: f0306acf-a6ab-437a-bbc6-8628f8d5c97e
-version: 10
+version: 11
 creation_date: '2023-07-28'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Steven Dick
 status: production
 type: TTP
@@ -41,7 +41,7 @@ search: |-
         EventCode=4768
         CertThumbprint=*
         | rename
-            TargetUserName as user
+            Target_User_Name as user
             Computer as auth_dest
             IpAddress as auth_src
         | fields auth_src, auth_dest, user

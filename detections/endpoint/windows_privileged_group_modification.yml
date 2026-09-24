@@ -1,8 +1,8 @@
 name: Windows Privileged Group Modification
 id: b8cbef2c-2cc3-4550-b0fc-9715b7852df9
-version: 12
+version: 13
 creation_date: '2024-07-30'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Brandon Sternfield, Optiv + ClearShark
 status: production
 type: TTP
@@ -33,7 +33,7 @@ search: |-
             4783,
             4790
         )
-    TargetUserName IN (
+    Target_User_Name IN (
             "Account Operators",
             "Administrators",
             "Admins DNS",
@@ -68,7 +68,7 @@ search: |-
 
     | rename Computer as dest
              result as change_type
-             TargetUserName as object
+             Target_User_Name as object
              TargetSid as object_path
 
     | stats count min(_time) as firstTime

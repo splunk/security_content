@@ -1,8 +1,8 @@
 name: Windows Multiple Users Failed To Authenticate From Process
 id: 9015385a-9c84-11eb-bef2-acde48001122
-version: 13
+version: 14
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,7 +12,7 @@ data_source:
 search: |-
     `wineventlog_security` EventCode=4625 Logon_Type=2 ProcessName!="-"
       | bucket span=5m _time
-      | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts values(dest) as dest values(src) as src values(user) as user
+      | stats dc(Target_User_Name) AS unique_accounts values(Target_User_Name) as tried_accounts values(dest) as dest values(src) as src values(user) as user
         BY _time, ProcessName, SubjectUserName,
            Computer, action, app,
            authentication_method, signature, signature_id

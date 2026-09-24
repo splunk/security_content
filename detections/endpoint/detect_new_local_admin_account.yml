@@ -1,8 +1,8 @@
 name: Detect New Local Admin account
 id: b25f6f62-0712-43c1-b203-083231ffd97d
-version: 13
+version: 14
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -21,7 +21,7 @@ search: |
         (
           Group_Name=Administrators
           OR
-          TargetUserName=Administrators
+          Target_User_Name=Administrators
         )
       )
     )

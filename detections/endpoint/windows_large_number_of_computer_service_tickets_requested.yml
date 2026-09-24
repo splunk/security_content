@@ -1,8 +1,8 @@
 name: Windows Large Number of Computer Service Tickets Requested
 id: 386ad394-c9a7-4b4f-b66f-586252de20f0
-version: 12
+version: 13
 creation_date: '2023-03-21'
-modification_date: '2026-07-05'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -13,14 +13,14 @@ description: |-
 data_source:
     - Windows Event Log Security 4769
 search: |-
-    `wineventlog_security` EventCode=4769 ServiceName="*$" TargetUserName!="*$"
-    | eval TargetUserName = mvindex(split(TargetUserName, "@"), 0)
-    | search NOT TargetUserName="*$"
+    `wineventlog_security` EventCode=4769 ServiceName="*$" Target_User_Name!="*$"
+    | eval Target_User_Name = mvindex(split(Target_User_Name, "@"), 0)
+    | search NOT Target_User_Name="*$"
     | bucket span=5m _time
     | stats dc(ServiceName) AS unique_targets
             values(ServiceName) as host_targets
             values(dest) as dest
-      by _time, IpAddress, TargetUserName
+      by _time, IpAddress, Target_User_Name
     | where unique_targets > 30
     | `windows_large_number_of_computer_service_tickets_requested_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.

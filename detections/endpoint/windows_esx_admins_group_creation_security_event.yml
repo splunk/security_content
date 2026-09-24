@@ -1,8 +1,8 @@
 name: Windows ESX Admins Group Creation Security Event
 id: 53b4c927-5ec4-47cd-8aed-d4b303304f87
-version: 9
+version: 10
 creation_date: '2024-07-30'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -12,9 +12,9 @@ data_source:
     - Windows Event Log Security 4730
     - Windows Event Log Security 4737
 search: |-
-    `wineventlog_security` EventCode IN (4727, 4730, 4737) (TargetUserName="ESX Admins" OR TargetUserName="*ESX Admins*")
+    `wineventlog_security` EventCode IN (4727, 4730, 4737) (Target_User_Name="ESX Admins" OR Target_User_Name="*ESX Admins*")
       | stats count min(_time) as firstTime max(_time) as lastTime
-        BY EventCode TargetUserName TargetDomainName
+        BY EventCode Target_User_Name TargetDomainName
            SubjectUserName SubjectDomainName Computer
       | rename Computer as dest
       | eval EventCodeDescription=case( EventCode=4727, "Security Enabled Global Group Created", EventCode=4730, "Security Enabled Global Group Deleted", EventCode=4737, "Security Enabled Global Group Modified" )
