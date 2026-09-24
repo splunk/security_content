@@ -1,0 +1,65 @@
+name: Windows AD User Suspicious UPN Change
+id: 81324b8b-46c0-4ca3-b9a1-d33638f21021
+version: 1
+creation_date: '2026-09-23'
+modification_date: '2026-09-23'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic detects a user account modifying its own userPrincipalName (UPN) to match the sAMAccountName of another account via Windows Security Event 4738. This is the setup step of the ResetNightmare attack (CVE-2026-27912), where an attacker with WriteProperty rights on their own UPN attribute spoofs their identity to a target account. The KDC then resolves a ptype=10 (NT-ENTERPRISE) Kerberos pre-authentication request against the spoofed UPN, issuing a kadmin/changepw TGT that can be used to change the target account's password via kpasswd (port 464). Event 4738 is generated when a user account attribute is changed. This analytic filters to events where the SubjectUserSid equals the TargetSid (self-modification), the new UPN value is not a standard UPN (no @ sign), and the value is not a Windows placeholder. A non-UPN value set on one's own account is anomalous and has no legitimate administrative use case.
+data_source:
+    - Windows Event Log Security 4738
+search: |-
+    `wineventlog_security` EventCode=4738
+    | where SubjectUserSid=TargetSid
+    | where UserPrincipalName!="%%1793" AND UserPrincipalName!="-"
+        AND isnotnull(UserPrincipalName) AND UserPrincipalName!=""
+    | where NOT match(UserPrincipalName, "@")
+    | where NOT SubjectUserSid IN ("S-1-5-18", "S-1-5-7")
+        AND NOT match(SubjectUserName, "^(NT AUTHORITY|ANONYMOUS)")
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by dest SubjectUserName SubjectUserSid TargetUserName TargetSid UserPrincipalName
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_ad_user_suspicious_upn_change_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `User Account Management` within `Account Management` needs to be enabled.
+known_false_positives: Administrators or identity management tools may legitimately set a UPN that does not contain an @ sign during account provisioning or migration workflows. Investigate the SubjectUserName and context to confirm.
+references:
+    - https://cravaterouge.com/articles/resetnightmare/
+    - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-27912
+    - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4738
+drilldown_searches:
+    - name: View the detection results for - "$SubjectUserName$"
+      search: '%original_detection_search% | search SubjectUserName = "$SubjectUserName$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$SubjectUserName$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$SubjectUserName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: User $SubjectUserName$ set their UPN to $UserPrincipalName$ on $dest$
+    entity:
+        field: SubjectUserName
+        type: user
+        score: 50
+analytic_story:
+    - Active Directory Kerberos Attacks
+asset_type: Endpoint
+cve:
+    - CVE-2026-27912
+mitre_attack_id:
+    - T1078.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/resetnightmare/windows-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit
