@@ -1,17 +1,144 @@
 name: Windows Known Abused DLL Loaded Suspiciously
 id: dd6d1f16-adc0-4e87-9c34-06189516b803
-version: 12
+version: 13
 creation_date: '2024-04-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects when DLLs with known abuse history are loaded from an unusual location. This activity may represent an attacker performing a DLL search order or sideload hijacking technique. These techniques are used to gain persistence as well as elevate privileges on the target system. This detection relies on Sysmon EID7 and is compatible with all Officla Sysmon TA versions.
+description: |-
+    The following analytic detects when DLLs with known abuse history are loaded from an unusual location.
+    This activity may represent an attacker performing a DLL search order or sideload hijacking technique.
+    These techniques are used to gain persistence as well as elevate privileges on the target system.
 data_source:
     - Sysmon EventID 7
-search: '`sysmon` ImageLoaded EventCode=7 NOT ImageLoaded IN ("*\\Program Files*","*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*") | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest process_exec process_guid process_hash process_id process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product loaded_file | rename Image as process | eval process_name = case(isnotnull(process),replace(process,"(.*\\\)(?=.*(\.\w*)$|(\w+)$)","")), loaded_file_path = case(isnotnull(loaded_file), replace(loaded_file, "(:[\w\. ]+)", "")), loaded_file = case(isnotnull(loaded_file),replace(loaded_file,"(.*\\\)(?=.*(\.\w*)$|(\w+)$)","")), user = case(NOT user IN ("-"), replace(user, "(.*)\\\(.+)$","\2")) | lookup hijacklibs_loaded library AS loaded_file OUTPUT islibrary comment as desc | lookup hijacklibs_loaded library AS loaded_file excludes as loaded_file_path OUTPUT islibrary as excluded | search islibrary = TRUE AND excluded = false | stats count min(_time) as firstTime max(_time) as lastTime by dest loaded_file loaded_file_path process process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_known_abused_dll_loaded_suspiciously_filter`'
-how_to_implement: The following analytic requires Sysmon operational logs to be imported, with EID7 being mapped to the process_name field. Modify the sysmon macro as needed to match the sourcetype or add index.
-known_false_positives: DLLs being loaded by user mode programs for legitimate reasons.
+search: |-
+    `sysmon`
+    ImageLoaded
+    EventCode=7
+
+    NOT ImageLoaded IN (
+        "C:\\$WINDOWS.~BT\\*",
+        "C:\\$WinREAgent\\*",
+        "C:\\Windows\\SoftwareDistribution\\*",
+        "C:\\Windows\\SyChpe32\\*",
+        "C:\\Windows\\System32\\*",
+        "C:\\Windows\\SystemTemp\\*",
+        "C:\\Windows\\SysWOW64\\*",
+        "C:\\Windows\\WinSxS\\*"
+    )
+
+    NOT (
+        ImageLoaded="C:\\Windows\\Temp\\*"
+        Image IN (
+            "C:\\Windows\\WinSxS\\arm64*",
+            "C:\\Windows\\UUS\\arm64\\*"
+        )
+        Image IN (
+            "*\\TiWorker.exe",
+            "*\\wuaucltcore.exe"
+        )
+    )
+
+    NOT (
+        ImageLoaded="C:\\Windows\\Microsoft.NET\\*"
+        ImageLoaded="*\\cscui.dll"
+    )
+
+    NOT (
+        ImageLoaded="C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*"
+        ImageLoaded="*\\version.dll"
+    )
+
+    NOT (
+        ImageLoaded="C:\\Program Files\\WindowsApps\\Microsoft.DirectXRuntime_*"
+        ImageLoaded="*\\d3dx9_43.dll"
+    )
+
+    NOT ImageLoaded="C:\\Windows\\ImmersiveControlPanel\\SystemSettings.dll"
+
+    NOT (
+        ImageLoaded="C:\\Program Files\\Microsoft\\Exchange Server\\*"
+        ImageLoaded="*\\mswb7.dll"
+    )
+
+    NOT (
+        ImageLoaded="C:\\Program Files\\Arsenal-Image-Mounter-*"
+        ImageLoaded IN (
+            "*\\mi.dll",
+            "*\\miutils.dl"
+        )
+    )
+
+    NOT (
+        Image="C:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\OfficeClickToRun.exe"
+        ImageLoaded="C:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\AppVPolicy.dll"
+    )
+
+    NOT ImageLoaded="C:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*"
+
+    NOT (
+        Image IN (
+            "C:\\Program Files\\WindowsApps\\DellInc.DellSupportAssistforPCs*",
+            "C:\\Windows\\System32\\backgroundTaskHost.exe"
+        )
+        ImageLoaded="C:\\Program Files\\WindowsApps\\DellInc.DellSupportAssistforPCs*"
+    )
+
+    NOT (
+        ImageLoaded="C:\\Program Files\\WindowsApps\\DellInc.DellSupportAssistforPCs\\*"
+        ImageLoaded="*\\wldp.dll"
+    )
+
+    NOT (
+        Image IN (
+            "C:\\Program Files\\CheckPoint\\*",
+            "C:\\Program Files (x86)\\CheckPoint\\*"
+        )
+        Image="*\\SmartConsole.exe"
+        ImageLoaded IN (
+            "C:\\Program Files\\CheckPoint\\*",
+            "C:\\Program Files (x86)\\CheckPoint\\*"
+        )
+        ImageLoaded="*\\PolicyManager.dll"
+    )
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+      by Image ImageLoaded dest process_exec
+         process_guid process_hash process_id
+         process_path service_dll_signature_exists
+         service_dll_signature_verified
+         signature signature_id user_id
+         vendor_product loaded_file
+
+    | rename Image as process
+    | eval process_name = case(isnotnull(process),replace(process,"(.*\\\)(?=.*(\.\w*)$|(\w+)$)","")),
+           loaded_file_path = case(isnotnull(loaded_file), replace(loaded_file, "(:[\w\. ]+)", "")),
+           loaded_file = case(isnotnull(loaded_file),replace(loaded_file,"(.*\\\)(?=.*(\.\w*)$|(\w+)$)","")),
+           user = case(NOT user IN ("-"), replace(user, "(.*)\\\(.+)$","\2"))
+
+    | lookup local=t hijacklibs_loaded library AS loaded_file OUTPUT islibrary comment as desc
+
+    | lookup local=t hijacklibs_loaded library AS loaded_file excludes as loaded_file_path OUTPUT islibrary as excluded | search islibrary = TRUE AND excluded = false
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+      by dest loaded_file loaded_file_path process
+         process_exec process_guid process_hash process_id
+         process_name process_path service_dll_signature_exists
+         service_dll_signature_verified signature
+         signature_id user_id vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_known_abused_dll_loaded_suspiciously_filter`
+how_to_implement: |-
+    The following analytic requires Sysmon operational logs to be ingested, with EventID 7 being mapped to the process_name field. Modify the sysmon macro as needed to match the sourcetype or add index.
+known_false_positives: |-
+    False positives are expected from third party applications and other legitimate system processes located in Program Files and other similar locations. Filter as needed.
 references:
     - https://attack.mitre.org/techniques/T1574/002/
     - https://hijacklibs.net/api/
@@ -27,11 +154,16 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: The module [$loaded_file$] was loaded from an unusual location.
+    title: The module [$loaded_file$] was loaded from an unusual location on [$dest$]. Which may indicate a DLL search order or sideload hijacking technique.
     entity:
         field: dest
         type: system
         score: 50
+threat_objects:
+    - field: Image
+      type: file_path
+    - field: ImageLoaded
+      type: loaded_file
 analytic_story:
     - SolarWinds WHD RCE Post Exploitation
     - Windows Defense Evasion Tactics

@@ -1,8 +1,8 @@
 name: Cisco Secure Firewall - Remote Access Software Usage Traffic
 id: ac54d39e-a75d-4f42-971d-006db3a0423a
-version: 9
+version: 10
 creation_date: '2025-05-28'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -26,7 +26,7 @@ search: |
           count by src ClientApplication action
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | lookup cisco_secure_firewall_appid_remote_mgmt_and_desktop_tools appName AS ClientApplication OUTPUT category, appDescription as Description
+    | lookup local=t cisco_secure_firewall_appid_remote_mgmt_and_desktop_tools appName AS ClientApplication OUTPUT category, appDescription as Description
     | search category IN ("remote administration", "remote desktop control")
     | `remote_access_software_usage_exceptions`
     | `cisco_secure_firewall___remote_access_software_usage_traffic_filter`

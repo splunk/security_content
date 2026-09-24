@@ -1,8 +1,8 @@
 name: Detect Remote Access Software Usage Traffic
 id: 885ea672-07ee-475a-879e-60d28aa5dd42
-version: 16
+version: 17
 creation_date: '2024-03-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -30,7 +30,7 @@ search: |
     | `drop_dm_object_name("All_Traffic")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | lookup remote_access_software remote_appid AS app OUTPUT isutility, description as signature, comment_reference as desc, category
+    | lookup local=t remote_access_software remote_appid AS app OUTPUT isutility, description as signature, comment_reference as desc, category
     | search isutility = True
     | `remote_access_software_usage_exceptions`
     | `detect_remote_access_software_usage_traffic_filter`

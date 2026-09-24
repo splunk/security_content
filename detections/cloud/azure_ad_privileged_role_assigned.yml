@@ -1,8 +1,8 @@
 name: Azure AD Privileged Role Assigned
 id: a28f0bc3-3400-4a6e-a2da-89b9e95f0d2a
-version: 16
+version: 17
 creation_date: '2022-08-29'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -20,7 +20,7 @@ search: |-
         BY dest user src
            vendor_account vendor_product initiatedBy
            result role signature
-      | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description
+      | lookup local=t privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description
       | search isprvilegedadrole = True
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`

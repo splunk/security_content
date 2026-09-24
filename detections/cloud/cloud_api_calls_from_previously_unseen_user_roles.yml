@@ -1,8 +1,8 @@
 name: Cloud API Calls From Previously Unseen User Roles
 id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
-version: 11
+version: 12
 creation_date: '2020-10-27'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,7 @@ search: |-
         All_Changes.status=success
       BY All_Changes.user, All_Changes.command All_Changes.object
     | `drop_dm_object_name("All_Changes")`
-    | lookup previously_seen_cloud_api_calls_per_user_role user as user, command as command OUTPUT firstTimeSeen, enough_data
+    | lookup local=t previously_seen_cloud_api_calls_per_user_role user as user, command as command OUTPUT firstTimeSeen, enough_data
     | eventstats max(enough_data) as enough_data
     | where enough_data=1
     | eval firstTimeSeenUserApiCall=min(firstTimeSeen)

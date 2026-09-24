@@ -1,8 +1,8 @@
 name: O365 BEC Email Hiding Rule Created
 id: 603ebac2-f157-4df7-a6ac-34e8d0350f86
-version: 8
+version: 9
 creation_date: '2025-02-14'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: '0xC0FFEEEE, Github Community'
 status: production
 type: TTP
@@ -13,7 +13,7 @@ search: |-
     | stats min(_time) as firstTime, max(_time) as lastTime, values(Operation) as Operation, latest(Name) as Name, latest(MarkAsRead) as MarkAsRead, latest(MoveToFolder) as MoveToFolder by object_id user
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | lookup ut_shannon_lookup word as Name
+    | lookup local=t ut_shannon_lookup word as Name
     | eval entropy_score=if(ut_shannon<=2, 1, 0)
     | eval len_score=if(len(Name)<=3, 1,0)
     | eval read_score=if(MarkAsRead="True", 1, 0)

@@ -1,8 +1,8 @@
 name: Windows AppLocker Block Events
 id: e369afe8-cd35-47a3-9c1e-d813efc1f7dd
-version: 10
+version: 11
 creation_date: '2024-04-17'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,7 @@ search: |-
         BY dest, PolicyName, RuleId,
            user, TargetProcessId, FilePath,
            FullFilePath, EventCode
-      | lookup applockereventcodes EventCode OUTPUT Description
+      | lookup local=t applockereventcodes EventCode OUTPUT Description
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
       | `windows_applocker_block_events_filter`

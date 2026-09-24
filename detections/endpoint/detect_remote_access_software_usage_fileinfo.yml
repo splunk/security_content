@@ -1,8 +1,8 @@
 name: Detect Remote Access Software Usage FileInfo
 id: ccad96d7-a48c-4f13-8b9c-9f6a31cba454
-version: 15
+version: 16
 creation_date: '2024-03-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -19,7 +19,7 @@ search: |-
            process_hash process_id process_integrity_level
            process_name process_path user
            user_id vendor_product
-      | lookup remote_access_software remote_utility_fileinfo AS Product OUTPUT isutility, description as signature, comment_reference as desc, category
+      | lookup local=t remote_access_software remote_utility_fileinfo AS Product OUTPUT isutility, description as signature, comment_reference as desc, category
       | search isutility = True
       | `remote_access_software_usage_exceptions`
       | `detect_remote_access_software_usage_fileinfo_filter`

@@ -1,8 +1,8 @@
 name: HTTP Scripting Tool User Agent
 id: 04430b4e-5ca8-4e88-98b5-d6bcf54f8393
-version: 6
+version: 7
 creation_date: '2025-10-21'
-modification_date: '2026-06-15'
+modification_date: '2026-09-22'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `drop_dm_object_name(Web)`
     | eval http_user_agent = lower(http_user_agent)
-    | lookup scripting_tools_user_agents tool_user_agent AS http_user_agent OUTPUT tool
+    | lookup local=t scripting_tools_user_agents tool_user_agent AS http_user_agent OUTPUT tool
     | where isnotnull(tool)
     | stats count
         min(firstTime) as first_seen

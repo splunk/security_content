@@ -1,8 +1,8 @@
 name: Circle CI Disable Security Job
 id: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
-version: 10
+version: 11
 creation_date: '2021-09-02'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -15,7 +15,7 @@ search: |-
       | stats values(job_name) as job_names
         BY workflow_id workflow_name user
            commit_message url branch
-      | lookup mandatory_job_for_workflow workflow_name OUTPUTNEW job_name AS mandatory_job
+      | lookup local=t mandatory_job_for_workflow workflow_name OUTPUTNEW job_name AS mandatory_job
       | search mandatory_job=*
       | eval mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0)
       | where mandatory_job_executed=0
