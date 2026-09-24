@@ -110,7 +110,7 @@ search: |-
          process_guid process_hash process_id
          process_path service_dll_signature_exists
          service_dll_signature_verified
-         signature `signature_id` user_id
+         signature signature_id user_id
          vendor_product loaded_file
 
     | rename Image as process
