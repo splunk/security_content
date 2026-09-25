@@ -1,0 +1,8 @@
+name: mcp_security_relevant_deletion_targets
+id: ea7cd791-7574-4c18-beab-ca6f1d3452c2
+version: 1
+creation_date: '2026-06-29'
+modification_date: '2026-06-29'
+author: Adam Lin
+description: Editable regular expression of security-relevant deletion targets used by the MCP Suspicious File Deletion detection to narrow file deletions to data-destruction and defense-evasion candidates. Matches security policy files (SECURITY.md), audit and log paths, CI and workflow configuration under .github/, infrastructure-as-code and pipeline definitions, and common security control files. Edit this macro to add or remove paths that are security-relevant in your environment.
+definition: '"(?i)(^|/)(security\.md|codeowners|\.github/|\.gitlab-ci\.yml|\.circleci/|jenkinsfile|\.pre-commit-config\.yaml|dependabot\.ya?ml)|(^|/)(audit|access|secure|auth|security)[^/]*\.log$|(^|/)(audit|logs?|var/log|history)/|\.(pem|key|crt|p12|pfx|kdbx)$|(^|/)(\.env|secrets?\.ya?ml|credentials|\.aws/|\.ssh/|known_hosts|authorized_keys)"'
