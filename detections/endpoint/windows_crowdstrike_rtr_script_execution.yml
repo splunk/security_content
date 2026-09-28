@@ -1,8 +1,8 @@
 name: Windows Crowdstrike RTR Script Execution
 id: be2bbfff-77c9-4d65-9b7c-97726051534a
-version: 2
+version: 3
 creation_date: '2021-05-07'
-modification_date: '2026-05-13'
+modification_date: '2026-09-28'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -20,7 +20,11 @@ search: |-
     from datamodel=Endpoint.Processes where
 
     Processes.parent_process_name="dllhost.exe"
-    Processes.parent_process="*/Processid:{BD07DDB9-1C61-4DCE-9202-A2BA1757CDB2}*"
+    (
+        Processes.parent_process="*/Processid:{BD07DDB9-1C61-4DCE-9202-A2BA1757CDB2}*"
+        OR
+        Processes.parent_process="unknown"
+    )
     Processes.process_name="powershell.exe"
     Processes.process="* -Version 5.1 -s -NoLogo -NoProfile -EncodedCommand*"
 
