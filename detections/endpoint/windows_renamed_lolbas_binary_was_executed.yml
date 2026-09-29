@@ -20,12 +20,12 @@ search: |-
     WHERE
         NOT Processes.original_file_name IN ("-","unknown")
         AND [
-        | inputlookup renamed_lolbas_binaries.csv
+        | inputlookup renamed_lolbas_binaries
         | rename original_file_name as Processes.original_file_name
         | table Processes.original_file_name
         ]
         AND NOT [
-        | inputlookup renamed_lolbas_binaries.csv
+        | inputlookup renamed_lolbas_binaries
         | rename original_file_name as Processes.process_name
         | table Processes.process_name
         ]
