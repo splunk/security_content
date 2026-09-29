@@ -44,11 +44,14 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: User $SubjectUserName$ injected an invisible-Unicode SPN onto $ObjectDN$ on $dest$
+    title: User [$SubjectUserName$] injected an invisible-Unicode SPN onto [$ObjectDN$] on $dest$
     entity:
         field: SubjectUserName
         type: user
         score: 50
+threat_objects:
+    - field: SubjectUserName
+      type: user
 analytic_story:
     - Active Directory Kerberos Attacks
 asset_type: Endpoint

@@ -41,7 +41,10 @@ intermediate_findings:
         - field: SubjectUserName
           type: user
           score: 20
-          message: User $SubjectUserName$ modified SPNs on computer object $ObjectDN$ on $dest$
+          message: User [$SubjectUserName$] modified SPNs on computer object [$ObjectDN$] on $dest$
+threat_objects:
+    - field: SubjectUserName
+      type: user
 analytic_story:
     - Active Directory Kerberos Attacks
 asset_type: Endpoint
