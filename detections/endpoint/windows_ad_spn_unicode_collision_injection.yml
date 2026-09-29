@@ -1,0 +1,71 @@
+name: Windows AD SPN Unicode Collision Injection
+id: d2d2c043-57a6-4aca-be43-ebb402dbb9e5
+version: 1
+creation_date: '2026-09-25'
+modification_date: '2026-09-25'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic detects the addition of a servicePrincipalName (SPN) containing invisible Unicode characters to an Active Directory computer object via Windows Security Event 5136. This is the key indicator of the KerberLoss attack (CVE-2026-25177), where an attacker with write access to a machine account's SPN attribute injects a collision SPN that contains a Zero Width or other invisible Unicode character (e.g. U+200C Zero Width Non-Joiner). LDAP's string preparation rules (RFC 4518) cause these characters to be ignored during uniqueness checking, allowing the write to succeed even when an identical SPN already exists on another machine account. The Kerberos KDC, however, does not apply the same normalisation — it finds two accounts with matching SPNs and returns KDC_ERR_S_PRINCIPAL_UNKNOWN, causing a Kerberos denial-of-service or forcing clients to fall back to NTLM downgrade.
+data_source:
+    - Windows Event Log Security 5136
+search: |-
+    `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName OperationType="%%14675"
+    | eval matched_invisible_chars=mvappend(
+        if(match(AttributeValue, "\x{200B}"), "U+200B (Zero Width Space)", null()),
+        if(match(AttributeValue, "\x{200C}"), "U+200C (Zero Width Non-Joiner)", null()),
+        if(match(AttributeValue, "\x{200D}"), "U+200D (Zero Width Joiner)", null()),
+        if(match(AttributeValue, "\x{200E}"), "U+200E (Left-to-Right Mark)", null()),
+        if(match(AttributeValue, "\x{200F}"), "U+200F (Right-to-Left Mark)", null()),
+        if(match(AttributeValue, "\x{00AD}"), "U+00AD (Soft Hyphen)", null()),
+        if(match(AttributeValue, "\x{FEFF}"), "U+FEFF (Zero Width No-Break Space)", null()),
+        if(match(AttributeValue, "\x{2060}"), "U+2060 (Word Joiner)", null()),
+        if(match(AttributeValue, "[\x{206A}-\x{206F}]"), "U+206A-206F (Deprecated Format Characters)", null()))
+    | where isnotnull(matched_invisible_chars)
+    | rename Computer as dest
+    | stats count min(_time) as firstTime max(_time) as lastTime values(matched_invisible_chars) as matched_invisible_chars
+        by dest SubjectUserName SubjectDomainName ObjectDN ObjectClass AttributeValue
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_ad_spn_unicode_collision_injection_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller Security event logs. Enable the Advanced Security Audit policy `DS Access > Audit Directory Service Changes` for Success events. Additionally, a WriteProperty audit SACL must be configured on the computer object class (or the CN=Computers container with inheritance) to generate Event 5136 when servicePrincipalName is modified.
+known_false_positives: Legitimate use of invisible Unicode characters in SPN values is not expected. This detection should have a very low false positive rate. Provisioning tools or scripts that incorrectly encode SPN strings from certain character sets may trigger this. Verify the SubjectUserName and ObjectDN to confirm intent.
+references:
+    - https://www.semperis.com/blog/identity-crisis-novel-vulnerabilities-leading-to-kerberos-downgrade-dos-and-full-domain-takeover/
+    - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-25177
+    - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136
+drilldown_searches:
+    - name: View the detection results for - "$SubjectUserName$"
+      search: '%original_detection_search% | search SubjectUserName = "$SubjectUserName$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$SubjectUserName$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$SubjectUserName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: User $SubjectUserName$ injected an invisible-Unicode SPN onto $ObjectDN$ on $dest$
+    entity:
+        field: SubjectUserName
+        type: user
+        score: 50
+analytic_story:
+    - Active Directory Kerberos Attacks
+asset_type: Endpoint
+cve:
+    - CVE-2026-25177
+mitre_attack_id:
+    - T1562.010
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.010/kerberloss/windows-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit
