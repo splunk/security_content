@@ -66,7 +66,7 @@ search: |-
         ImageLoaded="C:\\Program Files\\Arsenal-Image-Mounter-*"
         ImageLoaded IN (
             "*\\mi.dll",
-            "*\\miutils.dl"
+            "*\\miutils.dll"
         )
     )
 
@@ -103,34 +103,18 @@ search: |-
         ImageLoaded="*\\PolicyManager.dll"
     )
 
+    | lookup local=t hijacklibs_loaded library AS loaded_file OUTPUT islibrary comment as reference
+    | lookup local=t hijacklibs_loaded library AS loaded_file excludes AS loaded_file_path OUTPUT islibrary AS excluded
+    | where islibrary="TRUE" AND isnull(excluded)
+
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
 
-      by Image ImageLoaded dest process_exec
-         process_guid process_hash process_id
+      by dest loaded_file loaded_file_path process_exec
+         process_guid process_hash process_id process_name
          process_path service_dll_signature_exists
-         service_dll_signature_verified
-         signature signature_id user_id
-         vendor_product loaded_file
-
-    | rename Image as process
-    | eval process_name = case(isnotnull(process),replace(process,"(.*\\\)(?=.*(\.\w*)$|(\w+)$)","")),
-           loaded_file_path = case(isnotnull(loaded_file), replace(loaded_file, "(:[\w\. ]+)", "")),
-           loaded_file = case(isnotnull(loaded_file),replace(loaded_file,"(.*\\\)(?=.*(\.\w*)$|(\w+)$)","")),
-           user = case(NOT user IN ("-"), replace(user, "(.*)\\\(.+)$","\2"))
-
-    | lookup local=t hijacklibs_loaded library AS loaded_file OUTPUT islibrary comment as desc
-
-    | lookup local=t hijacklibs_loaded library AS loaded_file excludes as loaded_file_path OUTPUT islibrary as excluded | search islibrary = TRUE AND excluded = false
-
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-
-      by dest loaded_file loaded_file_path process
-         process_exec process_guid process_hash process_id
-         process_name process_path service_dll_signature_exists
          service_dll_signature_verified signature
-         signature_id user_id vendor_product
+         signature_id user user_id reference vendor_product
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -154,16 +138,16 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: The module [$loaded_file$] was loaded from an unusual location on [$dest$]. Which may indicate a DLL search order or sideload hijacking technique.
+    title: The module [$loaded_file$] was loaded from an unusual location [$loaded_file_path$] on [$dest$]. Which may indicate a DLL search order or sideload hijacking technique.
     entity:
         field: dest
         type: system
         score: 50
 threat_objects:
-    - field: Image
+    - field: process_path
       type: file_path
-    - field: ImageLoaded
-      type: loaded_file
+    - field: loaded_file_path
+      type: file_path
 analytic_story:
     - SolarWinds WHD RCE Post Exploitation
     - Windows Defense Evasion Tactics
