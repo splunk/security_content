@@ -12,7 +12,6 @@ description: |-
     be an indicator that an adversary is attempting to evade defenses or execute malicious code.
 data_source:
     - Sysmon EventID 1
-    - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime
@@ -37,7 +36,7 @@ search: |-
     | eval original_file_name=lower(original_file_name)
     | where NOT match(process_name, "(?i)^".replace(original_file_name,"(?i).exe",""))
     | where NOT match(process_name, "(?i)".original_file_name)
-    | lookup renamed_windows_command_interpreter_binaries original_file_name OUTPUT description
+    | lookup local=t renamed_windows_command_interpreter_binaries original_file_name OUTPUT description
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_renamed_command_interpreter_was_executed_filter`
@@ -54,6 +53,7 @@ references:
     - https://attack.mitre.org/techniques/T1036/
     - https://attack.mitre.org/techniques/T1036/003/
     - https://attack.mitre.org/techniques/T1059/
+    - https://redcanary.com/threat-detection-report/techniques/rename-system-utilities/
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -67,8 +67,8 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 30
-          message: Command Interpreter [$original_file_name$] was renamed as [$process_name$] and later executed on [$dest$]
+          score: 20
+          message: Command Interpreter [$original_file_name$] was renamed as [$process_path$] and later executed on [$dest$]
 threat_objects:
     - field: process_name
       type: process_name

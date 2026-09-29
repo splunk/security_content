@@ -7,6 +7,7 @@ psexec*.c,"Sysinternals tool for executing processes on remote systems; frequent
 psexec*.exe,"Sysinternals tool for executing processes on remote systems; frequently abused for lateral movement."
 psexec64.exe,"64-bit build of the Sysinternals PsExec remote execution tool."
 pwsh.exe,"PowerShell (Core) 6+ cross-platform command-line shell and scripting engine, successor to powershell.exe."
+pwsh.dll,"PowerShell (Core) 6+ cross-platform command-line shell and scripting engine, successor to powershell.exe."
 sh.exe,"POSIX-compatible shell interpreter, typically bundled with Git for Windows/WSL/Cygwin, used to run shell scripts."
 windowsterminal.exe,"Modern Windows Terminal application host that runs command-line shells (cmd, PowerShell, WSL) in tabs."
 wsl.exe,"Windows Subsystem for Linux launcher; runs a Linux distribution/shell and executes Linux binaries or scripts on Windows."
