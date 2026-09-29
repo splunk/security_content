@@ -16,7 +16,7 @@ search: |-
     | where NOT SubjectUserName IN ("*NT AUTHORITY*","*SYSTEM*","*ANONYMOUS*")
     | stats count min(_time) as firstTime max(_time) as lastTime values(AttributeValue) as spn_values values(OperationType) as operation_types
         by Computer SubjectUserName SubjectDomainName SubjectUserSid ObjectDN
-    | eval operation_types=mvmap(operation_types, case(operation_types="%%14675", "Added", operation_types="%%14674", "Deleted", true(), operation_types))
+    | eval operation_types=mvmap(operation_types, case(operation_types="%%14675", "Deleted", operation_types="%%14674", "Added", true(), operation_types))
     | rename Computer as dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

@@ -10,17 +10,22 @@ description: The following analytic detects the addition of a servicePrincipalNa
 data_source:
     - Windows Event Log Security 5136
 search: |-
-    `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName OperationType="%%14675"
+    `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName OperationType IN ("%%14674","%%14675")
     | eval matched_invisible_chars=mvappend(
+        if(match(AttributeValue, "\x{034F}"), "U+034F (Combining Grapheme Joiner)", null()),
         if(match(AttributeValue, "\x{200B}"), "U+200B (Zero Width Space)", null()),
         if(match(AttributeValue, "\x{200C}"), "U+200C (Zero Width Non-Joiner)", null()),
         if(match(AttributeValue, "\x{200D}"), "U+200D (Zero Width Joiner)", null()),
         if(match(AttributeValue, "\x{200E}"), "U+200E (Left-to-Right Mark)", null()),
         if(match(AttributeValue, "\x{200F}"), "U+200F (Right-to-Left Mark)", null()),
         if(match(AttributeValue, "\x{00AD}"), "U+00AD (Soft Hyphen)", null()),
+        if(match(AttributeValue, "\x{1806}"), "U+1806 (Mongolian Todo Soft Hyphen)", null()),
         if(match(AttributeValue, "\x{FEFF}"), "U+FEFF (Zero Width No-Break Space)", null()),
+        if(match(AttributeValue, "\x{FFFC}"), "U+FFFC (Object Replacment Character  )", null()),
         if(match(AttributeValue, "\x{2060}"), "U+2060 (Word Joiner)", null()),
         if(match(AttributeValue, "[\x{206A}-\x{206F}]"), "U+206A-206F (Deprecated Format Characters)", null()))
+        if(match(AttributeValue, "[\x{180B}-\x{180D}]"), "U+180B-180D (Variation Selectors)", null()))
+        if(match(AttributeValue, "[\x{FF00}-\x{FE0F}]"), "U+FF00-FE0F (Variation Selectors)", null()))
     | where isnotnull(matched_invisible_chars)
     | rename Computer as dest
     | stats count min(_time) as firstTime max(_time) as lastTime values(matched_invisible_chars) as matched_invisible_chars
