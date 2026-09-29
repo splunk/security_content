@@ -44,6 +44,6 @@ product:
 category: endpoint
 security_domain: threat
 deprecation_info:
-    reason: Detection deprecated as it is targeting a method of persistence that has been disabled in MacOS for years. As well, the fact that the detection has been set to experimental since 2020.
+    reason: Detection deprecated as it is targeting a method of persistence that has been disabled in MacOS for years. As well, as the fact that the detection has been set to experimental since 2020.
     removed_in_version: 6.10.0
     replacement_content: []

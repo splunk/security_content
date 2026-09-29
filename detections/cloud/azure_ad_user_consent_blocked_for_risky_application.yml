@@ -1,17 +1,44 @@
 name: Azure AD User Consent Blocked for Risky Application
 id: 06b8ec9a-d3b5-4882-8f16-04b4d10f5eab
-version: 11
+version: 12
 creation_date: '2023-11-16'
-modification_date: '2026-05-13'
+modification_date: '2026-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects instances where Azure AD has blocked a user's attempt to grant consent to a risky or potentially malicious application. This detection leverages Azure AD audit logs, focusing on user consent actions and system-driven blocks. Monitoring these blocked consent attempts is crucial as it highlights potential threats early on, indicating that a user might be targeted or that malicious applications are attempting to infiltrate the organization. If confirmed malicious, this activity suggests that Azure's security measures successfully prevented a harmful application from accessing organizational data, warranting immediate investigation to understand the context and take preventive measures.
+description: |-
+    The following analytic detects instances where Azure AD has blocked a user's attempt to grant consent to a risky or potentially malicious application.
+    This detection leverages Azure AD audit logs, focusing on user consent actions and system-driven blocks.
+    Monitoring these blocked consent attempts is crucial as it highlights potential threats early on, indicating that a user might be targeted or that malicious applications are attempting to infiltrate the organization.
+    If confirmed malicious, this activity suggests that Azure's security measures successfully prevented a harmful application from accessing organizational data, warranting immediate investigation to understand the context and take preventive measures.
 data_source:
     - Azure Active Directory Consent to application
-search: "`azure_monitor_aad` operationName=\"Consent to application\" properties.result=failure | rename properties.* as * | eval reason_index = if(mvfind('targetResources{}.modifiedProperties{}.displayName', \"ConsentAction.Reason\") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', \"ConsentAction.Reason\"), -1) | eval permissions_index = if(mvfind('targetResources{}.modifiedProperties{}.displayName', \"ConsentAction.Permissions\") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', \"ConsentAction.Permissions\"), -1) | search reason_index >= 0 | eval reason = mvindex('targetResources{}.modifiedProperties{}.newValue',reason_index) | eval permissions = mvindex('targetResources{}.modifiedProperties{}.newValue',permissions_index) | search reason = \"\\\"Risky application detected\\\"\" | rex field=permissions \"Scope: (?<Scope> [ ^,]+)\" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product reason Scope signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_user_consent_blocked_for_risky_application_filter`"
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+search: |-
+    `azure_monitor_aad`
+    operationName="Consent to application"
+    properties.result=failure
+
+    | rename properties.* as *
+
+    | eval reason_index = if(mvfind('targetResources{}.modifiedProperties{}.displayName', "ConsentAction.Reason") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', "ConsentAction.Reason"), -1)
+    | eval permissions_index = if(mvfind('targetResources{}.modifiedProperties{}.displayName', "ConsentAction.Permissions") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', "ConsentAction.Permissions"), -1)
+    | search reason_index >= 0
+    | eval reason = mvindex('targetResources{}.modifiedProperties{}.newValue',reason_index) | eval permissions = mvindex('targetResources{}.modifiedProperties{}.newValue',permissions_index)
+    | search reason = "Risky application detected"
+    | rex field=permissions "Scope: (?<Scope>[^,]+)"
+    | fillnull
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest user src vendor_account vendor_product reason Scope signature
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `azure_ad_user_consent_blocked_for_risky_application_filter`
+how_to_implement: |-
+    You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: |-
+    No false positives have been identified at this time.
 references:
     - https://attack.mitre.org/techniques/T1528/
     - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
