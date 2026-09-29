@@ -21,11 +21,11 @@ search: |-
         if(match(AttributeValue, "\x{00AD}"), "U+00AD (Soft Hyphen)", null()),
         if(match(AttributeValue, "\x{1806}"), "U+1806 (Mongolian Todo Soft Hyphen)", null()),
         if(match(AttributeValue, "\x{FEFF}"), "U+FEFF (Zero Width No-Break Space)", null()),
-        if(match(AttributeValue, "\x{FFFC}"), "U+FFFC (Object Replacment Character  )", null()),
+        if(match(AttributeValue, "\x{FFFC}"), "U+FFFC (Object Replacement Character)", null()),
         if(match(AttributeValue, "\x{2060}"), "U+2060 (Word Joiner)", null()),
-        if(match(AttributeValue, "[\x{206A}-\x{206F}]"), "U+206A-206F (Deprecated Format Characters)", null()))
-        if(match(AttributeValue, "[\x{180B}-\x{180D}]"), "U+180B-180D (Variation Selectors)", null()))
-        if(match(AttributeValue, "[\x{FF00}-\x{FE0F}]"), "U+FF00-FE0F (Variation Selectors)", null()))
+        if(match(AttributeValue, "[\x{206A}-\x{206F}]"), "U+206A-206F (Deprecated Format Characters)", null()),
+        if(match(AttributeValue, "[\x{180B}-\x{180D}]"), "U+180B-180D (Variation Selectors)", null()),
+        if(match(AttributeValue, "[\x{FE00}-\x{FE0F}]"), "U+FE00-FE0F (Variation Selectors)", null()))
     | where isnotnull(matched_invisible_chars)
     | rename Computer as dest
     | stats count min(_time) as firstTime max(_time) as lastTime values(matched_invisible_chars) as matched_invisible_chars
