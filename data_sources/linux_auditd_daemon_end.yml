@@ -19,7 +19,7 @@ configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules
 supported_TA:
     - name: Splunk Add-on for Unix and Linux
       url: https://splunkbase.splunk.com/app/833
-      version: 10.3.3
+      version: 10.3.4
 fields:
     - type
     - op

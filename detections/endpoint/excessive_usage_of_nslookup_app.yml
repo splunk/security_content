@@ -1,12 +1,12 @@
 name: Excessive Usage of NSLOOKUP App
 id: 0a69fdaa-a2b8-11eb-b16d-acde48001122
-version: 12
+version: 13
 creation_date: '2021-04-22'
-modification_date: '2026-05-13'
+modification_date: '2026-08-24'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects excessive usage of the nslookup application, which may indicate potential DNS exfiltration attempts. It leverages Sysmon EventCode 1 to monitor process executions, specifically focusing on nslookup.exe. The detection identifies outliers by comparing the frequency of nslookup executions against a calculated threshold. This activity is significant as it can reveal attempts by malware or APT groups to exfiltrate data via DNS queries. If confirmed malicious, this behavior could allow attackers to stealthily transfer sensitive information out of the network, bypassing traditional data exfiltration defenses.
+description: The following analytic detects excessive usage of the nslookup application, which may indicate potential DNS exfiltration attempts. It leverages Sysmon EventCode 1 to monitor process executions, specifically focusing on nslookup.exe. The detection identifies outliers by comparing the frequency of nslookup executions against a calculated threshold. This activity is significant as it can reveal attempts by malware or APT groups to exfiltrate data via DNS queries. If confirmed malicious,this behavior could allow attackers to stealthily transfer sensitive information out of the network, bypassing traditional data exfiltration defenses.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -25,7 +25,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `excessive_usage_of_nslookup_app_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of nslookup.exe may be used.
-known_false_positives: No false positives have been identified at this time.
+known_false_positives: Network or DNS monitoring tools that perform bulk nslookup checks against multiple domains in quick succession (e.g., CDN health checks, load balancer DNS validation scripts) may exceed the detection threshold as part of normal, scheduled operation. Hosts with limited historical baseline data may also cross the dynamic threshold more easily due to low computed average and standard deviation values. Tune the detection or add exceptions for known monitoring tool parent processes as needed.
 references:
     - https://www.mandiant.com/resources/fin7-spear-phishing-campaign-targets-personnel-involved-sec-filings
     - https://www.varonis.com/blog/dns-tunneling

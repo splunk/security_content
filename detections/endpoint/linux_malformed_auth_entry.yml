@@ -55,6 +55,8 @@ intermediate_findings:
 analytic_story:
     - Linux Privilege Escalation
 asset_type: Endpoint
+cve:
+    - CVE-2026-31431
 mitre_attack_id:
     - T1068
 product:
@@ -63,8 +65,6 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-cve:
-    - CVE-2026-31431
 tests:
     - name: True Positive Test
       attack_data:

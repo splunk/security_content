@@ -55,6 +55,8 @@ analytic_story:
     - BlueHammer
     - RedSun
 asset_type: Endpoint
+cve:
+    - CVE-2026-33825
 mitre_attack_id:
     - T1068
     - T1071.001
@@ -64,8 +66,6 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-cve:
-    - CVE-2026-33825
 tests:
     - name: True Positive Test
       attack_data:

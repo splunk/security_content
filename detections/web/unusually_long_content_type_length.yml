@@ -1,8 +1,8 @@
 name: Unusually Long Content-Type Length
 id: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
-version: 7
+version: 8
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -29,6 +29,11 @@ intermediate_findings:
           type: system
           score: 20
           message: Unusually Long Content-Type Length ($http_content_type_length$ characters) In Web Request from $src$
+threat_objects:
+    - field: http_user_agent
+      type: http_user_agent
+    - field: url
+      type: url
 analytic_story:
     - Apache Struts Vulnerability
 asset_type: Web Server

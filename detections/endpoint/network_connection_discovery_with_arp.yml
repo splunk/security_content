@@ -1,8 +1,8 @@
 name: Network Connection Discovery With Arp
 id: ae008c0f-83bd-4ed4-9350-98d4328e15d2
-version: 10
+version: 11
 creation_date: '2021-08-24'
-modification_date: '2026-05-13'
+modification_date: '2026-08-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -22,7 +22,7 @@ search: |-
     (
         Processes.process_name="arp.exe"
         OR
-        Processes.process_original_file_name="arp.exe"
+        Processes.original_file_name="arp.exe"
     )
     Processes.process IN (
         "* -a*",

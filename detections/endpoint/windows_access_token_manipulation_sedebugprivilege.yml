@@ -1,8 +1,8 @@
 name: Windows Access Token Manipulation SeDebugPrivilege
 id: 6ece9ed0-5f92-4315-889d-48560472b188
-version: 23
+version: 24
 creation_date: '2022-09-05'
-modification_date: '2026-06-08'
+modification_date: '2026-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -53,6 +53,7 @@ analytic_story:
     - Tuoni
     - Gh0st RAT
     - Salat Stealer
+    - Vidar Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1134.002

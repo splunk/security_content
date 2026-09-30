@@ -1,8 +1,8 @@
 name: Non Chrome Process Accessing Chrome Default Dir
 id: 81263de4-160a-11ec-944f-acde48001122
-version: 20
+version: 21
 creation_date: '2021-09-15'
-modification_date: '2026-06-25'
+modification_date: '2026-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -51,6 +51,7 @@ analytic_story:
     - VIP Keylogger
     - Salat Stealer
     - Phantom Stealer
+    - Vidar Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1555.003

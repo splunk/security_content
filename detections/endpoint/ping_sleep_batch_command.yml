@@ -1,16 +1,17 @@
 name: Ping Sleep Batch Command
 id: ce058d6c-79f2-11ec-b476-acde48001122
-version: 16
+version: 17
 creation_date: '2022-01-20'
-modification_date: '2026-05-13'
+modification_date: '2026-08-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic identifies the execution of ping sleep batch commands.
-    It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process command-line details.
-    This activity is significant as it indicates an attempt to delay malicious code execution, potentially evading detection or sandbox analysis.
-    If confirmed malicious, this technique allows attackers to bypass security measures, making it harder to detect and analyze their activities, thereby increasing the risk of prolonged unauthorized access and potential data exfiltration.
+    The following analytic identifies the use of ping commands as a delay or sleep mechanism within batch-style command execution.
+    It leverages process creation telemetry from Endpoint Detection and Response (EDR) agents and examines process and parent process command-line fields for ping commands that specify a count and are chained with additional commands using command separators or redirection operators.
+    While execution of the command may generate individual process creation events, such as a separate ping.exe process, this analytic specifically focuses on the original command string passed to a command interpreter, such as cmd.exe /c, that combines the ping-based delay with subsequent command execution.
+    Adversaries may use ping as an alternative to explicit sleep or timeout commands to introduce execution delays, potentially evading automated analysis, sandboxing, or behavior-based detection.
+    Because ping is commonly used for legitimate network troubleshooting, findings should be reviewed in the context of the complete command line, parent process, user, and commands executed before or after the delay.
 data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
@@ -22,13 +23,17 @@ search: |-
     FROM datamodel=Endpoint.Processes WHERE
     (
         Processes.parent_process= "*ping*"
-        Processes.parent_process = *-n*
+        Processes.parent_process IN (
+            "*-n*",
+            "*/n*"
+        )
         Processes.parent_process IN (
             "*& *",
             "*&amp;*",
             "*&C:*",
             "*&gt;*",
-            "*>*"
+            "*>*",
+            "*||*"
         )
     )
     OR
@@ -38,13 +43,17 @@ search: |-
             OR
             Processes.original_file_name= "ping.exe"
         )
-        Processes.process = *-n*
+        Processes.process IN (
+            "*-n*",
+            "*/n*"
+        )
         Processes.process IN (
             "*& *",
             "*&amp;*",
             "*&C:*",
             "*&gt;*",
-            "*>*"
+            "*>*",
+            "*||*"
         )
     )
 
@@ -61,8 +70,16 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `ping_sleep_batch_command_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Administrator or network operator may execute this command. Please update the filter macros to remove false positives.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
+    These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions.
+    These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model.
+    Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Administrators, network operators, scripts, and software installers may legitimately use ping commands as a simple delay mechanism between commands or operations.
+    Review the full command line, parent process, user context, and surrounding activity to determine whether the execution is expected.
+    Update the filter macro to exclude known legitimate command patterns or processes in your environment.
 references:
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 drilldown_searches:
@@ -79,11 +96,16 @@ intermediate_findings:
         - field: user
           type: user
           score: 20
-          message: suspicious $process$ commandline run on $dest$
+          message: Potential ping-based execution delay detected on [$dest$] by [$user$] via [$process$]
         - field: dest
           type: system
           score: 20
-          message: suspicious $process$ commandline run on $dest$
+          message: Potential ping-based execution delay detected on [$dest$] by [$user$] via [$process$]
+threat_objects:
+    - field: process
+      type: process
+    - field: parent_process
+      type: parent_process
 analytic_story:
     - Warzone RAT
     - Quasar RAT

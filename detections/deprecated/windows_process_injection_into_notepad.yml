@@ -1,10 +1,10 @@
 name: Windows Process Injection into Notepad
 id: b8340d0f-ba48-4391-bea7-9e793c5aae36
-version: 13
+version: 14
 creation_date: '2023-02-24'
-modification_date: '2026-05-13'
+modification_date: '2026-09-21'
 author: Michael Haag, Splunk
-status: production
+status: deprecated
 type: Anomaly
 description: The following analytic detects process injection into Notepad.exe using Sysmon EventCode 10. It identifies suspicious GrantedAccess requests (0x40 and 0x1fffff) to Notepad.exe, excluding common system paths like System32, Syswow64, and Program Files. This behavior is often associated with the SliverC2 framework by BishopFox. Monitoring this activity is crucial as it may indicate an initial payload attempting to execute malicious code within Notepad.exe. If confirmed malicious, this could allow attackers to execute arbitrary code, potentially leading to privilege escalation or persistent access within the environment.
 data_source:
@@ -55,3 +55,8 @@ tests:
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
+deprecation_info:
+    reason: Detection deprecated as it is already covered by the" Windows Process Injection into Commonly Abused Processes" detection.
+    removed_in_version: 6.10.0
+    replacement_content:
+        - Windows Process Injection into Commonly Abused Processes

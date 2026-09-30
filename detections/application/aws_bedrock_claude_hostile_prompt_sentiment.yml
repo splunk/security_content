@@ -3,14 +3,12 @@ id: 54734442-955a-4427-9a86-2d9712151067
 version: 1
 creation_date: '2026-07-06'
 modification_date: '2026-07-06'
-security_domain: endpoint
-data_source:
-    - AWS Bedrock Claude
-category: application
 author: Rod Soto
 status: production
 type: Anomaly
 description: This detection identifies prompts with hostile or aggressive sentiment being sent to AWS Bedrock Claude models. Hostile prompts may indicate potential abuse, harassment, or other malicious intent.
+data_source:
+    - AWS Bedrock Claude
 search: |-
     `aws_bedrock_claude`
     | rename "identity.arn" AS user_arn
@@ -61,6 +59,8 @@ product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
+category: application
+security_domain: endpoint
 tests:
     - name: True Positive Test
       test_type: unit

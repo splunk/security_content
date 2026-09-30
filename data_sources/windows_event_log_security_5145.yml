@@ -17,7 +17,7 @@ separator_value: '5145'
 supported_TA:
     - name: Splunk Add-on for Microsoft Windows
       url: https://splunkbase.splunk.com/app/742
-      version: 11.0.1
+      version: 11.0.2
 fields:
     - _time
     - AccessList

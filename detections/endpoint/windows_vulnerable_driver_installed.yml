@@ -1,8 +1,8 @@
 name: Windows Vulnerable Driver Installed
 id: 1dda7586-57be-4a1b-8de1-a9ad802b9a7f
-version: 10
+version: 11
 creation_date: '2020-01-19'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Dean Luxton
 status: production
 type: TTP
@@ -38,6 +38,9 @@ finding:
         field: dest
         type: system
         score: 50
+threat_objects:
+    - field: ImagePath
+      type: file_path
 analytic_story:
     - Windows Drivers
     - Void Manticore

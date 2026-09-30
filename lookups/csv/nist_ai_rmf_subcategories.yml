@@ -1,0 +1,8 @@
+name: nist_ai_rmf_subcategories
+id: ac42b14f-4f89-45c9-bc3d-728109b3b3b1
+version: 1
+creation_date: '2026-09-02'
+modification_date: '2026-09-02'
+author: Nasreddine Bencherchali, Rod Soto, Splunk Threat Research Team
+lookup_type: csv
+description: NIST AI RMF function, category, and subcategory reference data used by the NIST AI RMF Control Coverage dashboard.

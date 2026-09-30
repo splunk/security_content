@@ -1,14 +1,14 @@
 name: AWS Bedrock Claude Sensitive Data in Prompts
 id: 39346724-a73a-4e01-8e93-4f4791e1a0bb
 version: 1
-author: Rod Soto
-status: production
 creation_date: '2026-07-06'
 modification_date: '2026-07-06'
-data_source:
-    - AWS Bedrock Claude
+author: Rod Soto
+status: production
 type: Anomaly
 description: This detection identifies sensitive data such as social security numbers, passwords, API keys, and credit card numbers being sent in prompts to AWS Bedrock Claude models. Exposure of sensitive data through AI prompts may indicate data loss, credential leakage, or insider threat activity.
+data_source:
+    - AWS Bedrock Claude
 search: |-
     `aws_bedrock_claude`
     | rename "identity.arn" AS user_arn, "input.inputBodyJson.messages{}.content{}.text" AS prompt_mv, "accountId" AS account_id

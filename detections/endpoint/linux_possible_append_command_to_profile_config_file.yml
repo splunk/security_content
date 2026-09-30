@@ -1,26 +1,57 @@
 name: Linux Possible Append Command To Profile Config File
 id: 9c94732a-61af-11ec-91e3-acde48001122
-version: 11
+version: 12
 creation_date: '2022-01-11'
-modification_date: '2026-05-13'
+modification_date: '2026-08-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious command-lines that modify user profile files to automatically execute scripts or executables upon system reboot. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving profile files like ~/.bashrc and /etc/profile. This activity is significant as it indicates potential persistence mechanisms used by adversaries to maintain access to compromised hosts. If confirmed malicious, this could allow attackers to execute arbitrary code upon reboot, leading to persistent control over the system and potential further exploitation.
+description: |-
+    The following analytic detects suspicious command-lines that modify user profile files to automatically execute scripts or executables upon system reboot.
+    It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving profile files like ~/.bashrc and /etc/profile.
+    This activity is significant as it indicates potential persistence mechanisms used by adversaries to maintain access to compromised hosts.
+    If confirmed malicious, this could allow attackers to execute arbitrary code upon reboot, leading to persistent control over the system and potential further exploitation.
 data_source:
     - Sysmon for Linux EventID 1
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.process = "*echo*"
-        AND
-        Processes.process IN("*~/.bashrc", "*~/.bash_profile", "*/etc/profile", "~/.bash_login", "*~/.profile", "~/.bash_logout")
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process = "*echo*"
+    (
+        Processes.process IN ("*/home/*", "*~/*", "*/etc/*")
+        Processes.process IN (
+            "*/.bash_login*",
+            "*/.bash_logout*",
+            "*/.bash_profile*",
+            "*/.bashrc*",
+            "*/.profile*",
+            "*/profile*"
+        )
+        OR
+        (
+            Processes.process_current_directory = "/home/*"
+            Processes.process IN (
+                "*.bash_login*",
+                "*.bash_logout*",
+                "*.bash_profile*",
+                "*.bashrc*",
+                "*.profile*",
+                "* profile*"
+            )
+        )
+    )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process_current_directory Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -44,7 +75,10 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: a commandline $process$ that may modify profile files on $dest$
+          message: The [$process_name$] process is attempting to modify Shell Profile files via the Command Line [$process$] on [$dest$]
+threat_objects:
+    - field: process
+      type: process
 analytic_story:
     - Linux Privilege Escalation
     - Linux Persistence Techniques

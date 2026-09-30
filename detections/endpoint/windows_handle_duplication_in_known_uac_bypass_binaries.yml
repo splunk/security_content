@@ -1,15 +1,57 @@
 name: Windows Handle Duplication in Known UAC-Bypass Binaries
 id: d7369bf5-1315-4138-b927-2dd8bb8c1da7
-version: 4
+version: 5
 creation_date: '2025-11-07'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious handle duplication activity targeting known Windows utilities such as ComputerDefaults.exe, Eventvwr.exe, and others. This technique is commonly used to escalate privileges or bypass UAC by inheriting or injecting elevated tokens or handles. The detection focuses on non-standard use of DuplicateHandle or token duplication where process, thread, or token handles are copied into the context of trusted, signed utilities. Such behavior may indicate attempts to execute with elevated rights without user consent. Alerts enable rapid triage using process trees, handle data, token attributes, command-lines, and binary hashes.
+description: |-
+    The following analytic detects duplicate-handle access to known UAC-bypass binaries from a non-standard source path.
+    It leverages Sysmon EventCode 10, converts GrantedAccess from hexadecimal, and checks for PROCESS_DUP_HANDLE.
 data_source:
     - Sysmon EventID 10
-search: '`sysmon` EventCode=10 TargetImage IN("*\\ComputerDefaults.exe", "*\\eventvwr.exe*", "*\\fodhelper.exe","*\\slui.exe","*\\sdclt.exe","*\\mmc.exe", "*\\colorcpl.exe","*\\wsreset.exe","*\\esentutl.exe", "*\PkgMgr.exe") AND NOT (SourceImage IN ("*C:\\Windows\\system32\\*","*C:\\Windows\\syswow64\\*","*C:\\Program Files\\*", "*C:\\Program Files (x86)\\*","%systemroot%\\*")) | eval g_access_decimal = tonumber(replace(GrantedAccess,"0x",""),16) | eval PROCESS_DUP_HANDLE = 64 | eval dup_handle_set = bit_and (g_access_decimal, PROCESS_DUP_HANDLE) | where dup_handle_set == PROCESS_DUP_HANDLE | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage GrantedAccess PROCESS_DUP_HANDLE g_access_decimal dup_handle_set Guid Opcode ProcessID SecurityID SourceProcessGUID SourceProcessId  TargetProcessGUID TargetProcessId UserID dest granted_access parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product CallTrace EventID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_handle_duplication_in_known_uac_bypass_binaries_filter`'
+search: |-
+    `sysmon`
+    EventCode=10
+    TargetImage IN(
+        "*\\colorcpl.exe",
+        "*\\ComputerDefaults.exe",
+        "*\\esentutl.exe",
+        "*\\eventvwr.exe",
+        "*\\fodhelper.exe",
+        "*\\mmc.exe",
+        "*\\sdclt.exe",
+        "*\\slui.exe",
+        "*\\wsreset.exe",
+        "*\\PkgMgr.exe"
+    )
+    NOT SourceImage IN (
+        "C:\\Windows\\System32\\*",
+        "C:\\Windows\\SysWOW64\\*",
+        "C:\\Program Files\\*",
+        "C:\\Program Files (x86)\\*",
+        "%SystemRoot%\\*"
+    )
+
+    | eval g_access_decimal = tonumber(replace(GrantedAccess,"0x",""),16)
+    | eval PROCESS_DUP_HANDLE = 64
+    | eval dup_handle_set = bit_and (g_access_decimal, PROCESS_DUP_HANDLE)
+    | where dup_handle_set == PROCESS_DUP_HANDLE
+
+    | stats count min(_time) as firstTime
+                    max(_time) as lastTime
+        BY user_id dest
+           signature_id signature granted_access Opcode
+           SourceImage SourceProcessGUID SourceProcessId
+           TargetImage TargetProcessGUID TargetProcessId
+           CallTrace vendor_product
+
+    | eval CallTrace=split(CallTrace, "|")
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_handle_duplication_in_known_uac_bypass_binaries_filter`
 how_to_implement: To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: It is possible legitimate applications will request access to list of know abused Windows UAC binaries process, filter as needed.
 references:
@@ -28,10 +70,10 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A process $SourceImage$ is duplicating the handle token of $TargetImage$ on $dest$
+          message: The process [$SourceImage$] requested duplicate-handle access [$granted_access$] to [$TargetImage$] on [$dest$]
 threat_objects:
-    - field: parent_process_name
-      type: parent_process_name
+    - field: SourceImage
+      type: file_path
 analytic_story:
     - Castle RAT
 asset_type: Endpoint

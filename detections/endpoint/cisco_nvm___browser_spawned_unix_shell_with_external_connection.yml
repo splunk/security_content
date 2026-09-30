@@ -1,0 +1,116 @@
+name: Cisco NVM - Browser Spawned Unix Shell with External Connection
+id: 6f2de8d1-9a2d-4c7a-9b8c-3b8a2f7d0e41
+version: 1
+creation_date: '2026-09-02'
+modification_date: '2026-09-02'
+author: Maria Jose Erquiaga, Splunk
+status: production
+type: Anomaly
+description: |
+    Detects a Unix-based (Linux or macOS) browser process spawning a Unix shell that establishes an outbound connection to an external destination.
+    This browser-to-shell execution chain may indicate malicious browser content, drive-by execution, a compromised website, or abuse of a browser extension on Linux or macOS systems.
+    The behavior may also occur during legitimate development, installation, automation, or enterprise software workflows.
+data_source:
+    - Cisco Network Visibility Module Flow Data
+search: |
+    `cisco_network_visibility_module_flowdata`
+    process_path IN (
+        "*/bash",
+        "*/csh",
+        "*/dash",
+        "*/fish",
+        "*/sh",
+        "*/tcsh",
+        "*/zsh"
+    )
+    parent_process_path IN (
+        "*/arc", "*/brave", "*/brave-browser", "*/chrome", "*/chromium", "*/duckduckgo", "*/firefox", "*/firefox-bin",
+        "*/google chrome", "*/google-chrome", "*/librewolf", "*/microsoft edge", "*/msedge", "*/opera",
+        "*/opera gx", "*/safari", "*/tor browser", "*/vivaldi", "*/waterfox"
+    )
+    NOT dest IN (
+            "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+            "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+            "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+            "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+            "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
+        )
+
+    | stats count
+        min(_time) as firstTime
+        max(_time) as lastTime
+        values(parent_process_hash) as parent_process_hash
+        values(process_hash) as process_hash
+        values(module_name_list) as module_name_list
+        values(module_hash_list) as module_hash_list
+        values(dest_port) as dest_port
+        values(dest_hostname) as dest_hostname
+
+      by src src_ip dest dest_ip bytes_in bytes_out
+         user process_id process_name process_path process
+         parent_process_id parent_process_name parent_process_path parent_process
+
+    | table
+      firstTime lastTime user
+      parent_process_path parent_process_name parent_process parent_process_hash
+      process_path process_name process process_hash process_id
+      module_name_list module_hash_list
+      src src_ip dest_hostname dest dest_ip dest_port bytes_in bytes_out
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_nvm___browser_spawned_unix_shell_with_external_connection_filter`
+how_to_implement: |
+    This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+    This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+    Replace the macro definition with configurations for your Splunk environment.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
+known_false_positives: |
+    Legitimate workflows may launch Unix command interpreters from browser contexts, including developer tooling, software installers, SSO helpers, browser extensions, and automation wrappers. Tuning may be required for approved applications, users, and destinations.
+references:
+    - https://attack.mitre.org/tactics/TA0002/
+    - https://attack.mitre.org/techniques/T1059/
+    - https://redcanary.com/threat-detection-report/threats/socgholish/
+drilldown_searches:
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search src="$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: src
+          type: system
+          score: 20
+          message: A Unix-based browser process [$parent_process$] spawned shell [$process$] on host [$src$], which made an outbound connection to external destination [$dest_hostname$] with IP [$dest_ip$] on port [$dest_port$].
+threat_objects:
+    - field: process
+      type: process
+    - field: dest_ip
+      type: ip_address
+    - field: dest_hostname
+      type: domain
+analytic_story:
+    - Cisco Network Visibility Module Analytics
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco NVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/macos_browser_spawned_script_external_network_connection/nvm_flowdata.log
+          source: not_applicable
+          sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit

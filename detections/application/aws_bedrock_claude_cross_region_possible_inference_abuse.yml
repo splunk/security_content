@@ -6,10 +6,9 @@ modification_date: '2026-07-06'
 author: Rod Soto
 status: production
 type: Anomaly
+description: This detection identifies potential cross-region inference abuse in AWS Bedrock Claude models. Cross-region inference abuse may indicate attempts to bypass regional restrictions, exfiltrate data, or perform unauthorized actions across different AWS regions.
 data_source:
     - AWS Bedrock Claude
-category: application
-description: This detection identifies potential cross-region inference abuse in AWS Bedrock Claude models. Cross-region inference abuse may indicate attempts to bypass regional restrictions, exfiltrate data, or perform unauthorized actions across different AWS regions.
 search: |-
     `aws_bedrock_claude`
     | rename "identity.arn" AS user_arn
@@ -60,6 +59,7 @@ product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
+category: application
 security_domain: endpoint
 tests:
     - name: True Positive Test

@@ -1,9 +1,9 @@
 name: RoguePlanet
 id: eafb5ab2-71bb-4da9-a541-015d002f01f1
-version: 1
+version: 2
 creation_date: '2026-06-11'
-modification_date: '2026-06-11'
-author: Teoderick Contreras, Splunk
+modification_date: '2026-08-17'
+author: Teoderick Contreras, Onur Mustafa Erdogan, Splunk
 status: production
 description: |-
     RoguePlanet is a publicly released proof-of-concept exploit targeting a race condition in Microsoft Windows Defender. The attack abuses Defender scanning behavior, NTFS alternate data streams, virtual ISO mounting, volume shadow copy paths, and opportunistic oplocks to achieve local privilege escalation to SYSTEM.
@@ -17,13 +17,22 @@ narrative: |
 
     From a detection standpoint, the most durable observables are Sysmon Event ID 15 records showing :WDFOO alternate data streams on wermgr.exe under RP_* temp directories, MsMpEng.exe touching those same paths, and the initial RoguePlanet.exe process writing ADS content. Secondary signals include creation of RP_* directories, virtual disk attach activity, reparse-point manipulation, and a user-context process later spawning SYSTEM-integrity children.
 
-    This analytic story groups detections that surface alternate data stream abuse, suspicious Defender-adjacent file activity, and privilege escalation patterns consistent with RoguePlanet and similar Windows Defender bypass research. Security teams should treat any matching activity as high priority, validate patch and Defender configuration status, and isolate affected endpoints pending vendor guidance.
+    ShieldBreak is a related proof-of-concept published by NightmareEclipse that exploits the same underlying weakness in Defender's scanning pipeline, targeting Windows Server 2025 rather than client builds. A low-privileged executable creates a working directory under C:\ShieldBreak_{GUID}\, registers a fake cloud storage provider, and creates a cloud file placeholder named BERLIN with a stream ADS. It loads mpclient.dll, Defender's own client API library, and directs Defender to scan a path resolved through the object manager under \BaseNamedObjects\Restricted\, hydrating the placeholder on demand.
+
+    ShieldBreak wins its race through symbolic link manipulation rather than oplocks: an object-manager symlink initially resolves the scan target to the working directory, then is swapped to resolve through a CLFS path so that a locked Defender artifact file (BERLIN.blf) is produced instead. A second symbolic link, created over a local administrative share targeting 127.0.0.1, redirects that locked file to \Windows\System32\phoneinfo.dll, so the subsequent hydration writes the attacker's payload directly into a privileged system directory. The exploit then fabricates a Windows Error Report under the WER ReportQueue directory and manually executes the QueueReporting scheduled task, causing wermgr.exe to load phoneinfo.dll -- a classic phantom-DLL hijack target -- which steals a SYSTEM token and spawns an elevated shell.
+
+    This analytic story groups detections that surface alternate data stream abuse, suspicious Defender-adjacent file and module-load activity, Windows Error Reporting abuse, and privilege escalation patterns consistent with RoguePlanet, ShieldBreak, and similar Windows Defender bypass research. Security teams should treat any matching activity as high priority, validate patch and Defender configuration status, and isolate affected endpoints pending vendor guidance.
 references:
     - https://github.com/MSNightmare/RoguePlanet/tree/main
     - https://attack.mitre.org/techniques/T1068/
     - https://attack.mitre.org/techniques/T1564/004/
     - https://attack.mitre.org/techniques/T1211/
     - https://car.mitre.org/analytics/CAR-2020-08-001/
+    - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
+    - https://www.picussecurity.com/resource/blog/rogueplanet-anatomy-of-the-nightmare-eclipse-microsoft-defender-zero-day#from-rce-to-lpe:-the-smb-and-vhdx-origin-story
+    - https://www.threatlocker.com/blog/nightmareeclipse-releases-new-poc-shieldbreak-exploits-same-weakness-as-rogueplanet
+    - https://www.hexacorn.com/blog/2016/06/02/beyond-good-ol-run-key-part-40/
+    - https://secret.club/2020/07/01/diagtrack.html
 category:
     - Adversary Tactics
 product:

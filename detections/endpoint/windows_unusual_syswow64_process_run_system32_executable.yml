@@ -1,8 +1,8 @@
 name: Windows Unusual SysWOW64 Process Run System32 Executable
 id: e4602172-db86-4315-86df-da66fb40bcde
-version: 6
+version: 7
 creation_date: '2022-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-01'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -32,7 +32,7 @@ intermediate_findings:
           message: a 32 bit process execute 64 bit executable on [$dest$].
 threat_objects:
     - field: process_path
-      type: process_name
+      type: file_path
 analytic_story:
     - DarkGate Malware
     - Salt Typhoon

@@ -1,8 +1,8 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 30
+version: 31
 creation_date: '2021-05-07'
-modification_date: '2026-07-20'
+modification_date: '2026-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -140,6 +140,7 @@ analytic_story:
     - VIP Keylogger
     - Phantom Stealer
     - Starland RAT Campaign
+    - Vidar Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1036

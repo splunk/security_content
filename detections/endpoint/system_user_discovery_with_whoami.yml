@@ -1,8 +1,8 @@
 name: System User Discovery With Whoami
 id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
-version: 11
+version: 12
 creation_date: '2021-08-24'
-modification_date: '2026-05-13'
+modification_date: '2026-08-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -16,7 +16,7 @@ search: |-
       WHERE (
             Processes.process_name="whoami.exe"
             OR
-            Processes.process_original_file_name="whoami.exe"
+            Processes.original_file_name="whoami.exe"
         )
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid

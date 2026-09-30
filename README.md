@@ -31,7 +31,7 @@ This project gives you access to our repository of Analytic Stories, security gu
 
 - [Splunk Attack Range](https://github.com/splunk/attack_range): The Splunk Attack Range is an open-source project maintained by the Splunk Threat Research Team. It builds instrumented cloud (AWS, Azure) and local environments (Virtualbox), simulates attacks, and forwards the data into a Splunk instance. This environment can then be used to develop and test the effectiveness of detections.
 - [contentctl-ng](https://pypi.org/project/contentctl-ng/): The tool that enables us to build, test, and package our content for distribution.
-- [Attack data](https://github.com/splunk/attack_data): The is a collection of attack data that is used to test our content.
+- [Attack data](https://github.com/splunk/attack_data): This is a collection of attack data that is used to test our content.
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team): Atomic Red Team™ is a library of tests mapped to the MITRE ATT&CK® framework. Security teams can use Atomic Red Team to quickly, portably, and reproducibly test their environments.
 
 # Get Content🛡
@@ -55,12 +55,12 @@ Follow these steps to get started with Splunk Security Content.
 
 1. Clone this repository using `git clone https://github.com/splunk/security_content.git`
 2. Navigate to the repository directory using `cd security_content`
-3. Install contentctl-ng using `pip install contentctl-ng` to install the latest version of contentctl-ng, this is a pre-requisite to validate, build and test the content like the Splunk Threat Research team
-4. Install pre-commit using `pip install pre-commit` then proceed to installing the hooks via `pre-commit install`. this is a pre-requisite to validate and apply the proper formatting.
+3. Install contentctl-ng using `pip install contentctl-ng` to install the latest version of contentctl-ng, this is a prerequisite to validate, build, and test the content like the Splunk Threat Research team
+4. Install pre-commit using `pip install pre-commit` then proceed to installing the hooks via `pre-commit install`. This is a prerequisite to validate and apply the proper formatting.
 
 # Quick Start 🚀
 
-1. Setup the environment
+1. Set up the environment
 ```
 git clone https://github.com/splunk/security_content.git
 cd security_content
@@ -95,9 +95,9 @@ https://github.com/user-attachments/assets/1be02afa-36b5-4d49-91cb-8ebbcf4123d0
 
 - 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute back to the community by creating a pull request to the Splunk Security Content project.
 
-- In order to build an content app that specific for your organization, we strongly recommend that you start with keeping only the detections that are related to your organization and remove other YML files that are not related to your organization. This includes selecting detections, stories, macros, lookups that are used by the detection YML files.
+- In order to build a content app that specific for your organization, we strongly recommend that you start with keeping only the detections that are related to your organization and remove other YML files that are not related to your organization. This includes selecting detections, stories, macros, lookups that are used by the detection YML files.
 
-- If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
+- If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories. This will ensure that the content app is self-contained and does not rely on external files.
 
 - We recommend that you follow the errors produced by the `contentctl-ng` tool while developing this content. The errors are descriptive enough to guide you in getting the right values. If you need help, please refer to the [JSON Schemas](#json-schemas) to check out the list of allowed values
 

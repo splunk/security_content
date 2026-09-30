@@ -1,8 +1,8 @@
 name: Windows Process Execution in Temp Dir
 id: f6fbe929-4187-4ba4-901e-8a34be838443
-version: 12
+version: 13
 creation_date: '2021-05-07'
-modification_date: '2026-06-08'
+modification_date: '2026-09-01'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -37,7 +37,7 @@ intermediate_findings:
           message: Suspicious process $process_name$ running from temp directory- $process_path$ on host- $dest$
 threat_objects:
     - field: process_path
-      type: process_name
+      type: file_path
 analytic_story:
     - AgentTesla
     - XWorm

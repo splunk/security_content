@@ -59,6 +59,8 @@ analytic_story:
     - Windows Persistence Techniques
     - BlueHammer
 asset_type: Endpoint
+cve:
+    - CVE-2026-33825
 mitre_attack_id:
     - T1068
     - T1105
@@ -68,8 +70,6 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
-cve:
-    - CVE-2026-33825
 tests:
     - name: True Positive Test
       attack_data:

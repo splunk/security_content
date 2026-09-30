@@ -1,8 +1,8 @@
 name: Windows Screen Capture in TEMP folder
 id: 00524d1f-a032-46f5-9108-e7d9f01bfb3c
-version: 12
+version: 13
 creation_date: '2024-10-18'
-modification_date: '2026-05-13'
+modification_date: '2026-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -37,6 +37,7 @@ analytic_story:
     - APT37 Rustonotto and FadeStealer
     - Hellcat Ransomware
     - VIP Keylogger
+    - Vidar Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1113
