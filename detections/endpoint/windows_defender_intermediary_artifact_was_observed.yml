@@ -1,0 +1,77 @@
+name: Windows Defender Intermediary Artifact Was Observed
+id: 5234fb35-da15-4e45-8e17-3b7ae0e0fc9e
+version: 1
+creation_date: '2026-09-30'
+modification_date: '2026-09-30'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects creation and removal of intermediary remediation artifacts of Windows Defender, during exploitation of ShieldCrash attacks.
+    Exploit abuses the race condition between file validation and its remediation performed by Windows Defender. In between these steps, ShieldCrash changes the
+    symbolic link to redirect the remediation process to a staging directory controlled by the attacker. This detection aims to detect creation of defender artifact,
+    its alternate data stream, and their subsequent removal.
+data_source:
+    - Sysmon EventID 11 AND Sysmon EventID 15 AND Sysmon EventID 23
+search: |-
+    `sysmon`
+    EventID IN (11, 15, 23)
+    process_name IN ("system","msmpeng.exe")
+    user=SYSTEM
+    AND NOT TargetFilename IN ("C:\\Windows\\Temp\\*", "*:Zone.Identifier", "*:SmartScreen")
+    | stats values(EventID) as EventID dc(EventID) as dc_EventID values(TargetFilename) as TargetFilename
+      dc(TargetFilename) as dc_TargetFilename min(_time) as firstTime max(_time) as lastTime count
+      by dest process_id process_name user file_name file_path
+    | regex file_path!="(?i)\.\w{1,10}$"
+    | search dc_TargetFilename>1 dc_EventID>1
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_defender_intermediary_artifact_was_observed_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting file creation, file stream creation and file deletion events from your endpoints using Sysmon.
+    These logs must be processed using the latest Sysmon Technical Add-on (https://splunkbase.splunk.com/app/5709). Make sure to update Sysmon configuration to include
+    directories you would like to monitor for these kinds of events.
+known_false_positives: |-
+    Remediation of various container files, such as archives, might also lead to creation various defender artifacts
+    SmartScreen interferes with the remediation process, potentially causing additional defender artifacts to be created.
+references:
+    - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
+    - https://www.cyderes.com/howler-cell/shieldcrash-microsoft-zero-day?hs_amp=true
+    - https://socradar.io/blog/shieldcrash-poc-microsoft-defender-fix-bypass/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Intermediary artifacts [$TargetFilename$] were observed by [$process_name$] during Defender Remediation process on [$dest$]
+threat_objects:
+    - field: TargetFilename
+      type: file_path
+analytic_story:
+    - RoguePlanet
+    - Windows Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1068
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/shieldcrash_windefender_artifacts/shieldcrash_windefender_artifacts.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
