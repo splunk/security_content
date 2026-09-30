@@ -13,7 +13,7 @@ data_source:
 search: |-
     `esxi_syslog`
     Message IN (
-        "*pkill -9 *"
+        "*pkill -9 *",
         "*process kill*"
     )
     | rex field=_raw "\s\[(?<user>[^\]]+)\]:\s(?<shell_command>.+)$"

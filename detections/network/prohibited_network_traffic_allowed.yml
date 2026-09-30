@@ -34,7 +34,7 @@ search: |-
 
     by All_Traffic.src_ip All_Traffic.dest_ip
        All_Traffic.dest_port All_Traffic.dvc
-       All_Traffic.vendor_product
+       All_Traffic.transport All_Traffic.vendor_product
 
     | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port transport as All_Traffic.transport OUTPUT app is_prohibited note
 
