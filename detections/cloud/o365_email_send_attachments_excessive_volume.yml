@@ -1,20 +1,24 @@
 name: O365 Email Send Attachments Excessive Volume
 id: 70a050a2-8537-488a-a628-b60a9558d96a
-version: 6
+version: 7
 creation_date: '2025-01-23'
-modification_date: '2026-05-13'
+modification_date: '2026-09-23'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic identifies when an O365 email account sends an excessive number of email attachments to external recipients within a short period (within 1 hour). This behavior may indicate a compromised account where the threat actor is attempting to exfiltrate data from the mailbox. Threat actors may attempt to transfer data through email as a simple means of exfiltration from the compromised mailbox. Some account owner legitimate behaviors can trigger this alert, however these actions may not be aligned with organizational expectations / best practice behaviors.
+description: |-
+    The following analytic identifies when an O365 email account sends an excessive number of email attachments to external recipients within a short period (within 1 hour).
+    This behavior may indicate a compromised account where the threat actor is attempting to exfiltrate data from the mailbox.
+    Threat actors may attempt to transfer data through email as a simple means of exfiltration from the compromised mailbox.
+    Some account owner legitimate behaviors can trigger this alert, however these actions may not be aligned with organizational expectations / best practice behaviors.
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    `o365_messagetrace` Status=Delivered
+    `o365_messagetrace` status_code=Delivered
     | eval mailtime = _time
     | bin _time span=1hr
-    | eval user = lower(SenderAddress), recipient = lower(RecipientAddress)
-    | eval InternetMessageId = lower(MessageId)
+    | eval user = lower(src_user), recipient = lower(recipient)
+    | eval InternetMessageId = lower(message_id)
     | join InternetMessageId, user, _time max=0
       [
       | search `o365_management_activity` Workload=Exchange Operation IN ("Send","SendAs","SendOnBehalf")
@@ -27,14 +31,16 @@ search: |-
       | eval file_name = mvjoin(file_name,"||")
       ]
     | eval file_name = split(file_name,"||")
-    | stats values(sender) as sender, values(recipient) as recipient, values(http_user_agent) as http_user_agent, values(signature) as signature, values(file_name) as file_name, max(file_size) as file_size, min(firstTime) as firstTime, max(lastTime) as lastTime max(count) as count by subject,user,Organization,InternetMessageId
+    | stats values(sender) as sender, values(recipient) as recipient, values(http_user_agent) as http_user_agent, values(signature) as signature, values(file_name) as file_name, max(file_size) as file_size, min(firstTime) as firstTime, max(lastTime) as lastTime max(count) as count by subject,user,InternetMessageId
     | eval recipient = mvmap(recipient, if(match(mvindex(split(lower(recipient),"@"),1),mvindex(split(lower(user),"@"),1)), null(),recipient))
     | search recipient = *
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `o365_email_send_attachments_excessive_volume_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
-known_false_positives: Users or processes that are send a large number of attachments may trigger this alert, adjust thresholds accordingly.
+how_to_implement: |-
+    You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
+known_false_positives: |-
+    Users or processes that are send a large number of attachments may trigger this alert, adjust thresholds accordingly.
 references:
     - https://attack.mitre.org/techniques/T1114/
     - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
@@ -83,4 +89,13 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_messagetrace_suspect_events.log
           source: o365_messagetrace
           sourcetype: o365:reporting:messagetrace
+      test_type: unit
+    - name: True Positive Test - Graph message trace
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
+          source: o365
+          sourcetype: o365:management:activity
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_graph_messagetrace_suspect_events.log
+          source: o365_messagetrace
+          sourcetype: o365:graph:messagetrace
       test_type: unit
