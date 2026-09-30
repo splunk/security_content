@@ -7,76 +7,75 @@ author: Maria Jose Erquiaga, Splunk
 status: production
 type: TTP
 description: >-
-  Detects an AWS identity making 10 or more successful EC2 Instance Connect
-  SendSSHPublicKey API calls within the configured search interval. EC2
-  Instance Connect temporarily makes an SSH public key available to an
-  operating-system user on an EC2 instance. A burst of these calls may
-  indicate automated attempts to establish access or move laterally using
-  compromised AWS credentials. The search counts distinct CloudTrail eventID
-  values to prevent duplicate ingestion from inflating the threshold.
+    Detects an AWS identity making 10 or more successful EC2 Instance Connect
+    SendSSHPublicKey API calls within the configured search interval. EC2
+    Instance Connect temporarily makes an SSH public key available to an
+    operating-system user on an EC2 instance. A burst of these calls may
+    indicate automated attempts to establish access or move laterally using
+    compromised AWS credentials.
 data_source:
-  - AWS CloudTrail
+    - AWS CloudTrail
 search: |-
-  `cloudtrail` eventSource="ec2-instance-connect.amazonaws.com" eventName="SendSSHPublicKey" responseElements.success=true
-  | eval actor=coalesce('userIdentity.arn', 'userIdentity.sessionContext.sessionIssuer.arn', 'userIdentity.principalId')
-  | stats dc(eventID) as event_count
-      dc('requestParameters.instanceId') as unique_instances
-      values(awsRegion) as aws_regions
-      values('requestParameters.instanceId') as targeted_instances
-      values('requestParameters.instanceOSUser') as targeted_users
-      values(sourceIPAddress) as source_ip
-      values(userAgent) as user_agent
-      earliest(_time) as firstTime
-      latest(_time) as lastTime
-      by actor
-  | where event_count >= 10
-  | eval duration_seconds=lastTime-firstTime
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `aws_ec2_multiple_ssh_public_keys_uploaded_by_a_single_identity_filter`
+    `cloudtrail` eventSource="ec2-instance-connect.amazonaws.com" eventName="SendSSHPublicKey" responseElements.success=true
+    | eval actor=coalesce('userIdentity.arn', 'userIdentity.sessionContext.sessionIssuer.arn', 'userIdentity.principalId')
+    | stats count as event_count
+        dc('requestParameters.instanceId') as unique_instances
+        values(awsRegion) as aws_regions
+        values('requestParameters.instanceId') as targeted_instances
+        values('requestParameters.instanceOSUser') as targeted_users
+        values(sourceIPAddress) as source_ip
+        values(userAgent) as user_agent
+        earliest(_time) as firstTime
+        latest(_time) as lastTime
+        by actor
+    | where event_count >= 10
+    | eval duration_seconds=lastTime-firstTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `aws_ec2_multiple_ssh_public_keys_uploaded_by_a_single_identity_filter`
 how_to_implement: >-
-  Ingest AWS CloudTrail management events into Splunk using the
-  aws:cloudtrail sourcetype. Ensure that successful EC2 Instance Connect
-  SendSSHPublicKey events are collected. Schedule the analytic with a short
-  lookback window appropriate for the environment, such as 10 minutes, and
-  run it every 5 minutes. The search counts distinct CloudTrail eventID values
-  so overlapping CloudTrail trails or duplicate collection paths do not
-  inflate the threshold.
+    Ingest AWS CloudTrail management events into Splunk using the
+    aws:cloudtrail sourcetype. Ensure that successful EC2 Instance Connect
+    SendSSHPublicKey events are collected. Schedule the analytic with a short
+    lookback window appropriate for the environment, such as 10 minutes, and
+    run it every 5 minutes. The search counts distinct CloudTrail eventID values
+    so overlapping CloudTrail trails or duplicate collection paths do not
+    inflate the threshold.
 known_false_positives: >-
-  Administrators and automated orchestration may legitimately use EC2
-  Instance Connect repeatedly during fleet administration, troubleshooting,
-  or ephemeral-access workflows. Review the AWS identity, source addresses,
-  user agent, target instances, target operating-system users, and whether
-  the activity corresponds to an approved administrative process.
+    Administrators and automated orchestration may legitimately use EC2
+    Instance Connect repeatedly during fleet administration, troubleshooting,
+    or ephemeral-access workflows. Review the AWS identity, source addresses,
+    user agent, target instances, target operating-system users, and whether
+    the activity corresponds to an approved administrative process.
 references:
-  - https://docs.aws.amazon.com/ec2-instance-connect/latest/APIReference/API_SendSSHPublicKey.html
-  - https://stratus-red-team.cloud/attack-techniques/AWS/aws.lateral-movement.ec2-instance-connect/
-  - https://www.elastic.co/guide/en/security/8.19/prebuilt-rule-8-19-14-aws-ec2-instance-connect-ssh-public-key-uploaded.html
+    - https://docs.aws.amazon.com/ec2-instance-connect/latest/APIReference/API_SendSSHPublicKey.html
+    - https://stratus-red-team.cloud/attack-techniques/AWS/aws.lateral-movement.ec2-instance-connect/
+    - https://www.elastic.co/guide/en/security/8.19/prebuilt-rule-8-19-14-aws-ec2-instance-connect-ssh-public-key-uploaded.html
 finding:
-  title: AWS identity $actor$ uploaded $event_count$ SSH public keys using EC2 Instance Connect
-  entity:
-    field: actor
-    type: user
-    score: 50
+    title: AWS identity $actor$ uploaded $event_count$ SSH public keys using EC2 Instance Connect
+    entity:
+        field: actor
+        type: user
+        score: 50
 threat_objects:
-  - field: source_ip
-    type: ip_address
+    - field: source_ip
+      type: ip_address
 analytic_story:
-  - Suspicious Cloud Instance Activities
+    - Suspicious Cloud Instance Activities
 asset_type: AWS Account
 mitre_attack_id:
-  - T1021.004
-  - T1021.008
+    - T1021.004
+    - T1021.008
 product:
-  - Splunk Cloud
-  - Splunk Enterprise
-  - Splunk Enterprise Security
+    - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
 category: cloud
 security_domain: threat
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.008/aws_ec2_multiple_ssh_public_keys_uploaded/aws_ec2_multiple_ssh_public_keys_uploaded.json
-        sourcetype: aws:cloudtrail
-        source: aws_cloudtrail
-    test_type: unit
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.008/aws_ec2_multiple_ssh_public_keys_uploaded/aws_ec2_multiple_ssh_public_keys_uploaded.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail
+      test_type: unit
