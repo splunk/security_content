@@ -105,7 +105,7 @@ search: |-
 
     | lookup local=t hijacklibs_loaded library AS loaded_file OUTPUT islibrary comment as reference
     | lookup local=t hijacklibs_loaded library AS loaded_file excludes AS loaded_file_path OUTPUT islibrary AS excluded
-    | where islibrary="TRUE" AND isnull(excluded)
+    | where islibrary="TRUE" AND excluded="false"
 
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
