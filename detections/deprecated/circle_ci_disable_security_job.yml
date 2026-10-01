@@ -62,5 +62,5 @@ tests:
       test_type: unit
 deprecation_info:
     reason: Detection deprecated because the Technology Add-on it uses has been archived, and no replacement TA exists.
-    removed_in_version: 6.10.0
+    removed_in_version: 6.12.0
     replacement_content: []
