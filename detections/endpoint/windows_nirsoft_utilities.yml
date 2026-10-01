@@ -16,7 +16,7 @@ data_source:
     - Sysmon EventID 1
 search: |
     `sysmon` EventID=1
-    ( Company=nirsoft OR 
+    ( Company=nirsoft OR
       [
         | inputlookup nirsoft_utilities_lookup.csv
         | search original_file_name=*.exe
