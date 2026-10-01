@@ -16,14 +16,30 @@ data_source:
 search: |-
     `sysmon`
     EventID IN (11, 15, 23)
-    process_name IN ("system","msmpeng.exe")
+    process_name IN (
+        "System",
+        "msmpeng.exe"
+    )
     user=SYSTEM
-    AND NOT TargetFilename IN ("C:\\Windows\\Temp\\*", "*:Zone.Identifier", "*:SmartScreen")
-    | stats values(EventID) as EventID dc(EventID) as dc_EventID values(TargetFilename) as TargetFilename
-      dc(TargetFilename) as dc_TargetFilename min(_time) as firstTime max(_time) as lastTime count
-      by dest process_id process_name user file_name file_path
-    | regex file_path!="(?i)\.\w{1,10}$"
+    NOT TargetFilename IN (
+        "C:\\Windows\\Temp\\*",
+        "*:Zone.Identifier",
+        "*:SmartScreen"
+    )
+
+    | regex TargetFilename!="(?i)\.\w{1,10}$"
+
+    | stats count values(EventID) as EventID
+                  values(TargetFilename) as TargetFilename
+                  dc(EventID) as dc_EventID
+                  dc(TargetFilename) as dc_TargetFilename
+                  min(_time) as firstTime
+                  max(_time) as lastTime
+
+      by dest process_id process_name user
+
     | search dc_TargetFilename>1 dc_EventID>1
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_defender_intermediary_artifact_was_observed_filter`
