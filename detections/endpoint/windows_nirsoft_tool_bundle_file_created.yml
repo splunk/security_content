@@ -1,9 +1,9 @@
 name: Windows NirSoft Tool Bundle File Created
 id: a2c8e8f8-18d6-4ad4-acf4-f58903bebe41
-version: 5
+version: 6
 creation_date: '2025-10-24'
-modification_date: '2026-05-13'
-author: Nasreddine Bencherchali, Splunk
+modification_date: '2026-10-01'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
 description: |
@@ -20,23 +20,18 @@ search: |
             min(_time) as firstTime
             max(_time) as lastTime
 
-    from datamodel=Endpoint.Filesystem where
+    FROM datamodel=Endpoint.Filesystem
+    WHERE
 
     ``` Increase coverage by adding additional Nirsoft tool bundle or tool filenames ```
+    [
+      | inputlookup nirsoft_utilities_lookup.csv
+      | search original_file_name=*.zip
+      | table original_file_name
+      | rename original_file_name as Filesystem.file_name
+    ]
 
-    Filesystem.file_name IN (
-      "brtools.zip",
-      "mailpv.zip",
-      "networktools.zip",
-      "passreccommandline.zip",
-      "passrecenc.zip",
-      "progtools.zip",
-      "rdpv.zip",
-      "systools.zip",
-      "webbrowserpassview.zip"
-    )
-
-    by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+    BY Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
        Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
        Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
        Filesystem.user Filesystem.vendor_product
@@ -71,7 +66,12 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: NirSoft tool bundle file $file_name$ created on host $dest$
+          message: NirSoft tool bundle file [$file_name$] created on host [$dest$].
+threat_objects:
+    - field: file_name
+      type: file_name
+    - field: file_path
+      type: file_path
 analytic_story:
     - Unusual Processes
     - Data Destruction
