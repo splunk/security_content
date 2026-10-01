@@ -59,6 +59,8 @@ def discover_used_tas() -> dict[str, dict[str, Any]]:
         detection = load_yaml(path)
         if not detection:
             continue
+        if str(detection.get("status") or "").strip().casefold() == "deprecated":
+            continue
         references = detection.get("data_source") or []
         if isinstance(references, str):
             references = [references]
