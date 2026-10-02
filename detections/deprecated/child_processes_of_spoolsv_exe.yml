@@ -59,10 +59,7 @@ category: endpoint
 security_domain: endpoint
 deprecation_info:
     reason: |-
-        Deprecated because the broad parent-child logic generated substantial
-        legitimate printer, driver, and print-management activity and did not
-        directly detect the exploitation behavior associated with its CVE reference.
-        More specific Print Spooler behaviors are covered by existing production
-        detections.
+        Deprecated because the broad parent-child logic generated substantial legitimate printer, driver, and print-management activity and did not directly detect the exploitation behavior associated with its CVE reference.
+        More specific Print Spooler behaviors are covered by existing production detections.
     removed_in_version: 6.10.0
     replacement_content: []
