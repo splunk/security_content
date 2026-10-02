@@ -1,8 +1,8 @@
 name: Windows Alternate Data Stream Created Over Local Share
 id: e974a5c9-cbe9-4b4a-8fba-b55e7dbc8259
-version: 1
+version: 2
 creation_date: '2026-08-19'
-modification_date: '2026-08-19'
+modification_date: '2026-09-30'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -17,7 +17,7 @@ data_source:
 search: |-
     `wineventlog_security`
     EventCode=5145
-    IpAddress="127.0.0.1"
+    IpAddress IN ("127.0.0.1", "::1")
     ObjectType="File"
     | regex RelativeTargetName="(?i)\:\w+$"
     | fillnull
