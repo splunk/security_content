@@ -33,14 +33,7 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `aws_ec2_multiple_ssh_public_keys_uploaded_by_a_single_identity_filter`
-how_to_implement: >-
-    Ingest AWS CloudTrail management events into Splunk using the
-    aws:cloudtrail sourcetype. Ensure that successful EC2 Instance Connect
-    SendSSHPublicKey events are collected. Schedule the analytic with a short
-    lookback window appropriate for the environment, such as 10 minutes, and
-    run it every 5 minutes. The search counts distinct CloudTrail eventID values
-    so overlapping CloudTrail trails or duplicate collection paths do not
-    inflate the threshold.
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
 known_false_positives: >-
     Administrators and automated orchestration may legitimately use EC2
     Instance Connect repeatedly during fleet administration, troubleshooting,
