@@ -17,17 +17,17 @@ data_source:
     - AWS CloudTrail
 search: |-
     `cloudtrail` eventSource="ec2-instance-connect.amazonaws.com" eventName="SendSSHPublicKey" responseElements.success=true
-    | eval actor=coalesce('userIdentity.arn', 'userIdentity.sessionContext.sessionIssuer.arn', 'userIdentity.principalId')
+    | eval user=coalesce(user_name, 'userIdentity.arn', 'userIdentity.principalId')
     | stats count as event_count
         dc('requestParameters.instanceId') as unique_instances
-        values(awsRegion) as aws_regions
         values('requestParameters.instanceId') as targeted_instances
         values('requestParameters.instanceOSUser') as targeted_users
-        values(sourceIPAddress) as source_ip
-        values(userAgent) as user_agent
+        values(src) as src
+        values(user_agent) as user_agent
+        values(vendor_region) as vendor_region
         earliest(_time) as firstTime
         latest(_time) as lastTime
-        by actor
+        by user
     | where event_count >= 10
     | eval duration_seconds=lastTime-firstTime
     | `security_content_ctime(firstTime)`
@@ -52,13 +52,13 @@ references:
     - https://stratus-red-team.cloud/attack-techniques/AWS/aws.lateral-movement.ec2-instance-connect/
     - https://www.elastic.co/guide/en/security/8.19/prebuilt-rule-8-19-14-aws-ec2-instance-connect-ssh-public-key-uploaded.html
 finding:
-    title: AWS identity $actor$ uploaded $event_count$ SSH public keys using EC2 Instance Connect
+    title: AWS identity $user$ uploaded $event_count$ SSH public keys using EC2 Instance Connect
     entity:
-        field: actor
+        field: user
         type: user
         score: 50
 threat_objects:
-    - field: source_ip
+    - field: src
       type: ip_address
 analytic_story:
     - Suspicious Cloud Instance Activities
