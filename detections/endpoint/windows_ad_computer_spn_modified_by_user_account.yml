@@ -47,6 +47,8 @@ threat_objects:
       type: user
 analytic_story:
     - Active Directory Kerberos Attacks
+    - Compromised User Account
+    - Sneaky Active Directory Persistence Tricks
 asset_type: Endpoint
 cve:
     - CVE-2026-25177

@@ -55,10 +55,12 @@ finding:
         type: user
         score: 50
 threat_objects:
-    - field: SubjectUserName
+    - field: AttributeValue
       type: user
 analytic_story:
     - Active Directory Kerberos Attacks
+    - Compromised User Account
+    - Sneaky Active Directory Persistence Tricks
 asset_type: Endpoint
 cve:
     - CVE-2026-25177
