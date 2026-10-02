@@ -54,6 +54,6 @@ tests:
       test_type: unit
 deprecation_info:
     reason: Detection deprecated due to having a duplicated content with another detection. Renaming of all popular 3rd party software binaries are covered in a single detection instead of having their separate searches, for performance related reasons.
-    removed_in_version: 6.8.0
+    removed_in_version: 6.10.0
     replacement_content:
         - Windows Renamed Popular 3rd Party Software was Executed
