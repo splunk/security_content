@@ -1,10 +1,10 @@
 name: Detect Large ICMP Traffic
 id: 9cd6d066-94d5-4ccd-a8b9-28c03ca91be8
-version: 8
+version: 9
 creation_date: '2020-01-19'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Rico Valdez, Dean Luxton, Bhavin Patel, Splunk
-status: production
+status: deprecated
 type: TTP
 description: |
     The following analytic identifies ICMP traffic to external IP addresses with total bytes (sum of bytes in and bytes out) greater than 1,000 bytes.
@@ -95,3 +95,7 @@ tests:
           source: cisco_cloud_security_addon
           sourcetype: cisco:cloud_security:firewall
       test_type: unit
+deprecation_info:
+    reason: Detection deprecated as it is determined to be very noisy in a production environment.
+    removed_in_version: 6.10.0
+    replacement_content: []
