@@ -25,7 +25,7 @@ search: |
 
     ``` Increase coverage by adding additional Nirsoft tool bundle or tool filenames ```
     [
-      | inputlookup nirsoft_utilities_lookup.csv
+      | inputlookup nirsoft_utilities_lookup
       | search original_file_name=*.zip
       | table original_file_name
       | rename original_file_name as Filesystem.file_name
