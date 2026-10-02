@@ -1,0 +1,114 @@
+name: AWS Repeated CloudWatch Logs Read Operations
+id: 3f0ba9e1-c6cf-4317-a6bc-c4bcab2b5a06
+version: 1
+creation_date: '2026-09-21'
+modification_date: '2026-09-21'
+author: Maria Jose Erquiaga, Splunk
+status: production
+type: TTP
+description: >-
+  The following analytic detects a high volume of Amazon CloudWatch Logs read
+  operations performed by the same AWS principal and account within a
+  five-minute period. It identifies more than 500 DescribeLogGroups,
+  DescribeLogStreams, DownloadLogEvents, FilterLogEvents, GetLogEvents, or
+  GetQueryResults API calls. This activity may indicate automated discovery or
+  collection of operational, application, or security telemetry from
+  CloudWatch Logs.
+data_source:
+  - AWS CloudTrail
+search: |-
+  `cloudtrail` eventSource="logs.amazonaws.com"
+  eventName IN (
+      "DescribeLogGroups",
+      "DescribeLogStreams",
+      "DownloadLogEvents",
+      "FilterLogEvents",
+      "GetLogEvents",
+      "GetQueryResults"
+  )
+  | eval user='userIdentity.principalId'
+  | eval vendor_account=coalesce(
+      vendor_account,
+      recipientAccountId,
+      'userIdentity.accountId'
+  )
+  | eval role_name='userIdentity.sessionContext.sessionIssuer.userName'
+  | eval signature=coalesce(signature, eventName)
+  | eval src=coalesce(src, sourceIPAddress)
+  | eval user_agent=coalesce(user_agent, userAgent)
+  | eval vendor_region=coalesce(vendor_region, awsRegion)
+  | where isnotnull(user) AND len(trim(user)) > 0
+  | sort 0 _time
+  | streamstats time_window=5m count AS event_count
+      by user vendor_account
+  | where event_count > 500
+  | stats
+      max(event_count) AS event_count
+      min(_time) AS firstTime
+      max(_time) AS lastTime
+      values(signature) AS api_operations
+      values(role_name) AS role_name
+      values(src) AS src
+      values(user_agent) AS user_agent
+      values(vendor_region) AS vendor_region
+      by user vendor_account
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `aws_repeated_cloudwatch_logs_read_operations_filter`
+how_to_implement: >-
+  The Splunk Add-on for AWS is required to collect AWS CloudTrail events.
+  Configure CloudTrail to capture management Read events and ingest them with
+  the aws:cloudtrail sourcetype. The tested CloudWatch Logs operations are
+  recorded as management events, so a CloudWatch Logs data-event selector is
+  not required. The analytic uses a rolling five-minute window and counts
+  unique CloudTrail event identifiers to reduce duplicate-ingestion effects.
+known_false_positives: >-
+  Automated log analytics, SIEM pipelines, incident-response tooling, backup
+  processes, and administrative troubleshooting may continuously read
+  CloudWatch Logs and generate a high volume of matching operations. The
+  prevalence of this activity has not yet been evaluated against broader
+  customer telemetry. Review the principal, account, source addresses, user
+  agents, Regions, and accessed CloudWatch Logs resources before escalating.
+references:
+  - https://attack.mitre.org/techniques/T1530/
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogStreams.html
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html
+drilldown_searches:
+  - name: View CloudWatch Logs read operations for - "$user$"
+    search: '%original_detection_search% | search user="$user$" vendor_account="$vendor_account$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: 7d
+    latest_offset: "0"
+finding:
+  title: AWS principal $user$ performed $event_count$ CloudWatch Logs read operations
+  entity:
+    field: user
+    type: user
+    score: 50
+threat_objects:
+  - field: src
+    type: ip_address
+analytic_story:
+  - Data Exfiltration
+asset_type: AWS Account
+mitre_attack_id:
+  - T1530
+product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+category: cloud
+security_domain: threat
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_cloudwatch_logs_high_volume_retrieval/aws_cloudwatch_logs_high_volume_retrieval.json
+        sourcetype: aws:cloudtrail
+        source: aws_cloudtrail
+    test_type: unit
