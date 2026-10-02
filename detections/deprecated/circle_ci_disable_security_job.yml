@@ -1,10 +1,10 @@
 name: Circle CI Disable Security Job
 id: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
-version: 10
+version: 11
 creation_date: '2021-09-02'
-modification_date: '2026-05-13'
+modification_date: '2026-10-01'
 author: Patrick Bareiss, Splunk
-status: production
+status: deprecated
 type: Anomaly
 description: The following analytic detects the disabling of security jobs in CircleCI pipelines. It leverages CircleCI log data, renaming and extracting fields such as job names, workflow IDs, user information, commit messages, URLs, and branches. The detection identifies mandatory jobs for each workflow and checks if they were executed. This activity is significant because disabling security jobs can allow malicious code to bypass security checks, leading to potential data breaches, system downtime, and reputational damage. If confirmed malicious, this could result in unauthorized code execution and compromised pipeline integrity.
 data_source:
@@ -60,3 +60,7 @@ tests:
           sourcetype: circleci
           source: circleci
       test_type: unit
+deprecation_info:
+    reason: Detection deprecated because the Technology Add-on it uses has been archived, and no replacement TA exists.
+    removed_in_version: 6.12.0
+    replacement_content: []
