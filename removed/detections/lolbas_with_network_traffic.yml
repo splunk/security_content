@@ -2,9 +2,9 @@ name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
 version: 19
 creation_date: '2023-02-02'
-modification_date: '2026-08-24'
+modification_date: '2026-10-02'
 author: Steven Dick
-status: deprecated
+status: removed
 type: TTP
 description: The following analytic identifies the use of Living Off the Land Binaries and Scripts (LOLBAS) with network traffic. It leverages data from the Network Traffic data model to detect when native Windows binaries, often abused by adversaries, initiate network connections. This activity is significant as LOLBAS are frequently used to download malicious payloads, enabling lateral movement, command-and-control, or data exfiltration. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment, posing a severe threat to organizational security.
 data_source:
