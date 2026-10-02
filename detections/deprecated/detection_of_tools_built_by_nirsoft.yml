@@ -1,10 +1,10 @@
 name: Detection of tools built by NirSoft
 id: 3d8d201c-aa03-422d-b0ee-2e5ecf9718c0
-version: 11
+version: 12
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-01'
 author: Bhavin Patel, Splunk
-status: experimental
+status: deprecated
 type: Anomaly
 description: The following analytic identifies the execution of tools built by NirSoft by detecting specific command-line arguments such as "/stext" and "/scomma". It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and command-line executions. This activity is significant because NirSoft tools, while legitimate, can be exploited by attackers for malicious purposes such as credential theft or system reconnaissance. If confirmed malicious, this activity could lead to unauthorized access, data exfiltration, or further compromise of the affected system.
 data_source:
@@ -53,3 +53,8 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+deprecation_info:
+    reason: Detection deprecated due to duplicated content.
+    removed_in_version: 6.10.0
+    replacement_content:
+        - Windows NirSoft Utilities

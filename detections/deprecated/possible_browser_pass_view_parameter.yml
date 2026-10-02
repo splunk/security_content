@@ -1,10 +1,10 @@
 name: Possible Browser Pass View Parameter
 id: 8ba484e8-4b97-11ec-b19a-acde48001122
-version: 8
+version: 9
 creation_date: '2021-11-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-01'
 author: Teoderick Contreras, Splunk
-status: production
+status: deprecated
 type: Hunting
 description: The following analytic identifies processes with command-line parameters associated with web browser credential dumping tools, specifically targeting behaviors used by Remcos RAT malware. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and specific file paths. This activity is significant as it indicates potential credential theft, a common tactic in broader cyber-espionage campaigns. If confirmed malicious, attackers could gain unauthorized access to sensitive web credentials, leading to further system compromise and data breaches.
 data_source:
@@ -35,3 +35,8 @@ tests:
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
+deprecation_info:
+    reason: Detection deprecated due to duplicated content.
+    removed_in_version: 6.10.0
+    replacement_content:
+        - Windows NirSoft Utilities
