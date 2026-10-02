@@ -1,8 +1,8 @@
 name: Cisco NVM - Outbound Connection to Suspicious Port
 id: fc32a8d5-bc79-4437-b48f-4646ab7bed9d
-version: 6
+version: 7
 creation_date: '2025-07-01'
-modification_date: '2026-07-14'
+modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -33,7 +33,7 @@ search: |
             values(aliul) as additional_logged_in_users_list
             values(dest_hostname) as dest_hostname
             by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
-    | lookup suspicious_ports_list dest_port OUTPUTNEW comment as dest_port_metadata confidence as dest_confidence category as dest_port_category
+    | lookup local=t suspicious_ports_list dest_port OUTPUTNEW comment as dest_port_metadata confidence as dest_confidence category as dest_port_category
     | where isnotnull(dest_port_metadata)
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

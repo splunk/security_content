@@ -1,8 +1,8 @@
 name: Windows Suspicious C2 Named Pipe
 id: 90599d85-dc2a-4d4c-8c59-9485c3665828
-version: 6
+version: 7
 creation_date: '2025-12-08'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ search: |
     count by dest dvc process_exec process_guid process_id process_path signature signature_id
     vendor_product pipe_name user_id Image process_name
 
-    | lookup suspicious_c2_named_pipes suspicious_pipe_name AS pipe_name OUTPUT tool, description
+    | lookup local=t suspicious_c2_named_pipes suspicious_pipe_name AS pipe_name OUTPUT tool, description
     | where isnotnull(tool)
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

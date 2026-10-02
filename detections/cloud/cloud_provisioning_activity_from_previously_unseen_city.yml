@@ -1,8 +1,8 @@
 name: Cloud Provisioning Activity From Previously Unseen City
 id: e7ecc5e0-88df-48b9-91af-51104c68f02f
-version: 9
+version: 10
 creation_date: '2020-11-30'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Rico Valdez, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ search: |-
     | `drop_dm_object_name("All_Changes")`
     | iplocation src
     | where isnotnull(City)
-    | lookup previously_seen_cloud_provisioning_activity_sources City as City OUTPUT firstTimeSeen, enough_data
+    | lookup local=t previously_seen_cloud_provisioning_activity_sources City as City OUTPUT firstTimeSeen, enough_data
     | eventstats max(enough_data) as enough_data
     | where enough_data=1
     | eval firstTimeSeenCity=min(firstTimeSeen)
