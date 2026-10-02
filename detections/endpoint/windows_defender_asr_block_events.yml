@@ -24,7 +24,7 @@ search: |-
         1131,
         1133
     )
-    | fillnull
+    | fillnull value=NULL
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
       by host EventCode
