@@ -1,8 +1,8 @@
 name: 3CX Supply Chain Attack Network Indicators
 id: 791b727c-deec-4fbe-a732-756131b3c5a1
-version: 11
+version: 12
 creation_date: '2023-04-11'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -22,7 +22,7 @@ search: |
     | `drop_dm_object_name(DNS)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | lookup 3cx_ioc_domains domain as query OUTPUT Description isIOC
+    | lookup local=t 3cx_ioc_domains domain as query OUTPUT Description isIOC
     | search isIOC=true
     | `3cx_supply_chain_attack_network_indicators_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information into the `Network Resolution` datamodel in the `DNS` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA''s are installed.

@@ -21,7 +21,7 @@ search: |
       (process_arguments = "*poetry*" process_arguments = "*add*")
     )
     | rex field=process_arguments "(?i)(?:pip|poetry)[^|]*?\s+(?:install|add)\s+(?P<package_name>[^\s\"']+)$"
-    | lookup typo_squatted_python_packages
+    | lookup local=t typo_squatted_python_packages
              typosquatted_package_name as package_name
              OUTPUTNEW comment package_official_url
     | where isnotnull(comment)

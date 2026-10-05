@@ -33,7 +33,7 @@ search: |
             values(aliul) as additional_logged_in_users_list
             values(dest_hostname) as dest_hostname
             by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
-    | lookup suspicious_ports_list dest_port OUTPUTNEW comment as dest_port_metadata confidence as dest_confidence category as dest_port_category
+    | lookup local=t suspicious_ports_list dest_port OUTPUTNEW comment as dest_port_metadata confidence as dest_confidence category as dest_port_category
     | where isnotnull(dest_port_metadata)
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

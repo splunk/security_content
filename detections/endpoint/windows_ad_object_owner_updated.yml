@@ -1,8 +1,8 @@
 name: Windows AD Object Owner Updated
 id: 4af01f6b-d8d4-4f96-8635-758a01557130
-version: 12
+version: 13
 creation_date: '2024-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Dean Luxton
 status: production
 type: TTP
@@ -17,12 +17,12 @@ search: |-
       | rex field=old_value "O:(?P<old_owner>.*?)G:"
       | rex field=new_value "O:(?P<new_owner>.*?)G:"
       | where old_owner!=new_owner ``` optional SID resolution lookups
-      | lookup identity_lookup_expanded objectSid as new_owner OUTPUT downLevelDomainName as new_owner_user
-      | lookup admon_groups_def objectSid as new_owner OUTPUT cn as new_owner_group
-      | lookup identity_lookup_expanded objectSid as old_owner OUTPUT downLevelDomainName as old_owner_user
-      | lookup admon_groups_def objectSid as old_owner OUTPUT cn as old_owner_group ```
-      | lookup builtin_groups_lookup builtin_group_string  as new_owner_group OUTPUT builtin_group_name as new_owner_group_builtin_group
-      | lookup builtin_groups_lookup builtin_group_string  as old_owner OUTPUT builtin_group_name as old_owner_group_builtin_group
+      | lookup local=t identity_lookup_expanded objectSid as new_owner OUTPUT downLevelDomainName as new_owner_user
+      | lookup local=t admon_groups_def objectSid as new_owner OUTPUT cn as new_owner_group
+      | lookup local=t identity_lookup_expanded objectSid as old_owner OUTPUT downLevelDomainName as old_owner_user
+      | lookup local=t admon_groups_def objectSid as old_owner OUTPUT cn as old_owner_group ```
+      | lookup local=t builtin_groups_lookup builtin_group_string  as new_owner_group OUTPUT builtin_group_name as new_owner_group_builtin_group
+      | lookup local=t builtin_groups_lookup builtin_group_string  as old_owner OUTPUT builtin_group_name as old_owner_group_builtin_group
       | eval user=coalesce(new_owner_user, new_owner_group, new_owner_group_builtin_group, new_owner), previousOwner=coalesce(old_owner_user, old_owner_group, old_owner_group_builtin_group, old_owner)
       | stats values(previousOwner) as previousOwner values(user) as user values(SubjectLogonId) as SubjectLogonId
         BY _time ObjectClass ObjectDN
