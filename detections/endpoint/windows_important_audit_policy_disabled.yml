@@ -1,8 +1,8 @@
 name: Windows Important Audit Policy Disabled
 id: 1bf500e5-1226-41d9-af5d-ed1f577929f2
-version: 8
+version: 9
 creation_date: '2025-02-19'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ search: |-
       | rename ClientProcessId as process_id
       | stats min(_time) as _time values(host) as dest
         BY AuditPolicyChanges SubcategoryGuid, process_id
-      | lookup advanced_audit_policy_guids GUID as SubcategoryGuid OUTPUT Category SubCategory
+      | lookup local=t advanced_audit_policy_guids GUID as SubcategoryGuid OUTPUT Category SubCategory
       | `windows_important_audit_policy_disabled_filter`
 how_to_implement: To implement the following query, enable the audit policy sub category "Audit Audit Policy Change", and, ensure you are ingesting EventCode `4719` from your endpoints via the appropriate Splunk Add-on for Microsoft Windows. Update the macro definition with the an accurate list of Audit sub categories that you consider important for your environment.
 known_false_positives: No false positives have been identified at this time.
