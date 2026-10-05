@@ -7,18 +7,25 @@ author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects creation of a WMI permanent event subscription using Sysmon EventID 21. The event identifies the consumer and filter that were bound, showing what will run and which event condition triggers it.
+    Detects the creation of a WMI permanent event subscription using Sysmon EventID 21.
 data_source:
     - Sysmon EventID 21
 search: |-
-    `sysmon` EventCode=21 Operation=Created
-      | stats count min(_time) as firstTime max(_time) as lastTime
+    `sysmon`
+    EventCode=21
+    Operation=Created
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
         BY dest user Consumer Filter
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `wmi_permanent_event_subscription___sysmon_filter`
-how_to_implement: Collect Sysmon WMI events and parse EventID 21, including the Operation, destination, user, Consumer, and Filter fields. Sysmon EventID 21 is emitted when a consumer is bound to a filter.
-known_false_positives: Administrators and software may create authorized WMI subscriptions. Review the consumer and filter paths, then tune known authorized subscriptions with the detection filter macro.
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `wmi_permanent_event_subscription___sysmon_filter`
+how_to_implement: |-
+    To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate alerts for WMI activity (eventID= 19, 20, 21). In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.
+known_false_positives: |-
+    Administrators and software may create authorized WMI subscriptions. Review the consumer and filter paths, then tune known authorized subscriptions with the detection filter macro.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
     - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
