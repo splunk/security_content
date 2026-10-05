@@ -11,9 +11,9 @@ data_source:
     - Windows Event Log Security 5136
 search: |-
     `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName ObjectClass=computer
-    | where NOT match(SubjectUserName, "\$$")
-    | where NOT SubjectUserSid IN ("S-1-5-18", "S-1-5-19", "S-1-5-20")
-    | where NOT SubjectUserName IN ("*NT AUTHORITY*","*SYSTEM*","*ANONYMOUS*")
+      NOT SubjectUserName="*$"
+      NOT SubjectUserSid IN ("S-1-5-18", "S-1-5-19", "S-1-5-20")
+      NOT SubjectUserName IN ("*NT AUTHORITY*","*SYSTEM","*ANONYMOUS*")
     | stats count min(_time) as firstTime max(_time) as lastTime values(AttributeValue) as spn_values values(OperationType) as operation_types
         by Computer SubjectUserName SubjectDomainName SubjectUserSid ObjectDN
     | eval operation_types=mvmap(operation_types, case(operation_types="%%14675", "Deleted", operation_types="%%14674", "Added", true(), operation_types))
