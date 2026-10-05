@@ -32,11 +32,11 @@ search: |-
         | table Processes.process_name
     ]
     NOT process_name IN (
-        'excelcnv.exe',
-        'installutil64.exe',
-        'protoc~1.exe',
-        'regwrite.exe',
-        'vzshadow.exe'
+        "excelcnv.exe",
+        "installutil64.exe",
+        "protoc~1.exe",
+        "regwrite.exe",
+        "vzshadow.exe"
     )
 
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
