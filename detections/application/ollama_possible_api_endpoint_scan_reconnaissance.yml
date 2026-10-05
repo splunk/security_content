@@ -2,7 +2,7 @@ name: Ollama Possible API Endpoint Scan Reconnaissance
 id: ad3f352a-0347-48ee-86b9-670b5025a548
 version: 6
 creation_date: '2025-10-13'
-modification_date: '2026-09-24'
+modification_date: '2026-09-29'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -11,10 +11,12 @@ data_source:
     - Ollama Server
 search: |-
     `ollama_server` "[GIN]"
+      | rex field=_raw "\|\s+(?<status_code>\d+)\s+\|\s+(?<response_time>[\d\.]+)s\s+\|\s+(?<src_ip>[\:\da-f\.]+)\s+\|\s+(?<http_method>\w+)\s+\"(?<uri_path>[^\"]+)\""
+      | eval src=src_ip
       | bin _time span=5m
-      | stats count as total_requests, values(dest) as dest, values(http_method) as methods, values(status) as status_codes
+      | stats count as total_requests, dc(uri_path) as distinct_endpoints, count(eval(http_method="HEAD")) as head_requests, values(uri_path) as dest, values(http_method) as methods, values(status_code) as status_codes
         BY _time, src, host
-      | where total_requests > 120
+      | where total_requests > 120 AND (distinct_endpoints >= 3 OR (distinct_endpoints >= 2 AND head_requests > 0))
       | eval severity="medium"
       | eval attack_type="API Activity Surge"
       | stats count
