@@ -11,8 +11,6 @@ description: |-
     That pattern is consistent with adversaries using trusted .NET binaries as a proxy to run code while hiding execution behind script parents in low-trust folders, behavior associated with techniques such as signed binary proxy execution.
 data_source:
     - Sysmon EventID 1
-    - Windows Event Log Security 4688
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime

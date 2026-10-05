@@ -13,7 +13,6 @@ description: |-
     If confirmed malicious, this activity could indicate an active infection attempting to evade detection, potentially leading to further compromise and persistence within the environment.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime

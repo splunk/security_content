@@ -14,7 +14,6 @@ description: |-
     Because ping is commonly used for legitimate network troubleshooting, findings should be reviewed in the context of the complete command line, parent process, user, and commands executed before or after the delay.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime

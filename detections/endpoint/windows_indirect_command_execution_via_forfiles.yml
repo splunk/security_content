@@ -9,7 +9,6 @@ type: TTP
 description: The following analytic detects the execution of programs initiated by forfiles.exe. This command is typically used to run commands on multiple files, often within batch scripts. The detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where forfiles.exe is the parent process. This activity is significant because forfiles.exe can be exploited to bypass command line execution protections, making it a potential vector for malicious activity. If confirmed malicious, this could allow attackers to execute arbitrary commands, potentially leading to unauthorized access or further system compromise.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.parent_process="*forfiles* /c *"

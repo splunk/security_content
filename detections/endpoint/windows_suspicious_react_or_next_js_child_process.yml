@@ -13,7 +13,6 @@ description: |
     Such activity might be a strong indicator of exploitation of the aforementioned vulnerability.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
       from datamodel=Endpoint.Processes
