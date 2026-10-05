@@ -1,8 +1,8 @@
 name: Windows DotNet Binary in Non Standard Path
 id: fddf3b56-7933-11ec-98a6-acde48001122
-version: 14
+version: 15
 creation_date: '2022-01-20'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -45,8 +45,8 @@ search: |
     | `drop_dm_object_name("Processes")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | lookup update=true is_net_windows_file filename as process_name OUTPUT netFile
-    | lookup update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile
+    | lookup local=t update=true is_net_windows_file filename as process_name OUTPUT netFile
+    | lookup local=t update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile
     | search netFile=true
     | `windows_dotnet_binary_in_non_standard_path_filter`
 how_to_implement: |
