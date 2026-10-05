@@ -56,6 +56,8 @@ def discover_used_tas() -> dict[str, dict[str, Any]]:
         }
 
     for path in yaml_files(DETECTIONS_DIR):
+        if (DETECTIONS_DIR / "deprecated") in path.parents:
+            continue
         detection = load_yaml(path)
         if not detection:
             continue
