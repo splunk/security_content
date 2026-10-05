@@ -1,8 +1,8 @@
 name: Cloud Compute Instance Created With Previously Unseen Instance Type
 id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
-version: 11
+version: 12
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -26,7 +26,7 @@ search: |-
     | `drop_dm_object_name("All_Changes")`
     | `drop_dm_object_name("Instance_Changes")`
     | where instance_type != "unknown"
-    | lookup previously_seen_cloud_compute_instance_types instance_type as instance_type OUTPUTNEW firstTimeSeen, enough_data
+    | lookup local=t previously_seen_cloud_compute_instance_types instance_type as instance_type OUTPUTNEW firstTimeSeen, enough_data
     | eventstats max(enough_data) as enough_data
     | where enough_data=1
     | eval firstTimeSeenInstanceType=min(firstTimeSeen)
