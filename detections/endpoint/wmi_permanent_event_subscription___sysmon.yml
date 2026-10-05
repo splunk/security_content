@@ -7,13 +7,17 @@ author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects the creation of a WMI permanent event subscription using Sysmon EventID 21.
+    Detects the creation, modification or deletion of a WMI permanent event subscription using Sysmon EventID 21.
 data_source:
     - Sysmon EventID 21
 search: |-
     `sysmon`
     EventCode=21
-    Operation=Created
+    Operation IN (
+        Created,
+        Deleted,
+        Modified
+    )
 
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
