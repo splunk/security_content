@@ -7,7 +7,7 @@ author: Rico Valdez, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects WMI permanent event subscriptions from Windows WMI-Activity EventID 5861.
+    Detects permanent WMI event subscriptions that are containing `CommandLineEventConsumer` or `ActiveScriptEventConsumer`. Due to their command execution capabilties, given WMI consumers are often leveraged by adversaries for both execution and persistence purposes.
 data_source:
     - Windows Event Log WMI Activity 5861
 search: |-
