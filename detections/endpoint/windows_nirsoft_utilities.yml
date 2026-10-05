@@ -15,17 +15,27 @@ description: |
 data_source:
     - Sysmon EventID 1
 search: |
-    `sysmon` EventID=1
-    ( Company=nirsoft OR
-      [
-        | inputlookup nirsoft_utilities_lookup.csv
-        | search original_file_name=*.exe
-        | table original_file_name
-      ]
+    `sysmon`
+    EventID=1
+    (
+        Company=nirsoft OR
+        [
+            | inputlookup nirsoft_utilities_lookup.csv
+            | search original_file_name=*.exe
+            | table original_file_name
+        ]
     )
-    | stats count by dest original_file_name parent_process parent_process_guid parent_process_id parent_process_name parent_process_path
-        process process_guid process_id process_hash process_integrity_level process_name process_path user user_id vendor_product
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest original_file_name parent_process
+         parent_process_guid parent_process_id
+         parent_process_name parent_process_path
+         process process_guid process_id
+         process_hash process_integrity_level process_name
+         process_path user user_id vendor_product
+
     | lookup local=t nirsoft_utilities_lookup original_file_name OUTPUT description
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_nirsoft_utilities_filter`
@@ -51,7 +61,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: NirSoft tool [$process_name$] was executed on host [$dest$]. This utility [$description$].
+          message: NirSoft tool [$process_name$] was executed on host [$dest$] with Command Line [$process$]. This utility [$description$].
 threat_objects:
     - field: process_name
       type: process_name
