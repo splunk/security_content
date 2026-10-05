@@ -64,7 +64,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: NirSoft tool [$process_name$] was executed on host [$dest$]. This utility [$description$].
+          message: NirSoft tool [$process_name$] was executed on host [$dest$] with Command Line [$process$]. This utility [$description$].
 threat_objects:
     - field: process_name
       type: process_name
