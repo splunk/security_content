@@ -1,8 +1,8 @@
 name: Disable Logs Using WevtUtil
 id: 236e7c8e-c9d9-11eb-a824-acde48001122
-version: 14
+version: 15
 creation_date: '2021-06-10'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: network operator may disable audit event logs for debugging purposes.
 references:
     - https://www.bleepingcomputer.com/news/security/new-ransom-x-ransomware-used-in-texas-txdot-cyberattack/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685.001/T1685.001.yaml#L105
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -53,6 +54,8 @@ analytic_story:
     - CISA AA23-347A
     - Rhysida Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - b26a3340-dad7-4360-9176-706269c74103
 mitre_attack_id:
     - T1685.005
 product:

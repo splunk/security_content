@@ -1,8 +1,8 @@
 name: Windows Multiple Users Failed To Authenticate From Host Using NTLM
 id: 7ed272a4-9c77-11eb-af22-acde48001122
-version: 13
+version: 14
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -22,6 +22,7 @@ references:
     - https://attack.mitre.org/techniques/T1110/003/
     - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-credential-validation
     - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1110.003/T1110.003.yaml#L55
 drilldown_searches:
     - name: View the detection results for - "$Workstation$"
       search: '%original_detection_search% | search  Workstation = "$Workstation$"'
@@ -41,6 +42,8 @@ analytic_story:
     - Active Directory Password Spraying
     - Volt Typhoon
 asset_type: Endpoint
+atomic_guid:
+    - f14d956a-5b6e-4a93-847f-0c415142f07d
 mitre_attack_id:
     - T1110.003
 product:

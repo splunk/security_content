@@ -1,8 +1,8 @@
 name: Windows MSIExec Unregister DLLRegisterServer
 id: a27db3c5-1a9a-46df-a577-765d3f1a3c24
-version: 12
+version: 13
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ known_false_positives: This analytic will need to be tuned for your environment 
 references:
     - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.007/T1218.007.yaml#L281
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -59,6 +60,8 @@ threat_objects:
 analytic_story:
     - Windows System Binary Proxy Execution MSIExec
 asset_type: Endpoint
+atomic_guid:
+    - ab09ec85-4955-4f9c-b8e0-6851baf4d47f
 mitre_attack_id:
     - T1218.007
 product:

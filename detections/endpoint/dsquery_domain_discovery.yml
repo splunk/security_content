@@ -1,8 +1,8 @@
 name: DSQuery Domain Discovery
 id: cc316032-924a-11eb-91a2-acde48001122
-version: 13
+version: 14
 creation_date: '2021-03-31'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
     - https://blog.harmj0y.net/redteaming/a-guide-to-attacking-domain-trusts/
     - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732952(v=ws.11)
     - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc754232(v=ws.11)
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1482/T1482.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -63,6 +64,8 @@ analytic_story:
     - Domain Trust Discovery
     - Compromised Windows Host
 asset_type: Endpoint
+atomic_guid:
+    - 4700a710-c821-4e17-a3ec-9e4c81d6845f
 mitre_attack_id:
     - T1482
 product:

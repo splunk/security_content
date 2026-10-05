@@ -1,8 +1,8 @@
 name: Disable Registry Tool
 id: cd2cf33c-9201-11eb-a10a-acde48001122
-version: 17
+version: 18
 creation_date: '2021-03-31'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: admin may disable this application for non technical user.
 references:
     - https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L174
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -34,6 +35,8 @@ analytic_story:
     - Windows Registry Abuse
     - NjRAT
 asset_type: Endpoint
+atomic_guid:
+    - ac34b0f7-0f85-4ac0-b93e-3ced2bc69bb8
 mitre_attack_id:
     - T1112
     - T1685

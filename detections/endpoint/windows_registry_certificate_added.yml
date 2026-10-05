@@ -1,8 +1,8 @@
 name: Windows Registry Certificate Added
 id: 5ee98b2f-8b9e-457a-8bdc-dd41aaba9e87
-version: 12
+version: 13
 creation_date: '2022-03-31'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Teodeerick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ known_false_positives: False positives will be limited to a legitimate business 
 references:
     - https://posts.specterops.io/code-signing-certificate-cloning-attacks-and-defenses-6f98657fc6ec
     - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1553.004
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1553.004/T1553.004.yaml#L116
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -34,6 +35,8 @@ analytic_story:
     - Windows Drivers
     - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - 76f49d86-5eb1-461a-a032-a480f86652f1
 mitre_attack_id:
     - T1553.004
 product:

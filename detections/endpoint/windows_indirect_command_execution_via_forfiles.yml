@@ -1,8 +1,8 @@
 name: Windows Indirect Command Execution Via forfiles
 id: 1fdf31c9-ff4d-4c48-b799-0e8666e08787
-version: 11
+version: 12
 creation_date: '2022-03-04'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Eric McGinnis, Splunk
 status: production
 type: TTP
@@ -29,6 +29,7 @@ known_false_positives: Some legacy applications may be run using pcalua.exe. Sim
 references:
     - https://twitter.com/KyleHanslovan/status/912659279806640128
     - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/forfiles
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1202/T1202.yaml#L27
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -48,6 +49,8 @@ analytic_story:
     - Living Off The Land
     - Windows Post-Exploitation
 asset_type: Endpoint
+atomic_guid:
+    - 8b34a448-40d9-4fc3-a8c8-4bb286faf7dc
 mitre_attack_id:
     - T1202
 product:

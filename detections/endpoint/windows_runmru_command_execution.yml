@@ -1,8 +1,8 @@
 name: Windows RunMRU Command Execution
 id: a15aa1ab-2b79-467f-8201-65e0f32d5b1a
-version: 11
+version: 12
 creation_date: '2024-11-13'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -17,6 +17,7 @@ references:
     - https://medium.com/@shaherzakaria8/downloading-trojan-lumma-infostealer-through-capatcha-1f25255a0e71
     - https://www.forensafe.com/blogs/runmrukey.html
     - https://github.com/SigmaHQ/sigma/blob/master/rules-threat-hunting/windows/registry/registry_set/registry_set_runmru_command_execution.yml
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1202/T1202.yaml#L79
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'

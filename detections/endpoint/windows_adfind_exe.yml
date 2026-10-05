@@ -1,8 +1,8 @@
 name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
-version: 14
+version: 15
 creation_date: '2020-12-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Jose Hernandez, Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -66,6 +66,12 @@ references:
     - https://www.mandiant.com/resources/a-nasty-trick-from-credential-theft-malware-to-business-disruption
     - https://www.joeware.net/freetools/tools/adfind/index.htm
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.002/T1087.002.yaml#L71
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.002/T1087.002.yaml#L96
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.002/T1087.002.yaml#L121
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.002/T1087.002.yaml#L146
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.002/T1087.002.yaml#L378
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.002/T1087.002.yaml#L399
 drilldown_searches:
     - name: View the detection results for - "$user$"
       search: '%original_detection_search% | search  user = "$user$"'

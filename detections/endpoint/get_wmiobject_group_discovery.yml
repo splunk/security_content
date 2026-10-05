@@ -1,8 +1,8 @@
 name: Get WMIObject Group Discovery
 id: 5434f670-155d-11ec-8cca-acde48001122
-version: 9
+version: 10
 creation_date: '2021-09-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -35,9 +35,12 @@ known_false_positives: False positives may be present. Tune as needed.
 references:
     - https://attack.mitre.org/techniques/T1069/001/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1069.001/T1069.001.yaml#L94
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - 69119e58-96db-4110-ad27-954e48f3bb13
 mitre_attack_id:
     - T1069.001
 product:

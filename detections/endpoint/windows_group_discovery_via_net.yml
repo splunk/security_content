@@ -1,8 +1,8 @@
 name: Windows Group Discovery Via Net
 id: c5c8e0f3-147a-43da-bf04-4cfaec27dc44
-version: 7
+version: 8
 creation_date: '2021-09-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -20,6 +20,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
     - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1069.001/T1069.001.yaml#L21
 analytic_story:
     - SolarWinds WHD RCE Post Exploitation
     - Windows Discovery Techniques
@@ -35,6 +36,8 @@ analytic_story:
     - Volt Typhoon
     - Microsoft WSUS CVE-2025-59287
 asset_type: Endpoint
+atomic_guid:
+    - 1f454dd6-e134-44df-bebb-67de70fb6cd8
 mitre_attack_id:
     - T1069.001
     - T1069.002

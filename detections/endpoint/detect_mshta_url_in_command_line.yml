@@ -1,8 +1,8 @@
 name: Detect MSHTA Url in Command Line
 id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
-version: 21
+version: 22
 creation_date: '2020-04-29'
-modification_date: '2026-07-20'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,6 +36,7 @@ references:
     - https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
     - https://denwp.com/dissecting-lumma-malware/
     - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/behind-the-captcha-a-clever-gateway-of-malware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.005/T1218.005.yaml#L32
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -73,6 +74,8 @@ analytic_story:
     - NetSupport RMM Tool Abuse
     - Starland RAT Campaign
 asset_type: Endpoint
+atomic_guid:
+    - c4b97eeb-5249-4455-a607-59f95485cb45
 mitre_attack_id:
     - T1218.005
 product:

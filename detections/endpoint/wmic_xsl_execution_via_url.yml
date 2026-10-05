@@ -1,8 +1,8 @@
 name: WMIC XSL Execution via URL
 id: 787e9dd0-4328-11ec-a029-acde48001122
-version: 14
+version: 15
 creation_date: '2021-11-12'
-modification_date: '2026-07-14'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -53,6 +53,7 @@ references:
     - https://web.archive.org/web/20190814201250/https://subt0x11.blogspot.com/2018/04/wmicexe-whitelisting-bypass-hacking.html
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md#atomic-test-4---wmic-bypass-using-remote-xsl-file
     - https://securitydatasets.com/notebooks/atomic/windows/defense_evasion/SDWIN-201017061100.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1220/T1220.yaml#L126
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -84,6 +85,8 @@ analytic_story:
     - Suspicious WMI Use
     - Cisco Network Visibility Module Analytics
 asset_type: Endpoint
+atomic_guid:
+    - 7f5be499-33be-4129-a560-66021f379b9b
 mitre_attack_id:
     - T1220
 product:

@@ -1,8 +1,8 @@
 name: Suspicious wevtutil Usage
 id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
-version: 22
+version: 23
 creation_date: '2019-10-16'
-modification_date: '2026-09-21'
+modification_date: '2026-10-02'
 author: David Dorsey, Michael Haag, Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -71,6 +71,7 @@ how_to_implement: |-
 known_false_positives: The wevtutil.exe application is a legitimate Windows event log utility. Administrators may use it to manage Windows event logs.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/61080b19460f2c6431c31689d58063c5f6c1f8fb/atomics/T1070.001/T1070.001.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -107,6 +108,8 @@ analytic_story:
     - Storm-0501 Ransomware
     - VoidLink Cloud-Native Linux Malware
 asset_type: Endpoint
+atomic_guid:
+    - e6abb60e-26b8-41da-8aae-0c35174b0967
 mitre_attack_id:
     - T1685.005
 product:

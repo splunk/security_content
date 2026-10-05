@@ -1,8 +1,8 @@
 name: Linux SSH Authorized Keys Modification
 id: f5ab595e-28e5-4327-8077-5008ba97c850
-version: 14
+version: 15
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -28,6 +28,7 @@ known_false_positives: Filtering will be required as system administrators will 
 references:
     - https://redcanary.com/blog/lateral-movement-with-secure-shell/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1098.004/T1098.004.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1098.004/T1098.004.yaml#L7
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -57,6 +58,8 @@ analytic_story:
     - Hellcat Ransomware
     - VoidLink Cloud-Native Linux Malware
 asset_type: Endpoint
+atomic_guid:
+    - 342cc723-127c-4d3a-8292-9c0c6b4ecadc
 mitre_attack_id:
     - T1098.004
 product:

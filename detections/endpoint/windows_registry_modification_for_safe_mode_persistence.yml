@@ -1,8 +1,8 @@
 name: Windows Registry Modification for Safe Mode Persistence
 id: c6149154-c9d8-11eb-9da7-acde48001122
-version: 14
+version: 15
 creation_date: '2022-03-31'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
@@ -17,6 +17,8 @@ references:
     - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1112/T1112.md
     - https://blog.didierstevens.com/2007/03/26/playing-with-safe-mode/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L533
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L548
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -37,6 +39,9 @@ analytic_story:
     - Windows Registry Abuse
     - Windows Drivers
 asset_type: Endpoint
+atomic_guid:
+    - 1dd59fb3-1cb3-4828-805d-cf80b4c3bbb5
+    - c173c948-65e5-499c-afbe-433722ed5bd4
 mitre_attack_id:
     - T1547.001
 product:

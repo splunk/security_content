@@ -1,8 +1,8 @@
 name: Windows Service Stop Attempt
 id: dd0f07ea-f08f-4d88-96e5-cb58156e82b6
-version: 8
+version: 9
 creation_date: '2022-11-30'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -34,6 +34,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Windows OS or software may stop and restart services due to some critical update.
 references:
     - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1489/T1489.yaml#L25
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -49,6 +50,8 @@ analytic_story:
     - Scattered Lapsus$ Hunters
     - Gh0st RAT
 asset_type: Endpoint
+atomic_guid:
+    - 41274289-ec9c-4213-bea4-e43c4aa57954
 mitre_attack_id:
     - T1489
 product:

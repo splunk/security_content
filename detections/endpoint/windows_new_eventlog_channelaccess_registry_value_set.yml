@@ -1,8 +1,8 @@
 name: Windows New EventLog ChannelAccess Registry Value Set
 id: 16eb11bc-ef42-42e8-9d0c-d21e0fa15725
-version: 8
+version: 9
 creation_date: '2024-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ known_false_positives: False positives may be triggered from newly installed eve
 references:
     - https://web.archive.org/web/20220710181255/https://blog.minerva-labs.com/lockbit-3.0-aka-lockbit-black-is-here-with-a-new-icon-new-ransom-note-new-wallpaper-but-less-evasiveness
     - https://attack.mitre.org/techniques/T1562/002/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685.001/T1685.001.yaml#L170
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -38,6 +39,8 @@ analytic_story:
     - LockBit Ransomware
     - Defense Evasion or Unauthorized Access Via SDDL Tampering
 asset_type: Endpoint
+atomic_guid:
+    - 85e6eff8-3ed4-4e03-ae50-aa6a404898a5
 mitre_attack_id:
     - T1685.001
 product:

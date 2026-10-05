@@ -1,8 +1,8 @@
 name: Linux Auditd System Network Configuration Discovery
 id: 5db16825-81bd-4923-a8d6-d6a13a59832a
-version: 9
+version: 10
 creation_date: '2024-08-12'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -23,6 +23,7 @@ how_to_implement: To implement this detection, the process begins by ingesting a
 known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:
     - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1016/T1016.yaml#L33
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -44,6 +45,8 @@ analytic_story:
     - Linux Persistence Techniques
     - Compromised Linux Host
 asset_type: Endpoint
+atomic_guid:
+    - c141bbdb-7fca-4254-9fd6-f47e79447e17
 mitre_attack_id:
     - T1016
 product:

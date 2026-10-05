@@ -1,8 +1,8 @@
 name: Resize ShadowStorage volume
 id: bc760ca6-8336-11eb-bcbb-acde48001122
-version: 11
+version: 12
 creation_date: '2021-03-19'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras
 status: production
 type: TTP
@@ -39,6 +39,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md
     - https://redcanary.com/blog/blackbyte-ransomware/
     - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/vssadmin-resize-shadowstorage
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1490/T1490.yaml#L152
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -67,6 +68,8 @@ analytic_story:
     - BlackByte Ransomware
     - VanHelsing Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - da558b07-69ae-41b9-b9d4-4d98154a7049
 mitre_attack_id:
     - T1490
 product:

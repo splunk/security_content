@@ -1,8 +1,8 @@
 name: Regsvr32 Silent and Install Param Dll Loading
 id: f421c250-24e7-11ec-bc43-acde48001122
-version: 15
+version: 16
 creation_date: '2021-10-04'
-modification_date: '2026-06-09'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -40,6 +40,7 @@ known_false_positives: |
 references:
     - https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/
     - https://attack.mitre.org/techniques/T1218/010/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.010/T1218.010.yaml#L133
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -72,6 +73,8 @@ analytic_story:
     - Remcos
     - Suspicious Regsvr32 Activity
 asset_type: Endpoint
+atomic_guid:
+    - 9d71c492-ea2e-4c08-af16-c6994cdf029f
 mitre_attack_id:
     - T1218.010
 product:

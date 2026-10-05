@@ -1,8 +1,8 @@
 name: Windows Modify Registry DontShowUI
 id: 4ff9767b-fdf2-489c-83a5-c6c34412d72e
-version: 11
+version: 12
 creation_date: '2022-07-06'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Administrators may enable or disable this feature that may cause some false positive, however is not common. Filter as needed.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L1020
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -32,6 +33,8 @@ finding:
 analytic_story:
     - DarkGate Malware
 asset_type: Endpoint
+atomic_guid:
+    - 09147b61-40f6-4b2a-b6fb-9e73a3437c96
 mitre_attack_id:
     - T1112
 product:

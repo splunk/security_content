@@ -1,8 +1,8 @@
 name: Windows Curl Download to Suspicious Path
 id: c32f091e-30db-11ec-8738-acde48001122
-version: 22
+version: 23
 creation_date: '2021-10-19'
-modification_date: '2026-07-20'
+modification_date: '2026-10-02'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -65,6 +65,7 @@ references:
     - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
     - https://attack.mitre.org/techniques/T1105/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1105/T1105.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1105/T1105.yaml#L460
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -105,6 +106,8 @@ analytic_story:
     - Salt Typhoon
     - Starland RAT Campaign
 asset_type: Endpoint
+atomic_guid:
+    - 2b080b99-0deb-4d51-af0f-833d37c4ca6a
 mitre_attack_id:
     - T1105
 product:

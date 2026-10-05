@@ -1,8 +1,8 @@
 name: User Discovery With Env Vars PowerShell Script Block
 id: 77f41d9e-b8be-47e3-ab35-5776f5ec1d20
-version: 10
+version: 11
 creation_date: '2021-08-24'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -25,9 +25,12 @@ how_to_implement: To successfully implement this analytic, you will need to enab
 known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:
     - https://attack.mitre.org/techniques/T1033/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1033/T1033.yaml#L55
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - dcb6cdee-1fb0-4087-8bf8-88cfd136ba51
 mitre_attack_id:
     - T1033
 product:

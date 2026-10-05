@@ -1,8 +1,8 @@
 name: Windows Odbcconf Load DLL
 id: 141e7fca-a9f0-40fd-a539-9aac8be41f1b
-version: 12
+version: 13
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ known_false_positives: False positives may be present and filtering may need to 
 references:
     - https://strontic.github.io/xcyclopedia/library/odbcconf.exe-07FBA12552331355C103999806627314.html
     - https://twitter.com/redcanary/status/1541838407894171650?s=20&t=kp3WBPtfnyA3xW7D7wx0uw
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.008/T1218.008.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -59,6 +60,8 @@ threat_objects:
 analytic_story:
     - Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - 2430498b-06c0-4b92-a448-8ad263c388e2
 mitre_attack_id:
     - T1218.008
 product:

@@ -2,7 +2,7 @@ name: Detect WMI Event Subscription Persistence
 id: 01d9a0c2-cece-11eb-ab46-acde48001122
 version: 13
 creation_date: '2021-06-16'
-modification_date: '2026-10-05'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: deprecated
 type: TTP

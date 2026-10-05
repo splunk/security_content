@@ -1,8 +1,8 @@
 name: GetAdComputer with PowerShell Script Block
 id: a9a1da02-8e27-4bf7-a348-f4389c9da487
-version: 11
+version: 12
 creation_date: '2021-09-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -25,12 +25,15 @@ known_false_positives: Administrators or power users may use this PowerShell com
 references:
     - https://attack.mitre.org/techniques/T1018/
     - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1018/T1018.yaml#L346
 analytic_story:
     - Active Directory Discovery
     - CISA AA22-320A
     - Medusa Ransomware
     - Gozi Malware
 asset_type: Endpoint
+atomic_guid:
+    - 97e89d9e-e3f5-41b5-a90f-1e0825df0fdf
 mitre_attack_id:
     - T1018
 product:

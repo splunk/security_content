@@ -1,8 +1,8 @@
 name: Creation of lsass Dump with Taskmgr
 id: b2fbe95a-9c62-4c12-8a29-24b97e84c0cd
-version: 15
+version: 16
 creation_date: '2019-12-11'
-modification_date: '2026-09-21'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,6 +34,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-5---dump-lsassexe-memory-using-windows-task-manager
     - https://attack.mitre.org/techniques/T1003/001/
     - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.001/T1003.001.yaml#L122
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -59,6 +60,8 @@ analytic_story:
     - Seashell Blizzard
     - Scattered Lapsus$ Hunters
 asset_type: Windows
+atomic_guid:
+    - dea6c349-f1c6-44f3-87a1-1ed33a59a607
 mitre_attack_id:
     - T1003.001
 product:

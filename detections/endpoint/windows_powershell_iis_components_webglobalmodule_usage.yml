@@ -1,8 +1,8 @@
 name: Windows PowerShell IIS Components WebGlobalModule Usage
 id: 33fc9f6f-0ce7-4696-924e-a69ec61a3d57
-version: 13
+version: 14
 creation_date: '2022-12-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -30,6 +30,7 @@ references:
     - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
     - https://www.secureworks.com/research/bronze-union
     - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1505.004/T1505.004.yaml#L39
 drilldown_searches:
     - name: View the detection results for - "$Computer$"
       search: '%original_detection_search% | search  Computer = "$Computer$"'
@@ -49,6 +50,8 @@ analytic_story:
     - GhostRedirector IIS Module and Rungan Backdoor
     - IIS Components
 asset_type: Endpoint
+atomic_guid:
+    - cc3381fb-4bd0-405c-a8e4-6cacfac3b06c
 mitre_attack_id:
     - T1505.004
 product:

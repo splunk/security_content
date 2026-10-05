@@ -1,8 +1,8 @@
 name: Windows MSIExec DLLRegisterServer
 id: fdb59aef-d88f-4909-8369-ec2afbd2c398
-version: 14
+version: 15
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ known_false_positives: This analytic will need to be tuned for your environment 
 references:
     - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.007/T1218.007.yaml#L253
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -60,6 +61,8 @@ analytic_story:
     - Windows System Binary Proxy Execution MSIExec
     - Water Gamayun
 asset_type: Endpoint
+atomic_guid:
+    - 0106ffa5-fab6-4c7d-82e3-e6b8867d5e5d
 mitre_attack_id:
     - T1218.007
 product:

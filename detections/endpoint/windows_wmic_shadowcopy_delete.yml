@@ -1,8 +1,8 @@
 name: Windows WMIC Shadowcopy Delete
 id: 0a8c4b26-a4e2-4ef1-b0d9-62af6d36bdc8
-version: 5
+version: 6
 creation_date: '2025-03-18'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, AJ King, Splunk
 status: production
 type: Anomaly
@@ -20,6 +20,7 @@ known_false_positives: Legitimate system maintenance or backup operations may oc
 references:
     - https://any.run/malware-trends/cactus
     - https://attack.mitre.org/techniques/T1490/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1490/T1490.yaml#L29
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$process_name$"
       search: '%original_detection_search% | search dest = "$dest$" process_name = "$process_name$"'
@@ -45,6 +46,8 @@ analytic_story:
     - Volt Typhoon
     - Suspicious WMI Use
 asset_type: Endpoint
+atomic_guid:
+    - 6a3ff8dd-f49c-4272-a658-11c2fe58bd88
 mitre_attack_id:
     - T1490
 product:

@@ -1,8 +1,8 @@
 name: Detect Regsvr32 Application Control Bypass
 id: 070e9b80-6252-11eb-ae93-0242ac130002
-version: 15
+version: 16
 creation_date: '2021-01-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
     - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
     - https://support.microsoft.com/en-us/topic/how-to-use-the-regsvr32-tool-and-troubleshoot-regsvr32-error-messages-a98d960a-7392-e6fe-d90a-3f4e0cb543e5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.010/T1218.010.yaml#L38
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -67,6 +68,8 @@ analytic_story:
     - BlackByte Ransomware
     - PHP-CGI RCE Attack on Japanese Organizations
 asset_type: Endpoint
+atomic_guid:
+    - c9d0c4ef-8a96-4794-a75b-3d3a5e6f2a36
 mitre_attack_id:
     - T1218.010
 product:

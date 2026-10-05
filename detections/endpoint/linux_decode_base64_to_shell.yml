@@ -1,8 +1,8 @@
 name: Linux Decode Base64 to Shell
 id: 637b603e-1799-40fd-bf87-47ecbd551b66
-version: 14
+version: 15
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1027/T1027.md#atomic-test-1---decode-base64-data-into-script
     - https://redcanary.com/blog/lateral-movement-with-secure-shell/
     - https://linux.die.net/man/1/base64
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1140/T1140.yaml#L240
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -63,6 +64,8 @@ analytic_story:
     - Linux Living Off The Land
     - Cisco Isovalent Suspicious Activity
 asset_type: Endpoint
+atomic_guid:
+    - 3a15c372-67c1-4430-ac8e-ec06d641ce4d
 mitre_attack_id:
     - T1027
     - T1059.004

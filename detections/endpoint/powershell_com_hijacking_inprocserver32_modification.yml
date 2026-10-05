@@ -1,8 +1,8 @@
 name: Powershell COM Hijacking InprocServer32 Modification
 id: ea61e291-af05-4716-932a-67faddb6ae6f
-version: 10
+version: 11
 creation_date: '2022-09-26'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -17,6 +17,7 @@ references:
     - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
     - https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.015/T1546.015.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.015/T1546.015.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$Computer$"
       search: '%original_detection_search% | search  Computer = "$Computer$"'
@@ -35,6 +36,8 @@ finding:
 analytic_story:
     - Malicious PowerShell
 asset_type: Endpoint
+atomic_guid:
+    - 48117158-d7be-441b-bc6a-d9e36e47b52b
 mitre_attack_id:
     - T1059.001
     - T1546.015

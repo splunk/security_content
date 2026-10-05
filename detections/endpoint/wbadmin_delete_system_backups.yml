@@ -1,8 +1,8 @@
 name: WBAdmin Delete System Backups
 id: cd5aed7e-5cea-11eb-ae93-0242ac130002
-version: 14
+version: 15
 creation_date: '2021-01-11'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -38,6 +38,7 @@ references:
     - https://attack.mitre.org/techniques/T1490/
     - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wbadmin
     - https://www.welivesecurity.com/2019/04/30/buhtrap-backdoor-ransomware-advertising-platform/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1490/T1490.yaml#L108
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -61,6 +62,8 @@ analytic_story:
     - Storm-2460 CLFS Zero Day Exploitation
     - Storm-0501 Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - 584331dd-75bc-4c02-9e0b-17f5fd81c748
 mitre_attack_id:
     - T1490
 product:

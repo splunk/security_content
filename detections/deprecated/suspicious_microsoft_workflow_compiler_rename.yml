@@ -32,6 +32,7 @@ known_false_positives: Although unlikely, some legitimate applications may use a
 references:
     - https://lolbas-project.github.io/lolbas/Binaries/Microsoft.Workflow.Compiler/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-6---microsoftworkflowcompilerexe-payload-execution
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218/T1218.yaml#L144
 analytic_story:
     - Masquerading - Rename System Utilities
     - Living Off The Land
@@ -40,6 +41,8 @@ analytic_story:
     - BlackByte Ransomware
     - Graceful Wipe Out Attack
 asset_type: Endpoint
+atomic_guid:
+    - 4cc40fd7-87b8-4b16-b2d7-57534b86b911
 mitre_attack_id:
     - T1036.003
     - T1127

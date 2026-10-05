@@ -1,8 +1,8 @@
 name: Windows Indirect Command Execution Via pcalua
 id: 3428ac18-a410-4823-816c-ce697d26f7a8
-version: 11
+version: 12
 creation_date: '2022-03-04'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Eric McGinnis, Splunk
 status: production
 type: TTP
@@ -29,6 +29,7 @@ known_false_positives: Some legacy applications may be run using pcalua.exe.  Fi
 references:
     - https://twitter.com/KyleHanslovan/status/912659279806640128
     - https://lolbas-project.github.io/lolbas/Binaries/Pcalua/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1202/T1202.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -47,6 +48,8 @@ finding:
 analytic_story:
     - Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - cecfea7a-5f03-4cdd-8bc8-6f7c22862440
 mitre_attack_id:
     - T1202
 product:

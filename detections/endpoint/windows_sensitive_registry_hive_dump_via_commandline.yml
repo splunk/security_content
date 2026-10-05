@@ -1,8 +1,8 @@
 name: Windows Sensitive Registry Hive Dump Via CommandLine
 id: 5aaff29d-0cce-405b-9ee8-5d06b49d045e
-version: 11
+version: 12
 creation_date: '2021-05-12'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Patrick Bareiss, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -49,6 +49,8 @@ references:
     - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md
     - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.002/T1003.002.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.002/T1003.002.yaml#L176
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -85,6 +87,9 @@ analytic_story:
     - Windows Registry Abuse
     - Seashell Blizzard
 asset_type: Endpoint
+atomic_guid:
+    - 5c2571d0-1572-416d-9676-812e64ca9f44
+    - 21df41be-cdd8-4695-a650-c3981113aa3c
 mitre_attack_id:
     - T1003.002
 product:

@@ -1,8 +1,8 @@
 name: Windows Modify Registry MaxConnectionPerServer
 id: 064cd09f-1ff4-4823-97e0-45c2f5b087ec
-version: 11
+version: 12
 creation_date: '2023-07-27'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ known_false_positives: Administrators may enable or disable this feature that ma
 references:
     - https://asec.ahnlab.com/en/17692/
     - https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L890
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -33,6 +34,8 @@ intermediate_findings:
 analytic_story:
     - Warzone RAT
 asset_type: Endpoint
+atomic_guid:
+    - 37950714-e923-4f92-8c7c-51e4b6fffbf6
 mitre_attack_id:
     - T1112
 product:

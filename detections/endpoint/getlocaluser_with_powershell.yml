@@ -1,8 +1,8 @@
 name: GetLocalUser with PowerShell
 id: 85fae8fa-0427-11ec-8b78-acde48001122
-version: 9
+version: 10
 creation_date: '2021-08-24'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -32,9 +32,12 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:
     - https://attack.mitre.org/techniques/T1087/001/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.001/T1087.001.yaml#L151
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - ae4b6361-b5f8-46cb-a3f9-9cf108ccfe7b
 mitre_attack_id:
     - T1087.001
 product:

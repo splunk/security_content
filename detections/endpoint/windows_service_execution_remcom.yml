@@ -1,8 +1,8 @@
 name: Windows Service Execution RemCom
 id: 7e3d68db-ea4d-419b-adbd-e14a525ecf09
-version: 8
+version: 9
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -17,6 +17,7 @@ known_false_positives: False positives may be present based on Administrative us
 references:
     - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
     - https://github.com/kavika13/RemCom
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1569.002/T1569.002.yaml#L158
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -46,6 +47,8 @@ threat_objects:
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - a5d8cdeb-be90-43a9-8b26-cc618deac1e0
 mitre_attack_id:
     - T1569.002
 product:

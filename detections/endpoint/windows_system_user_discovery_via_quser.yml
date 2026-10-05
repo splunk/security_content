@@ -1,8 +1,8 @@
 name: Windows System User Discovery Via Quser
 id: 0c3f3e09-e47a-410e-856f-a02a5c5fafb0
-version: 8
+version: 9
 creation_date: '2022-12-13'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -33,11 +33,16 @@ references:
     - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/quser
     - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
     - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1033/T1033.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1033/T1033.yaml#L30
 analytic_story:
     - Prestige Ransomware
     - Crypto Stealer
     - Windows Post-Exploitation
 asset_type: Endpoint
+atomic_guid:
+    - 4c4959bf-addf-4b4a-be86-8d09cc1857aa
+    - 2a9b677d-a230-44f4-ad86-782df1ef108c
 mitre_attack_id:
     - T1033
 product:

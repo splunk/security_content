@@ -1,8 +1,8 @@
 name: Linux Auditd Whoami User Discovery
 id: d1ff2e22-310d-446a-80b3-faedaa7b3b52
-version: 9
+version: 10
 creation_date: '2024-08-12'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -24,6 +24,7 @@ known_false_positives: Administrator or network operator can use this applicatio
 references:
     - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
     - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1033/T1033.yaml#L131
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -46,6 +47,8 @@ analytic_story:
     - Compromised Linux Host
     - QuietVault
 asset_type: Endpoint
+atomic_guid:
+    - aab580c7-cc30-4a7c-b5a9-46a29066b022
 mitre_attack_id:
     - T1033
 product:

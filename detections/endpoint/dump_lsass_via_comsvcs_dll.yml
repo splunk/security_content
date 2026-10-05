@@ -1,8 +1,8 @@
 name: Dump LSASS via comsvcs DLL
 id: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
-version: 17
+version: 18
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -31,6 +31,7 @@ references:
     - https://modexp.wordpress.com/2019/08/30/minidumpwritedump-via-com-services-dll/
     - https://twitter.com/SBousseaden/status/1167417096374050817
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.001/T1003.001.yaml#L45
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -73,6 +74,8 @@ analytic_story:
     - Scattered Lapsus$ Hunters
     - Hellcat Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - 2536dee2-12fb-459a-8c37-971844fa73be
 mitre_attack_id:
     - T1003.001
 product:

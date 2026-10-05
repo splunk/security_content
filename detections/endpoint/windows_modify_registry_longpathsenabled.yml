@@ -1,8 +1,8 @@
 name: Windows Modify Registry LongPathsEnabled
 id: 36f9626c-4272-4808-aadd-267acce681c0
-version: 12
+version: 13
 creation_date: '2023-07-10'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Administrators may enable or disable this feature that may cause some false positive.
 references:
     - https://www.microsoft.com/en-us/security/blog/2023/07/06/the-five-day-job-a-blackbyte-ransomware-intrusion-case-study/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L126
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'

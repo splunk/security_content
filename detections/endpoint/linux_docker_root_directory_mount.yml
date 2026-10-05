@@ -1,8 +1,8 @@
 name: Linux Docker Root Directory Mount
 id: aa049566-f76a-43b9-908c-3c27e079fd43
-version: 4
+version: 5
 creation_date: '2026-03-10'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Gowthamaraj Rajendran, Splunk, Emil Elsetrønning
 status: production
 type: TTP
@@ -41,6 +41,7 @@ known_false_positives: False positives are present based on automated tooling or
 references:
     - https://docs.docker.com/engine/storage/volumes/
     - https://gtfobins.github.io/gtfobins/docker/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1611/T1611.yaml#L59
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -69,6 +70,8 @@ analytic_story:
     - Linux Privilege Escalation
     - Linux Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - 6c499943-b098-4bc6-8d38-0956fc182984
 mitre_attack_id:
     - T1611
 product:

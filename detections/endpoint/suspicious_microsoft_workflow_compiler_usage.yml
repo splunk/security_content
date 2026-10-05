@@ -1,8 +1,8 @@
 name: Suspicious microsoft workflow compiler usage
 id: 9bbc62e8-55d8-11eb-ae93-0242ac130002
-version: 13
+version: 14
 creation_date: '2021-01-19'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,6 +34,7 @@ known_false_positives: Although unlikely, limited instances have been identified
 references:
     - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-6---microsoftworkflowcompilerexe-payload-execution
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218/T1218.yaml#L112
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -59,6 +60,8 @@ analytic_story:
     - Trusted Developer Utilities Proxy Execution
     - Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - 7cbb0f26-a4c1-4f77-b180-a009aa05637e
 mitre_attack_id:
     - T1127
 product:

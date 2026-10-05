@@ -1,8 +1,8 @@
 name: NLTest Domain Trust Discovery
 id: c3e05466-5f22-11eb-ae93-0242ac130002
-version: 14
+version: 15
 creation_date: '2021-01-25'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -40,6 +40,7 @@ references:
     - https://ss64.com/nt/nltest.html
     - https://redcanary.com/threat-detection-report/techniques/domain-trust-discovery/
     - https://thedfirreport.com/2020/10/08/ryuks-return/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1482/T1482.yaml#L16
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -66,6 +67,8 @@ analytic_story:
     - Ryuk Ransomware
     - Storm-0501 Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - 2e22641d-0498-48d2-b9ff-c71e496ccdbe
 mitre_attack_id:
     - T1482
 product:

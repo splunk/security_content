@@ -1,8 +1,8 @@
 name: Kerberoasting spn request with RC4 encryption
 id: 5cc67381-44fa-4111-8a37-7a230943f027
-version: 15
+version: 16
 creation_date: '2020-06-11'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Dean Luxton, Splunk
 status: production
 type: TTP
@@ -23,6 +23,8 @@ known_false_positives: Older systems that support kerberos RC4 by default like N
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/4e3e9c8096dde00639a6b98845ec349135554ed5/atomics/T1208/T1208.md
     - https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-kerberoasting-activity
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1558.003/T1558.003.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1558.003/T1558.003.yaml#L30
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -45,6 +47,9 @@ analytic_story:
     - Compromised Windows Host
     - Hermetic Wiper
 asset_type: Endpoint
+atomic_guid:
+    - 3f987809-3681-43c8-bcd8-b3ff3a28533a
+    - 14625569-6def-4497-99ac-8e7817105b55
 mitre_attack_id:
     - T1558.003
 product:

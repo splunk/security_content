@@ -1,8 +1,8 @@
 name: Control Loading from World Writable Directory
 id: 10423ac4-10c9-11ec-8dc4-acde48001122
-version: 13
+version: 14
 creation_date: '2021-09-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -20,6 +20,7 @@ references:
     - https://attack.mitre.org/techniques/T1218/011/
     - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.002/T1218.002.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -53,6 +54,8 @@ analytic_story:
 asset_type: Endpoint
 cve:
     - CVE-2021-40444
+atomic_guid:
+    - 037e9d8a-9e46-4255-8b33-2ae3b545ca6f
 mitre_attack_id:
     - T1218.002
 product:

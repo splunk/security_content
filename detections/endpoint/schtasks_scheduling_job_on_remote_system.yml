@@ -1,8 +1,8 @@
 name: Schtasks scheduling job on remote system
 id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
-version: 20
+version: 21
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: David Dorsey, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -33,6 +33,8 @@ search: |-
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: While it is possible to have false positives, due to legitimate administrative tasks, these are usually limited and should still be validated and investigated as appropriate.
 references: []
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1053.005/T1053.005.yaml#L43
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -68,6 +70,8 @@ analytic_story:
     - NOBELIUM Group
     - Compromised Windows Host
 asset_type: Endpoint
+atomic_guid:
+    - 2e5eac3e-327b-4a88-a0c0-c4057039a8dd
 mitre_attack_id:
     - T1053.005
 product:

@@ -1,8 +1,8 @@
 name: FodHelper UAC Bypass
 id: 909f8fd8-7ac8-11eb-a1f3-acde48001122
-version: 15
+version: 16
 creation_date: '2021-03-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,6 +32,8 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md
     - https://github.com/gushmazuko/WinBypass/blob/master/FodhelperBypass.ps1
     - https://attack.mitre.org/techniques/T1548/002/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1548.002/T1548.002.yaml#L44
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1548.002/T1548.002.yaml#L64
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -63,6 +65,9 @@ analytic_story:
     - Windows Defense Evasion Tactics
     - BlankGrabber Stealer
 asset_type: Endpoint
+atomic_guid:
+    - 58f641ea-12e3-499a-b684-44dee46bd182
+    - 3f627297-6c38-4e7d-a278-fc2563eaaeaa
 mitre_attack_id:
     - T1112
     - T1548.002

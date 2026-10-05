@@ -1,8 +1,8 @@
 name: Linux At Application Execution
 id: bf0a378e-5f3c-11ec-a6de-acde48001122
-version: 13
+version: 14
 creation_date: '2021-12-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -30,6 +30,7 @@ known_false_positives: Administrator or network operator can use this applicatio
 references:
     - https://attack.mitre.org/techniques/T1053/001/
     - https://www.linkedin.com/pulse/getting-attacker-ip-address-from-malicious-linux-job-craig-rowland/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1053.002/T1053.002.yaml#L58
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'

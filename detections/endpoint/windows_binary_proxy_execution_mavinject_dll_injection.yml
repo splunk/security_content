@@ -1,8 +1,8 @@
 name: Windows Binary Proxy Execution Mavinject DLL Injection
 id: ccf4b61b-1b26-4f2e-a089-f2009c569c57
-version: 13
+version: 14
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,6 +31,7 @@ references:
     - https://attack.mitre.org/techniques/T1218/013/
     - https://posts.specterops.io/mavinject-exe-functionality-deconstructed-c29ab2cf5c0e
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-1---mavinject---inject-dll-into-running-process
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218/T1218.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -60,6 +61,8 @@ threat_objects:
 analytic_story:
     - Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - c426dacf-575d-4937-8611-a148a86a5e61
 mitre_attack_id:
     - T1218.013
 product:

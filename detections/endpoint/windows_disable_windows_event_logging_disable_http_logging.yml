@@ -1,8 +1,8 @@
 name: Windows Disable Windows Event Logging Disable HTTP Logging
 id: 23fb6787-255f-4d5b-9a66-9fd7504032b5
-version: 15
+version: 16
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -32,6 +32,7 @@ references:
     - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
     - https://www.secureworks.com/research/bronze-union
     - https://strontic.github.io/xcyclopedia/library/appcmd.exe-055B2B09409F980BF9B5A3969D01E5B2.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685.001/T1685.001.yaml#L27
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -62,6 +63,8 @@ analytic_story:
     - Compromised Windows Host
     - Windows Defense Evasion Tactics
 asset_type: Endpoint
+atomic_guid:
+    - a957fb0f-1e85-49b2-a211-413366784b1e
 mitre_attack_id:
     - T1505.004
     - T1685.001

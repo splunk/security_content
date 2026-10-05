@@ -1,8 +1,8 @@
 name: Windows Net System Service Discovery
 id: dd7da098-83b8-4c48-b09d-e51aeb621e81
-version: 5
+version: 6
 creation_date: '2021-05-07'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -31,10 +31,13 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
     - https://cert.gov.ua/article/6284730
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1007/T1007.yaml#L20
 analytic_story:
     - LAMEHUG
     - Gh0st RAT
 asset_type: Endpoint
+atomic_guid:
+    - 5f864a3f-8ce9-45c0-812c-bdf7d8aeacc3
 mitre_attack_id:
     - T1007
 product:

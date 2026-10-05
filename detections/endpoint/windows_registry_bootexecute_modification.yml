@@ -1,8 +1,8 @@
 name: Windows Registry BootExecute Modification
 id: eabbac3a-45aa-4659-920f-6b8cff383fb8
-version: 12
+version: 13
 creation_date: '2023-05-11'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: False positives may be present and will need to be filtered.
 references:
     - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1547.001/T1547.001.yaml#L404
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -32,6 +33,8 @@ finding:
 analytic_story:
     - Windows BootKits
 asset_type: Endpoint
+atomic_guid:
+    - 6e1666d5-3f2b-4b9a-80aa-f011322380d4
 mitre_attack_id:
     - T1542
     - T1547.001

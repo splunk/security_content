@@ -1,8 +1,8 @@
 name: Windows System Time Discovery W32tm Delay
 id: b2cc69e7-11ba-42dc-a269-59c069a48870
-version: 11
+version: 12
 creation_date: '2022-07-27'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -31,6 +31,7 @@ references:
     - https://cert.gov.ua/article/405538
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
     - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1124/T1124.yaml#L42
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -49,6 +50,8 @@ intermediate_findings:
 analytic_story:
     - DarkCrystal RAT
 asset_type: Endpoint
+atomic_guid:
+    - d5d5a6b0-0f92-42d8-985d-47aafa2dd4db
 mitre_attack_id:
     - T1124
 product:

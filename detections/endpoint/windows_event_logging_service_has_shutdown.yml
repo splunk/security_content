@@ -1,8 +1,8 @@
 name: Windows Event Logging Service Has Shutdown
 id: d696f622-6b08-4336-b456-696cb5b43ba0
-version: 7
+version: 8
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -27,12 +27,17 @@ references:
     - https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
     - https://attack.mitre.org/techniques/T1070/001/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685.001/T1685.001.yaml#L149
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685.001/T1685.001.yaml#L170
 analytic_story:
     - Windows Log Manipulation
     - Ransomware
     - Clop Ransomware
     - Scattered Lapsus$ Hunters
 asset_type: Endpoint
+atomic_guid:
+    - 8e81d090-0cd6-4d46-863c-eec11311298f
+    - 85e6eff8-3ed4-4e03-ae50-aa6a404898a5
 mitre_attack_id:
     - T1685.005
 product:

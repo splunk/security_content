@@ -1,8 +1,8 @@
 name: Windows Get-Variable.EXE Execution from WindowsApps Folder
 id: 7edb95b6-bccf-4d8c-8ada-d1c5520cf0ed
-version: 2
+version: 3
 creation_date: '2021-05-07'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -38,6 +38,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Some legitimate administrative tools may use custom executables in the WindowsApps folder for persistence or automation. Verify the executable's origin before flagging to avoid false positives.
 references:
     - https://thehackernews.com/2022/04/researchers-uncover-how-colibri-malware.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1574.008/T1574.008.yaml#L5
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -59,6 +60,8 @@ threat_objects:
 analytic_story:
     - Windows Persistence Techniques
 asset_type: Endpoint
+atomic_guid:
+    - 1561de08-0b4b-498e-8261-e922f3494aae
 mitre_attack_id:
     - T1574.008
 product:

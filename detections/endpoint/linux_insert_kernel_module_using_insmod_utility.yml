@@ -1,8 +1,8 @@
 name: Linux Insert Kernel Module Using Insmod Utility
 id: 18b5a1a0-6326-11ec-943a-acde48001122
-version: 12
+version: 13
 creation_date: '2022-01-05'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -31,6 +31,7 @@ references:
     - https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/kernel-module-driver-configuration/Working_with_Kernel_Modules/
     - https://security.stackexchange.com/questions/175953/how-to-load-a-malicious-lkm-at-startup
     - https://0x00sec.org/t/kernel-rootkits-getting-your-hands-dirty/1485
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1547.006/T1547.006.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -52,6 +53,8 @@ analytic_story:
     - Linux Rootkit
     - Linux Privilege Escalation
 asset_type: Endpoint
+atomic_guid:
+    - 687dcb93-9656-4853-9c36-9977315e9d23
 mitre_attack_id:
     - T1547.006
 product:

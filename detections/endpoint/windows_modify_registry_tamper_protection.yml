@@ -1,8 +1,8 @@
 name: Windows Modify Registry Tamper Protection
 id: 12094335-88fc-4c3a-b55f-e62dd8c93c23
-version: 12
+version: 13
 creation_date: '2023-04-26'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Administrators may enable or disable this feature that may cause some false positive.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L861
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -34,7 +35,7 @@ analytic_story:
     - RedLine Stealer
 asset_type: Endpoint
 atomic_guid:
-    - 12e03af7-79f9-4f95-af48-d3f12f28a260
+    - 3b625eaa-c10d-4635-af96-3eae7d2a2f3c
 mitre_attack_id:
     - T1112
 product:

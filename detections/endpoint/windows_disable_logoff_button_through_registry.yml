@@ -1,8 +1,8 @@
 name: Windows Disable LogOff Button Through Registry
 id: b2fb6830-9ed1-11ec-9fcb-acde48001122
-version: 14
+version: 15
 creation_date: '2022-03-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -16,6 +16,7 @@ references:
     - https://www.hybrid-analysis.com/sample/e2d4018fd3bd541c153af98ef7c25b2bf4a66bc3bfb89e437cde89fd08a9dd7b/5b1f4d947ca3e10f22714774
     - https://malwiki.org/index.php?title=DigiPop.xp
     - https://www.trendmicro.com/vinfo/be/threat-encyclopedia/search/js_noclose.e/2
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L244
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -35,6 +36,8 @@ analytic_story:
     - Ransomware
     - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - e246578a-c24d-46a7-9237-0213ff86fb0c
 mitre_attack_id:
     - T1112
 product:

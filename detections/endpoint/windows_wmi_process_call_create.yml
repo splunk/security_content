@@ -1,8 +1,8 @@
 name: Windows WMI Process Call Create
 id: 0661c2de-93de-11ec-9833-acde48001122
-version: 9
+version: 10
 creation_date: '2022-02-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -32,6 +32,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/2b804d25418004a5f1ba50e9dc637946ab8733c7/atomics/T1047/T1047.md
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1047/T1047.yaml#L85
 analytic_story:
     - Volt Typhoon
     - Qakbot
@@ -40,6 +41,8 @@ analytic_story:
     - CISA AA23-347A
     - Cactus Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - b3bdfc91-b33e-4c6d-a5c8-d64bee0276b3
 mitre_attack_id:
     - T1047
 product:

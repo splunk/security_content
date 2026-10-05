@@ -1,8 +1,8 @@
 name: Windows Modify Registry ProxyEnable
 id: b27f20bd-ef20-41d1-a1e9-25dedd5bf2f5
-version: 11
+version: 12
 creation_date: '2023-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Administrators may enable or disable this feature that may cause some false positive, however is not common. Filter as needed.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L1034
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -32,6 +33,8 @@ intermediate_findings:
 analytic_story:
     - DarkGate Malware
 asset_type: Endpoint
+atomic_guid:
+    - eb0ba433-63e5-4a8c-a9f0-27c4192e1336
 mitre_attack_id:
     - T1112
 product:

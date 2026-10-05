@@ -1,8 +1,8 @@
 name: Windows ScManager Security Descriptor Tampering Via Sc.EXE
 id: 04023928-0381-4935-82cb-03372b2ef644
-version: 9
+version: 10
 creation_date: '2024-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,6 +36,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/8ac5c4f84692b11ea2832d18d3dc6f1ce7fb4e41/atomics/T1569.002/T1569.002.md#atomic-test-7---modifying-acl-of-service-control-manager-via-sdet
     - https://0xv1n.github.io/posts/scmanager/
     - https://attack.mitre.org/techniques/T1569/002/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1569.002/T1569.002.yaml#L208
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -63,6 +64,8 @@ threat_objects:
 analytic_story:
     - Defense Evasion or Unauthorized Access Via SDDL Tampering
 asset_type: Endpoint
+atomic_guid:
+    - bf07f520-3909-4ef5-aa22-877a50f2f77b
 mitre_attack_id:
     - T1569.002
 product:

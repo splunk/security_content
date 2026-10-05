@@ -1,8 +1,8 @@
 name: MacOS List Firewall Rules
 id: f8db6e0b-55bb-40ca-bc85-2b3700adb0f8
-version: 2
+version: 3
 creation_date: '2026-04-15'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Jamie Windley, Splunk
 status: production
 type: Anomaly
@@ -52,6 +52,7 @@ known_false_positives: |
 references:
     - https://www.manpagez.com/man/8/socketfilterfw/
     - https://ss64.com/mac/defaults.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1016/T1016.yaml#L183
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search user = "$user$" AND dest = "$dest$"'
@@ -81,6 +82,8 @@ threat_objects:
 analytic_story:
     - Network Discovery
 asset_type: Endpoint
+atomic_guid:
+    - ff1d8c25-2aa4-4f18-a425-fede4a41ee88
 mitre_attack_id:
     - T1016
 product:
