@@ -1,0 +1,14 @@
+name: renamed_popular_3rd_party_binaries
+id: 83a56371-0a0f-4486-be21-8dc1d4d25e97
+version: 1
+creation_date: '2026-09-23'
+modification_date: '2026-09-23'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of popular 3rd party Windows binaries and their software names
+default_match: 'false'
+match_type:
+    - WILDCARD(original_file_name)
+min_matches: 1
+max_matches: 1
+case_sensitive_match: false
