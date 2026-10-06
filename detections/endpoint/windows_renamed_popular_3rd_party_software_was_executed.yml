@@ -19,16 +19,10 @@ search: |-
 
     FROM datamodel=Endpoint.Processes WHERE
 
-    NOT Processes.original_file_name IN ("-","unknown")
     [
         | inputlookup renamed_popular_3rd_party_binaries
         | rename original_file_name as Processes.original_file_name
         | table Processes.original_file_name
-    ]
-    NOT [
-        | inputlookup renamed_popular_3rd_party_binaries
-        | rename original_file_name as Processes.process_name
-        | table Processes.process_name
     ]
 
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
