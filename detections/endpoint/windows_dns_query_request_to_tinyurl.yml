@@ -2,7 +2,7 @@ name: Windows DNS Query Request To TinyUrl
 id: b1ea79da-719c-437c-acaf-5c93f838f425
 version: 5
 creation_date: '2021-11-18'
-modification_date: '2026-05-13'
+modification_date: '2026-10-06'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -23,6 +23,10 @@ search: |
       "*\\Temp\\*",
       "*\\Users\\Public\\*",
       "*\\Windows\\Tasks\\*"
+      "*\\powershell.exe",
+      "*\\pwsh.exe",
+      "*\\cmd.exe",
+      "*\\python.exe",
       )
     | stats count min(_time) as firstTime max(_time) as lastTime
       by answer answer_count dvc process_exec process_guid process_name query query_count
@@ -58,6 +62,7 @@ threat_objects:
       type: process_name
 analytic_story:
     - Malicious Inno Setup Loader
+    - Braodo Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1105

@@ -1,8 +1,8 @@
 name: Windows Boot or Logon Autostart Execution In Startup Folder
 id: 99d157cb-923f-4a00-aee9-1f385412146f
-version: 17
+version: 18
 creation_date: '2023-01-16'
-modification_date: '2026-07-20'
+modification_date: '2026-10-06'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -51,6 +51,7 @@ analytic_story:
     - BlankGrabber Stealer
     - Phantom Stealer
     - Starland RAT Campaign
+    - Braodo Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1547.001
