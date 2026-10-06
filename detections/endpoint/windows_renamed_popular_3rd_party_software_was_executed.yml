@@ -41,10 +41,9 @@ search: |-
 
     | `drop_dm_object_name(Processes)`
 
-    | eval original_file_name=lower(original_file_name)
-
-    | where NOT match(process_name, "(?i)^".replace(original_file_name,"(?i).exe",""))
-    | where NOT match(process_name, "(?i)".original_file_name)
+    | eval process_name_norm=replace(lower(process_name), "\.exe$", ""),
+           original_file_name_norm=replace(lower(original_file_name), "\.exe$", "")
+    | where process_name_norm != original_file_name_norm
 
     | lookup local=t renamed_popular_3rd_party_binaries original_file_name OUTPUT description
 
