@@ -17,8 +17,7 @@ data_source:
     - AWS CloudTrail
 search: |-
     `cloudtrail` eventSource="ec2-instance-connect.amazonaws.com" eventName="SendSSHPublicKey" responseElements.success=true
-    | eval user=coalesce(user_name, 'userIdentity.arn', 'userIdentity.principalId')
-    | stats count as event_count
+    | stats dc(eventID) as event_count
         dc('requestParameters.instanceId') as unique_instances
         values('requestParameters.instanceId') as targeted_instances
         values('requestParameters.instanceOSUser') as targeted_users
@@ -27,7 +26,7 @@ search: |-
         values(vendor_region) as vendor_region
         earliest(_time) as firstTime
         latest(_time) as lastTime
-        by user
+        by user_arn
     | where event_count >= 10
     | eval duration_seconds=lastTime-firstTime
     | `security_content_ctime(firstTime)`
