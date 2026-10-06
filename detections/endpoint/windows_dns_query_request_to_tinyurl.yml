@@ -1,6 +1,6 @@
 name: Windows DNS Query Request To TinyUrl
 id: b1ea79da-719c-437c-acaf-5c93f838f425
-version: 5
+version: 6
 creation_date: '2021-11-18'
 modification_date: '2026-10-06'
 author: Teoderick Contreras, Splunk
