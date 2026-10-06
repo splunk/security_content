@@ -20,17 +20,12 @@ search: |-
 
     FROM datamodel=Endpoint.Processes WHERE
 
-    NOT Processes.original_file_name IN ("-","unknown")
     [
         | inputlookup renamed_lolbas_binaries
         | rename original_file_name as Processes.original_file_name
         | table Processes.original_file_name
     ]
-    NOT [
-        | inputlookup renamed_lolbas_binaries
-        | rename original_file_name as Processes.process_name
-        | table Processes.process_name
-    ]
+
     NOT Processes.process_name IN (
         "excelcnv.exe",
         "installutil64.exe",
