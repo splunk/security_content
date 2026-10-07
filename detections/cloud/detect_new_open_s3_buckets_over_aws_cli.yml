@@ -1,6 +1,6 @@
 name: Detect New Open S3 Buckets over AWS CLI
 id: 39c61d09-8b30-4154-922b-2d0a694ecc22
-version: 10
+version: 11
 creation_date: '2021-01-12'
 modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk, vshcherbakov
