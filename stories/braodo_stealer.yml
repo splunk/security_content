@@ -1,8 +1,8 @@
 name: Braodo Stealer
 id: ec5c8721-3c13-45ac-90e8-64c63a8fdc24
 version: 3
-creation_date: ‘2024-10-15’
-modification_date: ‘2026-10-07’
+creation_date: '2024-10-15'
+modification_date: '2026-10-07'
 author: Teoderick Contreras, Splunk
 status: production
 description: Leverage searches that allow you to detect and investigate unusual activities that may be related to the Braodo Stealer malware, a malicious software designed to steal sensitive information from infected systems. This malware typically targets login credentials, browser history, cookies, and stored passwords. Beyond credential theft, recent variants of Braodo Stealer abuse authenticated Facebook sessions to query the Meta Graph API, enumerating advertising accounts, Facebook Pages, and Business Manager infrastructure — including account balances, spending limits, payment thresholds, and associated credit-card payment methods. Braodo Stealer often infiltrates through phishing campaigns or malicious downloads, enabling attackers to gain unauthorized access to personal and financial data. By monitoring unusual system behaviors, such as unauthorized network connections to Meta Graph API endpoints or data exfiltration, you can help prevent data breaches and mitigate the impact of this threat.
