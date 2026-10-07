@@ -11,7 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_bitsadmin` Processes.process IN ("*transfer*", "*addfile*")
       BY Processes.action Processes.dest Processes.original_file_name
@@ -33,14 +33,14 @@ references:
     - https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
     - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 drilldown_searches:
-    - name: View the detection results for - "$user$" and "$dest$"
-      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: 7d
-      latest_offset: "0"
+    -   name: View the detection results for - "$user$" and "$dest$"
+        search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+        earliest_offset: $info_min_time$
+        latest_offset: $info_max_time$
+    -   name: View risk events for the last 7 days for - "$user$" and "$dest$"
+        search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+        earliest_offset: 7d
+        latest_offset: '0'
 finding:
     title: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file.
     entity:
@@ -49,15 +49,15 @@ finding:
         score: 50
 intermediate_findings:
     entities:
-        - field: dest
-          type: system
-          score: 50
-          message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file.
+        -   field: dest
+            type: system
+            score: 50
+            message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file.
 threat_objects:
-    - field: parent_process_name
-      type: parent_process_name
-    - field: process_name
-      type: process_name
+    -   field: parent_process_name
+        type: parent_process_name
+    -   field: process_name
+        type: process_name
 analytic_story:
     - Ingress Tool Transfer
     - BITS Jobs
@@ -80,15 +80,15 @@ product:
 category: endpoint
 security_domain: endpoint
 tests:
-    - name: True Positive Test - Sysmon
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-          sourcetype: XmlWinEventLog
-      test_type: unit
-    - name: True Positive Test - CrowdStrike
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
-          source: crowdstrike
-          sourcetype: crowdstrike:events:sensor
-      test_type: unit
+    -   name: True Positive Test - Sysmon
+        attack_data:
+            -   data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
+                source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+                sourcetype: XmlWinEventLog
+        test_type: unit
+    -   name: True Positive Test - CrowdStrike
+        attack_data:
+            -   data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
+                source: crowdstrike
+                sourcetype: crowdstrike:events:sensor
+        test_type: unit
