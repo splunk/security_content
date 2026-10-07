@@ -1,10 +1,10 @@
 name: WMI Temporary Event Subscription
 id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
-version: 10
+version: 11
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-05'
 author: Rico Valdez, Splunk
-status: experimental
+status: deprecated
 type: TTP
 description: The following analytic detects the creation of WMI temporary event subscriptions. It leverages Windows Event Logs, specifically EventCode 5860, to identify these activities. This detection is significant because attackers often use WMI to execute commands, gather information, or maintain persistence within a compromised system. If confirmed malicious, this activity could allow an attacker to execute arbitrary code, escalate privileges, or persist in the environment. Analysts should review the specific WMI queries and assess their intent, considering potential false positives from legitimate administrative tasks.
 data_source: []
@@ -43,3 +43,9 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+deprecation_info:
+    reason: |-
+        This rule is deprecated in its current form because EventID 5860 identifies temporary subscriptions rather than permanent persistence, and the broad match with exact query-string exceptions does not reliably distinguish malicious use from legitimate software.
+        Temporary WMI activity may warrant a separate behavior-focused detection.
+    removed_in_version: 6.10.0
+    replacement_content: []

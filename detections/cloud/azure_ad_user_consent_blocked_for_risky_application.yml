@@ -24,7 +24,7 @@ search: |-
     | eval permissions_index = if(mvfind('targetResources{}.modifiedProperties{}.displayName', "ConsentAction.Permissions") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', "ConsentAction.Permissions"), -1)
     | search reason_index >= 0
     | eval reason = mvindex('targetResources{}.modifiedProperties{}.newValue',reason_index) | eval permissions = mvindex('targetResources{}.modifiedProperties{}.newValue',permissions_index)
-    | search reason = "Risky application detected"
+    | search reason = "\"Risky application detected\""
     | rex field=permissions "Scope: (?<Scope>[^,]+)"
     | fillnull
 

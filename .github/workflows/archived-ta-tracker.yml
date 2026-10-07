@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install YAML parser
-        run: python -m pip install PyYAML
+        run: python -m pip install PyYAML==6.0.3
 
       - name: Create or update archived TA issues
         env:
