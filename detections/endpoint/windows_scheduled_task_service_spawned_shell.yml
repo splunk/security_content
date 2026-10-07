@@ -1,6 +1,6 @@
 name: Windows Scheduled Task Service Spawned Shell
 id: d8120352-3b62-4e3c-8cb6-7b47584dd5e8
-version: 12
+version: 13
 creation_date: '2023-07-11'
 modification_date: '2026-05-13'
 author: Steven Dick

@@ -1,6 +1,6 @@
 name: Svchost LOLBAS Execution Process Spawn
 id: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
-version: 15
+version: 16
 creation_date: '2021-11-23'
 modification_date: '2026-07-27'
 author: Mauricio Velazco, Splunk

@@ -1,6 +1,6 @@
 name: Vbscript Execution Using Wscript App
 id: 35159940-228f-11ec-8a49-acde48001122
-version: 13
+version: 14
 creation_date: '2021-09-14'
 modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk

@@ -1,6 +1,6 @@
 name: Windows Command Shell DCRat ForkBomb Payload
 id: 2bb1a362-7aa8-444a-92ed-1987e8da83e1
-version: 14
+version: 15
 creation_date: '2022-07-28'
 modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
