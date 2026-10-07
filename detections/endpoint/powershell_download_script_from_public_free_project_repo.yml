@@ -1,4 +1,4 @@
-name: PowerShell Download Script From Github
+name: PowerShell Download Script From Public Free Project Repo
 id: 3ffbd4d4-84a7-453e-9e06-8e9cd0350366
 version: 1
 creation_date: '2026-10-06'
@@ -13,14 +13,14 @@ search: |-
     `powershell` EventCode=4104 ScriptBlockText IN ("*.DownloadFile(*", "*.DownloadData(*", "*.DownloadString(*", "*Invoke-WebRequest*", "*Invoke-RestMethod*", "*Start-BitsTransfer*")
     | where match(
         ScriptBlockText,
-        "(?i)https?://github\.com/[^/\s]+/[^/\s]+/raw/(main|master)/[^\s'\"]+(.bat|.js|.vbs)"
+        "(?i)https?://(github|gitlab)\.com/[^/\s]+/[^/\s]+/(-/)?raw/(main|master)/[^\s'\"]+\.(bat|js|vbs|vbe)"
     )
     | fillnull
     | stats count min(_time) as firstTime max(_time) as lastTime
         by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `powershell_download_script_from_github_filter`
+    | `powershell_download_script_from_public_free_project_repo_filter`
 how_to_implement: o successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Note that false positives may occur due to the use of the Download cmdlet by legitimate users, such as system administrators. It is recommended to apply appropriate filters as needed to minimize the number of false positives.
 references:
