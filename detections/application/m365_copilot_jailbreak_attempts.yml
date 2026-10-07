@@ -4,7 +4,7 @@ version: 6
 creation_date: '2025-10-13'
 modification_date: '2026-05-13'
 author: Rod Soto
-status: experimental
+status: production
 type: Anomaly
 description: Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls. The detection searches exported eDiscovery prompt logs for jailbreak keywords like "pretend you are," "act as," "rules=," "ignore," "bypass," and "override" in the Subject_Title field, assigning severity scores based on the manipulation type (score of 4 for amoral impersonation or explicit rule injection, score of 3 for entity roleplay or bypass commands). Prompts with a jailbreak score of 2 or higher are flagged, prioritizing the most severe attempts to override AI safety mechanisms through direct instruction injection or unauthorized persona adoption.
 data_source:
@@ -67,4 +67,4 @@ tests:
           sourcetype: csv
           source: csv
       test_type: experimental
-      description: This test is a legacy experimental test and may not be accurate.
+      description: Automated testing is experimental because contentctl-ng replays this CSV fixture through HEC raw, which does not extract the Subject_Title and Sender fields required by this detection in the current test configuration. The same fixture yields matching results when ingested through native CSV file/oneshot input. Retain the experimental test until CI reproduces that field extraction. See TR-4611.
