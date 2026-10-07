@@ -36,7 +36,7 @@ search: |-
 
     | rename requestParameters.bucketName AS bucketName
 
-    | eval user=coalesce("userIdentity.userName","userIdentity.arn")
+    | eval user=coalesce('userIdentity.userName','userIdentity.arn')
 
     | fillnull value="-" requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp
         requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp
@@ -68,7 +68,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: User [$user$] has created an open/public S3 Bucket [$bucketName$] using AWS CLI with the following permissions - [$requestParameters.accessControlList.x-amz-grant-read$] [$requestParameters.accessControlList.x-amz-grant-read-acp$] [$requestParameters.accessControlList.x-amz-grant-write$] [$requestParameters.accessControlList.x-amz-grant-write-acp$] [$requestParameters.accessControlList.x-amz-grant-full-control$]
+    title: User [$user$] has created an open/public S3 Bucket [$bucketName$] using AWS CLI with the following permissions - [$requestParameters.accessControlList.x-amz-grant-read$] [$requestParameters.accessControlList.x-amz-grant-read-acp$] [$requestParameters.accessControlList.x-amz-grant-write$] [$requestParameters.accessControlList.x-amz-grant-write-acp$] [$requestParameters.accessControlList.x-amz-grant-full-control$] [$requestParameters.x-amz-acl$]
     entity:
         field: user
         type: user
