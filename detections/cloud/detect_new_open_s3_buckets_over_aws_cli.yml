@@ -6,33 +6,58 @@ modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk, vshcherbakov
 status: production
 type: TTP
-description: The following analytic detects the creation of open/public S3 buckets via the AWS CLI. It leverages AWS CloudTrail logs to identify events where a user has set bucket permissions to allow access to "AuthenticatedUsers" or "AllUsers." This activity is significant because open S3 buckets can expose sensitive data to unauthorized users, leading to data breaches. If confirmed malicious, an attacker could gain unauthorized access to potentially sensitive information stored in the S3 bucket, posing a significant security risk.
+description: |-
+    The following analytic detects the creation of open/public S3 buckets via the AWS CLI.
+    It leverages AWS CloudTrail logs to identify events where a user has set bucket permissions to allow access to "AuthenticatedUsers" or "AllUsers." This activity is significant because open S3 buckets can expose sensitive data to unauthorized users, leading to data breaches.
+    If confirmed malicious, an attacker could gain unauthorized access to potentially sensitive information stored in the S3 bucket, posing a significant security risk.
 data_source:
     - AWS CloudTrail
 search: |-
-    `cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl (userAgent="[aws-cli*" OR userAgent=aws-cli*)
-    (requestParameters.accessControlList.x-amz-grant-read IN ("*AuthenticatedUsers*","*AllUsers*")
-     OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers*","*AllUsers*")
-     OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers*","*AllUsers*")
-     OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers*","*AllUsers*")
-     OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers*","*AllUsers*")
-     OR requestParameters.x-amz-acl IN ("public-read","public-read-write","authenticated-read"))
+    `cloudtrail`
+    eventSource="s3.amazonaws.com"
+    eventName=PutBucketAcl
+    userAgent IN (
+        "[aws-cli*",
+        "aws-cli*"
+    )
+    (
+        requestParameters.accessControlList.x-amz-grant-read IN ("*AuthenticatedUsers*","*AllUsers*")
+        OR
+        requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers*","*AllUsers*")
+        OR
+        requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers*","*AllUsers*")
+        OR
+        requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers*","*AllUsers*")
+        OR
+        requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers*","*AllUsers*")
+        OR
+        requestParameters.x-amz-acl IN ("public-read","public-read-write","authenticated-read")
+    )
+
     | rename requestParameters.bucketName AS bucketName
-    | eval user=coalesce('userIdentity.userName','userIdentity.arn')
+
+    | eval user=coalesce("userIdentity.userName","userIdentity.arn")
+
     | fillnull value="-" requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp
         requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp
         requestParameters.accessControlList.x-amz-grant-full-control requestParameters.x-amz-acl
-    | stats count min(_time) as firstTime max(_time) as lastTime
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
       BY user userIdentity.principalId userAgent bucketName
-        requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp
-        requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp
-        requestParameters.accessControlList.x-amz-grant-full-control requestParameters.x-amz-acl
+         requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp
+         requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp
+         requestParameters.accessControlList.x-amz-grant-full-control requestParameters.x-amz-acl
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `detect_new_open_s3_buckets_over_aws_cli_filter`
-how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
-known_false_positives: While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the "All Users" group.
-references: []
+how_to_implement: |-
+    The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+known_false_positives: |-
+    It is possible that an AWS admin has legitimately created a public bucket for a specific purpose. AWS strongly advises against granting full control to the "All Users" group. Investigate and apply the necessary filters as needed.
+references:
+    - https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html
 drilldown_searches:
     - name: View the detection results for - "$user$"
       search: '%original_detection_search% | search  user = "$user$"'
@@ -43,11 +68,14 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: User $user$ has created an open/public bucket $bucketName$ using AWS CLI with the following permissions - $requestParameters.accessControlList.x-amz-grant-read$ $requestParameters.accessControlList.x-amz-grant-read-acp$ $requestParameters.accessControlList.x-amz-grant-write$ $requestParameters.accessControlList.x-amz-grant-write-acp$ $requestParameters.accessControlList.x-amz-grant-full-control$
+    title: User [$user$] has created an open/public S3 Bucket [$bucketName$] using AWS CLI with the following permissions - [$requestParameters.accessControlList.x-amz-grant-read$] [$requestParameters.accessControlList.x-amz-grant-read-acp$] [$requestParameters.accessControlList.x-amz-grant-write$] [$requestParameters.accessControlList.x-amz-grant-write-acp$] [$requestParameters.accessControlList.x-amz-grant-full-control$]
     entity:
         field: user
         type: user
         score: 50
+threat_objects:
+    - field: bucketName
+      type: bucket_name
 analytic_story:
     - Suspicious AWS S3 Activities
 asset_type: S3 Bucket
