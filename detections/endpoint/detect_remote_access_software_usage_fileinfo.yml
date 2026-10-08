@@ -1,30 +1,49 @@
 name: Detect Remote Access Software Usage FileInfo
 id: ccad96d7-a48c-4f13-8b9c-9f6a31cba454
-version: 16
+version: 17
 creation_date: '2024-03-06'
-modification_date: '2026-09-22'
-author: Steven Dick
+modification_date: '2026-10-08'
+author: Steven Dick, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the execution of processes with file or code signing attributes from known remote access software within the environment. It leverages Sysmon EventCode 1 data and cross-references a lookup table of remote access utilities such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This activity is significant as adversaries often use these tools to maintain unauthorized remote access. If confirmed malicious, this could allow attackers to persist in the environment, potentially leading to data exfiltration or further compromise of the network.
+description: |-
+    The following analytic detects the execution of processes with file or code signing attributes from known remote access software within
+    the environment. It leverages Sysmon EventCode 1 data and cross-references a lookup table of remote access utilities such as AnyDesk,
+    GoToMyPC, LogMeIn, and TeamViewer. This activity is significant as adversaries often use these tools to maintain unauthorized remote access.
+    If confirmed malicious, this could allow attackers to persist in the environment, potentially leading to data exfiltration or further
+    compromise of the network.
 data_source:
     - Sysmon EventID 1
 search: |-
     `sysmon` EventCode=1
-      | stats count min(_time) as firstTime max(_time) as lastTime, values(Company) as Company values(Product) as Product
-        BY action dest original_file_name
-           parent_process parent_process_exec parent_process_guid
-           parent_process_id parent_process_name parent_process_path
-           process process_exec process_guid
-           process_hash process_id process_integrity_level
-           process_name process_path user
-           user_id vendor_product
-      | lookup local=t remote_access_software remote_utility_fileinfo AS Product OUTPUT isutility, description as signature, comment_reference as desc, category
-      | search isutility = True
-      | `remote_access_software_usage_exceptions`
-      | `detect_remote_access_software_usage_fileinfo_filter`
-how_to_implement: This analytic relies on Sysmon to be properly installed and utilized in the environment. Ensure that proper logging is setup for Sysmon and data is being ingested into Splunk. The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection named "remote_software_exceptions" that lets you track and maintain device-based exceptions for this set of detections.
-known_false_positives: Known or approved applications used by the organization or usage of built-in functions. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
+    [
+      | inputlookup remote_access_software
+      | search file_info!=""
+      | rename file_info as Product
+      | table Product
+    ]
+
+    | stats count min(_time) as firstTime max(_time) as lastTime, values(Company) as Company values(Product) as Product
+      BY action dest original_file_name
+          parent_process parent_process_exec parent_process_guid
+          parent_process_id parent_process_name parent_process_path
+          process process_exec process_guid
+          process_hash process_id process_integrity_level
+          process_name process_path user
+          user_id vendor_product
+    | lookup local=t remote_access_software file_info as Product OUTPUT app as signature, category, reference, description
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `remote_access_software_usage_exceptions`
+    | `detect_remote_access_software_usage_fileinfo_filter`
+how_to_implement: |-
+    This analytic relies on Sysmon to be properly installed and utilized in the environment. Ensure that proper logging is setup for
+    Sysmon and data is being ingested into Splunk. The "exceptions" macro leverages both an Assets and Identities lookup, as well as a
+    KVStore collection named "remote_software_exceptions" that lets you track and maintain device-based exceptions for this set of detections.
+known_false_positives: |-
+    Known or approved applications used by the organization or usage of built-in functions. Known false positives can be added to the
+    remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
 references:
     - https://attack.mitre.org/techniques/T1219/
     - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -47,11 +66,11 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A file attributes for known a remote access software [$process_name$] was detected on $dest$
+          message: Known remote access software [$signature$] was observed through file attributes of [$process_name$] process on [$dest$] by [$user$].
         - field: user
           type: user
           score: 20
-          message: A file attributes for known a remote access software [$process_name$] was detected on $dest$
+          message: Known remote access software [$signature$] was observed through file attributes of [$process_name$] process on [$dest$] by [$user$].
 threat_objects:
     - field: process_name
       type: process_name
