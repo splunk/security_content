@@ -16,6 +16,7 @@ search: |-
     `cloudtrail`
     eventSource="s3.amazonaws.com"
     eventName="PutBucketAcl"
+    errorCode=success
     userAgent IN ("[aws-cli*", "aws-cli*")
 
     | rename requestParameters.bucketName AS bucketName
