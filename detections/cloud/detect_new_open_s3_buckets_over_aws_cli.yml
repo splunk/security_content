@@ -15,7 +15,7 @@ data_source:
 search: |-
     `cloudtrail`
     eventSource="s3.amazonaws.com"
-    eventName IN (PutBucketAcl, PutObjectAcl)
+    eventName="PutBucketAcl"
     userAgent IN ("[aws-cli*", "aws-cli*")
 
     | rename requestParameters.bucketName AS bucketName
@@ -55,7 +55,7 @@ search: |-
 
     | where publicGrant=1 OR publicCanned=1
 
-    | eval exposure=case(cannedAcl=="public-read-write","public-write", cannedAcl=="public-read" OR match(grantRead,"(?i)AllUsers"),"public-read", cannedAcl=="authenticated-read" OR match(grantRead,"(?i)AuthenticatedUsers"),"authenticated-read", match(grantWrite."".grantWriteAcp."".grantFullControl,"(?i)AllUsers"),"public-write", true(),"custom-grant")
+    | eval exposure=case(cannedAcl=="public-read-write","public-write", match(grantWrite."".grantWriteAcp."".grantFullControl,"(?i)AllUsers"),"public-write", cannedAcl=="public-read" OR match(grantRead,"(?i)AllUsers"),"public-read", cannedAcl=="authenticated-read" OR match(grantRead,"(?i)AuthenticatedUsers"),"authenticated-read", true(),"custom-grant")
 
     | stats count
             min(_time) AS firstTime
