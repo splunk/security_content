@@ -12,7 +12,29 @@ data_source:
 search: |-
     `sysmon`
       EventCode=3
-      Image = "C:\\Users\\Public\\*" AND process_name = python.exe AND DestinationHostname = "*.facebook.com" direction = outbound
+      Image IN (
+      "C:\\Users\\Public\\*",
+      "*\\windows\\fonts\\*",
+      "*\\windows\\debug\\*",
+      "*\\Users\\Administrator\\Music\\*",
+      "*Recycle.bin*",
+      "*\\Windows\\Media\\*",
+      "\\Windows\\repair\\*",
+      "*\\PerfLogs\\*",
+      "*:\\Windows\\Prefetch\\*",
+      "*:\\Windows\\Cursors\\*",
+      "*:\\Windows\\INF\\*"
+      ) AND
+      process_name IN (
+      python.exe,
+      python2*.exe,
+      python3*.exe,
+      py.exe,
+      pythonw.exe,
+      py.exe,
+      pypy.exe) AND
+      DestinationHostname IN ("*.facebook.com", "*.fb.com", "*.facebook.net", "*.facebook.org", "*.fbcd.net", "*.fbsbx.com", "*.tfbw.net", "*.fbstatic-a.akamaihd.net" ) AND
+      direction = outbound
       | stats count min(_time) as firstTime
               max(_time) as lastTime
       by action app dest dest_ip dest_port direction dvc protocol protocol_version
