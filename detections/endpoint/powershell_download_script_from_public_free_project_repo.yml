@@ -1,0 +1,60 @@
+name: PowerShell Download Script From Public Free Project Repo
+id: 3ffbd4d4-84a7-453e-9e06-8e9cd0350366
+version: 1
+creation_date: '2026-10-06'
+modification_date: '2026-10-06'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic detects PowerShell script block activity where download cmdlets such as DownloadFile, DownloadData, DownloadString, Invoke-WebRequest, Invoke-RestMethod, or Start-BitsTransfer are used to fetch script files (.bat, .js, .vbs) directly from raw GitHub content URLs. It leverages PowerShell Script Block Logging (Event ID 4104) to capture the full script text at execution time. Adversaries, including those deploying the Braodo Stealer, abuse raw GitHub URLs as a living-off-the-land staging mechanism to host and retrieve second-stage payloads, bypassing traditional download-site blocklists. If confirmed malicious, this activity indicates an active download-and-execute chain that could lead to credential theft, persistence, or further malware deployment on the affected endpoint.
+data_source:
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell` EventCode=4104 ScriptBlockText IN ("*.DownloadFile(*", "*.DownloadData(*", "*.DownloadString(*", "*Invoke-WebRequest*", "*Invoke-RestMethod*", "*Start-BitsTransfer*")
+    | where match(
+        ScriptBlockText,
+        "(?i)(?i)https?://(raw\.githubusercontent\.com/[^/\s]+/[^/\s]+/(main|master)|(github|gitlab)\.com/[^/\s]+/[^/\s]+/(-/)?raw/(main|master))/[^\s'\"]+\.(bat|js|vbs|vbe)"
+    )
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `powershell_download_script_from_public_free_project_repo_filter`
+how_to_implement: o successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives: Note that false positives may occur due to the use of the Download cmdlet by legitimate users, such as system administrators. It is recommended to apply appropriate filters as needed to minimize the number of false positives.
+references:
+    - https://www.splunk.com/en_us/blog/security/cracking-braodo-stealer-analyzing-python-malware-and-its-obfuscated-loader.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: PowerShell was identified running a Download Cmdlet to download Script on $dest$ by $user$
+analytic_story:
+    - Braodo Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_github/powershell_githu_download.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
