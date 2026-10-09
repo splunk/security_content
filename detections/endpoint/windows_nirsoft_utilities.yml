@@ -21,7 +21,7 @@ search: |
     FROM datamodel=Endpoint.Processes
     WHERE
         [
-            | inputlookup nirsoft_utilities_lookup.csv
+            | inputlookup nirsoft_utilities_lookup
             | search original_file_name=*.exe
             | table original_file_name
             | rename original_file_name as Processes.original_file_name
