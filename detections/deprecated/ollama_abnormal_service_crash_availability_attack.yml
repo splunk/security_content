@@ -2,7 +2,7 @@ name: Ollama Abnormal Service Crash Availability Attack
 id: 327fa152-9b56-4e4e-bc0b-2795d4068afa
 version: 5
 creation_date: '2025-10-13'
-modification_date: '2026-10-10'
+modification_date: '2026-10-09'
 author: Rod Soto
 status: deprecated
 type: Anomaly

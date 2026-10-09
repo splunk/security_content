@@ -2,7 +2,7 @@ name: Ollama Possible Model Exfiltration Data Leakage
 id: c9fd1a54-0eab-4470-8970-d5fcc3c740fb
 version: 5
 creation_date: '2025-10-13'
-modification_date: '2026-10-10'
+modification_date: '2026-10-09'
 author: Rod Soto
 status: deprecated
 type: Anomaly
