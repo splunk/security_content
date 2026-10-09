@@ -1,8 +1,8 @@
 name: Cloud Compute Instance Created By Previously Unseen User
 id: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
-version: 12
+version: 13
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Rico Valdez, Splunk
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ search: |-
       WHERE All_Changes.action=created
       BY All_Changes.user All_Changes.vendor_region
     | `drop_dm_object_name("All_Changes")`
-    | lookup previously_seen_cloud_compute_creations_by_user user as user OUTPUTNEW firstTimeSeen, enough_data
+    | lookup local=t previously_seen_cloud_compute_creations_by_user user as user OUTPUTNEW firstTimeSeen, enough_data
     | eventstats max(enough_data) as enough_data
     | where enough_data=1
     | eval firstTimeSeenUser=min(firstTimeSeen)

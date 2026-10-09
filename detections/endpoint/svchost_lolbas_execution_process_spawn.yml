@@ -1,8 +1,8 @@
 name: Svchost LOLBAS Execution Process Spawn
 id: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
-version: 15
+version: 16
 creation_date: '2021-11-23'
-modification_date: '2026-07-27'
+modification_date: '2026-10-09'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -11,7 +11,6 @@ description: |-
     If confirmed malicious, this behavior could allow attackers to execute arbitrary commands, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime

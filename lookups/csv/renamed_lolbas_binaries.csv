@@ -1,0 +1,147 @@
+original_file_name,description
+acccheckconsole.exe,Verifies UI accessibility requirements
+addinutil.exe,.NET Tool used for updating cache files for Microsoft Office Add-Ins.
+adplus.exe,Debugging tool included with Windows Debugging Tools
+agentexecutor.exe,Intune Management Extension included on Intune Managed Devices
+appcert.exe,Windows App Certification Kit command-line tool.
+appinstaller.exe,Tool used for installation of AppX/MSIX applications on Windows 10
+appvlp.exe,Application Virtualization Utility Included with Microsoft Office 2016
+aspnet_compiler.exe,ASP.NET Compilation Tool
+at.exe,Schedule periodic tasks
+atbroker.exe,Helper binary for Assistive Technology (AT)
+bitsadmin.exe,Used for managing background intelligent transfer
+cdb.exe,Debugging tool included with Windows Debugging Tools.
+certoc.exe,Used for installing certificates
+certreq.exe,Used for requesting and managing certificates
+certutil.exe,Windows binary used for handling certificates
+cmdkey.exe,"creates, lists, and deletes stored user names and passwords or credentials."
+cmdl32.exe,Microsoft Connection Manager Auto-Download
+cmstp.exe,Installs or removes a Connection Manager service profile.
+colorcpl.exe,Binary that handles color management
+conhost.exe,Console Window host
+control.exe,Console Window host
+csc.exe,Binary file used by .NET to compile C# code
+cscript.exe,Binary used to execute scripts in Windows
+csi.exe,Command line interface included with Visual Studio.
+curl.exe,Used for transferring data to or from a server; bundled with Windows 10 1803+ and can be used to download or upload files (not in repo lookup - added manually)
+customshellhost.exe,A host process that is used by custom shells when using Windows in Kiosk mode.
+datasvcutil.exe,DataSvcUtil.exe is a command-line tool provided by WCF Data Services that consumes an Open Data Protocol (OData) feed and generates the client data service classes that are needed to access a data service from a .NET Framework client application.
+desktopimgdownldr.exe,Windows binary used to configure lockscreen/desktop image
+devicecredentialdeployment.exe,Device Credential Deployment
+devinit.exe,Visual Studio 2019 tool
+devtoolslauncher.exe,Binary will execute specified binary. Part of VS/VScode installation.
+dfsvc.exe,ClickOnce engine in Windows used by .NET
+diantz.exe,Binary that package existing files into a cabinet (.cab) file
+diskshadow.exe,Diskshadow.exe is a tool that exposes the functionality offered by the volume shadow copy Service (VSS).
+dnscmd.exe,A command-line interface for managing DNS servers
+dotnet.exe,dotnet.exe comes with .NET Framework
+dsdbutil.exe,Dsdbutil is a command-line tool that is built into Windows Server. It is available if you have the AD LDS server role installed. Can be used as a command line utility to export Active Directory.
+dumpminitool.exe,Dump tool part Visual Studio 2022
+dxcap.exe,DirectX diagnostics/debugger included with Visual Studio.
+esentutl.exe,Binary for working with Microsoft Joint Engine Technology (JET) database
+eventvwr.exe,Displays Windows Event Logs in a GUI window.
+excel.exe,Microsoft Office binary
+expand.exe,Binary that expands one or more compressed files
+extexport.exe,Load a DLL located in the C:\test folder with a specific name.
+extrac32.exe,"Extract to ADS, copy or overwrite a file with Extrac32.exe"
+findstr.exe,"Write to ADS, discover, or download files with Findstr.exe"
+finger.exe,Displays information about a user or users on a specified remote computer that is running the Finger service or daemon
+fltmc.exe,Filter Manager Control Program used by Windows
+forfiles.exe,Selects and executes a command on a file or set of files. This command is useful for batch processing.
+fsi.exe,64-bit FSharp (F#) Interpreter included with Visual Studio and DotNet Core SDK.
+fsianycpu.exe,32/64-bit FSharp (F#) Interpreter included with Visual Studio.
+fsutil.exe,File System Utility
+ftp.exe,A binary designed for connecting to FTP servers
+gfxdownloadwrapper.exe,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
+gpscript.exe,Used by group policy to process scripts
+hh.exe,Binary used for processing chm files in Windows
+ie4uinit.exe,Executes commands from a specially prepared ie4uinit.inf file.
+iediagcmd.exe,Diagnostics Utility for Internet Explorer
+ieexec.exe,The IEExec.exe application is an undocumented Microsoft .NET Framework application that is included with the .NET Framework. You can use the IEExec.exe application as a host to run other managed applications that you start by using a URL.
+ilasm.exe,used for compile c# code into dll or exe.
+imewdbld.exe,Microsoft IME Open Extended Dictionary Module
+infdefaultinstall.exe,Binary used to perform installation based on content inside inf files
+installutil.exe,The Installer tool is a command-line utility that allows you to install and uninstall server resources by executing the installer components in specified assemblies
+jsc.exe,Binary file used by .NET to compile javascript code to .exe or .dll format
+ldifde.exe,"Creates, modifies, and deletes LDAP directory objects."
+makecab.exe,Binary to package existing files into a cabinet (.cab) file
+manage-bde.wsf,Script for managing BitLocker
+mavinject.exe,Used by App-v in Windows
+mftrace.exe,Trace log generation tool for Media Foundation Tools.
+microsoft.nodejstools.pressanykey.exe,Part of the NodeJS Visual Studio tools.
+microsoft.workflow.compiler.exe,A utility included with .NET that is capable of compiling and executing C# or VB.net code.
+mmc.exe,Load snap-ins to locally and remotely manage Windows systems
+msaccess.exe,Microsoft Office binary
+msbuild.exe,Used to compile and execute code
+msconfig.exe,"MSConfig is a troubleshooting tool which is used to temporarily disable or re-enable software, device drivers or Windows services that run during startup process to help the user determine the cause of a problem with Windows"
+msdeploy.exe,Microsoft tool used to deploy Web Applications.
+msdt.exe,Microsoft diagnostics tool
+mshta.exe,Used by Windows to execute html applications. (.hta)
+msiexec.exe,Used by Windows to execute msi files
+msohtmed.exe,Microsoft Office binary
+mspub.exe,Microsoft Office binary
+netsh.exe,Netsh is a Windows tool used to manipulate network interface settings.
+ntdsutil.exe,Command line utility used to export Active Directory.
+odbcconf.exe,Used in Windows for managing ODBC connections
+offlinescannershell.exe,Windows Defender Offline Shell
+pcalua.exe,Program Compatibility Assistant
+pcwrun.exe,Program Compatibility Wizard
+pktmon.exe,Capture Network Packets on the windows 10 with October 2018 Update or later.
+pnputil.exe,Used for installing drivers
+powerpnt.exe,Microsoft Office binary
+presentationhost.exe,File is used for executing Browser applications
+print.exe,Used by Windows to send files to the printer
+printbrm.exe,Printer Migration Command-Line Tool
+protocolhandler.exe,Microsoft Office binary
+provlaunch.exe,Launcher process
+psr.exe,"Windows Problem Steps Recorder, used to record screen and clicks."
+rasautou.exe,Windows Remote Access Dialer
+rdrleakdiag.exe,Microsoft Windows resource leak diagnostic tool
+reg.exe,Used to manipulate the registry
+regasm.exe,Part of .NET
+regedit.exe,Used by Windows to manipulate registry
+regini.exe,Used to manipulate the registry
+register-cimprovider.exe,Used to register new wmi providers
+regsvcs.exe,Regsvcs and Regasm are Windows command-line utilities that are used to register .NET Component Object Model (COM) assemblies
+regsvr32.exe,Used by Windows to register dlls
+replace.exe,Used to replace file with another file
+rpcping.exe,Used to verify rpc connection
+rundll32.exe,Used by Windows to execute dll files
+runexehelper.exe,Launcher process
+runonce.exe,Executes a Run Once Task that has been configured in the registry
+sc.exe,Used by Windows to manage services
+schtasks.exe,Schedule periodic tasks
+scriptrunner.exe,Execute binary through proxy binary to evade defensive counter measures
+setres.exe,Configures display settings
+settingsynchost.exe,Host Process for Setting Synchronization
+sqldumper.exe,Debugging utility included with Microsoft SQL.
+sqlps.exe,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
+sqltoolsps.exe,Tool included with Microsoft SQL that loads SQL Server cmdlts. A replacement for sqlps.exe. Successor to sqlps.exe in SQL Server 2016+.
+stordiag.exe,Storage diagnostic tool
+syncappvpublishingserver.exe,Used by App-v to get App-v server lists
+tar.exe,Used by Windows to extract and create archives.
+testwindowremoteagent.exe,TestWindowRemoteAgent.exe is the command-line tool to establish RPC
+ttdinject.exe,Used by Windows 1809 and newer to Debug Time Travel (Underlying call of tttracer.exe)
+tttracer.exe,Used by Windows 1809 and newer to Debug Time Travel
+unregmp2.exe,Microsoft Windows Media Player Setup Utility
+vbc.exe,Binary file used for compile vbs code
+verclsid.exe,Used to verify a COM object before it is instantiated by Windows Explorer
+visualuiaverifynative.exe,A Windows SDK binary for manual and automated testing of Microsoft UI Automation implementation and controls.
+vsdiagnostics.exe,Command-line tool used for performing diagnostics.
+vshadow.exe,VShadow is a command-line tool that can be used to create and manage volume shadow copies.
+vsiisexelauncher.exe,Binary will execute specified binary. Part of VS/VScode installation.
+vsjitdebugger.exe,Just-In-Time (JIT) debugger included with Visual Studio
+vsls-agent.exe,Agent for Visual Studio Live Share (Code Collaboration)
+vstest.console.exe,VSTest.Console.exe is the command-line tool to run tests
+wab.exe,Windows address book manager
+wbadmin.exe,Windows Backup Administration utility
+wfc.exe,The Workflow Command-line Compiler tool is included with the Windows Software Development Kit (SDK).
+winproj.exe,Microsoft Project Executable
+winword.exe,Microsoft Office binary
+wlrmdr.exe,Windows Logon Reminder executable
+wmic.exe,The WMI command-line (WMIC) utility provides a command-line interface for WMI
+workfolders.exe,Work Folders
+wscript.exe,Used by Windows to execute scripts
+wsreset.exe,Used to reset Windows Store settings according to its manifest file
+wuauclt.exe,Windows Update Client
+xwizard.exe,Execute custom class that has been added to the registry or download a file with Xwizard.exe

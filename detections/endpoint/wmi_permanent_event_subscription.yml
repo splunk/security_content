@@ -1,43 +1,86 @@
 name: WMI Permanent Event Subscription
 id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
-version: 10
+version: 11
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
-author: Rico Valdez, Splunk
-status: experimental
-type: TTP
-description: The following analytic detects the creation of permanent event subscriptions using Windows Management Instrumentation (WMI). It leverages Sysmon EventID 5 data to identify instances where the event consumers are not the expected "NTEventLogEventConsumer." This activity is significant because it suggests an attacker is attempting to achieve persistence by running malicious scripts or binaries in response to specific system events. If confirmed malicious, this could lead to severe impacts such as data theft, ransomware deployment, or other damaging outcomes. Investigate the associated scripts or binaries to identify the source of the attack.
-data_source: []
+modification_date: '2026-10-05'
+author: Rico Valdez, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    Detects permanent WMI event subscriptions that are containing `CommandLineEventConsumer` or `ActiveScriptEventConsumer`. Due to their command execution capabilties, given WMI consumers are often leveraged by adversaries for both execution and persistence purposes.
+data_source:
+    - Windows Event Log WMI Activity 5861
 search: |-
     `wmi`
     EventCode=5861
-    Binding
-    | rex field=Message "Consumer =\s+(?<consumer>[^;|^$]+)"
-    | search consumer!="NTEventLogEventConsumer=\"SCM Event Log Consumer\""
+    | spath input=_raw output=possible_cause path=Event.UserData.Operation_ESStoConsumerBinding.PossibleCause
+    | spath input=_raw output=consumer_xml path=Event.UserData.Operation_ESStoConsumerBinding.CONSUMER
+    | eval possible_cause=coalesce(possible_cause, Message)
+    | rex field=Message "(?i)Consumer\s*=\s*(?<consumer_message>[^;\r\n]+)"
+    | eval consumer=coalesce(consumer_xml, consumer_message)
+    | where isnull(consumer) OR consumer!="NTEventLogEventConsumer=\"SCM Event Log Consumer\""
+    | rex field=possible_cause "(?ms)instance of __EventFilter\s+\{(?<event_filter>.*?)\};\s*Perm\. Consumer:"
+    | rex field=event_filter "(?m)^\s*Name\s*=\s*\"(?<filter_name>[^\"]*)\"\s*;"
+    | rex field=event_filter "(?m)^\s*Query\s*=\s*\"(?<filter_query>.*?)\"\s*;"
+    | rex field=event_filter "(?m)^\s*EventNamespace\s*=\s*\"(?<filter_event_namespace>[^\"]*)\"\s*;"
+    | rex field=event_filter "(?m)^\s*QueryLanguage\s*=\s*\"(?<filter_query_language>[^\"]*)\"\s*;"
+    | rex field=possible_cause "(?s)Perm\. Consumer:\s+instance of (?<consumer_type>[A-Za-z0-9_]+)\s+\{(?<consumer_properties>.*?)\};\s*\Z"
+    | rex field=consumer_properties "(?m)^\s*Name\s*=\s*\"(?<consumer_name>[^\"]*)\"\s*;"
+    | rex field=consumer_properties "(?m)^\s*CommandLineTemplate\s*=\s*\"(?<command_line_template>.*?)\"\s*;"
+    | rex field=consumer_properties "(?m)^\s*RunInteractively\s*=\s*(?<run_interactively>[^;]+)\s*;"
+    | rex field=consumer_properties "(?m)^\s*ScriptingEngine\s*=\s*\"(?<scripting_engine>[^\"]*)\"\s*;"
+    | rex field=consumer_properties "(?ms)^\s*ScriptText\s*=\s*\"(?<script_text>.*?)\"\s*;\s*$"
+    | where consumer_type IN ("CommandLineEventConsumer", "ActiveScriptEventConsumer")
+    | eval command=coalesce(command_line_template, script_text)
+    | fillnull value=NULL
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
-      by ComputerName, consumer, Message
+                  values(consumer) as consumer
+                  values(consumer_type) as consumer_type
+                  values(consumer_name) as consumer_name
+                  values(command_line_template) as command_line_template
+                  values(run_interactively) as run_interactively
+                  values(scripting_engine) as scripting_engine
+                  values(script_text) as script_text
+                  values(command) as command
+      by Computer, filter_name, filter_query, filter_event_namespace, filter_query_language
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | rename ComputerName as dest
+    | rename Computer as dest
     | `wmi_permanent_event_subscription_filter`
-how_to_implement: To successfully implement this search, you must be ingesting the Windows WMI activity logs. This can be done by adding a stanza to inputs.conf on the system generating logs with a title of [WinEventLog://Microsoft-Windows-WMI-Activity/Operational].
-known_false_positives: Although unlikely, administrators may use event subscriptions for legitimate purposes.
-references: []
-finding:
-    title: WMI Permanent Event Subscription detected on $dest$
-    entity:
-        field: dest
-        type: system
-        score: 50
+how_to_implement: |-
+    Ingest Microsoft-Windows-WMI-Activity/Operational events and ensure EventCode, Computer, and the raw XML event are available.
+    The search uses spath to extract the binding details, then regex to parse the embedded __EventFilter and the supported CommandLineEventConsumer and ActiveScriptEventConsumer properties. For non-XML rendered events, Message is used as a fallback for the consumer details.
+known_false_positives: |-
+    Administrators and software may use permanent WMI event subscriptions. Review the consumer, filter query, and creator context; tune known authorized subscriptions with the detection filter macro.
+references:
+    - https://learn.microsoft.com/en-us/windows/win32/wmisdk/binding-an-event-filter-with-a-logical-consumer
+    - https://learn.microsoft.com/en-us/windows/win32/wmisdk/commandlineeventconsumer
+    - https://learn.microsoft.com/en-us/windows/win32/wmisdk/activescripteventconsumer
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: WMI event filter [$filter_name$] in [$filter_event_namespace$] watches [$filter_query$] and is bound to [$consumer_type$] [$consumer_name$] on [$dest$], which can execute [$command$].
+threat_objects:
+    - field: command
+      type: command
 analytic_story:
     - Suspicious WMI Use
 asset_type: Endpoint
 mitre_attack_id:
-    - T1047
+    - T1546.003
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team_wmi_subscription/wmi.log
+          source: XmlWinEventLog:Microsoft-Windows-WMI-Activity/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

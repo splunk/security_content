@@ -1,8 +1,8 @@
 name: Windows AD Privileged Account SID History Addition
 id: 6b521149-b91c-43aa-ba97-c2cac59ec830
-version: 13
+version: 14
 creation_date: '2023-04-11'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Dean Luxton
 status: production
 type: TTP
@@ -16,7 +16,7 @@ search: |-
     NOT SidHistory IN ("%%1793", -)
     | rex field=SidHistory "(^%{|^)(?P<SidHistory>.*?)(}$|$)"
     | eval category="privileged"
-    | lookup identity_lookup_expanded category, identity as SidHistory OUTPUT identity_tag as match
+    | lookup local=t identity_lookup_expanded category, identity as SidHistory OUTPUT identity_tag as match
     | where isnotnull(match)
     | rename TargetSid as userSid
     | table _time action status host user userSid SidHistory Logon_ID src_user dest
