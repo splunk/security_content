@@ -22,7 +22,7 @@ search: |
       "*\\ProgramData\\*",
       "*\\Temp\\*",
       "*\\Users\\Public\\*",
-      "*\\Windows\\Tasks\\*"
+      "*\\Windows\\Tasks\\*",
       "*\\powershell.exe",
       "*\\pwsh.exe",
       "*\\cmd.exe",
