@@ -1,0 +1,73 @@
+name: AWS EC2 Multiple SSH Public Keys Uploaded by a Single Identity
+id: 62afb4a9-d9d0-464a-9326-aacf61c5a9f2
+version: 1
+creation_date: '2026-09-29'
+modification_date: '2026-09-29'
+author: Maria Jose Erquiaga, Splunk
+status: production
+type: TTP
+description: >-
+    Detects an AWS identity making 10 or more successful EC2 Instance Connect
+    SendSSHPublicKey API calls within the configured search interval. EC2
+    Instance Connect temporarily makes an SSH public key available to an
+    operating-system user on an EC2 instance. A burst of these calls may
+    indicate automated attempts to establish access or move laterally using
+    compromised AWS credentials.
+data_source:
+    - AWS CloudTrail
+search: |-
+    `cloudtrail` eventSource="ec2-instance-connect.amazonaws.com" eventName="SendSSHPublicKey" responseElements.success=true
+    | stats dc(eventID) as event_count
+        dc('requestParameters.instanceId') as unique_instances
+        values('requestParameters.instanceId') as targeted_instances
+        values('requestParameters.instanceOSUser') as targeted_users
+        values(src) as src
+        values(user_agent) as user_agent
+        values(vendor_region) as vendor_region
+        earliest(_time) as firstTime
+        latest(_time) as lastTime
+        by user_arn
+    | where event_count >= 10
+    | eval duration_seconds=lastTime-firstTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `aws_ec2_multiple_ssh_public_keys_uploaded_by_a_single_identity_filter`
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
+known_false_positives: >-
+    Administrators and automated orchestration may legitimately use EC2
+    Instance Connect repeatedly during fleet administration, troubleshooting,
+    or ephemeral-access workflows. Review the AWS identity, source addresses,
+    user agent, target instances, target operating-system users, and whether
+    the activity corresponds to an approved administrative process.
+references:
+    - https://docs.aws.amazon.com/ec2-instance-connect/latest/APIReference/API_SendSSHPublicKey.html
+    - https://stratus-red-team.cloud/attack-techniques/AWS/aws.lateral-movement.ec2-instance-connect/
+    - https://www.elastic.co/guide/en/security/8.19/prebuilt-rule-8-19-14-aws-ec2-instance-connect-ssh-public-key-uploaded.html
+finding:
+    title: AWS identity $user$ uploaded $event_count$ SSH public keys using EC2 Instance Connect
+    entity:
+        field: user
+        type: user
+        score: 50
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Suspicious Cloud Instance Activities
+asset_type: AWS Account
+mitre_attack_id:
+    - T1021.004
+    - T1021.008
+product:
+    - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+category: cloud
+security_domain: threat
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.008/aws_ec2_multiple_ssh_public_keys_uploaded/aws_ec2_multiple_ssh_public_keys_uploaded.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail
+      test_type: unit
