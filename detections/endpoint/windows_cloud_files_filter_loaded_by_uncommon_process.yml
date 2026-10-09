@@ -1,8 +1,8 @@
 name: Windows Cloud Files Filter Loaded by Uncommon Process
 id: 77b85062-274e-43a5-9dab-c25862b85291
-version: 1
+version: 2
 creation_date: '2026-05-18'
-modification_date: '2026-05-18'
+modification_date: '2026-10-08'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -28,7 +28,7 @@ search: |-
     )
     | stats count min(_time) as firstTime
                     max(_time) as lastTime
-        by Computer ImageLoaded EventID dest loaded_file loaded_file_path process_exec
+        by Computer ImageLoaded Image EventID dest loaded_file loaded_file_path process_exec
            process_guid process_hash process_id process_name process_path
            service_dll_signature_exists service_dll_signature_verified signature_id user_id
            vendor_product

@@ -1,8 +1,8 @@
 name: Windows Non-System Process Querying Definition Update
 id: 9d375cfd-c9a5-48ff-b875-9bcaf6b63265
-version: 1
+version: 2
 creation_date: '2026-04-27'
-modification_date: '2026-04-27'
+modification_date: '2026-10-08'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -21,7 +21,7 @@ search: |-
         "*:\\Windows\\System32\\*",
         "*:\\Windows\\SysWOW64\\*"
     )
-    | stats count min(_time) as firstTime max(_time) as lastTime BY answer answer_count dvc Computer process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus
+    | stats count min(_time) as firstTime max(_time) as lastTime BY answer answer_count dvc Computer Image process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | rename Computer as dest
