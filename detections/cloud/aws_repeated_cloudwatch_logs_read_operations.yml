@@ -32,36 +32,30 @@ search: |-
         recipientAccountId,
         'userIdentity.accountId'
     )
-    | eval role_name='userIdentity.sessionContext.sessionIssuer.userName'
-    | eval signature=coalesce(signature, eventName)
-    | eval src=coalesce(src, sourceIPAddress)
-    | eval user_agent=coalesce(user_agent, userAgent)
-    | eval vendor_region=coalesce(vendor_region, awsRegion)
-    | where isnotnull(user) AND len(trim(user)) > 0
+    | where isnotnull(user_arn) AND isnotnull(vendor_account)
+    | eval event_key=coalesce(eventID, md5(_raw))
+    | dedup event_key
     | sort 0 _time
-    | streamstats time_window=5m count AS event_count
-        by user vendor_account
+    | streamstats time_window=5m
+        count AS event_count
+        min(_time) AS window_start
+        BY user_arn vendor_account
     | where event_count > 500
-    | stats
-        max(event_count) AS event_count
-        min(_time) AS firstTime
+    | stats max(event_count) AS event_count
+        min(window_start) AS firstTime
         max(_time) AS lastTime
-        values(signature) AS api_operations
-        values(role_name) AS role_name
+        values(eventName) AS api_operations
         values(src) AS src
         values(user_agent) AS user_agent
         values(vendor_region) AS vendor_region
-        by user vendor_account
+        BY user_arn vendor_account
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `aws_repeated_cloudwatch_logs_read_operations_filter`
 how_to_implement: >-
     The Splunk Add-on for AWS is required to collect AWS CloudTrail events.
     Configure CloudTrail to capture management Read events and ingest them with
-    the aws:cloudtrail sourcetype. The tested CloudWatch Logs operations are
-    recorded as management events, so a CloudWatch Logs data-event selector is
-    not required. The analytic uses a rolling five-minute window and counts
-    unique CloudTrail event identifiers to reduce duplicate-ingestion effects.
+    the aws:cloudtrail sourcetype.
 known_false_positives: >-
     Automated log analytics, SIEM pipelines, incident-response tooling, backup
     processes, and administrative troubleshooting may continuously read
@@ -77,18 +71,18 @@ references:
     - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html
     - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html
 drilldown_searches:
-    - name: View CloudWatch Logs read operations for - "$user$"
-      search: '%original_detection_search% | search user="$user$" vendor_account="$vendor_account$"'
+    - name: View CloudWatch Logs read operations for - "$user_arn$"
+      search: '%original_detection_search% | search user_arn="$user_arn$" vendor_account="$vendor_account$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$user$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$user_arn$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user_arn$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: AWS principal $user$ performed $event_count$ CloudWatch Logs read operations
+    title: AWS principal $user_arn$ performed $event_count$ CloudWatch Logs read operations within five minutes
     entity:
-        field: user
+        field: user_arn
         type: user
         score: 50
 threat_objects:
