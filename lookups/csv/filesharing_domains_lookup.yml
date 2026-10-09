@@ -1,0 +1,11 @@
+name: filesharing_domains_lookup
+id: 325e53a9-50be-4b00-be34-7925063b4278
+version: 1
+creation_date: '2019-10-06'
+modification_date: '2026-10-06'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of file sharing domains and pastebin-style hosting domains that can be modified
+match_type:
+    - WILDCARD(domain)
+case_sensitive_match: false
