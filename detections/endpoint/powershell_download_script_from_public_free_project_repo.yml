@@ -13,7 +13,7 @@ search: |-
     `powershell` EventCode=4104 ScriptBlockText IN ("*.DownloadFile(*", "*.DownloadData(*", "*.DownloadString(*", "*Invoke-WebRequest*", "*Invoke-RestMethod*", "*Start-BitsTransfer*")
     | where match(
         ScriptBlockText,
-        "(?i)https?://(github|gitlab)\.com/[^/\s]+/[^/\s]+/(-/)?raw/(main|master)/[^\s'\"]+\.(bat|js|vbs|vbe)"
+        "(?i)(?i)https?://(raw\.githubusercontent\.com/[^/\s]+/[^/\s]+/(main|master)|(github|gitlab)\.com/[^/\s]+/[^/\s]+/(-/)?raw/(main|master))/[^\s'\"]+\.(bat|js|vbs|vbe)"
     )
     | fillnull
     | stats count min(_time) as firstTime max(_time) as lastTime
