@@ -1,8 +1,8 @@
 name: Impacket Lateral Movement WMIExec Commandline Parameters
 id: d6e464e4-5c6a-474e-82d2-aed616a3a492
-version: 12
+version: 13
 creation_date: '2021-11-19'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -24,6 +24,7 @@ references:
     - https://vk9-sec.com/impacket-remote-code-execution-rce-on-windows-from-linux/
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1047/T1047.yaml#L238
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -52,6 +53,8 @@ analytic_story:
     - CISA AA22-277A
     - Storm-0501 Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - a3ddaf15-d1a1-4bc3-8683-84c7c67120fe
 mitre_attack_id:
     - T1021.002
     - T1021.003

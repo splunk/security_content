@@ -1,8 +1,8 @@
 name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
-version: 18
+version: 19
 creation_date: '2024-03-06'
-modification_date: '2026-09-22'
+modification_date: '2026-10-09'
 author: Steven Dick, Sebastian Wurl, Splunk Community
 status: production
 type: Anomaly
@@ -34,6 +34,17 @@ references:
     - https://attack.mitre.org/techniques/T1219/
     - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
     - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L95
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L222
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L250
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L287
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L314
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L342
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L371
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L452
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L483
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L509
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -77,6 +88,18 @@ analytic_story:
     - Scattered Lapsus$ Hunters
     - Storm-0501 Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - 8ca3b96d-8983-4a7f-b125-fc98cc0a2aa0
+    - d03683ec-aae0-42f9-9b4c-534780e0f8e1
+    - 0ae9e327-3251-465a-a53b-485d4e3f58fa
+    - fbff3f1f-b0bf-448e-840f-7e1687affdce
+    - ecca999b-e0c8-40e8-8416-ad320b146a75
+    - 19acf63b-55c4-4b6a-8552-00a8865105c8
+    - 42e51815-a6cc-4c75-b970-3f0ff54b610e
+    - b1b8128b-c5d4-4de9-bf70-e60419274562
+    - b025c580-029e-4023-888d-a42710d76934
+    - 3e1858ee-3550-401c-86ec-5e70ed79295b
+    - 1aea6d15-70f1-4b4e-8b02-397b5d5ffe75
 mitre_attack_id:
     - T1219
 product:

@@ -1,8 +1,8 @@
 name: Registry Keys Used For Privilege Escalation
 id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
-version: 17
+version: 18
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: David Dorsey, Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -14,6 +14,9 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: There are many legitimate applications that must execute upon system startup and will use these registry keys to accomplish that task.
 references:
     - https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.012/T1546.012.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.012/T1546.012.yaml#L27
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.012/T1546.012.yaml#L53
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -43,6 +46,10 @@ analytic_story:
     - Data Destruction
     - Suspicious Windows Registry Activities
 asset_type: Endpoint
+atomic_guid:
+    - fdda2626-5234-4c90-b163-60849a24c0b8
+    - 46b1f278-c8ee-4aa5-acce-65e77b11f3c1
+    - 13117939-c9b2-4a43-999e-0a543df92f0d
 mitre_attack_id:
     - T1546.012
 product:

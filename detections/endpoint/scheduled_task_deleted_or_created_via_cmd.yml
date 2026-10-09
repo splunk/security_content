@@ -1,8 +1,8 @@
 name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
-version: 28
+version: 29
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -60,6 +60,7 @@ references:
     - https://www.joesandbox.com/analysis/691823/0/html
     - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-delete
     - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-create
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1053.005/T1053.005.yaml#L21
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -124,6 +125,8 @@ analytic_story:
     - PlugX
     - Remcos
 asset_type: Endpoint
+atomic_guid:
+    - 42f53695-ad4a-4546-abb6-7d837f644a71
 mitre_attack_id:
     - T1053.005
 product:

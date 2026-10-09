@@ -1,8 +1,8 @@
 name: Windows NirSoft AdvancedRun
 id: bb4f3090-7ae4-11ec-897f-acde48001122
-version: 12
+version: 13
 creation_date: '2022-01-24'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,6 +35,7 @@ known_false_positives: False positives should be limited as it is specific to Ad
 references:
     - http://www.nirsoft.net/utils/advanced_run.html
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L623
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -67,6 +68,8 @@ analytic_story:
     - Data Destruction
     - WhisperGate
 asset_type: Endpoint
+atomic_guid:
+    - 81ce22fd-9612-4154-918e-8a1f285d214d
 mitre_attack_id:
     - T1588.002
 product:

@@ -1,8 +1,8 @@
 name: Linux Kernel Module Enumeration
 id: 6df99886-0e04-4c11-8b88-325747419278
-version: 13
+version: 14
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -27,6 +27,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: False positives are present based on automated tooling or system administrative usage. Filter as needed.
 references:
     - https://man7.org/linux/man-pages/man8/kmod.8.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1082/T1082.yaml#L357
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -55,6 +56,8 @@ analytic_story:
     - XorDDos
     - Linux Rootkit
 asset_type: Endpoint
+atomic_guid:
+    - 034fe21c-3186-49dd-8d5d-128b35f181c7
 mitre_attack_id:
     - T1082
     - T1014

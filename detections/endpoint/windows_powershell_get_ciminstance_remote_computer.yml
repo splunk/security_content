@@ -1,8 +1,8 @@
 name: Windows PowerShell Get CIMInstance Remote Computer
 id: d8c972eb-ed84-431a-8869-ca4bd83257d1
-version: 11
+version: 12
 creation_date: '2023-03-27'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -25,6 +25,7 @@ how_to_implement: To successfully implement this analytic, you will need to enab
 known_false_positives: This is meant to be a low risk RBA anomaly analytic or to be used for hunting. Enable this with a low risk score and let it generate risk in the risk index.
 references:
     - https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/get-ciminstance?view=powershell-7.3
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L1104
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -43,6 +44,8 @@ intermediate_findings:
 analytic_story:
     - Active Directory Lateral Movement
 asset_type: Endpoint
+atomic_guid:
+    - ac494fe5-81a4-4897-af42-e774cf005ecb
 mitre_attack_id:
     - T1059.001
 product:
