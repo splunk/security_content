@@ -2,7 +2,7 @@ name: Windows Proxy Execution of .NET Utilities via Scripts
 id: eb59cf01-1874-4d16-b7e4-54a6eb9b3118
 version: 3
 creation_date: '2026-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
