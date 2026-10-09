@@ -1,8 +1,8 @@
 name: Linux At Application Execution
 id: bf0a378e-5f3c-11ec-a6de-acde48001122
-version: 14
+version: 15
 creation_date: '2021-12-21'
-modification_date: '2026-10-02'
+modification_date: '2026-10-09'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -30,7 +30,7 @@ known_false_positives: Administrator or network operator can use this applicatio
 references:
     - https://attack.mitre.org/techniques/T1053/001/
     - https://www.linkedin.com/pulse/getting-attacker-ip-address-from-malicious-linux-job-craig-rowland/
-    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1053.002/T1053.002.yaml#L58
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1053.002/T1053.002.yaml#L20
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -54,7 +54,7 @@ analytic_story:
     - Cisco Isovalent Suspicious Activity
 asset_type: Endpoint
 atomic_guid:
-    - 9ddf2e5e-7e2c-46c2-9940-3c2ff29c7213
+    - 7266d898-ac82-4ec0-97c7-436075d0d08e
 mitre_attack_id:
     - T1053.002
 product:

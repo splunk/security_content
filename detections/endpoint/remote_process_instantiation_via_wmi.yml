@@ -1,8 +1,8 @@
 name: Remote Process Instantiation via WMI
 id: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
-version: 19
+version: 20
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -36,6 +36,7 @@ known_false_positives: The wmic.exe utility is a benign Windows application. It 
 references:
     - https://attack.mitre.org/techniques/T1047/
     - https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/create-method-in-class-win32-process
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1047/T1047.yaml#L103
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -66,6 +67,8 @@ analytic_story:
     - Active Directory Lateral Movement
     - Void Manticore
 asset_type: Endpoint
+atomic_guid:
+    - 9c8ef159-c666-472f-9874-90c8d60d136b
 mitre_attack_id:
     - T1047
 product:

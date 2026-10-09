@@ -1,8 +1,8 @@
 name: Detect PsExec With accepteula Flag
 id: 27c3a83d-cada-47c6-9042-67baf19d2574
-version: 19
+version: 20
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -34,6 +34,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators can leverage PsExec for accessing remote systems and might pass `accepteula` as an argument if they are running this tool for the first time. However, it is not likely that you'd see multiple occurrences of this event on a machine
 references:
     - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1021.002/T1021.002.yaml#L55
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -79,6 +80,8 @@ analytic_story:
     - VanHelsing Ransomware
     - Storm-0501 Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - 0eb03d41-79e4-4393-8e57-6344856be1cf
 mitre_attack_id:
     - T1021.002
 product:

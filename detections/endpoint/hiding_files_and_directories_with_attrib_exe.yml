@@ -1,8 +1,8 @@
 name: Hiding Files And Directories With Attrib exe
 id: 6e5a3ae4-90a3-462d-9aa6-0119f638c0f1
-version: 18
+version: 19
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -27,7 +27,8 @@ search: |-
     | `hiding_files_and_directories_with_attrib_exe_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some applications and users may legitimately use attrib.exe to interact with the files.
-references: []
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1222.001/T1222.001.yaml#L90
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -58,6 +59,8 @@ analytic_story:
     - Crypto Stealer
     - VIP Keylogger
 asset_type: Endpoint
+atomic_guid:
+    - 32b979da-7b68-42c9-9a99-0e39900fc36c
 mitre_attack_id:
     - T1222.001
 product:

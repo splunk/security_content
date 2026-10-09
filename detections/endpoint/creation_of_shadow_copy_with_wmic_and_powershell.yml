@@ -1,8 +1,8 @@
 name: Creation of Shadow Copy with wmic and powershell
 id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
-version: 15
+version: 16
 creation_date: '2019-12-11'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -32,6 +32,8 @@ known_false_positives: Legitimate administrator usage of wmic to create a shadow
 references:
     - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
     - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.003/T1003.003.yaml#L116
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.003/T1003.003.yaml#L204
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -59,6 +61,9 @@ analytic_story:
     - Compromised Windows Host
     - Credential Dumping
 asset_type: Endpoint
+atomic_guid:
+    - 224f7de0-8f0a-4a94-b5d8-989b036c86da
+    - 542bb97e-da53-436b-8e43-e0a7d31a6c24
 mitre_attack_id:
     - T1003.003
 product:

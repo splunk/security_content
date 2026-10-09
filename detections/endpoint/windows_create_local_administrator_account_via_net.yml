@@ -1,8 +1,8 @@
 name: Windows Create Local Administrator Account Via Net
 id: 2c568c34-bb57-4b43-9d75-19c605b98e70
-version: 11
+version: 12
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -31,7 +31,8 @@ search: |-
     | `windows_create_local_administrator_account_via_net_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Administrators often leverage net.exe to create admin accounts.
-references: []
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.001/T1136.001.yaml#L156
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -66,6 +67,8 @@ analytic_story:
     - GhostRedirector IIS Module and Rungan Backdoor
     - Scattered Lapsus$ Hunters
 asset_type: Endpoint
+atomic_guid:
+    - fda74566-a604-4581-a4cc-fbbe21d66559
 mitre_attack_id:
     - T1136.001
 product:

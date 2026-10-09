@@ -1,8 +1,8 @@
 name: Overwriting Accessibility Binaries
 id: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
-version: 13
+version: 14
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -12,7 +12,13 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\\Windows\\System32\\sethc.exe* OR Filesystem.file_path=*\\Windows\\System32\\utilman.exe* OR Filesystem.file_path=*\\Windows\\System32\\osk.exe* OR Filesystem.file_path=*\\Windows\\System32\\Magnify.exe* OR Filesystem.file_path=*\\Windows\\System32\\Narrator.exe* OR Filesystem.file_path=*\\Windows\\System32\\DisplaySwitch.exe* OR Filesystem.file_path=*\\Windows\\System32\\AtBroker.exe*) by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `overwriting_accessibility_binaries_filter`'
 how_to_implement: You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 known_false_positives: Microsoft may provide updates to these binaries. Verify that these changes do not correspond with your normal software update cycle.
-references: []
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.008/T1546.008.yaml#L50
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.008/T1546.008.yaml#L125
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.008/T1546.008.yaml#L141
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.008/T1546.008.yaml#L157
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.008/T1546.008.yaml#L173
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.008/T1546.008.yaml#L189
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -37,6 +43,13 @@ analytic_story:
     - Windows Privilege Escalation
     - Flax Typhoon
 asset_type: Endpoint
+atomic_guid:
+    - 934e90cf-29ca-48b3-863c-411737ad44e3
+    - 1db380da-3422-481d-a3c8-6d5770dba580
+    - 5e4fa70d-c789-470e-85e1-6992b92bb321
+    - 2002f5ea-cd13-4c82-bf73-e46722e5dc5e
+    - 825ba8ca-71cc-436b-b1dd-ea0d5e109086
+    - 210be7ea-d841-40ec-b3e1-ff610bb62744
 mitre_attack_id:
     - T1546.008
 product:

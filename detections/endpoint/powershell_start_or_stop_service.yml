@@ -1,8 +1,8 @@
 name: PowerShell Start or Stop Service
 id: 04207f8a-e08d-4ee6-be26-1e0c4488b04a
-version: 12
+version: 13
 creation_date: '2023-03-24'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -26,6 +26,7 @@ known_false_positives: This behavior may be noisy, as these cmdlets are commonly
 references:
     - https://learn-powershell.net/2012/01/15/startingstopping-and-restarting-remote-services-with-powershell/
     - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-service?view=powershell-7.3
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1543.003/T1543.003.yaml#L191
 drilldown_searches:
     - name: View the detection results for - "$Computer$"
       search: '%original_detection_search% | search  Computer = "$Computer$"'
@@ -45,6 +46,8 @@ analytic_story:
     - Scattered Lapsus$ Hunters
     - Active Directory Lateral Movement
 asset_type: Endpoint
+atomic_guid:
+    - 1f896ce4-8070-4959-8a25-2658856a70c9
 mitre_attack_id:
     - T1059.001
 product:

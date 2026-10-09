@@ -1,8 +1,8 @@
 name: Windows Security Account Manager Stopped
 id: 69c12d59-d951-431e-ab77-ec426b8d65e6
-version: 14
+version: 15
 creation_date: '2020-11-06'
-modification_date: '2026-10-02'
+modification_date: '2026-10-09'
 author: Rod Soto, Jose Hernandez, Splunk
 status: production
 type: TTP
@@ -30,7 +30,6 @@ search: |-
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: SAM is a critical windows service, stopping it would cause major issues on an endpoint this makes false positive rare. AlthoughNo false positives have been identified.
 references:
-    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1489/T1489.yaml#L25
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -57,8 +56,6 @@ analytic_story:
     - Ryuk Ransomware
     - Scattered Lapsus$ Hunters
 asset_type: Endpoint
-atomic_guid:
-    - 41274289-ec9c-4213-bea4-e43c4aa57954
 mitre_attack_id:
     - T1489
 product:

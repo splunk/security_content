@@ -1,8 +1,8 @@
 name: Detect Path Interception By Creation Of program exe
 id: cbef820c-e1ff-407f-887f-0a9240a2d477
-version: 18
+version: 19
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -16,6 +16,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://medium.com/@SumitVerma101/windows-privilege-escalation-part-1-unquoted-service-path-c7a011a8d8ae
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1574.009/T1574.009.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -46,6 +47,8 @@ analytic_story:
     - Windows Persistence Techniques
     - Scattered Lapsus$ Hunters
 asset_type: Endpoint
+atomic_guid:
+    - 2770dea7-c50f-457b-84c4-c40a47460d9f
 mitre_attack_id:
     - T1574.009
 product:

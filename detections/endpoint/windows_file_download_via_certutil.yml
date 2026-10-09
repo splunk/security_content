@@ -1,8 +1,8 @@
 name: Windows File Download Via CertUtil
 id: 7fac8d40-e370-45ea-a4a3-031bbcc18b02
-version: 7
+version: 8
 creation_date: '2021-03-24'
-modification_date: '2026-07-14'
+modification_date: '2026-10-09'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: TTP
@@ -41,6 +41,8 @@ references:
     - https://web.archive.org/web/20210921110637/https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html
     - https://lolbas-project.github.io/lolbas/Binaries/Certutil/
     - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732443(v=ws.11)#-verifyctl
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1105/T1105.yaml#L190
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1105/T1105.yaml#L211
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -78,6 +80,9 @@ analytic_story:
     - CISA AA22-277A
     - Cisco Network Visibility Module Analytics
 asset_type: Endpoint
+atomic_guid:
+    - dd3b61dd-7bbc-48cd-ab51-49ad1a776df0
+    - ffd492e3-0455-4518-9fb1-46527c9f241b
 mitre_attack_id:
     - T1105
 product:
