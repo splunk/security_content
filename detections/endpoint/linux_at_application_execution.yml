@@ -1,6 +1,6 @@
 name: Linux At Application Execution
 id: bf0a378e-5f3c-11ec-a6de-acde48001122
-version: 15
+version: 14
 creation_date: '2021-12-21'
 modification_date: '2026-10-09'
 author: Teoderick Contreras, Bhavin Patel, Splunk
