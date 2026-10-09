@@ -9,7 +9,8 @@ type: Hunting
 description: The following analytic detects the dropping of a suspicious file named "license.dat" in %appdata% or %programdata%. This behavior is associated with the IcedID malware, which uses this file to inject its core bot into other processes for banking credential theft. The detection leverages Sysmon EventCode 11 to monitor file creation events in these directories. This activity is significant as it indicates a potential malware infection aiming to steal sensitive banking information. If confirmed malicious, the attacker could gain unauthorized access to financial data, leading to significant financial loss and data breaches.
 data_source:
     - Sysmon EventID 11
-search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*" OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time) as lastTime by TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_icedid_license_dat_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="*\\license.dat" Filesystem.file_path IN ("*\\appdata\\*", "*\\programdata\\*") by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_icedid_license_dat_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: No false positives have been identified at this time.
 references:

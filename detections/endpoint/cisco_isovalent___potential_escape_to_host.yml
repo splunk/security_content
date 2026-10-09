@@ -6,8 +6,7 @@ modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: |
-    This analytic detects potential container escape or reconnaissance attempts by monitoring for the rapid execution of multiple suspicious Linux commands (nsenter, mount, ps aux, and ls) within a short time window. The search aggregates process execution logs into 5-minute buckets and identifies when two or more distinct commands occur in quick succession. This behavior is noteworthy because attackers often chain these commands together to pivot from a container into the host, enumerate processes, or browse filesystems. For a SOC, catching these clustered command executions is important because it highlights possible adversary activity attempting to break isolation and escalate privileges inside a Kubernetes environment.
+description: This analytic detects potential container escape or reconnaissance attempts by monitoring for the rapid execution of multiple suspicious Linux commands (nsenter, mount, ps aux, and ls) within a short time window. The search aggregates process execution logs into 5-minute buckets and identifies when two or more distinct commands occur in quick succession. This behavior is noteworthy because attackers often chain these commands together to pivot from a container into the host, enumerate processes, or browse filesystems. For a SOC, catching these clustered command executions is important because it highlights possible adversary activity attempting to break isolation and escalate privileges inside a Kubernetes environment.
 data_source:
     - Cisco Isovalent Process Exec
 search: |
@@ -33,16 +32,20 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_isovalent___potential_escape_to_host_filter`
-how_to_implement: |
-    This detection relies on process execution telemetry from Cisco Isovalent Runtime Security.
+how_to_implement: 'This detection relies on process execution telemetry from Cisco Isovalent Runtime Security.
+
     Ensure Isovalent Runtime Security is deployed and configured in your Kubernetes environment
+
     to generate process_exec events. Configure the Cisco Security Cloud TA to collect these logs
+
     via HEC and normalize them into Splunk CIM. Privileged pods and hostPID configurations
-    should be closely monitored as they increase the risk of container escape attempts.
-known_false_positives: |
-    Some legitimate administrative containers or troubleshooting workflows may use nsenter
+
+    should be closely monitored as they increase the risk of container escape attempts.'
+known_false_positives: 'Some legitimate administrative containers or troubleshooting workflows may use nsenter
+
     or mount commands (e.g., debugging nodes with hostPID pods). Such activity should be
-    investigated in context to ensure it is not malicious.
+
+    investigated in context to ensure it is not malicious.'
 references:
     - https://attack.mitre.org/techniques/T1611/
     - https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/
@@ -54,7 +57,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$pod_name$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: pod_name

@@ -6,78 +6,17 @@ modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk, vshcherbakov
 status: production
 type: TTP
-description: |-
-    The following analytic detects the creation of open/public S3 buckets via the AWS CLI.
+description: 'The following analytic detects the creation of open/public S3 buckets via the AWS CLI.
+
     It leverages AWS CloudTrail logs to identify events where a user has set bucket permissions to allow access to "AuthenticatedUsers" or "AllUsers." This activity is significant because open S3 buckets can expose sensitive data to unauthorized users, leading to data breaches.
-    If confirmed malicious, an attacker could gain unauthorized access to potentially sensitive information stored in the S3 bucket, posing a significant security risk.
+
+    If confirmed malicious, an attacker could gain unauthorized access to potentially sensitive information stored in the S3 bucket, posing a significant security risk.'
 data_source:
     - AWS CloudTrail
-search: |-
-    `cloudtrail`
-    eventSource="s3.amazonaws.com"
-    eventName="PutBucketAcl"
-    errorCode=success
-    userAgent IN ("[aws-cli*", "aws-cli*")
-
-    | rename requestParameters.bucketName AS bucketName
-             requestParameters.accessControlList.x-amz-grant-read AS grantRead
-             requestParameters.accessControlList.x-amz-grant-read-acp AS grantReadAcp
-             requestParameters.accessControlList.x-amz-grant-write AS grantWrite
-             requestParameters.accessControlList.x-amz-grant-write-acp AS grantWriteAcp
-             requestParameters.accessControlList.x-amz-grant-full-control AS grantFullControl
-             requestParameters.x-amz-acl AS cannedAcl,
-             userIdentity.principalId AS principalId
-             userIdentity.userName AS userName
-             userIdentity.arn AS userArn
-
-    | eval grantRead=coalesce(grantRead,"-"),
-           grantReadAcp=coalesce(grantReadAcp,"-"),
-           grantWrite=coalesce(grantWrite,"-"),
-           grantWriteAcp=coalesce(grantWriteAcp,"-"),
-           grantFullControl=coalesce(grantFullControl,"-"),
-           cannedAcl=coalesce(cannedAcl,"-"),
-           user=coalesce(userName,userArn)
-
-    | eval publicGrant = if(
-                            match(grantRead, "(?i)AllUsers|AuthenticatedUsers")
-                            OR
-                            match(grantReadAcp, "(?i)AllUsers|AuthenticatedUsers")
-                            OR
-                            match(grantWrite, "(?i)AllUsers|AuthenticatedUsers")
-                            OR
-                            match(grantWriteAcp, "(?i)AllUsers|AuthenticatedUsers")
-                            OR
-                            match(grantFullControl, "(?i)AllUsers|AuthenticatedUsers"),
-                            1,
-                            0
-                        )
-
-    | eval publicCanned = if(cannedAcl IN ("public-read", "public-read-write", "authenticated-read"), 1, 0)
-
-    | where publicGrant=1 OR publicCanned=1
-
-    | eval exposure=case(cannedAcl=="public-read-write","public-write", match(grantWrite."".grantWriteAcp."".grantFullControl,"(?i)AllUsers"),"public-write", cannedAcl=="public-read" OR match(grantRead,"(?i)AllUsers"),"public-read", cannedAcl=="authenticated-read" OR match(grantRead,"(?i)AuthenticatedUsers"),"authenticated-read", true(),"custom-grant")
-
-    | stats count
-            min(_time) AS firstTime
-            max(_time) AS lastTime
-            values(cannedAcl) AS cannedAcl
-            values(grantRead) AS grantRead
-            values(grantReadAcp) AS grantReadAcp
-            values(grantWrite) AS grantWrite
-            values(grantWriteAcp) AS grantWriteAcp
-            values(grantFullControl) AS grantFullControl
-            values(eventName) AS eventName
-
-      BY user principalId userAgent bucketName exposure
-
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `detect_new_open_s3_buckets_over_aws_cli_filter`
-how_to_implement: |-
-    The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
-known_false_positives: |-
-    It is possible that an AWS admin has legitimately created a public bucket for a specific purpose. AWS strongly advises against granting full control to the "All Users" group. Investigate and apply the necessary filters as needed.
+search: |
+    `cloudtrail` eventSource="s3.amazonaws.com" eventName="PutBucketAcl" userAgent IN ("[aws-cli*", "aws-cli*") | eval user=user_name, src=src, dc_events=dc_events, signature=signature | stats count min(_time) as firstTime max(_time) as lastTime by eventSource eventName userAgent | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_new_open_s3_buckets_over_aws_cli_filter`
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+known_false_positives: It is possible that an AWS admin has legitimately created a public bucket for a specific purpose. AWS strongly advises against granting full control to the "All Users" group. Investigate and apply the necessary filters as needed.
 references:
     - https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html
 drilldown_searches:
@@ -88,16 +27,14 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
-    title: User [$user$] has created an open/public S3 Bucket [$bucketName$] using AWS CLI with the following permissions - [$grantRead$] [$grantReadAcp$] [$grantWrite$] [$grantWriteAcp$] [$grantFullControl$] [$cannedAcl$]
+    title: User [$user$] has created an open/public S3 Bucket [$bucketName$] using AWS CLI with the following permissions - [$requestParameters.accessControlList.x-amz-grant-read$] [$requestParameters.accessControlList.x-amz-grant-read-acp$] [$requestParameters.accessControlList.x-amz-grant-write$] [$requestParameters.accessControlList.x-amz-grant-write-acp$] [$requestParameters.accessControlList.x-amz-grant-full-control$] [$requestParameters.x-amz-acl$]
     entity:
         field: user
         type: user
         score: 50
-threat_objects:
-    - field: bucketName
-      type: bucket_name
+threat_objects: []
 analytic_story:
     - Suspicious AWS S3 Activities
 asset_type: S3 Bucket
@@ -113,6 +50,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

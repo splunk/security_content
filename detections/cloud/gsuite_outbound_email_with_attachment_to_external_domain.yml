@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic detects outbound emails with attachments sent from an internal email domain to an external domain. It leverages Gsuite Gmail logs, parsing the source and destination email domains, and flags emails with fewer than 20 outbound instances. This activity is significant as it may indicate potential data exfiltration or insider threats. If confirmed malicious, an attacker could use this method to exfiltrate sensitive information, leading to data breaches and compliance violations.
 data_source:
     - G Suite Gmail
-search: |-
+search: |
     `gsuite_gmail` num_message_attachments > 0
       | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)"
       | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"

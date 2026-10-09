@@ -9,16 +9,8 @@ type: TTP
 description: The following analytic identifies instances where a user has denied consent to an OAuth application seeking permissions within the Office 365 environment. This detection leverages O365 audit logs, focusing on events related to user consent actions. By filtering for denied consent actions associated with OAuth applications, it captures instances where users have actively rejected permission requests. This activity is significant as it may indicate users spotting potentially suspicious or unfamiliar applications. If confirmed malicious, it suggests an attempt by a potentially harmful application to gain unauthorized access, which was proactively blocked by the user.
 data_source:
     - O365
-search: |-
-    `o365_graph` status.errorCode=65004
-      | rename userPrincipalName as user
-      | rename ipAddress as src_ip
-      | stats min(_time) as firstTime max(_time) as lastTime
-        BY user src_ip appDisplayName
-           status.failureReason
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `o365_user_consent_denied_for_oauth_application_filter`
+search: |
+    `o365_management_activity` status.errorCode="65004" | eval user=User, new_value='ModifiedProperties{}.NewValue', signature=signature, Severity=Severity | stats count min(_time) as firstTime max(_time) as lastTime by errorCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_user_consent_denied_for_oauth_application_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 events.
 known_false_positives: OAuth applications that require mail permissions may be legitimate, investigate and filter as needed.
 references:
@@ -36,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ denifed consent for an OAuth application.
     entity:

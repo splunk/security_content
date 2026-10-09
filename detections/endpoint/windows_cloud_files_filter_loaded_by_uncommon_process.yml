@@ -6,12 +6,12 @@ modification_date: '2026-05-18'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects cldapi.dll being loaded by a process not associated with legitimate cloud sync activity.
-    The Windows Cloud Files API (cldapi.dll) is abused by several local privilege escalation exploits.
+description: 'The following analytic detects cldapi.dll being loaded by a process not associated with legitimate cloud sync activity.
+
+    The Windows Cloud Files API (cldapi.dll) is abused by several local privilege escalation exploits.'
 data_source:
     - Sysmon EventID 7
-search: |-
+search: |
     `sysmon`
     EventID=7
     ImageLoaded="*\\cldapi.dll"
@@ -35,11 +35,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_cloud_files_filter_loaded_by_uncommon_process_filter`
-how_to_implement: |-
-    To successfully implement this search, you need to be ingesting logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: |-
-    False positives may include other third-party cloud-based file storage software.
-    Filter as necessary for your environment.
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: 'False positives may include other third-party cloud-based file storage software.
+
+    Filter as necessary for your environment.'
 references:
     - https://www.huntress.com/blog/nightmare-eclipse-intrusion
     - https://www.threatlocker.com/blog/miniplasma-windows-privilege-escalation-zero-day-affects-fully-patched-systems
@@ -51,7 +50,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

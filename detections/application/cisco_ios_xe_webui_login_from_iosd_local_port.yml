@@ -6,12 +6,12 @@ modification_date: '2026-05-19'
 author: Nasreddine Bencherchali
 status: production
 type: TTP
-description: |
-    This analytic detects Cisco IOS-XE WebUI authentication failure and success logs that include local port 21111.
-    This is a strong an indicator of WebUI exploitation because normal users should not authenticate through the underlying IOS-XE Linux shell path.
+description: 'This analytic detects Cisco IOS-XE WebUI authentication failure and success logs that include local port 21111.
+
+    This is a strong an indicator of WebUI exploitation because normal users should not authenticate through the underlying IOS-XE Linux shell path.'
 data_source:
     - Cisco IOS Logs
-search: |-
+search: |
     `cisco_ios`
     facility="SEC_LOGIN"
     mnemonic IN ("QUIET_MODE_ON", "LOGIN_SUCCESS", "LOGIN_FAILED")
@@ -30,11 +30,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_webui_login_from_iosd_local_port_filter`
-how_to_implement: |
-    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
-    Login failure logging must be enabled with "login on-failure log".
-known_false_positives: |
-    This local port value should not appear for normal WebUI logins. So false positives should very minimal.
+how_to_implement: 'Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+
+    Login failure logging must be enabled with "login on-failure log".'
+known_false_positives: This local port value should not appear for normal WebUI logins. So false positives should very minimal.
 references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
     - https://blog.talosintelligence.com/salt-typhoon-analysis/
@@ -46,7 +45,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: WebUI authentication failure with local port 21111 from $src_ip$.
     entity:

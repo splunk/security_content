@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic identifies all drivers being loaded on Windows systems using Sysmon EventCode 6 (Driver Load). It leverages fields such as driver path, signature status, and hash to detect potentially suspicious drivers. This activity is significant for a SOC as malicious drivers can be used to gain kernel-level access, bypass security controls, or persist in the environment. If confirmed malicious, this activity could allow an attacker to execute arbitrary code with high privileges, leading to severe system compromise and potential data exfiltration.
 data_source:
     - Sysmon EventID 6
-search: |-
+search: |
     `sysmon` EventCode=6
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY ImageLoaded dest dvc

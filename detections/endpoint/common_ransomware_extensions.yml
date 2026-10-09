@@ -6,10 +6,11 @@ modification_date: '2026-09-22'
 author: David Dorsey, Michael Haag, Nasreddine Bencherchali, Splunk, Steven Dick
 status: production
 type: TTP
-description: |-
-    The following analytic detects modifications to files with extensions commonly associated with ransomware. It leverages the Endpoint.Filesystem data model to identify changes in file extensions that match known ransomware patterns.
+description: 'The following analytic detects modifications to files with extensions commonly associated with ransomware. It leverages the Endpoint.Filesystem data model to identify changes in file extensions that match known ransomware patterns.
+
     This activity is significant because it suggests an attacker is attempting to encrypt or alter files, potentially leading to severe data loss and operational disruption.
-    If confirmed malicious, this activity could result in the encryption of critical data, rendering it inaccessible and causing significant damage to the organization's data integrity and availability.
+
+    If confirmed malicious, this activity could result in the encryption of critical data, rendering it inaccessible and causing significant damage to the organization''s data integrity and availability.'
 data_source:
     - Sysmon EventID 11
 search: |
@@ -92,7 +93,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The device $dest$ wrote $file_count$ files to $path_count$ path(s) with the $file_extension$ extension. This extension and behavior may indicate a $Name$ ransomware attack.
     entity:

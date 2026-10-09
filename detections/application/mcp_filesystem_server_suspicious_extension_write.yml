@@ -60,6 +60,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
-          sourcetype: mcp:jsonrpc
           source: mcp.log
+          sourcetype: mcp:jsonrpc
       test_type: unit

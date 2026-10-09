@@ -6,12 +6,12 @@ modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects WMI token impersonation by identifying `wmiprvse.exe` requesting the query, VM, and duplicate-handle rights associated with WMI process access.
-    It leverages Sysmon EventCode 10 and checks for access masks that combine PROCESS_QUERY_INFORMATION (0x400), PROCESS_QUERY_LIMITED_INFORMATION (0x1000), PROCESS_VM_OPERATION (0x8), PROCESS_VM_READ (0x10), PROCESS_VM_WRITE (0x20), PROCESS_DUP_HANDLE (0x40), and PROCESS_ALL_ACCESS (0x1f3fff).
+description: 'The following analytic detects WMI token impersonation by identifying `wmiprvse.exe` requesting the query, VM, and duplicate-handle rights associated with WMI process access.
+
+    It leverages Sysmon EventCode 10 and checks for access masks that combine PROCESS_QUERY_INFORMATION (0x400), PROCESS_QUERY_LIMITED_INFORMATION (0x1000), PROCESS_VM_OPERATION (0x8), PROCESS_VM_READ (0x10), PROCESS_VM_WRITE (0x20), PROCESS_DUP_HANDLE (0x40), and PROCESS_ALL_ACCESS (0x1f3fff).'
 data_source:
     - Sysmon EventID 10
-search: |-
+search: |
     `sysmon`
     EventCode=10
     SourceImage="*\\wmiprvse.exe"
@@ -61,7 +61,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

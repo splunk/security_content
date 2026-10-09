@@ -10,7 +10,7 @@ description: The following analytic identifies the loading of the malicious Sola
 data_source:
     - Sysmon EventID 7
     - Sysmon EventID 22
-search: |-
+search: |
     `sysmon`
     (
         EventCode=7

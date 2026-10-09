@@ -6,10 +6,11 @@ modification_date: '2026-09-22'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: |
-    The following analytic detects the creation or connection to known suspicious C2 named pipes.
+description: 'The following analytic detects the creation or connection to known suspicious C2 named pipes.
+
     It leverages Sysmon EventCodes 17 and 18 to identify known default pipe names used by C2 tools.
-    If confirmed malicious, this could allow an attacker to abuse these to potentially gain persistence, command and control, or further system compromise.
+
+    If confirmed malicious, this could allow an attacker to abuse these to potentially gain persistence, command and control, or further system compromise.'
 data_source:
     - Sysmon EventID 17
     - Sysmon EventID 18
@@ -43,8 +44,7 @@ search: |
     | `security_content_ctime(lastTime)`
     | `windows_suspicious_c2_named_pipe_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and pipename from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: |
-    False positives should be rare, investigate matches and apply additional filters as needed.
+known_false_positives: False positives should be rare, investigate matches and apply additional filters as needed.
 references:
     - https://attack.mitre.org/techniques/T1218/009/
     - https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
@@ -56,7 +56,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: An instance of $process_name$ located in $process_path$ was identified on endpoint $dest$ accessing known suspicious C2 named pipe $pipe_name$.
     entity:

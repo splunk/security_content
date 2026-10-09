@@ -10,15 +10,8 @@ description: The following analytic detects the clearing of Windows event logs b
 data_source:
     - Windows Event Log Security 1102
     - Windows Event Log System 104
-search: |-
-    (`wineventlog_security` EventCode=1102)
-    OR
-    (`wineventlog_system` EventCode=104)
-    | stats count min(_time) as firstTime max(_time) as lastTime
-      by action change_type dest dvc object_category signature_id status user vendor_product object EventCode
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_event_log_cleared_filter`
+search: |
+    `wineventlog_security` EventCode=1102 EventCode="104" | stats count min(_time) as firstTime max(_time) as lastTime by action change_type dest dvc object_category signature_id status user vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_event_log_cleared_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
 known_false_positives: It is possible that these logs may be legitimately cleared by Administrators. Filter as needed.
 references:
@@ -34,7 +27,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Windows $object$ cleared on $dest$ via EventCode $EventCode$
     entity:

@@ -8,7 +8,7 @@ status: production
 type: Anomaly
 description: The following analytic identifies an excessive number of authentication failures, including failed attempts against MFA prompt codes. It uses data from the `o365_management_activity` dataset, focusing on events where the authentication status is marked as failure. This behavior is significant as it may indicate a brute force attack or an attempt to compromise user accounts. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the environment.
 data_source: []
-search: |-
+search: |
     `o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=* status=failure
       | stats count earliest(_time) AS firstTime latest(_time) AS lastTime values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS user_agent values(status) AS status values(src_ip) AS src values(signature) as signature
         BY user vendor_account vendor_product
@@ -29,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -54,6 +54,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

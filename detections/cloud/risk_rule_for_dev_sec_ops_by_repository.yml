@@ -8,7 +8,7 @@ status: production
 type: Correlation
 description: The following analytic identifies high-risk activities within repositories by correlating repository data with risk scores. It leverages findings and intermediate findings created by detections from the Dev Sec Ops analytic stories, summing risk scores and capturing source and user information. The detection focuses on high-risk scores above 100 and sources with more than three occurrences. This activity is significant as it highlights repositories frequently targeted by threats, providing insights into potential vulnerabilities. If confirmed malicious, attackers could exploit these repositories, leading to data breaches or infrastructure compromise.
 data_source: []
-search: |-
+search: |
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime sum(All_Risk.calculated_risk_score) as sum_risk_score, values(All_Risk.annotations.mitre_attack.mitre_tactic) as annotations.mitre_attack.mitre_tactic, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count values(source) as source, dc(source) as source_count FROM datamodel=Risk.All_Risk
       WHERE All_Risk.analyticstories="Dev Sec Ops" All_Risk.risk_object_type = "other"
       BY All_Risk.risk_object All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic
@@ -28,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$risk_object$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Risk Threshold Exceeded for $risk_object$
     entity:

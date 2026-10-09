@@ -6,13 +6,14 @@ modification_date: '2026-08-23'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
-description: |-
-    The following analytic detects Windows Filtering Platform filters that are added and configured to block outbound traffic for known EDR and security agent processes.
+description: 'The following analytic detects Windows Filtering Platform filters that are added and configured to block outbound traffic for known EDR and security agent processes.
+
     Tools such as EDRSilencer abuse WFP to disrupt outbound telemetry from EDR processes, which can bypass detections that only look for the tool process name.
-    This detection looks for WFP add events with a block action and EDR process names embedded in the hexdump-like Conditions field.
+
+    This detection looks for WFP add events with a block action and EDR process names embedded in the hexdump-like Conditions field.'
 data_source:
     - Windows Event Log Security 5447
-search: |-
+search: |
     `wineventlog_security`
     EventCode=5447
     ChangeType IN ("%%16384", "Add")
@@ -103,11 +104,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_filtering_platform_filter_added_to_block_edr_process_filter`
-how_to_implement: |-
-    To implement this analytic, enable auditing for Windows Filtering Platform policy changes and ingest Windows Security Event Log data with EventCode 5447. The Splunk Add-on for Microsoft Windows should extract fields such as EventCode, ChangeType, FilterName, Conditions, and Action from XmlWinEventLog:Security events.
-known_false_positives: |-
-    Legitimate firewall, VPN, EDR, and Group Policy changes can add WFP block filters.
-    Tune by approved ProviderName, LayerName, FilterName, or known administrative windows after validating the WFP filter context.
+how_to_implement: To implement this analytic, enable auditing for Windows Filtering Platform policy changes and ingest Windows Security Event Log data with EventCode 5447. The Splunk Add-on for Microsoft Windows should extract fields such as EventCode, ChangeType, FilterName, Conditions, and Action from XmlWinEventLog:Security events.
+known_false_positives: 'Legitimate firewall, VPN, EDR, and Group Policy changes can add WFP block filters.
+
+    Tune by approved ProviderName, LayerName, FilterName, or known administrative windows after validating the WFP filter context.'
 references:
     - https://github.com/netero1010/EDRSilencer
     - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5447
@@ -120,7 +120,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Windows Filtering Platform block filter targeting [$edr_process$] was detected on [$dest$].
     entity:

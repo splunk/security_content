@@ -6,35 +6,16 @@ modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: |-
-    Detects default function and variable names known to be used by the Cobalt Strike PowerShell beacon.
-    This beacon is used to gain command and control on a victim.
+description: 'Detects default function and variable names known to be used by the Cobalt Strike PowerShell beacon.
+
+    This beacon is used to gain command and control on a victim.'
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell`
-    EventID="4104"
-    ScriptBlockText IN (
-        "*func_get_proc_address*",
-        "*$var_unsafe_native_methods*",
-        "*$var_gpa.Invoke*",
-        "*func_get_delegate_type*",
-        "*$var_type_builder*"
-    )
-    | fillnull
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-
-    by Computer EventID ScriptBlockText dest signature signature_id
-       user_id vendor_product Guid Opcode Name
-       Path ProcessID ScriptBlockId
-
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_default_cobalt_strike_powershell_beacon_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process IN ("*func_get_proc_address*", "*$var_unsafe_native_methods*", "*$var_gpa.Invoke*", "*func_get_delegate_type*", "*$var_type_builder*") by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_default_cobalt_strike_powershell_beacon_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: |-
-    False positives are very unlikely as this detection targets default Cobalt Strike PowerShell beacon functions and variables. Modifications to the beacon's script may bypass detection but do not create false positives.
+known_false_positives: False positives are very unlikely as this detection targets default Cobalt Strike PowerShell beacon functions and variables. Modifications to the beacon's script may bypass detection but do not create false positives.
+references: []
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -43,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Default Cobalt Strike PowerShell beacon activity observed on $dest$ via script block $ScriptBlockId$.
     entity:

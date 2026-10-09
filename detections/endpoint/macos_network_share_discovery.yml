@@ -6,11 +6,10 @@ modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    Identifies execution of network share enumeration commands (smbutil, showmount) that can be leveraged by adversaries to discover accessible SMB and NFS resources, supporting internal reconnaissance and potential lateral movement.
+description: Identifies execution of network share enumeration commands (smbutil, showmount) that can be leveraged by adversaries to discover accessible SMB and NFS resources, supporting internal reconnaissance and potential lateral movement.
 data_source:
     - Osquery Results
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -30,11 +29,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_network_share_discovery_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: |-
-    Administrators may utilize these tools occasionaly for troubleshooting.
+how_to_implement: 'This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.'
+known_false_positives: Administrators may utilize these tools occasionaly for troubleshooting.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/man8/showmount.8.html
@@ -47,7 +45,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

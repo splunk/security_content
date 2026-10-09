@@ -10,7 +10,7 @@ description: The following analytic identifies unauthorized Active Directory rep
 data_source:
     - Windows Event Log Security 4662
     - Windows Event Log Security 4624
-search: |-
+search: |
     `wineventlog_security` EventCode=4662 ObjectType IN ("%{19195a5b-6da0-11d0-afd3-00c04fd930c9}",
       "domainDNS") AND Properties IN ("*Replicating Directory Changes All*","*Manage Replication Topology*","*Remove Replica In Domain*","*{1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}*","*{9923a32a-3607-11d2-b9be-0000f87a36b2}*","*{1131f6ac-9c07-11d1-f79f-00c04fc2dcd2}*")
       AND AccessMask="0x100" AND (SubjectUserSid="NT AUT*" OR SubjectUserSid="S-1-5-18"
@@ -41,7 +41,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Windows Active Directory Replication Request Initiated from Unsanctioned Location $src_ip$ by $user$
     entity:

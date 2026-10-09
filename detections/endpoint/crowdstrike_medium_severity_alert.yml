@@ -8,7 +8,7 @@ status: production
 type: Anomaly
 description: The following analytic detects a CrowdStrike alert with MEDIUM severity indicates a potential threat that requires prompt attention. This alert level suggests suspicious activity that may compromise security but is not immediately critical. It typically involves detectable but non-imminent risks, such as unusual behavior or attempted policy violations, which should be investigated further and mitigated quickly to prevent escalation of attacks.
 data_source: []
-search: |-
+search: |
     `crowdstrike_stream`
       | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -31,7 +31,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -53,7 +53,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/medium_alert/crowdstrike_medium_clean.log
-          sourcetype: CrowdStrike:Event:Streams:JSON
           source: CrowdStrike:Event:Streams
+          sourcetype: CrowdStrike:Event:Streams:JSON
       description: PORTED MANUAL TEST - This detection is marked manual test because the attack_data file and TA do not provide the event.EndpointIp and event.EndpointName fields.  event.EndpointName is required to be present for the Risk Message Validation Integration Testing. This will be investigated and is a tracked issue.
       test_type: experimental

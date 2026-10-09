@@ -9,16 +9,8 @@ type: Anomaly
 description: The following analytic detects when an excessive number of files are sync from o365 by the same user over a short period of time. A malicious actor abuse the user-agent string through GUI or API access to evade triggering the FileDownloaded event. This behavior may indicate an attacker staging data for exfiltration or an insider threat removing organizational data. Additional attention should be taken with any Azure Guest (#EXT#) accounts.
 data_source:
     - Office 365 Universal Audit Log
-search: |-
-    `o365_management_activity` Operation IN ("filesyncdownload*") UserAgent="*SkyDriveSync*"
-    | eval user = replace(mvindex(split(lower(UserId),"#ext#"),0),"_","@"), user_flat = replace(UserId, "[^A-Za-z0-9]","_")
-    | where NOT match(SiteUrl,user_flat)
-    | stats values(user) as user, latest(ClientIP) as src values(ZipFileName) as file_name, values(Operation) as signature, values(UserAgent) as http_user_agent, dc(SourceFileName) as count, min(_time) as firstTime, max(_time) as lastTime by Workload,UserId,SiteUrl
-    | rename SiteUrl as file_path,Workload as app
-    | where count > 50
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `o365_exfiltration_via_file_sync_download_filter`
+search: |
+    `o365_management_activity` Operation="filesyncdownload*" UserAgent="*SkyDriveSync*" | eval user=User, src_user=P2Sender, object=object, signature=DetectionMethod, object_name=object_name, file_path=SiteUrl, src=src, file_name=SourceFileName | stats count min(_time) as firstTime max(_time) as lastTime by Operation UserAgent | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_exfiltration_via_file_sync_download_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: It is possible that certain file sync scenarios may trigger this alert, specifically OneNote. Adjust threshold and filtering as needed.
 references:
@@ -33,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate file sync downloads by $user$
       search: '`o365_management_activity` Operation IN ("filesyncdownload*") UserId="$UserId$"'
       earliest_offset: $info_min_time$

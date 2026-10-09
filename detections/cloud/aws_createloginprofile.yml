@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies the creation of a login profile for one AWS user by another, followed by a console login from the same source IP. It uses AWS CloudTrail logs to correlate the `CreateLoginProfile` and `ConsoleLogin` events based on the source IP and user identity. This activity is significant as it may indicate privilege escalation, where an attacker creates a new login profile to gain unauthorized access. If confirmed malicious, this could allow the attacker to escalate privileges and maintain persistent access to the AWS environment.
 data_source:
     - AWS CloudTrail CreateLoginProfile AND AWS CloudTrail ConsoleLogin
-search: |-
+search: |
     `cloudtrail` eventName = CreateLoginProfile
       | rename requestParameters.userName as new_login_profile
       | table src_ip eventName new_login_profile userIdentity.userName
@@ -39,7 +39,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ is attempting to create a login profile for $new_login_profile$ and did a console login from this IP $src_ip$
     entity:
@@ -64,6 +64,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

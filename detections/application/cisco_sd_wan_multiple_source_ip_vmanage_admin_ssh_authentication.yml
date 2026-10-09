@@ -6,13 +6,14 @@ modification_date: '2026-06-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: |-
-    This analytic identifies multiple unique source IP addresses successfully authenticating as `vmanage-admin` via SSH publickey on Cisco Catalyst SD-WAN control components within a short time window.
+description: 'This analytic identifies multiple unique source IP addresses successfully authenticating as `vmanage-admin` via SSH publickey on Cisco Catalyst SD-WAN control components within a short time window.
+
     This aligns with IoC guidance for CVE-2026-20127 (cisco-sa-sdwan-rpa-EHchtZk), which warns that compromised systems may show `Accepted publickey for vmanage-admin` entries from unauthorized IPs.
-    Validate flagged source IPs against known System IPs in SD-WAN Manager and investigate unexpected or concurrent sources.
+
+    Validate flagged source IPs against known System IPs in SD-WAN Manager and investigate unexpected or concurrent sources.'
 data_source:
     - Cisco SD-WAN Auth Log
-search: |-
+search: |
     `cisco_sd_wan_syslog`
     "Accepted publickey"
     | rex field=_raw "^(?<event_timestamp>\S+)\s+(?<dest>\S+)\s+<auth\.info>\s+sshd\[\d+\]:\s+Accepted publickey for (?<user>\S+) from (?<src>\S+) port (?<src_port>\d+) ssh2:\s+(?<key_type>\S+)\s+(?<ssh_key>\S+)"
@@ -25,10 +26,8 @@ search: |-
     | where unique_src_ips >= 2
     | sort 0 - unique_src_ips
     | `cisco_sd_wan_multiple_source_ip_vmanage_admin_ssh_authentication_filter`
-how_to_implement: |
-    This detection requires Cisco SD-WAN auth logs from the /var/log/auth.log file to be ingested into Splunk.
-known_false_positives: |
-    No false positives have been identified at this time.
+how_to_implement: This detection requires Cisco SD-WAN auth logs from the /var/log/auth.log file to be ingested into Splunk.
+known_false_positives: No false positives have been identified at this time.
 references:
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
 analytic_story:

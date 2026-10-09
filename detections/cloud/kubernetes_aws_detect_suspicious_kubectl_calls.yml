@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects anonymous and unauthenticated requests to a Kubernetes cluster. It identifies this behavior by monitoring API calls from users who have not provided any token or password in their request, using data from `kube_audit` logs. This activity is significant for a SOC as it indicates a severe misconfiguration, allowing unfettered access to the cluster with no traceability. If confirmed malicious, an attacker could gain access to sensitive data or control over the cluster, posing a substantial security risk.
 data_source:
     - Kubernetes Audit
-search: |-
+search: |
     `kube_audit` user.username="system:anonymous" user.groups{} IN ("system:unauthenticated")
       | fillnull
       | stats count

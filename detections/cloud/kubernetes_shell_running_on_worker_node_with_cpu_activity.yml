@@ -8,7 +8,7 @@ status: experimental
 type: Anomaly
 description: The following analytic identifies shell activity within the Kubernetes privilege scope on a worker node, specifically when shell processes are consuming CPU resources. It leverages process metrics from an OTEL collector hostmetrics receiver, pulled from Splunk Observability Cloud via the Splunk Infrastructure Monitoring Add-on, focusing on process.cpu.utilization and process.memory.utilization. This activity is significant as unauthorized shell processes can indicate a security threat, potentially compromising the node and the entire Kubernetes cluster. If confirmed malicious, attackers could gain full control over the host's resources, leading to data theft, service disruption, privilege escalation, and further attacks within the cluster.
 data_source: []
-search: |-
+search: |
     | mstats avg(process.cpu.utilization) as process.cpu.utilization avg(process.memory.utilization) as process.memory.utilization where `kubernetes_metrics` AND process.executable.name IN ("sh","bash","csh", "tcsh") by host.name k8s.cluster.name k8s.node.name process.pid process.executable.name span=10s
     | search process.cpu.utilization>0
     | stats avg(process.cpu.utilization) as process.cpu.utilization avg(process.memory.utilization) as process.memory.utilization

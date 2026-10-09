@@ -11,7 +11,8 @@ data_source:
     - NTLM Operational 8004
     - NTLM Operational 8005
     - NTLM Operational 8006
-search: '`ntlm_audit` EventCode IN (8004,8005,8006) DomainName=NULL UserName!=NULL | eval src = replace(WorkstationName,"\\\\","")  ```CIM alignment, remove leading \\ from some auth attempts ``` | eval dest = SChannelName, user = UserName ``` CIM alignment``` | where SChannelName!=src ``` Remove NTLM auths to self, improves accuracy for certain applications``` | stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(user))) as unique_count dc(eval(upper(src))) as src_count by dest | eventstats avg(unique_count) as unique_avg , stdev(unique_count) as unique_std | eval upperBound_unique=(1+unique_avg+unique_std*3) ``` adjust formula for sensitivity``` | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0) | where isOutlier==1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_multiple_ntlm_null_domain_authentications_filter`'
+search: |
+    `ntlm_audit` EventCode IN (8004,8005,8006) DomainName=NULL UserName!=NULL | eval src = replace(WorkstationName,"\\\\","")  ```CIM alignment, remove leading \\ from some auth attempts ``` | eval dest = SChannelName, user = UserName ``` CIM alignment``` | where SChannelName!=src ``` Remove NTLM auths to self, improves accuracy for certain applications``` | stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(user))) as unique_count dc(eval(upper(src))) as src_count by dest | eventstats avg(unique_count) as unique_avg , stdev(unique_count) as unique_std | eval upperBound_unique=(1+unique_avg+unique_std*3) ``` adjust formula for sensitivity``` | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0) | where isOutlier==1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_multiple_ntlm_null_domain_authentications_filter`
 how_to_implement: The following analytic requires that NTLM Operational logs to be imported from the environment Domain Controllers. This requires configuration of specific auditing settings, see Microsoft references for further guidance. This analytic is specific to EventID 8004~8006.
 known_false_positives: Applications that deal with non-domain joined authentications. Recommend adjusting the upperBound_unique eval for tailoring the correlation to your environment, running with a 24hr search window will smooth out some statistical noise.
 references:
@@ -28,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The device [$dest$] was the target of $count$ NTLM authentications from $src_count$ sources using $unique_count$ unique user accounts.
     entity:

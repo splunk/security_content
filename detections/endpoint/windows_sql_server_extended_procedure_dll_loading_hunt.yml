@@ -9,7 +9,7 @@ type: Hunting
 description: This analytic detects when SQL Server loads DLLs to execute extended stored procedures. This is particularly important for security monitoring as it indicates the first-time use or version changes of potentially dangerous procedures like xp_cmdshell, sp_OACreate, and others. While this is a legitimate operation, adversaries may abuse these procedures for execution, discovery, or privilege escalation.
 data_source:
     - Windows Event Log Application 8128
-search: |-
+search: |
     `wineventlog_application` EventCode=8128
       | rex field=EventData_Xml "<Data>(?<dll_name>[^<]+)</Data><Data>(?<dll_version>[^<]+)</Data><Data>(?<procedure_name>[^<]+)</Data>"
       | rename host as dest
@@ -41,6 +41,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/dllprocedureload_windows-application.log
-          sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Application
+          sourcetype: XmlWinEventLog
       test_type: unit

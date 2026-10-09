@@ -9,7 +9,7 @@ type: TTP
 description: This analytic detects the configuration of TFTP services on Cisco IOS devices that could be used to exfiltrate sensitive configuration files. Threat actors like Static Tundra have been observed configuring TFTP servers to make device configuration files accessible for exfiltration after gaining initial access. The detection specifically looks for commands that expose critical configuration files such as startup-config, running-config, and other sensitive system information through TFTP. This activity is particularly concerning as it may represent an attempt to steal credentials, network topology information, and other sensitive data stored in device configurations.
 data_source:
     - Cisco IOS Logs
-search: |-
+search: |
     | tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
       WHERE (
             All_Changes.command="*tftp-server*"
@@ -35,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Suspicious TFTP server configuration detected on Cisco device $dest$ by user $user$, potentially exposing sensitive configuration files
     entity:
@@ -69,6 +69,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
-          sourcetype: cisco:ios
           source: cisco:ios
+          sourcetype: cisco:ios
       test_type: unit

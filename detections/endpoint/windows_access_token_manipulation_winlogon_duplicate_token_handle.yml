@@ -6,12 +6,12 @@ modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: |-
-    The following analytic detects a process requesting duplicate-handle and query-limited-information access to winlogon.exe.
-    It leverages Sysmon EventCode 10 and checks for access masks that combine PROCESS_DUP_HANDLE (0x40) and PROCESS_QUERY_LIMITED_INFORMATION (0x1000).
+description: 'The following analytic detects a process requesting duplicate-handle and query-limited-information access to winlogon.exe.
+
+    It leverages Sysmon EventCode 10 and checks for access masks that combine PROCESS_DUP_HANDLE (0x40) and PROCESS_QUERY_LIMITED_INFORMATION (0x1000).'
 data_source:
     - Sysmon EventID 10
-search: |-
+search: |
     `sysmon`
     EventCode=10
     TargetImage="*:\\Windows\\system32\\winlogon.exe"
@@ -49,10 +49,8 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_access_token_manipulation_winlogon_duplicate_token_handle_filter`
-how_to_implement: |-
-    To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: |-
-    It is possible legitimate applications will request access to winlogon, filter as needed.
+how_to_implement: To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: It is possible legitimate applications will request access to winlogon, filter as needed.
 references:
     - https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
     - https://attack.mitre.org/techniques/T1134/001/

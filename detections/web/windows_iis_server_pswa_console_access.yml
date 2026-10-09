@@ -9,7 +9,7 @@ type: Hunting
 description: This analytic detects access attempts to the PowerShell Web Access (PSWA) console on Windows IIS servers. It monitors web traffic for requests to PSWA-related URIs, which could indicate legitimate administrative activity or potential unauthorized access attempts. By tracking source IP, HTTP status, URI path, and HTTP method, it helps identify suspicious patterns or brute-force attacks targeting PSWA. This detection is crucial for maintaining the security of remote PowerShell management interfaces and preventing potential exploitation of this powerful administrative tool.
 data_source:
     - Windows IIS
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.dest IN ("/pswa/*")
       BY Web.src Web.status Web.uri_path
@@ -37,6 +37,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/pswa/iis_pswaaccess.log
-          sourcetype: ms:iis:splunk
           source: ms:iis:splunk
+          sourcetype: ms:iis:splunk
       test_type: unit

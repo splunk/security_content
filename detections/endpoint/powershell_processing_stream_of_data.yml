@@ -6,32 +6,17 @@ modification_date: '2026-06-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects suspicious PowerShell script execution involving compressed stream data processing, identified via EventCode 4104.
+description: 'The following analytic detects suspicious PowerShell script execution involving compressed stream data processing, identified via EventCode 4104.
+
     It leverages PowerShell Script Block Logging to flag scripts using `IO.Compression`, `IO.StreamReader`, or decompression methods.
+
     This activity is significant as it often indicates obfuscated PowerShell or embedded .NET/binary execution, which are common tactics for evading detection.
-    If confirmed malicious, this behavior could allow attackers to execute hidden code, escalate privileges, or maintain persistence within the environment.
+
+    If confirmed malicious, this behavior could allow attackers to execute hidden code, escalate privileges, or maintain persistence within the environment.'
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell`
-    EventCode=4104
-    ScriptBlockText IN (
-        "*IO.Compression.*",
-        "*IO.StreamReader*",
-        "*]::Decompress*"
-    )
-    | fillnull
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-      by dest signature signature_id
-         user_id vendor_product EventID
-         Guid Opcode Name
-         Path ProcessID ScriptBlockId
-         ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `powershell_processing_stream_of_data_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process IN ("*IO.Compression.*", "*IO.StreamReader*", "*]::Decompress*") by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_processing_stream_of_data_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: powershell may used this function to process compressed data.
 references:
@@ -50,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$Computer$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

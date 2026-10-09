@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects an Azure AD account successfully authenticating from multiple unique IP addresses within a 30-minute window. It leverages Azure AD SignInLogs to identify instances where the same user logs in from different IPs in a short time frame. This behavior is significant as it may indicate compromised credentials being used by an adversary, potentially following a phishing attack. If confirmed malicious, this activity could allow unauthorized access to corporate resources, leading to data breaches or further exploitation within the network.
 data_source:
     - Azure Active Directory
-search: |-
+search: |
     `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=SignInLogs
       | rename properties.* as *
       | bucket span=30m _time
@@ -35,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ has had successful authentication events from more than one unique IP address in the span of 30 minutes.
     entity:

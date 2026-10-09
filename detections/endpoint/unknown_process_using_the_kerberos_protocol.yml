@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies a non-lsass.exe process making an outbound connection on port 88, which is typically used by the Kerberos authentication protocol. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and network traffic logs. This activity is significant because, under normal circumstances, only the lsass.exe process should interact with the Kerberos Distribution Center. If confirmed malicious, this behavior could indicate an adversary attempting to abuse the Kerberos protocol, potentially leading to unauthorized access or lateral movement within the network.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 3
-search: |-
+search: |
     | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name!=lsass.exe
       BY _time Processes.action Processes.dest
@@ -49,7 +49,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Unknown process $process_name$ using the kerberos protocol detected on host $dest$
     entity:

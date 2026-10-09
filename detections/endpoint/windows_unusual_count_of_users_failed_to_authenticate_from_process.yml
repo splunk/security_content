@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies a source process failing to authenticate multiple users, potentially indicating a Password Spraying attack. It leverages Windows Event 4625, which logs failed logon attempts, and uses statistical analysis to detect anomalies. This activity is significant as it may represent an adversary attempting to gain initial access or elevate privileges within an Active Directory environment. If confirmed malicious, the attacker could compromise multiple accounts, leading to unauthorized access, data exfiltration, or further lateral movement within the network.
 data_source:
     - Windows Event Log Security 4625
-search: |-
+search: |
     `wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-"
       | bucket span=2m _time
       | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as user values(dest) as dest values(src) as src
@@ -37,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -62,9 +62,9 @@ product:
 category: endpoint
 security_domain: endpoint
 tests:
-    - attack_data:
+    - name: True Positive Test
+      attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process_xml/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
-      name: True Positive Test
       test_type: unit

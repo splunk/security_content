@@ -6,10 +6,11 @@ modification_date: '2026-05-13'
 author: Brandon Sternfield, Optiv + ClearShark
 status: production
 type: TTP
-description: |
-    This analytic detects modifications to privileged groups in Active Directory, including addition, creation, deletion, and changes to various types of groups such as local, global, universal, and LDAP query groups.
+description: 'This analytic detects modifications to privileged groups in Active Directory, including addition, creation, deletion, and changes to various types of groups such as local, global, universal, and LDAP query groups.
+
     It specifically monitors for changes to high-privilege groups like "Administrators", "Domain Admins", "Enterprise Admins", and "ESX Admins", among others.
-    This detection is particularly relevant in the context of potential exploitation of vulnerabilities like the VMware ESXi Active Directory Integration Authentication Bypass (CVE-2024-37085), where attackers may attempt to manipulate privileged groups to gain unauthorized access to systems.
+
+    This detection is particularly relevant in the context of potential exploitation of vulnerabilities like the VMware ESXi Active Directory Integration Authentication Bypass (CVE-2024-37085), where attackers may attempt to manipulate privileged groups to gain unauthorized access to systems.'
 data_source:
     - Windows Event Log Security 4727
     - Windows Event Log Security 4731
@@ -20,67 +21,10 @@ data_source:
     - Windows Event Log Security 4759
     - Windows Event Log Security 4783
     - Windows Event Log Security 4790
-search: |-
-    `wineventlog_security`
-    EventCode IN (
-            4727,
-            4731,
-            4744,
-            4749,
-            4754,
-            4756,
-            4759,
-            4783,
-            4790
-        )
-    TargetUserName IN (
-            "Account Operators",
-            "Administrators",
-            "Admins DNS",
-            "Backup Operators",
-            "DnsAdmins",
-            "Domain Admins",
-            "Enterprise Admins",
-            "Enterprise Key Admins",
-            "ESX Admins",
-            "ESXi Admins",
-            "Group Policy Creator Owners",
-            "Hyper-V Administrators",
-            "Key Admins",
-            "Print Operators",
-            "Remote Desktop Users",
-            "Remote Management Users",
-            "Replicators",
-            "Schema Admins",
-            "Server Operators"
-        )
-    | eval object_category=case(
-            EventCode="4727", "Global Group (Security)",
-            EventCode="4731", "Local Group (Security)",
-            EventCode="4744", "Local Group (Distribution)",
-            EventCode="4749", "Global Group (Distribution)",
-            EventCode="4754", "Universal Group (Security)",
-            EventCode="4756", "Universal Group (Security)",
-            EventCode="4759", "Universal Group (Distribution)",
-            EventCode="4783", "Basic Application Group",
-            EventCode="4790", "LDAP Query Group"
-        )
-
-    | rename Computer as dest
-             result as change_type
-             TargetUserName as object
-             TargetSid as object_path
-
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-        BY EventCode src_user object_category
-           object object_path dest
-           change_type status
-    | `windows_privileged_group_modification_filter`
-how_to_implement: |
-    To successfully implement this search, ensure that Windows Security Event logging is enabled and being ingested into Splunk, particularly for event codes 4727, 4730, and 4737. Configure Group Policy settings to audit these specific events.
-known_false_positives: |
-    Legitimate administrators might create, delete, or modify an a privileged group for valid reasons. Verify that the group changes are authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
+search: |
+    `wineventlog_security` EventCode IN ("4727", "4731", "4744", "4749", "4754", "4756", "4759", "4783", "4790") TargetUserName IN ("Account Operators", "Administrators", "Admins DNS", "Backup Operators", "DnsAdmins", "Domain Admins", "Enterprise Admins", "Enterprise Key Admins", "ESX Admins", "ESXi Admins", "Group Policy Creator Owners", "Hyper-V Administrators", "Key Admins", "Print Operators", "Remote Desktop Users", "Remote Management Users", "Replicators", "Schema Admins", "Server Operators") | eval SubjectUserName=SubjectUserName, EventCodeDescription=EventCodeDescription, src_user=src_user, object=object, object_category=object_category, change_type=change_type | stats count min(_time) as firstTime max(_time) as lastTime by dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_privileged_group_modification_filter`
+how_to_implement: To successfully implement this search, ensure that Windows Security Event logging is enabled and being ingested into Splunk, particularly for event codes 4727, 4730, and 4737. Configure Group Policy settings to audit these specific events.
+known_false_positives: Legitimate administrators might create, delete, or modify an a privileged group for valid reasons. Verify that the group changes are authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
 references:
     - https://nvd.nist.gov/vuln/detail/CVE-2024-37085
     - https://www.rapid7.com/blog/post/2024/07/30/vmware-esxi-cve-2024-37085-targeted-in-ransomware-campaigns/%5C
@@ -93,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A privileged group modification was detected. Group "$object$" ($object_category$) was $change_type$ on $dest$ by user $src_user$.
     entity:

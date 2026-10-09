@@ -9,18 +9,8 @@ type: TTP
 description: The following analytic detects the use of the `[Adsisearcher]` type accelerator in PowerShell to query Active Directory for domain groups. It leverages PowerShell Script Block Logging (EventCode=4104) to identify specific script blocks containing `[adsisearcher]` and group-related queries. This activity is significant as it may indicate an attempt by adversaries or Red Teams to enumerate domain groups for situational awareness and Active Directory discovery. If confirmed malicious, this behavior could lead to further reconnaissance, privilege escalation, or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*(objectcategory=group)*" AND ScriptBlockText = "*findAll()*")
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `domain_group_discovery_with_adsisearcher_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process="*[adsisearcher]*" Processes.process="*(objectcategory=group)*" Processes.process="*findAll()*" by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `domain_group_discovery_with_adsisearcher_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators or power users may use Adsisearcher for troubleshooting.
 references:
@@ -34,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Domain group discovery enumeration using PowerShell on $dest$ by $user_id$
     entity:

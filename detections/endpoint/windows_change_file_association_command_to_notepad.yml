@@ -6,11 +6,13 @@ modification_date: '2026-05-13'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
-description: |
-    The following analytic detects attempts to change the command value of a file association of an extension to open with Notepad.exe.
+description: 'The following analytic detects attempts to change the command value of a file association of an extension to open with Notepad.exe.
+
     It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line patterns and registry modifications.
+
     This activity is significant as it can indicate an attempt to manipulate file handling behavior, a technique observed in APT and ransomware attacks like Prestige.
-    After changing the extension of all encrypted files to a new one, Prestige ransomware modifies the file association for that extension to open with Notepad.exe in order to display a ransom note.
+
+    After changing the extension of all encrypted files to a new one, Prestige ransomware modifies the file association for that extension to open with Notepad.exe in order to display a ransom note.'
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -49,16 +51,23 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_change_file_association_command_to_notepad_filter`
-how_to_implement: |
-    The detection is based on data that originates from Endpoint Detection
+how_to_implement: 'The detection is based on data that originates from Endpoint Detection
+
     and Response (EDR) agents. These agents are designed to provide security-related
+
     telemetry from the endpoints where the agent is installed. To implement this search,
+
     you must ingest logs that contain the process GUID, process name, and parent process.
+
     Additionally, you must ingest complete command-line executions. These logs must
+
     be processed using the appropriate Splunk Technology Add-ons that are specific to
+
     the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+
     data model. Use the Splunk Common Information Model (CIM) to normalize the field
-    names and speed up the data modeling process.
+
+    names and speed up the data modeling process.'
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
@@ -70,7 +79,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Process with commandline $process$ set the execution command of a file association to notepad.exe on $dest$
     entity:

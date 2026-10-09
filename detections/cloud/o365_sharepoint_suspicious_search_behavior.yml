@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies when Office 365 users search for suspicious keywords or have an excessive number of queries to a SharePoint site within a limited timeframe. This behavior may indicate that a malicious actor has gained control of a user account and is conducting discovery or enumeration activities.
 data_source:
     - Office 365 Universal Audit Log
-search: |-
+search: |
     `o365_management_activity` (Workload=SharePoint Operation="SearchQueryPerformed" SearchQueryText=* EventData=*search*) OR Operation=SearchQueryInitiatedSharepoint
     | eval command = case(Operation=="SearchQueryPerformed",SearchQueryText,true(),QueryText), UserId = lower(UserId), signature_id = CorrelationId, signature=Operation, src = ClientIP, user = lower(UserId), object_name=case(Operation=="SearchQueryPerformed",'EventData',true(),QuerySource), -time = _time, suspect_terms = case(match(command, `o365_suspect_search_terms_regex`),command,true(),null())
     | where command != "*" AND command != "(*)"
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate search behavior by $user$
       search: '`o365_management_activity` (Workload=SharePoint Operation="SearchQueryPerformed" SearchQueryText=* EventData=*search* AND UserId = "$user$") OR (OR Operation=SearchQueryInitiatedSharepoint AND UserId = "$user$")'
       earliest_offset: $info_min_time$

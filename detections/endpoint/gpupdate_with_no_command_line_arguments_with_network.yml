@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects the execution of gpupdate.exe without command line arguments and with an active network connection. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process execution and network traffic data. It is significant because gpupdate.exe typically runs with specific arguments, and its execution without them, especially with network activity, is often associated with malicious software like Cobalt Strike. If confirmed malicious, this activity could indicate an attacker leveraging gpupdate.exe for lateral movement, command and control, or other nefarious purposes, potentially leading to system compromise.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 3
-search: |-
+search: |
     | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name=gpupdate.exe
       BY Processes.action Processes.dest Processes.original_file_name
@@ -45,7 +45,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Process gpupdate.exe with parent_process $parent_process_name$ is executed on $dest$ by user $user$, followed by an outbound network connection on port $dest_port$. This behaviour is seen with cobaltstrike.
     entity:

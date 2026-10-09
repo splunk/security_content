@@ -6,8 +6,7 @@ modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
-description: |
-    The following analytic detects the use of known suspicious SSL certificates in any observed event where the SSL_CertFingerprint field is present. It leverages Cisco Secure Firewall logs and compares the SSL certificate SHA1 fingerprint against a blacklist of certificates associated with malware distribution, command and control (C2) infrastructure, or phishing campaigns. This activity is significant as adversaries often reuse or self-sign certificates across malicious infrastructure, allowing defenders to track and detect encrypted sessions even when domains or IPs change. If confirmed malicious, this may indicate beaconing, malware download, or data exfiltration over TLS/SSL.
+description: The following analytic detects the use of known suspicious SSL certificates in any observed event where the SSL_CertFingerprint field is present. It leverages Cisco Secure Firewall logs and compares the SSL certificate SHA1 fingerprint against a blacklist of certificates associated with malware distribution, command and control (C2) infrastructure, or phishing campaigns. This activity is significant as adversaries often reuse or self-sign certificates across malicious infrastructure, allowing defenders to track and detect encrypted sessions even when domains or IPs change. If confirmed malicious, this may indicate beaconing, malware download, or data exfiltration over TLS/SSL.
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
 search: |
@@ -25,16 +24,23 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_secure_firewall___blacklisted_ssl_certificate_fingerprint_filter`
-how_to_implement: |
-    This search requires Cisco Secure Firewall Threat Defense Logs, which
+how_to_implement: 'This search requires Cisco Secure Firewall Threat Defense Logs, which
+
     includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+
     We strongly recommend that you specify your environment-specific configurations
+
     (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+
     with configurations for your Splunk environment. The search also uses a post-filter
+
     macro designed to filter out known false positives.
+
     The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+
     The access policy must also enable logging.
-    This search also make use of lookup based on https://sslbl.abuse.ch/blacklist/sslblacklist.csv. Make sure its available
+
+    This search also make use of lookup based on https://sslbl.abuse.ch/blacklist/sslblacklist.csv. Make sure its available'
 known_false_positives: Certain SSL certificates may be flagged in threat intelligence feeds due to historical misuse, yet still be used by legitimate services, particularly in content delivery or shared hosting environments. Internal or self-signed certificates used in testing or development environments may inadvertently match known blacklisted fingerprints. It is recommended to validate the connection context (destination IP, domain, ClientApplication) and correlate with other indicators before taking action.
 references:
     - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
@@ -46,7 +52,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Suspicious SSL certificate fingerprint - [$SSL_CertFingerprint$] used in connections [ListingReason - $Reasons$] from $src$
     entity:
@@ -68,8 +74,8 @@ mitre_attack_id:
     - T1573.002
 product:
     - Splunk Enterprise
-    - Splunk Cloud
     - Splunk Enterprise Security
+    - Splunk Cloud
 category: network
 security_domain: network
 tests:

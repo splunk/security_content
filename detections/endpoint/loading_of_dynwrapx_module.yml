@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects the loading of the dynwrapx.dll module, which is associated with the DynamicWrapperX ActiveX component. This detection leverages Sysmon EventCode 7 to identify processes that load or register dynwrapx.dll. This activity is significant because DynamicWrapperX can be used to call Windows API functions in scripts, making it a potential tool for malicious actions. If confirmed malicious, this could allow an attacker to execute arbitrary code, escalate privileges, or maintain persistence on the host. Immediate investigation of parallel processes and registry modifications is recommended.
 data_source:
     - Sysmon EventID 7
-search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName = "dynwrapx.dll" OR  Product = "DynamicWrapperX") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `loading_of_dynwrapx_module_filter`'
+search: |
+    `sysmon` EventCode=7 ImageLoaded="*\\dynwrapx.dll" OR OriginalFileName="dynwrapx.dll" OR Product="DynamicWrapperX" | eval User=User | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `loading_of_dynwrapx_module_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on processes that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: False positives should be limited, however it is possible to filter by Processes.process_name and specific processes (ex. wscript.exe). Filter as needed. This may need modification based on EDR telemetry and how it brings in registry data. For example, removal of (Default).
 references:
@@ -27,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: dynwrapx.dll loaded by process $process_name$ on $dest$
     entity:

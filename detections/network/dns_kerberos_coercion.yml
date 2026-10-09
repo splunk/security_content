@@ -10,17 +10,8 @@ description: Detects DNS-based Kerberos coercion attacks where adversaries injec
 data_source:
     - Suricata
     - Sysmon EventID 22
-search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.src) as src values(DNS.dest) as dest FROM datamodel=Network_Resolution
-      WHERE DNS.query="*1UWhRC*" DNS.query="*AAAAA*" DNS.query="*YBAAAA*"
-      BY DNS.answer DNS.answer_count DNS.query
-         DNS.query_count DNS.reply_code_id DNS.src
-         DNS.vendor_product
-    | `drop_dm_object_name(DNS)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | table firstTime lastTime query count src dest
-    | `dns_kerberos_coercion_filter`
+search: |
+    `suricata` DNS.query="*1UWhRC*" DNS.query="*AAAAA*" DNS.query="*YBAAAA*" | eval process_name=process_name, dvc=dvc, dest=Computer, QueryName=QueryName | stats count min(_time) as firstTime max(_time) as lastTime by query | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `dns_kerberos_coercion_filter`
 how_to_implement: To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model.
 known_false_positives: It's unlikely that a DNS entry contains the specific structure used by this attack. Filter as needed for your organization.
 references:
@@ -35,16 +26,14 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A dns query $query$ with marshalled CREDENTIAL_TARGET_INFORMATION seen from $src$
     entity:
         field: src
         type: system
         score: 50
-threat_objects:
-    - field: query
-      type: dns_query
+threat_objects: []
 analytic_story:
     - Compromised Windows Host
     - Suspicious DNS Traffic

@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies a successful single-factor authentication event against Google Cloud Platform (GCP) for an account without Multi-Factor Authentication (MFA) enabled. It uses Google Workspace login event data to detect instances where MFA is not utilized. This activity is significant as it may indicate a misconfiguration, policy violation, or potential account takeover attempt. If confirmed malicious, an attacker could gain unauthorized access to GCP resources, potentially leading to data breaches, service disruptions, or further exploitation within the cloud environment.
 data_source:
     - Google Workspace
-search: |-
+search: |
     `gws_reports_login` event.name=login_success NOT `gws_login_mfa_methods`
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY user, src_ip, login_challenge_method,
@@ -32,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Successful authentication for user $user$ without MFA
     entity:

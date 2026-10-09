@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies attempts by users to access Okta applications that have not been assigned to them. It leverages Okta Identity Management logs, specifically focusing on failed access attempts to unassigned applications. This activity is significant for a SOC as it may indicate potential unauthorized access attempts, which could lead to exposure of sensitive information or disruption of services. If confirmed malicious, such activity could result in data breaches, non-compliance with data protection laws, and overall compromise of the IT environment.
 data_source:
     - Okta
-search: |-
+search: |
     | tstats values(Authentication.app) as app values(Authentication.action) as action values(Authentication.user) as user values(Authentication.reason) as reason FROM datamodel=Authentication
       WHERE Authentication.signature=app.generic.unauth_app_access_attempt Authentication.action="failure"
       BY _time Authentication.src Authentication.user
@@ -31,7 +31,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

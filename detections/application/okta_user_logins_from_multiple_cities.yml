@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies instances where the same Okta user logs in from different cities within a 24-hour period. This detection leverages Okta Identity Management logs, analyzing login events and their geographic locations. Such behavior is significant as it may indicate a compromised account, with an attacker attempting unauthorized access from multiple locations. If confirmed malicious, this activity could lead to account takeovers and data breaches, allowing attackers to access sensitive information and potentially escalate their privileges within the environment.
 data_source:
     - Okta
-search: |-
+search: |
     | tstats  `security_content_summariesonly` values(Authentication.app) as app values(Authentication.action) as action values(Authentication.user) as user values(Authentication.reason) as reason values(Authentication.dest) as dest values(Authentication.signature) as signature  values(Authentication.method) as method FROM datamodel=Authentication
       WHERE Authentication.signature=user.session.start
       BY _time Authentication.src
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

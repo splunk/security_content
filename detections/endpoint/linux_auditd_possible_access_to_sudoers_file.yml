@@ -6,12 +6,15 @@ modification_date: '2026-05-13'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic detects potential access or modification of the /etc/sudoers file on a Linux system.
+description: 'The following analytic detects potential access or modification of the /etc/sudoers file on a Linux system.
+
     It leverages data from Linux Auditd, focusing on events of type PATH or CWD.
+
     This activity could be significant because the sudoers file controls user permissions for executing commands with elevated privileges.
+
     Correlate this with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
-    If confirmed malicious, an attacker could gain persistence or escalate privileges, compromising the security of the targeted host.
+
+    If confirmed malicious, an attacker could gain persistence or escalate privileges, compromising the security of the targeted host.'
 data_source:
     - Linux Auditd Path
     - Linux Auditd Cwd
@@ -48,19 +51,26 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_auditd_possible_access_to_sudoers_file_filter`
-how_to_implement: |
-    To implement this detection, the process begins by ingesting auditd
+how_to_implement: 'To implement this detection, the process begins by ingesting auditd
+
     data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+
     executions and process details on Unix/Linux systems. These logs should be ingested
+
     and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+
     which is essential for correctly parsing and categorizing the data. The next step
+
     involves normalizing the field names  to match the field names set by the Splunk
+
     Common Information Model (CIM) to ensure consistency across different data sources
+
     and enhance the efficiency of data modeling and make sure the type=CWD record type is activate in your auditd configuration.
-    This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.
-known_false_positives: |
-    Administrator or network operator can execute this command.
-    Please update the filter macros to remove false positives.
+
+    This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.'
+known_false_positives: 'Administrator or network operator can execute this command.
+
+    Please update the filter macros to remove false positives.'
 references:
     - https://attack.mitre.org/techniques/T1548/003/
     - https://web.archive.org/web/20210708035426/https://www.cobaltstrike.com/downloads/csmanual43.pdf
@@ -72,7 +82,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

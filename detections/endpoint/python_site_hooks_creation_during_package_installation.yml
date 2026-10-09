@@ -6,15 +6,18 @@ modification_date: '2026-08-21'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
-description: |-
-    The following analytic detects the creation of a Python site hook file (`sitecustomize.py` or `usercustomize.py`) within a `site-packages`/`dist-packages` directory in conjunction with a package installation process.
-    Python's `site` module loads these hooks from directories on `sys.path` before Python is executed.
+description: 'The following analytic detects the creation of a Python site hook file (`sitecustomize.py` or `usercustomize.py`) within a `site-packages`/`dist-packages` directory in conjunction with a package installation process.
+
+    Python''s `site` module loads these hooks from directories on `sys.path` before Python is executed.
+
     If an adversary manipulates or plants one of these files, they can hijack the Python environment and execute their payload with every Python invocation, achieving persistence on the victim endpoint.
+
     The VIPERTUNNEL backdoor was reported to abuse site hooks in order to import and trigger DLL execution.
-    If confirmed malicious, this could result in arbitrary code execution every time Python is invoked on the compromised host.
+
+    If confirmed malicious, this could result in arbitrary code execution every time Python is invoked on the compromised host.'
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 11
-search: |-
+search: |
     `sysmon`
     EventID IN (1,11)
     (
@@ -52,14 +55,16 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `python_site_hooks_creation_during_package_installation_filter`
-how_to_implement: |-
-    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1)
+how_to_implement: 'This detection requires Sysmon event logs. Configure your environment to ingest Sysmon process creation (EventID 1)
+
     and file creation (EventID 11) events, ensuring that file creation events are collected for files with the .py
+
     extension. Ingest the data via the appropriate Splunk Technology Add-on and normalize field names using the
-    Splunk Common Information Model (CIM).
-known_false_positives: |-
-    Some legitimate tooling and environment managers create or modify `sitecustomize.py`/`usercustomize.py`
-    as part of normal setup. Investigate the file contents and parent process to determine legitimacy.
+
+    Splunk Common Information Model (CIM).'
+known_false_positives: 'Some legitimate tooling and environment managers create or modify `sitecustomize.py`/`usercustomize.py`
+
+    as part of normal setup. Investigate the file contents and parent process to determine legitimacy.'
 references:
     - https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/
 drilldown_searches:
@@ -70,7 +75,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A Python site hook file [$file_path$] was created on [$dest$] during package installation using [$process$].
     entity:

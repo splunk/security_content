@@ -6,13 +6,17 @@ modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic detects network traffic associated with known remote access software applications
+description: 'The following analytic detects network traffic associated with known remote access software applications
+
     that are covered by Cisco Secure Firewall Application Detectors, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
+
     It leverages Cisco Secure Firewall Threat Defense Connection Event.
+
     This activity is significant because adversaries often use remote access tools to maintain unauthorized access to compromised environments.
+
     If confirmed malicious, this activity could allow attackers to control systems remotely, exfiltrate
-    data, or deploy additional malware, posing a severe threat to the organization's security.
+
+    data, or deploy additional malware, posing a severe threat to the organization''s security.'
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
 search: |
@@ -30,19 +34,26 @@ search: |
     | search category IN ("remote administration", "remote desktop control")
     | `remote_access_software_usage_exceptions`
     | `cisco_secure_firewall___remote_access_software_usage_traffic_filter`
-how_to_implement: |
-    This search requires Cisco Secure Firewall Threat Defense Logs, which
+how_to_implement: 'This search requires Cisco Secure Firewall Threat Defense Logs, which
+
     includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+
     We strongly recommend that you specify your environment-specific configurations
+
     (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+
     with configurations for your Splunk environment. The search also uses a post-filter
+
     macro designed to filter out known false positives.
+
     The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+
     The access policy must also enable logging.
+
     The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions"
-    that lets you track and maintain device- based exceptions for this set of detections.
-known_false_positives: |
-    It is possible that legitimate remote access software is used within the environment. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
+
+    that lets you track and maintain device- based exceptions for this set of detections.'
+known_false_positives: It is possible that legitimate remote access software is used within the environment. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
 references:
     - https://attack.mitre.org/techniques/T1219/
     - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -55,7 +66,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src

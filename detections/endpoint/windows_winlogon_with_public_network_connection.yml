@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic detects instances of Winlogon.exe, a critical Windows process, connecting to public IP addresses. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on network connections made by Winlogon.exe. Under normal circumstances, Winlogon.exe should not connect to public IPs, and such activity may indicate a compromise, such as the BlackLotus bootkit attack. This detection is significant as it highlights potential system integrity breaches. If confirmed malicious, attackers could maintain persistence, bypass security measures, and compromise the system at a fundamental level.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 3
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name IN (winlogon.exe) Processes.process!=unknown
       BY Processes.action Processes.dest Processes.original_file_name

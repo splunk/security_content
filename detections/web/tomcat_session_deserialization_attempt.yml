@@ -9,7 +9,7 @@ type: Anomaly
 description: This detection identifies potential exploitation of CVE-2025-24813 in Apache Tomcat through the second stage of the attack. This phase occurs when an attacker attempts to trigger deserialization of a previously uploaded malicious session file by sending a GET request with a specially crafted JSESSIONID cookie. These requests typically have specific characteristics, including a JSESSIONID cookie with a leading dot that matches a previously uploaded filename, and typically result in a HTTP 500 error when the exploitation succeeds.
 data_source:
     - Nginx Access
-search: |-
+search: |
     | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.http_method=GET
         AND
@@ -41,7 +41,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: View suspicious JSESSIONID cookies
       search: '| from datamodel Web.Web | search http_method=GET AND cookie="*JSESSIONID=.*" src=$src$ | table src dest http_method uri_path http_user_agent status'
       earliest_offset: $info_min_time$
@@ -73,6 +73,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/tomcat/tomcat_nginx_access.log
-          sourcetype: nginx:plus:kv
           source: nginx
+          sourcetype: nginx:plus:kv
       test_type: unit

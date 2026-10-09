@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic identifies an unusual number of remote authentication attempts from a single source by leveraging Windows Event ID 4624, which logs successful account logons. It uses statistical analysis, specifically the 3-sigma rule, to detect deviations from normal behavior. This activity is significant for a SOC as it may indicate lateral movement, malware staging, or reconnaissance. If confirmed malicious, this behavior could allow an attacker to move laterally within the network, escalate privileges, or gather information for further attacks.
 data_source:
     - Windows Event Log Security 4624
-search: |-
+search: |
     `wineventlog_security` EventCode=4624 Logon_Type=3 Account_Name!="*$"
       | eval Source_Account = mvindex(Account_Name, 1)
       | bucket span=2m _time

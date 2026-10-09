@@ -9,18 +9,8 @@ type: TTP
 description: The following analytic detects the execution of PowerShell commands that initiate a process on a remote endpoint via the DCOM protocol. It leverages PowerShell Script Block Logging (EventCode=4104) to identify the use of ShellExecute and ExecuteShellCommand. This activity is significant as it may indicate lateral movement or remote code execution attempts by adversaries. If confirmed malicious, this behavior could allow attackers to execute arbitrary code on remote systems, potentially leading to further compromise and persistence within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` EventCode=4104 (ScriptBlockText="*Document.Application.ShellExecute*" OR ScriptBlockText="*Document.ActiveView.ExecuteShellCommand*")
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `remote_process_instantiation_via_dcom_and_powershell_script_block_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process IN ("*Document.Application.ShellExecute*", "*Document.ActiveView.ExecuteShellCommand*") by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `remote_process_instantiation_via_dcom_and_powershell_script_block_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup instructions can be found https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators may leverage DCOM to start a process on remote systems, but this activity is usually limited to a small set of hosts or users.
 references:
@@ -34,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$Computer$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A process was started on a remote endpoint from $dest$ by abusing WMI using PowerShell.exe
     entity:

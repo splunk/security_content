@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies when multiple operating systems are used to authenticate to Azure/EntraID/Office 365 by the same user account over a short period of time. This activity could be indicative of attackers enumerating various logon capabilities of Azure/EntraID/Office 365 and attempting to discover weaknesses in the organizational MFA or conditional access configurations. Usage of the tools like "MFASweep" will trigger this detection.
 data_source:
     - Office 365 Universal Audit Log
-search: |-
+search: |
     `o365_management_activity` Operation IN (UserLoginFailed,UserLoggedIn)
     | eval -time = _time
     | bin _time span=15m
@@ -35,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate logons from $user$
       search: '`o365_management_activity` Operation IN (UserLoginFailed,UserLoggedIn) "$user$"'
       earliest_offset: $info_min_time$

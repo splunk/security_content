@@ -6,14 +6,16 @@ modification_date: '2026-09-30'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects creation and removal of intermediary remediation artifacts of Windows Defender, during exploitation of ShieldCrash attacks.
+description: 'The following analytic detects creation and removal of intermediary remediation artifacts of Windows Defender, during exploitation of ShieldCrash attacks.
+
     Exploit abuses the race condition between file validation and its remediation performed by Windows Defender. In between these steps, ShieldCrash changes the
+
     symbolic link to redirect the remediation process to a staging directory controlled by the attacker. This detection aims to detect creation of defender artifact,
-    its alternate data stream, and their subsequent removal.
+
+    its alternate data stream, and their subsequent removal.'
 data_source:
     - Sysmon EventID 11 AND Sysmon EventID 15 AND Sysmon EventID 23
-search: |-
+search: |
     `sysmon`
     EventID IN (11, 15, 23)
     process_name IN (
@@ -43,13 +45,14 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_defender_intermediary_artifact_was_observed_filter`
-how_to_implement: |-
-    To successfully implement this search, you need to be ingesting file creation, file stream creation and file deletion events from your endpoints using Sysmon.
+how_to_implement: 'To successfully implement this search, you need to be ingesting file creation, file stream creation and file deletion events from your endpoints using Sysmon.
+
     These logs must be processed using the latest Sysmon Technical Add-on (https://splunkbase.splunk.com/app/5709). Make sure to update Sysmon configuration to include
-    directories you would like to monitor for these kinds of events.
-known_false_positives: |-
-    Remediation of various container files, such as archives, might also lead to creation various defender artifacts
-    SmartScreen interferes with the remediation process, potentially causing additional defender artifacts to be created.
+
+    directories you would like to monitor for these kinds of events.'
+known_false_positives: 'Remediation of various container files, such as archives, might also lead to creation various defender artifacts
+
+    SmartScreen interferes with the remediation process, potentially causing additional defender artifacts to be created.'
 references:
     - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
     - https://www.cyderes.com/howler-cell/shieldcrash-microsoft-zero-day?hs_amp=true
@@ -62,7 +65,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

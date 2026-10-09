@@ -9,7 +9,7 @@ type: TTP
 description: 'This detection monitors changes to the following Active Directory attributes: "msDS-AllowedToDelegateTo", "msDS-AllowedToActOnBehalfOfOtherIdentity", "msDS-KeyCredentialLink", "scriptPath", and "msTSInitialProgram".  Modifications to these attributes can indicate potential malicious activity or privilege escalation attempts. Immediate investigation is recommended upon alert.'
 data_source:
     - Windows Event Log Security 5136
-search: |-
+search: |
     `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","scriptPath","msTSInitialProgram") OperationType=%%14674  ```Changes to the attribute "msDS-KeyCredentialLink" are also worth moniroting, however tuning will need to be applied```
       | table _time ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId DSName AttributeValue AttributeLDAPDisplayName
       | rename SubjectLogonId as TargetLogonId, src_user as initiator, _time as eventTime
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: $src_user$ has added $AttributeLDAPDisplayName$ ACL rights to $ObjectClass$ $ObjectDN$
     entity:

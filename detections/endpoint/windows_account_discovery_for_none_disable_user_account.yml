@@ -9,18 +9,8 @@ type: Hunting
 description: The following analytic detects the execution of the PowerView PowerShell cmdlet Get-NetUser with the UACFilter parameter set to NOT_ACCOUNTDISABLE, indicating an attempt to enumerate Active Directory user accounts that are not disabled. This detection leverages PowerShell Script Block Logging (EventCode 4104) to identify the specific script block text. Monitoring this activity is significant as it may indicate reconnaissance efforts by an attacker to identify active user accounts for further exploitation. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` EventCode=4104  ScriptBlockText = "*Get-NetUser*" ScriptBlockText = "*NOT_ACCOUNTDISABLE*" ScriptBlockText = "*-UACFilter*"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_account_discovery_for_none_disable_user_account_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process="*Get-NetUser*" Processes.process="*NOT_ACCOUNTDISABLE*" Processes.process="*-UACFilter*" by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_account_discovery_for_none_disable_user_account_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.=
 known_false_positives: Administrators may leverage PowerView for legitimate purposes, filter as needed.
 references:

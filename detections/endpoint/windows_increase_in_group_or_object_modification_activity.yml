@@ -9,7 +9,7 @@ type: TTP
 description: This analytic detects an increase in modifications to AD groups or objects. Frequent changes to AD groups or objects can indicate potential security risks, such as unauthorized access attempts, impairing defences or establishing persistence. By monitoring AD logs for unusual modification patterns, this detection helps identify suspicious behavior that could compromise the integrity and security of the AD environment.
 data_source:
     - Windows Event Log Security 4663
-search: |-
+search: |
     `wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764)
       | bucket span=5m _time
       | stats values(object) as object, dc(object) as objectCount, values(src_user_category) as src_user_category, values(dest) as dest, values(dest_category) as dest_category
@@ -32,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Spike in Group or Object Modifications performed by $src_user$
     entity:

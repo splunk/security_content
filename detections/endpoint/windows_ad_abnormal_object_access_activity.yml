@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies a statistically significant increase in access to Active Directory objects, which may indicate attacker enumeration. It leverages Windows Security Event Code 4662 to monitor and analyze access patterns, comparing them against historical averages to detect anomalies. This activity is significant for a SOC because abnormal access to AD objects can be an early indicator of reconnaissance efforts by an attacker. If confirmed malicious, this behavior could lead to unauthorized access, privilege escalation, or further compromise of the Active Directory environment.
 data_source:
     - Windows Event Log Security 4662
-search: |-
+search: |
     `wineventlog_security` EventCode=4662
       | stats min(_time) AS firstTime, max(_time) AS lastTime, dc(ObjectName) AS ObjectName_count, values(ObjectType) AS ObjectType, latest(Computer) AS dest count
         BY SubjectUserName
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

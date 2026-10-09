@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects cloud provisioning activities originating from previously unseen IP addresses. It leverages cloud infrastructure logs to identify events where resources are created or started, and cross-references these with a baseline of known IP addresses. This activity is significant as it may indicate unauthorized access or potential misuse of cloud resources. If confirmed malicious, an attacker could gain unauthorized control over cloud resources, leading to data breaches, service disruptions, or increased operational costs.
 data_source:
     - AWS CloudTrail
-search: |-
+search: |
     | tstats earliest(_time) as firstTime, latest(_time) as lastTime, values(All_Changes.object_id) as object_id FROM datamodel=Change
       WHERE (
             All_Changes.action=started
@@ -28,7 +28,9 @@ search: |-
     | table firstTime, src, user, object_id, command
     | `cloud_provisioning_activity_from_previously_unseen_ip_address_filter`
 how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud provider.  You should run the baseline search `Previously Seen Cloud Provisioning Activity Sources - Initial` to build the initial table of source IP address, geographic locations, and times. You must also enable the second baseline search `Previously Seen Cloud Provisioning Activity Sources - Update` to keep this table up to date and to age out old data. You can adjust the time window for this search by updating the `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide additional filtering for this search by customizing the `cloud_provisioning_activity_from_previously_unseen_ip_address_filter` macro.
-known_false_positives: "This is a strictly behavioral search, so we define \"false positive\" slightly differently. Every time this fires, it will accurately reflect the first occurrence in the time period you're searching within, plus what is stored in the cache feature. But while there are really no \"false positives\" in a traditional sense, there is definitely lots of noise.\nThis search will fire any time a new IP address is seen in the **GeoIP** database for any kind of provisioning activity. If you typically do all provisioning from tools inside of your country, there should be few false positives. If you are located in countries where the free version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution (particularly small countries in less economically powerful regions), this may be much less valuable to you."
+known_false_positives: 'This is a strictly behavioral search, so we define "false positive" slightly differently. Every time this fires, it will accurately reflect the first occurrence in the time period you''re searching within, plus what is stored in the cache feature. But while there are really no "false positives" in a traditional sense, there is definitely lots of noise.
+
+    This search will fire any time a new IP address is seen in the **GeoIP** database for any kind of provisioning activity. If you typically do all provisioning from tools inside of your country, there should be few false positives. If you are located in countries where the free version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution (particularly small countries in less economically powerful regions), this may be much less valuable to you.'
 references: []
 drilldown_searches:
     - name: View the detection results for - "$object_id$"
@@ -38,7 +40,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$object_id$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$object_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: object_id
@@ -70,7 +72,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       description: PORTED MANUAL TEST - This search needs the baseline to be run first to create a lookup
       test_type: experimental

@@ -6,40 +6,17 @@ modification_date: '2026-07-08'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects the creation or overwrite of commonly targeted Linux system binaries such as cat, ls, cp, ps, mv, netstat, ss, and lsof.
+description: 'The following analytic detects the creation or overwrite of commonly targeted Linux system binaries such as cat, ls, cp, ps, mv, netstat, ss, and lsof.
+
     Adversaries may replace these utilities with backdoored versions to hide malicious activity, harvest credentials, or maintain persistence while appearing to use legitimate system tools.
-    This technique is associated with rootkit deployment and post-exploitation frameworks such as PANIX.
+
+    This technique is associated with rootkit deployment and post-exploitation frameworks such as PANIX.'
 data_source:
     - Sysmon for Linux EventID 11
-search: |-
-    | tstats `security_content_summariesonly`
-      count min(_time) as firstTime max(_time) as lastTime
-
-    from datamodel=Endpoint.Filesystem where
-
-    Filesystem.file_path IN (
-        "/usr/bin/cat",
-        "/usr/bin/cp",
-        "/usr/bin/ls",
-        "/usr/bin/lsof",
-        "/usr/bin/mv",
-        "/usr/bin/netstat",
-        "/usr/bin/ps",
-        "/usr/bin/ss"
-    )
-
-    by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
-       Filesystem.action Filesystem.process_guid Filesystem.process_id
-
-    | `drop_dm_object_name(Filesystem)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `linux_possible_system_binary_backdoor_filter`
-how_to_implement: |-
-    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: |-
-    Legitimate system updates or package managers may create or overwrite system binaries during normal operations. Filter for known update processes and package management activity to reduce noise.
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("/usr/bin/cat", "/usr/bin/cp", "/usr/bin/ls", "/usr/bin/lsof", "/usr/bin/mv", "/usr/bin/netstat", "/usr/bin/ps", "/usr/bin/ss") by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_possible_system_binary_backdoor_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate system updates or package managers may create or overwrite system binaries during normal operations. Filter for known update processes and package management activity to reduce noise.
 references:
     - https://github.com/Aegrah/PANIX
 drilldown_searches:
@@ -77,8 +54,8 @@ category: endpoint
 security_domain: endpoint
 tests:
     - name: True Positive Test
-      test_type: unit
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/linux_possible_system_binary_backdoor/snapattack_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit

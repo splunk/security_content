@@ -6,10 +6,11 @@ modification_date: '2026-09-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |
-    This Analytic detects the execution of a process attempting to access the hosts file.
+description: 'This Analytic detects the execution of a process attempting to access the hosts file.
+
     The hosts file is a critical file for network configuration and DNS resolution.
-    If an attacker gains access to it, they can redirect traffic to malicious websites, serve fake content or block legitimate security websites.
+
+    If an attacker gains access to it, they can redirect traffic to malicious websites, serve fake content or block legitimate security websites.'
 data_source:
     - Windows Event Log Security 4663
 search: |
@@ -35,8 +36,7 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_hosts_file_access_filter`
-how_to_implement: |
-    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure." This search may trigger on a browser application that is not included in the browser_app_list lookup file.
+how_to_implement: To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure." This search may trigger on a browser application that is not included in the browser_app_list lookup file.
 known_false_positives: Administrator may access this registry for product key recovery purposes.
 references:
     - https://cert.gov.ua/article/6284730
@@ -48,7 +48,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -6,20 +6,26 @@ modification_date: '2026-06-12'
 author: Ryan Long, Bhavin Patel, Bryan Pluta, Splunk
 status: experimental
 type: Anomaly
-description: |
-    The following analytic leverages alerts from Splunk Secure Application, which identifies and monitors exploit attempts targeting business applications. Attacks observed include exploiting vulnerabilities in web applications, such as injection attacks (SQL, API abuse), deserialization vulnerabilities, remote code execution, LOG4J, and zero-day attacks. These events are typically aimed at gaining unauthorized access, exfiltrating sensitive data, or disrupting application functionality.
+description: 'The following analytic leverages alerts from Splunk Secure Application, which identifies and monitors exploit attempts targeting business applications. Attacks observed include exploiting vulnerabilities in web applications, such as injection attacks (SQL, API abuse), deserialization vulnerabilities, remote code execution, LOG4J, and zero-day attacks. These events are typically aimed at gaining unauthorized access, exfiltrating sensitive data, or disrupting application functionality.
+
 
     Splunk Secure Application provides real-time detection of these threats by analyzing application-layer events and correlating attack behavior with known vulnerability signatures. This detection methodology helps the Security Operations Center (SOC) by:
 
+
     * Identifying active exploitation attempts in real-time, allowing for quicker incident response.
+
     * Categorizing attack severity to prioritize remediation efforts based on risk level.
+
     * Providing visibility into attacker tactics, including source IP, attack techniques, and affected applications.
+
     * Generating risk-based scoring and contextual alerts to enhance decision-making within SOC workflows.
+
     * Helping analysts determine whether an attack was merely an attempt or if it successfully exploited a vulnerability.
 
-    By leveraging this information, SOC teams can proactively mitigate security threats, patch vulnerable applications, and enforce security controls to prevent further exploitation.
+
+    By leveraging this information, SOC teams can proactively mitigate security threats, patch vulnerable applications, and enforce security controls to prevent further exploitation.'
 data_source: []
-search: |-
+search: |
     `secureapp_attack`
     | rename attackEvents{}.* AS *, detailJson.* AS *, vulnerabilityInfo.* AS *
     | fields - tag::eventtype, eventtype, host, id, index, linecount, punct, source, sourcetype, splunk_server, tag, SourceType, app, clientAddressType, "attackEvents{}.* status"
@@ -45,10 +51,8 @@ search: |-
         (signature="RCE"),  "An attacker tried to perform Remote Code Execution by running the command ".command." in the ".file_path." directory. The server ".dest_nt_host." hosting application ".app."  ".action." this command."
     )
     | `splunk_secure_application_alerts_for_runtime_security_filter`
-how_to_implement: |
-    Create the secureapp_attack sourcetype in Splunk Enterprise Security. Configure Splunk Enterprise Security to receive alerts for Observability Cloud via HEC. Configure Secure Application Alerts in Observability Cloud to send alerts to Enterprise Security. Full details can be found in the referenced lantern article.
-known_false_positives: |
-    No known false positives for this detection. If alerts are noisy, tune this detection with the `_filter` macro or configure the originating tool.
+how_to_implement: Create the secureapp_attack sourcetype in Splunk Enterprise Security. Configure Splunk Enterprise Security to receive alerts for Observability Cloud via HEC. Configure Secure Application Alerts in Observability Cloud to send alerts to Enterprise Security. Full details can be found in the referenced lantern article.
+known_false_positives: No known false positives for this detection. If alerts are noisy, tune this detection with the `_filter` macro or configure the originating tool.
 references:
     - https://lantern.splunk.com/@go/page/10379
     - https://help.splunk.com/en/splunk-observability-cloud/monitor-application-security/set-up-secure-application/step-1-set-up-notifications-for-vulnerabilities
@@ -60,7 +64,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest_ip$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest_ip
@@ -84,8 +88,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/secure_app_alerts_runtime_security.log
-          sourcetype: secureapp_attack
           source: not_applicable
-      description: |
-        MANUAL TEST - We are dynamically creating the risk_score field based on the severity of the alert in the SPL, which supersedes the risk score set in the detection. Set as manual test to avoid integration and unit test failures due to empty fields in observables.
+          sourcetype: secureapp_attack
+      description: MANUAL TEST - We are dynamically creating the risk_score field based on the severity of the alert in the SPL, which supersedes the risk score set in the detection. Set as manual test to avoid integration and unit test failures due to empty fields in observables.
       test_type: experimental

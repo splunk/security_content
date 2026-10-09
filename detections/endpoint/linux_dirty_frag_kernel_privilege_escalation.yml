@@ -6,13 +6,14 @@ modification_date: '2026-07-06'
 author: Axsel Riando Soplanit, Alexander Wijaya, Matthew Roytua, Muhammad Rafdi Aufar Ahmad, Brian Stevan Ambarita, Ensign Infosecurity
 status: production
 type: TTP
-description: |-
-    The following analytic detects exploitation of Dirty Frag (CVE-2026-43284 and CVE-2026-43500), a Linux kernel local privilege escalation vulnerability.
+description: 'The following analytic detects exploitation of Dirty Frag (CVE-2026-43284 and CVE-2026-43500), a Linux kernel local privilege escalation vulnerability.
+
     The exploit corrupts the kernel page cache via the IPsec ESP or RxRPC subsystems using a high-frequency splice() syscall loop, followed by a privilege transition to root in the same audit session.
-    This analytic anchors on the exploit-specific behavioral signature, a sustained splice() spray (50 or more calls within a 60-second window) from an unprivileged process executing from a user-writable path (/home, /tmp, /dev/shm, /var/tmp, /run/user, /root), followed within 5 minutes by execution of a set-uid binary in the same auditd session.
+
+    This analytic anchors on the exploit-specific behavioral signature, a sustained splice() spray (50 or more calls within a 60-second window) from an unprivileged process executing from a user-writable path (/home, /tmp, /dev/shm, /var/tmp, /run/user, /root), followed within 5 minutes by execution of a set-uid binary in the same auditd session.'
 data_source:
     - Linux Auditd Syscall
-search: |-
+search: |
     `linux_auditd`
     type=SYSCALL
     key=splice_user
@@ -80,38 +81,57 @@ search: |-
             privesc_comm privesc_ppid privesc_time window_secs
 
     | `linux_dirty_frag_kernel_privilege_escalation_filter`
-how_to_implement: |-
-    This analytic requires Linux auditd telemetry forwarded to Splunk
+how_to_implement: 'This analytic requires Linux auditd telemetry forwarded to Splunk
+
     via the Splunk_TA_nix add-on with the linux_audit sourcetype (referenced through
+
     the linux_auditd macro).
 
+
     The detection depends on two audit rule keys, both of which
+
     are standard in the Neo23x0 recommended ruleset (https://github.com/Neo23x0/auditd)
+
     and the existing ESCU Copy Fail analytic (Linux Auditd Copy Fail Privilege Escalation),
+
     so no detection-specific custom keys are introduced.
+
 
 
     PREREQUISITE 1; splice_user key.
 
+
     -a always,exit -F arch=b64 -S splice -S vmsplice -F success=1 -F auid>=1000 -F auid!=unset
-    -k splice_user
-    -a always,exit -F arch=b32 -S splice -S vmsplice -F success=1 -F auid>=1000 -F auid!=unset
+
     -k splice_user
 
+    -a always,exit -F arch=b32 -S splice -S vmsplice -F success=1 -F auid>=1000 -F auid!=unset
+
+    -k splice_user
+
+
     Operators should baseline splice volume in their environment before enabling.
+
     Hosts running heavy zero-copy I/O workloads (specific: web servers, mail transfer agents, container runtimes) may need additional filtering.
+
 
     PREREQUISITE 2; process_creation key.
 
+
     -a always,exit -F arch=b64 -S execve -S execveat -F auid>=1000 -F auid!=unset -k
+
     process_creation
+
     -a always,exit -F arch=b32 -S execve -S execveat -F auid>=1000 -F auid!=unset -k
-    process_creation
-known_false_positives: |-
-    The splice volume threshold (50 calls per 60 seconds from a single process in a user-writable path) is calibrated against the V4bel public PoC, which produces 100-460 splice calls in 90 seconds depending on system state.
+
+    process_creation'
+known_false_positives: 'The splice volume threshold (50 calls per 60 seconds from a single process in a user-writable path) is calibrated against the V4bel public PoC, which produces 100-460 splice calls in 90 seconds depending on system state.
+
     Legitimate user-mode workloads that may produce splice() calls (web servers, mail transfer agents, language runtimes) typically execute from system paths (/usr/sbin, /usr/bin, /usr/lib) and are excluded by the user-writable path filter.
+
     Custom-compiled applications, developer test binaries, or container runtimes executing from /home or /tmp could theoretically reach the volume threshold during legitimate I/O-heavy workloads (large file copies, log rotation, archive operations).
-    Operators should baseline splice volume in their environment before enabling as a notable event. If false positives occur, add an allowlist of trusted binary paths via the linux_dirty_frag_kernel_privilege_escalation_filter macro, or raise the splice_count threshold based on observed legitimate-workload baseline.
+
+    Operators should baseline splice volume in their environment before enabling as a notable event. If false positives occur, add an allowlist of trusted binary paths via the linux_dirty_frag_kernel_privilege_escalation_filter macro, or raise the splice_count threshold based on observed legitimate-workload baseline.'
 references:
     - https://www.cve.org/CVERecord?id=CVE-2026-43284
     - https://www.cve.org/CVERecord?id=CVE-2026-43500
@@ -129,7 +149,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Local privilege escalation attempt detected on $dest$ executed by $user$ using $spray_binary$
     entity:

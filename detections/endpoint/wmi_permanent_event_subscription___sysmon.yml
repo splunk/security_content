@@ -6,30 +6,13 @@ modification_date: '2026-10-05'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: Anomaly
-description: |-
-    Detects the creation, modification or deletion of a WMI permanent event subscription using Sysmon EventID 21.
+description: Detects the creation, modification or deletion of a WMI permanent event subscription using Sysmon EventID 21.
 data_source:
     - Sysmon EventID 21
-search: |-
-    `sysmon`
-    EventCode=21
-    Operation IN (
-        Created,
-        Deleted,
-        Modified
-    )
-
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-        BY dest user Consumer Filter
-
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `wmi_permanent_event_subscription___sysmon_filter`
-how_to_implement: |-
-    To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate alerts for WMI activity (eventID= 19, 20, 21). In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.
-known_false_positives: |-
-    Administrators and software may create authorized WMI subscriptions. Review the consumer and filter paths, then tune known authorized subscriptions with the detection filter macro.
+search: |
+    `sysmon` EventCode=21 Operation IN ("Created", "Deleted", "Modified") | eval Consumer=Consumer, Filter=Filter | stats count min(_time) as firstTime max(_time) as lastTime by dest dvc object object_attrs object_category object_path signature signature_id src status user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `wmi_permanent_event_subscription___sysmon_filter`
+how_to_implement: To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate alerts for WMI activity (eventID= 19, 20, 21). In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.
+known_false_positives: Administrators and software may create authorized WMI subscriptions. Review the consumer and filter paths, then tune known authorized subscriptions with the detection filter macro.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
     - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
@@ -43,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

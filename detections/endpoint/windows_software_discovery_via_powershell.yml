@@ -6,29 +6,18 @@ modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    Detects the use of PowerShell based registry queries to pull installed software information from the Uninstall key.
+description: 'Detects the use of PowerShell based registry queries to pull installed software information from the Uninstall key.
+
     This will give an attacker version information on installed software which could be used to identify further vulnerabilities.
-    False positives are unlikely as this is an unusual key to query with PowerShell.
+
+    False positives are unlikely as this is an unusual key to query with PowerShell.'
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell`
-    EventID="4104"
-    ScriptBlockText="*Get-ItemProperty *"
-    ScriptBlockText="*Windows\\CurrentVersion\\Uninstall*"
-    | fillnull
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-      by Computer EventID ScriptBlockText signature signature_id user_id vendor_product Guid
-         Opcode Name Path ProcessID ScriptBlockId
-
-    | rename Computer as dest
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_software_discovery_via_powershell_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process="*Get-ItemProperty *" Processes.process="*Windows\\CurrentVersion\\Uninstall*" by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_software_discovery_via_powershell_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate system administrators or security tools may query the Uninstall key via PowerShell for software inventory or compliance checks. Filter as needed to allow authorized management scripts.
+references: []
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -37,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest
