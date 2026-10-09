@@ -1,10 +1,10 @@
 name: Windows NirSoft AdvancedRun
 id: bb4f3090-7ae4-11ec-897f-acde48001122
-version: 12
+version: 13
 creation_date: '2022-01-24'
-modification_date: '2026-05-13'
+modification_date: '2026-10-01'
 author: Michael Haag, Splunk
-status: production
+status: deprecated
 type: TTP
 description: The following analytic detects the execution of AdvancedRun.exe, a tool with capabilities similar to remote administration programs like PsExec. It identifies the process by its name or original file name and flags common command-line arguments. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry. Monitoring this activity is crucial as AdvancedRun can be used for remote code execution and configuration-based automation. If malicious, this could allow attackers to execute arbitrary commands, escalate privileges, or maintain persistence within the environment.
 data_source:
@@ -82,3 +82,8 @@ tests:
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
+deprecation_info:
+    reason: Detection deprecated due to duplicated content already covered by other detections.
+    removed_in_version: 6.12.0
+    replacement_content:
+        - Windows NirSoft Utilities

@@ -1,14 +1,13 @@
 name: Windows NirSoft Tool Bundle File Created
 id: a2c8e8f8-18d6-4ad4-acf4-f58903bebe41
-version: 5
+version: 6
 creation_date: '2025-10-24'
-modification_date: '2026-05-13'
-author: Nasreddine Bencherchali, Splunk
+modification_date: '2026-10-01'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
 description: |
-    The following analytic detects the creation of files associated with the NirSoft
-    tool bundles on Windows endpoints.
+    The following analytic detects the creation of files associated with the NirSoft tool bundles on Windows endpoints.
     NirSoft is a well-known provider of free, portable utilities that can be used for various system and network tasks. However, threat actors often leverage these tools for malicious purposes, such as credential harvesting, network reconnaissance, and data exfiltration.
     The detection focuses on the creation of specific NirSoft tool bundle files, which may indicate that an attacker is preparing to use these utilities on a compromised system.
     Security teams should investigate any instances of these files being created, especially if they are found in unexpected locations or on systems that should not be using such tools.
@@ -20,23 +19,18 @@ search: |
             min(_time) as firstTime
             max(_time) as lastTime
 
-    from datamodel=Endpoint.Filesystem where
+    FROM datamodel=Endpoint.Filesystem
+    WHERE
 
     ``` Increase coverage by adding additional Nirsoft tool bundle or tool filenames ```
+    [
+      | inputlookup nirsoft_utilities_lookup
+      | search original_file_name IN (*.zip, *.zip#dl.zip)
+      | table original_file_name
+      | rename original_file_name as Filesystem.file_name
+    ]
 
-    Filesystem.file_name IN (
-      "brtools.zip",
-      "mailpv.zip",
-      "networktools.zip",
-      "passreccommandline.zip",
-      "passrecenc.zip",
-      "progtools.zip",
-      "rdpv.zip",
-      "systools.zip",
-      "webbrowserpassview.zip"
-    )
-
-    by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+    BY Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
        Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
        Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
        Filesystem.user Filesystem.vendor_product
@@ -71,7 +65,12 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: NirSoft tool bundle file $file_name$ created on host $dest$
+          message: NirSoft tool bundle file [$file_name$] created on host [$dest$].
+threat_objects:
+    - field: file_name
+      type: file_name
+    - field: file_path
+      type: file_path
 analytic_story:
     - Unusual Processes
     - Data Destruction
@@ -88,7 +87,7 @@ security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/nirsoft_tooling/nirsoft_file_bundle_created.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/nirsoft_tooling/nirsoft_file_bundle_created_new.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
