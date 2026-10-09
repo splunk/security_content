@@ -1,8 +1,8 @@
 name: MacOS Keychains Dumped
 id: dcb45a09-5e6f-441e-b2f8-cbbf923e36d9
-version: 4
+version: 5
 creation_date: '2026-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Raven Tait, Jamie Windley, Splunk
 status: production
 type: TTP
@@ -70,6 +70,7 @@ references:
     - https://gist.github.com/hfeeki/88c12f01d00534e09a84
     - https://ss64.com/mac/security-keychain-settings.html
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1555.001/T1555.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1555.001/T1555.001.yaml#L6
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -94,6 +95,8 @@ intermediate_findings:
 analytic_story:
     - MacOS Privilege Escalation
 asset_type: Endpoint
+atomic_guid:
+    - 88e1fa00-bf63-4e5b-a3e1-e2ea51c8cca6
 mitre_attack_id:
     - T1555.001
 product:

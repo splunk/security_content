@@ -1,8 +1,8 @@
 name: Rundll32 Control RunDLL Hunt
 id: c8e7ced0-10c5-11ec-8b03-acde48001122
-version: 10
+version: 11
 creation_date: '2021-09-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -34,6 +34,7 @@ references:
     - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml
     - https://redcanary.com/blog/intelligence-insights-december-2021/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.011/T1218.011.yaml#L250
 analytic_story:
     - Suspicious Rundll32 Activity
     - Microsoft MSHTML Remote Code Execution CVE-2021-40444
@@ -41,6 +42,8 @@ analytic_story:
 asset_type: Endpoint
 cve:
     - CVE-2021-40444
+atomic_guid:
+    - e4c04b6f-c492-4782-82c7-3bf75eb8077e
 mitre_attack_id:
     - T1218.011
 product:

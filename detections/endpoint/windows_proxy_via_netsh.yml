@@ -1,8 +1,8 @@
 name: Windows Proxy Via Netsh
 id: c137bfe8-6036-4cff-b77b-4e327dd0a1cf
-version: 11
+version: 12
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,6 +29,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Some VPN applications are known to launch netsh.exe. Outside of these instances, it is unusual for an executable to launch netsh.exe and run commands.
 references:
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1090.001/T1090.001.yaml#L81
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'

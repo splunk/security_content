@@ -1,8 +1,8 @@
 name: Detect HTML Help URL in Command Line
 id: 8c5835b9-39d9-438b-817c-95f14c69a31e
-version: 17
+version: 18
 creation_date: '2021-02-11'
-modification_date: '2026-07-14'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,6 +35,7 @@ references:
     - https://blog.sevagas.com/?Hacking-around-HTA-files
     - https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
     - https://web.archive.org/web/20220119133748/https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.001/T1218.001.yaml#L30
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -68,6 +69,8 @@ analytic_story:
     - Compromised Windows Host
     - Cisco Network Visibility Module Analytics
 asset_type: Endpoint
+atomic_guid:
+    - 0f8af516-9818-4172-922b-42986ef1e81d
 mitre_attack_id:
     - T1218.001
 product:

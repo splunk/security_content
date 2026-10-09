@@ -1,8 +1,8 @@
 name: PowerShell Invoke CIMMethod CIMSession
 id: 651ee958-a433-471c-b264-39725b788b83
-version: 12
+version: 13
 creation_date: '2023-03-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -25,6 +25,7 @@ how_to_implement: To successfully implement this analytic, you will need to enab
 known_false_positives: False positives may be present based on third-party applications or administrators using CIM. It is recommended to apply appropriate filters as needed to minimize the number of false positives.
 references:
     - https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/invoke-cimmethod?view=powershell-7.3
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546/T1546.yaml#L72
 drilldown_searches:
     - name: View the detection results for - "$Computer$"
       search: '%original_detection_search% | search  Computer = "$Computer$"'
@@ -45,6 +46,8 @@ analytic_story:
     - Malicious PowerShell
     - Active Directory Lateral Movement
 asset_type: Endpoint
+atomic_guid:
+    - adae83d3-0df6-45e7-b2c3-575f91584577
 mitre_attack_id:
     - T1047
 product:

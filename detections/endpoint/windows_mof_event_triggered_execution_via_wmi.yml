@@ -1,8 +1,8 @@
 name: Windows MOF Event Triggered Execution via WMI
 id: e59b5a73-32bf-4467-a585-452c36ae10c1
-version: 13
+version: 14
 creation_date: '2022-07-19'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -20,6 +20,7 @@ references:
     - https://docs.microsoft.com/en-us/windows/win32/wmisdk/mofcomp
     - https://pentestlab.blog/2020/01/21/persistence-wmi-event-subscription/
     - https://www.sakshamdixit.com/wmi-events/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.003/T1546.003.yaml#L86
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -50,6 +51,8 @@ analytic_story:
     - Living Off The Land
     - Compromised Windows Host
 asset_type: Endpoint
+atomic_guid:
+    - 29786d7e-8916-4de6-9c55-be7b093b2706
 mitre_attack_id:
     - T1546.003
 product:

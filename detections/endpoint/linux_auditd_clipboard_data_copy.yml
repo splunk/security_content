@@ -1,8 +1,8 @@
 name: Linux Auditd Clipboard Data Copy
 id: 9ddfe470-c4d0-4e60-8668-7337bd699edd
-version: 9
+version: 10
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -24,6 +24,7 @@ known_false_positives: False positives may be present on Linux desktop as it may
 references:
     - https://attack.mitre.org/techniques/T1115/
     - https://linux.die.net/man/1/xclip
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1115/T1115.yaml#L73
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -43,6 +44,8 @@ analytic_story:
     - Linux Living Off The Land
     - Compromised Linux Host
 asset_type: Endpoint
+atomic_guid:
+    - ee363e53-b083-4230-aff3-f8d955f2d5bb
 mitre_attack_id:
     - T1115
 product:

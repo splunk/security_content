@@ -1,8 +1,8 @@
 name: Windows NirSoft Utilities
 id: 5b2f4596-7d4c-11ec-88a7-acde48001122
-version: 11
+version: 12
 creation_date: '2022-01-24'
-modification_date: '2026-09-22'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -38,10 +38,13 @@ references:
     - https://www.cisa.gov/uscert/ncas/alerts/TA18-201A
     - http://www.nirsoft.net/
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L623
 analytic_story:
     - Data Destruction
     - WhisperGate
 asset_type: Endpoint
+atomic_guid:
+    - 81ce22fd-9612-4154-918e-8a1f285d214d
 mitre_attack_id:
     - T1588.002
 product:

@@ -1,8 +1,8 @@
 name: Suspicious mshta child process
 id: 60023bb6-5500-11eb-ae93-0242ac130002
-version: 15
+version: 16
 creation_date: '2021-01-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Teoderick Contreras Splunk
 status: production
 type: TTP
@@ -32,6 +32,8 @@ known_false_positives: Although unlikely, some legitimate applications may exhib
 references:
     - https://github.com/redcanaryco/AtomicTestHarnesses
     - https://redcanary.com/blog/introducing-atomictestharnesses/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.005/T1218.005.yaml#L20
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.005/T1218.005.yaml#L216
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -62,6 +64,9 @@ analytic_story:
     - Lumma Stealer
     - MuddyWater
 asset_type: Endpoint
+atomic_guid:
+    - 906865c3-e05f-4acc-85c4-fbc185455095
+    - 8707a805-2b76-4f32-b1c0-14e558205772
 mitre_attack_id:
     - T1218.005
 product:

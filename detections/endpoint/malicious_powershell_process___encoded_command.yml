@@ -1,8 +1,8 @@
 name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 21
+version: 22
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: David Dorsey, Michael Haag, Splunk, SirDuckly, GitHub Community
 status: production
 type: Hunting
@@ -48,6 +48,7 @@ references:
     - https://twitter.com/M_haggis/status/1440758396534214658?s=20
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1027/T1027.yaml#L39
 analytic_story:
     - SolarWinds WHD RCE Post Exploitation
     - CISA AA22-320A
@@ -67,6 +68,8 @@ analytic_story:
     - GhostRedirector IIS Module and Rungan Backdoor
     - Microsoft WSUS CVE-2025-59287
 asset_type: Endpoint
+atomic_guid:
+    - a50d5a97-2531-499e-a1de-5544c74432c6
 mitre_attack_id:
     - T1027
 product:

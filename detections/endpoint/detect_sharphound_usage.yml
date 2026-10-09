@@ -1,8 +1,8 @@
 name: Detect SharpHound Usage
 id: dd04b29a-beed-11eb-87bc-acde48001122
-version: 13
+version: 14
 creation_date: '2021-06-03'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,6 +37,7 @@ references:
     - https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
     - https://github.com/BloodHoundAD/SharpHound3
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1059.001/T1059.001.yaml#L36
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -56,6 +57,8 @@ analytic_story:
     - Windows Discovery Techniques
     - Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - a21bb23e-e677-4ee7-af90-6931b57b6350
 mitre_attack_id:
     - T1069.001
     - T1069.002

@@ -1,8 +1,8 @@
 name: MacOS Network Share Discovery
 id: a5f5fe52-8e50-4fb0-ad1b-780be6c0d857
-version: 3
+version: 4
 creation_date: '2026-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -39,6 +39,7 @@ references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/man8/showmount.8.html
     - https://www.unix.com/man_page/osx/1/smbutil/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1135/T1135.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -64,6 +65,8 @@ threat_objects:
 analytic_story:
     - MacOS Post-Exploitation
 asset_type: Endpoint
+atomic_guid:
+    - f94b5ad9-911c-4eff-9718-fd21899db4f7
 mitre_attack_id:
     - T1135
 product:

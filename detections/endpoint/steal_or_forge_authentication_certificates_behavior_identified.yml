@@ -1,8 +1,8 @@
 name: Steal or Forge Authentication Certificates Behavior Identified
 id: 87ac670e-bbfd-44ca-b566-44e9f835518d
-version: 9
+version: 10
 creation_date: '2023-05-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Correlation
@@ -22,6 +22,9 @@ known_false_positives: False positives may be present based on automated tooling
 references:
     - https://research.splunk.com/stories/windows_certificate_services/
     - https://attack.mitre.org/techniques/T1649/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1552.004/T1552.004.yaml#L377
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1552.004/T1552.004.yaml#L351
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1552.004/T1552.004.yaml#L325
 drilldown_searches:
     - name: View the detection results for - "$risk_object$"
       search: '%original_detection_search% | search  risk_object = "$risk_object$"'

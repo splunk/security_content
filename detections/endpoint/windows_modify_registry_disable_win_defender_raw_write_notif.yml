@@ -1,8 +1,8 @@
 name: Windows Modify Registry Disable Win Defender Raw Write Notif
 id: 0e5e25c3-32f4-46f7-ba4a-5b95c3b90f5b
-version: 11
+version: 12
 creation_date: '2022-07-06'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ known_false_positives: Administrators may enable or disable this feature that ma
 references:
     - https://admx.help/?Category=SystemCenterEndpointProtection&Policy=Microsoft.Policies.Antimalware::real-time_protection_disablerawwritenotification
     - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L796
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -34,6 +35,8 @@ analytic_story:
     - Azorult
     - CISA AA23-347A
 asset_type: Endpoint
+atomic_guid:
+    - 12e03af7-79f9-4f95-af48-d3f12f28a260
 mitre_attack_id:
     - T1112
 product:

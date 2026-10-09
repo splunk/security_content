@@ -1,8 +1,8 @@
 name: Windows Network Share Interaction Via Net
 id: e51fbdb0-0be0-474f-92ea-d289f71a695e
-version: 7
+version: 8
 creation_date: '2024-07-11'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Dean Luxton
 status: production
 type: Hunting
@@ -36,13 +36,16 @@ how_to_implement: The detection is based on data originating from either Endpoin
 known_false_positives: Administrators or power users may use this command. Additional filters needs to be applied.
 references:
     - https://attack.mitre.org/techniques/T1135/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1135/T1135.yaml#L79
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1021.002/T1021.002.yaml#L5
 analytic_story:
     - Active Directory Discovery
     - Active Directory Privilege Escalation
     - Network Discovery
 asset_type: Endpoint
 atomic_guid:
-    - ab39a04f-0c93-4540-9ff2-83f862c385ae
+    - 20f1097d-81c1-405c-8380-32174d493bbb
+    - 3386975b-367a-4fbb-9d77-4dcf3639ffd3
 mitre_attack_id:
     - T1135
     - T1039

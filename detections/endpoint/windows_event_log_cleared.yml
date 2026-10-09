@@ -1,8 +1,8 @@
 name: Windows Event Log Cleared
 id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-version: 21
+version: 22
 creation_date: '2019-10-16'
-modification_date: '2026-06-08'
+modification_date: '2026-10-02'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -26,6 +26,7 @@ references:
     - https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
     - https://attack.mitre.org/techniques/T1070/001/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/61080b19460f2c6431c31689d58063c5f6c1f8fb/atomics/T1070.001/T1070.001.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -50,6 +51,8 @@ analytic_story:
     - Clop Ransomware
     - Salat Stealer
 asset_type: Endpoint
+atomic_guid:
+    - e6abb60e-26b8-41da-8aae-0c35174b0967
 mitre_attack_id:
     - T1685.005
 product:

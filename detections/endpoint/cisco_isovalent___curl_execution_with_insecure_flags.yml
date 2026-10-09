@@ -1,8 +1,8 @@
 name: Cisco Isovalent - Curl Execution With Insecure Flags
 id: c16c4899-d3f7-461b-92c2-cc0ef5758855
-version: 5
+version: 6
 creation_date: '2026-01-05'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -22,6 +22,7 @@ known_false_positives: This activity may be triggered by legitimate administrati
 references:
     - https://rawcode7.medium.com/understanding-the-kubernetes-attack-surface-9a48ebcb6bc4
     - https://www.tutorialworks.com/kubernetes-curl/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1105/T1105.yaml#L1275
 drilldown_searches:
     - name: View the detection results for - "$pod_name$"
       search: '%original_detection_search% | search pod_name = "$pod_name$"'

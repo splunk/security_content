@@ -1,8 +1,8 @@
 name: Linux Ingress Tool Transfer Hunting
 id: 52fd468b-cb6d-48f5-b16a-92f1c9bb10cf
-version: 12
+version: 13
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -34,6 +34,7 @@ references:
     - https://curl.se/docs/manpage.html#-I
     - https://gtfobins.github.io/gtfobins/curl/
     - https://github.com/rapid7/metasploit-framework/search?q=curl
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1105/T1105.yaml#L763
 analytic_story:
     - Ingress Tool Transfer
     - Linux Living Off The Land
@@ -41,6 +42,8 @@ analytic_story:
     - NPM Supply Chain Compromise
     - Axios Supply Chain Post Compromise
 asset_type: Endpoint
+atomic_guid:
+    - bdc373c5-e9cf-4563-8a7b-a9ba720a90f3
 mitre_attack_id:
     - T1105
 product:

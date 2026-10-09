@@ -2,7 +2,7 @@ name: Windows Identify Protocol Handlers
 id: bd5c311e-a6ea-48ae-a289-19a3398e3648
 version: 11
 creation_date: '2022-07-12'
-modification_date: '2026-09-22'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -38,9 +38,12 @@ references:
     - https://techcommunity.microsoft.com/t5/windows-it-pro-blog/disabling-the-msix-ms-appinstaller-protocol-handler/ba-p/3119479
     - https://www.huntress.com/blog/microsoft-office-remote-code-execution-follina-msdt-bug
     - https://parsiya.net/blog/2021-03-17-attack-surface-analysis-part-2-custom-protocol-handlers/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218/T1218.yaml#L84
 analytic_story:
     - Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - db020456-125b-4c8b-a4a7-487df8afb5a2
 mitre_attack_id:
     - T1059
 product:

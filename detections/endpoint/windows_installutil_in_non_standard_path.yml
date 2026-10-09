@@ -1,8 +1,8 @@
 name: Windows InstallUtil in Non Standard Path
 id: dcf74b22-7933-11ec-857c-acde48001122
-version: 12
+version: 13
 creation_date: '2022-01-20'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -19,6 +19,7 @@ references:
     - https://attack.mitre.org/techniques/T1036/003/
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.004/T1218.004.yaml#L460
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -54,6 +55,8 @@ analytic_story:
     - Data Destruction
     - WhisperGate
 asset_type: Endpoint
+atomic_guid:
+    - 559e6d06-bb42-4307-bff7-3b95a8254bad
 mitre_attack_id:
     - T1036.003
     - T1218.004

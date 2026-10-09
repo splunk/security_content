@@ -1,8 +1,8 @@
 name: Windows Impair Defenses Disable Auto Logger Session
 id: dc6a5613-d024-47e7-9997-ab6477a483d3
-version: 9
+version: 10
 creation_date: '2020-11-06'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -18,6 +18,7 @@ references:
     - https://isc.sans.edu/diary/rss/28628
     - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
     - https://learn.microsoft.com/en-us/windows/win32/etw/configuring-and-starting-an-autologger-session
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1201
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -37,6 +38,8 @@ analytic_story:
     - Windows Defense Evasion Tactics
     - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - 653c6e17-14a2-4849-851d-f1c0cc8ea9ab
 mitre_attack_id:
     - T1685
 product:

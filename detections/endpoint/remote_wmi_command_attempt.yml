@@ -1,8 +1,8 @@
 name: Remote WMI Command Attempt
 id: 272df6de-61f1-4784-877c-1fbc3e2d0838
-version: 13
+version: 14
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,6 +31,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.yaml
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1047/T1047.yaml#L103
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -60,6 +61,8 @@ analytic_story:
     - Suspicious WMI Use
     - CISA AA23-347A
 asset_type: Endpoint
+atomic_guid:
+    - 9c8ef159-c666-472f-9874-90c8d60d136b
 mitre_attack_id:
     - T1047
 product:

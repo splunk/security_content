@@ -1,8 +1,8 @@
 name: Create or delete windows shares using net exe
 id: 743a322c-9a68-4a0f-9c17-85d9cce2a27c
-version: 18
+version: 19
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -30,6 +30,8 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators often leverage net.exe to create or delete network shares. You should verify that the activity was intentional and is legitimate.
 references:
     - https://attack.mitre.org/techniques/T1070/005/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1070.005/T1070.005.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1070.005/T1070.005.yaml#L21
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -63,6 +65,9 @@ analytic_story:
     - Prestige Ransomware
     - DarkGate Malware
 asset_type: Endpoint
+atomic_guid:
+    - 14c38f32-6509-46d8-ab43-d53e32d2b131
+    - 09210ad5-1ef2-4077-9ad3-7351e13e9222
 mitre_attack_id:
     - T1070.005
 product:

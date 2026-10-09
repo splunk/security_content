@@ -1,8 +1,8 @@
 name: Deleting Shadow Copies
 id: b89919ed-ee5f-492c-b139-95dbb162039e
-version: 19
+version: 20
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -34,6 +34,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: vssadmin.exe and wmic.exe are standard applications shipped with modern versions of windows. They may be used by administrators to legitimately delete old backup copies, although this is typically rare.
 references:
     - https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1490/T1490.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -80,6 +81,8 @@ analytic_story:
     - Storm-2460 CLFS Zero Day Exploitation
     - Void Manticore
 asset_type: Endpoint
+atomic_guid:
+    - 43819286-91a9-4369-90ed-d31fb4da2c01
 mitre_attack_id:
     - T1490
 product:

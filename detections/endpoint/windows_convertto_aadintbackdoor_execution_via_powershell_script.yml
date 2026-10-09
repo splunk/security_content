@@ -1,8 +1,8 @@
 name: Windows ConvertTo-AADIntBackdoor Execution Via PowerShell Script
 id: 59a8662f-f616-4494-8fa1-29ae77fc2018
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Certain administrative or security testing activities in Azure AD environments may use ConvertTo-AADIntBackdoor for legitimate federation configuration changes. Review and allow such actions from trusted administrators and approved tools.
 references:
     - https://atomicredteam.io/privilege-escalation/T1484.002/#atomic-test-1---add-federation-to-azure-ad
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1484.002/T1484.002.yaml#L5
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -53,6 +54,8 @@ analytic_story:
     - Azure Active Directory Account Takeover
     - Azure Active Directory Privilege Escalation
 asset_type: Endpoint
+atomic_guid:
+    - 8906c5d0-3ee5-4f63-897a-f6cafd3fdbb7
 mitre_attack_id:
     - T1482
     - T1078

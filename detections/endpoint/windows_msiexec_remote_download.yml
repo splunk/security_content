@@ -1,8 +1,8 @@
 name: Windows MSIExec Remote Download
 id: 6aa49ff2-3c92-4586-83e0-d83eb693dfda
-version: 17
+version: 18
 creation_date: '2022-06-17'
-modification_date: '2026-07-14'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -48,6 +48,7 @@ known_false_positives: |
 references:
     - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.007/T1218.007.yaml#L309
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -79,6 +80,8 @@ analytic_story:
     - StealC Stealer
     - SolarWinds WHD RCE Post Exploitation
 asset_type: Endpoint
+atomic_guid:
+    - 44a4bedf-ffe3-452e-bee4-6925ab125662
 mitre_attack_id:
     - T1218.007
 product:

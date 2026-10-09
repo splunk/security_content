@@ -1,8 +1,8 @@
 name: Windows New Custom Security Descriptor Set On EventLog Channel
 id: c0e5dd5a-2117-41d5-a04c-82a762a86a38
-version: 9
+version: 10
 creation_date: '2023-01-18'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ known_false_positives: No false positives have been identified at this time. a l
 references:
     - https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/set-event-log-security-locally-or-via-group-policy
     - https://attack.mitre.org/techniques/T1562/002/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685.001/T1685.001.yaml#L192
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -38,6 +39,8 @@ analytic_story:
     - LockBit Ransomware
     - Defense Evasion or Unauthorized Access Via SDDL Tampering
 asset_type: Endpoint
+atomic_guid:
+    - a0cb81f8-44d0-4ac4-a8f3-c5c7f43a12c1
 mitre_attack_id:
     - T1685.001
 product:

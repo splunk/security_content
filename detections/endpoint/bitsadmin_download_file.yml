@@ -1,8 +1,8 @@
 name: BITSAdmin Download File
 id: 80630ff4-8e4c-11eb-aab5-acde48001122
-version: 18
+version: 19
 creation_date: '2021-03-30'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Sittikorn S
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/bc705cb7aaa5f26f2d96585fac8e4c7052df0ff9/atomics/T1197/T1197.md
     - https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
     - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1105/T1105.yaml#L236
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -70,6 +71,8 @@ analytic_story:
     - GhostRedirector IIS Module and Rungan Backdoor
     - Hellcat Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - a1921cd3-9a2d-47d5-a891-f1d0f2a7a31b
 mitre_attack_id:
     - T1197
     - T1105

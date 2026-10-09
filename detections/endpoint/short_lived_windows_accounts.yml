@@ -1,8 +1,8 @@
 name: Short Lived Windows Accounts
 id: b25f6f62-0782-43c1-b403-083231ffd97d
-version: 14
+version: 15
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: David Dorsey, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -32,6 +32,8 @@ known_false_positives: It is possible that an administrator created and deleted 
 references:
     - https://www.youtube.com/watch?v=D4Cd-KK4ctk
     - https://attack.mitre.org/techniques/T1078/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.001/T1136.001.yaml#L68
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.001/T1136.001.yaml#L91
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$src_user$"
       search: '%original_detection_search% | search  dest = "$dest$" src_user = "$src_user$"'
@@ -57,6 +59,9 @@ analytic_story:
     - Active Directory Lateral Movement
     - GhostRedirector IIS Module and Rungan Backdoor
 asset_type: Windows
+atomic_guid:
+    - 6657864e-0323-4206-9344-ac9cd7265a4f
+    - bc8be0ac-475c-4fbf-9b1d-9fffd77afbde
 mitre_attack_id:
     - T1078.003
     - T1136.001

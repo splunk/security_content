@@ -1,8 +1,8 @@
 name: GetDomainGroup with PowerShell
 id: 93c94be3-bead-4a60-860f-77ca3fe59903
-version: 11
+version: 12
 creation_date: '2021-08-26'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ known_false_positives: Administrators or power users may use this command for tr
 references:
     - https://attack.mitre.org/techniques/T1069/002/
     - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainGroup/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1069.002/T1069.002.yaml#L200
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -51,6 +52,8 @@ finding:
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - 5a8a181c-2c8e-478d-a943-549305a01230
 mitre_attack_id:
     - T1069.002
 product:

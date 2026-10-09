@@ -1,8 +1,8 @@
 name: Linux Auditd Stop Services
 id: 43bc9281-753b-4743-b4b7-60af84f085f3
-version: 9
+version: 10
 creation_date: '2024-08-12'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -23,6 +23,7 @@ known_false_positives: Administrator or network operator can use this applicatio
 references:
     - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
     - https://cert.gov.ua/article/39518
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1489/T1489.yaml#L63
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -38,6 +39,8 @@ analytic_story:
     - AwfulShred
     - Compromised Linux Host
 asset_type: Endpoint
+atomic_guid:
+    - 42e3a5bd-1e45-427f-aa08-2a65fa29a820
 mitre_attack_id:
     - T1489
 product:

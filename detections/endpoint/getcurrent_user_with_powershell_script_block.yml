@@ -1,8 +1,8 @@
 name: GetCurrent User with PowerShell Script Block
 id: 80879283-c30f-44f7-8471-d1381f6d437a
-version: 10
+version: 11
 creation_date: '2021-08-24'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -26,9 +26,12 @@ known_false_positives: Administrators or power users may use this PowerShell com
 references:
     - https://attack.mitre.org/techniques/T1033/
     - https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-6.0&viewFallbackFrom=net-5.0
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1033/T1033.yaml#L55
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - dcb6cdee-1fb0-4087-8bf8-88cfd136ba51
 mitre_attack_id:
     - T1033
 product:

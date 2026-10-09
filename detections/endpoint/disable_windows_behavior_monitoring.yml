@@ -1,8 +1,8 @@
 name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
-version: 24
+version: 25
 creation_date: '2021-03-31'
-modification_date: '2026-06-08'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -31,6 +31,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: admin or user may choose to disable this windows features.
 references:
     - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1051
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -63,6 +64,8 @@ analytic_story:
     - BlankGrabber Stealer
     - Salat Stealer
 asset_type: Endpoint
+atomic_guid:
+    - a72cfef8-d252-48b3-b292-635d332625c3
 mitre_attack_id:
     - T1685
 product:

@@ -1,8 +1,8 @@
 name: Windows Non-System Account Targeting Lsass
 id: b1ce9a72-73cf-11ec-981b-acde48001122
-version: 14
+version: 15
 creation_date: '2022-01-11'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -18,6 +18,7 @@ references:
     - https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for_22.html
     - https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1
     - https://docs.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights?redirectedfrom=MSDN
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.001/T1003.001.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user_id$" and "$dest$"
       search: '%original_detection_search% | search  user_id = "$user_id$" dest = "$dest$"'
@@ -48,6 +49,8 @@ analytic_story:
     - Lokibot
     - Scattered Lapsus$ Hunters
 asset_type: Endpoint
+atomic_guid:
+    - 0be2230c-9ab3-4ac2-8826-3199b9a0ebf8
 mitre_attack_id:
     - T1003.001
 product:

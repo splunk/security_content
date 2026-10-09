@@ -1,8 +1,8 @@
 name: Detect New Local Admin account
 id: b25f6f62-0712-43c1-b203-083231ffd97d
-version: 13
+version: 14
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -36,7 +36,8 @@ search: |
     | `detect_new_local_admin_account_filter`
 how_to_implement: You must be ingesting Windows event logs using the Splunk Windows TA and collecting event code 4720 and 4732
 known_false_positives: The activity may be legitimate. For this reason, it's best to verify the account with an administrator and ask whether there was a valid service request for the account creation. If your local administrator group name is not "Administrators", this search may generate an excessive number of false positives
-references: []
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.001/T1136.001.yaml#L156
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -65,6 +66,8 @@ analytic_story:
     - CISA AA24-241A
     - Scattered Lapsus$ Hunters
 asset_type: Windows
+atomic_guid:
+    - fda74566-a604-4581-a4cc-fbbe21d66559
 mitre_attack_id:
     - T1136.001
 product:

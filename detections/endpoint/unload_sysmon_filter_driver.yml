@@ -1,8 +1,8 @@
 name: Unload Sysmon Filter Driver
 id: e5928ff3-23eb-4d8b-b8a4-dcbc844fdfbe
-version: 16
+version: 17
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -34,6 +34,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://www.ired.team/offensive-security/defense-evasion/unloading-sysmon-driver
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L236
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -53,6 +54,8 @@ analytic_story:
     - CISA AA23-347A
     - Disabling Security Tools
 asset_type: Endpoint
+atomic_guid:
+    - 811b3e76-c41b-430c-ac0d-e2380bfaa164
 mitre_attack_id:
     - T1685
 product:

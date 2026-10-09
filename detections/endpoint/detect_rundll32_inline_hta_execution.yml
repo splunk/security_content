@@ -1,8 +1,8 @@
 name: Detect Rundll32 Inline HTA Execution
 id: 91c79f14-5b41-11eb-ae93-0242ac130002
-version: 14
+version: 15
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -33,6 +33,8 @@ references:
     - https://github.com/redcanaryco/AtomicTestHarnesses
     - https://redcanary.com/blog/introducing-atomictestharnesses/
     - https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.011/T1218.011.yaml#L25
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.011/T1218.011.yaml#L42
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -54,6 +56,9 @@ analytic_story:
     - Living Off The Land
     - APT37 Rustonotto and FadeStealer
 asset_type: Endpoint
+atomic_guid:
+    - 638730e7-7aed-43dc-bf8c-8117f805f5bb
+    - 32d1cf1b-cbc2-4c09-8d05-07ec5c83a821
 mitre_attack_id:
     - T1218.005
 product:

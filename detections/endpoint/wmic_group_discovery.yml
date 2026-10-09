@@ -1,8 +1,8 @@
 name: Wmic Group Discovery
 id: 83317b08-155b-11ec-8e00-acde48001122
-version: 12
+version: 13
 creation_date: '2021-09-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -30,6 +30,7 @@ known_false_positives: Administrators or power users may use this command for tr
 references:
     - https://attack.mitre.org/techniques/T1069/001/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1069.001/T1069.001.yaml#L83
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -58,6 +59,8 @@ analytic_story:
     - Active Directory Discovery
     - LAMEHUG
 asset_type: Endpoint
+atomic_guid:
+    - 7413be50-be8e-430f-ad4d-07bf197884b2
 mitre_attack_id:
     - T1069.001
 product:

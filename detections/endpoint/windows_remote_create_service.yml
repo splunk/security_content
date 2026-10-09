@@ -1,8 +1,8 @@
 name: Windows Remote Create Service
 id: 0dc44d03-8c00-482d-ba7c-796ba7ab18c9
-version: 12
+version: 13
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -16,6 +16,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Note that false positives may occur, and filtering may be necessary, especially when it comes to remote service creation by administrators or software management utilities.
 references:
     - https://attack.mitre.org/techniques/T1543/003/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1543.003/T1543.003.yaml#L145
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -45,6 +46,8 @@ analytic_story:
     - CISA AA23-347A
     - BlackSuit Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - fb4151a2-db33-4f8c-b7f8-78ea8790f961
 mitre_attack_id:
     - T1543.003
 product:

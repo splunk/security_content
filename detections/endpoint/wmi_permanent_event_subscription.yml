@@ -1,8 +1,8 @@
 name: WMI Permanent Event Subscription
 id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
-version: 11
+version: 12
 creation_date: '2020-04-29'
-modification_date: '2026-10-05'
+modification_date: '2026-10-09'
 author: Rico Valdez, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -57,6 +57,9 @@ references:
     - https://learn.microsoft.com/en-us/windows/win32/wmisdk/binding-an-event-filter-with-a-logical-consumer
     - https://learn.microsoft.com/en-us/windows/win32/wmisdk/commandlineeventconsumer
     - https://learn.microsoft.com/en-us/windows/win32/wmisdk/activescripteventconsumer
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.003/T1546.003.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.003/T1546.003.yaml#L44
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.003/T1546.003.yaml#L86
 intermediate_findings:
     entities:
         - field: dest
@@ -69,6 +72,10 @@ threat_objects:
 analytic_story:
     - Suspicious WMI Use
 asset_type: Endpoint
+atomic_guid:
+    - 3c64f177-28e2-49eb-a799-d767b24dd1e0
+    - fecd0dfd-fb55-45fa-a10b-6250272d0832
+    - 29786d7e-8916-4de6-9c55-be7b093b2706
 mitre_attack_id:
     - T1546.003
 product:

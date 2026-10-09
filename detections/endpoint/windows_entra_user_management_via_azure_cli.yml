@@ -1,8 +1,8 @@
 name: Windows Entra User Management Via Azure CLI
 id: f6332409-abeb-42f8-b6a7-76201bdc7a0a
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -47,6 +47,7 @@ known_false_positives: Legitimate IT administrators commonly use the Azure CLI f
 references:
     - https://atomicredteam.io/persistence/T1136.003/#atomic-test-3---azure-ad---create-a-new-user-via-azure-cli
     - https://learn.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.003/T1136.003.yaml#L67
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -72,6 +73,8 @@ threat_objects:
 analytic_story:
     - Azure Active Directory Persistence
 asset_type: Endpoint
+atomic_guid:
+    - 228c7498-be31-48e9-83b7-9cb906504ec8
 mitre_attack_id:
     - T1136
     - T1078.004

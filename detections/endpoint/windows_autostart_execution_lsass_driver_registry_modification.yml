@@ -1,8 +1,8 @@
 name: Windows Autostart Execution LSASS Driver Registry Modification
 id: 57fb8656-141e-4d8a-9f51-62cff4ecb82a
-version: 10
+version: 11
 creation_date: '2022-08-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -15,6 +15,7 @@ known_false_positives: False positives may be present on recent Windows Operatin
 references:
     - https://blog.xpnsec.com/exploring-mimikatz-part-1/
     - https://github.com/oxfemale/LogonCredentialsSteal/tree/master/lsass_lib
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1547.008/T1547.008.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -33,6 +34,8 @@ finding:
 analytic_story:
     - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - 8ecef16d-d289-46b4-917b-0dba6dc81cf1
 mitre_attack_id:
     - T1547.008
 product:

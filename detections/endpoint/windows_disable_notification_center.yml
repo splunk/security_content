@@ -1,8 +1,8 @@
 name: Windows Disable Notification Center
 id: 1cd983c8-8fd6-11ec-a09d-acde48001122
-version: 15
+version: 16
 creation_date: '2021-03-31'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -28,6 +28,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: admin or user may choose to disable this windows features.
 references:
     - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L216
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -52,6 +53,8 @@ analytic_story:
     - CISA AA23-347A
     - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - c0d6d67f-1f63-42cc-95c0-5fd6b20082ad
 mitre_attack_id:
     - T1112
 product:

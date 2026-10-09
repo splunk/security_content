@@ -1,8 +1,8 @@
 name: MacOS Gatekeeper Bypass
 id: 2c9346f3-bbeb-48ce-8411-fc13d09d83a5
-version: 3
+version: 4
 creation_date: '2026-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -48,6 +48,7 @@ references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://ss64.com/mac/xattr.html
     - https://ss64.com/mac/spctl.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1553.001/T1553.001.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -75,6 +76,8 @@ analytic_story:
     - MacOS Post-Exploitation
     - MacOS Persistence Techniques
 asset_type: Endpoint
+atomic_guid:
+    - fb3d46c6-9480-4803-8d7d-ce676e1f1a9b
 mitre_attack_id:
     - T1553.001
 product:

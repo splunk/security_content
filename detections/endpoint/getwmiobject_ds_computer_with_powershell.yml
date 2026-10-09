@@ -1,8 +1,8 @@
 name: GetWmiObject Ds Computer with PowerShell
 id: 7141122c-3bc2-4aaa-ab3b-7a85a0bbefc3
-version: 9
+version: 10
 creation_date: '2021-09-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -54,6 +54,7 @@ known_false_positives: |-
     Administrators or power users may use this command for troubleshooting.
 references:
     - https://attack.mitre.org/techniques/T1018/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1018/T1018.yaml#L383
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -77,6 +78,8 @@ threat_objects:
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - e3cf5123-f6c9-4375-bdf2-1bb3ba43a1ad
 mitre_attack_id:
     - T1018
 product:

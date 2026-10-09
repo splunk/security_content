@@ -1,8 +1,8 @@
 name: Windows Outlook WebView Registry Modification
 id: 6e1ad5d4-d9af-496a-96ec-f31c11cd09f2
-version: 9
+version: 10
 creation_date: '2024-07-30'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ known_false_positives: False positives may occur if legitimate Outlook processes
 references:
     - https://gist.github.com/MHaggis/c6318acde2e2f691b550e3a491f49ff1
     - https://github.com/trustedsec/specula/wiki
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1137.004/T1137.004.yaml#L6
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -33,6 +34,8 @@ intermediate_findings:
 analytic_story:
     - Suspicious Windows Registry Activities
 asset_type: Endpoint
+atomic_guid:
+    - 7a91ad51-e6d2-4d43-9471-f26362f5738e
 mitre_attack_id:
     - T1112
 product:

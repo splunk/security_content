@@ -1,8 +1,8 @@
 name: Linux System Network Discovery
 id: 535cb214-8b47-11ec-a2c7-acde48001122
-version: 11
+version: 12
 creation_date: '2022-02-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -65,6 +65,7 @@ known_false_positives: |-
     Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1016/T1016.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1016/T1016.yaml#L33
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -91,6 +92,8 @@ analytic_story:
     - Industroyer2
     - VoidLink Cloud-Native Linux Malware
 asset_type: Endpoint
+atomic_guid:
+    - c141bbdb-7fca-4254-9fd6-f47e79447e17
 mitre_attack_id:
     - T1016
 product:

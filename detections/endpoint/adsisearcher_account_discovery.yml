@@ -1,8 +1,8 @@
 name: AdsiSearcher Account Discovery
 id: de7fcadc-04f3-11ec-a241-acde48001122
-version: 13
+version: 14
 creation_date: '2021-08-25'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -27,6 +27,7 @@ references:
     - https://attack.mitre.org/techniques/T1087/002/
     - https://www.blackhillsinfosec.com/red-blue-purple/
     - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.002/T1087.002.yaml#L234
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user_id$"
       search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
@@ -55,6 +56,8 @@ analytic_story:
     - Data Destruction
     - Scattered Lapsus$ Hunters
 asset_type: Endpoint
+atomic_guid:
+    - 02e8be5a-3065-4e54-8cc8-a14d138834d3
 mitre_attack_id:
     - T1087.002
 product:

@@ -1,8 +1,8 @@
 name: Linux Auditd Dd File Overwrite
 id: d1b74420-4cea-4752-a123-9b40dfcca49a
-version: 9
+version: 10
 creation_date: '2024-08-09'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -22,6 +22,7 @@ known_false_positives: Administrator or network operator can execute this comman
 references:
     - https://gtfobins.github.io/gtfobins/dd/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1485/T1485.yaml#L37
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -42,6 +43,8 @@ analytic_story:
     - Data Destruction
     - Compromised Linux Host
 asset_type: Endpoint
+atomic_guid:
+    - 38deee99-fd65-4031-bec8-bfa4f9f26146
 mitre_attack_id:
     - T1485
 product:

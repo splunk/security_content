@@ -1,8 +1,8 @@
 name: GetAdGroup with PowerShell Script Block
 id: e4c73d68-794b-468d-b4d0-dac1772bbae7
-version: 12
+version: 13
 creation_date: '2021-08-27'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -26,10 +26,13 @@ known_false_positives: Administrators or power users may use this PowerShell com
 references:
     - https://attack.mitre.org/techniques/T1069/002/
     - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1069.002/T1069.002.yaml#L19
 analytic_story:
     - Scattered Lapsus$ Hunters
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - 6d5d8c96-3d2a-4da9-9d6d-9a9d341899a7
 mitre_attack_id:
     - T1069.002
 product:

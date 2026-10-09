@@ -1,8 +1,8 @@
 name: Windows Create Local Account
 id: 3fb2e8e3-7bc0-4567-9722-c5ab9f8595eb
-version: 13
+version: 14
 creation_date: '2022-10-05'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -29,6 +29,8 @@ known_false_positives: |
     Restrict to critical infrastructure to reduce any volume.
 references:
     - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.001/T1136.001.yaml#L68
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.001/T1136.001.yaml#L91
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -54,6 +56,9 @@ analytic_story:
     - GhostRedirector IIS Module and Rungan Backdoor
     - Scattered Lapsus$ Hunters
 asset_type: Endpoint
+atomic_guid:
+    - 6657864e-0323-4206-9344-ac9cd7265a4f
+    - bc8be0ac-475c-4fbf-9b1d-9fffd77afbde
 mitre_attack_id:
     - T1136.001
 product:

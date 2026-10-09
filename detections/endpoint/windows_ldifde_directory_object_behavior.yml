@@ -1,8 +1,8 @@
 name: Windows Ldifde Directory Object Behavior
 id: 35cd29ca-f08c-4489-8815-f715c45460d3
-version: 12
+version: 13
 creation_date: '2023-05-25'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
     - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
     - https://twitter.com/0gtweet/status/1564968845726580736?s=20
     - https://strontic.github.io/xcyclopedia/library/ldifde.exe-45D28FB47E9B6ACC5DCA9FDA3E790210.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1069.002/T1069.002.yaml#L211
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'

@@ -1,8 +1,8 @@
 name: Windows Odbcconf Hunting
 id: 0562ad4b-fdaa-4882-b12f-7b8e0034cd72
-version: 9
+version: 10
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -30,9 +30,14 @@ known_false_positives: False positives will be present as this is meant to assis
 references:
     - https://strontic.github.io/xcyclopedia/library/odbcconf.exe-07FBA12552331355C103999806627314.html
     - https://twitter.com/redcanary/status/1541838407894171650?s=20&t=kp3WBPtfnyA3xW7D7wx0uw
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.008/T1218.008.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.008/T1218.008.yaml#L29
 analytic_story:
     - Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - 2430498b-06c0-4b92-a448-8ad263c388e2
+    - 331ce274-f9c9-440b-9f8c-a1006e1fce0b
 mitre_attack_id:
     - T1218.008
 product:

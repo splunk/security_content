@@ -1,8 +1,8 @@
 name: Windows Steal Authentication Certificates Export Certificate
 id: e39dc429-c2a5-4f1f-9c3c-6b211af6b332
-version: 12
+version: 13
 creation_date: '2023-02-03'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -30,6 +30,7 @@ known_false_positives: Filtering may be requried based on automated utilities an
 references:
     - https://dev.to/iamthecarisma/managing-windows-pfx-certificates-through-powershell-3pj
     - https://learn.microsoft.com/en-us/powershell/module/pki/export-certificate?view=windowsserver2022-ps
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1649/T1649.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -57,6 +58,8 @@ threat_objects:
 analytic_story:
     - Windows Certificate Services
 asset_type: Endpoint
+atomic_guid:
+    - eb121494-82d1-4148-9e2b-e624e03fbf3d
 mitre_attack_id:
     - T1649
 product:

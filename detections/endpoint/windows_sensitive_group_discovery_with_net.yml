@@ -1,8 +1,8 @@
 name: Windows Sensitive Group Discovery With Net
 id: d9eb7cda-5622-4722-bc88-7f2442f4b5af
-version: 9
+version: 10
 creation_date: '2021-08-26'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -33,6 +33,7 @@ references:
     - https://adsecurity.org/?p=3658
     - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1069.002/T1069.002.yaml#L35
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -56,6 +57,8 @@ analytic_story:
     - IcedID
     - Microsoft WSUS CVE-2025-59287
 asset_type: Endpoint
+atomic_guid:
+    - 0afb5163-8181-432e-9405-4322710c0c37
 mitre_attack_id:
     - T1069.002
 product:

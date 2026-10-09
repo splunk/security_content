@@ -1,8 +1,8 @@
 name: Windows Disable Windows Group Policy Features Through Registry
 id: 63a449ae-9f04-11ec-945e-acde48001122
-version: 15
+version: 16
 creation_date: '2022-03-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -16,6 +16,13 @@ references:
     - https://hybrid-analysis.com/sample/ef1c427394c205580576d18ba68d5911089c7da0386f19d1ca126929d3e671ab?environmentId=120&lang=en
     - https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis
     - https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L288
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L318
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L333
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L348
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L363
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L378
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L393
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -37,6 +44,14 @@ analytic_story:
     - Windows Defense Evasion Tactics
     - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - 93386d41-525c-4a1b-8235-134a628dee17
+    - ffbb407e-7f1d-4c95-b22e-548169db1fbd
+    - a450e469-ba54-4de1-9deb-9023a6111690
+    - 5e27bdb4-7fd9-455d-a2b5-4b4b22c9dea4
+    - 12f50e15-dbc6-478b-a801-a746e8ba1723
+    - d29b7faf-7355-4036-9ed3-719bd17951ed
+    - 4d72d4b1-fa7b-4374-b423-0fe326da49d2
 mitre_attack_id:
     - T1112
 product:

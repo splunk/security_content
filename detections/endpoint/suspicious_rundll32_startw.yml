@@ -1,8 +1,8 @@
 name: Suspicious Rundll32 StartW
 id: 9319dda5-73f2-4d43-a85a-67ce961bddb7
-version: 15
+version: 16
 creation_date: '2021-02-09'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ references:
     - https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1036
     - https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
     - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.011/T1218.011.yaml#L195
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -62,6 +63,8 @@ analytic_story:
     - Graceful Wipe Out Attack
     - Hellcat Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - ae3a8605-b26e-457c-b6b3-2702fd335bac
 mitre_attack_id:
     - T1218.011
 product:

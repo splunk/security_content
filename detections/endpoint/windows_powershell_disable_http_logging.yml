@@ -1,8 +1,8 @@
 name: Windows PowerShell Disable HTTP Logging
 id: 27958de0-2857-43ca-9d4c-b255cf59dcab
-version: 13
+version: 14
 creation_date: '2022-12-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -28,6 +28,7 @@ references:
     - https://www.crowdstrike.com/wp-content/uploads/2022/05/crowdstrike-iceapple-a-novel-internet-information-services-post-exploitation-framework-1.pdf
     - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
     - https://www.secureworks.com/research/bronze-union
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685.001/T1685.001.yaml#L27
 drilldown_searches:
     - name: View the detection results for - "$Computer$"
       search: '%original_detection_search% | search  Computer = "$Computer$"'
@@ -47,6 +48,8 @@ analytic_story:
     - IIS Components
     - Windows Defense Evasion Tactics
 asset_type: Endpoint
+atomic_guid:
+    - a957fb0f-1e85-49b2-a211-413366784b1e
 mitre_attack_id:
     - T1505.004
     - T1685.001

@@ -1,8 +1,8 @@
 name: Windows Disable Shutdown Button Through Registry
 id: 55fb2958-9ecd-11ec-a06a-acde48001122
-version: 15
+version: 16
 creation_date: '2022-03-08'
-modification_date: '2026-08-05'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -51,6 +51,7 @@ known_false_positives: |-
     In that scenario, filtering by the machines and users allowed to modify this registry key is recommended.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1112/T1112.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L230
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -70,6 +71,8 @@ analytic_story:
     - Ransomware
     - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - 6e0d1131-2d7e-4905-8ca5-d6172f05d03d
 mitre_attack_id:
     - T1112
 product:

@@ -1,8 +1,8 @@
 name: Windows DISM Remove Defender
 id: 8567da9e-47f0-11ec-99a9-acde48001122
-version: 15
+version: 16
 creation_date: '2021-12-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,6 +35,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Some legitimate administrative tools leverage `dism.exe` to manipulate packages and features of the operating system. Filter as needed.
 references:
     - https://thedfirreport.com/2020/11/23/pysa-mespinoza-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L608
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -66,6 +67,8 @@ analytic_story:
     - Compromised Windows Host
     - Windows Defense Evasion Tactics
 asset_type: Endpoint
+atomic_guid:
+    - 871438ac-7d6e-432a-b27d-3e7db69faf58
 mitre_attack_id:
     - T1685
 product:

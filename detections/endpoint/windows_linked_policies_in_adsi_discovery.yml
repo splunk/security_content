@@ -1,8 +1,8 @@
 name: Windows Linked Policies In ADSI Discovery
 id: 510ea428-4731-4d2f-8829-a28293e427aa
-version: 11
+version: 12
 creation_date: '2021-08-25'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -26,6 +26,7 @@ known_false_positives: Administrators or power users may use this command for tr
 references:
     - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
     - https://medium.com/@pentesttas/discover-hidden-gpo-s-on-active-directory-using-ps-adsi-a284b6814c81
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1087.002/T1087.002.yaml#L247
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -46,6 +47,8 @@ analytic_story:
     - Active Directory Discovery
     - Industroyer2
 asset_type: Endpoint
+atomic_guid:
+    - 7ab0205a-34e4-4a44-9b04-e1541d1a57be
 mitre_attack_id:
     - T1087.002
 product:

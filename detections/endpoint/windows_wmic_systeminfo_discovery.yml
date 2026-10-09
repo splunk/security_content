@@ -1,8 +1,8 @@
 name: Windows Wmic Systeminfo Discovery
 id: 97937ece-cb13-4dbc-9684-c0dc3afd400a
-version: 5
+version: 6
 creation_date: '2021-05-07'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,6 +29,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators may execute this command for testing or auditing.
 references:
     - https://cert.gov.ua/article/6284730
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1082/T1082.yaml#L381
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -58,6 +59,8 @@ analytic_story:
     - BlankGrabber Stealer
     - Lotus Blossom Chrysalis Backdoor
 asset_type: Endpoint
+atomic_guid:
+    - 8851b73a-3624-4bf7-8704-aa312411565c
 mitre_attack_id:
     - T1082
 product:

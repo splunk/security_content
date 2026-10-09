@@ -1,8 +1,8 @@
 name: RunDLL Loading DLL By Ordinal
 id: 6c135f8d-5e60-454e-80b7-c56eed739833
-version: 16
+version: 17
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, David Dorsey, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
     - https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
     - https://twitter.com/M_haggis/status/1491109262428635136
     - https://twitter.com/pr0xylife/status/1590394227758104576
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218.011/T1218.011.yaml#L222
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -59,6 +60,8 @@ analytic_story:
     - Living Off The Land
     - IcedID
 asset_type: Endpoint
+atomic_guid:
+    - 9fd5a74b-ba89-482a-8a3e-a5feaa3697b0
 mitre_attack_id:
     - T1218.011
 product:

@@ -1,8 +1,8 @@
 name: Remote System Discovery with Adsisearcher
 id: 70803451-0047-4e12-9d63-77fa7eb8649c
-version: 12
+version: 13
 creation_date: '2021-09-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -25,6 +25,7 @@ known_false_positives: Administrators or power users may use Adsisearcher for tr
 references:
     - https://attack.mitre.org/techniques/T1018/
     - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1018/T1018.yaml#L359
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -43,6 +44,8 @@ finding:
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - 64ede6ac-b57a-41c2-a7d1-32c6cd35397d
 mitre_attack_id:
     - T1018
 product:

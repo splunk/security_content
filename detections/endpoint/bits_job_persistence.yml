@@ -1,8 +1,8 @@
 name: BITS Job Persistence
 id: e97a5ffe-90bf-11eb-928a-acde48001122
-version: 13
+version: 14
 creation_date: '2021-03-30'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
     - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md#atomic-test-3---persist-download--execute
     - https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1197/T1197.yaml#L51
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -62,6 +63,8 @@ analytic_story:
     - BITS Jobs
     - Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - 62a06ec5-5754-47d2-bcfc-123d8314c6ae
 mitre_attack_id:
     - T1197
 product:

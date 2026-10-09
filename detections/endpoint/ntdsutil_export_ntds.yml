@@ -1,8 +1,8 @@
 name: Ntdsutil Export NTDS
 id: da63bc76-61ae-11eb-ae93-0242ac130002
-version: 12
+version: 13
 creation_date: '2021-01-28'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -35,6 +35,7 @@ references:
     - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
     - https://strontic.github.io/xcyclopedia/library/vss_ps.dll-97B15BDAE9777F454C9A6BA25E938DB3.html
     - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.003/T1003.003.yaml#L83
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -59,6 +60,8 @@ analytic_story:
     - Rhysida Ransomware
     - NetSupport RMM Tool Abuse
 asset_type: Endpoint
+atomic_guid:
+    - 2364e33d-ceab-4641-8468-bfb1d7cc2723
 mitre_attack_id:
     - T1003.003
 product:

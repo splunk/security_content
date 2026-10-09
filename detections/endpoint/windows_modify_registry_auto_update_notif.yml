@@ -1,8 +1,8 @@
 name: Windows Modify Registry Auto Update Notif
 id: 4d1409df-40c7-4b11-aec4-bd0e709dfc12
-version: 11
+version: 12
 creation_date: '2023-04-26'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: administrators may enable or disable this feature that may cause some false positive.
 references:
     - https://learn.microsoft.com/de-de/security-updates/windowsupdateservices/18127499
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L835
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -33,7 +34,7 @@ analytic_story:
     - RedLine Stealer
 asset_type: Endpoint
 atomic_guid:
-    - 12e03af7-79f9-4f95-af48-d3f12f28a260
+    - 335a6b15-b8d2-4a3f-a973-ad69aa2620d7
 mitre_attack_id:
     - T1112
 product:

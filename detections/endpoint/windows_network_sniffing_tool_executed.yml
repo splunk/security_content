@@ -1,8 +1,8 @@
 name: Windows Network Sniffing Tool Executed
 id: 0c594353-e12d-4867-92f6-2a1b8a1faf5f
-version: 1
+version: 2
 creation_date: '2026-07-30'
-modification_date: '2026-07-30'
+modification_date: '2026-10-02'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -51,6 +51,8 @@ known_false_positives: |-
     Legitimate network administrators and security teams may use these tools for authorized network monitoring and troubleshooting. Filter based on approved software inventory and known administrative activity.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1040/T1040.yaml#L86
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1040/T1040.yaml#L154
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -80,6 +82,9 @@ analytic_story:
     - Windows Discovery Techniques
     - Network Discovery
 asset_type: Endpoint
+atomic_guid:
+    - a5b2f6a0-24b4-493e-9590-c699f75723ca
+    - c67ba807-f48b-446e-b955-e4928cd1bf91
 mitre_attack_id:
     - T1040
 product:

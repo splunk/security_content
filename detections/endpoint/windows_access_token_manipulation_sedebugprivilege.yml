@@ -1,8 +1,8 @@
 name: Windows Access Token Manipulation SeDebugPrivilege
 id: 6ece9ed0-5f92-4315-889d-48560472b188
-version: 24
+version: 25
 creation_date: '2022-09-05'
-modification_date: '2026-08-14'
+modification_date: '2026-10-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -18,6 +18,7 @@ references:
     - https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e
     - https://atomicredteam.io/privilege-escalation/T1134.001/#atomic-test-2---%60sedebugprivilege%60-token-duplication
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1134.001/T1134.001.yaml#L20
 drilldown_searches:
     - name: View the detection results for - "$Computer$"
       search: '%original_detection_search% | search  Computer = "$Computer$"'
@@ -55,6 +56,8 @@ analytic_story:
     - Salat Stealer
     - Vidar Stealer
 asset_type: Endpoint
+atomic_guid:
+    - 34f0a430-9d04-4d98-bcb5-1989f14719f0
 mitre_attack_id:
     - T1134.002
 product:

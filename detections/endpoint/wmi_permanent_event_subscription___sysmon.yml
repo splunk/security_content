@@ -1,8 +1,8 @@
 name: WMI Permanent Event Subscription - Sysmon
 id: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
-version: 13
+version: 14
 creation_date: '2020-04-29'
-modification_date: '2026-10-05'
+modification_date: '2026-10-09'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -35,6 +35,9 @@ references:
     - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
     - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md
     - https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.003/T1546.003.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.003/T1546.003.yaml#L44
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1546.003/T1546.003.yaml#L86
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -53,6 +56,10 @@ intermediate_findings:
 analytic_story:
     - Suspicious WMI Use
 asset_type: Endpoint
+atomic_guid:
+    - 3c64f177-28e2-49eb-a799-d767b24dd1e0
+    - fecd0dfd-fb55-45fa-a10b-6250272d0832
+    - 29786d7e-8916-4de6-9c55-be7b093b2706
 mitre_attack_id:
     - T1546.003
 product:

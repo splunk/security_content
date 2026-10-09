@@ -1,8 +1,8 @@
 name: Windows Modify Registry Disable Toast Notifications
 id: ed4eeacb-8d5a-488e-bc97-1ce6ded63b84
-version: 11
+version: 12
 creation_date: '2022-06-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ known_false_positives: administrators may enable or disable this feature that ma
 references:
     - https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-remoteassistance-exe-fallowtogethelp
     - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L563
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -33,6 +34,8 @@ intermediate_findings:
 analytic_story:
     - Azorult
 asset_type: Endpoint
+atomic_guid:
+    - 003f466a-6010-4b15-803a-cbb478a314d7
 mitre_attack_id:
     - T1112
 product:

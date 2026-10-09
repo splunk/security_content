@@ -1,8 +1,8 @@
 name: Linux Auditd Add User Account
 id: aae66dc0-74b4-4807-b480-b35f8027abb4
-version: 10
+version: 11
 creation_date: '2022-01-10'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -21,6 +21,7 @@ how_to_implement: To implement this detection, the process begins by ingesting a
 known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
     - https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.001/T1136.001.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -41,6 +42,8 @@ analytic_story:
     - Linux Persistence Techniques
     - Compromised Linux Host
 asset_type: Endpoint
+atomic_guid:
+    - 40d8eabd-e394-46f6-8785-b9bfa1d011d2
 mitre_attack_id:
     - T1136.001
 product:

@@ -1,8 +1,8 @@
 name: Windows Service Create with Tscon
 id: c13b3d74-6b63-4db5-a841-4206f0370077
-version: 15
+version: 16
 creation_date: '2023-03-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ known_false_positives: False positives may arise in the RDP Hijacking analytic w
 references:
     - https://doublepulsar.com/rdp-hijacking-how-to-hijack-rds-and-remoteapp-sessions-transparently-to-move-through-an-da2a1e73a5f6
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1563.002/T1563.002.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1563.002/T1563.002.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -61,6 +62,8 @@ analytic_story:
     - Compromised Windows Host
     - Windows RDP Artifacts and Defense Evasion
 asset_type: Endpoint
+atomic_guid:
+    - a37ac520-b911-458e-8aed-c5f1576d9f46
 mitre_attack_id:
     - T1543.003
     - T1563.002

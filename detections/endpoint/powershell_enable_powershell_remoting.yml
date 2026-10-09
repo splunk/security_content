@@ -1,8 +1,8 @@
 name: PowerShell Enable PowerShell Remoting
 id: 40e3b299-19a5-4460-96e9-e1467f714f8e
-version: 12
+version: 13
 creation_date: '2023-03-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -25,6 +25,7 @@ how_to_implement: To successfully implement this analytic, you will need to enab
 known_false_positives: Note that false positives may occur due to the use of the Enable-PSRemoting cmdlet by legitimate users, such as system administrators. It is recommended to apply appropriate filters as needed to minimize the number of false positives.
 references:
     - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enable-psremoting?view=powershell-7.3
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1021.006/T1021.006.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$Computer$"
       search: '%original_detection_search% | search  Computer = "$Computer$"'
@@ -43,6 +44,8 @@ intermediate_findings:
 analytic_story:
     - Malicious PowerShell
 asset_type: Endpoint
+atomic_guid:
+    - 9059e8de-3d7d-4954-a322-46161880b9cf
 mitre_attack_id:
     - T1059.001
 product:

@@ -1,8 +1,8 @@
 name: GetDomainController with PowerShell
 id: 868ee0e4-52ab-484a-833a-6d85b7c028d0
-version: 8
+version: 9
 creation_date: '2021-09-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -33,9 +33,12 @@ known_false_positives: Administrators or power users may use PowerView for troub
 references:
     - https://attack.mitre.org/techniques/T1018/
     - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainController/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1018/T1018.yaml#L372
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - b9d2e8ca-5520-4737-8076-4f08913da2c4
 mitre_attack_id:
     - T1018
 product:

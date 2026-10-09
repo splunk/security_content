@@ -1,8 +1,8 @@
 name: Get WMIObject Group Discovery with Script Block Logging
 id: 69df7f7c-155d-11ec-a055-acde48001122
-version: 11
+version: 12
 creation_date: '2021-09-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -30,9 +30,12 @@ references:
     - https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63
     - https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
     - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1069.001/T1069.001.yaml#L94
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - 69119e58-96db-4110-ad27-954e48f3bb13
 mitre_attack_id:
     - T1069.001
 product:

@@ -1,8 +1,8 @@
 name: Windows Registry Dotnet ETW Disabled Via ENV Variable
 id: 55502381-5cce-491b-9277-7cb1d10bc0df
-version: 11
+version: 12
 creation_date: '2021-10-07'
-modification_date: '2026-08-05'
+modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -42,6 +42,10 @@ references:
     - https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
     - https://blog.xpnsec.com/hiding-your-dotnet-complus-etwenabled/
     - https://attack.mitre.org/techniques/T1562/006/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1621
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1630
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1639
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1649
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -67,6 +71,11 @@ analytic_story:
     - Windows Registry Abuse
     - Windows Defense Evasion Tactics
 asset_type: Endpoint
+atomic_guid:
+    - fdac1f79-b833-4bab-b4a1-11b1ed676a4b
+    - b42c1f8c-399b-47ae-8fd8-763181395fee
+    - 110b4281-43fe-405f-a184-5d8eaf228ebf
+    - 4d61779d-be7f-425c-b560-0cafb2522911
 mitre_attack_id:
     - T1685
 product:

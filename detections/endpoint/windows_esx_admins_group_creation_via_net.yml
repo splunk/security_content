@@ -1,8 +1,8 @@
 name: Windows ESX Admins Group Creation via Net
 id: 3d7df60b-3332-4667-8090-afe03e08dce0
-version: 11
+version: 12
 creation_date: '2024-07-30'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ references:
     - https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/24505
     - https://www.microsoft.com/en-us/security/blog/2024/07/29/ransomware-operators-exploit-esxi-hypervisor-vulnerability-for-mass-encryption/
     - https://www.securityweek.com/microsoft-says-ransomware-gangs-exploiting-just-patched-vmware-esxi-flaw/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1136.002/T1136.002.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -59,6 +60,8 @@ analytic_story:
 asset_type: Endpoint
 cve:
     - CVE-2024-37085
+atomic_guid:
+    - fcec2963-9951-4173-9bfa-98d8b7834e62
 mitre_attack_id:
     - T1136.002
     - T1136.001

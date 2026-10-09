@@ -1,8 +1,8 @@
 name: CertUtil With Decode Argument
 id: bfe94226-8c10-11eb-a4b3-acde48001122
-version: 15
+version: 16
 creation_date: '2021-03-25'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1140/T1140.md
     - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
     - https://www.bleepingcomputer.com/news/security/certutilexe-could-allow-attackers-to-download-malware-while-bypassing-av/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1140/T1140.yaml#L25
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -70,6 +71,8 @@ threat_group:
     - Cozy Bear
     - Midnight Blizzard
 asset_type: Endpoint
+atomic_guid:
+    - 71abc534-3c05-4d0c-80f7-cbe93cb2aa94
 mitre_attack_id:
     - T1140
 product:

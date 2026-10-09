@@ -1,8 +1,8 @@
 name: Windows Indirect Command Execution Via Series Of Forfiles
 id: bfdaabe7-3db8-48c5-80c1-220f9b8f22be
-version: 11
+version: 12
 creation_date: '2022-12-07'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,6 +29,7 @@ references:
     - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/forfiles
     - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
     - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1202/T1202.yaml#L27
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -48,6 +49,8 @@ analytic_story:
     - Windows Post-Exploitation
     - Prestige Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - 8b34a448-40d9-4fc3-a8c8-4bb286faf7dc
 mitre_attack_id:
     - T1202
 product:

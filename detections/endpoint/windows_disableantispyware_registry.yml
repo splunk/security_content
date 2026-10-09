@@ -1,8 +1,8 @@
 name: Windows DisableAntiSpyware Registry
 id: 23150a40-9301-4195-b802-5bb4f43067fb
-version: 13
+version: 14
 creation_date: '2020-11-06'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -14,6 +14,8 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: It is unusual to turn this feature off a Windows system since it is a default security control, although it is not rare for some policies to disable it. Although no false positives have been identified, use the provided filter macro to tune the search.
 references:
     - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1004
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1051
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -39,6 +41,9 @@ analytic_story:
     - Windows Defense Evasion Tactics
     - CISA AA23-347A
 asset_type: Endpoint
+atomic_guid:
+    - 1f6743da-6ecc-4a93-b03f-dc357e4b313f
+    - a72cfef8-d252-48b3-b292-635d332625c3
 mitre_attack_id:
     - T1685
 product:

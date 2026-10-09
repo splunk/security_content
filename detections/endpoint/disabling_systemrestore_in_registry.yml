@@ -1,8 +1,8 @@
 name: Disabling SystemRestore In Registry
 id: f4f837e2-91fb-11eb-8bf6-acde48001122
-version: 15
+version: 16
 creation_date: '2021-03-31'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: in some cases admin can disable systemrestore on a machine.
 references:
     - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1490/T1490.yaml#L132
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -40,6 +41,8 @@ analytic_story:
     - Windows Registry Abuse
     - NjRAT
 asset_type: Endpoint
+atomic_guid:
+    - 66e647d1-8741-4e43-b7c1-334760c2047f
 mitre_attack_id:
     - T1490
 product:

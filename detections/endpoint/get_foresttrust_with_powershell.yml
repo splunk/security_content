@@ -1,8 +1,8 @@
 name: Get-ForestTrust with PowerShell
 id: 584f4884-0bf1-11ec-a5ec-acde48001122
-version: 10
+version: 11
 creation_date: '2021-09-02'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,6 +31,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Limited false positives as this requires an active Administrator or adversary to bring in, import, and execute.
 references:
     - https://powersploit.readthedocs.io/en/latest/Recon/Get-ForestTrust/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1482/T1482.yaml#L130
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -55,6 +56,8 @@ intermediate_findings:
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - 58ed10e8-0738-4651-8408-3a3e9a526279
 mitre_attack_id:
     - T1482
 product:

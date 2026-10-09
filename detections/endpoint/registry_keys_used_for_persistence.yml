@@ -1,8 +1,8 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 35
+version: 36
 creation_date: '2020-04-29'
-modification_date: '2026-07-20'
+modification_date: '2026-10-09'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
@@ -12,7 +12,8 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce OR Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\\*" OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\*" OR Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run* OR Registry.registry_path=*\\currentversion\\runservices* OR Registry.registry_path=*\\SOFTWARE\\Microsoft\\Netsh\\* OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Common Startup" OR Registry.registry_path= *\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SharedTaskScheduler OR Registry.registry_path= *\\Classes\\htmlfile\\shell\\open\\command OR (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*" AND Registry.registry_key_name=Debugger) OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa" AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa\\OSConfig" AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\*") OR (Registry.registry_path="*currentVersion\\Windows" AND Registry.registry_key_name="Load") OR (Registry.registry_path="*\\CurrentVersion" AND Registry.registry_key_name="Svchost") OR (Registry.registry_path="*\\CurrentControlSet\Control\Session Manager"AND Registry.registry_key_name="BootExecute") OR (Registry.registry_path="*\\Software\\Run" AND Registry.registry_key_name="auto_update")) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `registry_keys_used_for_persistence_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 known_false_positives: There are many legitimate applications that must execute on system startup and will use these registry keys to accomplish that task.
-references: []
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1547.001/T1547.001.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -85,6 +86,8 @@ analytic_story:
     - Phantom Stealer
     - Starland RAT Campaign
 asset_type: Endpoint
+atomic_guid:
+    - e55be3fd-3521-4610-9d1a-e210e42dcf05
 mitre_attack_id:
     - T1547.001
 product:

@@ -1,8 +1,8 @@
 name: ServicePrincipalNames Discovery with SetSPN
 id: ae8b3efc-2d2e-11ec-8b57-acde48001122
-version: 13
+version: 14
 creation_date: '2021-10-15'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -47,6 +47,7 @@ references:
     - https://blog.zsec.uk/paving-2-da-wholeset/
     - https://msitpros.com/?p=3113
     - https://adsecurity.org/?p=3466
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1558.003/T1558.003.yaml#L82
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -79,6 +80,8 @@ analytic_story:
     - Compromised Windows Host
     - Active Directory Kerberos Attacks
 asset_type: Endpoint
+atomic_guid:
+    - e6f4affd-d826-4871-9a62-6c9004b8fe06
 mitre_attack_id:
     - T1558.003
 product:

@@ -1,8 +1,8 @@
 name: Windows Eventlog Cleared Via Wevtutil
 id: fdb829a8-db84-4832-b64b-3e964cd44f01
-version: 8
+version: 9
 creation_date: '2019-10-16'
-modification_date: '2026-09-21'
+modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -68,6 +68,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: The wevtutil.exe application is a legitimate Windows event log utility. Administrators may use it to manage Windows event logs.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/61080b19460f2c6431c31689d58063c5f6c1f8fb/atomics/T1070.001/T1070.001.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -94,6 +95,8 @@ analytic_story:
     - CISA AA23-347A
     - ShrinkLocker
 asset_type: Endpoint
+atomic_guid:
+    - e6abb60e-26b8-41da-8aae-0c35174b0967
 mitre_attack_id:
     - T1685.005
 product:

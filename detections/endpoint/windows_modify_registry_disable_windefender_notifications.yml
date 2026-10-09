@@ -1,8 +1,8 @@
 name: Windows Modify Registry Disable WinDefender Notifications
 id: 8e207707-ad40-4eb3-b865-3a52aec91f26
-version: 12
+version: 13
 creation_date: '2023-04-26'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: administrators may enable or disable this feature that may cause some false positive.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1112/T1112.yaml#L796
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'

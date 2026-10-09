@@ -1,8 +1,8 @@
 name: GetCurrent User with PowerShell
 id: 7eb9c3d5-c98c-4088-acc5-8240bad15379
-version: 8
+version: 9
 creation_date: '2021-08-24'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -32,9 +32,12 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
     - https://attack.mitre.org/techniques/T1033/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1033/T1033.yaml#L67
 analytic_story:
     - Active Directory Discovery
 asset_type: Endpoint
+atomic_guid:
+    - 1392bd0f-5d5a-429e-81d9-eb9d4d4d5b3b
 mitre_attack_id:
     - T1033
 product:

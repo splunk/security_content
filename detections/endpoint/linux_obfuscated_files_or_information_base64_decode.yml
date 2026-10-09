@@ -1,8 +1,8 @@
 name: Linux Obfuscated Files or Information Base64 Decode
 id: 303b38b2-c03f-44e2-8f41-4594606fcfc7
-version: 13
+version: 14
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -29,6 +29,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1027/T1027.md#atomic-test-1---decode-base64-data-into-script
     - https://redcanary.com/blog/lateral-movement-with-secure-shell/
     - https://linux.die.net/man/1/base64
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1027/T1027.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -56,6 +57,8 @@ threat_objects:
 analytic_story:
     - Linux Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - f45df6be-2e1e-4136-a384-8f18ab3826fb
 mitre_attack_id:
     - T1027
 product:

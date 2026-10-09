@@ -1,8 +1,8 @@
 name: Eventvwr UAC Bypass
 id: 9cf8fe08-7ad8-11eb-9819-acde48001122
-version: 13
+version: 14
 creation_date: '2021-03-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Steven Dick, Michael Haag, Splunk
 status: production
 type: TTP
@@ -17,6 +17,8 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md
     - https://attack.mitre.org/techniques/T1548/002/
     - https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1548.002/T1548.002.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1548.002/T1548.002.yaml#L24
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -45,6 +47,9 @@ analytic_story:
     - Windows Registry Abuse
     - ValleyRAT
 asset_type: Endpoint
+atomic_guid:
+    - 5073adf8-9a50-4bd9-b298-a9bd2ead8af9
+    - a6ce9acf-842a-4af6-8f79-539be7608e2b
 mitre_attack_id:
     - T1548.002
 product:

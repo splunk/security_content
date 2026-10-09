@@ -1,8 +1,8 @@
 name: Windows Service Creation Using Registry Entry
 id: 25212358-948e-11ec-ad47-acde48001122
-version: 20
+version: 21
 creation_date: '2022-02-23'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Third party tools may used this technique to create services but not so common.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/36d49de4c8b00bf36054294b4a1fcbab3917d7c5/atomics/T1574.011/T1574.011.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1574.011/T1574.011.yaml#L22
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -45,6 +46,8 @@ analytic_story:
     - Brute Ratel C4
     - Gh0st RAT
 asset_type: Endpoint
+atomic_guid:
+    - f38e9eea-e1d7-4ba6-b716-584791963827
 mitre_attack_id:
     - T1574.011
 product:

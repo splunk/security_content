@@ -1,8 +1,8 @@
 name: Linux System Reboot Via System Request Key
 id: e1912b58-ed9c-422c-bbb0-2dbc70398345
-version: 11
+version: 12
 creation_date: '2023-02-09'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,6 +28,7 @@ references:
     - https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
     - https://cert.gov.ua/article/3718487
     - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1529/T1529.yaml#L282
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -47,6 +48,8 @@ analytic_story:
     - AwfulShred
     - Data Destruction
 asset_type: Endpoint
+atomic_guid:
+    - d2a1f4bc-a064-4223-8281-a086dce5423c
 mitre_attack_id:
     - T1529
 product:

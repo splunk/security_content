@@ -1,8 +1,8 @@
 name: Network Share Discovery Via Dir Command
 id: dc1457d0-1d9b-422e-b5a7-db46c184d9aa
-version: 7
+version: 8
 creation_date: '2023-05-23'
-modification_date: '2026-08-05'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -51,6 +51,7 @@ references:
     - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
     - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5140#table-of-file-access-codes
     - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5140
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1135/T1135.yaml#L166
 analytic_story:
     - IcedID
 asset_type: Endpoint

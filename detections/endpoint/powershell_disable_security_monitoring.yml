@@ -1,8 +1,8 @@
 name: Powershell Disable Security Monitoring
 id: c148a894-dd93-11eb-bf2a-acde48001122
-version: 17
+version: 18
 creation_date: '2021-07-05'
-modification_date: '2026-06-08'
+modification_date: '2026-10-02'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -92,6 +92,7 @@ known_false_positives: |
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-15---tamper-with-windows-defender-atp-powershell
     - https://docs.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2022-ps
+    - https://github.com/redcanaryco/atomic-red-team/blob/61080b19460f2c6431c31689d58063c5f6c1f8fb/atomics/T1562.001/T1562.001.yaml#L328
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -114,6 +115,8 @@ analytic_story:
     - BlankGrabber Stealer
     - Salat Stealer
 asset_type: Endpoint
+atomic_guid:
+    - 6b8df440-51ec-4d53-bf83-899591c9b5d7
 mitre_attack_id:
     - T1685
 product:

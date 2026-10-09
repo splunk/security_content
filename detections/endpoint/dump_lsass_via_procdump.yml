@@ -1,8 +1,8 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 20
+version: 21
 creation_date: '2021-02-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -76,6 +76,7 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
     - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
     - https://x.com/wietze/status/1958302556033065292?s=12
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.001/T1003.001.yaml#L5
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -110,6 +111,8 @@ analytic_story:
     - Seashell Blizzard
     - Storm-2460 CLFS Zero Day Exploitation
 asset_type: Endpoint
+atomic_guid:
+    - 0be2230c-9ab3-4ac2-8826-3199b9a0ebf8
 mitre_attack_id:
     - T1003.001
 product:

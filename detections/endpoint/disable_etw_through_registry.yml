@@ -1,8 +1,8 @@
 name: Disable ETW Through Registry
 id: f0eacfa4-d33f-11eb-8f9d-acde48001122
-version: 15
+version: 16
 creation_date: '2021-06-23'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -14,6 +14,8 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: network operator may disable this feature of windows but not so common.
 references:
     - https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1571
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1581
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -34,6 +36,9 @@ analytic_story:
     - CISA AA23-347A
     - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - 8a4c33be-a0d3-434a-bee6-315405edbd5b
+    - 19c07a45-452d-4620-90ed-4c34fffbe758
 mitre_attack_id:
     - T1685
 product:

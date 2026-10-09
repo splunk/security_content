@@ -1,8 +1,8 @@
 name: Windows PowerShell Export PfxCertificate
 id: ed06725f-6da6-439f-9dcc-ab30e891297c
-version: 14
+version: 15
 creation_date: '2023-02-03'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -26,6 +26,7 @@ known_false_positives: It is possible administrators or scripts may run these co
 references:
     - https://dev.to/iamthecarisma/managing-windows-pfx-certificates-through-powershell-3pj
     - https://learn.microsoft.com/en-us/powershell/module/pki/export-pfxcertificate?view=windowsserver2022-ps
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1552.004/T1552.004.yaml#L325
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -46,6 +47,8 @@ analytic_story:
     - Windows Certificate Services
     - Water Gamayun
 asset_type: Endpoint
+atomic_guid:
+    - 7617f689-bbd8-44bc-adcd-6f8968897848
 mitre_attack_id:
     - T1552.004
     - T1649
