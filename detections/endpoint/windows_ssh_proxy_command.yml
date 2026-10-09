@@ -1,8 +1,8 @@
 name: Windows SSH Proxy Command
 id: ac520039-21f1-4567-b528-5b7133dba76f
-version: 6
+version: 7
 creation_date: '2025-03-24'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Michael Haag, AJ King, Nasreddine Bencherchali, Splunk, Jesse Hunter, Splunk Community Contributor
 status: production
 type: Anomaly
@@ -12,7 +12,6 @@ description: |
     This technique can be used by attackers to execute arbitrary commands through SSH proxy configurations, potentially enabling command & control activities or remote code execution. The detection focuses on commonly abused Windows scripting engines and web requests that may indicate malicious activity when spawned through SSH proxy commands.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime

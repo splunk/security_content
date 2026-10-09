@@ -1,6 +1,6 @@
 name: Cisco NVM - Osascript Network Connection for a Long Duration
 id: 6bc88a9d-f7de-4257-b526-acf15bc5a517
-version: 2
+version: 1
 creation_date: '2026-09-18'
 modification_date: '2026-09-22'
 author: Radka Viskova, Splunk
