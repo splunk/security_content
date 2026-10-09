@@ -9,18 +9,8 @@ type: Anomaly
 description: The following analytic detects the use of the `[Adsisearcher]` type accelerator in PowerShell Script Block Logging (EventCode=4104) to query Active Directory for domain organizational units. This detection leverages PowerShell operational logs to identify script blocks containing `[adsisearcher]`, `objectcategory=organizationalunit`, and `findAll()`. This activity is significant as it indicates potential reconnaissance efforts by adversaries to gain situational awareness of the domain structure. If confirmed malicious, this could lead to further exploitation, such as privilege escalation or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText = "*objectcategory=organizationalunit*" ScriptBlockText = "*findAll()*"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_linked_policies_in_adsi_discovery_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process="*[adsisearcher]*" Processes.process="*objectcategory=organizationalunit*" Processes.process="*findAll()*" by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_linked_policies_in_adsi_discovery_filter`
 how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
@@ -34,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

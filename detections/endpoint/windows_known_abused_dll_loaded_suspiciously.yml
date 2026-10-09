@@ -6,13 +6,14 @@ modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: TTP
-description: |-
-    The following analytic detects when DLLs with known abuse history are loaded from an unusual location.
+description: 'The following analytic detects when DLLs with known abuse history are loaded from an unusual location.
+
     This activity may represent an attacker performing a DLL search order or sideload hijacking technique.
-    These techniques are used to gain persistence as well as elevate privileges on the target system.
+
+    These techniques are used to gain persistence as well as elevate privileges on the target system.'
 data_source:
     - Sysmon EventID 7
-search: |-
+search: |
     `sysmon`
     ImageLoaded
     EventCode=7
@@ -119,10 +120,8 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_known_abused_dll_loaded_suspiciously_filter`
-how_to_implement: |-
-    The following analytic requires Sysmon operational logs to be ingested, with EventID 7 being mapped to the process_name field. Modify the sysmon macro as needed to match the sourcetype or add index.
-known_false_positives: |-
-    False positives are expected from third party applications and other legitimate system processes located in Program Files and other similar locations. Filter as needed.
+how_to_implement: The following analytic requires Sysmon operational logs to be ingested, with EventID 7 being mapped to the process_name field. Modify the sysmon macro as needed to match the sourcetype or add index.
+known_false_positives: False positives are expected from third party applications and other legitimate system processes located in Program Files and other similar locations. Filter as needed.
 references:
     - https://attack.mitre.org/techniques/T1574/002/
     - https://hijacklibs.net/api/
@@ -136,7 +135,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The module [$loaded_file$] was loaded from an unusual location [$loaded_file_path$] on [$dest$]. Which may indicate a DLL search order or sideload hijacking technique.
     entity:

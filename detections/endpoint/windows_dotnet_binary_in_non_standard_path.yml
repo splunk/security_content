@@ -6,12 +6,15 @@ modification_date: '2026-09-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: |
-    The following analytic detects the execution of native .NET binaries from non-standard directories within the Windows operating system.
+description: 'The following analytic detects the execution of native .NET binaries from non-standard directories within the Windows operating system.
+
     It leverages Endpoint Detection and Response (EDR) telemetry, comparing process names and original file names against a predefined lookup "is_net_windows_file".
+
     This activity is significant because adversaries may move .NET binaries to unconventional paths to evade detection and execute malicious code.
+
     If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
-    Also this analytic leverages a sub-search to enhance performance. sub-searches have limitations on the amount of data they can return. Keep this in mind if you have an extensive list of ransomware note file names.
+
+    Also this analytic leverages a sub-search to enhance performance. sub-searches have limitations on the amount of data they can return. Keep this in mind if you have an extensive list of ransomware note file names.'
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -49,16 +52,23 @@ search: |
     | lookup local=t update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile
     | search netFile=true
     | `windows_dotnet_binary_in_non_standard_path_filter`
-how_to_implement: |
-    The detection is based on data that originates from Endpoint Detection
+how_to_implement: 'The detection is based on data that originates from Endpoint Detection
+
     and Response (EDR) agents. These agents are designed to provide security-related
+
     telemetry from the endpoints where the agent is installed. To implement this search,
+
     you must ingest logs that contain the process GUID, process name, and parent process.
+
     Additionally, you must ingest complete command-line executions. These logs must
+
     be processed using the appropriate Splunk Technology Add-ons that are specific to
+
     the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+
     data model. Use the Splunk Common Information Model (CIM) to normalize the field
-    names and speed up the data modeling process.
+
+    names and speed up the data modeling process.'
 known_false_positives: False positives may be present and filtering may be required. Certain utilities will run from non-standard paths based on the third-party application in use.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
@@ -73,7 +83,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: An instance of $parent_process_name$ spawning $process_name$ from a non-standard path was identified on endpoint $dest$ by user $user$.
     entity:

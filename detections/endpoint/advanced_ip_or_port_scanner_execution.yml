@@ -6,52 +6,39 @@ modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic detects the execution of network scanning utilities such as Advanced IP Scanner or Advanced Port Scanner.
+description: 'The following analytic detects the execution of network scanning utilities such as Advanced IP Scanner or Advanced Port Scanner.
+
     These legitimate administrative tools are often leveraged by threat actors and ransomware operators during the discovery phase to enumerate active hosts and open ports within a target environment.
+
     Detection is based on process creation telemetry referencing known executable names, original file names, or specific command-line parameters such as "/portable" and "/lng" that are characteristic of these tools.
-    If confirmed malicious, this activity may indicate internal reconnaissance aimed at identifying reachable systems or services prior to lateral movement or further post-compromise actions.
+
+    If confirmed malicious, this activity may indicate internal reconnaissance aimed at identifying reachable systems or services prior to lateral movement or further post-compromise actions.'
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |
-    | tstats `security_content_summariesonly`
-      count min(_time) as firstTime
-            max(_time) as lastTime
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where (Processes.process="* /portable *" Processes.process="* /lng *") OR Processes.process_name IN ("*advanced_ip_scanner.exe", "*advanced_ip_scanner_console.exe", "*advanced_port_scanner.exe", "*advanced_port_scanner_console.exe") OR Processes.original_file_name IN ("advanced_ip_scanner.exe", "advanced_ip_scanner_console.exe", "advanced_port_scanner.exe", "advanced_port_scanner_console.exe") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `advanced_ip_or_port_scanner_execution_filter`
+how_to_implement: 'The detection is based on data that originates from Endpoint Detection
 
-      from datamodel=Endpoint.Processes where
-        Processes.process_name IN ("advanced_ip_scanner.exe", "advanced_ip_scanner_console.exe", "advanced_port_scanner.exe", "advanced_port_scanner_console.exe")
-        OR
-        Processes.original_file_name IN ("advanced_ip_scanner.exe", "advanced_ip_scanner_console.exe", "advanced_port_scanner.exe", "advanced_port_scanner_console.exe")
-        OR (
-        Processes.process = "* /portable *"
-        Processes.process = "* /lng *"
-        )
-
-      by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-         Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-         Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-         Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-
-    | `drop_dm_object_name(Processes)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `advanced_ip_or_port_scanner_execution_filter`
-how_to_implement: |
-    The detection is based on data that originates from Endpoint Detection
     and Response (EDR) agents. These agents are designed to provide security-related
+
     telemetry from the endpoints where the agent is installed. To implement this search,
+
     you must ingest logs that contain the process GUID, process name, and parent process.
+
     Additionally, you must ingest complete command-line executions. These logs must
+
     be processed using the appropriate Splunk Technology Add-ons that are specific to
+
     the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+
     data model. Use the Splunk Common Information Model (CIM) to normalize the field
-    names and speed up the data modeling process.
-known_false_positives: |
-    Legitimate administrators or IT staff may use Advanced IP or Port Scanner for authorized
-    network management or inventory purposes. Validate the context of execution and apply any filters as necessary.
+
+    names and speed up the data modeling process.'
+known_false_positives: 'Legitimate administrators or IT staff may use Advanced IP or Port Scanner for authorized
+
+    network management or inventory purposes. Validate the context of execution and apply any filters as necessary.'
 references:
     - https://news.sophos.com/en-us/2019/12/09/snatch-ransomware-reboots-pcs-into-safe-mode-to-bypass-protection/
     - https://cloud.google.com/blog/topics/threat-intelligence/tactics-techniques-procedures-associated-with-maze-ransomware-incidents/
@@ -66,7 +53,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies a single source endpoint failing to authenticate with 30 unique valid users using the NTLM protocol. It leverages EventCode 4776 from Domain Controller logs, focusing on error code 0xC000006A, which indicates a bad password. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges. If confirmed malicious, this activity could lead to unauthorized access to sensitive information or further compromise of the Active Directory environment.
 data_source:
     - Windows Event Log Security 4776
-search: |-
+search: |
     `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xC000006A
       | bucket span=5m _time
       | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts values(dest) as dest
@@ -30,7 +30,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$Workstation$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Workstation$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Potential NTLM based password spraying attack from $Workstation$
     entity:
@@ -50,9 +50,9 @@ product:
 category: endpoint
 security_domain: endpoint
 tests:
-    - attack_data:
+    - name: True Positive Test
+      attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm_xml/windows-security.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
-      name: True Positive Test
       test_type: unit

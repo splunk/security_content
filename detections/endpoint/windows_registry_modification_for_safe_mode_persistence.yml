@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies modifications to the SafeBoot registry keys, specifically within the Minimal and Network paths. This detection leverages registry activity logs from endpoint data sources like Sysmon or EDR tools. Monitoring these keys is crucial as adversaries can use them to persist drivers or services in Safe Mode, with Network allowing network connections. If confirmed malicious, this activity could enable attackers to maintain persistence even in Safe Mode, potentially bypassing certain security measures and facilitating further malicious actions.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path IN ("*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\*","*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\*") by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_registry_modification_for_safe_mode_persistence_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path IN ("*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\*", "*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\*") by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_registry_modification_for_safe_mode_persistence_filter`
 how_to_implement: To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 known_false_positives: updated windows application needed in safe boot may used this registry
 references:
@@ -25,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Safeboot registry $registry_path$ was added or modified with a new value $registry_value_name$ on $dest$
     entity:

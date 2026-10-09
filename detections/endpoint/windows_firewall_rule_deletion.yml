@@ -9,7 +9,7 @@ type: Anomaly
 description: This detection identifies instances where a Windows Firewall rule has been deleted, potentially exposing the system to security risks. Unauthorized removal of firewall rules can indicate an attacker attempting to bypass security controls or malware disabling protections for persistence and command-and-control communication. The event logs details such as the deleted rule name, protocol, port, and the user responsible for the action. Security teams should monitor for unexpected deletions, correlate with related events, and investigate anomalies to prevent unauthorized access and maintain network security posture.
 data_source:
     - Windows Event Log Security 4948
-search: |-
+search: |
     `wineventlog_security` EventCode=4948
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY RuleName signature subject
@@ -29,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects attempts to modify or add a Component Object Model (COM) entry to the InProcServer32 path within the registry using PowerShell. It leverages PowerShell ScriptBlock Logging (EventCode 4104) to identify suspicious script blocks that target the InProcServer32 registry path. This activity is significant because modifying COM objects can be used for persistence or privilege escalation by attackers. If confirmed malicious, this could allow an attacker to execute arbitrary code or maintain persistent access to the compromised system, posing a severe security risk.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Software\\Classes\\CLSID\\*\\InProcServer32*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_com_hijacking_inprocserver32_modification_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process="*Software\\Classes\\CLSID\*\\InProcServer32*" by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_com_hijacking_inprocserver32_modification_filter`
 how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the PowerShell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: False positives will be present if any scripts are adding to inprocserver32. Filter as needed.
 references:
@@ -25,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$Computer$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A PowerShell script has been identified with InProcServer32 within the script code on $dest$.
     entity:

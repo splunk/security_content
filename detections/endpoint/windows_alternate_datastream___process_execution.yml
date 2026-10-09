@@ -10,7 +10,7 @@ description: The following analytic detects when a process attempts to execute a
 data_source:
     - Windows Event Log Security 4688
     - Sysmon EventID 1
-search: |-
+search: |
     | tstats count min(_time) as firstTime max(_time) as lastTime values(Processes.process_current_directory) as directory
     from datamodel=Endpoint.Processes where
     Processes.parent_process_name != "unknown"
@@ -61,7 +61,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The $process_name$ process was executed by $user$ using data from an NTFS alternate data stream.
     entity:

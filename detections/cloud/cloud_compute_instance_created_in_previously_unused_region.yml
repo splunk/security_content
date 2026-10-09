@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects the creation of a cloud compute instance in a region that has not been previously used within the last hour. It leverages cloud infrastructure logs and compares the regions of newly created instances against a lookup file of historically used regions. This activity is significant because the creation of instances in new regions can indicate unauthorized or suspicious activity, such as an attacker attempting to evade detection or establish a foothold in a less monitored area. If confirmed malicious, this could lead to unauthorized resource usage, data exfiltration, or further compromise of the cloud environment.
 data_source:
     - AWS CloudTrail
-search: |-
+search: |
     | tstats earliest(_time) as firstTime latest(_time) as lastTime values(All_Changes.object_id) as dest, count FROM datamodel=Change
       WHERE All_Changes.action=created
       BY All_Changes.vendor_region, All_Changes.user
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest
@@ -62,7 +62,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       description: PORTED MANUAL TEST - This search needs the baseline `Previously Seen Cloud Regions - Update` to be run first.
       test_type: experimental

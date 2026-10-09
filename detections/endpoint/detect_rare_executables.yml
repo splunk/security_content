@@ -6,52 +6,27 @@ modification_date: '2026-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic detects the execution of rare processes that appear only once across the network within a specified timeframe.
+description: 'The following analytic detects the execution of rare processes that appear only once across the network within a specified timeframe.
+
     It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs.
+
     This activity is significant for a SOC as it helps identify potentially malicious activities or unauthorized software, which could indicate a security breach or ongoing attack.
+
     If confirmed malicious, such rare processes could lead to data theft, privilege escalation, or complete system compromise, making early detection crucial for minimizing impact.
-    The search currently identifies processes executed on fewer than 10 hosts, but this threshold can be adjusted based on the organization's environment and risk tolerance.
-    The search groups results by process name which can lead to blind spots if a malicious process uses a common name. To mitigate this, consider enhancing the detection logic to group by additional attributes such as process hash.
+
+    The search currently identifies processes executed on fewer than 10 hosts, but this threshold can be adjusted based on the organization''s environment and risk tolerance.
+
+    The search groups results by process name which can lead to blind spots if a malicious process uses a common name. To mitigate this, consider enhancing the detection logic to group by additional attributes such as process hash.'
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |
-    | tstats `security_content_summariesonly`
-      dc(Processes.dest) as dc_dest
-      values(Processes.dest) as dest
-      values(Processes.user) as user
-      min(_time) as firstTime
-      max(_time) as lastTime
-      latest(Processes.action) as action
-      values(Processes.original_file_name) as original_file_name
-      values(Processes.parent_process) as parent_process
-      values(Processes.parent_process_exec) as parent_process_exec
-      latest(Processes.parent_process_guid) as parent_process_guid
-      latest(Processes.parent_process_id) as parent_process_id
-      values(Processes.parent_process_name) as parent_process_name
-      values(Processes.parent_process_path) as parent_process_path
-      values(Processes.process) as process
-      values(Processes.process_exec) as process_exec
-      latest(Processes.process_guid) as process_guid
-      values(Processes.process_hash) as process_hash
-      values(Processes.process_path) as process_path
-      latest(Processes.process_id) as process_id
-      latest(Processes.process_integrity_level) as process_integrity_level
-      latest(Processes.user_id) as user_id
-      latest(Processes.vendor_product) as vendor_product
-    from datamodel=Endpoint.Processes
-    by Processes.process_name
-    | `drop_dm_object_name(Processes)`
-    | search dc_dest < 10
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `detect_rare_executables_filter`
+    `sysmon` EventCode=1 dc_dest<10 | eval src_user=src_user | stats count min(_time) as firstTime max(_time) as lastTime by action dest original_file_name parent_process parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process process_exec process_guid process_hash process_id process_integrity_level process_name process_path user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_rare_executables_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: |
-    Some legitimate processes may be only rarely executed in your environment.
-    Apply additional filters as needed.
+known_false_positives: 'Some legitimate processes may be only rarely executed in your environment.
+
+    Apply additional filters as needed.'
 references: []
 drilldown_searches:
     - name: View the detection results for - "$dest$"
@@ -61,7 +36,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

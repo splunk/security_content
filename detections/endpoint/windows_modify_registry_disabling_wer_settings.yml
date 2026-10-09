@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects modifications in the Windows registry to disable Windows Error Reporting (WER) settings. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to registry paths related to WER with a value set to "0x00000001". This activity is significant as adversaries may disable WER to suppress error notifications, hiding the presence of malicious activities. If confirmed malicious, this could allow attackers to operate undetected, potentially leading to prolonged persistence and further exploitation within the environment.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting\\disable*" Registry.registry_value_data="0x00000001" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_disabling_wer_settings_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting\\disable*" Registry.registry_value_data="0x00000001" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_disabling_wer_settings_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
 known_false_positives: Administrators may enable or disable this feature that may cause some false positive, however is not common. Filter as needed.
 references:
@@ -23,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: the registry for WER settings was modified to be disabled on $dest$.
     entity:

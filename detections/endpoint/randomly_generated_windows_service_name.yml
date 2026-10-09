@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic detects the installation of a Windows Service with a suspicious, high-entropy name, indicating potential malicious activity. It leverages Event ID 7045 and the `ut_shannon` function from the URL ToolBox Splunk application to identify services with random names. This behavior is significant as adversaries often use randomly named services for lateral movement and remote code execution. If confirmed malicious, this activity could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment.
 data_source:
     - Windows Event Log System 7045
-search: |-
+search: |
     `wineventlog_system` EventCode=7045
       | lookup ut_shannon_lookup word as Service_Name
       | where ut_shannon > 3

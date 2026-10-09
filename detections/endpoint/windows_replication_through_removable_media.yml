@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects the creation or dropping of executable or script files in the root directory of a removable drive. It leverages data from the Endpoint.Filesystem datamodel, focusing on specific file types and their creation paths. This activity is significant as it may indicate an attempt to spread malware, such as ransomware, via removable media. If confirmed malicious, this behavior could lead to unauthorized code execution, lateral movement, or persistence within the network, potentially compromising sensitive data and systems.
 data_source:
     - Sysmon EventID 11
-search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.exe", "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe", "*.js", "*.bat", "*.cmd", "*.pif", "*.lnk", "*.url") by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | eval dropped_file_path = split(file_path, "\\") | eval dropped_file_path_split_count = mvcount(dropped_file_path) | eval root_drive = mvindex(dropped_file_path,0) | where LIKE(root_drive, "%:") AND dropped_file_path_split_count = 2  AND root_drive!= "C:" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_replication_through_removable_media_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.exe", "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe", "*.js", "*.bat", "*.cmd", "*.pif", "*.lnk", "*.url") by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_replication_through_removable_media_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
 known_false_positives: Administrators may allow creation of script or exe in the paths specified. Filter as needed.
 references:
@@ -23,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: executable or script $file_path$ was dropped in root drive $root_drive$ on $dest$
     entity:

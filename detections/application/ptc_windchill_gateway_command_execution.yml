@@ -6,13 +6,14 @@ modification_date: '2026-06-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    This analytic detects Windchill MethodServer log4j events showing suspicious `c=` command execution or `p=` file read parameters sent to Windchill gateway paths associated with CVE-2026-4681 exploitation.
+description: 'This analytic detects Windchill MethodServer log4j events showing suspicious `c=` command execution or `p=` file read parameters sent to Windchill gateway paths associated with CVE-2026-4681 exploitation.
+
     PTC identifies `run?c=`, `run?p=`, `.jsp?c=`, and `.jsp?p=` request patterns as indicators to monitor during Windchill and FlexPLM exploitation response.
-    Successful activity may allow an unauthenticated attacker to execute operating system commands or read files through a weaponized gateway or JSP component.
+
+    Successful activity may allow an unauthenticated attacker to execute operating system commands or read files through a weaponized gateway or JSP component.'
 data_source:
     - Windchill Log4j
-search: |-
+search: |
     `windchill_log4j`
     ("WindchillGW/GW/run" OR "WindchillAuthGW/GW/run" OR "/GW/run?" OR "run?c=" OR "run?p=" OR ".jsp?c=" OR ".jsp?p=" OR "dpr_")
     | rex field=_raw "^(?:[^:\r\n]+:)?(?<log_ts>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2},\d{3})\s+(?<log_level>\w+)\s+\[(?<thread>[^\]]+)\]\s+(?<logger>\S+)\s+-\s+(?<payload>.*)$"
@@ -49,13 +50,14 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `ptc_windchill_gateway_command_execution_filter`
-how_to_implement: |
-    To implement this analytic, ingest PTC Windchill MethodServer log4j logs into Splunk with sourcetype `log4j`.
+how_to_implement: 'To implement this analytic, ingest PTC Windchill MethodServer log4j logs into Splunk with sourcetype `log4j`.
+
     Update the `windchill_log4j` macro to include the appropriate index constraints for your environment.
-    The analytic expects log entries from the `wt.servlet.ServletRequestMonitor.request` and `wt.method.MethodContextMonitor.contexts.servletRequest` loggers and parses embedded servlet URI, query parameter, source IP, HTTP method, and status fields.
-known_false_positives: |
-    Requests to `GW/run` or randomly named `dpr_<8 hex>.jsp` files with `c=` or `p=` parameters should not be expected during normal Windchill operation.
-    Validate whether red-team testing, vulnerability scanning, or incident response replay generated the activity before closing as benign.
+
+    The analytic expects log entries from the `wt.servlet.ServletRequestMonitor.request` and `wt.method.MethodContextMonitor.contexts.servletRequest` loggers and parses embedded servlet URI, query parameter, source IP, HTTP method, and status fields.'
+known_false_positives: 'Requests to `GW/run` or randomly named `dpr_<8 hex>.jsp` files with `c=` or `p=` parameters should not be expected during normal Windchill operation.
+
+    Validate whether red-team testing, vulnerability scanning, or incident response replay generated the activity before closing as benign.'
 references:
     - https://www.ptc.com/en/about/trust-center/advisory-center/active-advisories/windchill-flexplm-critical-vulnerability
     - https://nvd.nist.gov/vuln/detail/CVE-2026-4681
@@ -68,7 +70,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src

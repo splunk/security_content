@@ -8,7 +8,7 @@ status: production
 type: Anomaly
 description: The following analytic identifies user accounts experiencing an excessive number of lockouts within a short timeframe. It leverages the 'Change' data model, specifically focusing on events where the result indicates a lockout. This activity is significant as it may indicate a brute-force attack or misconfiguration, both of which require immediate attention. If confirmed malicious, this behavior could lead to account compromise, unauthorized access, and potential lateral movement within the network.
 data_source: []
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
       WHERE All_Changes.result="*lock*"
       BY All_Changes.user All_Changes.result
@@ -29,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

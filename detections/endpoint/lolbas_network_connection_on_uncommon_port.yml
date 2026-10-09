@@ -6,11 +6,13 @@ modification_date: '2026-08-24'
 author: Steven Dick, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic identifies Living Off the Land Binaries and Scripts (LOLBAS) that can legitimately initiate public network connections but are communicating over uncommon destination ports.
+description: 'The following analytic identifies Living Off the Land Binaries and Scripts (LOLBAS) that can legitimately initiate public network connections but are communicating over uncommon destination ports.
+
     It leverages the Network Traffic data model and applies per-binary common-port exclusions to reduce false positives while preserving suspicious non-standard communication.
+
     This behavior may indicate payload download, command-and-control, proxy execution, or attempts to blend malicious traffic into trusted Windows binaries.
-    Join this detection with the Process Execution events to provide context and avoid false positives.
+
+    Join this detection with the Process Execution events to provide context and avoid false positives.'
 data_source:
     - Sysmon EventID 3
 search: |
@@ -107,12 +109,12 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `lolbas_network_connection_on_uncommon_port_filter`
-how_to_implement: |-
-    To successfully implement this detection you must ingest events into the Network Traffic data model that contain the source, destination, destination port, and communicating process name in the app field.
-    Sysmon EventID 3 is a common source for this data when normalized into the Network Traffic data model.
-known_false_positives: |-
-    Legitimate software installation, support tooling, scripting, synchronization, or update workflows may still use uncommon ports in some environments.
-    Tune approved destinations, ports, and process paths with the analytic filter macro.
+how_to_implement: 'To successfully implement this detection you must ingest events into the Network Traffic data model that contain the source, destination, destination port, and communicating process name in the app field.
+
+    Sysmon EventID 3 is a common source for this data when normalized into the Network Traffic data model.'
+known_false_positives: 'Legitimate software installation, support tooling, scripting, synchronization, or update workflows may still use uncommon ports in some environments.
+
+    Tune approved destinations, ports, and process paths with the analytic filter macro.'
 references:
     - https://lolbas-project.github.io/#
     - https://www.sans.org/presentations/lolbin-detection-methods-seven-common-attacks-revealed/
@@ -124,7 +126,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

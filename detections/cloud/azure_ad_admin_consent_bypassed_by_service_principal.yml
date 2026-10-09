@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies instances where a service principal in Azure Active Directory assigns app roles without standard admin consent. It uses Entra ID logs from the `azure_monitor_aad` data source, focusing on the "Add app role assignment to service principal" operation. This detection is significant as it highlights potential bypasses of critical administrative consent processes, which could lead to unauthorized privileges being granted. If confirmed malicious, this activity could allow attackers to exploit automation to assign sensitive permissions without proper oversight, potentially compromising the security of the Azure AD environment.
 data_source:
     - Azure Active Directory Add app role assignment to service principal
-search: "`azure_monitor_aad` (operationName=\"Add app role assignment to service principal\" OR operationName=\"Add member to role*\") src_user_type=servicePrincipal | rename properties.* as * | eval roleId = mvindex('targetResources{}.modifiedProperties{}.newValue',0) | eval roleValue = mvindex('targetResources{}.modifiedProperties{}.newValue',1) | eval roleDescription = mvindex('targetResources{}.modifiedProperties{}.newValue',2) | eval user_id = mvindex('targetResources{}.id', 0), user=coalesce(user,mvindex('targetResources{}.displayName',0)) | rename initiatedBy.app.displayName as src_user, userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product src_user user_id roleId roleValue roleDescription user_agent signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_admin_consent_bypassed_by_service_principal_filter`"
+search: |
+    `azure_monitor_aad` operationName=Add app role assignment to service principal operationName="Add member to role*" src_user_type="servicePrincipal" | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_admin_consent_bypassed_by_service_principal_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Auditlog log category
 known_false_positives: Service Principals are sometimes configured to legitimately bypass the consent process for purposes of automation. Filter as needed.
 references:
@@ -22,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Service principal $src_user$ bypassed the admin consent process and granted permissions to $user$
     entity:

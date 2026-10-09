@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects Microsoft Office applications dropping or creating executables or scripts on a Windows OS. It leverages process creation and file system events from the Endpoint data model to identify Office applications like Word or Excel generating files with extensions such as ".exe", ".dll", or ".ps1". This behavior is significant as it is often associated with spear-phishing attacks where malicious files are dropped to compromise the host. If confirmed malicious, this activity could lead to code execution, privilege escalation, or persistent access, posing a severe threat to the environment.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 11
-search: |-
+search: |
     | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
       WHERE `process_office_products`
       BY _time span=1h Processes.action
@@ -47,7 +47,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

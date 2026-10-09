@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies modifications to the registry key that controls the enforcement of Windows User Account Control (UAC). It detects changes to the registry path `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA` where the value is set to `0x00000000`. This activity is significant because disabling UAC can allow unauthorized changes to the system without user consent, potentially leading to privilege escalation. If confirmed malicious, an attacker could gain elevated privileges, making it easier to execute further attacks or maintain persistence within the environment.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA* Registry.registry_value_data="0x00000000" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `disabling_remote_user_account_control_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA*" Registry.registry_value_data="0x00000000" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_remote_user_account_control_filter`
 how_to_implement: To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report registry modifications.
 known_false_positives: This registry key may be modified via administrators to implement a change in system policy. This type of change should be a very rare occurrence.
 references: []
@@ -21,7 +22,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The Windows registry keys that control the enforcement of Windows User Account Control (UAC) were modified on $dest$ by $user$.
     entity:

@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic detects the shutdown of the Windows Event Log service by leveraging Windows Event ID 1100. This event is logged every time the service stops, including during normal system shutdowns. Monitoring this activity is crucial as it can indicate attempts to cover tracks or disable logging. If confirmed malicious, an attacker could hide their activities, making it difficult to trace their actions and investigate further incidents. Analysts should verify if the shutdown was planned and review other alerts and data sources for additional suspicious behavior.
 data_source:
     - Windows Event Log Security 1100
-search: |-
+search: |
     `wineventlog_security` EventCode=1100
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action app change_type

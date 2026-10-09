@@ -6,12 +6,12 @@ modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects duplicate-handle and query-limited-information access to winlogon.exe from an uncommon or public source path.
-    It leverages Sysmon EventCode 10 and checks for access masks that combine PROCESS_DUP_HANDLE (0x40) and PROCESS_QUERY_LIMITED_INFORMATION (0x1000).
+description: 'The following analytic detects duplicate-handle and query-limited-information access to winlogon.exe from an uncommon or public source path.
+
+    It leverages Sysmon EventCode 10 and checks for access masks that combine PROCESS_DUP_HANDLE (0x40) and PROCESS_QUERY_LIMITED_INFORMATION (0x1000).'
 data_source:
     - Sysmon EventID 10
-search: |-
+search: |
     `sysmon`
     EventCode=10
     TargetImage="*:\\Windows\\System32\\winlogon.exe"
@@ -46,8 +46,7 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_access_token_winlogon_duplicate_handle_in_uncommon_path_filter`
-how_to_implement: |-
-    To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+how_to_implement: To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: It is possible legitimate applications will request access to winlogon, filter as needed.
 references:
     - https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
@@ -60,7 +59,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

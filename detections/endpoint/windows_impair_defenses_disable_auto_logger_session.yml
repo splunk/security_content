@@ -9,7 +9,8 @@ type: Anomaly
 description: The following analytic detects the disabling of an AutoLogger session or one of its providers, by identifying changes to the Registry values "Start" and "Enabled" part of the "\WMI\Autologger\" key path. It leverages data from the Endpoint.Registry datamodel to monitor specific registry paths and values. This activity is significant as attackers and adversaries can leverage this in order to evade defense and blind EDRs and log ingest tooling. If confirmed malicious, this action could allow an attacker to conceal their activities, making it harder to detect further malicious actions and maintain persistence on the compromised endpoint.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\WMI\\Autologger\\*" (Registry.registry_value_name="Start" OR Registry.registry_value_name="Enabled") Registry.registry_value_data ="0x00000000" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defenses_disable_auto_logger_session_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\WMI\\Autologger\\*" Registry.registry_value_name IN ("*Start", "*Enabled") Registry.registry_value_data="0x00000000" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defenses_disable_auto_logger_session_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node.
 known_false_positives: It is unusual to turn this feature off a Windows system since it is a default security control, although it is not rare for some policies to disable it. Although no false positives have been identified, use the provided filter macro to tune the search.
 references:
@@ -26,7 +27,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

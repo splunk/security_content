@@ -10,16 +10,7 @@ description: The following analytic detects workloads accessing the cloud instan
 data_source:
     - Cisco Isovalent Process Connect
 search: |
-    `cisco_isovalent_process_connect` | rename process_connect.parent.binary as binary | `excluded_cloud_binaries`
-    | stats count
-            min(_time) as firstTime
-            max(_time) as lastTime
-            values(dest_port) as dest_port
-            values(src_ip) as src_ip
-        by cluster_name pod_name pod_image_name pod_namespace node_name dest_ip
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `cisco_isovalent___access_to_cloud_metadata_service_filter`
+    `cisco_isovalent_process_connect` NOT binary="*/app/aws-vpc-cni" NOT binary="*/bin/amazon-ssm-agent" NOT binary="*/bin/ssm-agent-worker" | stats count min(_time) as firstTime max(_time) as lastTime by dest_ip pod_name pod_namespace cluster_name node_name | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `cisco_isovalent___access_to_cloud_metadata_service_filter`
 how_to_implement: This detection relies on Cisco Isovalent Runtime Security process_connect telemetry. Deploy Isovalent Runtime Security and the Cisco Security Cloud TA to collect these logs via HEC and normalize them. Optionally, a similar variant can be built with process_exec by looking for command-lines that reference 169.254.169.254 (for example curl or wget invocations from within pods). Please update a macro named `excluded_cloud_binaries` that returns true for binaries that are known to access the cloud metadata service.
 known_false_positives: Legitimate platform components and node agents may query the metadata service. Validate by namespace, labels and workload identity; suppress expected sources and alert on atypical pods or namespaces.
 references:
@@ -34,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$pod_name$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: pod_name

@@ -9,14 +9,8 @@ type: Anomaly
 description: The following analytic identifies when a user with sufficient access to Exchange Online alters the mail flow/transport rule configuration of the organization. Transport rules are a set of rules that can be used by attackers to modify or delete emails based on specific conditions, this activity could indicate an attacker hiding or exfiltrated data.
 data_source:
     - Office 365 Universal Audit Log
-search: |-
-    `o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") AND Operation="*TransportRule"
-    | eval object_name = case('Parameters{}.Name'=="Name",mvindex('Parameters{}.Value',mvfind('Parameters{}.Name',"^Name$")),true(),ObjectId), object_id = case('Parameters{}.Name'=="Identity",mvindex('Parameters{}.Value',mvfind('Parameters{}.Name',"^Identity$")),true(),Id)
-    | stats values(object_name) as object_name, min(_time) as firstTime, max(_time) as lastTime, count by object_id, UserId, Operation, signature
-    | rename UserId as user
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `o365_email_transport_rule_changed_filter`
+search: |
+    `o365_management_activity` Workload="Exchange" Operation IN ("Set-*", "Disable-*", "New-*", "Remove-*") Operation="*TransportRule" | eval user=User, src_user=P2Sender, object=object, signature=DetectionMethod, object_name=object_name, file_path=SiteUrl, src=src, file_name=SourceFileName | stats count min(_time) as firstTime max(_time) as lastTime by Workload Operation | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_email_transport_rule_changed_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Legitimate administrative changes for business needs.
 references:
@@ -31,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate changes by $user$
       search: '`o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") AND Operation="*Transport*" UserId=$user$'
       earliest_offset: $info_min_time$

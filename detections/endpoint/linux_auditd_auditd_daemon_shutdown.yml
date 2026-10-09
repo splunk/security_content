@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects the unexpected termination of the Linux Audit daemon (auditd) by monitoring for log entries of type DAEMON_END. This event signifies that the audit logging service has stopped, either due to a legitimate system shutdown, manual administrative action, or potentially malicious tampering. Since auditd is responsible for recording critical security events, its sudden stoppage may indicate an attempt to disable security monitoring or evade detection during an attack. This detection should be correlated with system logs to determine whether the shutdown was part of routine maintenance or an anomaly. If confirmed as malicious, this could lead to a compromised system where security events are no longer being logged, allowing attackers to operate undetected. Therefore, monitoring and alerting on auditd shutdown events is crucial for maintaining the integrity of system security monitoring.
 data_source:
     - Linux Auditd Daemon End
-search: |-
+search: |
     `linux_auditd` type=DAEMON_END
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -30,7 +30,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

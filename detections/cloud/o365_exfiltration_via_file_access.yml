@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects when an excessive number of files are access from o365 by the same user over a short period of time. A malicious actor may abuse the "open in app" functionality of SharePoint through scripted or Graph API based access to evade triggering the FileDownloaded Event. This behavior may indicate an attacker staging data for exfiltration or an insider threat removing organizational data. Additional attention should be take with any Azure Guest (#EXT#) accounts.
 data_source:
     - Office 365 Universal Audit Log
-search: |-
+search: |
     `o365_management_activity` Operation IN ("fileaccessed") UserId!=app@sharepoint NOT SourceFileExtension IN (bmp,png,jpeg,jpg)
     | eval user = replace(mvindex(split(lower(UserId),"#ext#"),0),"_","@"), user_flat = replace(UserId, "[^A-Za-z0-9]","_")
     | where NOT match(SiteUrl,user_flat)
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate file access by $user$
       search: '`o365_management_activity` Operation IN ("fileaccessed") UserId="$UserId$"'
       earliest_offset: $info_min_time$

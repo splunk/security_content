@@ -9,18 +9,8 @@ type: Anomaly
 description: The following analytic identifies the use of PowerShell's Start-Service or Stop-Service cmdlets on an endpoint. It leverages PowerShell Script Block Logging to detect these commands. This activity is significant because attackers can manipulate services to disable or stop critical functions, causing system instability or disrupting business operations. If confirmed malicious, this behavior could allow attackers to disable security services, evade detection, or disrupt essential services, leading to potential system downtime and compromised security.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` EventCode=4104 ScriptBlockText IN ("*start-service*", "*stop-service*")
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `powershell_start_or_stop_service_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process IN ("*start-service*", "*stop-service*") by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_start_or_stop_service_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: This behavior may be noisy, as these cmdlets are commonly used by system administrators or other legitimate users to manage services. Therefore, it is recommended not to enable this analytic as a direct finding Instead, it should be used as part of a broader set of security controls to detect and investigate potential threats.
 references:
@@ -34,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$Computer$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

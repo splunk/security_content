@@ -6,11 +6,12 @@ modification_date: '2026-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: "The following analytic detects the creation or connection of anonymous pipes for inter-process communication (IPC) within a Windows environment. Anonymous pipes are commonly used by legitimate system processes, services, and applications to transfer data between related processes. However, adversaries frequently abuse anonymous pipes to facilitate stealthy process injection, command-and-control (C2) communication, credential theft, or privilege escalation. This detection monitors for unusual anonymous pipe activity, particularly involving non-system processes, unsigned executables, or unexpected parent-child process relationships. While legitimate use cases exist—such as Windows services, software installers, or security tools—unusual or high-frequency anonymous pipe activity should be investigated for potential malware, persistence mechanisms, or lateral movement techniques."
+description: The following analytic detects the creation or connection of anonymous pipes for inter-process communication (IPC) within a Windows environment. Anonymous pipes are commonly used by legitimate system processes, services, and applications to transfer data between related processes. However, adversaries frequently abuse anonymous pipes to facilitate stealthy process injection, command-and-control (C2) communication, credential theft, or privilege escalation. This detection monitors for unusual anonymous pipe activity, particularly involving non-system processes, unsigned executables, or unexpected parent-child process relationships. While legitimate use cases exist—such as Windows services, software installers, or security tools—unusual or high-frequency anonymous pipe activity should be investigated for potential malware, persistence mechanisms, or lateral movement techniques.
 data_source:
     - Sysmon EventID 17
     - Sysmon EventID 18
-search: '`sysmon` EventCode IN (17,18) EventType IN ( "CreatePipe", "ConnectPipe") PipeName="*Anonymous Pipe*" NOT( Image IN ("C:\\Program Files*", "C:\\Windows\\system32\\*","C:\\Windows\\syswow64\\*")) | stats  min(_time) as firstTime max(_time) as lastTime count by dest EventCode PipeName ProcessGuid ProcessId Image EventType | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_anonymous_pipe_activity_filter`'
+search: |
+    `sysmon` EventCode=17 EventCode="18" PipeName="*Anonymous Pipe*" NOT (Image IN ("C:\\Program Files*", "C:\\Windows\\system32\\*", "C:\\Windows\\syswow64\\*")) | eval PipeName=PipeName | stats count min(_time) as firstTime max(_time) as lastTime by dest dvc pipe_name process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_anonymous_pipe_activity_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and pipename from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. .
 known_false_positives: Automation tool might use anonymous pipe for task orchestration or process communication.
 references:
@@ -23,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 analytic_story:
     - Salt Typhoon
     - China-Nexus Threat Activity

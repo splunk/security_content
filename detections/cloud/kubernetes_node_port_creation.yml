@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects the creation of a Kubernetes NodePort service, which exposes a service to the external network. It identifies this activity by monitoring Kubernetes Audit logs for the creation of NodePort services. This behavior is significant for a SOC as it could allow an attacker to access internal services, posing a threat to the Kubernetes infrastructure's integrity and security. If confirmed malicious, this activity could lead to data breaches, service disruptions, or unauthorized access to sensitive information.
 data_source:
     - Kubernetes Audit
-search: |-
+search: |
     `kube_audit` "objectRef.resource"=services verb=create requestObject.spec.type=NodePort
       | fillnull
       | stats count values(user.groups{}) as user_groups
@@ -31,7 +31,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -56,6 +56,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kube_audit_create_node_port_service/kube_audit_create_node_port_service.json
-          sourcetype: _json
           source: kubernetes
+          sourcetype: _json
       test_type: unit

@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies multiple failed multi-factor authentication (MFA) requests for a single user within an Azure AD tenant. It leverages Azure AD Sign-in Logs, specifically error code 500121, to detect more than 10 failed MFA attempts within 10 minutes. This behavior is significant as it may indicate an adversary attempting to bypass MFA by bombarding the user with repeated authentication prompts. If confirmed malicious, this activity could lead to unauthorized access, allowing attackers to compromise user accounts and potentially escalate their privileges within the environment.
 data_source:
     - Azure Active Directory Sign-in activity
-search: |-
+search: |
     `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied; user declined the authentication"
       | rename properties.* as *
       | bucket span=10m _time
@@ -40,7 +40,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ failed to complete MFA authentication more than 9 times in a timespan of 10 minutes.
     entity:

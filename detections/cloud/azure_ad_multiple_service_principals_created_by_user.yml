@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies instances where a single user creates more than three unique OAuth applications within a 10-minute timeframe in Azure AD. It detects this activity by monitoring the 'Add service principal' operation and aggregating data in 10-minute intervals. This behavior is significant as it may indicate an adversary rapidly creating multiple service principals to stage an attack or expand their foothold within the network. If confirmed malicious, this activity could allow attackers to establish persistence, escalate privileges, or access sensitive information within the Azure environment.
 data_source:
     - Azure Active Directory Add service principal
-search: |-
+search: |
     `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=*
       | rename properties.* as *
       | bucket span=10m _time
@@ -36,7 +36,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src_user

@@ -9,7 +9,7 @@ type: Anomaly
 description: The search surfaces alerts from the Cisco AI Defense product for potential attacks against the AI models running in your environment. This analytic identifies security events within Cisco AI Defense by examining event messages, actions, and policy names. It focuses on connections and applications associated with specific guardrail entities and ruleset types. By aggregating and analyzing these elements, the search helps detect potential policy violations and security threats, enabling proactive defense measures and ensuring network integrity.
 data_source:
     - Cisco AI Defense Alerts
-search: |-
+search: |
     `cisco_ai_defense`
       | rename genai_application.application_name as application_name
       | rename connection.connection_name as connection_name
@@ -51,7 +51,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$application_name$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$application_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: application_name

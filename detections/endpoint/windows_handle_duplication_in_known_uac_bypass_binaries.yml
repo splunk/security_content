@@ -6,52 +6,13 @@ modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects duplicate-handle access to known UAC-bypass binaries from a non-standard source path.
-    It leverages Sysmon EventCode 10, converts GrantedAccess from hexadecimal, and checks for PROCESS_DUP_HANDLE.
+description: 'The following analytic detects duplicate-handle access to known UAC-bypass binaries from a non-standard source path.
+
+    It leverages Sysmon EventCode 10, converts GrantedAccess from hexadecimal, and checks for PROCESS_DUP_HANDLE.'
 data_source:
     - Sysmon EventID 10
-search: |-
-    `sysmon`
-    EventCode=10
-    TargetImage IN(
-        "*\\colorcpl.exe",
-        "*\\ComputerDefaults.exe",
-        "*\\esentutl.exe",
-        "*\\eventvwr.exe",
-        "*\\fodhelper.exe",
-        "*\\mmc.exe",
-        "*\\sdclt.exe",
-        "*\\slui.exe",
-        "*\\wsreset.exe",
-        "*\\PkgMgr.exe"
-    )
-    NOT SourceImage IN (
-        "C:\\Windows\\System32\\*",
-        "C:\\Windows\\SysWOW64\\*",
-        "C:\\Program Files\\*",
-        "C:\\Program Files (x86)\\*",
-        "%SystemRoot%\\*"
-    )
-
-    | eval g_access_decimal = tonumber(replace(GrantedAccess,"0x",""),16)
-    | eval PROCESS_DUP_HANDLE = 64
-    | eval dup_handle_set = bit_and (g_access_decimal, PROCESS_DUP_HANDLE)
-    | where dup_handle_set == PROCESS_DUP_HANDLE
-
-    | stats count min(_time) as firstTime
-                    max(_time) as lastTime
-        BY user_id dest
-           signature_id signature granted_access Opcode
-           SourceImage SourceProcessGUID SourceProcessId
-           TargetImage TargetProcessGUID TargetProcessId
-           CallTrace vendor_product
-
-    | eval CallTrace=split(CallTrace, "|")
-
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_handle_duplication_in_known_uac_bypass_binaries_filter`
+search: |
+    `sysmon` EventCode=10 TargetImage IN ("*\\colorcpl.exe", "*\\ComputerDefaults.exe", "*\\esentutl.exe", "*\\eventvwr.exe", "*\\fodhelper.exe", "*\\mmc.exe", "*\\sdclt.exe", "*\\slui.exe", "*\\wsreset.exe", "*\\PkgMgr.exe") NOT (SourceImage IN ("C:\\Windows\\System32\\*", "C:\\Windows\\SysWOW64\\*", "C:\\Program Files\\*", "C:\\Program Files (x86)\\*", "%SystemRoot%\\*")) | eval granted_access=granted_access, parent_process_path=parent_process_path | stats count min(_time) as firstTime max(_time) as lastTime by dest user_id process_name process_guid process_id signature SourceImage TargetImage GrantedAccess CallTrace | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_handle_duplication_in_known_uac_bypass_binaries_filter`
 how_to_implement: To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: It is possible legitimate applications will request access to list of know abused Windows UAC binaries process, filter as needed.
 references:
@@ -64,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

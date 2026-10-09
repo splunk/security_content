@@ -11,16 +11,8 @@ data_source:
     - Windows Event Log Security 4727
     - Windows Event Log Security 4730
     - Windows Event Log Security 4737
-search: |-
-    `wineventlog_security` EventCode IN (4727, 4730, 4737) (TargetUserName="ESX Admins" OR TargetUserName="*ESX Admins*")
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY EventCode TargetUserName TargetDomainName
-           SubjectUserName SubjectDomainName Computer
-      | rename Computer as dest
-      | eval EventCodeDescription=case( EventCode=4727, "Security Enabled Global Group Created", EventCode=4730, "Security Enabled Global Group Deleted", EventCode=4737, "Security Enabled Global Group Modified" )
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_esx_admins_group_creation_security_event_filter`
+search: |
+    `wineventlog_security` EventCode IN ("4727", "4730", "4737") TargetUserName IN ("ESX Admins", "*ESX Admins*") | eval SubjectUserName=SubjectUserName, EventCodeDescription=EventCodeDescription, src_user=src_user, object=object, object_category=object_category, change_type=change_type | stats count min(_time) as firstTime max(_time) as lastTime by dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_esx_admins_group_creation_security_event_filter`
 how_to_implement: To successfully implement this search, ensure that Windows Security Event logging is enabled and being ingested into Splunk, particularly for event codes 4727, 4730, and 4737. Configure Group Policy settings to audit these specific events.
 known_false_positives: Legitimate administrators might create, delete, or modify an "ESX Admins" group for valid reasons. Verify that the group changes are authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
 references:
@@ -35,7 +27,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: ESX Admins group $EventCodeDescription$ on $dest$ by user $SubjectUserName$.
     entity:
@@ -66,6 +58,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security-esxadmins.log
-          sourcetype: XmlWinEventLog
           source: Security
+          sourcetype: XmlWinEventLog
       test_type: unit

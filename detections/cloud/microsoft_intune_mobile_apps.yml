@@ -6,9 +6,9 @@ modification_date: '2026-05-13'
 author: Dean Luxton
 status: experimental
 type: Hunting
-description: |
-    Microsoft Intune supports deploying packaged applications to support software deployment, this functionality can also be abused for deploying malicious payloads to intune managed devices.
-    This detection identifies when a new packaged application has been added, updated or deleted.
+description: 'Microsoft Intune supports deploying packaged applications to support software deployment, this functionality can also be abused for deploying malicious payloads to intune managed devices.
+
+    This detection identifies when a new packaged application has been added, updated or deleted.'
 data_source:
     - Azure Monitor Activity
 search: |
@@ -17,10 +17,11 @@ search: |
     | rex field="operationName" "^(?P<action>\w+)\s" | replace "Patch" with "updated", "Create" with "created", "Delete", with "deleted", "assign", with "assigned" IN action
     | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId status tenantId correlationId
     | `microsoft_intune_mobile_apps_filter`
-how_to_implement: |
-    The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.
+how_to_implement: 'The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.
+
     To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
-    Deploy as a risk based alerting rule for quick deployment or perform baselining & tune accordingly.
+
+    Deploy as a risk based alerting rule for quick deployment or perform baselining & tune accordingly.'
 known_false_positives: Legitimate adminstrative usage of this functionality will trigger this detection.
 references:
     - https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d

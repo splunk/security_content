@@ -8,7 +8,7 @@ status: production
 type: Hunting
 description: The following analytic detects the launch of rarely used applications within the environment, which may indicate the use of potentially malicious software or tools by attackers. It leverages Windows AppLocker event logs, aggregating application launch counts over time and flagging those that significantly deviate from the norm. This behavior is significant as it helps identify unusual application activity that could signal a security threat. If confirmed malicious, this activity could allow attackers to execute unauthorized code, potentially leading to further compromise of the system.
 data_source: []
-search: |-
+search: |
     `applocker`
       | spath input=UserData_Xml
       | rename RuleAndFileData.* as *, Computer as dest, TargetUser AS user
@@ -38,6 +38,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
-          sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-AppLocker/MSI and Script
+          sourcetype: XmlWinEventLog
       test_type: unit

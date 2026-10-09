@@ -9,18 +9,8 @@ type: Anomaly
 description: The following analytic detects the execution of a DNS query by a process to the associated Telegram API domain, which could indicate access via a Telegram bot commonly used by malware for command and control (C2) communications. By monitoring DNS queries related to Telegram's infrastructure, the detection identifies potential attempts to establish covert communication channels between a compromised system and external malicious actors. This behavior is often observed in cyberattacks where Telegram bots are used to receive commands or exfiltrate data, making it a key indicator of suspicious or malicious activity within a network.
 data_source:
     - Sysmon EventID 22
-search: |-
-    `sysmon` EventCode=22  query = "api.telegram.org" process_name != "telegram.exe"
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY answer answer_count dvc
-           process_exec process_guid process_name
-           query query_count reply_code_id
-           signature signature_id src
-           user_id vendor_product QueryName
-           QueryResults QueryStatus
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_dns_query_request_by_telegram_bot_api_filter`
+search: |
+    `sysmon` EventCode=22 QueryName="api.telegram.org" NOT process_name="telegram.exe" | eval process_name=process_name, dvc=dvc, dest=Computer, QueryName=QueryName | stats count min(_time) as firstTime max(_time) as lastTime by answer answer_count query query_count reply_code_id src vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_dns_query_request_by_telegram_bot_api_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and eventcode = 22 dnsquery executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: a third part automation using telegram API.
 references:
@@ -33,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dvc

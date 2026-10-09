@@ -9,9 +9,12 @@ type: TTP
 description: The following analytic identifies failed authentication attempts against an Azure AD tenant during the Multi-Factor Authentication (MFA) challenge, specifically flagged by error code 500121. It leverages Azure AD SignInLogs to detect these events. This activity is significant as it may indicate an adversary attempting to authenticate using compromised credentials on an account with MFA enabled. If confirmed malicious, this could suggest an ongoing effort to bypass MFA protections, potentially leading to unauthorized access and further compromise of the affected account.
 data_source:
     - Azure Active Directory
-search: "`azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121 | rename properties.* as *, authenticationDetails{}.* as * | eval time=strptime(authenticationStepDateTime,\"%Y-%m-%dT%H:%M:%S\") | eval auth_detail=mvzip(strftime(time, \"%Y-%m-%dT%H:%M:%S\"),authenticationStepResultDetail,\" - \"), auth_msg=mvappend('status.additionalDetails', authenticationStepResultDetail) | eval auth_method=mvmap(authenticationMethod, if(isnull(mvfind('mfaDetail.authMethod',authenticationMethod)), authenticationMethod, null())) | search NOT auth_msg=\"MFA successfully completed\" | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product auth_method auth_msg user_agent signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_authentication_failed_during_mfa_challenge_filter`"
+search: |
+    `azure_monitor_aad` category="SignInLogs" properties.status.errorCode="500121" NOT auth_msg="MFA successfully completed" | eval initiatedBy='initiatedBy.user.userPrincipalName' | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_authentication_failed_during_mfa_challenge_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
-known_false_positives: "False positives have been minimized by removing attempts that result in 'MFA successfully completed messages', which were found to be generated when a user opts to use a different MFA method than the default.\nFurther reductions in finding events can be achieved through filtering 'MFA denied; duplicate authentication attempt' messages within the auth_msg field, as they could arguably be considered as false positives."
+known_false_positives: 'False positives have been minimized by removing attempts that result in ''MFA successfully completed messages'', which were found to be generated when a user opts to use a different MFA method than the default.
+
+    Further reductions in finding events can be achieved through filtering ''MFA denied; duplicate authentication attempt'' messages within the auth_msg field, as they could arguably be considered as false positives.'
 references:
     - https://attack.mitre.org/techniques/T1621/
     - https://attack.mitre.org/techniques/T1078/004/
@@ -25,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ failed to pass MFA challenge
     entity:

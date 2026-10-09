@@ -9,7 +9,7 @@ type: Anomaly
 description: This analytic detects the creation or modification of network interfaces on Cisco devices, which could indicate an attacker establishing persistence or preparing for lateral movement. After gaining initial access to network devices, threat actors like Static Tundra often create new interfaces (particularly loopback interfaces) to establish covert communication channels or maintain persistence. This detection specifically looks for the configuration of new interfaces, interface state changes, and the assignment of IP addresses to interfaces. These activities are particularly concerning when they involve unusual interface names or descriptions containing suspicious terms.
 data_source:
     - Cisco IOS Logs
-search: |-
+search: |
     | tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
       WHERE (
             (All_Changes.command="*interface*")
@@ -38,7 +38,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest
@@ -71,6 +71,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
-          sourcetype: cisco:ios
           source: cisco:ios
+          sourcetype: cisco:ios
       test_type: unit

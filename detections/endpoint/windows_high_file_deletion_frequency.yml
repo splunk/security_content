@@ -10,7 +10,8 @@ description: The following analytic identifies a high frequency of file deletion
 data_source:
     - Sysmon EventID 23
     - Sysmon EventID 26
-search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt", "*.pptx", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", "*.win") NOT TargetFilename IN ("*\\INetCache\\Content.Outlook\\*") | stats count min(_time) as firstTime, max(_time) as lastTime values(file_path) as file_path values(file_hash) as file_hash values(file_name) as file_name values(file_modify_time) as file_modify_time values(process_name) as process_name values(process_path) as process_path values(process_guid) as process_guid values(process_id) as process_id values(process_exec) as process_exec by action dest dvc signature signature_id user user_id vendor_product | where count >=100 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_high_file_deletion_frequency_filter`'
+search: |
+    `sysmon` EventCode=23 EventCode="26" TargetFilename IN ("*.cmd", "*.ini", "*.gif", "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt", "*.pptx", "*.bmp", "*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf", "*.backup", "*.dsk", "*.win") NOT TargetFilename="*\\INetCache\\Content.Outlook\\*" | stats count min(_time) as firstTime max(_time) as lastTime by action dest dvc file_path file_hash file_name file_modify_time process_exec process_guid process_id process_name process_path signature signature_id user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_high_file_deletion_frequency_filter`
 how_to_implement: To successfully implement this search, you need to ingest logs that include the deleted target file name, process name, and process ID from your endpoints. If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
 known_false_positives: Users may delete a large number of pictures or files in a folder, which could trigger this detection. Additionally, heavy usage of PowerBI and Outlook may also result in false positives.
 references:
@@ -25,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

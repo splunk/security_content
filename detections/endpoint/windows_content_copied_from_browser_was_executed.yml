@@ -6,13 +6,14 @@ modification_date: '2026-09-07'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
-description: |-
-    The following analytic correlates modifications to the Windows RunMRU registry key with clipboard content
+description: 'The following analytic correlates modifications to the Windows RunMRU registry key with clipboard content
+
     changes initiated by browsers. It aims to detect ClickFix scenarios in which commands copied
-    from a browser are subsequently executed on the Windows system through the Run dialog box.
+
+    from a browser are subsequently executed on the Windows system through the Run dialog box.'
 data_source:
     - Sysmon EventID 13 AND Sysmon EventID 24
-search: |-
+search: |
     `sysmon`
     EventID IN (13, 24)
     (
@@ -46,11 +47,13 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_content_copied_from_browser_was_executed_filter`
-how_to_implement: |-
-    This detection requires Sysmon event logs. Configure your environment to ingest Sysmon registry modification (Event ID 13)
+how_to_implement: 'This detection requires Sysmon event logs. Configure your environment to ingest Sysmon registry modification (Event ID 13)
+
     and clipboard change (Event ID 24) events. Ensure that registry modification events are collected for the RunMRU registry key
+
     and clipboard change events are collected from common browser processes. Ingest the data through the appropriate Splunk technology
-    add-on and normalize field names using the Splunk Common Information Model (CIM).
+
+    add-on and normalize field names using the Splunk Common Information Model (CIM).'
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://socradar.io/blog/doublecup-clickfix-loader-devicemanager-rats/
@@ -63,7 +66,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The content [$process$] was copied from [$process_name$] to the clipboard and was executed through the Run dialog box on [$dest$]
     entity:

@@ -11,22 +11,8 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE `process_net` Processes.process="*group*" Processes.process="*ESX Admins*"
-        AND
-        Processes.process="*/add*"
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
-    | `drop_dm_object_name(Processes)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_esx_admins_group_creation_via_net_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name="*net1.exe" OR Processes.original_file_name="net1.exe" Processes.process="*group*" Processes.process="*ESX Admins*" Processes.process="*/add*" by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_esx_admins_group_creation_via_net_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: Legitimate administrators might create an "ESX Admins" group for valid reasons. Verify that the group creation is authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
 references:
@@ -41,7 +27,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: An attempt to create an "ESX Admins" group was detected on $dest$ by user $user$.
     entity:

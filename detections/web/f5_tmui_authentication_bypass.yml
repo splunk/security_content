@@ -9,16 +9,8 @@ type: TTP
 description: The following analytic detects attempts to exploit the CVE-2023-46747 vulnerability, an authentication bypass flaw in F5 BIG-IP's Configuration utility (TMUI). It identifies this activity by monitoring for specific URI paths such as "*/mgmt/tm/auth/user/*" with the PATCH method and a 200 status code. This behavior is significant for a SOC as it indicates potential unauthorized access attempts, leading to remote code execution. If confirmed malicious, an attacker could gain unauthorized access, execute arbitrary code, steal data, disrupt systems, or conduct further malicious activities within the network.
 data_source:
     - Suricata
-search: |-
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-      WHERE Web.url IN ("*/mgmt/tm/auth/user/*") Web.http_method=PATCH Web.status=200
-      BY Web.http_user_agent, Web.status Web.http_method,
-         Web.url, Web.url_length, Web.src,
-         Web.dest, sourcetype
-    | `drop_dm_object_name("Web")`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `f5_tmui_authentication_bypass_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web where Web.url="*/mgmt/tm/auth/user/*" Web.http_method="PATCH" Web.status="200" by Web.dest Web.http_method Web.http_user_agent Web.status Web.url Web.url_length Web.src | `drop_dm_object_name(Web)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `f5_tmui_authentication_bypass_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relevant for traffic into the `Web` datamodel.
 known_false_positives: False positives should be limited to as this is strict to active exploitation. Reduce noise by filtering to F5 devices with TMUI enabled or filter data as needed.
 references:
@@ -32,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Potential CVE-2023-46747 F5 TMUI Authentication Bypass may be occurring against $dest$ from $src$.
     entity:

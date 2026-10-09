@@ -6,14 +6,16 @@ modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
-description: |-
-    The following analytic detects when a process spawns an executable known for User Account Control (UAC) bypass exploitation and subsequently monitors for any child processes with a higher integrity level than the original process.
+description: 'The following analytic detects when a process spawns an executable known for User Account Control (UAC) bypass exploitation and subsequently monitors for any child processes with a higher integrity level than the original process.
+
     This detection leverages Sysmon EventID 1 data, focusing on process integrity levels and known UAC bypass executables.
+
     This activity is significant as it may indicate an attacker has successfully used a UAC bypass exploit to escalate privileges.
-    If confirmed malicious, the attacker could gain elevated privileges, potentially leading to further system compromise and persistent access.
+
+    If confirmed malicious, the attacker could gain elevated privileges, potentially leading to further system compromise and persistent access.'
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 1
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count max(_time) as lastTime
 
@@ -97,10 +99,8 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_uac_bypass_suspicious_escalation_behavior_filter`
-how_to_implement: |-
-    Target environment must ingest sysmon data, specifically Event ID 1 with process integrity level data.
-known_false_positives: |-
-    Including Werfault.exe may cause some unintended false positives related to normal application faulting, but is used in a number of UAC bypass techniques.
+how_to_implement: Target environment must ingest sysmon data, specifically Event ID 1 with process integrity level data.
+known_false_positives: Including Werfault.exe may cause some unintended false positives related to normal application faulting, but is used in a number of UAC bypass techniques.
 references:
     - https://attack.mitre.org/techniques/T1548/002/
     - https://atomicredteam.io/defense-evasion/T1548.002/
@@ -114,7 +114,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A UAC bypass behavior was detected by process $parent_process_name$ on host $dest$ by $user$.
     entity:
@@ -130,8 +130,6 @@ intermediate_findings:
 threat_objects:
     - field: parent_process_name
       type: parent_process_name
-    - field: process_name
-      type: process_name
     - field: process_name
       type: process_name
 analytic_story:

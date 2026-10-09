@@ -10,7 +10,7 @@ description: The following analytic identifies the creation and quick deletion o
 data_source:
     - Windows Event Log Security 5137
     - Windows Event Log Security 5141
-search: |-
+search: |
     `wineventlog_security` EventCode=5137 OR EventCode=5141 ObjectDN="*CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration*"
       | transaction ObjectDN startswith=(EventCode=5137) endswith=(EventCode=5141)
       | eval short_lived=case((duration<30),"TRUE")
@@ -36,7 +36,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$Computer$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A short-lived server object was created and deleted on $Computer$
     entity:

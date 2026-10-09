@@ -10,7 +10,7 @@ description: The following analytic identifies a suspicious process that is recu
 data_source:
     - Sysmon EventID 23
     - Sysmon EventID 26
-search: |-
+search: |
     `sysmon` EventCode IN ("23","26") TargetFilename IN ("*.exe", "*.sys", "*.dll")
       | bin _time span=2m
       | stats count min(_time) as firstTime, max(_time) as lastTime values(file_path) as file_path values(file_hash) as file_hash values(file_name) as file_name values(file_modify_time) as file_modify_time values(process_name) as process_name values(process_path) as process_path values(process_guid) as process_guid values(process_id) as process_id values(process_exec) as process_exec
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The process $process_name$ has removed a significant quantity of executable files, totaling [$count$], from the destination $dest$.
     entity:

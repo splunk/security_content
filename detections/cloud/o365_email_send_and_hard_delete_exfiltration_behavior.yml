@@ -6,14 +6,15 @@ modification_date: '2026-09-23'
 author: Steven Dick
 status: production
 type: Anomaly
-description: |-
-    The following analytic identifies when an O365 email account sends and then hard deletes an email to an external recipient within a short period (within 1 hour).
+description: 'The following analytic identifies when an O365 email account sends and then hard deletes an email to an external recipient within a short period (within 1 hour).
+
     This behavior may indicate a compromised account where the threat actor is attempting to remove forensic artifacts or evidence of exfiltration activity.
-    This behavior is often seen when threat actors want to reduce the probability of detection by the compromised account owner.
+
+    This behavior is often seen when threat actors want to reduce the probability of detection by the compromised account owner.'
 data_source:
     - Office 365 Universal Audit Log
     - Office 365 Reporting Message Trace
-search: |-
+search: |
     `o365_messagetrace` status_code=Delivered
     | eval mailtime = _time
     | bin _time span=1hr
@@ -35,10 +36,8 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `o365_email_send_and_hard_delete_exfiltration_behavior_filter`
-how_to_implement: |-
-    You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
-known_false_positives: |-
-    Users that habitually/proactively cleaning the recoverable items folder may trigger this alert.
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
+known_false_positives: Users that habitually/proactively cleaning the recoverable items folder may trigger this alert.
 references:
     - https://attack.mitre.org/techniques/T1114/
     - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
@@ -51,7 +50,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate Email for $user$
       search: '`o365_management_activity` Workload=Exchange (Operation IN ("Send")) OR (Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions")) AND UserId = "$user$"'
       earliest_offset: $info_min_time$

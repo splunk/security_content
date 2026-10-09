@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects access attempts to privileged Active Directory objects, such as Domain Admins or Enterprise Admins. It leverages Windows Security Event Code 4662 to identify when these sensitive objects are accessed. This activity is significant because such objects should rarely be accessed by normal users or processes, and unauthorized access attempts may indicate attacker enumeration or lateral movement within the domain. If confirmed malicious, this activity could allow attackers to escalate privileges, persist in the environment, or gain control over critical domain resources.
 data_source:
     - Windows Event Log Security 4662
-search: |-
+search: |
     `wineventlog_security` EventCode=4662 ObjectName IN ( "CN=Account Operators,*", "CN=Administrators,*", "CN=Backup Operators,*", "CN=Cert Publishers,*", "CN=Certificate Service DCOM Access,*", "CN=Domain Admins,*", "CN=Domain Controllers,*", "CN=Enterprise Admins,*", "CN=Enterprise Read-only Domain Controllers,*", "CN=Group Policy Creator Owners,*", "CN=Incoming Forest Trust Builders,*", "CN=Microsoft Exchange Servers,*", "CN=Network Configuration Operators,*", "CN=Power Users,*", "CN=Print Operators,*", "CN=Read-only Domain Controllers,*", "CN=Replicators,*", "CN=Schema Admins,*", "CN=Server Operators,*", "CN=Exchange Trusted Subsystem,*", "CN=Exchange Windows Permission,*", "CN=Organization Management,*")
       | rex field=ObjectName "CN\=(?<object_name>[^,]+)"
       | stats values(Computer) as dest, values(object_name) as object_name, dc(ObjectName) as object_count, min(_time) as firstTime, max(_time) as lastTime, count
@@ -32,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The account $user$ accessed $object_count$ privileged AD object(s).
     entity:

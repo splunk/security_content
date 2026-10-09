@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies instances where admin consent is granted to an application within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to the admin consent action within the AzureActiveDirectory workload. This activity is significant because admin consent allows applications to access data across the entire tenant, potentially exposing vast amounts of organizational data. If confirmed malicious, an attacker could gain extensive and persistent access to organizational data, leading to data exfiltration, espionage, further malicious activities, and potential compliance violations.
 data_source:
     - O365 Consent to application.
-search: "`o365_management_activity` Operation=\"Consent to application.\" | eval new_field=mvindex('ModifiedProperties{}.NewValue', 4) | rex field=new_field \"ConsentType: (?<ConsentType>[^\\,]+)\" | rex field=new_field \"Scope: (?<Scope>[^\\,]+)\" | search ConsentType = \"AllPrincipals\" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by user, object, ObjectId, ConsentType, Scope, dest, vendor_account, vendor_product, signature, src | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_tenant_wide_admin_consent_granted_filter`"
+search: |
+    `o365_management_activity` Operation="Consent to application." | eval new_field=mvindex('ModifiedProperties{}.NewValue', 4) | rex field=new_field "ConsentType: (?<ConsentType>[^\,]+)" | rex field=new_field "Scope: (?<Scope>[^\,]+)" | search ConsentType = "AllPrincipals" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by user, object, ObjectId, ConsentType, Scope, dest, vendor_account, vendor_product, signature, src | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_tenant_wide_admin_consent_granted_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Legitimate applications may be granted tenant wide consent, filter as needed.
 references:
@@ -26,7 +27,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The $object$ application registration was granted tenant wide admin consent.
     entity:

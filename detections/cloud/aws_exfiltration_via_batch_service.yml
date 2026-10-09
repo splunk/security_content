@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies the creation of AWS Batch jobs that could potentially abuse the AWS Bucket Replication feature on S3 buckets. It leverages AWS CloudTrail logs to detect the `JobCreated` event, analyzing job details and their status. This activity is significant because attackers can exploit this feature to exfiltrate data by creating malicious batch jobs. If confirmed malicious, this could lead to unauthorized data transfer between S3 buckets, resulting in data breaches and loss of sensitive information.
 data_source:
     - AWS CloudTrail JobCreated
-search: |-
+search: |
     `cloudtrail` eventName = JobCreated
       | fillnull
       | rename user_name as user
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: AWS Batch Job is created on account id - $vendor_account$ from src_ip $src$
     entity:
@@ -58,6 +58,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

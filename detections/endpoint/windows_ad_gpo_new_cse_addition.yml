@@ -9,7 +9,7 @@ type: TTP
 description: This detection identifies when a a new client side extension is added to an Active Directory Group Policy using the Group Policy Management Console.
 data_source:
     - Windows Event Log Security 5136
-search: |-
+search: |
     `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames
       | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(dest) as dest
         BY ObjectClass ObjectDN OpCorrelationID
@@ -49,7 +49,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: $src_user$ has added new GPO Client Side Extensions $newPolicy$ to the policy $policyName$
     entity:

@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies instances where more than 10 unique user accounts have failed to authenticate from a single IP address within a 5-minute window in an Okta tenant. This detection uses OktaIm2 logs ingested via the Splunk Add-on for Okta Identity Cloud. Such activity is significant as it may indicate brute-force attacks or password spraying attempts. If confirmed malicious, this behavior suggests an external entity is attempting to compromise multiple user accounts, potentially leading to unauthorized access to organizational resources and data breaches.
 data_source:
     - Okta
-search: |-
+search: |
     | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime dc(Authentication.user) as unique_accounts values(Authentication.signature) as signature values(Authentication.user) as user values(Authentication.app) as app values(Authentication.authentication_method) as authentication_method values(Authentication.dest) as dest FROM datamodel=Authentication
       WHERE Authentication.action="failure"
         AND
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

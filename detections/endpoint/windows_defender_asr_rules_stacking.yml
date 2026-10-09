@@ -17,7 +17,7 @@ data_source:
     - Windows Event Log Defender 1133
     - Windows Event Log Defender 1134
     - Windows Event Log Defender 5007
-search: |-
+search: |
     `ms_defender` EventCode IN (1121, 1122, 1125, 1126, 1129, 1131, 1132, 1133, 1134, 5007)
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY host Parent_Commandline, Process_Name,

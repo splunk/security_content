@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects Log4Shell JNDI payload injections via outbound connections. It identifies suspicious LDAP lookup functions in web logs, such as `${jndi:ldap://PAYLOAD_INJECTED}`, and correlates them with network traffic to known malicious IP addresses. This detection leverages the Web and Network_Traffic data models in Splunk. Monitoring this activity is crucial as it targets vulnerabilities in Java web applications using log4j, potentially leading to remote code execution. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code, and compromise sensitive data within the affected environment.
 data_source:
     - Splunk Stream IP
-search: |-
+search: |
     | from datamodel Web.Web
     | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)" | join affected_host type=inner [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic by All_Traffic.dest | `drop_dm_object_name(All_Traffic)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename dest AS affected_host]
     | fillnull
@@ -27,7 +27,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

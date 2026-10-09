@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects suspicious command-line activity that modifies the iptables firewall settings on a Linux machine. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command patterns that alter firewall rules to accept traffic on certain TCP ports. This activity is significant as it can indicate malware, such as CyclopsBlink, modifying firewall settings to allow communication with a Command and Control (C2) server. If confirmed malicious, this could enable attackers to maintain persistent access and exfiltrate data, posing a severe security risk.
 data_source:
     - Sysmon for Linux EventID 1
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
     from datamodel=Endpoint.Processes where
 
@@ -54,7 +54,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

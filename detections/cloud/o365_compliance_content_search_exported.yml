@@ -8,7 +8,7 @@ status: production
 type: TTP
 description: The following analytic identifies when the results of a content search within the Office 365 Security and Compliance Center are exported. It uses the SearchExported operation from the SecurityComplianceCenter workload in the o365_management_activity data source. This activity is significant because exporting search results can involve sensitive or critical organizational data, potentially leading to data exfiltration. If confirmed malicious, an attacker could gain access to and exfiltrate sensitive information, posing a severe risk to the organization's data security and compliance posture.
 data_source: []
-search: |-
+search: |
     `o365_management_activity` Workload=SecurityComplianceCenter Operation="SearchExported"
       | rename user_id as user
       | fillnull
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A new compliance content search export was started by $user$
     entity:
@@ -56,6 +56,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_compliance_content_search_exported/o365_compliance_content_search_exported.log
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

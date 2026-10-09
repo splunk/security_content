@@ -6,14 +6,14 @@ modification_date: '2026-09-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic detects the usage of wevtutil.exe with the "clear-log" parameter in order to clear the contents of logs.
-    Clearing the event logs can be an attempt to cover tracks after malicious actions, hindering forensic investigations.
+description: 'The following analytic detects the usage of wevtutil.exe with the "clear-log" parameter in order to clear the contents of logs.
+
+    Clearing the event logs can be an attempt to cover tracks after malicious actions, hindering forensic investigations.'
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count values(Processes.process) as process
             min(_time) as firstTime
@@ -76,7 +76,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -6,11 +6,13 @@ modification_date: '2026-05-13'
 author: Milad Cheraghi
 status: production
 type: TTP
-description: |
-    Detects potential abuse of the Linux Magic SysRq (System Request) key by adversaries with root or sufficient privileges to manipulate or destabilize a system.
+description: 'Detects potential abuse of the Linux Magic SysRq (System Request) key by adversaries with root or sufficient privileges to manipulate or destabilize a system.
+
     Writing to /proc/sysrq-trigger can crash the system, kill processes, or bypass standard logging.
+
     Monitoring SysRq abuse helps detect stealthy post-exploitation activity.
-    Correlate with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
+
+    Correlate with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.'
 data_source:
     - Linux Auditd Path
     - Linux Auditd Cwd
@@ -47,17 +49,10 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_magic_sysrq_key_abuse_filter`
-how_to_implement: |
-    To implement this detection, ensure auditd is configured to watch:
-      - /proc/sysrq-trigger
-      - /proc/sys/kernel/sysrq
-      - /etc/sysctl.conf
-    with write and attribute changes (`-p wa`) and key `sysrq`. Make sure the type=CWD record type is activate in your auditd configuration and
-    Use the Splunk Add-on for Unix and Linux for proper ingestion and CIM normalization.
-    This enables effective monitoring of Linux endpoints for SysRq abuse.
-known_false_positives: |
-    Legitimate administrative activity modifying SysRq for debugging or recovery.
-    Please update the filter macros to remove false positives.
+how_to_implement: "To implement this detection, ensure auditd is configured to watch:\n  - /proc/sysrq-trigger\n  - /proc/sys/kernel/sysrq\n  - /etc/sysctl.conf\nwith write and attribute changes (`-p wa`) and key `sysrq`. Make sure the type=CWD record type is activate in your auditd configuration and\nUse the Splunk Add-on for Unix and Linux for proper ingestion and CIM normalization.\nThis enables effective monitoring of Linux endpoints for SysRq abuse."
+known_false_positives: 'Legitimate administrative activity modifying SysRq for debugging or recovery.
+
+    Please update the filter macros to remove false positives.'
 references:
     - https://www.kernel.org/doc/html/v4.10/_sources/admin-guide/sysrq.txt
     - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/4/html/reference_guide/s3-proc-sys-kernel
@@ -70,7 +65,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Abuse of the Linux Magic System Request key detected on host - [$dest$]
     entity:

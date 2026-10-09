@@ -9,7 +9,8 @@ type: Anomaly
 description: The following analytic identifies a process making a DNS query to Discord, excluding legitimate Discord application paths. It leverages Sysmon logs with Event ID 22 to detect DNS queries containing "discord" in the QueryName field. This activity is significant because Discord can be abused by adversaries to host and download malicious files, as seen in the WhisperGate campaign. If confirmed malicious, this could indicate malware attempting to download additional payloads from Discord, potentially leading to further code execution and compromise of the affected system.
 data_source:
     - Sysmon EventID 22
-search: '`sysmon` EventCode=22 QueryName IN ("*discord*") Image != "*\\AppData\\Local\\Discord\\*" AND Image != "*\\Program Files*" AND Image != "discord.exe" | stats count min(_time) as firstTime max(_time) as lastTime by answer answer_count dvc process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_process_with_discord_dns_query_filter`'
+search: |
+    `sysmon` EventCode=22 QueryName="*discord*" NOT Image="*\\AppData\\Local\\Discord\\*" NOT Image="*\\Program Files*" NOT Image="discord.exe" | eval process_name=process_name, dvc=dvc, dest=Computer, QueryName=QueryName | stats count min(_time) as firstTime max(_time) as lastTime by answer answer_count query query_count reply_code_id src vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_process_with_discord_dns_query_filter`
 how_to_implement: his detection relies on sysmon logs with the Event ID 22, DNS Query.
 known_false_positives: Noise and false positive can be seen if the following instant messaging is allowed to use within corporate network. In this case, a filter is needed.
 references:
@@ -24,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dvc

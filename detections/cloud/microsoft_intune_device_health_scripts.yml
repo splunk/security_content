@@ -6,21 +6,12 @@ modification_date: '2026-05-13'
 author: Dean Luxton
 status: production
 type: Hunting
-description: >-
-    Microsoft Intune device remediation scripts are a tool administrators can use to remotely manage devices, this functionality can also be abused for SYSTEM level code execution and lateral movement to intune managed devices.
-    This detection identifies when a new device health script has been added, updated or deleted.
+description: Microsoft Intune device remediation scripts are a tool administrators can use to remotely manage devices, this functionality can also be abused for SYSTEM level code execution and lateral movement to intune managed devices. This detection identifies when a new device health script has been added, updated or deleted.
 data_source:
     - Azure Monitor Activity
-search: >-
-    `azure_monitor_activity` operationName="*DeviceHealthScript*"
-    | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin
-    | rex field="operationName" "^(?P<action>\w+?)DeviceHealthScript" | replace "patch" with "updated", "create" with "created", "delete", with "deleted", "assign", with "assigned" IN action
-    | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId status tenantId correlationId
-    | `microsoft_intune_device_health_scripts_filter`
-how_to_implement: >-
-    The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.
-    To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
-    Deploy as a risk based alerting rule for quick deployment or perform baselining & tune accordingly.
+search: |
+    `azure_monitor_activity` operationName="*DeviceHealthScript*" | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin | rex field="operationName" "^(?P<action>\w+?)DeviceHealthScript" | replace "patch" with "updated", "create" with "created", "delete", with "deleted", "assign", with "assigned" IN action | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId status tenantId correlationId | `microsoft_intune_device_health_scripts_filter`
+how_to_implement: The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub. To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub. Deploy as a risk based alerting rule for quick deployment or perform baselining & tune accordingly.
 known_false_positives: Legitimate adminstrative usage of this functionality will trigger this detection.
 references:
     - https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d
@@ -44,6 +35,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1072/intune/intune.log
-          sourcetype: azure:monitor:activity
           source: Azure AD
+          sourcetype: azure:monitor:activity
       test_type: unit

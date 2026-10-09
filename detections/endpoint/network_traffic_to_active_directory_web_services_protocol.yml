@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic identifies network traffic directed to the Active Directory Web Services Protocol (ADWS) on port 9389. It leverages network traffic logs, focusing on source and destination IP addresses, application names, and destination ports. This activity is significant as ADWS is used to manage Active Directory, and unauthorized access could indicate malicious intent. If confirmed malicious, an attacker could manipulate Active Directory, potentially leading to privilege escalation, unauthorized access, or persistent control over the environment.
 data_source:
     - Sysmon EventID 3
-search: |-
+search: |
     | tstats count FROM datamodel=Network_Traffic
       WHERE All_Traffic.dest_port=9389
       BY All_Traffic.action All_Traffic.app All_Traffic.dest

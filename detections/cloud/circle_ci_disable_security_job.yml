@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects the disabling of security jobs in CircleCI pipelines. It leverages CircleCI log data, renaming and extracting fields such as job names, workflow IDs, user information, commit messages, URLs, and branches. The detection identifies mandatory jobs for each workflow and checks if they were executed. This activity is significant because disabling security jobs can allow malicious code to bypass security checks, leading to potential data breaches, system downtime, and reputational damage. If confirmed malicious, this could result in unauthorized code execution and compromised pipeline integrity.
 data_source:
     - CircleCI
-search: |-
+search: |
     `circleci`
       | rename vcs.committer_name as user vcs.subject as commit_message vcs.url as url workflows.* as *
       | stats values(job_name) as job_names
@@ -35,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -57,6 +57,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json
-          sourcetype: circleci
           source: circleci
+          sourcetype: circleci
       test_type: unit

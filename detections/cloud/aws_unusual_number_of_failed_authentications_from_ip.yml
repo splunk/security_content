@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies a single source IP failing to authenticate into the AWS Console with multiple valid users. It uses CloudTrail logs and calculates the standard deviation for source IP, leveraging the 3-sigma rule to detect unusual numbers of failed authentication attempts. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the AWS environment.
 data_source:
     - AWS CloudTrail ConsoleLogin
-search: |-
+search: |
     `cloudtrail` eventName=ConsoleLogin action=failure
       | rename eventName as action, eventSource as dest, userName as user, userAgent as user_agent, sourceIPAddress as src, userIdentity.accountId as vendor_account, awsRegion as vendor_region
       | bucket span=10m _time
@@ -37,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$tried_accounts$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$tried_accounts$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: tried_accounts

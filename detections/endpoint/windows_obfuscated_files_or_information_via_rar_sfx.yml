@@ -9,15 +9,8 @@ type: Anomaly
 description: The following analytic detects the creation of RAR Self-Extracting (SFX) files by monitoring the generation of file related to rar sfx .tmp file creation during sfx installation. This method leverages a heuristic to identify RAR SFX archives based on specific markers that indicate a combination of executable code and compressed RAR data. By tracking such activity, the analytic helps pinpoint potentially unauthorized or suspicious file creation events, which are often associated with malware packaging or data exfiltration. Legitimate usage may include custom installers or compressed file delivery.
 data_source:
     - Sysmon EventID 11
-search: |-
-    `sysmon` EventCode=11 TargetFilename IN ("*__tmp_rar_sfx_access_check*")
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY action dest file_name
-           file_path process_guid process_id
-           user user_id vendor_product
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_obfuscated_files_or_information_via_rar_sfx_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="*__tmp_rar_sfx_access_check*" by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_obfuscated_files_or_information_via_rar_sfx_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, TargetFilename, and eventcode 11 executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where rar sfx executable may be used.
 known_false_positives: It can detect a third part utility software tool compiled to rar sfx.
 references:
@@ -30,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

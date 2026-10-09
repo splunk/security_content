@@ -6,11 +6,10 @@ modification_date: '2026-10-05'
 author: Rico Valdez, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |-
-    Detects permanent WMI event subscriptions that are containing `CommandLineEventConsumer` or `ActiveScriptEventConsumer`. Due to their command execution capabilties, given WMI consumers are often leveraged by adversaries for both execution and persistence purposes.
+description: Detects permanent WMI event subscriptions that are containing `CommandLineEventConsumer` or `ActiveScriptEventConsumer`. Due to their command execution capabilties, given WMI consumers are often leveraged by adversaries for both execution and persistence purposes.
 data_source:
     - Windows Event Log WMI Activity 5861
-search: |-
+search: |
     `wmi`
     EventCode=5861
     | spath input=_raw output=possible_cause path=Event.UserData.Operation_ESStoConsumerBinding.PossibleCause
@@ -48,11 +47,10 @@ search: |-
     | `security_content_ctime(lastTime)`
     | rename Computer as dest
     | `wmi_permanent_event_subscription_filter`
-how_to_implement: |-
-    Ingest Microsoft-Windows-WMI-Activity/Operational events and ensure EventCode, Computer, and the raw XML event are available.
-    The search uses spath to extract the binding details, then regex to parse the embedded __EventFilter and the supported CommandLineEventConsumer and ActiveScriptEventConsumer properties. For non-XML rendered events, Message is used as a fallback for the consumer details.
-known_false_positives: |-
-    Administrators and software may use permanent WMI event subscriptions. Review the consumer, filter query, and creator context; tune known authorized subscriptions with the detection filter macro.
+how_to_implement: 'Ingest Microsoft-Windows-WMI-Activity/Operational events and ensure EventCode, Computer, and the raw XML event are available.
+
+    The search uses spath to extract the binding details, then regex to parse the embedded __EventFilter and the supported CommandLineEventConsumer and ActiveScriptEventConsumer properties. For non-XML rendered events, Message is used as a fallback for the consumer details.'
+known_false_positives: Administrators and software may use permanent WMI event subscriptions. Review the consumer, filter query, and creator context; tune known authorized subscriptions with the detection filter macro.
 references:
     - https://learn.microsoft.com/en-us/windows/win32/wmisdk/binding-an-event-filter-with-a-logical-consumer
     - https://learn.microsoft.com/en-us/windows/win32/wmisdk/commandlineeventconsumer

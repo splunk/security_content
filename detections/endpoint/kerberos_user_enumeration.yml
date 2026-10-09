@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects an unusual number of Kerberos Ticket Granting Ticket (TGT) requests for non-existing users from a single source endpoint. It leverages Event ID 4768 and identifies anomalies using the 3-sigma statistical rule. This behavior is significant as it may indicate an adversary performing a user enumeration attack against Active Directory. If confirmed malicious, the attacker could validate a list of usernames, potentially leading to further attacks such as brute force or credential stuffing, compromising the security of the environment.
 data_source:
     - Windows Event Log Security 4768
-search: |-
+search: |
     `wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$"
       | bucket span=2m _time
       | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts values(dest) as dest
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_ip$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src_ip

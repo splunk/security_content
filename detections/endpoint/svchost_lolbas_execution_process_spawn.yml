@@ -6,60 +6,14 @@ modification_date: '2026-07-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: |-
-    The following analytic detects instances of 'svchost.exe' spawning Living Off The Land Binaries and Scripts (LOLBAS) processes. It leverages Endpoint Detection and Response (EDR) data to monitor child processes of 'svchost.exe' that match known LOLBAS executables. This activity is significant as adversaries often use LOLBAS techniques to execute malicious code stealthily, potentially indicating lateral movement or code execution attempts.
-    If confirmed malicious, this behavior could allow attackers to execute arbitrary commands, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
+description: 'The following analytic detects instances of ''svchost.exe'' spawning Living Off The Land Binaries and Scripts (LOLBAS) processes. It leverages Endpoint Detection and Response (EDR) data to monitor child processes of ''svchost.exe'' that match known LOLBAS executables. This activity is significant as adversaries often use LOLBAS techniques to execute malicious code stealthily, potentially indicating lateral movement or code execution attempts.
+
+    If confirmed malicious, this behavior could allow attackers to execute arbitrary commands, escalate privileges, or maintain persistence within the environment, posing a significant security risk.'
 data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
-search: |-
-    | tstats `security_content_summariesonly`
-      count min(_time) as firstTime
-            max(_time) as lastTime
-
-    FROM datamodel=Endpoint.Processes WHERE
-
-    Processes.parent_process = "*"
-    Processes.parent_process_name = "svchost.exe"
-    Processes.process_name IN (
-        "At.exe", "Atbroker.exe", "Bash.exe", "Bitsadmin.exe", "Certoc.exe", "Cmstp.exe",
-        "Diskshadow.exe", "Dnscmd.exe", "Extexport.exe", "Forfiles.exe", "Ftp.exe",
-        "Gpscript.exe", "Hh.exe", "Ie4uinit.exe", "Ieexec.exe", "Infdefaultinstall.exe",
-        "Installutil.exe", "Mavinject.exe", "Microsoft.Workflow.Compiler.exe",
-        "Msbuild.exe", "Msconfig.exe", "Msdt.exe", "Msiexec.exe", "Netsh.exe",
-        "Odbcconf.exe", "OfflineScannerShell.exe", "Pcalua.exe", "Pcwrun.exe",
-        "Pnputil.exe", "PresentationHost.exe", "Rasautou.exe", "Regasm.exe",
-        "Register-cimprovider.exe", "Regsvcs.exe", "Regsvr32.exe", "Runonce.exe",
-        "Runscripthelper.exe", "Schtasks.exe", "Scriptrunner.exe", "SettingSyncHost.exe",
-        "Stordiag.exe", "Syncappvpublishingserver.exe", "Ttdinject.exe", "Mshta.exe",
-        "Tttracer.exe", "Verclsid.exe", "Wab.exe", "Wmic.exe",
-        "WorkFolders.exe", "Wuauclt.exe", "Xwizard.exe"
-    )
-    NOT (
-        Processes.parent_process IN ("*-k GPSvcGroup*", "*-k netsvcs", "*-k netsvcs -p","*-k netsvcs -p -s gpsvc")
-        Processes.process_name = "Gpscript.exe"
-    )
-    NOT (
-        Processes.parent_process IN ("*-k netsvcs", "*-k netsvcs -p", "*-k netsvcs -p -s wuauserv", "-k netsvcs -p -s Schedule")
-        Processes.process_name IN ("Wuauclt.exe", "Schtasks.exe")
-    )
-    NOT (
-        Processes.parent_process = "*-k DcomLaunch*"
-        Processes.process_name IN ("PresentationHost.exe", "SettingSyncHost.exe")
-    )
-
-    BY Processes.action Processes.dest Processes.original_file_name
-       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-       Processes.process Processes.process_exec Processes.process_guid
-       Processes.process_hash Processes.process_id Processes.process_integrity_level
-       Processes.process_name Processes.process_path Processes.user
-       Processes.user_id Processes.vendor_product
-
-    | `drop_dm_object_name(Processes)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `svchost_lolbas_execution_process_spawn_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process="*" Processes.parent_process_name="*svchost.exe" Processes.process_name IN ("*At.exe", "*Atbroker.exe", "*Bash.exe", "*Bitsadmin.exe", "*Certoc.exe", "*Cmstp.exe", "*Diskshadow.exe", "*Dnscmd.exe", "*Extexport.exe", "*Forfiles.exe", "*Ftp.exe", "*Gpscript.exe", "*Hh.exe", "*Ie4uinit.exe", "*Ieexec.exe", "*Infdefaultinstall.exe", "*Installutil.exe", "*Mavinject.exe", "*Microsoft.Workflow.Compiler.exe", "*Msbuild.exe", "*Msconfig.exe", "*Msdt.exe", "*Msiexec.exe", "*Netsh.exe", "*Odbcconf.exe", "*OfflineScannerShell.exe", "*Pcalua.exe", "*Pcwrun.exe", "*Pnputil.exe", "*PresentationHost.exe", "*Rasautou.exe", "*Regasm.exe", "*Register-cimprovider.exe", "*Regsvcs.exe", "*Regsvr32.exe", "*Runonce.exe", "*Runscripthelper.exe", "*Schtasks.exe", "*Scriptrunner.exe", "*SettingSyncHost.exe", "*Stordiag.exe", "*Syncappvpublishingserver.exe", "*Ttdinject.exe", "*Mshta.exe", "*Tttracer.exe", "*Verclsid.exe", "*Wab.exe", "*Wmic.exe", "*WorkFolders.exe", "*Wuauclt.exe", "*Xwizard.exe") NOT (Processes.parent_process IN ("*-k GPSvcGroup*", "*-k netsvcs*", "*-k netsvcs -p*", "*-k netsvcs -p -s gpsvc*")) Processes.process_name="*Gpscript.exe" NOT (Processes.parent_process IN ("*-k netsvcs", "*-k netsvcs -p", "*-k netsvcs -p -s wuauserv", "*-k netsvcs -p -s Schedule")) Processes.process_name IN ("*Wuauclt.exe", "*Schtasks.exe") NOT Processes.parent_process="*-k DcomLaunch*" Processes.process_name IN ("*PresentationHost.exe", "*SettingSyncHost.exe") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `svchost_lolbas_execution_process_spawn_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate applications may trigger this behavior, filter as needed.
 references:
@@ -74,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The parent process[$parent_process$] spawned a Living Off The Land process [$process_name$] on [$dest$]
     entity:

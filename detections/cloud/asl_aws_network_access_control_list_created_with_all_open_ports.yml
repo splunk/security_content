@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects the creation of AWS Network Access Control Lists (ACLs) with all ports open to a specified CIDR. It leverages AWS CloudTrail events, specifically monitoring for `CreateNetworkAclEntry` or `ReplaceNetworkAclEntry` actions with rules allowing all traffic. This activity is significant because it can expose the network to unauthorized access, increasing the risk of data breaches and other malicious activities. If confirmed malicious, an attacker could exploit this misconfiguration to gain unrestricted access to the network, potentially leading to data exfiltration, service disruption, or further compromise of the AWS environment.
 data_source:
     - ASL AWS CloudTrail
-search: |-
+search: |
     `amazon_security_lake` api.operation=CreateNetworkAclEntry OR api.operation=ReplaceNetworkAclEntry status=Success
       | spath input=api.request.data path=ruleAction output=ruleAction
       | spath input=api.request.data path=egress output=egress
@@ -38,7 +38,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ has created network ACLs with all the ports opens to $cidrBlock$
     entity:
@@ -63,6 +63,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/asl_ocsf_cloudtrail.json
-          sourcetype: aws:asl
           source: aws_asl
+          sourcetype: aws:asl
       test_type: unit

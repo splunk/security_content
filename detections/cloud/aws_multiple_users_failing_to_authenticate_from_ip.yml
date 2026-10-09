@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies a single source IP failing to authenticate into the AWS Console with 30 unique valid users within 10 minutes. It leverages CloudTrail logs to detect multiple failed login attempts from the same IP address. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain unauthorized access or elevate privileges by trying common passwords across many accounts. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the AWS environment.
 data_source:
     - AWS CloudTrail ConsoleLogin
-search: |-
+search: |
     `cloudtrail` eventName=ConsoleLogin action=failure
       | bucket span=10m _time
       | rename user_name as user
@@ -35,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

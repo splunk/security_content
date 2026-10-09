@@ -6,14 +6,19 @@ modification_date: '2026-07-02'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
-description: |
-    The following analytic detects the creation of files with names commonly associated with ransomware notes.
+description: 'The following analytic detects the creation of files with names commonly associated with ransomware notes.
+
     It leverages file-system activity data from the Endpoint Filesystem data model, typically populated by endpoint detection and response (EDR) tools or Sysmon logs.
+
     This activity is significant because ransomware notes indicate a potential ransomware attack, which can lead to data encryption and extortion.
+
     If confirmed malicious, this activity could result in significant data loss, operational disruption, and financial impact due to ransom demands.
+
     Note that this analytic relies on a lookup table (ransomware_notes_lookup) that contains known ransomware note file names.
+
     Ensure that this lookup table is regularly updated to include new ransomware note file names as they are identified in the threat landscape.
-    Also this analytic leverages a sub-search to enhance performance. sub-searches have limitations on the amount of data they can return. Keep this in mind if you have an extensive list of ransomware note file names.
+
+    Also this analytic leverages a sub-search to enhance performance. sub-searches have limitations on the amount of data they can return. Keep this in mind if you have an extensive list of ransomware note file names.'
 data_source:
     - Sysmon EventID 11
 search: |
@@ -48,9 +53,9 @@ search: |
     | `security_content_ctime(firstTime)`
     | `common_ransomware_notes_filter`
 how_to_implement: You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
-known_false_positives: |
-    There could be cases where a legitimate file coincidentally matches a known ransomware note
-    name. In such cases, further investigation is required to determine the nature of the file and its context.
+known_false_positives: 'There could be cases where a legitimate file coincidentally matches a known ransomware note
+
+    name. In such cases, further investigation is required to determine the nature of the file and its context.'
 references: []
 analytic_story:
     - Chaos Ransomware

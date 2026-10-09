@@ -9,13 +9,8 @@ type: TTP
 description: The following detects a Linux kernel warning message containing "tc action pedit offset" and "out of bounds" logged to syslog, which indicates the act_pedit attempted to write past the bounds of an allocated packet buffer. This condition is associated with CVE-2026-46331, a kernel vulnerability that can be exploited via crafted pedit netlink configurations combined with page cache poisoning to achieve privilege escalation. The presence of this message on a host is a strong indicator that exploitation of this vulnerability, or triggering of the underlying vulnerable code path, has occurred.
 data_source:
     - Linux Messages Syslog
-search: >-
-    `linux_syslog` "*tc action pedit offset*" "*out of bounds*"
-    | rename host as dest
-    | stats count min(_time) as firstTime max(_time) as lastTime by dest _raw
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `linux_pedit_offset_out_of_bounds_filter`
+search: |
+    `linux_syslog` "*tc action pedit offset*" "*out of bounds*" | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime by dest _raw | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_pedit_offset_out_of_bounds_filter`
 how_to_implement: To successfully implement this search, you need to have relevant kernel logs ingested with the Splunk Add-On for Unix and Linux (https://splunkbase.splunk.com/app/833).
 known_false_positives: This is generated only when the kernel's act_pedit module encounters a write outside the writable SKB region. This never occurs in normal tc pedit usage.
 references:
@@ -29,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Out-of-bounds write by act_pedit on $dest$ indicating possible privilege escalation.
     entity:

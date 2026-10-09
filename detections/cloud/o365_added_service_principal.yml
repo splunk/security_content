@@ -9,15 +9,8 @@ type: TTP
 description: The following analytic detects the addition of new service principal accounts in O365 tenants. It leverages data from the `o365_management_activity` dataset, specifically monitoring for operations related to adding or creating service principals. This activity is significant because attackers can exploit service principals to gain unauthorized access and perform malicious actions within an organization's environment. If confirmed malicious, this could allow attackers to interact with APIs, access resources, and execute operations on behalf of the organization, potentially leading to data breaches or further compromise.
 data_source:
     - O365
-search: |-
-    `o365_management_activity` Workload=AzureActiveDirectory Operation="*Add service principal*" OR (Operation = "*principal*" AND action = "created")
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY signature dest user
-           src vendor_account vendor_product
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `o365_added_service_principal_filter`
+search: |
+    `o365_management_activity` (Workload="AzureActiveDirectory" Operation="*Add service principal*") OR (Operation="*principal*" action="created") | eval user=User, new_value='ModifiedProperties{}.NewValue', signature=signature, Severity=Severity | stats count min(_time) as firstTime max(_time) as lastTime by Workload Operation | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_added_service_principal_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: The creation of a new Federation is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
 references:
@@ -33,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ has created new service principal in AzureActiveDirectory
     entity:
@@ -57,6 +50,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_added_service_principal/o365_add_service_principal.log
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

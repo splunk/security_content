@@ -6,12 +6,15 @@ modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic detects the creation of files associated with the NirSoft
+description: 'The following analytic detects the creation of files associated with the NirSoft
+
     tool bundles on Windows endpoints.
+
     NirSoft is a well-known provider of free, portable utilities that can be used for various system and network tasks. However, threat actors often leverage these tools for malicious purposes, such as credential harvesting, network reconnaissance, and data exfiltration.
+
     The detection focuses on the creation of specific NirSoft tool bundle files, which may indicate that an attacker is preparing to use these utilities on a compromised system.
-    Security teams should investigate any instances of these files being created, especially if they are found in unexpected locations or on systems that should not be using such tools.
+
+    Security teams should investigate any instances of these files being created, especially if they are found in unexpected locations or on systems that should not be using such tools.'
 data_source:
     - Sysmon EventID 11
 search: |
@@ -45,13 +48,14 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_nirsoft_tool_bundle_file_created_filter`
-how_to_implement: |
-    To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node.
+how_to_implement: 'To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node.
+
     This is typically populated via endpoint detection-and-response product, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
-    The data used for this search is typically generated via logs that report file-system reads and writes.
-known_false_positives: |
-    Administrators or users may download NirSoft tools for legitimate purposes, such as system maintenance or troubleshooting.
-    These instances should be reviewed to determine if the activity is authorized.
+
+    The data used for this search is typically generated via logs that report file-system reads and writes.'
+known_false_positives: 'Administrators or users may download NirSoft tools for legitimate purposes, such as system maintenance or troubleshooting.
+
+    These instances should be reviewed to determine if the activity is authorized.'
 references:
     - https://thedfirreport.com/2020/04/04/gogoogle-ransomware/
     - https://asec.ahnlab.com/en/48940/
@@ -65,7 +69,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

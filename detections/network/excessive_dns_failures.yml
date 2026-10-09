@@ -8,7 +8,7 @@ status: experimental
 type: Anomaly
 description: The following analytic identifies excessive DNS query failures by counting DNS responses that do not indicate success, triggering when there are more than 50 occurrences. It leverages the Network_Resolution data model, focusing on DNS reply codes that signify errors. This activity is significant because a high number of DNS failures can indicate potential network misconfigurations, DNS poisoning attempts, or malware communication issues. If confirmed malicious, this activity could lead to disrupted network services, hindered communication, or data exfiltration attempts by attackers.
 data_source: []
-search: |-
+search: |
     | tstats `security_content_summariesonly` count FROM datamodel=Network_Resolution
       WHERE nodename=DNS "DNS.reply_code"!="No Error" "DNS.reply_code"!="NoError" DNS.reply_code!="unknown" NOT "DNS.query"="*.arpa" "DNS.query"="*.*"
       BY "DNS.src" "DNS.query" "DNS.reply_code"

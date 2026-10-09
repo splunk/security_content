@@ -8,7 +8,7 @@ status: experimental
 type: Anomaly
 description: The following analytic detects previously unseen processes within the Kubernetes environment on master or worker nodes. It leverages process metrics collected via an OTEL collector and hostmetrics receiver, and data is pulled from Splunk Observability Cloud. This detection compares processes observed in the last hour against those seen in the previous 30 days. Identifying new processes is crucial as they may indicate unauthorized activity or attempts to compromise the node. If confirmed malicious, these processes could lead to data exfiltration, privilege escalation, denial-of-service attacks, or the introduction of malware, posing significant risks to the Kubernetes cluster.
 data_source: []
-search: |-
+search: |
     | mstats  count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-1h by host.name k8s.cluster.name k8s.node.name process.executable.name
     | eval current="True"
     | append [mstats  count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-30d latest=-1h by host.name k8s.cluster.name k8s.node.name process.executable.name ]

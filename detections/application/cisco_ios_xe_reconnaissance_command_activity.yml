@@ -6,13 +6,14 @@ modification_date: '2026-05-20'
 author: Nasreddine Bencherchali
 status: production
 type: Anomaly
-description: |
-    This analytic detects bursts of Cisco IOS or NX-OS discovery commands associated with Salt Typhoon tradecraft.
+description: 'This analytic detects bursts of Cisco IOS or NX-OS discovery commands associated with Salt Typhoon tradecraft.
+
     Adversaries who gain initial access to network infrastructure devices typically perform systematic reconnaissance to understand the device configuration, network topology, security policies, connected systems, and potential attack paths.
-    This reconnaissance phase involves executing multiple "show" commands to enumerate device details, running configurations, active connections, routing information, and VPN sessions.
+
+    This reconnaissance phase involves executing multiple "show" commands to enumerate device details, running configurations, active connections, routing information, and VPN sessions.'
 data_source:
     - Cisco IOS Logs
-search: |-
+search: |
     `cisco_ios`
     facility IN ("AAA", "HA_EM")
     mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG")
@@ -59,12 +60,12 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_reconnaissance_command_activity_filter`
-how_to_implement: |
-    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+how_to_implement: 'Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+
     On Nexus, local accounting can emit "%AAA-6-AAA_ACCOUNTING_MESSAGE".
-    On Catalyst, use TACACS+ command accounting or EEM catchall syslog for exec command visibility.
-known_false_positives: |
-    Network audits and troubleshooting can produce similar command bursts. Tune the command list, threshold, and approved administrators for the environment.
+
+    On Catalyst, use TACACS+ command accounting or EEM catchall syslog for exec command visibility.'
+known_false_positives: Network audits and troubleshooting can produce similar command bursts. Tune the command list, threshold, and approved administrators for the environment.
 references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
     - https://blog.talosintelligence.com/salt-typhoon-analysis/
@@ -76,7 +77,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -6,12 +6,15 @@ modification_date: '2026-05-13'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP
-description: |
-    This analytic detects activity associated with "Static Tundra" threat actor abuse of the Cisco Smart Install (SMI) protocol
+description: 'This analytic detects activity associated with "Static Tundra" threat actor abuse of the Cisco Smart Install (SMI) protocol
+
     using Cisco Secure Firewall Intrusion Events. It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to
+
     identify occurrences of Smart Install exploitation and protocol abuse, including denial-of-service and buffer overflow
+
     attempts. The detection triggers when multiple Cisco Smart Install-related Snort signatures are observed in a short period from the
-    same source, which is indicative of active exploitation or reconnaissance against Cisco devices that expose SMI.
+
+    same source, which is indicative of active exploitation or reconnaissance against Cisco devices that expose SMI.'
 data_source:
     - Cisco Secure Firewall Threat Defense Intrusion Event
 search: |
@@ -37,14 +40,16 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_secure_firewall___static_tundra_smart_install_abuse_filter`
-how_to_implement: |
-    This search requires Cisco Secure Firewall Threat Defense logs with IntrusionEvent data. It uses the `cisco_secure_firewall`
+how_to_implement: 'This search requires Cisco Secure Firewall Threat Defense logs with IntrusionEvent data. It uses the `cisco_secure_firewall`
+
     input macro; configure it to match your environment (index, source, sourcetype). Ensure your intrusion policies include the
+
     relevant Smart Install signatures and that events are collected via the Splunk Add-on for Cisco Security Cloud
-    (https://splunkbase.splunk.com/app/7404). The post-filter macro helps reduce known noise.
-known_false_positives: |
-    Network scanning or testing tools that probe Cisco Smart Install endpoints may trigger similar signatures.
-    Validate against maintenance windows or approved security assessments.
+
+    (https://splunkbase.splunk.com/app/7404). The post-filter macro helps reduce known noise.'
+known_false_positives: 'Network scanning or testing tools that probe Cisco Smart Install endpoints may trigger similar signatures.
+
+    Validate against maintenance windows or approved security assessments.'
 references:
     - https://blog.talosintelligence.com/static-tundra/
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
@@ -56,7 +61,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Smart Install exploitation or protocol abuse targeting $dest$ originating from $src$
     entity:
@@ -78,8 +83,8 @@ mitre_attack_id:
     - T1499
 product:
     - Splunk Enterprise
-    - Splunk Cloud
     - Splunk Enterprise Security
+    - Splunk Cloud
 category: network
 security_domain: network
 tests:

@@ -6,11 +6,10 @@ modification_date: '2026-05-20'
 author: Nasreddine Bencherchali
 status: production
 type: Anomaly
-description: |
-    This analytic detects bursts of ping, SSH, and Telnet commands issued from Cisco IOS or NX-OS devices. The Salt Typhoon notes describe repeated SSH, Telnet-to-port-22, and ping activity across multiple IP addresses in a short time window.
+description: This analytic detects bursts of ping, SSH, and Telnet commands issued from Cisco IOS or NX-OS devices. The Salt Typhoon notes describe repeated SSH, Telnet-to-port-22, and ping activity across multiple IP addresses in a short time window.
 data_source:
     - Cisco IOS Logs
-search: |-
+search: |
     `cisco_ios`
     facility IN ("AAA", "HA_EM")
     mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG")
@@ -37,11 +36,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_remote_access_probe_burst_filter`
-how_to_implement: |
-    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
-    Command visibility requires AAA command accounting, archive/config logging for configuration commands, or EEM catchall logging.
-known_false_positives: |
-    Network reachability testing, migration validation, and troubleshooting can generate repeated ping, SSH, or Telnet commands.
+how_to_implement: 'Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+
+    Command visibility requires AAA command accounting, archive/config logging for configuration commands, or EEM catchall logging.'
+known_false_positives: Network reachability testing, migration validation, and troubleshooting can generate repeated ping, SSH, or Telnet commands.
 references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
     - https://blog.talosintelligence.com/salt-typhoon-analysis/
@@ -53,7 +51,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

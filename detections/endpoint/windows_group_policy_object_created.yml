@@ -10,14 +10,8 @@ description: The following analytic detects the creation of a new Group Policy O
 data_source:
     - Windows Event Log Security 5136
     - Windows Event Log Security 5137
-search: |-
-    `wineventlog_security` EventCode=5137 OR (EventCode=5136 AttributeValue!="New Group Policy Object" AND (AttributeLDAPDisplayName=displayName OR AttributeLDAPDisplayName=gPCFileSysPath) ) ObjectClass=groupPolicyContainer
-      | stats values(AttributeValue) as details values(SubjectUserSid) as User values(ObjectDN) as ObjectDN
-        BY ObjectGUID Computer dest
-      | eval GPO_Name = mvindex(details, 0)
-      | eval GPO_Path = mvindex(details, 1)
-      | fields - details
-      | `windows_group_policy_object_created_filter`
+search: |
+    `wineventlog_security` EventCode=5136 EventCode="5137" OR (NOT AttributeValue="New Group Policy Object" AttributeLDAPDisplayName IN ("displayName", "gPCFileSysPath") ObjectClass="groupPolicyContainer") | eval ObjectDN=ObjectDN, SubjectUserName=SubjectUserName, SubjectUserSid=SubjectUserSid, Computer=Computer, User=SubjectUserSid, user=SubjectUserName | stats count min(_time) as firstTime max(_time) as lastTime by dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_group_policy_object_created_filter`
 how_to_implement: To successfully implement this search, the Advanced Security Audit policy setting `Audit Directory Service Changes` within `DS Access` needs to be enabled. Furthermore, the appropriate system access control lists (SACL) need to be created as the used events are not logged by default. A good guide to accomplish this can be found here https://jgspiers.com/audit-group-policy-changes/.
 known_false_positives: Group Policy Objects are created as part of regular administrative operations, filter as needed.
 references:
@@ -35,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$User$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$User$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A new group policy objected was created by $User$
     entity:
