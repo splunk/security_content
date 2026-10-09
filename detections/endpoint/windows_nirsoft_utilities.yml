@@ -15,24 +15,25 @@ description: |
 data_source:
     - Sysmon EventID 1
 search: |
-    `sysmon`
-    EventID=1
-    (
-        Company=nirsoft OR
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime
+
+    FROM datamodel=Endpoint.Processes
+    WHERE
         [
             | inputlookup nirsoft_utilities_lookup.csv
             | search original_file_name=*.exe
             | table original_file_name
+            | rename original_file_name as Processes.original_file_name
         ]
-    )
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-      by dest original_file_name parent_process
-         parent_process_guid parent_process_id
-         parent_process_name parent_process_path
-         process process_guid process_id
-         process_hash process_integrity_level process_name
-         process_path user user_id vendor_product
+
+    BY Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process
+       Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name Processes.process_path
+       Processes.user Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name("Processes")`
 
     | lookup local=t nirsoft_utilities_lookup original_file_name OUTPUT description
 
