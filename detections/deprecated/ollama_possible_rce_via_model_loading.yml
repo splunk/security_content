@@ -2,9 +2,9 @@ name: Ollama Possible RCE via Model Loading
 id: 3f28c930-5208-425d-a7b9-53d349756d91
 version: 5
 creation_date: '2025-10-13'
-modification_date: '2026-09-24'
+modification_date: '2026-10-10'
 author: Rod Soto
-status: production
+status: deprecated
 type: Anomaly
 description: Detects Ollama server errors and failures during model loading operations that may indicate malicious model injection, path traversal attempts, or exploitation of model loading mechanisms to achieve remote code execution. Adversaries may attempt to load specially crafted malicious models or exploit vulnerabilities in the model loading process to execute arbitrary code on the server. This detection monitors error messages and failure patterns that could signal attempts to abuse model loading functionality for malicious purposes.
 data_source:
@@ -47,3 +47,7 @@ tests:
           sourcetype: ollama:server
           source: app.log
       test_type: unit
+deprecation_info:
+    reason: This experimental rule is being deprecated while we enhance Ollama model-loading detection. Model-loading errors alone do not confirm code execution, so the detection needs stronger evidence of execution.
+    removed_in_version: 6.12.0
+    replacement_content: []

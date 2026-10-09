@@ -1,13 +1,14 @@
-name: Ollama Possible API Endpoint Scan Reconnaissance
-id: ad3f352a-0347-48ee-86b9-670b5025a548
-version: 6
-creation_date: '2025-10-13'
+name: Ollama Long-Running Inference Requests
+id: 7619c98c-f53b-445f-87ca-b148e8560340
+version: 1
+creation_date: '2026-10-09'
 modification_date: '2026-10-09'
 author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects API reconnaissance and endpoint scanning activity against Ollama servers by identifying sources probing multiple API endpoints within short timeframes, particularly when using HEAD requests or accessing diverse endpoint paths, which indicates systematic enumeration to map the API surface, discover hidden endpoints, or identify vulnerabilities before launching targeted attacks.
+    Identifies repeated Ollama inference requests with long response times on /api/generate, /api/chat, and /v1/chat/completions.
+    Long response time can result from model size, prompt length, host resources, or normal workload. GIN access logs do not include prompt content and cannot establish a prompt injection or jailbreak attempt, so use this as an exploratory performance signal.
 data_source:
     - Ollama Server
 search: |-
@@ -22,34 +23,38 @@ search: |-
     | eval http_response_code=coalesce(http_response_code, raw_status)
     | eval response_time_ms=coalesce(response_time_ms, case(match(raw_latency, "µs$"), tonumber(replace(raw_latency, "µs", ""))/1000, match(raw_latency, "ms$"), tonumber(replace(raw_latency, "ms", "")), match(raw_latency, "s$"), tonumber(replace(raw_latency, "s", ""))*1000))
 
-    | where isnotnull(src) AND isnotnull(uri_path)
+    | where isnotnull(src) AND in(uri_path, "/api/generate", "/api/chat", "/v1/chat/completions") AND response_time_ms > 30000
 
-    | bin _time span=5m
+    | eval response_time_seconds=response_time_ms/1000
 
-    | stats count as total_requests
-            dc(uri_path) as distinct_endpoints
-            count(eval(http_method="HEAD")) as head_requests
-            values(uri_path) as endpoints
-            values(http_method) as methods
+    | bin _time span=10m
+
+    | stats count as long_request_count
+            avg(response_time_seconds) as avg_response_time
+            max(response_time_seconds) as max_response_time
+            values(uri_path) as uri_path
             values(http_response_code) as status_codes
       by _time src host
 
-    | where total_requests > 120 AND (distinct_endpoints >= 3 OR (distinct_endpoints >= 2 AND head_requests > 0))
+    | where long_request_count > 1
 
-    | eval severity="medium"
-    | eval attack_type="API Activity Surge"
+    | eval avg_response_time=round(avg_response_time, 2)
+    | eval max_response_time=round(max_response_time, 2)
+    | eval severity=case(max_response_time > 55, "high", 1=1, "medium")
+    | eval attack_type="Long-Running Inference Requests"
 
-    | table _time host src total_requests
-            distinct_endpoints endpoints methods
+    | table _time host src uri_path long_request_count
+            avg_response_time max_response_time
             status_codes severity attack_type
 
-    | `ollama_possible_api_endpoint_scan_reconnaissance_filter`
+    | `ollama_long_running_inference_requests_filter`
 how_to_implement: |-
     Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.
 known_false_positives: |-
-    Legitimate web application clients or mobile apps that access multiple API endpoints as part of normal functionality, monitoring and health check systems probing various endpoints for availability, load balancers performing health checks across different paths, API testing frameworks during development and QA processes, or users navigating through web interfaces that trigger multiple API calls may generate similar patterns during normal operations.
+    Legitimate complex queries requiring extensive model reasoning, large context windows processing substantial amounts of text, batch processing operations, or resource-constrained systems experiencing performance degradation may trigger this detection during normal operations.
 references:
     - https://github.com/rosplk/ta-ollama
+    - https://github.com/OWASP/www-project-ai-testing-guide
 drilldown_searches:
     - name: View the detection results for - "$src$"
       search: |-
@@ -71,12 +76,11 @@ intermediate_findings:
         - field: src
           type: system
           score: 20
-          message: 'Possible API reconnaissance from [$src$] on [$host$] with [$total_requests$] requests across [$distinct_endpoints$] endpoints ([$endpoints$]) using methods [$methods$] and receiving status codes [$status_codes$].'
+          message: '[$long_request_count$] long-running inference requests from [$src$] averaged [$avg_response_time$] seconds and reached [$max_response_time$] seconds. Investigate workload, model size, prompt length, and host capacity; access logs do not establish prompt injection or data exfiltration.'
 analytic_story:
     - Suspicious Ollama Activities
 asset_type: Web Application
-mitre_attack_id:
-    - T1595
+mitre_attack_id: []
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security

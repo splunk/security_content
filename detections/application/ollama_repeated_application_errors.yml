@@ -1,0 +1,85 @@
+name: Ollama Repeated Application Errors
+id: e0fff27e-ee9b-4b8d-b247-f93a93cefa71
+version: 1
+creation_date: '2026-10-09'
+modification_date: '2026-10-09'
+author: Rod Soto, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    Detects repeated Ollama application error events as a possible availability issue. Ollama application logs do not reliably record process termination, so this search cannot confirm a service crash without operating system or service manager telemetry.
+data_source:
+    - Ollama Server
+search: |-
+    `ollama_server`
+    (level=ERROR OR level=FATAL)
+
+    | rex field=_raw "msg=\"(?<msg>[^\"]+)\""
+    | rex field=_raw "exit_code=(?<exit_code>\d+)"
+
+    | bin _time span=5m
+
+    | stats count as error_count
+            earliest(_time) as first_seen
+            latest(_time) as last_seen
+            values(msg) as error_messages
+            values(exit_code) as exit_codes
+            dc(msg) as unique_errors
+      by _time host
+
+    | where error_count > 1
+
+    | eval first_seen=strftime(first_seen, "%Y-%m-%d %H:%M:%S")
+    | eval last_seen=strftime(last_seen, "%Y-%m-%d %H:%M:%S")
+    | eval severity=case(error_count > 5, "critical", error_count > 2, "high", 1=1, "medium")
+    | eval attack_type="Repeated Ollama Application Errors"
+
+    | table first_seen last_seen host error_count
+            unique_errors error_messages severity attack_type
+
+    | `ollama_repeated_application_errors_filter`
+how_to_implement: |-
+    Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.
+known_false_positives: |-
+    Recoverable model load failures, temporary registry or network errors, resource constraints, and other repeated application errors may trigger this exploratory signal without causing a service outage.
+references:
+    - https://github.com/rosplk/ta-ollama
+drilldown_searches:
+    - name: View the detection results for - "$host$"
+      search: |-
+        %original_detection_search%
+        | search host="$host$"
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$host$"
+      search: |-
+        from datamodel Risk.All_Risk
+        | search normalized_risk_object IN ("$host$")
+        | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object
+        | `security_content_ctime(firstTime)`
+        | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: host
+          type: system
+          score: 20
+          message: 'Repeated Ollama application errors detected on host [$host$] between [$first_seen$] and [$last_seen$]: [$error_count$] events and [$unique_errors$] unique error types. Correlate with service manager logs to determine whether availability was affected. Error messages: [$error_messages$].'
+analytic_story:
+    - Suspicious Ollama Activities
+asset_type: Web Application
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
+          sourcetype: ollama:server
+          source: app.log
+      test_type: unit

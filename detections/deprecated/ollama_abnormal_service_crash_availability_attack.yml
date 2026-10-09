@@ -2,9 +2,9 @@ name: Ollama Abnormal Service Crash Availability Attack
 id: 327fa152-9b56-4e4e-bc0b-2795d4068afa
 version: 5
 creation_date: '2025-10-13'
-modification_date: '2026-09-24'
+modification_date: '2026-10-10'
 author: Rod Soto
-status: production
+status: deprecated
 type: Anomaly
 description: Detects critical service crashes, fatal errors, and abnormal process terminations in Ollama that may indicate exploitation attempts, resource exhaustion attacks, malicious input triggering unhandled exceptions, or deliberate denial of service attacks designed to disrupt AI model availability and degrade system stability.
 data_source:
@@ -47,3 +47,8 @@ tests:
           sourcetype: ollama:server
           source: app.log
       test_type: unit
+deprecation_info:
+    reason: This experimental rule is being deprecated while we enhance Ollama availability detection. Application errors alone do not confirm a service outage, so we are improving the evidence needed to identify service interruptions reliably.
+    removed_in_version: 6.12.0
+    replacement_content:
+        - Ollama Repeated Application Errors
