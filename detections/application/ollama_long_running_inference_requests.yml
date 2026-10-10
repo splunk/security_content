@@ -1,0 +1,97 @@
+name: Ollama Long-Running Inference Requests
+id: 7619c98c-f53b-445f-87ca-b148e8560340
+version: 1
+creation_date: '2026-10-09'
+modification_date: '2026-10-09'
+author: Rod Soto, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    Identifies repeated Ollama inference requests with long response times on /api/generate, /api/chat, and /v1/chat/completions.
+    Long response time can result from model size, prompt length, host resources, or normal workload. GIN access logs do not include prompt content and cannot establish a prompt injection or jailbreak attempt, so use this as an exploratory performance signal.
+data_source:
+    - Ollama Server
+search: |-
+    `ollama_server`
+    "[GIN]"
+
+    | rex field=_raw "\|\s+(?<raw_status>\d+)\s+\|\s+(?<raw_latency>(?:\d+m)?[\d\.]+(?:µs|ms|s))\s+\|\s+(?<raw_src>[^|]+?)\s+\|\s+(?<raw_method>\w+)\s+\"(?<raw_path>[^\"]+)\""
+
+    | eval src=coalesce(src, trim(raw_src))
+    | eval uri_path=coalesce(uri_path, raw_path)
+    | eval http_method=coalesce(http_method, raw_method)
+    | eval http_response_code=coalesce(http_response_code, raw_status)
+    | rex field=raw_latency "^(?:(?<raw_latency_minutes>\d+)m)?(?<raw_latency_value>[\d\.]+)(?<raw_latency_unit>µs|ms|s)$"
+    | eval response_time_ms=coalesce(response_time_ms, (coalesce(tonumber(raw_latency_minutes), 0) * 60000) + (tonumber(raw_latency_value) * case(raw_latency_unit="µs", 0.001, raw_latency_unit="ms", 1, raw_latency_unit="s", 1000)))
+
+    | where isnotnull(src) AND in(uri_path, "/api/generate", "/api/chat", "/v1/chat/completions") AND response_time_ms > 30000
+
+    | eval response_time_seconds=response_time_ms/1000
+
+    | bin _time span=10m
+
+    | stats count as long_request_count
+            avg(response_time_seconds) as avg_response_time
+            max(response_time_seconds) as max_response_time
+            values(uri_path) as uri_path
+            values(http_response_code) as status_codes
+      by _time src host
+
+    | where long_request_count > 1
+
+    | eval avg_response_time=round(avg_response_time, 2)
+    | eval max_response_time=round(max_response_time, 2)
+    | eval severity=case(max_response_time > 55, "high", 1=1, "medium")
+    | eval attack_type="Long-Running Inference Requests"
+
+    | table _time host src uri_path long_request_count
+            avg_response_time max_response_time
+            status_codes severity attack_type
+
+    | `ollama_long_running_inference_requests_filter`
+how_to_implement: |-
+    Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.
+known_false_positives: |-
+    Legitimate complex queries requiring extensive model reasoning, large context windows processing substantial amounts of text, batch processing operations, or resource-constrained systems experiencing performance degradation may trigger this detection during normal operations.
+references:
+    - https://github.com/rosplk/ta-ollama
+    - https://github.com/OWASP/www-project-ai-testing-guide
+drilldown_searches:
+    - name: View the detection results for - "$src$"
+      search: |-
+        %original_detection_search%
+        | search src="$src$"
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: |-
+        from datamodel Risk.All_Risk
+        | search normalized_risk_object IN ("$src$")
+        | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object
+        | `security_content_ctime(firstTime)`
+        | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: src
+          type: system
+          score: 20
+          message: '[$long_request_count$] long-running inference requests from [$src$] averaged [$avg_response_time$] seconds and reached [$max_response_time$] seconds. Investigate workload, model size, prompt length, and host capacity; access logs do not establish prompt injection or data exfiltration.'
+analytic_story:
+    - Suspicious Ollama Activities
+asset_type: Web Application
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/server.log
+          sourcetype: ollama:server
+          source: server.log
+      test_type: unit
