@@ -15,13 +15,14 @@ search: |-
     `ollama_server`
     "[GIN]"
 
-    | rex field=_raw "\|\s+(?<raw_status>\d+)\s+\|\s+(?<raw_latency>[\d\.]+(?:µs|ms|s))\s+\|\s+(?<raw_src>[^|]+?)\s+\|\s+(?<raw_method>\w+)\s+\"(?<raw_path>[^\"]+)\""
+    | rex field=_raw "\|\s+(?<raw_status>\d+)\s+\|\s+(?<raw_latency>(?:\d+m)?[\d\.]+(?:µs|ms|s))\s+\|\s+(?<raw_src>[^|]+?)\s+\|\s+(?<raw_method>\w+)\s+\"(?<raw_path>[^\"]+)\""
 
     | eval src=coalesce(src, trim(raw_src))
     | eval uri_path=coalesce(uri_path, raw_path)
     | eval http_method=coalesce(http_method, raw_method)
     | eval http_response_code=coalesce(http_response_code, raw_status)
-    | eval response_time_ms=coalesce(response_time_ms, case(match(raw_latency, "µs$"), tonumber(replace(raw_latency, "µs", ""))/1000, match(raw_latency, "ms$"), tonumber(replace(raw_latency, "ms", "")), match(raw_latency, "s$"), tonumber(replace(raw_latency, "s", ""))*1000))
+    | rex field=raw_latency "^(?:(?<raw_latency_minutes>\d+)m)?(?<raw_latency_value>[\d\.]+)(?<raw_latency_unit>µs|ms|s)$"
+    | eval response_time_ms=coalesce(response_time_ms, (coalesce(tonumber(raw_latency_minutes), 0) * 60000) + (tonumber(raw_latency_value) * case(raw_latency_unit="µs", 0.001, raw_latency_unit="ms", 1, raw_latency_unit="s", 1000)))
 
     | where isnotnull(src) AND in(uri_path, "/api/generate", "/api/chat", "/v1/chat/completions") AND response_time_ms > 30000
 

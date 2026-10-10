@@ -20,7 +20,7 @@ search: |-
         "*lookup*",
         "*network*",
         "*no such host*",
-        "*refused*"
+        "*refused*",
         "*timeout*",
         "*unreachable*"
     )
