@@ -1,0 +1,32 @@
+name: DNS PTR-Based Host Discovery
+id: ae8ee2ad-1f54-4e8a-820e-eef32684e933
+version: 1
+creation_date: '2026-10-10'
+modification_date: '2026-10-10'
+author: Mehrab Bakhtar
+status: experimental
+type: Anomaly
+description: This detection identifies source systems generating a high number of unique DNS PTR queries, which may indicate host discovery or reverse DNS reconnaissance. This activity may be associated with tools such as Nmap when reverse DNS lookups are performed for discovered or scanned hosts.
+data_source:
+    - DNS
+search: |-
+    | tstats `security_content_summariesonly` min(_time) as firsttime max(_time) as lasttime dc(DNS.query) AS unique_queries FROM datamodel=Network_Resolution WHERE DNS.record_type="PTR" BY DNS.src
+    | `drop_dm_object_name("DNS")`
+    | search unique_queries >= 80
+    | sort - unique_queries
+    | `security_content_ctime(firsttime)`
+    | `security_content_ctime(lasttime)`
+    | `detect_dns_ptr_based_host_discovery_filter`
+how_to_implement: This detection requires DNS events mapped to the Network Resolution data model, including DNS.query, DNS.record_type, and DNS.src. Ensure the data model is populated and appropriately accelerated for summaries-only searches. Tune the threshold according to normal DNS activity. A high volume of unique PTR queries may indicate reverse DNS-based host discovery, including activity associated with Nmap when reverse lookups are performed. Behavior depends on scan options, DNS configuration, and available reverse DNS records.
+known_false_positives: Legitimate asset discovery tools, vulnerability scanners, network monitoring systems, administrative scripts, and authorized Nmap scans may generate large numbers of PTR queries. Validate the source system and its expected behavior before determining whether the activity is suspicious.
+references:
+    - https://attack.mitre.org/techniques/T1018/
+mitre_attack_id:
+    - T1018
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests: []
