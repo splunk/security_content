@@ -1,6 +1,6 @@
 name: Windows Modify Registry Tamper Protection
 id: 12094335-88fc-4c3a-b55f-e62dd8c93c23
-version: 13
+version: 12
 creation_date: '2023-04-26'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

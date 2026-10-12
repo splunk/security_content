@@ -1,6 +1,6 @@
 name: Windows PowerShell ScheduleTask
 id: ddf82fcb-e9ee-40e3-8712-a50b5bf323fc
-version: 15
+version: 14
 creation_date: '2023-06-12'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

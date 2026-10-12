@@ -1,6 +1,6 @@
 name: Suspicious mshta child process
 id: 60023bb6-5500-11eb-ae93-0242ac130002
-version: 16
+version: 15
 creation_date: '2021-01-17'
 modification_date: '2026-10-09'
 author: Michael Haag, Teoderick Contreras Splunk

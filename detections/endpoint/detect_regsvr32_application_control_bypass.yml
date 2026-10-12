@@ -1,6 +1,6 @@
 name: Detect Regsvr32 Application Control Bypass
 id: 070e9b80-6252-11eb-ae93-0242ac130002
-version: 16
+version: 15
 creation_date: '2021-01-29'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

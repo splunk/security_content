@@ -1,6 +1,6 @@
 name: Windows Modify Registry Disable Win Defender Raw Write Notif
 id: 0e5e25c3-32f4-46f7-ba4a-5b95c3b90f5b
-version: 12
+version: 11
 creation_date: '2022-07-06'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

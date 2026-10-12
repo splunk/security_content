@@ -1,6 +1,6 @@
 name: Deleting Shadow Copies
 id: b89919ed-ee5f-492c-b139-95dbb162039e
-version: 20
+version: 19
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: David Dorsey, Splunk

@@ -1,6 +1,6 @@
 name: Windows Export Certificate
 id: d8ddfa9b-b724-4df9-9dbe-f34cc0936714
-version: 12
+version: 11
 creation_date: '2023-02-03'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

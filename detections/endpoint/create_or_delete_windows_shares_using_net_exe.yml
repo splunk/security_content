@@ -1,6 +1,6 @@
 name: Create or delete windows shares using net exe
 id: 743a322c-9a68-4a0f-9c17-85d9cce2a27c
-version: 19
+version: 18
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: Bhavin Patel, Splunk

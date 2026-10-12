@@ -1,6 +1,6 @@
 name: Windows PowerView Kerberos Service Ticket Request
 id: 970455a1-4ac2-47e1-a9a5-9e75443ddcb9
-version: 12
+version: 11
 creation_date: '2022-06-22'
 modification_date: '2026-10-02'
 author: Gowthamaraj Rajendran, Splunk

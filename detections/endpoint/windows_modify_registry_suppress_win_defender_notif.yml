@@ -1,6 +1,6 @@
 name: Windows Modify Registry Suppress Win Defender Notif
 id: e3b42daf-fff4-429d-bec8-2a199468cea9
-version: 12
+version: 11
 creation_date: '2022-06-22'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

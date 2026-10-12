@@ -1,6 +1,6 @@
 name: Windows Steal Authentication Certificates Export Certificate
 id: e39dc429-c2a5-4f1f-9c3c-6b211af6b332
-version: 13
+version: 12
 creation_date: '2023-02-03'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

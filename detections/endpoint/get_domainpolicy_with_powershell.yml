@@ -1,6 +1,6 @@
 name: Get DomainPolicy with Powershell
 id: b8f9947e-065a-11ec-aafb-acde48001122
-version: 12
+version: 11
 creation_date: '2021-08-27'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Mauricio Velazco, Splunk

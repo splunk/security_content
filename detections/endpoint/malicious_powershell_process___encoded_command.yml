@@ -1,6 +1,6 @@
 name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 22
+version: 21
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: David Dorsey, Michael Haag, Splunk, SirDuckly, GitHub Community

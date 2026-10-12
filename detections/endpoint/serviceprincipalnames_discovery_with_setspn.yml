@@ -1,6 +1,6 @@
 name: ServicePrincipalNames Discovery with SetSPN
 id: ae8b3efc-2d2e-11ec-8b57-acde48001122
-version: 14
+version: 13
 creation_date: '2021-10-15'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

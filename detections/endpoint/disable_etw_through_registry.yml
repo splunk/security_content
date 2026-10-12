@@ -1,6 +1,6 @@
 name: Disable ETW Through Registry
 id: f0eacfa4-d33f-11eb-8f9d-acde48001122
-version: 16
+version: 15
 creation_date: '2021-06-23'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick

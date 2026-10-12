@@ -1,6 +1,6 @@
 name: Linux Insert Kernel Module Using Insmod Utility
 id: 18b5a1a0-6326-11ec-943a-acde48001122
-version: 13
+version: 12
 creation_date: '2022-01-05'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

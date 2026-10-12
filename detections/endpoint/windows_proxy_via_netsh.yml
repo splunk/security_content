@@ -1,6 +1,6 @@
 name: Windows Proxy Via Netsh
 id: c137bfe8-6036-4cff-b77b-4e327dd0a1cf
-version: 12
+version: 11
 creation_date: '2020-04-29'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

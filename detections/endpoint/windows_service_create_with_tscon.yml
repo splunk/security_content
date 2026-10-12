@@ -1,6 +1,6 @@
 name: Windows Service Create with Tscon
 id: c13b3d74-6b63-4db5-a841-4206f0370077
-version: 16
+version: 15
 creation_date: '2023-03-29'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

@@ -1,6 +1,6 @@
 name: Linux Auditd Add User Account
 id: aae66dc0-74b4-4807-b480-b35f8027abb4
-version: 11
+version: 10
 creation_date: '2022-01-10'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

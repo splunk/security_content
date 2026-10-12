@@ -1,6 +1,6 @@
 name: Windows Modify Registry DontShowUI
 id: 4ff9767b-fdf2-489c-83a5-c6c34412d72e
-version: 12
+version: 11
 creation_date: '2022-07-06'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

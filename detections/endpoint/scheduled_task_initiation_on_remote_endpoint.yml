@@ -1,6 +1,6 @@
 name: Scheduled Task Initiation on Remote Endpoint
 id: 95cf4608-4302-11ec-8194-3e22fbd008af
-version: 14
+version: 13
 creation_date: '2021-11-11'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk, Badoodish, Github Community

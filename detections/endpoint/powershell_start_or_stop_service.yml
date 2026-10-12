@@ -1,6 +1,6 @@
 name: PowerShell Start or Stop Service
 id: 04207f8a-e08d-4ee6-be26-1e0c4488b04a
-version: 13
+version: 12
 creation_date: '2023-03-24'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

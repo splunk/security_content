@@ -1,6 +1,6 @@
 name: Windows Modify Registry Do Not Connect To Win Update
 id: e09c598e-8dd0-4e73-b740-4b96b689199e
-version: 12
+version: 11
 creation_date: '2023-04-26'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

@@ -1,6 +1,6 @@
 name: Windows Service Creation Using Registry Entry
 id: 25212358-948e-11ec-ad47-acde48001122
-version: 21
+version: 20
 creation_date: '2022-02-23'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick

@@ -1,6 +1,6 @@
 name: GetCurrent User with PowerShell Script Block
 id: 80879283-c30f-44f7-8471-d1381f6d437a
-version: 11
+version: 10
 creation_date: '2021-08-24'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

@@ -1,6 +1,6 @@
 name: Windows Get-Variable.EXE Execution from WindowsApps Folder
 id: 7edb95b6-bccf-4d8c-8ada-d1c5520cf0ed
-version: 3
+version: 2
 creation_date: '2021-05-07'
 modification_date: '2026-10-02'
 author: Raven Tait, Splunk

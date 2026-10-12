@@ -1,6 +1,6 @@
 name: DSQuery Domain Discovery
 id: cc316032-924a-11eb-91a2-acde48001122
-version: 14
+version: 13
 creation_date: '2021-03-31'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

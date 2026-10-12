@@ -1,6 +1,6 @@
 name: Windows Remote Create Service
 id: 0dc44d03-8c00-482d-ba7c-796ba7ab18c9
-version: 13
+version: 12
 creation_date: '2022-06-17'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

@@ -1,6 +1,6 @@
 name: Creation of Shadow Copy
 id: eb120f5f-b879-4a63-97c1-93352b5df844
-version: 14
+version: 13
 creation_date: '2019-12-11'
 modification_date: '2026-10-09'
 author: Patrick Bareiss, Splunk

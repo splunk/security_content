@@ -1,6 +1,6 @@
 name: System User Discovery With Query
 id: ad03bfcf-8a91-4bc2-a500-112993deba87
-version: 10
+version: 9
 creation_date: '2021-08-24'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

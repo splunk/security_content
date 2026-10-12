@@ -1,6 +1,6 @@
 name: Get-DomainTrust with PowerShell
 id: 4fa7f846-054a-11ec-a836-acde48001122
-version: 11
+version: 10
 creation_date: '2021-09-02'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

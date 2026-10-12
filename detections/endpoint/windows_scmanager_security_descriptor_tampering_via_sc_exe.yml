@@ -1,6 +1,6 @@
 name: Windows ScManager Security Descriptor Tampering Via Sc.EXE
 id: 04023928-0381-4935-82cb-03372b2ef644
-version: 10
+version: 9
 creation_date: '2024-12-06'
 modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Michael Haag, Splunk

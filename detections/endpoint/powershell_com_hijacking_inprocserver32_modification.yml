@@ -1,6 +1,6 @@
 name: Powershell COM Hijacking InprocServer32 Modification
 id: ea61e291-af05-4716-932a-67faddb6ae6f
-version: 11
+version: 10
 creation_date: '2022-09-26'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

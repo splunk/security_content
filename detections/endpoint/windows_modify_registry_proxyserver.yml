@@ -1,6 +1,6 @@
 name: Windows Modify Registry ProxyServer
 id: 12bdaa0b-3c59-4489-aae1-bff6d67746ef
-version: 12
+version: 11
 creation_date: '2023-12-06'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

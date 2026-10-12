@@ -1,6 +1,6 @@
 name: Windows Sensitive Registry Hive Dump Via CommandLine
 id: 5aaff29d-0cce-405b-9ee8-5d06b49d045e
-version: 12
+version: 11
 creation_date: '2021-05-12'
 modification_date: '2026-10-02'
 author: Michael Haag, Patrick Bareiss, Nasreddine Bencherchali, Splunk

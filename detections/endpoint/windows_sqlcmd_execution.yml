@@ -1,6 +1,6 @@
 name: Windows SQLCMD Execution
 id: 4e7c2f85-8f02-4bd2-a48b-5ec98a2c5f72
-version: 6
+version: 5
 creation_date: '2025-02-13'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

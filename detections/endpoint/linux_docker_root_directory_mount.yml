@@ -1,6 +1,6 @@
 name: Linux Docker Root Directory Mount
 id: aa049566-f76a-43b9-908c-3c27e079fd43
-version: 5
+version: 4
 creation_date: '2026-03-10'
 modification_date: '2026-10-02'
 author: Gowthamaraj Rajendran, Splunk, Emil Elsetrønning

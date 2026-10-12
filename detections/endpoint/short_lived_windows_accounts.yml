@@ -1,6 +1,6 @@
 name: Short Lived Windows Accounts
 id: b25f6f62-0782-43c1-b403-083231ffd97d
-version: 15
+version: 14
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: David Dorsey, Bhavin Patel, Splunk

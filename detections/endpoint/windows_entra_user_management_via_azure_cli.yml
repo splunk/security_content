@@ -1,6 +1,6 @@
 name: Windows Entra User Management Via Azure CLI
 id: f6332409-abeb-42f8-b6a7-76201bdc7a0a
-version: 3
+version: 2
 creation_date: '2026-05-05'
 modification_date: '2026-10-09'
 author: Raven Tait, Splunk

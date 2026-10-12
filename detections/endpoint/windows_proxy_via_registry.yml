@@ -1,6 +1,6 @@
 name: Windows Proxy Via Registry
 id: 0270455b-1385-4579-9ac5-e77046c508ae
-version: 13
+version: 12
 creation_date: '2023-05-25'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

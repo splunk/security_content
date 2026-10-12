@@ -1,6 +1,6 @@
 name: GetDomainController with PowerShell
 id: 868ee0e4-52ab-484a-833a-6d85b7c028d0
-version: 9
+version: 8
 creation_date: '2021-09-01'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

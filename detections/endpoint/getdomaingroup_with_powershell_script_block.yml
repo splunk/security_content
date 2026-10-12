@@ -1,6 +1,6 @@
 name: GetDomainGroup with PowerShell Script Block
 id: 09725404-a44f-4ed3-9efa-8ed5d69e4c53
-version: 14
+version: 13
 creation_date: '2021-08-27'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

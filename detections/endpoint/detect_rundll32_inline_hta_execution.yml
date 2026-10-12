@@ -1,6 +1,6 @@
 name: Detect Rundll32 Inline HTA Execution
 id: 91c79f14-5b41-11eb-ae93-0242ac130002
-version: 15
+version: 14
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

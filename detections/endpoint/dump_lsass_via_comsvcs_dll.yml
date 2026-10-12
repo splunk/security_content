@@ -1,6 +1,6 @@
 name: Dump LSASS via comsvcs DLL
 id: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
-version: 18
+version: 17
 creation_date: '2019-10-16'
 modification_date: '2026-10-02'
 author: Patrick Bareiss, Splunk

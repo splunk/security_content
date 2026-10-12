@@ -1,6 +1,6 @@
 name: MacOS List Firewall Rules
 id: f8db6e0b-55bb-40ca-bc85-2b3700adb0f8
-version: 3
+version: 2
 creation_date: '2026-04-15'
 modification_date: '2026-10-02'
 author: Jamie Windley, Splunk

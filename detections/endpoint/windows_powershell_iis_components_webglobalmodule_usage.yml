@@ -1,6 +1,6 @@
 name: Windows PowerShell IIS Components WebGlobalModule Usage
 id: 33fc9f6f-0ce7-4696-924e-a69ec61a3d57
-version: 14
+version: 13
 creation_date: '2022-12-21'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

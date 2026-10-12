@@ -1,6 +1,6 @@
 name: Linux Obfuscated Files or Information Base64 Decode
 id: 303b38b2-c03f-44e2-8f41-4594606fcfc7
-version: 14
+version: 13
 creation_date: '2022-06-17'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

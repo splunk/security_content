@@ -1,6 +1,6 @@
 name: Windows PowerShell Export PfxCertificate
 id: ed06725f-6da6-439f-9dcc-ab30e891297c
-version: 15
+version: 14
 creation_date: '2023-02-03'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

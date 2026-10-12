@@ -1,6 +1,6 @@
 name: Windows MOF Event Triggered Execution via WMI
 id: e59b5a73-32bf-4467-a585-452c36ae10c1
-version: 14
+version: 13
 creation_date: '2022-07-19'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

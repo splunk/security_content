@@ -1,6 +1,6 @@
 name: Windows Odbcconf Hunting
 id: 0562ad4b-fdaa-4882-b12f-7b8e0034cd72
-version: 10
+version: 9
 creation_date: '2022-06-17'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

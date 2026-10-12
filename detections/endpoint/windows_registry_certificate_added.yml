@@ -1,6 +1,6 @@
 name: Windows Registry Certificate Added
 id: 5ee98b2f-8b9e-457a-8bdc-dd41aaba9e87
-version: 13
+version: 12
 creation_date: '2022-03-31'
 modification_date: '2026-10-02'
 author: Michael Haag, Teodeerick Contreras, Splunk

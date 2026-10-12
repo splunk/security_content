@@ -1,6 +1,6 @@
 name: Windows MSIExec DLLRegisterServer
 id: fdb59aef-d88f-4909-8369-ec2afbd2c398
-version: 15
+version: 14
 creation_date: '2022-06-17'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

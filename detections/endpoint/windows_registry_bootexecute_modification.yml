@@ -1,6 +1,6 @@
 name: Windows Registry BootExecute Modification
 id: eabbac3a-45aa-4659-920f-6b8cff383fb8
-version: 13
+version: 12
 creation_date: '2023-05-11'
 modification_date: '2026-10-02'
 author: Michael Haag, Teoderick Contreras, Splunk

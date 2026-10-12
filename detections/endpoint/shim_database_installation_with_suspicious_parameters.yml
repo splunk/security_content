@@ -1,6 +1,6 @@
 name: Shim Database Installation With Suspicious Parameters
 id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
-version: 16
+version: 15
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: David Dorsey, Splunk

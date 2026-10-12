@@ -1,6 +1,6 @@
 name: MacOS Network Share Discovery
 id: a5f5fe52-8e50-4fb0-ad1b-780be6c0d857
-version: 4
+version: 3
 creation_date: '2026-04-14'
 modification_date: '2026-10-02'
 author: Raven Tait, Splunk

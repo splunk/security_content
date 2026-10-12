@@ -1,6 +1,6 @@
 name: Windows Modify Registry LongPathsEnabled
 id: 36f9626c-4272-4808-aadd-267acce681c0
-version: 13
+version: 12
 creation_date: '2023-07-10'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

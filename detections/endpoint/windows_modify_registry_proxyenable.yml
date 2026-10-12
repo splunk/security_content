@@ -1,6 +1,6 @@
 name: Windows Modify Registry ProxyEnable
 id: b27f20bd-ef20-41d1-a1e9-25dedd5bf2f5
-version: 12
+version: 11
 creation_date: '2023-12-06'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

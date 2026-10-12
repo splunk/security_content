@@ -1,6 +1,6 @@
 name: Steal or Forge Authentication Certificates Behavior Identified
 id: 87ac670e-bbfd-44ca-b566-44e9f835518d
-version: 10
+version: 9
 creation_date: '2023-05-01'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

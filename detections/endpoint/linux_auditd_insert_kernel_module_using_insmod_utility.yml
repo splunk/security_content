@@ -1,6 +1,6 @@
 name: Linux Auditd Insert Kernel Module Using Insmod Utility
 id: bc0ca53f-dea6-4906-9b12-09c396fdf1d3
-version: 12
+version: 11
 creation_date: '2024-08-09'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

@@ -1,6 +1,6 @@
 name: Windows System Binary Proxy Execution Compiled HTML File Decompile
 id: 2acf0e19-4149-451c-a3f3-39cd3c77e37d
-version: 16
+version: 15
 creation_date: '2022-09-01'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

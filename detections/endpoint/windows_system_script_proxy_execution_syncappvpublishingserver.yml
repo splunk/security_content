@@ -1,6 +1,6 @@
 name: Windows System Script Proxy Execution Syncappvpublishingserver
 id: 8dd73f89-682d-444c-8b41-8e679966ad3c
-version: 13
+version: 12
 creation_date: '2022-06-17'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

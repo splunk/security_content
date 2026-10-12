@@ -1,6 +1,6 @@
 name: Windows Parent PID Spoofing with Explorer
 id: 17f8f69c-5d00-4c88-9c6f-493bbdef20a1
-version: 14
+version: 13
 creation_date: '2022-05-30'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

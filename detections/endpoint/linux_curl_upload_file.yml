@@ -1,6 +1,6 @@
 name: Linux Curl Upload File
 id: c1de2d9a-0c02-4bb4-a49a-510c6e9cf2bf
-version: 14
+version: 13
 creation_date: '2022-07-29'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

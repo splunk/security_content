@@ -1,6 +1,6 @@
 name: XSL Script Execution With WMIC
 id: 004e32e2-146d-11ec-a83f-acde48001122
-version: 14
+version: 13
 creation_date: '2021-09-14'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

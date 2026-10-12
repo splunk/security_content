@@ -1,6 +1,6 @@
 name: GetDomainGroup with PowerShell
 id: 93c94be3-bead-4a60-860f-77ca3fe59903
-version: 12
+version: 11
 creation_date: '2021-08-26'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

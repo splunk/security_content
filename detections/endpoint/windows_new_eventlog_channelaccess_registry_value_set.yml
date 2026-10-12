@@ -1,6 +1,6 @@
 name: Windows New EventLog ChannelAccess Registry Value Set
 id: 16eb11bc-ef42-42e8-9d0c-d21e0fa15725
-version: 9
+version: 8
 creation_date: '2024-12-06'
 modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Michael Haag, Splunk

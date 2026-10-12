@@ -1,6 +1,6 @@
 name: Windows Registry Dotnet ETW Disabled Via ENV Variable
 id: 55502381-5cce-491b-9277-7cb1d10bc0df
-version: 12
+version: 11
 creation_date: '2021-10-07'
 modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Splunk

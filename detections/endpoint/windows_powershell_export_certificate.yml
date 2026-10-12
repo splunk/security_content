@@ -1,6 +1,6 @@
 name: Windows PowerShell Export Certificate
 id: 5e38ded4-c964-41f4-8cb6-4a1a53c6929f
-version: 13
+version: 12
 creation_date: '2023-02-03'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

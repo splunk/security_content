@@ -1,6 +1,6 @@
 name: Windows Mimikatz Crypto Export File Extensions
 id: 3a9a6806-16a8-4cda-8d73-b49d10a05b16
-version: 11
+version: 10
 creation_date: '2023-02-09'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

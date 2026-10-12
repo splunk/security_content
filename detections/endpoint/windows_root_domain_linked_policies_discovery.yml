@@ -1,6 +1,6 @@
 name: Windows Root Domain linked policies Discovery
 id: 80ffaede-1f12-49d5-a86e-b4b599b68b3c
-version: 12
+version: 11
 creation_date: '2021-08-25'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

@@ -1,6 +1,6 @@
 name: Suspicious Reg exe Process
 id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
-version: 17
+version: 16
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: David Dorsey, Splunk

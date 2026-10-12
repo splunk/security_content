@@ -1,6 +1,6 @@
 name: Windows Odbcconf Load Response File
 id: 1acafff9-1347-4b40-abae-f35aa4ba85c1
-version: 13
+version: 12
 creation_date: '2022-06-17'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

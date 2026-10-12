@@ -1,6 +1,6 @@
 name: Detect MSHTA Url in Command Line
 id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
-version: 22
+version: 21
 creation_date: '2020-04-29'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

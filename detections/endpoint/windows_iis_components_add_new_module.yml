@@ -1,6 +1,6 @@
 name: Windows IIS Components Add New Module
 id: 38fe731c-1f13-43d4-b878-a5bbe44807e3
-version: 15
+version: 14
 creation_date: '2022-12-21'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

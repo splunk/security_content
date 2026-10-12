@@ -1,6 +1,6 @@
 name: System Information Discovery Detection
 id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
-version: 17
+version: 16
 creation_date: '2020-10-14'
 modification_date: '2026-10-09'
 author: Patrick Bareiss, Splunk

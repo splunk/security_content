@@ -1,6 +1,6 @@
 name: Windows Disable LogOff Button Through Registry
 id: b2fb6830-9ed1-11ec-9fcb-acde48001122
-version: 15
+version: 14
 creation_date: '2022-03-08'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick

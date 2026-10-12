@@ -1,6 +1,6 @@
 name: Windows Modify Registry No Auto Reboot With Logon User
 id: 6a12fa9f-580d-4627-8c7f-313e359bdc6a
-version: 12
+version: 11
 creation_date: '2023-04-26'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

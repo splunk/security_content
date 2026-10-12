@@ -1,6 +1,6 @@
 name: Eventvwr UAC Bypass
 id: 9cf8fe08-7ad8-11eb-9819-acde48001122
-version: 14
+version: 13
 creation_date: '2021-03-01'
 modification_date: '2026-10-02'
 author: Steven Dick, Michael Haag, Splunk

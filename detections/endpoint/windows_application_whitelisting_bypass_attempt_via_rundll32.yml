@@ -1,6 +1,6 @@
 name: Windows Application Whitelisting Bypass Attempt via Rundll32
 id: 1ef5dab0-e1f1-495d-a272-d134583c10b1
-version: 7
+version: 6
 creation_date: '2021-02-05'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

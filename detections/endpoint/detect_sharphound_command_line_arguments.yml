@@ -1,6 +1,6 @@
 name: Detect SharpHound Command-Line Arguments
 id: a0bdd2f6-c2ff-11eb-b918-acde48001122
-version: 13
+version: 12
 creation_date: '2021-06-03'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

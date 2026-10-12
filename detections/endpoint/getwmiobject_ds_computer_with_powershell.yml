@@ -1,6 +1,6 @@
 name: GetWmiObject Ds Computer with PowerShell
 id: 7141122c-3bc2-4aaa-ab3b-7a85a0bbefc3
-version: 10
+version: 9
 creation_date: '2021-09-01'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

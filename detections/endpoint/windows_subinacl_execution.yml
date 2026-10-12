@@ -1,6 +1,6 @@
 name: Windows SubInAcl Execution
 id: 12491419-1a6f-4af4-afc3-4e2052f0610e
-version: 10
+version: 9
 creation_date: '2020-04-29'
 modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Michael Haag, Splunk

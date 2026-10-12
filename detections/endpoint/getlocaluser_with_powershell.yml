@@ -1,6 +1,6 @@
 name: GetLocalUser with PowerShell
 id: 85fae8fa-0427-11ec-8b78-acde48001122
-version: 10
+version: 9
 creation_date: '2021-08-24'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

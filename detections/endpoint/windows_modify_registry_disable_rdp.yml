@@ -1,6 +1,6 @@
 name: Windows Modify Registry Disable RDP
 id: 11ed764f-eb9c-4be7-bdad-2209b9d33ee1
-version: 11
+version: 10
 creation_date: '2024-07-25'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

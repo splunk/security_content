@@ -1,6 +1,6 @@
 name: Windows Modify Registry No Auto Update
 id: fbd4f333-17bb-4eab-89cb-860fa2e0600e
-version: 12
+version: 11
 creation_date: '2023-04-26'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

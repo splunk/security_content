@@ -1,6 +1,6 @@
 name: Windows Net System Service Discovery
 id: dd7da098-83b8-4c48-b09d-e51aeb621e81
-version: 6
+version: 5
 creation_date: '2021-05-07'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

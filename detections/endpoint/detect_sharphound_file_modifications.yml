@@ -1,6 +1,6 @@
 name: Detect SharpHound File Modifications
 id: 42b4b438-beed-11eb-ba1d-acde48001122
-version: 14
+version: 13
 creation_date: '2021-06-03'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

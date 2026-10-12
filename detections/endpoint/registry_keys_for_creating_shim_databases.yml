@@ -1,6 +1,6 @@
 name: Registry Keys for Creating SHIM Databases
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
-version: 18
+version: 17
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: Patrick Bareiss, Teoderick Contreras, Splunk, Steven Dick, Bhavin Patel

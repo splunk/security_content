@@ -1,6 +1,6 @@
 name: Windows Modify Registry DisableSecuritySettings
 id: 989019b4-b7aa-418a-9a17-2293e91288b6
-version: 12
+version: 11
 creation_date: '2022-07-06'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

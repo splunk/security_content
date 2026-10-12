@@ -1,6 +1,6 @@
 name: Windows PowerShell Disable HTTP Logging
 id: 27958de0-2857-43ca-9d4c-b255cf59dcab
-version: 14
+version: 13
 creation_date: '2022-12-21'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

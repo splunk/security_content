@@ -1,6 +1,6 @@
 name: Windows ESX Admins Group Creation via Net
 id: 3d7df60b-3332-4667-8090-afe03e08dce0
-version: 12
+version: 11
 creation_date: '2024-07-30'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

@@ -1,6 +1,6 @@
 name: Windows Disable Lock Workstation Feature Through Registry
 id: c82adbc6-9f00-11ec-a81f-acde48001122
-version: 16
+version: 15
 creation_date: '2022-03-08'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk, Steven Dick

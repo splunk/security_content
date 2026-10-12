@@ -1,6 +1,6 @@
 name: Windows Service Execution RemCom
 id: 7e3d68db-ea4d-419b-adbd-e14a525ecf09
-version: 9
+version: 8
 creation_date: '2022-06-17'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

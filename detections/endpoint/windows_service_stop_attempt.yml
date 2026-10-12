@@ -1,6 +1,6 @@
 name: Windows Service Stop Attempt
 id: dd0f07ea-f08f-4d88-96e5-cb58156e82b6
-version: 9
+version: 8
 creation_date: '2022-11-30'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

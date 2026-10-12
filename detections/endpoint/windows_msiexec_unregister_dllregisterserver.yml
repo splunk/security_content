@@ -1,6 +1,6 @@
 name: Windows MSIExec Unregister DLLRegisterServer
 id: a27db3c5-1a9a-46df-a577-765d3f1a3c24
-version: 13
+version: 12
 creation_date: '2022-06-17'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

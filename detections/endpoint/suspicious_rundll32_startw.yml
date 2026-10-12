@@ -1,6 +1,6 @@
 name: Suspicious Rundll32 StartW
 id: 9319dda5-73f2-4d43-a85a-67ce961bddb7
-version: 16
+version: 15
 creation_date: '2021-02-09'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

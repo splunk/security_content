@@ -1,6 +1,6 @@
 name: Windows WMI Reconnaissance Class Query
 id: 5e38bd3e-5da7-483d-aa61-27f7e8c27ad1
-version: 4
+version: 3
 creation_date: '2026-03-16'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

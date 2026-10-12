@@ -1,6 +1,6 @@
 name: Windows Odbcconf Load DLL
 id: 141e7fca-a9f0-40fd-a539-9aac8be41f1b
-version: 13
+version: 12
 creation_date: '2022-06-17'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

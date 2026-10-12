@@ -1,6 +1,6 @@
 name: Disabling Remote User Account Control
 id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
-version: 15
+version: 14
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: David Dorsey, Patrick Bareiss, Splunk

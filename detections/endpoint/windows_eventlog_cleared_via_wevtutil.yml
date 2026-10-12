@@ -1,6 +1,6 @@
 name: Windows Eventlog Cleared Via Wevtutil
 id: fdb829a8-db84-4832-b64b-3e964cd44f01
-version: 9
+version: 8
 creation_date: '2019-10-16'
 modification_date: '2026-10-02'
 author: Nasreddine Bencherchali, Splunk

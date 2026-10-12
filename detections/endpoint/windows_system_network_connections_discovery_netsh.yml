@@ -1,6 +1,6 @@
 name: Windows System Network Connections Discovery Netsh
 id: abfb7cc5-c275-4a97-9029-62cd8d4ffeca
-version: 13
+version: 12
 creation_date: '2022-12-06'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

@@ -1,6 +1,6 @@
 name: Windows File Share Discovery With Powerview
 id: a44c0be1-d7ab-41e4-92fd-aa9af4fe232c
-version: 12
+version: 11
 creation_date: '2023-03-21'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

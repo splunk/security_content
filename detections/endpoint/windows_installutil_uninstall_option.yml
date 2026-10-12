@@ -1,6 +1,6 @@
 name: Windows InstallUtil Uninstall Option
 id: cfa7b9ac-43f0-11ec-9b48-acde48001122
-version: 15
+version: 14
 creation_date: '2021-11-12'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

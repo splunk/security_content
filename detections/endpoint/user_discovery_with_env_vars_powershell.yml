@@ -1,6 +1,6 @@
 name: User Discovery With Env Vars PowerShell
 id: 0cdf318b-a0dd-47d7-b257-c621c0247de8
-version: 9
+version: 8
 creation_date: '2021-08-24'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

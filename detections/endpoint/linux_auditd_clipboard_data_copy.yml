@@ -1,6 +1,6 @@
 name: Linux Auditd Clipboard Data Copy
 id: 9ddfe470-c4d0-4e60-8668-7337bd699edd
-version: 10
+version: 9
 creation_date: '2022-06-17'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

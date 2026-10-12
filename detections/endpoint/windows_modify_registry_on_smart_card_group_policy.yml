@@ -1,6 +1,6 @@
 name: Windows Modify Registry on Smart Card Group Policy
 id: 1522145a-8e86-4f83-89a8-baf62a8f489d
-version: 10
+version: 9
 creation_date: '2024-07-25'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

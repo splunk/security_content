@@ -1,6 +1,6 @@
 name: Get-ForestTrust with PowerShell
 id: 584f4884-0bf1-11ec-a5ec-acde48001122
-version: 11
+version: 10
 creation_date: '2021-09-02'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

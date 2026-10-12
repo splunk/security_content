@@ -1,6 +1,6 @@
 name: Windows Guest Account Enabled Via Net.EXE
 id: 4f8cd681-7583-47a0-9f38-6337b7adf48a
-version: 3
+version: 2
 creation_date: '2021-09-02'
 modification_date: '2026-10-02'
 author: Raven Tait, Splunk

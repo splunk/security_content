@@ -1,6 +1,6 @@
 name: Access LSASS Memory for Dump Creation
 id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
-version: 17
+version: 16
 creation_date: '2019-12-11'
 modification_date: '2026-10-09'
 author: Patrick Bareiss, Splunk

@@ -1,6 +1,6 @@
 name: Linux Auditd System Network Configuration Discovery
 id: 5db16825-81bd-4923-a8d6-d6a13a59832a
-version: 10
+version: 9
 creation_date: '2024-08-12'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

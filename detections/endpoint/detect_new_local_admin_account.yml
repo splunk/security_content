@@ -1,6 +1,6 @@
 name: Detect New Local Admin account
 id: b25f6f62-0712-43c1-b203-083231ffd97d
-version: 14
+version: 13
 creation_date: '2020-04-29'
 modification_date: '2026-10-09'
 author: David Dorsey, Splunk

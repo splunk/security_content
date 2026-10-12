@@ -1,6 +1,6 @@
 name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
-version: 19
+version: 18
 creation_date: '2024-03-06'
 modification_date: '2026-10-09'
 author: Steven Dick, Sebastian Wurl, Splunk Community

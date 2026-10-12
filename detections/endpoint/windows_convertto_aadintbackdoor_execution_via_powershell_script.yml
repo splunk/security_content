@@ -1,6 +1,6 @@
 name: Windows ConvertTo-AADIntBackdoor Execution Via PowerShell Script
 id: 59a8662f-f616-4494-8fa1-29ae77fc2018
-version: 3
+version: 2
 creation_date: '2026-05-05'
 modification_date: '2026-10-09'
 author: Raven Tait, Splunk

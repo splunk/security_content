@@ -1,6 +1,6 @@
 name: Windows Curl Upload to Remote Destination
 id: 42f8f1a2-4228-11ec-aade-acde48001122
-version: 19
+version: 18
 creation_date: '2021-11-10'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

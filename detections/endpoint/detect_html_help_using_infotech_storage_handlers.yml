@@ -1,6 +1,6 @@
 name: Detect HTML Help Using InfoTech Storage Handlers
 id: 0b2eefa5-5508-450d-b970-3dd2fb761aec
-version: 16
+version: 15
 creation_date: '2021-02-11'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

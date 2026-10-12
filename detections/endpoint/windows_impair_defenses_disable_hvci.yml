@@ -1,6 +1,6 @@
 name: Windows Impair Defenses Disable HVCI
 id: b061dfcc-f0aa-42cc-a6d4-a87f172acb79
-version: 12
+version: 11
 creation_date: '2023-04-14'
 modification_date: '2026-10-02'
 author: Michael Haag, Splunk

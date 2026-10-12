@@ -1,6 +1,6 @@
 name: Linux Add User Account
 id: 51fbcaf2-6259-11ec-b0f3-acde48001122
-version: 11
+version: 10
 creation_date: '2022-01-10'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Bhavin Patel, Splunk

@@ -1,6 +1,6 @@
 name: Windows Network Sniffing Tool Executed
 id: 0c594353-e12d-4867-92f6-2a1b8a1faf5f
-version: 2
+version: 1
 creation_date: '2026-07-30'
 modification_date: '2026-10-02'
 author: Raven Tait, Splunk

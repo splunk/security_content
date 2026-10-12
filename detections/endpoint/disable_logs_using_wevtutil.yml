@@ -1,6 +1,6 @@
 name: Disable Logs Using WevtUtil
 id: 236e7c8e-c9d9-11eb-a824-acde48001122
-version: 15
+version: 14
 creation_date: '2021-06-10'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk

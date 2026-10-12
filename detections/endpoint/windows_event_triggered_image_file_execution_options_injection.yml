@@ -1,6 +1,6 @@
 name: Windows Event Triggered Image File Execution Options Injection
 id: f7abfab9-12ea-44e8-8745-475f9ca6e0a4
-version: 9
+version: 8
 creation_date: '2022-09-09'
 modification_date: '2026-10-09'
 author: Michael Haag, Splunk

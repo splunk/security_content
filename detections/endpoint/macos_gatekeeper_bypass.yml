@@ -1,6 +1,6 @@
 name: MacOS Gatekeeper Bypass
 id: 2c9346f3-bbeb-48ce-8411-fc13d09d83a5
-version: 4
+version: 3
 creation_date: '2026-04-14'
 modification_date: '2026-10-02'
 author: Raven Tait, Splunk

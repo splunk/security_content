@@ -1,6 +1,6 @@
 name: Kerberoasting spn request with RC4 encryption
 id: 5cc67381-44fa-4111-8a37-7a230943f027
-version: 16
+version: 15
 creation_date: '2020-06-11'
 modification_date: '2026-10-02'
 author: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Dean Luxton, Splunk

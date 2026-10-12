@@ -1,6 +1,6 @@
 name: Unload Sysmon Filter Driver
 id: e5928ff3-23eb-4d8b-b8a4-dcbc844fdfbe
-version: 17
+version: 16
 creation_date: '2019-10-16'
 modification_date: '2026-10-02'
 author: Bhavin Patel, Splunk

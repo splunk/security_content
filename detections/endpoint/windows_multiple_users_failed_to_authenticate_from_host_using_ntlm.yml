@@ -1,6 +1,6 @@
 name: Windows Multiple Users Failed To Authenticate From Host Using NTLM
 id: 7ed272a4-9c77-11eb-af22-acde48001122
-version: 14
+version: 13
 creation_date: '2021-04-14'
 modification_date: '2026-10-02'
 author: Mauricio Velazco, Splunk

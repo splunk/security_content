@@ -1,6 +1,6 @@
 name: Windows Modify Registry Auto Update Notif
 id: 4d1409df-40c7-4b11-aec4-bd0e709dfc12
-version: 12
+version: 11
 creation_date: '2023-04-26'
 modification_date: '2026-10-02'
 author: Teoderick Contreras, Splunk
