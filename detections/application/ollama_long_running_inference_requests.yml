@@ -2,7 +2,7 @@ name: Ollama Long-Running Inference Requests
 id: 7619c98c-f53b-445f-87ca-b148e8560340
 version: 1
 creation_date: '2026-10-09'
-modification_date: '2026-10-09'
+modification_date: '2026-10-10'
 author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -15,14 +15,14 @@ search: |-
     `ollama_server`
     "[GIN]"
 
-    | rex field=_raw "\|\s+(?<raw_status>\d+)\s+\|\s+(?<raw_latency>(?:\d+m)?[\d\.]+(?:µs|ms|s))\s+\|\s+(?<raw_src>[^|]+?)\s+\|\s+(?<raw_method>\w+)\s+\"(?<raw_path>[^\"]+)\""
+    | rex field=_raw "\|\s+(?<raw_status>\d+)\s+\|\s+(?<raw_latency>(?:\d+h)?(?:\d+m)?[\d\.]+(?:µs|ms|s))\s+\|\s+(?<raw_src>[^|]+?)\s+\|\s+(?<raw_method>\w+)\s+\"(?<raw_path>[^\"]+)\""
 
     | eval src=coalesce(src, trim(raw_src))
-    | eval uri_path=coalesce(uri_path, raw_path)
+    | eval uri_path=mvindex(split(coalesce(uri_path, raw_path), "?"), 0)
     | eval http_method=coalesce(http_method, raw_method)
     | eval http_response_code=coalesce(http_response_code, raw_status)
-    | rex field=raw_latency "^(?:(?<raw_latency_minutes>\d+)m)?(?<raw_latency_value>[\d\.]+)(?<raw_latency_unit>µs|ms|s)$"
-    | eval response_time_ms=coalesce(response_time_ms, (coalesce(tonumber(raw_latency_minutes), 0) * 60000) + (tonumber(raw_latency_value) * case(raw_latency_unit="µs", 0.001, raw_latency_unit="ms", 1, raw_latency_unit="s", 1000)))
+    | rex field=raw_latency "^(?:(?<raw_latency_hours>\d+)h)?(?:(?<raw_latency_minutes>\d+)m)?(?<raw_latency_value>[\d\.]+)(?<raw_latency_unit>µs|ms|s)$"
+    | eval response_time_ms=(coalesce(tonumber(raw_latency_hours), 0) * 3600000) + (coalesce(tonumber(raw_latency_minutes), 0) * 60000) + (tonumber(raw_latency_value) * case(raw_latency_unit="µs", 0.001, raw_latency_unit="ms", 1, raw_latency_unit="s", 1000))
 
     | where isnotnull(src) AND in(uri_path, "/api/generate", "/api/chat", "/v1/chat/completions") AND response_time_ms > 30000
 
