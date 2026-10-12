@@ -16,7 +16,7 @@ search: |-
     | `security_content_ctime(firsttime)`
     | `security_content_ctime(lasttime)`
     | `dns_ptr_based_host_discovery_filter`
-how_to_implement: This detection requires DNS events mapped to the Network Resolution data model, including DNS.query, DNS.record_type, and DNS.src. Ensure the data model is populated and appropriately accelerated for summaries-only searches. Tune the threshold according to normal DNS activity. A high volume of unique PTR queries may indicate reverse DNS-based host discovery, including activity associated with Nmap when reverse lookups are performed. Behavior depends on scan options, DNS configuration, and available reverse DNS records.
+how_to_implement: This detection requires DNS events mapped to the Network Resolution data model, including DNS.query, DNS.record_type, and DNS.src. Ensure the data model is populated and appropriately accelerated for summaries-only searches. Tune the threshold according to normal DNS activity.
 known_false_positives: Legitimate asset discovery tools, vulnerability scanners, network monitoring systems, administrative scripts, and authorized Nmap scans may generate large numbers of PTR queries. Validate the source system and its expected behavior before determining whether the activity is suspicious.
 intermediate_findings:
     entities:
