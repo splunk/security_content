@@ -2,7 +2,7 @@ name: System Processes Run From Unexpected Locations
 id: a34aae96-ccf8-4aef-952c-3ea21444444d
 version: 18
 creation_date: '2019-10-16'
-modification_date: '2026-09-22'
+modification_date: '2026-10-02'
 author: David Dorsey, Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -43,6 +43,7 @@ known_false_positives: This detection may require tuning based on third party ap
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
     - https://attack.mitre.org/techniques/T1036/003/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1036.003/T1036.003.yaml#L74
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -70,6 +71,8 @@ analytic_story:
     - Windows Error Reporting Service Elevation of Privilege Vulnerability
     - DarkGate Malware
 asset_type: Endpoint
+atomic_guid:
+    - ac9d0fc3-8aa8-4ab5-b11f-682cd63b40aa
 mitre_attack_id:
     - T1036.003
 product:
