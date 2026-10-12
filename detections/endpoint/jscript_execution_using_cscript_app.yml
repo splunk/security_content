@@ -1,8 +1,8 @@
 name: Jscript Execution Using Cscript App
 id: 002f1e24-146e-11ec-a470-acde48001122
-version: 14
+version: 15
 creation_date: '2021-09-14'
-modification_date: '2026-08-31'
+modification_date: '2026-10-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -13,7 +13,6 @@ description: |-
     If confirmed malicious, this activity could allow attackers to execute arbitrary scripts, leading to code execution, data exfiltration, or further system compromise.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
