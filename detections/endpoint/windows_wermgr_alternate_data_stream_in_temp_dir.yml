@@ -1,8 +1,8 @@
 name: Windows Wermgr Alternate Data Stream in Temp Dir
 id: 65222e9b-9d0b-4bfe-8da1-199b98e1d44a
-version: 2
+version: 3
 creation_date: '2026-06-11'
-modification_date: '2026-09-08'
+modification_date: '2026-10-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ search: |-
                   max(_time) as lastTime
     by dest dvc file_hash file_name file_path process_exec
        process_guid process_id process_name process_path
-       signature signature_id user_id vendor_product Contents Image
+       signature signature_id user_id user vendor_product Contents Image
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
