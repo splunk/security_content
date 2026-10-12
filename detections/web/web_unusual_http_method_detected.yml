@@ -1,0 +1,88 @@
+name: Web Unusual HTTP Method Detected
+id: c086ad2b-a747-4c61-9c90-d6ffdcaefbe8
+version: 1
+creation_date: '2026-10-12'
+modification_date: '2026-10-12'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects HTTP requests using non-standard or unexpected HTTP methods by leveraging the Web datamodel. It identifies any method not present in the allowlist of commonly observed values. Unusual HTTP methods may indicate exploitation attempts, protocol abuse, or C2 tooling interacting with web servers in unexpected ways. If confirmed malicious, this activity could represent an attempt to exploit server-side vulnerabilities, bypass access controls, or tunnel traffic through non-standard channels.
+data_source: []
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+      where (Web.http_method="*")
+      AND NOT (
+        Web.http_method IN (
+          "POST",
+          "GET",
+          "HEAD",
+          "OPTIONS",
+          "PUT",
+          "PATCH",
+          "DELETE",
+          "CONNECT",
+          "TRACE",
+          "PROPFIND",
+          "PROPPATCH",
+          "MKCOL",
+          "COPY",
+          "MOVE",
+          "LOCK",
+          "UNLOCK",
+          "REPORT",
+          "ACL",
+          "SEARCH",
+          "PRI",
+          "unknown",
+          "CCM_POST"
+        )
+      )
+      by Web.src Web.dest Web.dest_port Web.url Web.http_method Web.status Web.http_user_agent Web.site
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `web_unusual_http_method_detected_filter`
+how_to_implement: This detection requires web traffic normalized to the Splunk Common Information Model (CIM) Web datamodel. Any web data source mapped to the Web datamodel is suitable, including Zeek HTTP, proxy logs, and network firewall logs.
+known_false_positives: Some legitimate applications and frameworks may use non-standard HTTP methods. Review the http_method and destination to determine if the traffic is expected. Add confirmed legitimate methods to the filter as needed.
+references:
+    - https://attack.mitre.org/techniques/T1071/001/
+    - https://attack.mitre.org/techniques/T1190/
+    - https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+drilldown_searches:
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: src
+          type: system
+          score: 20
+          message: Unusual HTTP method [$http_method$] observed from $src$ to $dest$.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Command And Control
+    - HTTP Request Smuggling
+asset_type: Web Server
+mitre_attack_id:
+    - T1071.001
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071/zeek_http_unusual_method/http.log
+          sourcetype: zeek:http
+          source: http.log
+      test_type: unit

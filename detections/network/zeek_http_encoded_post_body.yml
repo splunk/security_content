@@ -1,0 +1,65 @@
+name: Zeek HTTP Encoded POST Body
+id: 0590881d-7b81-48dd-9674-1f23f7db5d40
+version: 1
+creation_date: '2026-10-12'
+modification_date: '2026-10-12'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects HTTP POST requests containing heavily encoded data in the post body, specifically looking for sequences of hex-encoded bytes or base64-encoded strings. It leverages Zeek HTTP logs to identify POST requests where the body contains eight or more consecutive hex escape sequences or sixteen or more consecutive base64 character groups. This activity is significant as adversaries commonly use hex or base64 encoding to obfuscate C2 communication, exfiltrate data, or deliver encoded payloads.
+data_source: []
+search: |-
+    sourcetype="zeek:http"
+    method="POST"
+    | eval _hex=if(match(post_body, "(?:\\x[0-9a-fA-F]{2}){8,}|(?:%[0-9a-fA-F]{2}){8,}"), 1, 0)
+    | eval _b64=if(match(post_body, "(?:[A-Za-z0-9+/]{4}){16,}={0,2}"), 1, 0)
+    | where _hex=1 OR _b64=1
+    | eval encoding_type=case(_hex=1 AND _b64=1, "hex+base64", _hex=1, "hex", _b64=1, "base64")
+    | stats count min(_time) as firstTime max(_time) as lastTime values(encoding_type) as encoding_type by id.orig_h id.resp_h id.resp_p uri method status_code post_body
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `zeek_http_encoded_post_body_filter`
+how_to_implement: Zeek HTTP logs must be ingested into Splunk with sourcetype zeek:http. The post_body field must be populated, which requires Zeek to be configured with the HTTP post body extraction policy. Tune the detection as needed to reduce false positives in your environment.
+known_false_positives: Legitimate applications may POST base64-encoded data, particularly APIs that transmit binary content. Review the destination, URI, and post body content to confirm whether the activity is expected.
+references:
+    - https://attack.mitre.org/techniques/T1071/001/
+    - https://attack.mitre.org/techniques/T1132/001/
+    - https://docs.zeek.org/en/master/logs/http.html
+drilldown_searches:
+    - name: View the detection results for - "$id.orig_h$"
+      search: '%original_detection_search% | search id.orig_h = "$id.orig_h$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$id.orig_h$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$id.orig_h$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: id.orig_h
+          type: system
+          score: 20
+          message: HTTP POST with encoded body [$encoding_type$] detected from $id.orig_h$ to $id.resp_h$$uri$.
+threat_objects:
+    - field: id.orig_h
+      type: ip_address
+analytic_story:
+    - Command And Control
+    - Data Exfiltration
+asset_type: Network
+mitre_attack_id:
+    - T1071.001
+    - T1132.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.001/zeek_http_encoded_post/http.log
+          sourcetype: zeek:http
+          source: http.log
+      test_type: unit
