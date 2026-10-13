@@ -6,44 +6,60 @@ modification_date: '2026-10-12'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects HTTP requests using non-standard or unexpected HTTP methods by leveraging the Web datamodel. It identifies any method not present in the allowlist of commonly observed values. Unusual HTTP methods may indicate exploitation attempts, protocol abuse, or C2 tooling interacting with web servers in unexpected ways. If confirmed malicious, this activity could represent an attempt to exploit server-side vulnerabilities, bypass access controls, or tunnel traffic through non-standard channels.
-data_source: []
+description: |-
+    The following analytic detects Zeek HTTP requests using methods outside a configurable allowlist of standard and commonly used HTTP methods.
+    Unusual methods can indicate protocol abuse, exploitation attempts, or command-and-control traffic.
+    Review the method, source, destination, and URI to assess the activity.
+data_source:
+    - Zeek HTTP
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
-      where (Web.http_method="*")
-      AND NOT (
-        Web.http_method IN (
-          "POST",
+    `zeek_http`
+    method=*
+    NOT method IN (
+          "ACL",
+          "CCM_POST",
+          "CONNECT",
+          "COPY",
+          "DELETE",
           "GET",
           "HEAD",
+          "LOCK",
+          "MKCOL",
+          "MOVE",
           "OPTIONS",
-          "PUT",
           "PATCH",
-          "DELETE",
-          "CONNECT",
-          "TRACE",
+          "POST",
+          "PRI",
           "PROPFIND",
           "PROPPATCH",
-          "MKCOL",
-          "COPY",
-          "MOVE",
-          "LOCK",
-          "UNLOCK",
+          "PUT",
           "REPORT",
-          "ACL",
           "SEARCH",
-          "PRI",
+          "TRACE",
           "unknown",
-          "CCM_POST"
+          "UNLOCK"
         )
-      )
-      by Web.src Web.dest Web.dest_port Web.url Web.http_method Web.status Web.http_user_agent Web.site
-    | `drop_dm_object_name("Web")`
+
+    | eval dest_port=coalesce(dest_port, 'id.resp_p'),
+           dest=coalesce(dest, dest_ip, 'id.resp_h'),
+           src=coalesce(src, src_ip, 'id.orig_h')
+
+    | stats count min(_time) as firstTime max(_time) as lastTime
+                  values(method) as method
+                  values(uri) as uri
+                  values(status_code) as status_code
+
+      by src dest dest_port
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `web_unusual_http_method_detected_filter`
-how_to_implement: This detection requires web traffic normalized to the Splunk Common Information Model (CIM) Web datamodel. Any web data source mapped to the Web datamodel is suitable, including Zeek HTTP, proxy logs, and network firewall logs.
-known_false_positives: Some legitimate applications and frameworks may use non-standard HTTP methods. Review the http_method and destination to determine if the traffic is expected. Add confirmed legitimate methods to the filter as needed.
+how_to_implement: |-
+    Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
+    Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
+known_false_positives: |-
+    Some legitimate applications and frameworks may use non-standard HTTP methods.
+    Review the method and destination to determine whether the traffic is expected, then add confirmed legitimate methods to the allowlist.
 references:
     - https://attack.mitre.org/techniques/T1071/001/
     - https://attack.mitre.org/techniques/T1190/
@@ -53,7 +69,7 @@ drilldown_searches:
       search: '%original_detection_search% | search src = "$src$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$src$"
+    - name: View risk events for the last 7 days for - "$id.orig_h$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
@@ -62,10 +78,10 @@ intermediate_findings:
         - field: src
           type: system
           score: 20
-          message: Unusual HTTP method [$http_method$] observed from $src$ to $dest$.
+          message: An unusual HTTP method [$method$] ws observed from [$src$] to [$dest$] over port [$dest_port$] to URI - [$uri$].
 threat_objects:
-    - field: src
-      type: ip_address
+    - field: uri
+      type: uri
 analytic_story:
     - Command And Control
     - HTTP Request Smuggling
