@@ -241,10 +241,10 @@ apps:
   version: 4.0.3
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-vmware-indexes_403.tgz
 - uid: 1467
-  title: Cisco Networks Add-on
-  appid: TA-cisco_ios
-  version: 2.7.9
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/add-on-for-cisco-network-data_279.tgz
+  title: Cisco Enterprise Networking Add-on for Splunk
+  appid: TA-cisco-enterprise-networking-add-on-for-splunk
+  version: 4.0.35
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-enterprise-networking-add-on-for-splunk_4035.tgz
 - uid: 8024
   title: TA-ollama
   appid: ta-ollama

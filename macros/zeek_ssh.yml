@@ -1,0 +1,8 @@
+name: zeek_ssh
+id: 915ebcdf-ef44-4815-936a-901ee7dde6dc
+version: 1
+creation_date: '2026-10-12'
+modification_date: '2026-10-12'
+author: Splunk Threat Research Team
+description: Customer specific Splunk configuration for Zeek SSH logs. Update the sourcetype to match your environment.
+definition: sourcetype="zeek:ssh"
