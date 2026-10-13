@@ -19,8 +19,7 @@ search: |
             min(_time) as firstTime
             max(_time) as lastTime
 
-    FROM datamodel=Endpoint.Filesystem
-    WHERE
+    FROM datamodel=Endpoint.Filesystem WHERE
 
     ``` Increase coverage by adding additional Nirsoft tool bundle or tool filenames ```
     [
