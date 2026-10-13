@@ -36,7 +36,7 @@ search: |
     as desc, category
     | search isutility = True
     | `remote_access_software_usage_exceptions`
-    | `detect_remote_access_software_usage_url_filter` | stats count values(dest) by url_domain
+    | `detect_remote_access_software_usage_url_filter`
 how_to_implement: |
     The detection is based on data that originates from network logs. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the network logs. The logs must also be mapped to the `Web` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process. The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions" that lets you track and maintain device- based exceptions for this set of detections.
 known_false_positives: |
