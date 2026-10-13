@@ -69,6 +69,7 @@ intermediate_findings:
           type: system
           score: 20
           message: A PowerShell script on [$dest$] invoked a download method with a raw code-hosting URL in ScriptBlockText with ScriptBlockId [$ScriptBlockId$].
+threat_objects: []
 analytic_story:
     - Braodo Stealer
 asset_type: Endpoint
