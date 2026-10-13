@@ -82,6 +82,16 @@ RULES: tuple[MappingRule, ...] = (
         "Production behavior monitoring signal",
     ),
     MappingRule(
+        re.compile(r"\blong[- ]running inference requests?\b", re.I),
+        ("Measure 2.4",),
+        "Production AI functionality and behavior monitoring signal",
+    ),
+    MappingRule(
+        re.compile(r"\brepeated (?:ollama )?application errors?\b", re.I),
+        ("Measure 2.4", "Manage 4.3"),
+        "Production behavior monitoring and incident/error tracking signal",
+    ),
+    MappingRule(
         re.compile(r"\b(prompt injection|jailbreak|ignore previous|system prompt override|hostile prompt|sentiment)\b", re.I),
         ("Measure 2.6",),
         "Prompt-behavior and harmful-content measurement signal",
@@ -383,6 +393,13 @@ def main() -> int:
     output_changed = write_csv_if_changed(csv_content, None if args.dry_run else args.output)
 
     message = f"Generated {len(rows)} detection mappings from {len(selectors)} data source selectors."
+    review_rows = [row for row in rows if row["mapping_source"] == "generated_review"]
+    if review_rows:
+        message += f" {len(review_rows)} mapping(s) need manual review:"
+        for row in review_rows:
+            message += f"\n  - {row['ai_system']}: {row['detection_name']} — {row['mapping_reason']}"
+    else:
+        message += " No mappings need manual review."
     if not args.dry_run:
         if output_changed and not args.no_metadata_update:
             new_version = bump_lookup_metadata(args.metadata, validate_modified_date(args.modified_date))
