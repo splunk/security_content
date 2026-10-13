@@ -1,8 +1,8 @@
 name: Windows Vulnerable Driver Installed
 id: 1dda7586-57be-4a1b-8de1-a9ad802b9a7f
-version: 11
+version: 12
 creation_date: '2020-01-19'
-modification_date: '2026-09-08'
+modification_date: '2026-09-22'
 author: Dean Luxton
 status: production
 type: TTP
@@ -12,7 +12,7 @@ data_source:
 search: |-
     `wineventlog_system` EventCode=7045 ServiceType="kernel mode driver"
       | table _time dest EventCode ImagePath ServiceName ServiceType
-      | lookup loldrivers driver_name AS ImagePath OUTPUT is_driver driver_description
+      | lookup local=t loldrivers driver_name AS ImagePath OUTPUT is_driver driver_description
       | search is_driver = TRUE
       | `windows_vulnerable_driver_installed_filter`
 how_to_implement: Ensure the Splunk is collecting XmlWinEventLog:System events and the EventCode 7045 is being ingested.

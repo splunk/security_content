@@ -1,10 +1,10 @@
 name: Child Processes of Spoolsv exe
 id: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
-version: 11
+version: 12
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Rico Valdez, Splunk
-status: experimental
+status: deprecated
 type: TTP
 description: The following analytic identifies child processes spawned by spoolsv.exe, the Print Spooler service in Windows, which typically runs with SYSTEM privileges. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process relationships. Monitoring this activity is crucial as it can indicate exploitation attempts, such as those associated with CVE-2018-8440, which can lead to privilege escalation. If confirmed malicious, attackers could gain SYSTEM-level access, allowing them to execute arbitrary code, escalate privileges, and potentially compromise the entire system.
 data_source:
@@ -57,3 +57,9 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+deprecation_info:
+    reason: |-
+        Deprecated because the broad parent-child logic generated substantial legitimate printer, driver, and print-management activity and did not directly detect the exploitation behavior associated with its CVE reference.
+        More specific Print Spooler behaviors are covered by existing production detections.
+    removed_in_version: 6.10.0
+    replacement_content: []

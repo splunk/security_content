@@ -1,0 +1,96 @@
+name: Windows AD Computer SPN Modified By User Account
+id: dbe30a35-b56d-4a7a-82c4-2433da06b342
+version: 1
+creation_date: '2026-09-25'
+modification_date: '2026-09-25'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects a user account (non-machine account) adding or removing a servicePrincipalName (SPN) on a computer object in Active Directory, via Windows Security Event 5136.
+    In normal AD operations, SPN values on computer objects are managed exclusively by the computer account itself (during domain join or name change), by Domain Controllers during replication, or by the SYSTEM/NETWORK SERVICE context — all of which appear as accounts ending in the dollar sign ($) convention.
+    A named user account writing to the servicePrincipalName attribute of a computer object is anomalous and may indicate an attacker with delegated WriteProperty rights over computer accounts performing SPN manipulation.
+data_source:
+    - Windows Event Log Security 5136
+search: |-
+    `wineventlog_security`
+    EventCode=5136
+    AttributeLDAPDisplayName=servicePrincipalName
+    ObjectClass=computer
+    NOT SubjectUserName="*$"
+    NOT SubjectUserSid IN (
+        "S-1-5-18",
+        "S-1-5-19",
+        "S-1-5-20"
+    )
+    NOT SubjectUserName IN (
+        "*ANONYMOUS*",
+        "*NT AUTHORITY*",
+        "*SYSTEM"
+    )
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(AttributeValue) as spn_values
+                  values(OperationType) as operation_types
+      by Computer SubjectUserName SubjectDomainName SubjectUserSid ObjectDN
+
+    | eval operation_types=mvmap(operation_types, case(operation_types="%%14675", "Deleted", operation_types="%%14674", "Added", true(), operation_types))
+
+    | rename Computer as dest
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_ad_computer_spn_modified_by_user_account_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting Domain Controller Security event logs. Enable the Advanced Security Audit policy `DS Access > Audit Directory Service Changes` for Success events. A WriteProperty audit SACL must also be configured on the computer object class (or CN=Computers container with inheritance) to generate Event 5136 when servicePrincipalName is modified.
+known_false_positives: |-
+    Administrators using tools such as setspn.exe, ADSI Edit, or PowerShell AD modules to manually manage SPNs on computer objects will trigger this detection.
+    Service account provisioning workflows and some third-party identity management platforms may also legitimately modify computer SPNs.
+    Review the SubjectUserName, ObjectDN, and spn_values fields to determine if the change is expected.
+    Consider adding known administrative accounts to the filter macro.
+references:
+    - https://www.semperis.com/blog/identity-crisis-novel-vulnerabilities-leading-to-kerberos-downgrade-dos-and-full-domain-takeover/
+    - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-25177
+    - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136
+drilldown_searches:
+    - name: View the detection results for - "$SubjectUserName$"
+      search: '%original_detection_search% | search SubjectUserName = "$SubjectUserName$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$SubjectUserName$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$SubjectUserName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: SubjectUserName
+          type: user
+          score: 20
+          message: User [$SubjectUserName$] modified SPNs on computer object [$ObjectDN$] on $dest$
+threat_objects:
+    - field: SubjectUserName
+      type: user
+analytic_story:
+    - Active Directory Kerberos Attacks
+    - Compromised User Account
+    - Sneaky Active Directory Persistence Tricks
+asset_type: Endpoint
+cve:
+    - CVE-2026-25177
+mitre_attack_id:
+    - T1562.010
+    - T1558.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.010/kerberloss/windows-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit

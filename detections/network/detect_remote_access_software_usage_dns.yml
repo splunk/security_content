@@ -1,8 +1,8 @@
 name: Detect Remote Access Software Usage DNS
 id: a16b797d-e309-41bd-8ba0-5067dae2e4be
-version: 14
+version: 15
 creation_date: '2024-03-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ search: |
     | `drop_dm_object_name("DNS")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | lookup remote_access_software remote_domain AS query OUTPUT isutility, description as signature,
+    | lookup local=t remote_access_software remote_domain AS query OUTPUT isutility, description as signature,
     comment_reference as desc, category
     | eval dest = query
     | search isutility = True
