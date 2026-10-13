@@ -56,13 +56,7 @@ search: |-
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `aws_repeated_cloudwatch_logs_read_operations_filter`
-how_to_implement: >-
-  The Splunk Add-on for AWS is required to collect AWS CloudTrail events.
-  Configure CloudTrail to capture management Read events and ingest them with
-  the aws:cloudtrail sourcetype. The tested CloudWatch Logs operations are
-  recorded as management events, so a CloudWatch Logs data-event selector is
-  not required. The analytic uses a rolling five-minute window and counts
-  unique CloudTrail event identifiers to reduce duplicate-ingestion effects.
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
 known_false_positives: >-
   Automated log analytics, SIEM pipelines, incident-response tooling, backup
   processes, and administrative troubleshooting may continuously read
