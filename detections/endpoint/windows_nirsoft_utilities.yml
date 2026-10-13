@@ -14,7 +14,6 @@ description: |
     Apply additional filtering as necessary to enhance this.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
