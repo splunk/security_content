@@ -1,8 +1,8 @@
 name: Windows Suspicious React or Next.js Child Process
 id: baa80bc8-7c9c-4395-b458-b69feb92830a
-version: 5
+version: 6
 creation_date: '2025-12-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -13,7 +13,6 @@ description: |
     Such activity might be a strong indicator of exploitation of the aforementioned vulnerability.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
       from datamodel=Endpoint.Processes

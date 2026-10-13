@@ -7,7 +7,7 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects the addition of a servicePrincipalName (SPN) containing invisible Unicode characters to an Active Directory computer object via Windows Security Event 5136.
+    The following analytic detects the addition or modification of a servicePrincipalName (SPN) containing invisible Unicode characters to an Active Directory computer object via Windows Security Event 5136.
     This is the key indicator of the KerberLoss attack (CVE-2026-25177), where an attacker with write access to a machine account's SPN attribute injects a collision SPN that contains a Zero Width or other invisible Unicode character (e.g. U+200C Zero Width Non-Joiner).
     LDAP's string preparation rules (RFC 4518) cause these characters to be ignored during uniqueness checking, allowing the write to succeed even when an identical SPN already exists on another machine account.
     The Kerberos KDC, however, does not apply the same normalisation — it finds two accounts with matching SPNs and returns KDC_ERR_S_PRINCIPAL_UNKNOWN, causing a Kerberos denial-of-service or forcing clients to fall back to NTLM downgrade.

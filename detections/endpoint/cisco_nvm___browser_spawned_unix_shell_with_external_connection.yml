@@ -1,6 +1,6 @@
 name: Cisco NVM - Browser Spawned Unix Shell with External Connection
 id: 6f2de8d1-9a2d-4c7a-9b8c-3b8a2f7d0e41
-version: 2
+version: 1
 creation_date: '2026-09-02'
 modification_date: '2026-09-22'
 author: Maria Jose Erquiaga, Splunk

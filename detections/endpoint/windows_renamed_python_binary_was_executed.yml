@@ -14,24 +14,36 @@ data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE
-        Processes.original_file_name IN (
+    | tstats `security_content_summariesonly`
+      count min(_time) AS firstTime
+            max(_time) AS lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.original_file_name IN (
             "py*",
             "python*",
             "ipyw*"
-        )
-        NOT Processes.original_file_name IN ("-","unknown")
-        NOT Processes.process_name IN ("dwagent.exe", "WinUtils.exe")
-    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-      Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-      Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-      Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    )
+
+    NOT Processes.process_name IN ("dwagent.exe", "WinUtils.exe")
+
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path
+       Processes.user Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
+
     | eval original_file_name=lower(original_file_name)
+
     | regex original_file_name="(?i)^(?:py|pyw|python|pythonw|python32|python64|pythonw32|pythonw64|ipyw32|ipyw64|python3|pythonw3|python3\.\w+|pythonw3\.\w+)\.exe$"
+
     | regex process_name!="(?i)^(?:py|pyw|pip|pip3|python|pythonw|python32|python64|pythonw32|pythonw64|ipyw32|ipyw64|python3|pythonw3|python3\.\w+|pythonw3\.\w+|pip3\.\w+|idle3\.\w+)\.exe$"
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_renamed_python_binary_was_executed_filter`
