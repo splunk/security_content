@@ -1,4 +1,4 @@
-name: Zeek HTTP Encoded POST Body
+name: HTTP POST Request with Encoded Payload
 id: 0590881d-7b81-48dd-9674-1f23f7db5d40
 version: 1
 creation_date: '2026-10-12'
@@ -37,7 +37,7 @@ search: |-
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `zeek_http_encoded_post_body_filter`
+    | `http_post_request_with_encoded_payload_filter`
 how_to_implement: |-
     Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
     The "post_body" field must be populated, which requires Zeek to be configured with the HTTP post body extraction policy.

@@ -1,4 +1,4 @@
-name: Zeek Unusual SSH Client Banner
+name: Unusual SSH Client Banner
 id: 93d0f598-d65f-4c97-b030-5bb0af51a226
 version: 1
 creation_date: '2026-10-12'
@@ -52,7 +52,7 @@ search: |-
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `zeek_unusual_ssh_client_banner_filter`
+    | `unusual_ssh_client_banner_filter`
 how_to_implement: |-
     Zeek SSH logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
     The client field should be populated from the SSH handshake banner.

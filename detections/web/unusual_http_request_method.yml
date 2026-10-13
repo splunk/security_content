@@ -1,4 +1,4 @@
-name: Web Unusual HTTP Method Detected
+name: Unusual HTTP Request Method
 id: c086ad2b-a747-4c61-9c90-d6ffdcaefbe8
 version: 1
 creation_date: '2026-10-12'
@@ -53,7 +53,7 @@ search: |-
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `web_unusual_http_method_detected_filter`
+    | `unusual_http_request_method_filter`
 how_to_implement: |-
     Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
     Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
