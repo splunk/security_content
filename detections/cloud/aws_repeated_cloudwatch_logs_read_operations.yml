@@ -38,6 +38,7 @@ search: |-
   | eval user_agent=coalesce(user_agent, userAgent)
   | eval vendor_region=coalesce(vendor_region, awsRegion)
   | where isnotnull(user) AND len(trim(user)) > 0
+  | dedup eventID keepempty=true
   | sort 0 _time
   | streamstats time_window=5m count AS event_count
       by user vendor_account
