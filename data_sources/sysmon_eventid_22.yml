@@ -1,8 +1,8 @@
 name: Sysmon EventID 22
 id: 911538b2-eba7-4d3e-85e8-d82d380c37bf
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-13'
 author: Patrick Bareiss, Splunk
 description: Logs DNS query events, including details about the queried domain, source IP, query type, and response data.
 mitre_components:
@@ -24,36 +24,6 @@ fields:
     - _time
     - Channel
     - Computer
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - Guid
-    - Image
-    - Keywords
-    - Level
-    - Name
-    - Opcode
-    - ProcessGuid
-    - ProcessID
-    - ProcessId
-    - QueryName
-    - QueryResults
-    - QueryStatus
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SecurityID
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - TimeCreated
-    - UserID
-    - UtcTime
-    - Version
     - date_hour
     - date_mday
     - date_minute
@@ -64,30 +34,62 @@ fields:
     - date_zone
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
     - host
     - id
+    - Image
     - index
+    - Keywords
+    - Level
     - linecount
+    - Name
+    - Opcode
     - process_exec
     - process_guid
     - process_name
+    - process_path
+    - ProcessGuid
+    - ProcessId
+    - ProcessID
     - punct
     - query
     - query_count
+    - QueryName
+    - QueryResults
+    - QueryStatus
+    - record_type
+    - RecordID
+    - RecordNumber
     - reply_code_id
+    - RuleName
+    - SecurityID
     - signature
     - signature_id
     - source
     - sourcetype
     - splunk_server
     - src
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
+    - Task
+    - ThreadID
+    - TimeCreated
     - timeendpos
     - timestartpos
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - answer
     - answer_count

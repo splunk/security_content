@@ -21,10 +21,10 @@ search: |-
         "*\\googledrivefs.exe",
         "*\\icloud.exe",
         "*\\onedrive*.exe",
-        "*C:\\Windows\\explorer.exe",
-        "*C:\\Windows\\System32\\*",
-        "*C:\\Windows\\Syswow64\\*",
-        "*C:\\Windows\\WinSxS\\*"
+        "C:\\Windows\\explorer.exe",
+        "C:\\Windows\\System32\\*",
+        "C:\\Windows\\Syswow64\\*",
+        "C:\\Windows\\WinSxS\\*"
     )
 
     | stats count min(_time) as firstTime
