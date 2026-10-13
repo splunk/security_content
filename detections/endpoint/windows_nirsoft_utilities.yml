@@ -16,17 +16,18 @@ data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
 search: |
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
 
-    FROM datamodel=Endpoint.Processes
-    WHERE
-        [
-            | inputlookup nirsoft_utilities_lookup
-            | search original_file_name=*.exe
-            | table original_file_name
-            | rename original_file_name as Processes.original_file_name
-        ]
+    FROM datamodel=Endpoint.Processes WHERE
+
+    [
+        | inputlookup nirsoft_utilities_lookup
+        | search original_file_name=*.exe
+        | table original_file_name
+        | rename original_file_name as Processes.original_file_name
+    ]
 
     BY Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
@@ -34,6 +35,7 @@ search: |
        Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
        Processes.process_integrity_level Processes.process_name Processes.process_path
        Processes.user Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name("Processes")`
 
     | lookup local=t nirsoft_utilities_lookup original_file_name OUTPUT description
@@ -42,8 +44,8 @@ search: |
     | `security_content_ctime(lastTime)`
     | `windows_nirsoft_utilities_filter`
 how_to_implement: |-
-    To successfully implement this search, you need to be ingesting process creation events from your endpoints using Sysmon.
-    These logs must be processed using the latest Sysmon Technical Add-on (https://splunkbase.splunk.com/app/5709).
+    To successfully implement this search, ingest process creation events from your endpoints and normalize them to the Processes node of the Endpoint data model using the Splunk Common Information Model (CIM).
+    Ensure the normalized events populate the original_file_name field, which this search uses to identify NirSoft utilities. Supported sources might include Sysmon and CrowdStrike ProcessRollup2 when mapped to the data model.
 known_false_positives: False positives may be present. Filtering may be required before setting to alert.
 references:
     - https://www.cisa.gov/uscert/ncas/alerts/TA18-201A
