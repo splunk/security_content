@@ -12,6 +12,8 @@ description: >-
     instance, by the same IAM principal. This may indicate an attempt to change
     instance startup behavior or establish persistence. These CloudTrail events
     do not confirm that the modified user-data script executed.
+data_source:
+    - AWS CloudTrail
 search: |-
     `cloudtrail` eventSource="ec2.amazonaws.com" eventName IN ("StopInstances", "ModifyInstanceAttribute")
     | eval actor='userIdentity.arn'
