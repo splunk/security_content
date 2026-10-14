@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-10-13'
 modification_date: '2026-10-13'
 author: Maria Jose Erquiaga, Splunk
-status: experimental
+status: production
 type: TTP
 description: >-
     Detects a successful AWS IAM CreateRole event whose trust policy allows

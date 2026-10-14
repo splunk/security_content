@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-10-07'
 modification_date: '2026-10-07'
 author: Maria Jose Erquiaga
-status: experimental
+status: production
 type: TTP
 description: >-
     A successful EC2 StopInstances request was followed within one hour by a
@@ -69,7 +69,7 @@ security_domain: threat
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://github.com/splunk/attack_data/blob/master/datasets/attack_techniques/T1578.005/aws_ec2_startup_script_modification/aws_ec2_startup_script_modification.json
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1578.005/aws_ec2_startup_script_modification/aws_ec2_startup_script_modification.json
           sourcetype: aws:cloudtrail
           source: aws_cloudtrail
       test_type: unit
