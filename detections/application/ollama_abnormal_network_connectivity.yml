@@ -1,54 +1,79 @@
 name: Ollama Abnormal Network Connectivity
 id: 19ec30ad-faa2-496a-a6a9-f2e5f778fbdb
-version: 5
+version: 6
 creation_date: '2025-10-13'
-modification_date: '2026-05-13'
-author: Rod Soto
-status: experimental
+modification_date: '2026-10-09'
+author: Rod Soto, Nasreddine Bencherchali, Splunk
+status: production
 type: Anomaly
-description: Detects abnormal network activity and connectivity issues in Ollama including non-localhost API access attempts and warning-level network errors such as DNS lookup failures, TCP connection issues, or host resolution problems that may indicate network-based attacks, unauthorized access attempts, or infrastructure reconnaissance activity.
+description: |-
+    Detects repeated Ollama warning-level network errors, such as DNS lookup failures, TCP connection issues, or host resolution problems. These events can indicate a connectivity issue and warrant investigation, but do not by themselves establish unauthorized access or reconnaissance.
 data_source:
     - Ollama Server
 search: |-
-    `ollama_server` level=WARN (msg="*failed*" OR msg="*dial tcp*" OR msg="*lookup*" OR msg="*no such host*" OR msg="*connection*" OR msg="*network*" OR msg="*timeout*" OR msg="*unreachable*" OR msg="*refused*")
-      | eval src=coalesce(src, src_ip, "N/A")
-      | stats count as incidents, values(src) as src, values(msg) as warning_messages, latest(_time) as last_incident
-        BY host
-      | eval last_incident=strftime(last_incident, "%Y-%m-%d %H:%M:%S")
-      | eval severity="medium"
-      | eval attack_type="Abnormal Network Connectivity"
-      | stats count
-        BY last_incident, host, incidents,
-           src, warning_messages, severity,
-           attack_type
-      | `ollama_abnormal_network_connectivity_filter`
-how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
-known_false_positives: Legitimate remote access from authorized users or applications connecting from non-localhost addresses, temporary network infrastructure issues causing DNS resolution failures, firewall or network configuration changes resulting in connection timeouts, cloud-hosted Ollama instances receiving valid external API requests, or intermittent connectivity problems during network maintenance may trigger this detection during normal operations.
+    `ollama_server`
+    level=WARN
+    msg IN (
+        "*connection*",
+        "*dial tcp*",
+        "*failed*",
+        "*lookup*",
+        "*network*",
+        "*no such host*",
+        "*refused*",
+        "*timeout*",
+        "*unreachable*"
+    )
+
+    | bin _time span=5m
+    | stats count as incidents
+            values(msg) as warning_messages
+            latest(_time) as last_incident
+      by _time dest
+
+    | where incidents > 3
+
+    | eval last_incident=strftime(last_incident, "%Y-%m-%d %H:%M:%S")
+
+    | eval severity="medium"
+
+    | eval attack_type="Abnormal Network Connectivity"
+
+    | table last_incident dest incidents warning_messages severity attack_type
+
+    | `ollama_abnormal_network_connectivity_filter`
+how_to_implement: |-
+    Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.
+known_false_positives: |-
+    Legitimate remote access from authorized users or applications connecting from non-localhost addresses, temporary network infrastructure issues causing DNS resolution failures, firewall or network configuration changes resulting in connection timeouts, cloud-hosted Ollama instances receiving valid external API requests, or intermittent connectivity problems during network maintenance may trigger this detection during normal operations.
 references:
     - https://github.com/rosplk/ta-ollama
 drilldown_searches:
-    - name: View the detection results for - "$src$"
-      search: '%original_detection_search% | search  "$src = "$src$"'
+    - name: View the detection results for - "$dest$"
+      search: |-
+        %original_detection_search%
+        | search dest="$dest$"
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$src$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$",) | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: |-
+        from datamodel Risk.All_Risk
+        | search normalized_risk_object IN ("$dest$")
+        | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object
+        | `security_content_ctime(firstTime)`
+        | `security_content_ctime(lastTime)`
       earliest_offset: 7d
       latest_offset: "0"
 intermediate_findings:
     entities:
-        - field: host
+        - field: dest
           type: system
           score: 20
-          message: 'Abnormal network activity detected on $host$ with $incidents$ incidents from $src$. Investigation needed for network errors: $warning_messages$.'
-threat_objects:
-    - field: src
-      type: system
+          message: Abnormal network activity on [$dest$] with [$incidents$] matching warnings [$warning_messages$]. Investigate DNS and network reachability.
 analytic_story:
     - Suspicious Ollama Activities
 asset_type: Web Application
-mitre_attack_id:
-    - T1571
+mitre_attack_id: []
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
@@ -61,5 +86,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
           sourcetype: ollama:server
           source: app.log
-      test_type: experimental
-      description: This test is a legacy experimental test and may not be accurate.
+      test_type: unit

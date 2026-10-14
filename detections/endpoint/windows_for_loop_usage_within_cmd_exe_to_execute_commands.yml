@@ -1,8 +1,8 @@
 name: Windows For Loop Usage Within Cmd.exe To Execute Commands
 id: a4ce9079-fc8f-4749-982a-13197c8cf977
-version: 1
+version: 2
 creation_date: '2026-09-16'
-modification_date: '2026-09-16'
+modification_date: '2026-10-09'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -11,7 +11,6 @@ description: |-
     Adversaries and malicious scripts leverage this pattern to programmatically process command output for discovery, data extraction, or execution purposes while evading simpler detection logic.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime

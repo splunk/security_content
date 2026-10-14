@@ -1,0 +1,30 @@
+name: Zeek SSH
+id: 9e228bf6-8c75-4d36-997c-e5ef1e1bf760
+version: 1
+creation_date: '2026-10-12'
+modification_date: '2026-10-12'
+author: Raven Tait, Nasreddine Bencherchali, Splunk
+description: Logs SSH handshakes analyzed by Zeek, including client and server banners and connection endpoints.
+mitre_components:
+    - Network Traffic Content
+    - Network Traffic Flow
+source: ssh.log
+sourcetype: zeek:ssh
+supported_TA:
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11
+fields:
+    - id.orig_h
+    - id.orig_p
+    - id.resp_h
+    - id.resp_p
+    - client
+    - server
+    - uid
+output_fields:
+    - id.orig_h
+    - id.resp_h
+    - id.resp_p
+    - client
+example_log: '{"_path":"ssh","_write_ts":"2026-01-15T09:21:33.456789Z","ts":"2026-01-15T09:21:32.987654Z","uid":"CkLmNo2Yp3qrStUv56","id.orig_h":"192.168.20.75","id.orig_p":53874,"id.resp_h":"198.51.100.20","id.resp_p":2222,"version":2,"auth_success":true,"auth_attempts":1,"direction":"OUTBOUND","client":"SSH-2.0-SecureBlackbox","server":"SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.17","cipher_alg":"aes256-ctr","mac_alg":"hmac-sha1","compression_alg":"none","kex_alg":"diffie-hellman-group-exchange-sha256","host_key_alg":"ssh-ed25519","host_key":"11:22:33:44:55:66:77:88:99:aa:bb:cc:dd:ee:ff:00","remote_location.country_code":"US","remote_location.region":"MD","remote_location.city":"Baltimore","remote_location.latitude":39.2904,"remote_location.longitude":-76.6122}'
