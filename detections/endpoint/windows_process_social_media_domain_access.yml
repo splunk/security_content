@@ -1,4 +1,4 @@
-name: Windows Python Process Accessing Facebook Domain
+name: Windows Process Social Media Domain Access
 id: d6dc231e-8595-499b-889e-cf6a055df4d4
 version: 1
 creation_date: '2026-10-06'
@@ -6,7 +6,7 @@ modification_date: '2026-10-06'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic detects outbound network connections from a Python process (python.exe) running out of the C:\Users\Public\ directory to Facebook domains (*.facebook.com). It leverages Sysmon Event ID 3 (network connection) telemetry to identify this suspicious combination. Legitimate Python applications rarely originate from the Public folder, and direct outbound calls to Facebook from that path are a strong indicator of malicious activity. The Braodo Stealer, a Python-based credential-harvesting malware, uses Facebook infrastructure for command-and-control communication and exfiltration of stolen credentials. If confirmed malicious, this activity indicates an active Braodo Stealer infection capable of exfiltrating browser-stored credentials, cookies, and other sensitive data from the compromised endpoint.
+description: This analytic detects outbound network connections from a Python process running from suspicious or non-standard directories to Facebook and Meta-related domains. It leverages Sysmon Event ID 3 (network connection) telemetry to surface this anomalous behavior. Legitimate Python applications rarely originate from paths such as C:\Users\Public\, Windows font or debug folders, or the Recycle Bin, making direct outbound calls to Facebook infrastructure from these locations a strong indicator of compromise. For example the Braodo Stealer, a Python-based credential-harvesting malware, abuses authenticated browser sessions to query the Meta Graph API and enumerate the victim's Facebook and Meta advertising infrastructure. Beyond stealing browser credentials and session cookies, it collects advertising account IDs, statuses, currencies, balances, spending amounts and limits, payment thresholds, creation dates, and associated credit-card payment method details. For Business Manager accounts, it also queries advertising-account limits, giving the attacker a comprehensive view of the victim's advertising footprint. If confirmed malicious, this activity indicates an active Braodo Stealer infection capable of exfiltrating sensitive financial and advertising data alongside browser-stored credentials and cookies.
 data_source:
     - Sysmon EventID 3
 search: |-
@@ -42,7 +42,7 @@ search: |-
         process_exec process_guid process_id
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
-    | `windows_python_process_accessing_facebook_domain_filter`
+    | `windows_process_social_media_domain_access_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and sysmon eventcode = 3 connection events from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: No false positives have been identified at this time.
 references:
