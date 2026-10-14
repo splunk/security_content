@@ -1,6 +1,6 @@
 name: HTTP POST Request with Encoded Payload
 id: 0590881d-7b81-48dd-9674-1f23f7db5d40
-version: 2
+version: 1
 creation_date: '2026-10-12'
 modification_date: '2026-10-13'
 author: Raven Tait, Splunk
