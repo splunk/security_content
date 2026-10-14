@@ -54,7 +54,6 @@ fields:
     - process_exec
     - process_guid
     - process_name
-    - process_path
     - ProcessGuid
     - ProcessId
     - ProcessID
