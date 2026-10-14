@@ -1,8 +1,8 @@
 name: Cloud Compute Instance Created In Previously Unused Region
 id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
-version: 10
+version: 11
 creation_date: '2020-11-30'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ search: |-
       WHERE All_Changes.action=created
       BY All_Changes.vendor_region, All_Changes.user
     | `drop_dm_object_name("All_Changes")`
-    | lookup previously_seen_cloud_regions vendor_region as vendor_region OUTPUTNEW firstTimeSeen, enough_data
+    | lookup local=t previously_seen_cloud_regions vendor_region as vendor_region OUTPUTNEW firstTimeSeen, enough_data
     | eventstats max(enough_data) as enough_data
     | where enough_data=1
     | eval firstTimeSeenRegion=min(firstTimeSeen)

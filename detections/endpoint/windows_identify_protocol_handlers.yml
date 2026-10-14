@@ -1,8 +1,8 @@
 name: Windows Identify Protocol Handlers
 id: bd5c311e-a6ea-48ae-a289-19a3398e3648
-version: 10
+version: 11
 creation_date: '2022-07-12'
-modification_date: '2026-05-13'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -23,7 +23,7 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `drop_dm_object_name(Processes)`
-    | lookup windows_protocol_handlers handler AS process OUTPUT handler ishandler
+    | lookup local=t windows_protocol_handlers handler AS process OUTPUT handler ishandler
     | where ishandler="TRUE"
     | `windows_identify_protocol_handlers_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
@@ -38,9 +38,12 @@ references:
     - https://techcommunity.microsoft.com/t5/windows-it-pro-blog/disabling-the-msix-ms-appinstaller-protocol-handler/ba-p/3119479
     - https://www.huntress.com/blog/microsoft-office-remote-code-execution-follina-msdt-bug
     - https://parsiya.net/blog/2021-03-17-attack-surface-analysis-part-2-custom-protocol-handlers/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1218/T1218.yaml#L84
 analytic_story:
     - Living Off The Land
 asset_type: Endpoint
+atomic_guid:
+    - db020456-125b-4c8b-a4a7-487df8afb5a2
 mitre_attack_id:
     - T1059
 product:
