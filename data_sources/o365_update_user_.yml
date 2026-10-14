@@ -1,8 +1,8 @@
 name: O365 Update user.
 id: a05fd01e-34d9-4233-9089-11272416b531
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs updates to user account properties in Microsoft 365, including changes to roles, permissions, and profile information.
 mitre_components:

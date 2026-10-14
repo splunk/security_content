@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4781
 id: 9732ffe7-ebce-4557-865c-1725a0f633cb
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs changes made to the name of a computer account, including the old and new names and the user performing the action.
 mitre_components:

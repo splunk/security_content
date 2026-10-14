@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4663
 id: 5d6dca8c-dad9-494f-a321-ef2b0b92fbf4
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a user or process tried to access a file, directory, registry key, or other system object on the computer
 mitre_components:

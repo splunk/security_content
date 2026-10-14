@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4948
 id: 910032df-4e49-42fe-a611-d4c29557d83a
-version: 3
+version: 4
 creation_date: '2025-03-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Teoderick Contreras, Splunk
 description: Data source object for Windows Event Log Security 4948
 source: XmlWinEventLog:Security

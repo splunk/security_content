@@ -1,8 +1,8 @@
 name: Sysmon EventID 10
 id: 659cd5a8-148a-4c59-ade1-05f41ac1b096
-version: 5
+version: 6
 creation_date: '2024-05-22'
-modification_date: '2026-09-21'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs events where one process accesses another process, typically for memory reads or injections, including details about the source and target processes.
 mitre_components:

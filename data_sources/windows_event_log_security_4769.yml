@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4769
 id: 358d5520-f40b-4fa2-b799-966c030cb731
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs Kerberos service ticket requests, including details about the requesting user, target service, and client IP address.
 mitre_components:

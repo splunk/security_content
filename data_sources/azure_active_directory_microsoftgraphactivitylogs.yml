@@ -1,8 +1,8 @@
 name: Azure Active Directory MicrosoftGraphActivityLogs
 id: 63ff93ba-2bbb-4542-8773-239bf5266367
-version: 2
+version: 3
 creation_date: '2025-02-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Splunk
 description: Data source object for Azure Active Directory MicrosoftGraphActivityLogs
 source: Azure AD

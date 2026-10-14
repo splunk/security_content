@@ -1,8 +1,8 @@
 name: CrowdStrike Falcon Stream Alert
 id: 52b38751-b0db-4965-a800-ebaabd1fd7d5
-version: 2
+version: 3
 creation_date: '2025-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Bryan Pluta, Splunk
 description: Logs of CrowdStrike Falcon Stream Alerts
 mitre_components:

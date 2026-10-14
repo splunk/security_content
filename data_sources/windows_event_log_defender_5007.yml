@@ -1,8 +1,8 @@
 name: Windows Event Log Defender 5007
 id: 27f18792-8d95-4871-8853-874b7faf023f
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when Windows Defender antimalware settings are modified.
 mitre_components:

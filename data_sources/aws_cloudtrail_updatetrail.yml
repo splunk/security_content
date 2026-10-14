@@ -1,8 +1,8 @@
 name: AWS CloudTrail UpdateTrail
 id: d5b7a1eb-711a-4c96-aa93-235fe3c8a939
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when an AWS CloudTrail trail is updated, typically involving changes to settings or configuration.
 mitre_components:

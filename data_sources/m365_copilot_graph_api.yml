@@ -1,8 +1,8 @@
 name: M365 Copilot Graph API
 id: 30dd2202-869c-47fb-ad37-4f4d4c93c6b7
-version: 2
+version: 3
 creation_date: '2025-10-13'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Rod Soto, Splunk
 description: Access Logs from M365 Copilot access via Graph API
 source: AuditLogs.SignIns

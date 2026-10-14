@@ -1,8 +1,8 @@
 name: Sysmon EventID 6
 id: eadc297a-c20c-45a1-8fac-74ad54019767
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the loading of a driver into the kernel or user mode, including details about the driver name, file path, and associated process metadata.
 mitre_components:

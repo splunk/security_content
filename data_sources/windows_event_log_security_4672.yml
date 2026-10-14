@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4672
 id: 43f189b6-369d-4a32-a34c-57e0d38d92f1
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a user with administrative privileges logs on to a system.
 mitre_components:

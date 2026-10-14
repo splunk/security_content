@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4798
 id: 29e97f72-eb2e-400e-b0c9-81277547e43b
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an enumeration of local group membership on a system, including details about the groups queried and the account performing the action.
 mitre_components:

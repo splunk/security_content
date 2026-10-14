@@ -1,8 +1,8 @@
 name: ASL AWS CloudTrail
 id: 1dcf9cfb-0e91-44c6-81b3-61b2574ec898
-version: 3
+version: 4
 creation_date: '2025-01-14'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Represents AWS API dataset data collection from Amazon Security Lake.
 mitre_components:
@@ -130,6 +130,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-
 example_log: |
     {"metadata":{"product":{"version":"1.10","name":"CloudTrail","vendor_name":"AWS","feature":{"name":"Management"}},"event_code":"AwsApiCall","uid":"721b851c-40ec-4a1a-9d81-666641ab0d8e","profiles":"cloud","profiles":"datetime","version":"1.1.0"},"time":1733922792000,"time_dt":1733922792000,"cloud":{"region":"us-east-1","provider":"AWS"},"api":{"response":{"error":"","message":"","data":""},"operation":"DeleteGroup","version":"","service":{"name":"iam.amazonaws.com"},"request":{"data":"{\"groupName\":\"test\"}","uid":"89c19a56-3257-40c1-a36d-ad461ce9be53"}},"dst_endpoint":{"svc_name":""},"actor":{"user":{"type":"IAMUser","name":"test","uid_alt":"AAAAAAAAAAAAAAAAAAAA","uid":"arn:aws:iam::222222222222:user/test","account":{"uid":"222222222222"},"credential_uid":"AAAAAAAAAAAAAAAAAAAAA"},"session":{"created_time_dt":"0","is_mfa":false,"issuer":""},"invoked_by":"","idp":{"name":""}},"http_request":{"user_agent":"aws-cli/2.18.17 md/awscrt#0.22.0 ua/2.0 os/macos#24.1.0 md/arch#arm64 lang/python#3.12.7 md/pyimpl#CPython cfg/retry-mode#standard md/installer#source md/prompt#off md/command#iam.delete-group"},"src_endpoint":{"uid":"","ip":"84.174.65.161","domain":""},"session":{"uid":"","uid_alt":"","credential_uid":"","issuer":""},"policy":{"uid":""},"resources":null,"class_name":"Account Change","class_uid":3001,"category_name":"Identity & Access Management","category_uid":3,"severity_id":1,"severity":"Informational","user":{"uid_alt":"","uid":"","name":""},"activity_name":"Delete","activity_id":6,"type_uid":300106,"type_name":"Account Change: Delete","status":"Success","is_mfa":false,"unmapped":{"tlsDetails.clientProvidedHostHeader":"iam.amazonaws.com","recipientAccountId":"222222222222","readOnly":"false","tlsDetails.tlsVersion":"TLSv1.3","managementEvent":"true","tlsDetails.cipherSuite":"TLS_AES_128_GCM_SHA256"},"accountid":"","region":"","asl_version":"","observables":{"name":"src_endpoint.ip","name":"actor.user.name","value":"84.174.65.161","value":"test","type":"IP Address","type":"User Name","type_id":2,"type_id":4}}

@@ -1,8 +1,8 @@
 name: O365 UserLoggedIn
 id: ed29c8c4-4053-419c-b133-16abf2a1c4c9
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs successful login events by users in Microsoft 365, including details about the user account, IP address, and session metadata.
 mitre_components:

@@ -1,8 +1,8 @@
 name: Azure Active Directory Add member to role
 id: 1660d196-127f-4678-81b2-472d51711b07
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the addition of a member to a directory role in Azure Active Directory, including details about the role, the member added, and the user or process performing the action.
 mitre_components:

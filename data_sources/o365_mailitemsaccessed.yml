@@ -1,8 +1,8 @@
 name: O365 MailItemsAccessed
 id: 3d5188eb-341a-4b46-9caa-aade4047d027
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs access to mailbox items in Microsoft 365, including details about the user accessing the items, the accessed content, and the method of access.
 mitre_components:

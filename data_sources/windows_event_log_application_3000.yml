@@ -1,8 +1,8 @@
 name: Windows Event Log Application 3000
 id: 3911945d-9222-408d-b851-9b1bce4c2d24
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the termination of a process, including details about the process, its termination code, and timestamp.
 mitre_components:

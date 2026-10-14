@@ -1,13 +1,17 @@
 name: AWS CloudTrail
 id: e8ace6db-1dbd-4c72-a1fb-334684619a38
-version: 2
+version: 3
 creation_date: '2024-07-16'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: All AWS CloudTrail events
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
 separator: eventName
+supported_TA:
+    - name: Splunk Add-on for AWS
+      url: https://splunkbase.splunk.com/app/1876
+      version: 8.2.2
 fields:
     - _time
     - app
@@ -104,10 +108,5 @@ fields:
     - vendor_account
     - vendor_product
     - vendor_region
-supported_TA:
-    - name: Splunk Add-on for AWS
-      url: https://splunkbase.splunk.com/app/1876
-      version: 8.2.2
-
 example_log: |
     {"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKQ3U2PDY", "userName": "bhavin_cli"}, "eventTime": "2022-02-25T00:53:49Z", "eventSource": "lambda.amazonaws.com", "eventName": "UpdateFunctionCode20150331v2", "awsRegion": "us-west-2", "sourceIPAddress": "73.202.156.34", "userAgent": "aws-cli/2.0.62 Python/3.9.2 Darwin/19.6.0 source/x86_64 command/lambda.update-function-code", "requestParameters": {"fullyQualifiedArn": {"arnPrefix": {"partition": "aws", "region": "us-west-2", "account": "111111111111"}, "relativeId": {"functionName": "bhavin_test"}, "functionQualifier": {}}, "functionName": "arn:aws:lambda:us-west-2:111111111111:function:bhavin_test", "publish": true, "dryRun": false}, "responseElements": {"functionName": "bhavin_test", "functionArn": "arn:aws:lambda:us-west-2:111111111111:function:bhavin_test:1", "runtime": "python3.8", "role": "arn:aws:iam::111111111111:role/service-role/bhavin_test-role-7ppg8rck", "handler": "lambda_function.lambda_handler", "codeSize": 779, "description": "", "timeout": 3, "memorySize": 128, "lastModified": "2022-02-25T00:53:49.000+0000", "codeSha256": "cn+ec5LfJBeR4xOhy4XT2AhTndy6uQ268Iu+hY1WGS8=", "version": "1", "environment": {}, "tracingConfig": {"mode": "PassThrough"}, "revisionId": "c617a19c-1192-40d0-af2f-9d51b41494b6", "state": "Pending", "stateReason": "The function is being created.", "stateReasonCode": "Creating", "packageType": "Zip", "architectures": ["x86_64"]}, "requestID": "bcbb506f-d09c-4f28-83dc-717c4eafc182", "eventID": "4ac2b1d2-cfb8-4da8-b3b5-c2c0e85495c3", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management"}

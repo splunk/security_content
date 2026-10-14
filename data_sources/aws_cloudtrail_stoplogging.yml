@@ -1,8 +1,8 @@
 name: AWS CloudTrail StopLogging
 id: c5de7c54-4809-4659-bf9f-3bacf8bdfd35
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a cloud service in AWS, such as CloudTrail, is deactivated or stopped.
 mitre_components:

@@ -1,8 +1,8 @@
 name: Windows Event Log AppXPackaging 171
 id: 2d0f8e3c-a2d7-4b9e-8f1c-6a5d7e3e9f2b
-version: 2
+version: 3
 creation_date: '2025-08-18'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Michael Haag, Splunk
 description: 'This data source captures Windows Event Logs from the Microsoft-Windows-AppXPackaging/Operational channel, specifically focusing on EventCode 171. These events are generated when a user clicks on or attempts to interact with an MSIX package, even if the package is not fully installed.
 

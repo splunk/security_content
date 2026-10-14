@@ -1,8 +1,8 @@
 name: O365
 id: b32de97d-0074-4cca-853c-db22c392b6c0
-version: 3
+version: 4
 creation_date: '2024-07-16'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs management activities in Microsoft 365, including administrative actions, user activities, and configuration changes across various services.
 mitre_components:
@@ -93,6 +93,5 @@ supported_TA:
     - name: Splunk Add-on for Microsoft Office 365
       url: https://splunkbase.splunk.com/app/4055
       version: 6.1.1
-
 example_log: |
     {"AppAccessContext": {"IssuedAtTime": "2023-10-17T19:13:05", "UniqueTokenId": "g7oAmNhLoU-8qJVeWeAwAA"}, "CreationTime": "2023-10-17T19:19:59", "Id": "3d26a8cd-d8f4-42f9-1898-08dbcf460e5a", "Operation": "New-ManagementRoleAssignment", "OrganizationId": "aeb12f6b-1ff3-4a18-9ea2-29aa57e2ae08", "RecordType": 1, "ResultStatus": "True", "UserKey": "1003BFFD98415B4E", "UserType": 2, "Version": 1, "Workload": "Exchange", "ClientIP": "71.1.1.1:61528", "ObjectId": "splunkresearch.onmicrosoft.com\\attack-test", "UserId": "compromisedAdmin@splunkresearch.onmicrosoft.com", "AppId": "fb78d390-0c51-40cd-8e17-fdbfab77341b", "ClientAppId": "", "ExternalAccess": false, "OrganizationName": "splunkresearch.onmicrosoft.com", "OriginatingServer": "BYAPR18MB2408 (15.20.6863.047)", "Parameters": [{"Name": "User", "Value": "lowpriv@splunkresearch.onmicrosoft.com"}, {"Name": "Name", "Value": "attack-test"}, {"Name": "Role", "Value": "ApplicationImpersonation"}], "RequestId": "53a50583-e429-63a4-c9f7-8fbb14437e8a", "SessionId": "e2a028f1-d0e1-4ddb-a5a7-ec57343457ad"}

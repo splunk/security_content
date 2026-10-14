@@ -1,8 +1,8 @@
 name: AWS CloudTrail UpdateLoginProfile
 id: 1db79158-e5d3-4d35-9d3c-586e44e09f1c
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when an IAM user's login profile is updated.
 mitre_components:

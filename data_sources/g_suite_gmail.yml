@@ -1,8 +1,8 @@
 name: G Suite Gmail
 id: 706c3978-41de-406b-b6e0-75bd01e12a5d
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs Gmail activities in G Suite, including email sending, receiving, and access details, as well as potential security-related events.
 mitre_components:

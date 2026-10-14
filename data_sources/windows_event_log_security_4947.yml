@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4947
 id: 63d4a2fa-a7dc-46d2-b702-54794e1f4d3c
-version: 3
+version: 4
 creation_date: '2025-03-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Teoderick Contreras, Splunk
 description: Data source object for Windows Event Log Security 4947
 source: XmlWinEventLog:Security

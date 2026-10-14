@@ -1,8 +1,8 @@
 name: Azure Active Directory Set domain authentication
 id: e7bcdab9-908c-40ab-ba38-5db54fa87750
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when the authentication method for a domain in Azure Active Directory is set or modified.
 mitre_components:

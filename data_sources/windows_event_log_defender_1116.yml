@@ -1,8 +1,8 @@
 name: Windows Event Log Defender 1116
 id: 588d6a99-14eb-4061-aec3-55cc54d11d6b
-version: 1
+version: 2
 creation_date: '2026-08-17'
-modification_date: '2026-08-17'
+modification_date: '2026-10-14'
 author: Onur Mustafa Erdogan, Splunk
 description: Logs an event when a Windows Defender detects a malware or potentially unwanted software.
 mitre_components:

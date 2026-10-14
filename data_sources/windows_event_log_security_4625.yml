@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4625
 id: 365a02c2-7d18-4baf-b76e-d90c20bbe6ed
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when an account fails to log on to a system.
 mitre_components:

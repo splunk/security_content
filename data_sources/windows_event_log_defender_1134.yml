@@ -1,8 +1,8 @@
 name: Windows Event Log Defender 1134
 id: 26abac7d-d026-44e9-b1a3-13e3e11b232d
-version: 3
+version: 4
 creation_date: '2025-02-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Splunk
 description: Data source object for Windows Event Log Defender 1134
 source: XmlWinEventLog:Security

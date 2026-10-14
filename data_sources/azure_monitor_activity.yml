@@ -1,8 +1,8 @@
 name: Azure Monitor Activity
 id: 1997a515-a61a-4f78-ada9-54af34c764f2
-version: 2
+version: 3
 creation_date: '2025-01-13'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Splunk
 description: Data source object for Azure Monitor Activity.  The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.  To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
 source: Azure AD

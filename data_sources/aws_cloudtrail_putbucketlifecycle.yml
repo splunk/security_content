@@ -1,8 +1,8 @@
 name: AWS CloudTrail PutBucketLifecycle
 id: 1c73e954-87b6-4bd7-ac6a-5db7c4082b22
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a lifecycle configuration is added to an S3 bucket in AWS CloudTrail.
 mitre_components:

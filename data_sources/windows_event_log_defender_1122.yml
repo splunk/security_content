@@ -1,8 +1,8 @@
 name: Windows Event Log Defender 1122
 id: 4a2d0499-f489-4557-82f4-f357025cf3e7
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a process attempts to load a DLL that is blocked by an attack surface reduction rule.
 mitre_components:

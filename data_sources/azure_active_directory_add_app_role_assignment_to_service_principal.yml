@@ -1,8 +1,8 @@
 name: Azure Active Directory Add app role assignment to service principal
 id: 8b2e84cd-6db0-47e9-badc-75c17df1995f
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the addition of an application role assignment to a service principal in Azure Active Directory, including details about the role, service principal, and the user or process performing the action.
 mitre_components:

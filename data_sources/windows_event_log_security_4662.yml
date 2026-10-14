@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4662
 id: f3c2cd64-0b5f-4013-8201-35dc03828ec6
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a user accessed an object within the Active Directory, such as creating, modifying, or deleting it
 mitre_components:

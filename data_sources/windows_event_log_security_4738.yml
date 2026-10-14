@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4738
 id: cb85709b-101e-41a9-bb60-d2108f79dfbd
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a user account's properties, such as permissions or memberships, are modified on a Windows system.
 mitre_components:

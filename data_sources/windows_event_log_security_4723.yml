@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4723
 id: df19b271-57c8-4f31-817a-6c5566985484
-version: 1
+version: 2
 creation_date: '2026-06-15'
-modification_date: '2026-06-15'
+modification_date: '2026-10-14'
 author: Raven Tait, Splunk
 description: Logs an event when an attempt is made to change an account's password, whether successful or not.
 mitre_components:

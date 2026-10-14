@@ -1,8 +1,8 @@
 name: O365 Disable Strong Authentication.
 id: 235381c4-382a-4183-b818-a51c3ce12187
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the disabling of strong authentication (e.g., multi-factor authentication) for a user or group in Microsoft 365, including details about the affected accounts and the action initiator.
 mitre_components:

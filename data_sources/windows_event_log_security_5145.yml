@@ -1,8 +1,8 @@
 name: Windows Event Log Security 5145
 id: 0746479b-7b82-4d7e-8811-0b35da00f798
-version: 5
+version: 6
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs detailed information about access to a network share, including the user, share path, accessed file, and access permissions.
 mitre_components:

@@ -1,8 +1,8 @@
 name: Linux Auditd Proctitle
 id: 5a25984a-2789-400a-858b-d75c923e06b1
-version: 3
+version: 4
 creation_date: '2024-08-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Teoderick Contreras, Splunk
 description: Logs the full command-line arguments of a process execution on a Linux system, providing visibility into the executed command and its parameters.
 mitre_components:

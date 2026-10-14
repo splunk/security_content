@@ -1,8 +1,8 @@
 name: Powershell Script Block Logging 4104
 id: 5cfd0c72-d989-47a0-92f9-6edc6f8d3564
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs detailed content of PowerShell script blocks as they are executed, including the full command text and context for the execution.
 mitre_components:

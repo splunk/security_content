@@ -1,8 +1,8 @@
 name: Windows Event Log Defender 1117
 id: c620d5f3-53d6-4697-abf5-b2c8434e7ff9
-version: 1
+version: 2
 creation_date: '2026-08-17'
-modification_date: '2026-08-17'
+modification_date: '2026-10-14'
 author: Onur Mustafa Erdogan, Splunk
 description: Logs an event when a Windows Defender takes an action against detected threat.
 mitre_components:

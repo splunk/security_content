@@ -1,8 +1,8 @@
 name: Azure Active Directory Sign-in activity
 id: f9ed0a3a-9e20-4198-a035-d0a29593fbe0
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a user attempts to sign into Azure Active Directory, capturing authentication details and outcomes.
 mitre_components:

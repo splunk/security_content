@@ -1,8 +1,8 @@
 name: Windows Event Log Application 8128
 id: 4491537e-5e0c-46f7-9209-f56f852aa237
-version: 2
+version: 3
 creation_date: '2025-02-25'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Michael Haag, Splunk
 description: Data source object for Windows Event Log Application 8128
 source: XmlWinEventLog:Application

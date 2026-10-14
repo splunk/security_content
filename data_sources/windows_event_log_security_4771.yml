@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4771
 id: 418debbb-adf3-48ec-9efd-59d45f8861e5
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs failed Kerberos pre-authentication attempts, including details about the user account, client IP, and failure reason.
 mitre_components:

@@ -1,8 +1,8 @@
 name: AWS Bedrock Claude
 id: b7c91d3a-ef52-4b8e-9c2d-ae047f6b3e21
-version: 1
+version: 2
 creation_date: '2026-05-20'
-modification_date: '2026-05-20'
+modification_date: '2026-10-14'
 author: Rod Soto, Splunk
 description: Amazon Bedrock model invocation logs for Claude models. Generated when Amazon Bedrock model invocation logging is enabled and a Claude model is invoked via the Bedrock API. Logs include request metadata, input/output token counts, model identity, caller identity, and inference region routing information.
 mitre_components:

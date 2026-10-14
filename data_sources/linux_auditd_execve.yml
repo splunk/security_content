@@ -1,8 +1,8 @@
 name: Linux Auditd Execve
 id: 9ef6364d-cc67-480e-8448-3306829a6a24
-version: 3
+version: 4
 creation_date: '2024-08-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Teoderick Contreras, Splunk
 description: Logs the execution of processes on a Linux system, including details about the executed command, arguments, and the initiating process.
 mitre_components:

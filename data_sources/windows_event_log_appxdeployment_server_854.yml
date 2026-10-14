@@ -1,8 +1,8 @@
 name: Windows Event Log AppXDeployment-Server 854
 id: 4d2e6f8a-c9b7-5a3e-8d1f-2e9c7b5a4f3d
-version: 2
+version: 3
 creation_date: '2025-08-18'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Michael Haag, Splunk
 description: 'This data source captures Windows Event Logs from the Microsoft-Windows-AppXDeploymentServer/Operational channel, specifically focusing on EventCode 854. These events are generated when an MSIX/AppX package has been successfully installed on a system.
 

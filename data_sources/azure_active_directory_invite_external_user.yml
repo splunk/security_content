@@ -1,8 +1,8 @@
 name: Azure Active Directory Invite external user
 id: d3818bd5-f283-4518-8b67-df19240c3e40
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when an external user is invited to join an Azure Active Directory tenant.
 mitre_components:

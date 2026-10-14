@@ -1,8 +1,8 @@
 name: AWS CloudTrail DeleteGroup
 id: c95308a4-a943-42ca-b112-f90a05c21bd3
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the deletion of an IAM group in AWS, including details about the group name and its associated policies or members.
 mitre_components:

@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4887
 id: 994c7b19-a623-4231-9818-f00e453b9a75
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs cryptographic operations performed by a Windows system, including details about the certificate or key used and the operation type.
 mitre_components:

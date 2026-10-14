@@ -1,8 +1,8 @@
 name: Windows Event Log Defender 1121
 id: 84a254c5-7900-4b52-a324-a176adb7c11d
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a Windows Defender attack surface reduction rule fires in block mode.
 mitre_components:

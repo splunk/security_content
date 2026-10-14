@@ -1,8 +1,8 @@
 name: AWS CloudTrail CreateSnapshot
 id: 514135a2-f4b2-4d32-8f31-d87824887f9f
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the creation of a new snapshot of a cloud resource, such as an Amazon EBS volume, including details about the snapshot ID and resource type.
 mitre_components:

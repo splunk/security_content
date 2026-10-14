@@ -1,8 +1,8 @@
 name: O365 Set Company Information.
 id: 06c6d576-f032-41e3-b15d-80a434ce13d8
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs updates to organizational settings and company information in Microsoft 365, including changes to contact details, branding, and configuration policies.
 mitre_components:
