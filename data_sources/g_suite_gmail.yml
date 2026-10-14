@@ -22,8 +22,6 @@ fields:
     - attachment{}.file_extension_type
     - attachment{}.malware_family
     - attachment{}.sha256
-    - connection_info.authenticated_domain{}.name
-    - connection_info.authenticated_domain{}.type
     - connection_info.client_host_zone
     - connection_info.client_ip
     - connection_info.dkim_pass

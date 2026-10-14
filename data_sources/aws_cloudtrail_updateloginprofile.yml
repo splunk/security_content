@@ -20,18 +20,10 @@ fields:
     - _time
     - action
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
     - dest
     - dvc
     - errorCode
@@ -41,8 +33,8 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -64,13 +56,19 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - status
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - timestamp
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -79,13 +77,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

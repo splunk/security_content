@@ -20,8 +20,9 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
+    - change_type
     - command
     - date_hour
     - date_mday
@@ -40,8 +41,8 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -87,7 +88,12 @@ fields:
     - tag::eventtype
     - timeendpos
     - timestartpos
-    - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -102,13 +108,6 @@ fields:
     - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

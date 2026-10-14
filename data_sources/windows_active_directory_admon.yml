@@ -19,37 +19,37 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - Guid
-    - IMPHASH
-    - MD5
-    - Name
-    - ProcessID
-    - SHA256
-    - SystemTime
-    - ThreadID
-    - UserID
     - admonEventType
     - cn
-    - dSCorePropagationData
     - dcName
     - displayName
     - distinguishedName
+    - dSCorePropagationData
     - eventtype
     - gPCMachineExtensionNames
+    - Guid
     - guid_lookup
     - host
+    - IMPHASH
     - index
     - instanceType
     - linecount
+    - MD5
+    - Name
     - name
     - objectCategory
     - objectClass
     - objectGUID
+    - ProcessID
     - punct
+    - SHA256
     - source
     - sourcetype
     - splunk_server
+    - SystemTime
+    - ThreadID
     - timestamp
+    - UserID
     - uSNChanged
     - uSNCreated
     - whenChanged

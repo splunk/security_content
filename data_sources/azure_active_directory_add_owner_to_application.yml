@@ -20,10 +20,16 @@ supported_TA:
       version: 6.3.3
 fields:
     - _time
-    - Level
+    - action
+    - additional_details
+    - additional_details_name
+    - additional_details_value
     - callerIpAddress
     - category
+    - change_type
+    - command
     - correlationId
+    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -32,13 +38,23 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - dest
+    - dest_type
     - durationMs
+    - dvc
     - eventtype
     - host
+    - id
     - index
+    - Level
     - linecount
+    - object
+    - object_attrs
+    - object_category
+    - object_id
     - operationName
     - operationVersion
+    - path_from_resourceId
     - properties.activityDateTime
     - properties.activityDisplayName
     - properties.additionalDetails{}.key
@@ -64,16 +80,31 @@ fields:
     - properties.userAgent
     - punct
     - resourceId
+    - result
+    - result_id
     - resultSignature
+    - signature
     - source
     - sourcetype
     - splunk_server
+    - src
+    - src_ip
+    - src_user
+    - src_user_name
+    - src_user_type
+    - status
     - tag
     - tag::eventtype
     - tenantId
     - time
     - timeendpos
     - timestartpos
+    - user
+    - user_agent
+    - user_name
+    - user_type
+    - vendor_account
+    - vendor_product
 output_fields:
     - dest
     - user

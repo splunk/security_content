@@ -18,74 +18,76 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
+    - action
     - ActivityID
+    - app
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - Computer
+    - dest
+    - dest_nt_domain
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
+    - event_time
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
-    - Guid
-    - Keywords
-    - Level
-    - Logon_ID
-    - Name
-    - Opcode
-    - PrivilegeList
-    - ProcessID
-    - RecordNumber
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - Version
-    - action
-    - app
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
     - eventtype
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
+    - Logon_ID
+    - meta
+    - Name
     - name
+    - Opcode
+    - PrivilegeList
+    - ProcessID
     - product
     - punct
+    - RecordNumber
     - session_id
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
     - sourcetype
     - splunk_server
+    - src
     - src_nt_domain
+    - src_subject_user_id
     - src_user
+    - src_user_id
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - user
+    - user_id
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
 example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4672</EventID><Version>0</Version><Level>0</Level><Task>12548</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-03-27T18:35:15.439521100Z'/><EventRecordID>148946</EventRecordID><Correlation ActivityID='{a51712a7-60c1-0000-3513-17a5c160d901}'/><Execution ProcessID='624' ThreadID='728'/><Channel>Security</Channel><Computer>ar-win-6.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\REED_MORSE</Data><Data Name='SubjectUserName'>REED_MORSE</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x509b11</Data><Data Name='PrivilegeList'>SeSecurityPrivilege

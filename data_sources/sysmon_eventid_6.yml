@@ -21,40 +21,9 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
     - Channel
     - Computer
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - Guid
-    - Hashes
-    - ImageLoaded
-    - Keywords
-    - Level
-    - MD5
-    - Name
-    - Opcode
-    - ProcessID
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SHA256
-    - SecurityID
-    - Signature
-    - SignatureStatus
-    - Signed
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - TimeCreated
-    - UserID
-    - UtcTime
-    - Version
-    - action
     - date_hour
     - date_mday
     - date_minute
@@ -64,30 +33,66 @@ fields:
     - date_year
     - date_zone
     - dest
+    - dvc
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
+    - Hashes
     - host
     - id
+    - ImageLoaded
+    - IMPHASH
     - index
+    - Keywords
+    - Level
     - linecount
+    - MD5
+    - Name
+    - Opcode
     - os
     - process_hash
     - process_path
+    - ProcessID
     - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
     - service_signature_exists
     - service_signature_verified
+    - severity
+    - severity_id
+    - SHA256
+    - Signature
     - signature
     - signature_id
+    - SignatureStatus
+    - Signed
     - source
     - sourcetype
     - splunk_server
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
+    - Task
+    - TaskCategory
+    - ThreadID
+    - TimeCreated
     - timeendpos
     - timestartpos
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - dest
     - dvc

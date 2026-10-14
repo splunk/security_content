@@ -27,8 +27,8 @@ fields:
     - additionalEventData.MobileVersion
     - app
     - authentication_method
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - command
     - date_hour
     - date_mday
@@ -49,8 +49,8 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -83,16 +83,22 @@ fields:
     - tlsDetails.cipherSuite
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
+    - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
+    - userIdentity.arn
+    - userIdentity.principalId
     - userIdentity.type
     - userIdentity.userName
-    - user_access_key
-    - user_agent
-    - user_group_id
-    - user_name
-    - user_type
+    - userName
     - vendor
     - vendor_account
     - vendor_product

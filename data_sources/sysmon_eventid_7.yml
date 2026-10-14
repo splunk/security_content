@@ -22,50 +22,10 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
     - Channel
     - Company
     - Computer
-    - Description
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - FileVersion
-    - Guid
-    - Hashes
-    - IMPHASH
-    - Image
-    - ImageLoaded
-    - Keywords
-    - Level
-    - MD5
-    - Name
-    - Opcode
-    - OriginalFileName
-    - ProcessGuid
-    - ProcessID
-    - ProcessId
-    - Product
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SHA256
-    - SecurityID
-    - Signature
-    - SignatureStatus
-    - Signed
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - TimeCreated
-    - User
-    - UserID
-    - UtcTime
-    - Version
-    - action
     - date_hour
     - date_mday
     - date_minute
@@ -74,40 +34,84 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - Description
     - dest
+    - dvc
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
     - eventtype
+    - FileVersion
+    - Guid
+    - Hashes
     - host
     - id
+    - Image
+    - ImageLoaded
+    - IMPHASH
     - index
+    - Keywords
+    - Level
     - linecount
+    - loaded_file
+    - loaded_file_path
+    - MD5
+    - Name
+    - Opcode
+    - original_file_name
+    - OriginalFileName
     - os
-    - parent_process_exec
-    - parent_process_guid
-    - parent_process_id
-    - parent_process_name
-    - parent_process_path
     - process_exec
+    - process_guid
     - process_hash
+    - process_id
     - process_name
     - process_path
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
+    - Product
     - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
     - service_dll_signature_exists
     - service_dll_signature_verified
+    - severity
+    - severity_id
+    - SHA256
+    - Signature
     - signature
     - signature_id
+    - SignatureStatus
+    - Signed
     - source
     - sourcetype
     - splunk_server
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::action
     - tag::eventtype
+    - Task
+    - TaskCategory
+    - ThreadID
+    - TimeCreated
     - timeendpos
     - timestartpos
+    - User
     - user
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - Image
     - ImageLoaded

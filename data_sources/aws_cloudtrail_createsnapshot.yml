@@ -20,9 +20,10 @@ supported_TA:
       version: 8.2.2
 fields:
     - _time
+    - action
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
     - date_hour
@@ -42,14 +43,17 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
     - managementEvent
     - msg
+    - object
+    - object_attrs
     - object_category
+    - object_id
     - product
     - punct
     - readOnly
@@ -77,7 +81,9 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
+    - status
     - tag
     - tag::eventtype
     - timeendpos
@@ -86,6 +92,12 @@ fields:
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -94,13 +106,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

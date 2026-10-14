@@ -104,10 +104,10 @@ fields:
     - status
     - status.localizedValue
     - status.value
-    - subStatus.localizedValue
-    - subStatus.value
     - submissionTimestamp
     - subscriptionId
+    - subStatus.localizedValue
+    - subStatus.value
     - timeendpos
     - timestartpos
     - user

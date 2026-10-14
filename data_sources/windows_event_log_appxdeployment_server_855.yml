@@ -21,29 +21,117 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/742
       version: 11.0.3
 fields:
+    - _time
+    - action
+    - ActivityID
+    - CallingProcess
+    - CallOrigin
     - CategoryString
     - Channel
     - Computer
-    - Correlation
+    - DependencyPaths
+    - DeploymentOperation
+    - DeploymentOptions
+    - DestinationFolderPath
+    - DetailedMessageInfo
+    - directlyServicedPackagesList
+    - dvc
+    - dvc_nt_host
+    - Error
+    - ErrorCode
+    - ErrorCount
+    - ErrorFileInfo
+    - event_id
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
+    - FailedDeploymentState
+    - filename
+    - FilePath
+    - Flags
+    - FlagsHigh
+    - forceUpdateDeferredByPackage
+    - Guid
+    - HasFullTrust
+    - HasWin32alacarte
+    - host
+    - id
+    - index
+    - indirectlyServicedPackagesList
+    - IsCentennial
+    - IsInPlaceUpdate
+    - IsInRelatedSet
+    - IsOptional
+    - IsPackageEncrypted
+    - IsPackageUsingBDC
+    - isSessionLocked
+    - IsStreamingPackage
     - Keywords
     - Level
+    - linecount
+    - MainPackageFamilyName
+    - MainPackageFullName
+    - MainPackageMoniker
+    - Message
+    - MountPoint
+    - Name
+    - name
+    - namespace
+    - numAttempts
     - Opcode
+    - PackageDisplayName
+    - PackageFlags
+    - PackageFlags2
+    - PackageFullName
+    - packageFullName
+    - PackageList
     - PackageMoniker
+    - PackageName
+    - PackageSourceUri
+    - PackageType
+    - Path
     - ProcessID
-    - Provider
-    - ProviderGuid
+    - punct
+    - RecordNumber
+    - RequeueReason
+    - ResiliencyFilePath
+    - RollbackDetailedMessageInfo
+    - RollbackErrorFileInfo
+    - runningAppsList
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - SourceFolderPath
+    - sourcetype
+    - splunk_server
+    - StatusToClear
+    - StatusToSet
+    - StorageId
+    - String
+    - subject
+    - subjectName
+    - Summary
+    - SummaryError
+    - System_Props_Xml
+    - SystemTime
+    - SystemVolume
+    - tag
+    - tag::eventtype
+    - TargetPlatform
     - Task
+    - TaskCategory
     - ThreadID
-    - TimeCreated
-    - Version
-    - _time
-    - dest
-    - host
+    - timestamp
     - user_id
+    - UserID
+    - UserSid
+    - userSid
+    - vendor_product
+    - Version
 output_fields:
     - _time
     - dest

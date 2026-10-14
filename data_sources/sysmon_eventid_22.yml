@@ -22,6 +22,8 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - answer
+    - answer_count
     - Channel
     - Computer
     - date_hour
@@ -32,6 +34,7 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - dvc
     - dvc_nt_host
     - event_id
     - EventChannel
@@ -69,6 +72,8 @@ fields:
     - reply_code_id
     - RuleName
     - SecurityID
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
@@ -84,6 +89,8 @@ fields:
     - TimeCreated
     - timeendpos
     - timestartpos
+    - user
+    - User
     - user_id
     - UserID
     - UtcTime

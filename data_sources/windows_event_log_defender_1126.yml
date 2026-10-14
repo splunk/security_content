@@ -15,88 +15,91 @@ supported_TA:
 fields:
     - _time
     - ActivityID
-    - CategoryString
+    - category
     - Channel
     - Computer
+    - ComputerName
+    - date
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
     - Detection_Time
+    - Detection_time
+    - dvc
+    - dvc_nt_host
     - Engine_Version
+    - event_id
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - EventType
+    - eventtype
+    - file_name
+    - file_path
     - Guid
+    - host
     - ID
-    - Image_File_Name
+    - id
+    - index
+    - Inheritance_Flags
     - Inhertiance_Flags
     - Involved_File
     - Keywords
     - Level
+    - linecount
+    - LogName
     - Message
+    - meta
     - Name
+    - New_Value
+    - New_value
+    - Old_Value
+    - Old_value
+    - OpCode
     - Opcode
     - Parent_Commandline
     - Path
-    - ProcessID
     - Process_Name
+    - ProcessID
     - Product_Name
     - Product_Version
+    - product_version
+    - punct
     - RecordNumber
-    - RenderingInfo_Xml
     - RuleType
     - Security_intelligence_Version
-    - SourceName
-    - SubStatus
-    - SystemTime
-    - System_Props_Xml
-    - Target_Commandline
-    - Task
-    - TaskCategory
-    - ThreadID
-    - Unused
-    - User
-    - UserID
-    - Version
-    - action
-    - category
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - host
-    - id
-    - index
-    - linecount
-    - name
-    - parent_process
-    - process_name
-    - punct
-    - result
-    - service
-    - service_id
-    - service_name
     - severity
     - severity_id
+    - Sid
+    - SidType
     - signature
     - signature_id
     - source
     - sourcetype
     - splunk_server
-    - splunk_server_group
-    - subject
+    - System_Props_Xml
+    - SystemTime
     - tag
-    - tag::action
     - tag::eventtype
+    - Target_Commandline
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timeendpos
     - timestamp
-    - user_group_id
+    - timestartpos
+    - Type
+    - User
+    - user
     - user_id
+    - UserID
     - vendor_product
-    - _bkt
-    - _cd
-    - _eventtype_color
-    - _indextime
-    - _pre_msg
-    - _raw
-    - _serial
-    - _si
-    - _sourcetype
+    - Version
 example_log: ''

@@ -22,29 +22,22 @@ fields:
     - _time
     - action
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
     - dest
     - dvc
     - errorCode
+    - errorMessage
     - eventCategory
     - eventID
     - eventName
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -54,15 +47,19 @@ fields:
     - product
     - punct
     - readOnly
+    - reason
     - recipientAccountId
     - region
     - requestID
     - requestParameters.policyArn
     - requestParameters.policyDocument
     - requestParameters.setAsDefault
+    - responseElements
     - responseElements.policyVersion.createDate
     - responseElements.policyVersion.isDefaultVersion
     - responseElements.policyVersion.versionId
+    - result
+    - result_id
     - signature
     - source
     - sourceIPAddress
@@ -70,13 +67,19 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - status
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - timestamp
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -85,13 +88,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

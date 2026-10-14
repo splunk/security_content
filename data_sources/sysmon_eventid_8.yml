@@ -21,43 +21,9 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
     - Channel
     - Computer
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - Guid
-    - Keywords
-    - Level
-    - Name
-    - NewThreadId
-    - Opcode
-    - ProcessID
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SecurityID
-    - SourceImage
-    - SourceProcessGuid
-    - SourceProcessId
-    - StartAddress
-    - StartFunction
-    - StartModule
-    - SystemTime
-    - System_Props_Xml
-    - TargetImage
-    - TargetProcessGuid
-    - TargetProcessId
-    - Task
-    - ThreadID
-    - TimeCreated
-    - UserID
-    - UtcTime
-    - Version
-    - action
     - date_hour
     - date_mday
     - date_minute
@@ -67,13 +33,27 @@ fields:
     - date_year
     - date_zone
     - dest
+    - dvc
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
+    - loaded_file
+    - Name
+    - NewThreadId
+    - Opcode
     - os
     - parent_process_exec
     - parent_process_guid
@@ -85,21 +65,46 @@ fields:
     - process_id
     - process_name
     - process_path
+    - ProcessID
     - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
+    - SourceImage
+    - SourceProcessGuid
+    - SourceProcessId
     - sourcetype
     - splunk_server
     - src_address
     - src_function
     - src_module
+    - StartAddress
+    - StartFunction
+    - StartModule
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
+    - TargetImage
+    - TargetProcessGuid
+    - TargetProcessId
+    - Task
+    - TaskCategory
+    - ThreadID
+    - TimeCreated
     - timeendpos
     - timestartpos
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - dest
     - signature_id

@@ -30,18 +30,23 @@ fields:
     - date_year
     - date_zone
     - dest
+    - dest_dns
     - dvc
     - eventtype
     - host
     - index
     - linecount
+    - name
     - pid
     - process
     - punct
+    - reason
+    - signature
     - source
     - sourcetype
     - splunk_server
     - src
+    - src_ip
     - src_port
     - sshd_protocol
     - tag
@@ -49,6 +54,7 @@ fields:
     - tag::eventtype
     - timeendpos
     - timestartpos
+    - uid
     - user
     - user_name
     - vendor_action

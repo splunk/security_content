@@ -14,6 +14,73 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
+    - action
+    - app
+    - Caller_User_Name
+    - change_type
+    - Channel
+    - Computer
+    - dest
+    - dvc
+    - dvc_nt_host
+    - Error_Code
+    - event_id
+    - event_time
+    - EventCode
+    - EventID
+    - EventRecordID
+    - eventtype
+    - Guid
+    - host
+    - id
+    - index
+    - Keywords
+    - Level
+    - linecount
+    - LogFileCleared_Xml
+    - Name
+    - name
+    - object
+    - object_attrs
+    - object_category
+    - Opcode
+    - ProcessID
+    - product
+    - punct
+    - RecordNumber
+    - result
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - src_user
+    - status
+    - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
+    - ta_windows_action
+    - tag
+    - tag::eventtype
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - user
+    - user_data_channel
+    - user_id
+    - user_name
+    - UserData_Xml
+    - UserID
+    - vendor
+    - vendor_product
+    - Version
 output_fields:
     - dest
 example_log: ''

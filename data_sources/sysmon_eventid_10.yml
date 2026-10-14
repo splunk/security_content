@@ -21,42 +21,10 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
     - CallTrace
     - Channel
     - Computer
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - GrantedAccess
-    - Guid
-    - Keywords
-    - Level
-    - Name
-    - Opcode
-    - ProcessID
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SecurityID
-    - SourceImage
-    - SourceProcessGUID
-    - SourceProcessId
-    - SourceThreadId
-    - SystemTime
-    - System_Props_Xml
-    - TargetImage
-    - TargetProcessGUID
-    - TargetProcessId
-    - Task
-    - ThreadID
-    - TimeCreated
-    - UserID
-    - UtcTime
-    - Version
-    - action
     - date_hour
     - date_mday
     - date_minute
@@ -69,12 +37,25 @@ fields:
     - dvc
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
     - eventtype
     - granted_access
+    - granted_access_description
+    - GrantedAccess
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
+    - Name
+    - Opcode
     - os
     - parent_process_exec
     - parent_process_guid
@@ -86,18 +67,44 @@ fields:
     - process_id
     - process_name
     - process_path
+    - ProcessID
     - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
+    - SourceImage
+    - SourceProcessGUID
+    - SourceProcessId
+    - SourceThreadId
     - sourcetype
+    - SourceUser
     - splunk_server
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
+    - TargetImage
+    - TargetProcessGUID
+    - TargetProcessId
+    - TargetUser
+    - Task
+    - TaskCategory
+    - ThreadID
+    - TimeCreated
     - timeendpos
     - timestartpos
+    - user
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - dest
     - user_id

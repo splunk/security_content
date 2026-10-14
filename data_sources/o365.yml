@@ -14,6 +14,82 @@ mitre_components:
 source: o365
 sourcetype: o365:management:activity
 separator: Operation
+
+fields:
+    - _time
+    - action
+    - app
+    - AppAccessContext.IssuedAtTime
+    - AppAccessContext.UniqueTokenId
+    - AppId
+    - authentication_service
+    - change_type
+    - ClientAppId
+    - ClientIP
+    - command
+    - CreationTime
+    - dataset_name
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dest_name
+    - dvc
+    - eventtype
+    - ExternalAccess
+    - host
+    - Id
+    - index
+    - linecount
+    - Name
+    - object
+    - object_attrs
+    - object_category
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
+    - OrganizationName
+    - OriginatingServer
+    - Parameters{}.Name
+    - Parameters{}.Value
+    - Params
+    - punct
+    - record_type
+    - RecordType
+    - RequestId
+    - result
+    - ResultStatus
+    - Role
+    - SessionId
+    - signature
+    - source
+    - sourcetype
+    - splunk_server
+    - src
+    - src_ip
+    - status
+    - tag
+    - tag::eventtype
+    - tenant_id
+    - timeendpos
+    - timestartpos
+    - User
+    - user
+    - user_id
+    - user_type
+    - UserId
+    - UserKey
+    - UserType
+    - vendor_account
+    - vendor_product
+    - Version
+    - Workload
 supported_TA:
     - name: Splunk Add-on for Microsoft Office 365
       url: https://splunkbase.splunk.com/app/4055

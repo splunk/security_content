@@ -20,8 +20,8 @@ fields:
     - _time
     - apiVersion
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - command
     - date_hour
     - date_mday
@@ -34,14 +34,15 @@ fields:
     - dest
     - dvc
     - errorCode
+    - errorMessage
     - eventCategory
     - eventID
     - eventName
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -51,12 +52,16 @@ fields:
     - product
     - punct
     - readOnly
+    - reason
     - recipientAccountId
     - region
     - requestID
     - requestParameters.changeToken
     - requestParameters.webACLId
+    - responseElements
     - responseElements.changeToken
+    - result
+    - result_id
     - signature
     - source
     - sourceIPAddress
@@ -64,6 +69,7 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - tag
     - tag::eventtype
@@ -73,6 +79,12 @@ fields:
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -81,13 +93,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

@@ -17,100 +17,104 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - Account_Domain
-    - Account_Expires
-    - Account_Name
-    - Allowed_To_Delegate_To
-    - CategoryString
-    - ComputerName
-    - Display_Name
-    - Error_Code
-    - EventCode
-    - EventType
-    - Home_Directory
-    - Home_Drive
-    - Keywords
-    - LogName
-    - Logon_Hours
-    - Logon_ID
-    - MSADChangedAttributes
-    - Message
-    - New_UAC_Value
-    - Old_UAC_Value
-    - OpCode
-    - Password_Last_Set
-    - Primary_Group_ID
-    - Profile_Path
-    - RecordNumber
-    - SAM_Account_Name
-    - SID_History
-    - Script_Path
-    - Security_ID
-    - SourceName
-    - Subject_Account_Domain
-    - Subject_Account_Name
-    - Subject_Logon_ID
-    - Subject_Security_ID
-    - TaskCategory
-    - Type
-    - User_Parameters
-    - User_Principal_Name
-    - User_Workstations
+    - AccountExpires
     - action
+    - AllowedToDelegateTo
     - app
-    - body
-    - category
+    - Caller_Domain
+    - Caller_User_Name
+    - CategoryString
     - change_type
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - Channel
+    - Computer
     - dest
     - dest_nt_domain
-    - dest_nt_host
+    - DisplayName
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
+    - HomeDirectory
+    - HomePath
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
-    - member_dn
-    - member_id
-    - member_nt_domain
-    - msad_action
+    - Logon_ID
+    - LogonHours
+    - Name
     - name
+    - NewUacValue
+    - object
+    - object_attrs
     - object_category
+    - object_id
+    - OldUacValue
+    - Opcode
+    - PasswordLastSet
+    - PrimaryGroupId
+    - PrivilegeList
+    - ProcessID
     - product
+    - ProfilePath
     - punct
+    - RecordNumber
     - result
+    - SamAccountName
+    - ScriptPath
     - session_id
     - severity
     - severity_id
+    - SidHistory
     - signature
     - signature_id
     - source
     - sourcetype
     - splunk_server
     - src_nt_domain
+    - src_subject_user_id
     - src_user
+    - src_user_name
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - ta_windows_security_CategoryString
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Target_Domain
+    - Target_User_Name
+    - TargetDomainName
+    - TargetSid
+    - TargetUserName
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - user
-    - user_group_id
+    - user_group
+    - user_name
+    - UserAccountControl
+    - UserParameters
+    - UserPrincipalName
+    - UserWorkstations
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
 example_log: 10/09/2020 10:41:26 AM

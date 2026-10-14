@@ -20,7 +20,6 @@ supported_TA:
       version: 6.3.3
 fields:
     - _time
-    - Level
     - additional_details
     - additional_details_name
     - additional_details_value
@@ -44,6 +43,7 @@ fields:
     - id
     - identity
     - index
+    - Level
     - linecount
     - object_attrs
     - object_id
@@ -57,34 +57,38 @@ fields:
     - properties.category
     - properties.correlationId
     - properties.id
+    - properties.identity
     - properties.initiatedBy.app.appId
     - properties.initiatedBy.app.displayName
     - properties.initiatedBy.app.servicePrincipalId
     - properties.initiatedBy.app.servicePrincipalName
     - properties.loggedByService
+    - properties.operationName
     - properties.operationType
     - properties.result
+    - properties.resultDescription
     - properties.resultReason
+    - properties.resultType
     - properties.targetResources{}.displayName
     - properties.targetResources{}.id
     - properties.targetResources{}.modifiedProperties{}.displayName
     - properties.targetResources{}.modifiedProperties{}.newValue
     - properties.targetResources{}.modifiedProperties{}.oldValue
     - properties.targetResources{}.type
+    - properties.tenantGeo
+    - properties.tenantId
     - properties.userAgent
     - punct
     - resourceId
     - result
-    - resultSignature
     - result_id
+    - resultSignature
     - signature
     - source
     - sourcetype
     - splunk_server
     - src_user_type
     - status
-    - tag
-    - tag::eventtype
     - tenantId
     - time
     - timeendpos

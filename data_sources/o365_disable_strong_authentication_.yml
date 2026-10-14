@@ -24,67 +24,64 @@ fields:
     - ActorIpAddress
     - Actor{}.ID
     - Actor{}.Type
-    - AzureActiveDirectoryEventType
-    - ClientIP
-    - CreationTime
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - ModifiedProperties{}.Name
-    - ModifiedProperties{}.NewValue
-    - ModifiedProperties{}.OldValue
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - ResultStatus
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
     - additionalDetails
     - app
     - authentication_service
+    - AzureActiveDirectoryEventType
+    - ClientIP
     - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - CreationTime
     - dest
     - dest_name
     - dvc
     - event_type
-    - extendedAuditEventCategory
     - extended_properties
+    - extendedAuditEventCategory
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
     - linecount
+    - modified_properties
+    - modified_properties_name
+    - modified_properties_new_value
+    - ModifiedProperties{}.Name
+    - ModifiedProperties{}.NewValue
+    - ModifiedProperties{}.OldValue
     - object
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
     - signature
     - source
     - sourcetype
     - splunk_server
     - status
-    - timeendpos
-    - timestartpos
+    - SupportTicketId
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
+    - timestamp
     - user
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

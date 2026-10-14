@@ -22,65 +22,54 @@ fields:
     - _time
     - AccessList
     - AccessMask
+    - action
+    - app
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - Computer
+    - dest
+    - dest_nt_domain
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
+    - event_time
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
+    - file_name
+    - file_path
     - Guid
+    - host
+    - id
+    - index
     - IpAddress
     - IpPort
     - Keywords
     - Level
+    - linecount
     - Logon_ID
     - Name
+    - name
     - ObjectType
     - Opcode
     - ProcessID
-    - RecordNumber
-    - ShareName
-    - Source_Port
-    - Source_Workstation
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - Version
-    - action
-    - app
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - file_name
-    - host
-    - id
-    - index
-    - linecount
-    - name
     - product
     - punct
+    - RecordNumber
     - session_id
+    - severity
+    - severity_id
+    - ShareLocalPath
+    - ShareName
     - signature
     - signature_id
     - source
+    - Source_Port
+    - Source_Workstation
     - sourcetype
     - splunk_server
     - src
@@ -88,17 +77,28 @@ fields:
     - src_nt_domain
     - src_nt_host
     - src_port
+    - src_subject_user_id
     - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - user
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
 field_mappings:

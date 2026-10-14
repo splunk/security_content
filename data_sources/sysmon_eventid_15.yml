@@ -36,6 +36,7 @@ fields:
     - date_year
     - date_zone
     - dest
+    - dvc
     - dvc_nt_host
     - event_id
     - EventChannel
@@ -76,6 +77,8 @@ fields:
     - RecordNumber
     - RuleName
     - SecurityID
+    - severity
+    - severity_id
     - SHA256
     - signature
     - signature_id
@@ -88,11 +91,14 @@ fields:
     - tag::eventtype
     - TargetFilename
     - Task
+    - TaskCategory
     - ThreadID
     - TimeCreated
     - timeendpos
+    - timestamp
     - timestartpos
     - user
+    - User
     - user_id
     - UserID
     - UtcTime

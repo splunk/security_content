@@ -15,14 +15,62 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
+    - action
+    - ActivityID
+    - app
+    - Channel
+    - Computer
+    - dest
+    - dvc
+    - dvc_nt_host
+    - Error_Code
+    - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
+    - Guid
+    - host
+    - id
+    - index
+    - Keywords
+    - Level
+    - linecount
+    - Name
+    - name
+    - object_attrs
+    - Opcode
     - ProcessID
-    - ThreadID
-    - Computer
+    - product
     - ProfileChanged
-    - RuleName
+    - punct
+    - RecordNumber
     - RuleId
+    - RuleName
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - status
+    - subject
+    - System_Props_Xml
+    - SystemTime
+    - ta_windows_action
+    - tag
+    - tag::action
+    - tag::eventtype
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - vendor
+    - vendor_product
+    - Version
 output_fields:
     - RuleName
     - signature

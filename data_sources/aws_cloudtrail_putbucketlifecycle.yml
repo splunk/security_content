@@ -19,14 +19,15 @@ supported_TA:
 fields:
     - _time
     - additionalEventData.AuthenticationMethod
-    - additionalEventData.CipherSuite
-    - additionalEventData.SignatureVersion
     - additionalEventData.bytesTransferredIn
     - additionalEventData.bytesTransferredOut
+    - additionalEventData.CipherSuite
+    - additionalEventData.SignatureVersion
     - additionalEventData.x-amz-id-2
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
+    - change_type
     - command
     - date_hour
     - date_mday
@@ -45,6 +46,7 @@ fields:
     - eventSource
     - eventTime
     - eventType
+    - eventtype
     - eventVersion
     - host
     - index
@@ -60,16 +62,17 @@ fields:
     - recipientAccountId
     - region
     - requestID
+    - requestParameters.bucketName
     - requestParameters.Host
+    - requestParameters.lifecycle
     - requestParameters.LifecycleConfiguration.Rule.Expiration.Days
+    - requestParameters.LifecycleConfiguration.Rule.Filter
     - requestParameters.LifecycleConfiguration.Rule.Filter.Prefix
     - requestParameters.LifecycleConfiguration.Rule.ID
     - requestParameters.LifecycleConfiguration.Rule.Status
     - requestParameters.LifecycleConfiguration.xmlns
-    - requestParameters.bucketName
-    - requestParameters.lifecycle
-    - resources{}.ARN
     - resources{}.accountId
+    - resources{}.ARN
     - resources{}.type
     - responseElements
     - signature
@@ -79,32 +82,42 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
+    - tag
+    - tag::eventtype
     - timeendpos
     - timestartpos
     - tlsDetails.cipherSuite
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
     - userIdentity.arn
     - userIdentity.principalId
+    - userIdentity.sessionContext.attributes.creationDate
+    - userIdentity.sessionContext.attributes.mfaAuthenticated
+    - userIdentity.sessionContext.sessionIssuer.accountId
+    - userIdentity.sessionContext.sessionIssuer.arn
+    - userIdentity.sessionContext.sessionIssuer.principalId
+    - userIdentity.sessionContext.sessionIssuer.type
+    - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
     - vendor_region
+    - vpcEndpointId
 output_fields:
     - dest
     - user

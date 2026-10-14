@@ -19,8 +19,8 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
     - date_hour
@@ -55,6 +55,7 @@ fields:
     - requestID
     - requestParameters.attributeType
     - requestParameters.imageId
+    - requestParameters.launchPermission.add.items{}.group
     - requestParameters.launchPermission.add.items{}.userId
     - responseElements._return
     - responseElements.requestId
@@ -69,7 +70,12 @@ fields:
     - start_time
     - timeendpos
     - timestartpos
-    - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -84,13 +90,6 @@ fields:
     - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

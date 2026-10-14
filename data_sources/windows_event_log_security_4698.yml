@@ -18,57 +18,50 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - Account_Domain
-    - Account_Name
-    - ComputerName
-    - Error_Code
-    - EventCode
-    - EventType
-    - Keywords
-    - LogName
-    - Logon_ID
-    - Message
-    - OpCode
-    - RecordNumber
-    - Security_ID
-    - SourceName
-    - Subject_Account_Domain
-    - Subject_Account_Name
-    - Subject_Logon_ID
-    - Subject_Security_ID
-    - TaskCategory
-    - Task_Content
-    - Task_Name
-    - Type
     - action
+    - ActivityID
     - app
-    - body
-    - category
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - Caller_Domain
+    - Caller_User_Name
+    - change_type
+    - Channel
+    - ClientProcessId
+    - ClientProcessStartKey
+    - Computer
     - dest
     - dest_nt_domain
-    - dest_nt_host
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
     - eventtype
+    - FQDN
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
-    - member_dn
-    - member_id
-    - member_nt_domain
+    - Logon_ID
+    - Name
     - name
+    - object
+    - object_attrs
+    - object_category
+    - Opcode
+    - ParentProcessId
+    - ProcessID
     - product
     - punct
+    - RecordNumber
+    - result
+    - RpcCallClientLocality
     - session_id
     - severity
     - severity_id
@@ -78,17 +71,30 @@ fields:
     - sourcetype
     - splunk_server
     - src_nt_domain
+    - src_subject_user_id
+    - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
-    - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - TaskContent
+    - TaskName
+    - ThreadID
+    - timestamp
     - user
+    - user_name
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
 example_log: 04/26/2022 11:12:09 AM

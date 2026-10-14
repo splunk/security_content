@@ -21,11 +21,39 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/833
       version: 10.3.4
 fields:
-    - type
-    - op
-    - res
+    - _time
     - auid
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - eventtype
+    - format
+    - host
+    - index
+    - kernel
+    - linecount
+    - msg
+    - op
     - pid
+    - punct
+    - res
+    - ses
+    - source
+    - sourcetype
+    - splunk_server
+    - subj
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - type
+    - uid
+    - ver
 output_fields:
     - op
     - res

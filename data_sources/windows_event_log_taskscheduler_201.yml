@@ -14,6 +14,51 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
+    - ActionName
+    - ActivityID
+    - Channel
+    - Computer
+    - dvc
+    - dvc_nt_host
+    - EnginePID
+    - event_id
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - eventtype
+    - Guid
+    - host
+    - id
+    - index
+    - Keywords
+    - Level
+    - linecount
+    - Name
+    - Opcode
+    - ProcessID
+    - punct
+    - RecordNumber
+    - severity
+    - severity_id
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - System_Props_Xml
+    - SystemTime
+    - tag
+    - tag::eventtype
+    - Task
+    - TaskCategory
+    - TaskInstanceId
+    - TaskName
+    - ThreadID
+    - timestamp
+    - user_id
+    - UserID
+    - vendor_product
+    - Version
 output_fields:
     - dest
 example_log: ''

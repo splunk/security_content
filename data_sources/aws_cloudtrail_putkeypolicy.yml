@@ -16,49 +16,83 @@ supported_TA:
       version: 8.2.2
 fields:
     - _time
+    - action
     - app
-    - awsRegion
+    - authentication_method
     - aws_account_id
+    - awsRegion
+    - change_type
     - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - desc
     - dest
     - dvc
     - errorCode
+    - errorMessage
     - eventCategory
     - eventID
     - eventName
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
     - managementEvent
     - msg
+    - object
+    - object_attrs
     - object_category
     - product
     - punct
     - readOnly
+    - reason
     - recipientAccountId
     - region
     - requestID
+    - requestParameters
+    - requestParameters.aliasName
     - requestParameters.bypassPolicyLockoutSafetyCheck
+    - requestParameters.customerMasterKeySpec
+    - requestParameters.description
+    - requestParameters.encryptionAlgorithm
+    - requestParameters.encryptionContext.aws:acm:arn
+    - requestParameters.encryptionContext.aws:cloudfront:arn
+    - requestParameters.encryptionContext.aws:lambda:FunctionArn
+    - requestParameters.encryptionContext.aws:s3:arn
+    - requestParameters.encryptionContext.SecretARN
+    - requestParameters.encryptionContext.SecretVersionId
     - requestParameters.keyId
+    - requestParameters.keySpec
+    - requestParameters.keyUsage
+    - requestParameters.limit
+    - requestParameters.origin
+    - requestParameters.pendingWindowInDays
     - requestParameters.policy
     - requestParameters.policyName
-    - resources{}.ARN
+    - requestParameters.targetKeyId
     - resources{}.accountId
+    - resources{}.ARN
     - resources{}.type
     - responseElements
+    - responseElements.deletionDate
+    - responseElements.keyId
+    - responseElements.keyMetadata.arn
+    - responseElements.keyMetadata.aWSAccountId
+    - responseElements.keyMetadata.creationDate
+    - responseElements.keyMetadata.customerMasterKeySpec
+    - responseElements.keyMetadata.description
+    - responseElements.keyMetadata.enabled
+    - responseElements.keyMetadata.encryptionAlgorithms{}
+    - responseElements.keyMetadata.keyId
+    - responseElements.keyMetadata.keyManager
+    - responseElements.keyMetadata.keyState
+    - responseElements.keyMetadata.keyUsage
+    - responseElements.keyMetadata.origin
+    - result
+    - result_id
+    - sharedEventID
     - signature
     - source
     - sourceIPAddress
@@ -66,16 +100,28 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
+    - src_user_id
+    - src_user_name
+    - src_user_type
     - start_time
+    - status
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - timestamp
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
     - userIdentity.arn
+    - userIdentity.invokedBy
     - userIdentity.principalId
     - userIdentity.sessionContext.attributes.creationDate
     - userIdentity.sessionContext.attributes.mfaAuthenticated
@@ -85,18 +131,13 @@ fields:
     - userIdentity.sessionContext.sessionIssuer.type
     - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
+    - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
     - vendor_region
+    - vpcEndpointId
 output_fields:
     - dest
     - user

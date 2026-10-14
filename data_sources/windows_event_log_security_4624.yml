@@ -19,46 +19,85 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
+    - action
     - ActivityID
+    - app
+    - authentication_method
+    - authentication_service
     - AuthenticationPackageName
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - Computer
+    - dest
+    - dest_nt_domain
+    - dvc
+    - dvc_nt_host
     - ElevatedToken
     - Error_Code
+    - event_id
+    - event_time
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
     - Guid
+    - host
+    - id
     - ImpersonationLevel
+    - index
     - IpAddress
     - IpPort
     - KeyLength
     - Keywords
     - Level
+    - linecount
     - LmPackageName
+    - Logon_ID
+    - Logon_Type
     - LogonGuid
     - LogonProcessName
     - LogonType
-    - Logon_ID
-    - Logon_Type
     - Name
+    - name
     - Opcode
+    - process
+    - process_id
     - ProcessID
     - ProcessId
     - ProcessName
+    - product
+    - punct
     - RecordNumber
     - RestrictedAdminMode
+    - session_id
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
     - Source_Port
     - Source_Workstation
+    - sourcetype
+    - splunk_server
+    - src
+    - src_port
+    - status
+    - subject
     - SubjectDomainName
     - SubjectLogonId
     - SubjectUserName
     - SubjectUserSid
-    - SystemTime
     - System_Props_Xml
+    - SystemTime
+    - ta_windows_action
+    - tag
+    - tag::action
+    - tag::app
+    - tag::eventtype
+    - Target_Domain
+    - Target_User_Name
     - TargetDomainName
     - TargetLinkedLogonId
     - TargetLogonId
@@ -66,62 +105,18 @@ fields:
     - TargetOutboundUserName
     - TargetUserName
     - TargetUserSid
-    - Target_Domain
-    - Target_User_Name
     - Task
+    - TaskCategory
     - ThreadID
+    - timestamp
     - TransmittedServices
-    - Version
-    - VirtualAccount
-    - WorkstationName
-    - action
-    - app
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dest_nt_domain
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - host
-    - id
-    - index
-    - linecount
-    - name
-    - process
-    - process_id
-    - process_name
-    - process_path
-    - product
-    - punct
-    - session_id
-    - signature
-    - signature_id
-    - source
-    - sourcetype
-    - splunk_server
-    - src_ip
-    - src_port
-    - status
-    - subject
-    - ta_windows_action
-    - tag
-    - tag::action
-    - tag::app
-    - tag::eventtype
-    - timeendpos
-    - timestartpos
     - user
     - user_group
     - vendor
     - vendor_product
+    - Version
+    - VirtualAccount
+    - WorkstationName
 output_fields:
     - action
     - app

@@ -21,17 +21,9 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
     - dest
     - dvc
     - errorCode
@@ -41,8 +33,8 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -61,11 +53,11 @@ fields:
     - requestParameters.keyUsage
     - requestParameters.origin
     - requestParameters.policy
-    - resources{}.ARN
     - resources{}.accountId
+    - resources{}.ARN
     - resources{}.type
-    - responseElements.keyMetadata.aWSAccountId
     - responseElements.keyMetadata.arn
+    - responseElements.keyMetadata.aWSAccountId
     - responseElements.keyMetadata.creationDate
     - responseElements.keyMetadata.customerMasterKeySpec
     - responseElements.keyMetadata.description
@@ -86,9 +78,13 @@ fields:
     - start_time
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
-    - user
+    - timestamp
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -103,13 +99,6 @@ fields:
     - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

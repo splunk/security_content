@@ -21,14 +21,25 @@ supported_TA:
 fields:
     - _time
     - AccessRights
+    - app
     - AppId
+    - authentication_service
     - ClientAppId
     - ClientIP
+    - command
     - CreationTime
+    - dest
+    - dest_name
+    - dvc
     - ExternalAccess
+    - host
     - Id
     - Identity
+    - index
     - InheritanceType
+    - linecount
+    - object
+    - object_id
     - ObjectId
     - Operation
     - OrganizationId
@@ -36,35 +47,13 @@ fields:
     - OriginatingServer
     - Parameters{}.Name
     - Parameters{}.Value
-    - RecordType
-    - ResultStatus
-    - SessionId
-    - User
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - app
-    - authentication_service
-    - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dest_name
-    - dvc
-    - host
-    - index
-    - linecount
-    - object
+    - Params
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
+    - SessionId
     - signature
     - source
     - sourcetype
@@ -72,13 +61,19 @@ fields:
     - src
     - src_ip
     - status
-    - timeendpos
-    - timestartpos
+    - tenant_id
+    - timestamp
+    - User
     - user
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

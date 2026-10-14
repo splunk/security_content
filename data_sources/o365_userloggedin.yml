@@ -20,45 +20,21 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
+    - action
     - ActorContextId
     - ActorIpAddress
     - Actor{}.ID
     - Actor{}.Type
+    - app
     - ApplicationId
+    - authentication_method
+    - authentication_service
     - AzureActiveDirectoryEventType
     - BrowserType
     - ClientIP
-    - CreationTime
-    - DeviceProperties{}.Name
-    - DeviceProperties{}.Value
-    - ErrorNumber
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - OS
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - RequestType
-    - ResultStatus
-    - ResultStatusDetail
-    - SessionId
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserAgent
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - app
-    - authentication_service
     - command
+    - CreationTime
+    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -69,14 +45,33 @@ fields:
     - date_zone
     - dest
     - dest_name
+    - DeviceProperties{}.Name
+    - DeviceProperties{}.Value
     - dvc
+    - ErrorNumber
     - event_type
+    - eventtype
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
+    - KeepMeSignedIn
     - linecount
-    - object
+    - ObjectId
+    - Operation
+    - OrganizationId
+    - OS
     - punct
     - record_type
+    - RecordType
+    - RequestType
+    - result
+    - ResultStatus
+    - ResultStatusDetail
+    - SessionId
     - signature
     - source
     - sourcetype
@@ -84,13 +79,29 @@ fields:
     - src
     - src_ip
     - status
+    - SupportTicketId
+    - tag
+    - tag::action
+    - tag::eventtype
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
     - timeendpos
     - timestartpos
     - user
     - user_agent
+    - user_id
     - user_type
+    - UserAgent
+    - UserAuthenticationMethod
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

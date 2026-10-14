@@ -13,11 +13,11 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/1876
       version: 8.2.2
 fields:
+    - _time
     - action
     - app
-    - authentication_method
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
     - date_hour
@@ -28,11 +28,7 @@ fields:
     - date_wday
     - date_year
     - date_zone
-    - desc
     - dest
-    - dest_ip_range
-    - dest_port_range
-    - direction
     - dvc
     - errorCode
     - errorMessage
@@ -42,12 +38,10 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
-    - image_id
     - index
-    - instance_type
     - linecount
     - managementEvent
     - msg
@@ -56,8 +50,6 @@ fields:
     - object_category
     - object_id
     - product
-    - protocol
-    - protocol_code
     - punct
     - readOnly
     - reason
@@ -65,40 +57,52 @@ fields:
     - region
     - requestID
     - requestParameters.attributeType
+    - requestParameters.createVolumePermission.add.items{}.group
+    - requestParameters.createVolumePermission.add.items{}.userId
+    - requestParameters.createVolumePermission.remove.items{}.group
     - requestParameters.snapshotId
+    - requestParameters.tagSpecificationSet.items{}.resourceType
+    - requestParameters.tagSpecificationSet.items{}.tags{}.key
+    - requestParameters.tagSpecificationSet.items{}.tags{}.value
+    - requestParameters.volumeId
     - responseElements
+    - responseElements._return
+    - responseElements.encrypted
+    - responseElements.ownerId
+    - responseElements.requestId
+    - responseElements.snapshotId
+    - responseElements.startTime
+    - responseElements.status
+    - responseElements.tagSet.items{}.key
+    - responseElements.tagSet.items{}.value
+    - responseElements.volumeId
+    - responseElements.volumeSize
     - result
     - result_id
-    - rule_action
     - signature
     - source
     - sourceIPAddress
     - sourcetype
     - splunk_server
-    - splunk_server_group
     - src
     - src_ip
-    - src_ip_range
-    - src_port_range
     - src_user
-    - src_user_id
-    - src_user_name
-    - src_user_role
-    - src_user_type
     - start_time
     - status
     - tag
-    - tag::action
-    - tag::app
     - tag::eventtype
-    - tag::object_category
-    - temp_access_key
     - timeendpos
     - timestartpos
     - tlsDetails.cipherSuite
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -112,26 +116,10 @@ fields:
     - userIdentity.sessionContext.sessionIssuer.type
     - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
+    - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_role
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
     - vendor_region
-    - _bkt
-    - _cd
-    - _eventtype_color
-    - _indextime
-    - _raw
-    - _serial
-    - _si
-    - _sourcetype
-    - _time
 example_log: '{"eventVersion": "1.10", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLBXYPYUKBH:aws-go-sdk-1740131590946446551", "arn": "arn:aws:sts::111111111111111:assumed-role/DAFTPUNK-cloud-security-audit/aws-go-sdk-1740131590946446551", "accountId": "111111111111111", "accessKeyId": "DAFTPUNK", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLBXYPYUKBH", "arn": "arn:aws:iam::111111111111111:role/DAFTPUNK-cloud-security-audit", "accountId": "111111111111111", "userName": "DAFTPUNK-cloud-security-audit"}, "attributes": {"creationDate": "2025-02-21T10:48:43Z", "mfaAuthenticated": "false"}}}, "eventTime": "2025-02-21T11:29:27Z", "eventSource": "ec2.amazonaws.com", "eventName": "DescribeSnapshotAttribute", "awsRegion": "eu-central-1", "sourceIPAddress": "54.203.114.197", "userAgent": "m/E aws-sdk-go-v2/1.30.5 os/linux lang/go#1.22.4 md/GOOS#linux md/GOARCH#amd64 api/ec2#1.177.3", "requestParameters": {"snapshotId": "snap-082bd5016636bbd94", "attributeType": "PRODUCT_CODES"}, "responseElements": null, "requestID": "70339070-6038-40b7-9acf-5ecb85cda843", "eventID": "bcc65c3f-a997-4a01-90bf-3b85f7268e70", "readOnly": true, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.3", "cipherSuite": "TLS_AES_128_GCM_SHA256", "clientProvidedHostHeader": "ec2.eu-central-1.amazonaws.com"}}'

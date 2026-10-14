@@ -19,10 +19,15 @@ supported_TA:
       version: 6.3.3
 fields:
     - _time
-    - Level
+    - action
+    - app
+    - authentication_method
+    - authentication_service
     - callerIpAddress
     - category
+    - command
     - correlationId
+    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -31,25 +36,33 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - dest
+    - dest_type
+    - duration
     - durationMs
+    - eventtype
     - host
+    - id
     - identity
     - index
+    - Level
     - linecount
     - location
+    - object_id
     - operationName
     - operationVersion
+    - path_from_resourceId
     - properties.alternateSignInName
     - properties.appDisplayName
     - properties.appId
     - properties.appServicePrincipalId
-    - properties.authenticationDetails{}.RequestSequence
-    - properties.authenticationDetails{}.StatusSequence
     - properties.authenticationDetails{}.authenticationMethod
     - properties.authenticationDetails{}.authenticationMethodDetail
     - properties.authenticationDetails{}.authenticationStepDateTime
     - properties.authenticationDetails{}.authenticationStepRequirement
     - properties.authenticationDetails{}.authenticationStepResultDetail
+    - properties.authenticationDetails{}.RequestSequence
+    - properties.authenticationDetails{}.StatusSequence
     - properties.authenticationDetails{}.succeeded
     - properties.authenticationProcessingDetails{}.key
     - properties.authenticationProcessingDetails{}.value
@@ -64,6 +77,7 @@ fields:
     - properties.correlationId
     - properties.createdDateTime
     - properties.crossTenantAccessType
+    - properties.deviceDetail.browser
     - properties.deviceDetail.deviceId
     - properties.deviceDetail.operatingSystem
     - properties.flaggedForReview
@@ -78,6 +92,7 @@ fields:
     - properties.location.geoCoordinates.latitude
     - properties.location.geoCoordinates.longitude
     - properties.location.state
+    - properties.mfaDetail.authMethod
     - properties.originalRequestId
     - properties.originalTransferMethod
     - properties.processingTimeInMilliseconds
@@ -107,17 +122,35 @@ fields:
     - properties.userPrincipalName
     - properties.userType
     - punct
+    - reason
     - resourceId
+    - response_time
+    - result
+    - result_id
     - resultDescription
     - resultSignature
     - resultType
+    - signature
+    - signinDateTime
     - source
     - sourcetype
     - splunk_server
+    - src
+    - src_ip
+    - status
+    - tag
+    - tag::action
+    - tag::eventtype
     - tenantId
     - time
     - timeendpos
     - timestartpos
+    - user
+    - user_agent
+    - user_id
+    - user_type
+    - vendor_account
+    - vendor_product
 output_fields:
     - dest
     - user

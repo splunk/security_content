@@ -23,34 +23,12 @@ fields:
     - ActorContextId
     - Actor{}.ID
     - Actor{}.Type
-    - AzureActiveDirectoryEventType
-    - CreationTime
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - ModifiedProperties{}.Name
-    - ModifiedProperties{}.NewValue
-    - ModifiedProperties{}.OldValue
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - ResultStatus
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
     - additionalDetails
     - app
     - authentication_service
+    - AzureActiveDirectoryEventType
     - command
+    - CreationTime
     - date_hour
     - date_mday
     - date_minute
@@ -64,17 +42,37 @@ fields:
     - dvc
     - event_type
     - extendedAuditEventCategory
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
     - linecount
+    - ModifiedProperties{}.Name
+    - ModifiedProperties{}.NewValue
+    - ModifiedProperties{}.OldValue
     - object
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
     - signature
     - source
     - sourcetype
     - splunk_server
     - status
+    - SupportTicketId
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
     - timeendpos
     - timestartpos
     - user
@@ -82,8 +80,13 @@ fields:
     - user_agent_change
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

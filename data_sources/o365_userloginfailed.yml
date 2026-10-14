@@ -20,49 +20,20 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
+    - action
     - ActorContextId
     - ActorIpAddress
     - Actor{}.ID
     - Actor{}.Type
+    - app
     - ApplicationId
+    - authentication_method
+    - authentication_service
     - AzureActiveDirectoryEventType
     - BrowserType
     - ClientIP
-    - CreationTime
-    - DeviceProperties{}.Name
-    - DeviceProperties{}.Value
-    - ErrorNumber
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - IsCompliantAndManaged
-    - LogonError
-    - OS
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - RequestType
-    - ResultStatus
-    - ResultStatusDetail
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserAgent
-    - UserAuthenticationMethod
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - action
-    - app
-    - authentication_method
-    - authentication_service
     - command
+    - CreationTime
     - dataset_name
     - date_hour
     - date_mday
@@ -74,17 +45,36 @@ fields:
     - date_zone
     - dest
     - dest_name
+    - DeviceProperties{}.Name
+    - DeviceProperties{}.Value
     - dvc
+    - ErrorNumber
     - event_type
     - eventtype
+    - extended_properties
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
+    - IsCompliantAndManaged
+    - KeepMeSignedIn
     - linecount
-    - object
+    - LogonError
+    - ObjectId
+    - Operation
+    - OrganizationId
+    - OS
     - punct
     - reason
     - record_type
+    - RecordType
+    - RequestType
     - result
+    - ResultStatus
+    - ResultStatusDetail
     - signature
     - source
     - sourcetype
@@ -92,14 +82,30 @@ fields:
     - src
     - src_ip
     - status
+    - SupportTicketId
     - tag
     - tag::action
     - tag::eventtype
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
+    - timeendpos
+    - timestamp
+    - timestartpos
     - user
     - user_agent
+    - user_id
     - user_type
+    - UserAgent
+    - UserAuthenticationMethod
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

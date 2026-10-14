@@ -21,8 +21,32 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/833
       version: 10.3.4
 fields:
-    - msg
-    - type
-    - msg
+    - _time
+    - a0
+    - a1
+    - a2
     - argc
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - eventtype
+    - execve_command
+    - host
+    - index
+    - linecount
+    - msg
+    - punct
+    - source
+    - sourcetype
+    - splunk_server
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - type
 example_log: 'type=EXECVE msg=audit(1723044684.257:15795): argc=3 a0="sudo" a1="LD_PRELOAD=./myfopen.so" a2="./prog"'

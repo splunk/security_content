@@ -20,39 +20,17 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
+    - action
     - ActorContextId
     - Actor{}.ID
     - Actor{}.Type
-    - AzureActiveDirectoryEventType
-    - CreationTime
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - ModifiedProperties{}.Name
-    - ModifiedProperties{}.NewValue
-    - ModifiedProperties{}.OldValue
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - ResultStatus
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - action
     - additionalDetails
     - app
     - authentication_service
+    - AzureActiveDirectoryEventType
     - change_type
     - command
+    - CreationTime
     - dataset_name
     - date_hour
     - date_mday
@@ -68,30 +46,56 @@ fields:
     - event_type
     - eventtype
     - extendedAuditEventCategory
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
     - linecount
+    - ModifiedProperties{}.Name
+    - ModifiedProperties{}.NewValue
+    - ModifiedProperties{}.OldValue
+    - object
     - object_attrs
     - object_category
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
     - signature
     - source
     - sourcetype
     - splunk_server
     - src_user
+    - src_user_type
     - status
+    - SupportTicketId
     - tag
     - tag::eventtype
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
     - timeendpos
     - timestartpos
     - user
     - user_agent
     - user_agent_change
     - user_id
-    - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

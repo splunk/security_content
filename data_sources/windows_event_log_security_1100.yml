@@ -18,52 +18,41 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - Channel
-    - Computer
-    - Error_Code
-    - EventCode
-    - EventID
-    - EventRecordID
-    - Guid
-    - Keywords
-    - Level
-    - Name
-    - Opcode
-    - ProcessID
-    - RecordNumber
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - UserData_Xml
-    - Version
     - action
     - app
     - change_type
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - Channel
+    - Computer
     - dest
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
+    - Name
     - name
     - object_attrs
     - object_category
+    - Opcode
+    - ProcessID
     - product
     - punct
+    - RecordNumber
     - service
     - service_name
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
@@ -71,13 +60,19 @@ fields:
     - splunk_server
     - status
     - subject
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - UserData_Xml
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - action
     - app

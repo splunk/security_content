@@ -20,44 +20,20 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
-    - AppId
-    - ClientIP
-    - ClientIPAddress
-    - ClientInfoString
-    - CreationTime
-    - ExternalAccess
-    - Id
-    - InternalLogonType
-    - Item.Id
-    - Item.ParentFolder.Id
-    - Item.ParentFolder.MemberRights
-    - Item.ParentFolder.MemberSid
-    - Item.ParentFolder.MemberUpn
-    - Item.ParentFolder.Name
-    - Item.ParentFolder.Path
-    - LogonType
-    - LogonUserSid
-    - MailboxGuid
-    - MailboxOwnerSid
-    - MailboxOwnerUPN
-    - Operation
-    - OrganizationId
-    - OrganizationName
-    - OriginatingServer
-    - RecordType
-    - ResultStatus
-    - SessionId
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
     - action
     - app
+    - AppId
     - authentication_service
     - change_type
     - client_info_str
+    - ClientInfoString
+    - ClientIP
+    - ClientIPAddress
+    - ClientProcessName
+    - ClientRequestId
+    - ClientVersion
     - command
+    - CreationTime
     - dataset_name
     - date_hour
     - date_mday
@@ -71,16 +47,38 @@ fields:
     - dest_name
     - dvc
     - eventtype
+    - ExternalAccess
     - host
+    - Id
     - index
+    - InternalLogonType
+    - Item.Id
+    - Item.ParentFolder.Id
+    - Item.ParentFolder.MemberRights
+    - Item.ParentFolder.MemberSid
+    - Item.ParentFolder.MemberUpn
+    - Item.ParentFolder.Name
+    - Item.ParentFolder.Path
     - linecount
+    - LogonType
+    - LogonUserSid
+    - MailboxGuid
+    - MailboxOwnerSid
+    - MailboxOwnerUPN
     - object
     - object_attrs
     - object_category
     - object_id
+    - Operation
+    - OrganizationId
+    - OrganizationName
+    - OriginatingServer
     - punct
     - record_type
+    - RecordType
     - result
+    - ResultStatus
+    - SessionId
     - signature
     - source
     - sourcetype
@@ -97,8 +95,13 @@ fields:
     - user_agent
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

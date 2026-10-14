@@ -18,8 +18,8 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - command
     - date_hour
     - date_mday
@@ -60,6 +60,7 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - timeendpos
     - timestartpos
@@ -67,6 +68,12 @@ fields:
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -75,13 +82,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

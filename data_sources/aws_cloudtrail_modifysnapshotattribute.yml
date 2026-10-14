@@ -18,8 +18,8 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
     - date_hour
@@ -33,12 +33,14 @@ fields:
     - dest
     - dvc
     - errorCode
+    - errorMessage
     - eventCategory
     - eventID
     - eventName
     - eventSource
     - eventTime
     - eventType
+    - eventtype
     - eventVersion
     - host
     - index
@@ -49,14 +51,20 @@ fields:
     - product
     - punct
     - readOnly
+    - reason
     - recipientAccountId
     - region
     - requestID
     - requestParameters.attributeType
+    - requestParameters.createVolumePermission.add.items{}.group
     - requestParameters.createVolumePermission.add.items{}.userId
+    - requestParameters.createVolumePermission.remove.items{}.group
     - requestParameters.snapshotId
+    - responseElements
     - responseElements._return
     - responseElements.requestId
+    - result
+    - result_id
     - signature
     - source
     - sourceIPAddress
@@ -64,28 +72,37 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
+    - tag
+    - tag::eventtype
     - timeendpos
     - timestartpos
     - tlsDetails.cipherSuite
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
     - userIdentity.arn
     - userIdentity.principalId
+    - userIdentity.sessionContext.attributes.creationDate
+    - userIdentity.sessionContext.attributes.mfaAuthenticated
+    - userIdentity.sessionContext.sessionIssuer.accountId
+    - userIdentity.sessionContext.sessionIssuer.arn
+    - userIdentity.sessionContext.sessionIssuer.principalId
+    - userIdentity.sessionContext.sessionIssuer.type
+    - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product

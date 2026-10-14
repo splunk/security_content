@@ -20,79 +20,77 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
+    - action
     - ActorContextId
     - ActorIpAddress
     - Actor{}.ID
     - Actor{}.Type
-    - AzureActiveDirectoryEventType
-    - ClientIP
-    - CreationTime
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - ModifiedProperties{}.Name
-    - ModifiedProperties{}.NewValue
-    - ModifiedProperties{}.OldValue
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - ResultStatus
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - action
     - additionalDetails
     - app
     - authentication_service
+    - AzureActiveDirectoryEventType
     - change_type
+    - ClientIP
     - command
+    - CreationTime
     - dataset_name
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
     - dest
     - dest_name
     - dvc
     - event_type
     - eventtype
-    - extendedAuditEventCategory
     - extended_properties
+    - extendedAuditEventCategory
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
     - linecount
+    - modified_properties
+    - modified_properties_name
+    - modified_properties_new_value
+    - ModifiedProperties{}.Name
+    - ModifiedProperties{}.NewValue
+    - ModifiedProperties{}.OldValue
+    - obj_id
     - object
     - object_attrs
     - object_category
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
     - signature
     - source
     - sourcetype
     - splunk_server
     - status
+    - SupportTicketId
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
+    - timestamp
     - user
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

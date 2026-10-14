@@ -20,19 +20,46 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
+    - app
     - AppId
+    - authentication_service
+    - client_info_str
     - ClientAppId
-    - ClientIPAddress
     - ClientInfoString
+    - ClientIP
+    - ClientIPAddress
+    - ClientProcessName
+    - ClientRequestId
+    - ClientVersion
+    - command
     - CreationTime
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dest_name
+    - dvc
     - ExternalAccess
+    - Folders{}.FolderItems{}.ClientRequestId
     - Folders{}.FolderItems{}.InternetMessageId
     - Folders{}.FolderItems{}.SizeInBytes
     - Folders{}.Id
     - Folders{}.Path
+    - host
     - Id
+    - index
     - InternalLogonType
     - IsThrottled
+    - Item.Id
+    - Item.ParentFolder.Id
+    - Item.ParentFolder.Name
+    - Item.ParentFolder.Path
+    - linecount
     - LogonType
     - LogonUserSid
     - MailAccessType
@@ -46,41 +73,33 @@ fields:
     - OrganizationId
     - OrganizationName
     - OriginatingServer
-    - RecordType
-    - ResultStatus
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - app
-    - authentication_service
-    - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dvc
-    - host
-    - index
-    - linecount
     - punct
+    - record_type
+    - RecordType
+    - result
+    - ResultStatus
+    - SessionId
     - signature
     - source
     - sourcetype
     - splunk_server
+    - src
+    - src_ip
     - status
+    - tenant_id
     - timeendpos
     - timestartpos
     - user
+    - user_agent
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user

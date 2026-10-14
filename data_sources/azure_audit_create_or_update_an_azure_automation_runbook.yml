@@ -69,6 +69,9 @@ fields:
     - eventSource.value
     - eventTimestamp
     - host
+    - httpRequest.clientIpAddress
+    - httpRequest.clientRequestId
+    - httpRequest.method
     - id
     - index
     - level
@@ -84,20 +87,26 @@ fields:
     - properties.eventCategory
     - properties.hierarchy
     - properties.message
+    - properties.serviceRequestId
+    - properties.statusCode
     - punct
     - resourceGroupName
     - resourceProviderName.localizedValue
     - resourceProviderName.value
     - resourceUri
+    - result
+    - result_id
     - source
     - sourcetype
     - splunk_server
+    - src
     - status
     - status.localizedValue
     - status.value
-    - subStatus.value
     - submissionTimestamp
     - subscriptionId
+    - subStatus.localizedValue
+    - subStatus.value
     - timeendpos
     - timestartpos
     - user

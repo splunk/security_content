@@ -18,82 +18,99 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/742
       version: 11.0.3
 fields:
+    - _time
+    - action
+    - app
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - CommandLine
     - Computer
-    - Error_Code
-    - EventCode
-    - EventID
-    - EventRecordID
-    - Guid
-    - Keywords
-    - Level
-    - Logon_ID
-    - MandatoryLabel
-    - Name
-    - NewProcessId
-    - NewProcessName
-    - Opcode
-    - ParentProcessName
-    - ProcessID
-    - Process_Command_Line
-    - RecordNumber
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - TargetDomainName
-    - TargetLogonId
-    - TargetUserName
-    - TargetUserSid
-    - Target_Domain
-    - Target_User_Name
-    - Task
-    - ThreadID
-    - TokenElevationType
-    - Token_Elevation_Type
-    - Token_Elevation_Type_id
-    - Version
-    - action
-    - app
     - dest
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
+    - host
     - id
+    - index
+    - Keywords
+    - Level
+    - linecount
+    - Logon_ID
+    - MandatoryLabel
+    - Name
     - name
     - new_process
     - new_process_id
     - new_process_name
+    - NewProcessId
+    - NewProcessName
+    - Opcode
     - parent_process
     - parent_process_id
     - parent_process_name
     - parent_process_path
+    - ParentProcessName
     - process
+    - Process_Command_Line
     - process_command_line_arguments
     - process_command_line_process
     - process_exec
     - process_id
     - process_name
     - process_path
+    - ProcessID
+    - ProcessId
     - product
+    - punct
+    - RecordNumber
     - session_id
+    - severity
+    - severity_id
     - signature
     - signature_id
+    - source
+    - sourcetype
+    - splunk_server
     - src_nt_domain
     - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
+    - tag::eventtype
+    - Target_Domain
+    - Target_User_Name
+    - TargetDomainName
+    - TargetLogonId
+    - TargetUserName
+    - TargetUserSid
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - Token_Elevation_Type
+    - Token_Elevation_Type_id
+    - TokenElevationType
     - user
     - user_group
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - action
     - dest

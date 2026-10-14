@@ -96,9 +96,9 @@ fields:
     - status
     - status.localizedValue
     - status.value
-    - subStatus.value
     - submissionTimestamp
     - subscriptionId
+    - subStatus.value
     - timeendpos
     - timestartpos
     - user

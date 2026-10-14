@@ -20,65 +20,53 @@ fields:
     - _time
     - AccessList
     - AccessMask
+    - action
     - ActivityID
     - AdditionalInfo
+    - AdditionalInfo2
+    - app
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - Computer
+    - dest
+    - dest_nt_domain
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
+    - event_time
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
     - Guid
     - HandleId
+    - host
+    - id
+    - index
     - Keywords
     - Level
+    - linecount
     - Logon_ID
     - Name
+    - name
+    - object_file_name
+    - object_file_path
     - ObjectName
     - ObjectServer
     - ObjectType
     - Opcode
     - OperationType
     - ProcessID
-    - Properties
-    - RecordNumber
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - Version
-    - action
-    - app
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - host
-    - id
-    - index
-    - linecount
-    - name
-    - object_file_name
-    - object_file_path
     - product
+    - Properties
     - punct
+    - RecordNumber
     - session_id
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
@@ -88,14 +76,23 @@ fields:
     - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
 example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4662</EventID><Version>0</Version><Level>0</Level><Task>14080</Task><Opcode>0</Opcode><Keywords>0x8010000000000000</Keywords><TimeCreated SystemTime='2023-02-02T22:41:45.751175400Z'/><EventRecordID>21623198276</EventRecordID><Correlation ActivityID='{7BAD94BA-268A-0000-BB94-AD7B8A26D901}'/><Execution ProcessID='848' ThreadID='7136'/><Channel>Security</Channel><Computer>attack_range_dc</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>attack_range\attacker</Data><Data Name='SubjectUserName'>attacker</Data><Data Name='SubjectDomainName'>attack_range</Data><Data Name='SubjectLogonId'>0x632426dc0</Data><Data Name='ObjectServer'>DS</Data><Data Name='ObjectType'>group</Data><Data Name='ObjectName'>CN=Incoming Forest Trust Builders,CN=Users,DC=Attack_Range</Data><Data Name='OperationType'>Object Access</Data><Data Name='HandleId'>0x0</Data><Data Name='AccessList'>%%7688

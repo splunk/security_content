@@ -20,8 +20,9 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
+    - change_type
     - command
     - date_hour
     - date_mday
@@ -69,7 +70,9 @@ fields:
     - responseElements.dBInstanceArn
     - responseElements.dBInstanceClass
     - responseElements.dBInstanceIdentifier
+    - responseElements.dbInstancePort
     - responseElements.dBInstanceStatus
+    - responseElements.dbiResourceId
     - responseElements.dBParameterGroups{}.dBParameterGroupName
     - responseElements.dBParameterGroups{}.parameterApplyStatus
     - responseElements.dBSubnetGroup.dBSubnetGroupDescription
@@ -79,8 +82,6 @@ fields:
     - responseElements.dBSubnetGroup.subnets{}.subnetIdentifier
     - responseElements.dBSubnetGroup.subnets{}.subnetStatus
     - responseElements.dBSubnetGroup.vpcId
-    - responseElements.dbInstancePort
-    - responseElements.dbiResourceId
     - responseElements.deletionProtection
     - responseElements.endpoint.address
     - responseElements.endpoint.hostedZoneId
@@ -124,7 +125,12 @@ fields:
     - start_time
     - timeendpos
     - timestartpos
-    - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -139,13 +145,6 @@ fields:
     - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
