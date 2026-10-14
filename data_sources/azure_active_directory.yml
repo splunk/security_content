@@ -8,7 +8,6 @@ description: All Azure Active Directory events
 source: Azure AD
 sourcetype: azure:monitor:aad
 separator: operationName
-
 fields:
     - _time
     - action

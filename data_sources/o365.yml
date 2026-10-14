@@ -14,7 +14,6 @@ mitre_components:
 source: o365
 sourcetype: o365:management:activity
 separator: Operation
-
 fields:
     - _time
     - action

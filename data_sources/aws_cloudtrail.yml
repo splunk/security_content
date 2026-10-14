@@ -8,7 +8,6 @@ description: All AWS CloudTrail events
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
 separator: eventName
-
 fields:
     - _time
     - app
