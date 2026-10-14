@@ -9,7 +9,7 @@ type: Anomaly
 description: This detection identifies instances where a Windows Firewall rule is added by monitoring Event ID 4946 in the Windows Security Event Log. Firewall rule modifications can indicate legitimate administrative actions, but they may also signal unauthorized changes, misconfigurations, or malicious activity such as attackers allowing traffic for backdoors or persistence mechanisms. By analyzing fields like RuleName, RuleId, Computer, and ProfileChanged, security teams can determine whether the change aligns with expected behavior. Correlating with user activity and process execution can help distinguish false positives from real threats, ensuring better visibility into potential security risks.
 data_source:
     - Windows Event Log Security 4946
-search: |-
+search: |
     `wineventlog_security` EventCode=4946
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY RuleName signature subject
@@ -29,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

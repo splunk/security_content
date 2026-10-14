@@ -9,7 +9,7 @@ type: Hunting
 description: This analytic provides comprehensive monitoring of configuration changes on Cisco devices by analyzing archive logs. Configuration archive logging captures all changes made to a device's configuration, providing a detailed audit trail that can be used to identify suspicious or malicious activities. This detection is particularly valuable for identifying patterns of malicious configuration changes that might indicate an attacker's presence, such as the creation of backdoor accounts, SNMP community string modifications, and TFTP server configurations for data exfiltration. By analyzing these logs, security teams can gain a holistic view of configuration changes across sessions and users, helping to detect sophisticated attack campaigns like those conducted by threat actors such as Static Tundra.
 data_source:
     - Cisco IOS Logs
-search: |-
+search: |
     | tstats `security_content_summariesonly` count values(All_Changes.command) as commands min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
       WHERE (
             (All_Changes.command="*username*privilege 15*")
@@ -42,7 +42,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 analytic_story:
     - Cisco Smart Install Remote Code Execution CVE-2018-0171
 asset_type: Network
@@ -62,6 +62,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
-          sourcetype: cisco:ios
           source: cisco:ios
+          sourcetype: cisco:ios
       test_type: unit

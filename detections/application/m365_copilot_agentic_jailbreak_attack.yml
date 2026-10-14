@@ -9,22 +9,8 @@ type: Anomaly
 description: Detects agentic AI jailbreak attempts that try to establish persistent control over M365 Copilot through rule injection, universal triggers, response automation, system overrides, and persona establishment techniques. The detection analyzes the PromptText field for keywords like "from now on," "always respond," "ignore previous," "new rule," "override," and role-playing commands (e.g., "act as," "you are now") that attempt to inject persistent instructions. The search computes risk by counting distinct jailbreak indicators per user session, flagging coordinated manipulation attempts.
 data_source:
     - M365 Exported eDiscovery Prompts
-search: >
-    `m365_exported_ediscovery_prompt_logs` | eval user = Sender | eval
-    rule_injection=if(match(Subject_Title, "(?i)(rules|instructions)\s*="), "YES",
-    "NO") | eval universal_trigger=if(match(Subject_Title,
-    "(?i)(every|all).*prompt"), "YES", "NO") | eval
-    response_automation=if(match(Subject_Title,
-    "(?i)(always|automatic).*respond"), "YES", "NO") | eval
-    system_override=if(match(Subject_Title,
-    "(?i)(override|bypass|ignore).*(system|default)"), "YES", "NO") | eval
-    persona_establishment=if(match(Subject_Title, "(?i)(with.*\[.*\]|persona)"),
-    "YES", "NO") | where rule_injection="YES" OR universal_trigger="YES" OR
-    response_automation="YES" OR system_override="YES" OR
-    persona_establishment="YES" | table _time, "Source ID", user, Subject_Title,
-    rule_injection, universal_trigger, response_automation, system_override,
-    persona_establishment, Workload | sort -_time |
-    `m365_copilot_agentic_jailbreak_attack_filter`
+search: |
+    `m365_exported_ediscovery_prompt_logs` | eval user = Sender | eval rule_injection=if(match(Subject_Title, "(?i)(rules|instructions)\s*="), "YES", "NO") | eval universal_trigger=if(match(Subject_Title, "(?i)(every|all).*prompt"), "YES", "NO") | eval response_automation=if(match(Subject_Title, "(?i)(always|automatic).*respond"), "YES", "NO") | eval system_override=if(match(Subject_Title, "(?i)(override|bypass|ignore).*(system|default)"), "YES", "NO") | eval persona_establishment=if(match(Subject_Title, "(?i)(with.*\[.*\]|persona)"), "YES", "NO") | where rule_injection="YES" OR universal_trigger="YES" OR response_automation="YES" OR system_override="YES" OR persona_establishment="YES" | table _time, "Source ID", user, Subject_Title, rule_injection, universal_trigger, response_automation, system_override, persona_establishment, Workload | sort -_time | `m365_copilot_agentic_jailbreak_attack_filter`
 how_to_implement: To export M365 Copilot prompt logs, navigate to the Microsoft Purview compliance portal (compliance.microsoft.com) and access eDiscovery. Create a new eDiscovery case, add target user accounts or date ranges as data sources, then create a search query targeting M365 Copilot interactions across relevant workloads. Once the search completes, export the results to generate a package containing prompt logs with fields like Subject_Title (prompt text), Sender, timestamps, and workload metadata. Download the exported files using the eDiscovery Export Tool and ingest them into Splunk for security analysis and detection of jailbreak attempts, data exfiltration requests, and policy violations.
 known_false_positives: Legitimate users discussing AI ethics research, security professionals testing system robustness, developers creating training materials for AI safety, or academic discussions about AI limitations and behavioral constraints may trigger false positives.
 references:
@@ -37,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -59,7 +45,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
-          sourcetype: csv
           source: csv
-      test_type: experimental
+          sourcetype: csv
       description: Automated testing is experimental because contentctl-ng replays this CSV fixture through HEC raw, which does not extract the Subject_Title and Sender fields required by this detection in the current test configuration. The same fixture yields matching results when ingested through native CSV file/oneshot input. Retain the experimental test until CI reproduces that field extraction. See TR-4611.
+      test_type: experimental

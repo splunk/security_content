@@ -8,7 +8,7 @@ status: experimental
 type: Anomaly
 description: The following analytic identifies processes running from newly seen paths within a Kubernetes environment. It leverages process metrics collected via an OTEL collector and hostmetrics receiver, and data is pulled from Splunk Observability Cloud using the Splunk Infrastructure Monitoring Add-on. This detection compares processes observed in the last hour with those seen over the previous 30 days. This activity is significant as it may indicate unauthorized changes, compromised nodes, or the introduction of malicious software. If confirmed malicious, it could lead to unauthorized process execution, control over critical resources, data exfiltration, privilege escalation, or malware introduction within the Kubernetes cluster.
 data_source: []
-search: |-
+search: |
     | mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name
     | eval current="True"
     | append [ mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-30d latest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name ]

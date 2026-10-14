@@ -6,11 +6,10 @@ modification_date: '2026-05-20'
 author: Nasreddine Bencherchali
 status: production
 type: Anomaly
-description: |
-    This analytic detects rapid modification of Cisco IOS-XE VTY access-class settings. The Salt Typhoon notes describe configure HTTP activity followed by line vty changes and removal/re-application of an access-class within 60 seconds.
+description: This analytic detects rapid modification of Cisco IOS-XE VTY access-class settings. The Salt Typhoon notes describe configure HTTP activity followed by line vty changes and removal/re-application of an access-class within 60 seconds.
 data_source:
     - Cisco IOS Logs
-search: |-
+search: |
     `cisco_ios`
     facility IN ("HA_EM", "PARSER")
     mnemonic IN ("LOG", "CFGLOG_LOGGEDCMD")
@@ -50,10 +49,8 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_vty_access_class_tampering_filter`
-how_to_implement: |
-    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios" and enable archive/config command logging.
-known_false_positives: |
-    VTY ACL changes occur during legitimate management access updates. Filter approved maintenance windows and known administrators.
+how_to_implement: Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios" and enable archive/config command logging.
+known_false_positives: VTY ACL changes occur during legitimate management access updates. Filter approved maintenance windows and known administrators.
 references:
     - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
     - https://blog.talosintelligence.com/salt-typhoon-analysis/
@@ -65,7 +62,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

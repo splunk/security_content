@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects when the Microsoft Zero-hour Automatic Purge (ZAP) capability takes action against a user's mailbox. This capability is an enhanced protection feature that retro-actively removes email with known malicious content for user inboxes. Since this is a retroactive capability, there is still a window in which the user may fall victim to the malicious content.
 data_source:
     - Office 365 Universal Audit Log
-search: |-
+search: |
     `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="*messages containing malicious*"
       | fromjson Data
       | fillnull
@@ -32,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -63,6 +63,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

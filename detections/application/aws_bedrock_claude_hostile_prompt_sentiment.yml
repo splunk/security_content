@@ -9,7 +9,7 @@ type: Anomaly
 description: This detection identifies prompts with hostile or aggressive sentiment being sent to AWS Bedrock Claude models. Hostile prompts may indicate potential abuse, harassment, or other malicious intent.
 data_source:
     - AWS Bedrock Claude
-search: |-
+search: |
     `aws_bedrock_claude`
     | rename "identity.arn" AS user_arn
     | rename "input.inputBodyJson.messages{}.content{}.text" AS prompt_text
@@ -43,7 +43,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$host$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: host
@@ -63,8 +63,8 @@ category: application
 security_domain: endpoint
 tests:
     - name: True Positive Test
-      test_type: unit
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_hostile_prompt_sentiment.ndjson
-          sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
+          sourcetype: json_no_timestamp
+      test_type: unit

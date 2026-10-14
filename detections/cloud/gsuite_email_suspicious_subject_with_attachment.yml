@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies Gsuite emails with suspicious subjects and attachments commonly used in spear phishing attacks. It leverages Gsuite email logs, focusing on specific keywords in the subject line and known malicious file types in attachments. This activity is significant for a SOC as spear phishing is a prevalent method for initial compromise, often leading to further malicious actions. If confirmed malicious, this activity could result in unauthorized access, data exfiltration, or further malware deployment, posing a significant risk to the organization's security.
 data_source:
     - G Suite Gmail
-search: |-
+search: |
     `gsuite_gmail` num_message_attachments > 0 subject IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "* fedex *", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") attachment{}.file_extension_type IN ("doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "zip", "rar", "html","htm","hta")
       | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)"
       | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"
@@ -36,7 +36,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$destination{}.address$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$destination{}.address$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: destination{}.address

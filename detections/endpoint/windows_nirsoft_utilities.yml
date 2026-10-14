@@ -6,12 +6,15 @@ modification_date: '2026-10-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic identifies the execution of commonly used NirSoft utilities on Windows systems.
+description: 'The following analytic identifies the execution of commonly used NirSoft utilities on Windows systems.
+
     This activity is significant for a SOC because NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes like credential theft or system reconnaissance.
+
     If confirmed malicious, this activity could lead to unauthorized access, data exfiltration, or further system compromise.
+
     Note that this search does not use a where clause to filter out known benign paths, as NirSoft utilities can be executed from various locations. This might hinder performance in environments with high data volumes.
-    Apply additional filtering as necessary to enhance this.
+
+    Apply additional filtering as necessary to enhance this.'
 data_source:
     - Sysmon EventID 1
 search: |
@@ -42,9 +45,9 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_nirsoft_utilities_filter`
-how_to_implement: |-
-    To successfully implement this search, ingest process creation events from your endpoints and normalize them to the Processes node of the Endpoint data model using the Splunk Common Information Model (CIM).
-    Ensure the normalized events populate the original_file_name field, which this search uses to identify NirSoft utilities. Supported sources might include Sysmon and CrowdStrike ProcessRollup2 when mapped to the data model.
+how_to_implement: 'To successfully implement this search, ingest process creation events from your endpoints and normalize them to the Processes node of the Endpoint data model using the Splunk Common Information Model (CIM).
+
+    Ensure the normalized events populate the original_file_name field, which this search uses to identify NirSoft utilities. Supported sources might include Sysmon and CrowdStrike ProcessRollup2 when mapped to the data model.'
 known_false_positives: False positives may be present. Filtering may be required before setting to alert.
 references:
     - https://www.cisa.gov/uscert/ncas/alerts/TA18-201A
@@ -59,7 +62,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -9,12 +9,8 @@ type: Anomaly
 description: The following analytic identifies suspicious use of a session cookie by detecting multiple client values (IP, User Agent, etc.) changing for the same Device Token associated with a specific user. It leverages policy evaluation events from successful authentication logs in Okta. This activity is significant as it may indicate an adversary attempting to reuse a stolen web session cookie, potentially bypassing authentication mechanisms. If confirmed malicious, this could allow unauthorized access to user accounts, leading to data breaches or further exploitation within the environment.
 data_source:
     - Okta
-search: |-
-    `okta` eventType IN (policy.evaluate_sign_on) outcome.result IN (ALLOW, SUCCESS)
-      | stats earliest(_time) as _time, values(client.ipAddress) as src_ip, values(client.userAgent.rawUserAgent) as user_agent, values(client.userAgent.os) as userAgentOS_list, values(client.geographicalContext.city) as city, values(client.userAgent.browser) as userAgentBrowser_list, values(device.os_platform) as okta_device_os, dc(client.userAgent.browser) as dc_userAgentBrowser, dc(client.userAgent.os) as dc_userAgentOS, dc(client.ipAddress) as dc_src_ip, values(outcome.reason) as reason values(dest) as dest
-        BY debugContext.debugData.dtHash, user
-      | where dc_src_ip>1 AND (dc_userAgentOS>1 OR dc_userAgentBrowser>1)
-      | `okta_suspicious_use_of_a_session_cookie_filter`
+search: |
+    `okta` outcome.result IN ("ALLOW", "SUCCESS") | eval risk_object=risk_object, src_ip=src_ip | stats count min(_time) as firstTime max(_time) as lastTime by dest src user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_suspicious_use_of_a_session_cookie_filter`
 how_to_implement: This detection utilizes logs from Okta Identity Management (IM) environments. It requires the ingestion of OktaIm2 logs through the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
 known_false_positives: False positives may occur, depending on the organization's size and the configuration of Okta.
 references:
@@ -27,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

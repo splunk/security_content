@@ -9,18 +9,8 @@ type: TTP
 description: This analytic detects attempts to create an "ESX Admins" group using PowerShell commands. This activity may indicate an attempt to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085). Attackers can use this method to gain unauthorized access to ESXi hosts by recreating the 'ESX Admins' group after its deletion from Active Directory.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` EventCode=4104 (ScriptBlockText="*New-ADGroup*" OR ScriptBlockText="*New-LocalGroup*") ScriptBlockText="*ESX Admins*"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_esx_admins_group_creation_via_powershell_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process IN ("*New-ADGroup*", "*New-LocalGroup*") Processes.process="*ESX Admins*" by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_esx_admins_group_creation_via_powershell_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. You can find additional setup instructions in the Splunk documentation for configuring PowerShell logging.
 known_false_positives: Legitimate administrators might create an "ESX Admins" group for valid reasons. Verify that the group creation is authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
 references:
@@ -35,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user_id$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: PowerShell command to create "ESX Admins" group detected on host $dest$ by user $user_id$.
     entity:

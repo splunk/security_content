@@ -6,12 +6,12 @@ modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: |-
-    Detects execution of the kextload command on macOS systems. The kextload utility is used to manually load kernel extensions (KEXTs) into the macOS kernel, which can introduce privileged code at the kernel level.
-    While legitimate for driver installation and system administration, misuse may indicate attempts to install unauthorized, malicious, or persistence-enabling kernel extensions.
+description: 'Detects execution of the kextload command on macOS systems. The kextload utility is used to manually load kernel extensions (KEXTs) into the macOS kernel, which can introduce privileged code at the kernel level.
+
+    While legitimate for driver installation and system administration, misuse may indicate attempts to install unauthorized, malicious, or persistence-enabling kernel extensions.'
 data_source:
     - Osquery Results
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -38,11 +38,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_kextload_usage_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: |-
-    Administrators installing new drivers could use this application.
+how_to_implement: 'This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.'
+known_false_positives: Administrators installing new drivers could use this application.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://www.unix.com/man_page/osx/8/kextload/
@@ -54,7 +53,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Possible kernel extension loaded on $dest$ by $user$ via $process$
     entity:

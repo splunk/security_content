@@ -6,13 +6,14 @@ modification_date: '2026-06-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: |-
-    This hunting analytic identifies multiple distinct SSH publickey fingerprints used to authenticate the same user from the same source IP against a Cisco Catalyst SD-WAN control component.
+description: 'This hunting analytic identifies multiple distinct SSH publickey fingerprints used to authenticate the same user from the same source IP against a Cisco Catalyst SD-WAN control component.
+
     After legitimate vManage key rotation or reboot, a new key may appear but the old key should no longer be used; continued use of more than one key from the same source may indicate unauthorized key injection or persistence related to CVE-2026-20127 (cisco-sa-sdwan-rpa-EHchtZk).
-    Validate flagged keys and source IPs against known System IPs in SD-WAN Manager and investigate unexpected combinations.
+
+    Validate flagged keys and source IPs against known System IPs in SD-WAN Manager and investigate unexpected combinations.'
 data_source:
     - Cisco SD-WAN Auth Log
-search: |-
+search: |
     `cisco_sd_wan_syslog`
     "Accepted publickey"
     | rex field=_raw "^(?<event_timestamp>\S+)\s+(?<dest>\S+)\s+<auth\.info>\s+sshd\[\d+\]:\s+Accepted publickey for (?<user>\S+) from (?<src>\S+) port (?<src_port>\d+) ssh2:\s+(?<key_type>\S+)\s+(?<ssh_key>\S+)"
@@ -21,10 +22,8 @@ search: |-
       count by dest user src
     | where distinct_keys > 1
     | `cisco_sd_wan_multiple_ssh_key_authentication_from_same_source_filter`
-how_to_implement: |
-    This detection requires Cisco SD-WAN auth logs from the /var/log/auth.log file to be ingested into Splunk.
-known_false_positives: |
-    No false positives have been identified at this time.
+how_to_implement: This detection requires Cisco SD-WAN auth logs from the /var/log/auth.log file to be ingested into Splunk.
+known_false_positives: No false positives have been identified at this time.
 references:
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
 analytic_story:

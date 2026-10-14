@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects a potential deletion of firewall rules, indicating a possible security breach or unauthorized access attempt. It identifies actions where firewall rules are removed using commands like netsh advfirewall firewall delete rule, which can expose the network to external threats by disabling critical security measures. Monitoring these activities helps maintain network integrity and prevent malicious attacks.
 data_source:
     - Sysmon EventID 12
-search: '`sysmon` EventCode=12 TargetObject = "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*" EventType=DeleteValue |  stats count min(_time) as firstTime max(_time) as lastTime by action dest process_guid process_id registry_hive registry_path registry_key_name status user vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_delete_firewall_rules_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_delete_firewall_rules_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: network admin may add/remove/modify public inbound firewall rule that may cause this rule to be triggered.
 references:
@@ -22,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: firewall deletion found in registry on $dest$
     entity:

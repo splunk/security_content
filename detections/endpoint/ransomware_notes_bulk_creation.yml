@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies the bulk creation of ransomware notes (e.g., .txt, .html, .hta files) on an infected machine. It leverages Sysmon EventCode 11 to detect multiple instances of these file types being created within a short time frame. This activity is significant as it often indicates an active ransomware attack, where the attacker is notifying the victim of the encryption. If confirmed malicious, this behavior could lead to widespread data encryption, rendering critical files inaccessible and potentially causing significant operational disruption.
 data_source:
     - Sysmon EventID 11
-search: |-
+search: |
     `sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta")
       | bin _time span=10s
       | stats min(_time) as firstTime max(_time) as lastTime dc(TargetFilename) as unique_readme_path_count values(TargetFilename) as list_of_readme_path values(action) as action values(file_access_time) as file_access_time values(file_create_time) as file_create_time values(file_hash) as file_hash values(file_modify_time) as file_modify_time values(file_path) as file_path values(file_acl) as file_acl values(file_size) as file_size values(process_guid) as process_guid values(process_id) as process_id values(user) as user values(vendor_product) as vendor_product
@@ -31,7 +31,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

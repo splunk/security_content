@@ -6,13 +6,14 @@ modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Hunting
-description: |-
-    This analytic detects network connection events possibly associated with the Cloudflared tool, a tool used to create tunnels via Cloudflare.
+description: 'This analytic detects network connection events possibly associated with the Cloudflared tool, a tool used to create tunnels via Cloudflare.
+
     Cloudflared is functionally very similar to ngrok, an ingress-as-a-service tool.
-    It reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel's controller makes services or private networks accessible.
+
+    It reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel''s controller makes services or private networks accessible.'
 data_source:
     - Sysmon EventID 3
-search: |-
+search: |
     | tstats `security_content_summariesonly`
        count min(_time) as firstTime
              max(_time) as lastTime

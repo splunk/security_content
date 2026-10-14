@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic detects `PutBucketLifecycle` events in AWS CloudTrail logs where a user sets a lifecycle rule for an S3 bucket with an expiration period of fewer than three days. This detection leverages CloudTrail logs to identify suspicious lifecycle configurations. This activity is significant because attackers may use it to delete CloudTrail logs quickly, thereby evading detection and impairing forensic investigations. If confirmed malicious, this could allow attackers to cover their tracks, making it difficult to trace their actions and respond to the breach effectively.
 data_source:
     - AWS CloudTrail PutBucketLifecycle
-search: |-
+search: |
     `cloudtrail` eventName=PutBucketLifecycle user_type=IAMUser errorCode=success
       | spath path=requestParameters{}.LifecycleConfiguration{}.Rule{}.Expiration{}.Days output=expiration_days
       | spath path=requestParameters{}.bucketName output=bucket_name
@@ -42,6 +42,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/put_bucketlifecycle/aws_cloudtrail_events.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

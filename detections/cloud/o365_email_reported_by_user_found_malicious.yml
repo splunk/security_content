@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects when an email submitted to Microsoft using the built-in report button in Outlook is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
 data_source:
     - Office 365 Universal Audit Log
-search: |-
+search: |
     `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="Email reported by user as*"
       | fromjson Data
       | rename _raw AS temp etps AS _raw
@@ -40,7 +40,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_user$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The user $user$ reported an email classified from $src_user$
     entity:
@@ -67,6 +67,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

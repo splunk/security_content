@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies the configuration of Azure Active Directory Applications in a manner that allows authentication from external tenants or personal accounts. This configuration can lead to inappropriate or malicious access of any data or capabilities the application is allowed to access. This detection leverages the O365 Universal Audit Log data source.
 data_source:
     - Office 365 Universal Audit Log
-search: "`o365_management_activity` Workload=AzureActiveDirectory Operation IN (\"Add application.\",\"Update application.\") ModifiedProperties{}.Name=AvailableToOtherTenants | eval result = case(match(mvindex('ModifiedProperties{}.NewValue',mvfind('ModifiedProperties{}.Name',\"AvailableToOtherTenants\")),\"false\"),\"removed\",true(),\"added\"), object_name=mvindex('Target{}.ID', 3), signature=Operation, object_attrs = \"AvailableToOtherTenants\", user = case(match(mvindex('Actor{}.ID',-1),\"User\"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),\"ServicePrincipal\"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)) | search result = \"added\" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product object_attrs object_name | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_application_available_to_other_tenants_filter`"
+search: |
+    `o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add application.","Update application.") ModifiedProperties{}.Name=AvailableToOtherTenants | eval result = case(match(mvindex('ModifiedProperties{}.NewValue',mvfind('ModifiedProperties{}.Name',"AvailableToOtherTenants")),"false"),"removed",true(),"added"), object_name=mvindex('Target{}.ID', 3), signature=Operation, object_attrs = "AvailableToOtherTenants", user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)) | search result = "added" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product object_attrs object_name | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_application_available_to_other_tenants_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Business approved changes by known administrators.
 references:
@@ -24,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: An Azure Application [$object_name$] was configured by [$user$] as accessible to external tenants.
     entity:
@@ -51,6 +52,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

@@ -6,12 +6,12 @@ modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: |-
-    Identifies attempts to configure a macOS LoginHook via the defaults utility. LoginHooks enable automatic execution of a script or program upon user login and have historically been abused for persistence.
-    Creation or modification of this setting may indicate an attempt to establish startup execution outside standard LaunchAgent mechanisms.
+description: 'Identifies attempts to configure a macOS LoginHook via the defaults utility. LoginHooks enable automatic execution of a script or program upon user login and have historically been abused for persistence.
+
+    Creation or modification of this setting may indicate an attempt to establish startup execution outside standard LaunchAgent mechanisms.'
 data_source:
     - Osquery Results
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -34,11 +34,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_loginhook_persistence_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: |-
-    This method is possibly still used by legacy enterprise management scripts. Update filter macro to remove false positives.
+how_to_implement: 'This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.'
+known_false_positives: This method is possibly still used by legacy enterprise management scripts. Update filter macro to remove false positives.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://www.loobins.io/binaries/defaults/
@@ -50,7 +49,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Loginhook created on $dest$ by $user$ via $process$
     entity:

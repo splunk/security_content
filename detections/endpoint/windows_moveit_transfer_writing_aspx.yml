@@ -10,27 +10,19 @@ description: The following analytic detects the creation of new ASPX files in th
 data_source:
     - Sysmon EventID 11
 search: |
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime FROM datamodel=Endpoint.Filesystem where
-      Filesystem.file_path IN ("*\\MOVEitTransfer\\wwwroot\\*") AND
-      Filesystem.file_name IN("*.ashx", "*.asp*")
-    by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
-    Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
-    Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
-    Filesystem.user Filesystem.vendor_product
-    | `drop_dm_object_name(Filesystem)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_moveit_transfer_writing_aspx_filter`
-how_to_implement: |
-    To successfully implement this search you need to be ingesting information
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="*\\MOVEitTransfer\\wwwroot\\*" Filesystem.file_name IN ("*.ashx", "*.asp") by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_moveit_transfer_writing_aspx_filter`
+how_to_implement: 'To successfully implement this search you need to be ingesting information
+
     on process that include the name of the process responsible for the changes from
+
     your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
-    node.
-known_false_positives: |
-    The query is structured in a way that `action` (read, create)
+
+    node.'
+known_false_positives: 'The query is structured in a way that `action` (read, create)
+
     is not defined. Review the results of this query, filter, and tune as necessary.
-    It may be necessary to generate this query specific to your endpoint product.
+
+    It may be necessary to generate this query specific to your endpoint product.'
 references:
     - https://community.progress.com/s/article/MOVEit-Transfer-Critical-Vulnerability-31May2023
     - https://www.reddit.com/r/sysadmin/comments/13wxuej/critical_vulnerability_moveit_file_transfer/
@@ -45,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The MOVEit application on $dest$ has written a new ASPX file $file_name$ to disk.
     entity:

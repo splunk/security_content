@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic detects `PutBucketLifecycle` events in AWS CloudTrail logs where a user sets a lifecycle rule for an S3 bucket with an expiration period of fewer than three days. This detection leverages CloudTrail logs to identify suspicious lifecycle configurations. This activity is significant because attackers may use it to delete CloudTrail logs quickly, thereby evading detection and impairing forensic investigations. If confirmed malicious, this could allow attackers to cover their tracks, making it difficult to trace their actions and respond to the breach effectively.
 data_source:
     - ASL AWS CloudTrail
-search: |-
+search: |
     `amazon_security_lake` api.operation=PutBucketLifecycle
       | spath input=api.request.data path=LifecycleConfiguration.Rule.NoncurrentVersionExpiration.NoncurrentDays output=NoncurrentDays
       | where NoncurrentDays < 3
@@ -44,6 +44,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/put_bucketlifecycle/asl_ocsf_cloudtrail.json
-          sourcetype: aws:asl
           source: aws_asl
+          sourcetype: aws:asl
       test_type: unit

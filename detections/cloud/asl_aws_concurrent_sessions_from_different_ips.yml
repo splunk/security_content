@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies an AWS IAM account with concurrent sessions originating from more than one unique IP address within a 5-minute span. This detection leverages AWS CloudTrail logs, specifically the `DescribeEventAggregates` API call, to identify multiple IP addresses associated with the same user session. This behavior is significant as it may indicate a session hijacking attack, where an adversary uses stolen session cookies to access AWS resources from a different location. If confirmed malicious, this activity could allow unauthorized access to sensitive corporate resources, leading to potential data breaches or further exploitation.
 data_source:
     - ASL AWS CloudTrail
-search: |-
+search: |
     `amazon_security_lake` api.operation=DescribeEventAggregates src_endpoint.domain!="AWS Internal"
       | bin span=5m _time
       | stats min(_time) as firstTime max(_time) as lastTime values(api.operation) as api.operation values(api.service.name) as api.service.name values(http_request.user_agent) as http_request.user_agent values(src_endpoint.ip) as src_ip values(actor.user.account.uid) as actor.user.account.uid values(cloud.provider) as cloud.provider values(cloud.region) as cloud.region dc(src_endpoint.ip) as distinct_ip_count
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -60,7 +60,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/asl_ocsf_cloudtrail.json
-          sourcetype: aws:asl
           source: aws_asl
+          sourcetype: aws:asl
       description: PORTED MANUAL TEST - Can't be tested automatically because of time span.
       test_type: experimental

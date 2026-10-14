@@ -10,7 +10,8 @@ description: The following analytic detects a source computer accessing Windows 
 data_source:
     - Windows Event Log Security 5140
     - Windows Event Log Security 5145
-search: '`wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$" OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$") | bucket span=5m _time | stats dc(Computer) AS unique_targets values(Computer) as host_targets values(ShareName) as shares values(dest) as dest by _time, IpAddress, SubjectUserName, EventCode | where unique_targets > 30 | `windows_administrative_shares_accessed_on_multiple_hosts_filter`'
+search: |
+    `wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$" OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$") | bucket span=5m _time | stats dc(Computer) AS unique_targets values(Computer) as host_targets values(ShareName) as shares values(dest) as dest by _time, IpAddress, SubjectUserName, EventCode | where unique_targets > 30 | `windows_administrative_shares_accessed_on_multiple_hosts_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting file share events. The Advanced Security Audit policy setting `Audit Detailed File Share` or `Audit File Share` within `Object Access` need to be enabled.
 known_false_positives: An single endpoint accessing windows administrative shares across a large number of endpoints is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, administration systems and missconfigured systems.
 references:
@@ -27,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$host_targets$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host_targets$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: $IpAddress$ accessed the IPC share on more than 30 endpoints in a timespan of 5 minutes.
     entity:

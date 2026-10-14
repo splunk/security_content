@@ -6,14 +6,16 @@ modification_date: '2026-09-22'
 author: Rico Valdez, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects instances where network traffic, identified by port and transport layer protocol as prohibited in the "lookup_interesting_ports" table, is allowed.
+description: 'The following analytic detects instances where network traffic, identified by port and transport layer protocol as prohibited in the "lookup_interesting_ports" table, is allowed.
+
     It uses the Network_Traffic data model to cross-reference traffic data against predefined security policies.
+
     This activity is significant for a SOC as it highlights potential misconfigurations or policy violations that could lead to unauthorized access or data exfiltration.
-    If confirmed malicious, this could allow attackers to bypass network defenses, leading to potential data breaches and compromising the organization's security posture.
+
+    If confirmed malicious, this could allow attackers to bypass network defenses, leading to potential data breaches and compromising the organization''s security posture.'
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -42,12 +44,12 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `drop_dm_object_name("All_Traffic")`
     | `prohibited_network_traffic_allowed_filter`
-how_to_implement: |-
-    In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment.
-    This is necessary so that the search can identify an 'action' taken on the traffic of interest.
-    The search also requires the Network_Traffic data model be populated.
-known_false_positives: |-
-    The "interesting_ports_lookup" lookup considers communication to ports like 20, 21 for FTP, 23 for Telnet, 110 for POP3, etc. as prohibited traffic. Which may result in a lot of alerts in certain environments that still rely on these ports for legitimate traffic. Tune as needed.
+how_to_implement: 'In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment.
+
+    This is necessary so that the search can identify an ''action'' taken on the traffic of interest.
+
+    The search also requires the Network_Traffic data model be populated.'
+known_false_positives: The "interesting_ports_lookup" lookup considers communication to ports like 20, 21 for FTP, 23 for Telnet, 110 for POP3, etc. as prohibited traffic. Which may result in a lot of alerts in certain environments that still rely on these ports for legitimate traffic. Tune as needed.
 references:
     - https://securityscorecard.com/blog/ftp-security-risks/
     - https://secoraconsulting.com/blog/telnet-security-risks/
@@ -59,7 +61,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_ip$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src_ip

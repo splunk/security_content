@@ -8,7 +8,7 @@ status: production
 type: Anomaly
 description: The following analytic identifies threats blocked by the Zscaler proxy based on behavior analysis. It leverages web proxy logs to detect entries where actions are blocked and threat names and classes are specified. This detection is significant as it highlights potential malicious activities that were intercepted by Zscaler's behavior analysis, providing early indicators of threats. If confirmed malicious, these blocked threats could indicate attempted breaches or malware infections, helping security teams to understand and mitigate potential risks in their environment.
 data_source: []
-search: |-
+search: |
     `zscaler_proxy` action=blocked threatname!="None" threatclass="Behavior Analysis"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action deviceowner user
@@ -29,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src

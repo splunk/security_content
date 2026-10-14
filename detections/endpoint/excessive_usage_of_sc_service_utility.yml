@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects excessive usage of the `sc.exe` service utility on a host machine. It leverages Sysmon EventCode 1 logs to identify instances where `sc.exe` is executed more frequently than normal within a 15-minute window. This behavior is significant as it is commonly associated with ransomware, cryptocurrency miners, and other malware attempting to create, modify, delete, or disable services, potentially related to security applications or for privilege escalation. If confirmed malicious, this activity could allow attackers to manipulate critical services, leading to system compromise or disruption of security defenses.
 data_source:
     - Sysmon EventID 1
-search: |-
+search: |
     | tstats `security_content_summariesonly` count as numScExe min(_time) as firstTime max(_time) as lastTime values(Processes.action) as action values(Processes.original_file_name) as original_file_name values(Processes.parent_process_exec) as parent_process_exec values(Processes.parent_process_guid) as parent_process_guid values(Processes.parent_process_name) as parent_process_name values(Processes.parent_process_path) as parent_process_path values(Processes.process) as process values(Processes.process_exec) as process_exec values(Processes.process_guid) as process_guid values(Processes.process_hash) as process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level) as process_integrity_level values(Processes.process_path) as process_path values(Processes.user_id) as user_id values(Processes.vendor_product) as vendor_product values(Processes.parent_process) as parent_process values(Processes.process_name) as process_name values(Processes.parent_process_id) as parent_process_id values(Processes.user) as user FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name = "sc.exe"
       BY Processes.dest _time span=15m
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -9,12 +9,8 @@ type: TTP
 description: The following analytic detects the addition of a Service Principal Name (SPN) to a domain account. It leverages Windows Event Code 5136 and monitors changes to the servicePrincipalName attribute. This activity is significant because it may indicate an attempt to perform Kerberoasting, a technique where attackers extract and crack service account passwords offline. If confirmed malicious, this could allow an attacker to obtain cleartext passwords, leading to unauthorized access and potential lateral movement within the domain environment.
 data_source:
     - Windows Event Log Security 5136
-search: >-
-    `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
-    OperationType="%%14674" ObjectClass=user
-    | stats values(ObjectDN) as ObjectDN by _time, Computer, SubjectUserName, AttributeValue
-    | rex field=ObjectDN "^CN=(?P<user>[a-zA-Z0-9!#$%&'@^_{}~.-]+),"
-    | rename Computer as dest, SubjectUserName as src_user  | `windows_ad_serviceprincipalname_added_to_domain_account_filter`
+search: |
+    `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName OperationType="%%14674" ObjectClass=user | stats values(ObjectDN) as ObjectDN by _time, Computer, SubjectUserName, AttributeValue | rex field=ObjectDN "^CN=(?P<user>[a-zA-Z0-9!#$%&'@^_{}~.-]+)," | rename Computer as dest, SubjectUserName as src_user  | `windows_ad_serviceprincipalname_added_to_domain_account_filter`
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
 known_false_positives: A Service Principal Name should only be added to an account when an application requires it. While infrequent, this detection may trigger on legitimate actions. Filter as needed.
 references:
@@ -30,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$ObjectDN$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$ObjectDN$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A Servince Principal Name for $ObjectDN$ was set by $user$
     entity:

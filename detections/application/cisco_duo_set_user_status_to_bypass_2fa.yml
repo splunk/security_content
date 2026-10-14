@@ -6,18 +6,24 @@ modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: |
-    The following analytic detects instances where a Duo user's status is changed to "Bypass" for 2FA, specifically when the
+description: 'The following analytic detects instances where a Duo user''s status is changed to "Bypass" for 2FA, specifically when the
+
     previous status was "Active." This behavior is identified by analyzing Duo activity logs for user update actions, extracting
+
     the status transitions, and filtering for cases where a user is set to bypass multi-factor authentication. This is a critical
+
     event for a Security Operations Center (SOC) to monitor, as bypassing 2FA significantly weakens account security and may
+
     indicate malicious insider activity or account compromise. Attackers or unauthorized administrators may exploit this change to
+
     disable strong authentication controls, increasing the risk of unauthorized access to sensitive systems and data. Early detection
+
     of such changes enables rapid investigation and response, helping to prevent potential breaches and limit the impact of
-    credential-based attacks.
+
+    credential-based attacks.'
 data_source:
     - Cisco Duo Administrator
-search: |-
+search: |
     `cisco_duo_activity` action.name=user_update
       | spath input=target.details path=status output=status
       | spath input=old_target.details path=status output=old_status
@@ -45,7 +51,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A user $user$ has set their status to bypass 2FA from IP Address - $src_ip$
     entity:

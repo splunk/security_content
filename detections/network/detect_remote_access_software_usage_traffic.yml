@@ -6,10 +6,11 @@ modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: Anomaly
-description: |
-    The following analytic detects network traffic associated with known remote access software applications, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
+description: 'The following analytic detects network traffic associated with known remote access software applications, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
+
     It leverages Palo Alto traffic logs mapped to the Network_Traffic data model in Splunk. This activity is significant because adversaries often use remote access tools to maintain unauthorized access to compromised environments.
-    If confirmed malicious, this activity could allow attackers to control systems remotely, exfiltrate data, or deploy additional malware, posing a severe threat to the organization's security.
+
+    If confirmed malicious, this activity could allow attackers to control systems remotely, exfiltrate data, or deploy additional malware, posing a severe threat to the organization''s security.'
 data_source:
     - Palo Alto Network Traffic
 search: |
@@ -49,7 +50,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate application traffic for $app$
       search: '| from datamodel:Network_Traffic.All_Traffic | search src=$src$ app=$app$'
       earliest_offset: $info_min_time$

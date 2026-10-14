@@ -8,7 +8,7 @@ status: experimental
 type: TTP
 description: The following analytic identifies the creation of new open/public GCP Storage buckets. It leverages GCP PubSub events, specifically monitoring for the `storage.setIamPermissions` method and checks if the `allUsers` member is added. This activity is significant because open storage buckets can expose sensitive data to the public, posing a severe security risk. If confirmed malicious, an attacker could access, modify, or delete data within the bucket, leading to data breaches and potential compliance violations.
 data_source: []
-search: |-
+search: |
     `google_gcp_pubsub_message` data.resource.type=gcs_bucket data.protoPayload.methodName=storage.setIamPermissions
       | spath output=action path=data.protoPayload.serviceData.policyDelta.bindingDeltas{}.action
       | spath output=user path=data.protoPayload.authenticationInfo.principalEmail
@@ -24,8 +24,9 @@ how_to_implement: This search relies on the Splunk Add-on for Google Cloud Platf
 known_false_positives: While this search has no known false positives, it is possible that a GCP admin has legitimately created a public bucket for a specific purpose. That said, GCP strongly advises against granting full control to the "allUsers" group.
 references: []
 finding:
-    title: |
-        "allUser" member added to $bucketName$ by $user$ making the bucket available to the public
+    title: '"allUser" member added to $bucketName$ by $user$ making the bucket available to the public
+
+'
     entity:
         field: user
         type: user

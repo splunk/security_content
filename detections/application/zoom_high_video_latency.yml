@@ -8,9 +8,11 @@ status: experimental
 type: Anomaly
 description: Detects particularly high latency from Zoom logs. Latency observed from threat actors performing Remote Employment Fraud (REF) is typically well above what’s normal for the majority of employees.
 data_source: []
-search: '`zoom_index` | spath "payload.object.participant.qos{}.type" | search "payload.object.participant.qos{}.type"=video_input | rename payload.object.participant.qos{}.details.avg_latency as avg_latency "payload.object.participant.qos{}.details.latency" as latency payload.object.participant.email as email | rex field=avg_latency "(?<average_latency>\d+) ms" | rex field=latency "(?<overall_latency>\d+) ms" | search email="*" | table email overall_latency latency avg_latency average_latency _raw | stats latest(overall_latency) as overall_latency by email _raw | where overall_latency>300 | `zoom_high_video_latency_filter`'
+search: |
+    `zoom_index` | spath "payload.object.participant.qos{}.type" | search "payload.object.participant.qos{}.type"=video_input | rename payload.object.participant.qos{}.details.avg_latency as avg_latency "payload.object.participant.qos{}.details.latency" as latency payload.object.participant.email as email | rex field=avg_latency "(?<average_latency>\d+) ms" | rex field=latency "(?<overall_latency>\d+) ms" | search email="*" | table email overall_latency latency avg_latency average_latency _raw | stats latest(overall_latency) as overall_latency by email _raw | where overall_latency>300 | `zoom_high_video_latency_filter`
 how_to_implement: The analytic leverages Zoom logs to be ingested using Splunk Connect for Zoom (https://splunkbase.splunk.com/app/4961)
 known_false_positives: While latency could simply indicate a slow network connection, when combined with other indicators, it can help build a more complete picture. Tune the threshold as needed for your environment baseline.
+references: []
 drilldown_searches:
     - name: View the detection results for - "$email$"
       search: '%original_detection_search% | search  payload.object.participant.email = "$email$"'
@@ -19,7 +21,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$email$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$email$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: email

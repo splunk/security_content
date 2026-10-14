@@ -6,12 +6,15 @@ modification_date: '2026-05-13'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: |
-    The following analytic detects file writes with extensions indicative of a SamSam ransomware attack.
+description: 'The following analytic detects file writes with extensions indicative of a SamSam ransomware attack.
+
     It leverages file-system activity data to identify file names ending in .stubbin, .berkshire, .satoshi, .sophos, or .keyxml.
+
     This activity is significant because SamSam ransomware is highly destructive, leading to file encryption and ransom demands.
+
     If confirmed malicious, the impact includes significant financial losses, operational disruptions, and reputational damage.
-    Immediate actions should include isolating affected systems, restoring files from backups, and investigating the attack source to prevent further incidents.
+
+    Immediate actions should include isolating affected systems, restoring files from backups, and investigating the attack source to prevent further incidents.'
 data_source:
     - Sysmon EventID 11
 search: |
@@ -42,8 +45,7 @@ search: |
     | search file_extension IN (".berkshire", ".keyxml", ".satoshi", ".sophos", ".stubbin")
     | `file_with_samsam_extension_filter`
 how_to_implement: You must be ingesting data that records file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
-known_false_positives: |
-    Because these extensions are not typically used in normal operations, you should investigate all results.
+known_false_positives: Because these extensions are not typically used in normal operations, you should investigate all results.
 references: []
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
@@ -53,7 +55,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The $file_name$ with extensions consistent with a SamSam ransomware attack seen on $dest$
     entity:

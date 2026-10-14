@@ -9,7 +9,7 @@ type: Anomaly
 description: Detects identities invoking high-risk filesystem and execution tools via AWS Bedrock Claude. For each identity, monitors the usage of potentially dangerous commands and flags any anomalous activity that deviates from their historical baseline. This may indicate attempts to escalate privileges, exfiltrate data, or execute unauthorized commands.
 data_source:
     - AWS Bedrock Claude
-search: |-
+search: |
     `aws_bedrock_claude`
     | spath output="tool_called"       path="output.outputBodyJson{}.content_block.toolUse.name"
     | spath output="out_tokens_stream" path="output.outputBodyJson{}.usage.output_tokens"
@@ -81,7 +81,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -103,6 +103,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_high_risk_filesystem_and_exec_tool_invocation.ndjson
-          sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
+          sourcetype: json_no_timestamp
       test_type: unit

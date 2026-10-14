@@ -8,7 +8,7 @@ status: production
 type: Anomaly
 description: The following analytic detects multiple CrowdStrike LOW severity alerts, indicating a series of minor suspicious activities or policy violations. These alerts are not immediately critical but should be reviewed to prevent potential threats. They often highlight unusual behavior or low-level risks that, if left unchecked, could escalate into more significant security issues. Regular monitoring and analysis of these alerts are essential for maintaining robust security.
 data_source: []
-search: |-
+search: |
     `crowdstrike_stream` tag=alert event.SeverityName= LOW
       | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
       | stats dc(type) as type_count, values(user) as users, values(description) as descriptions, values(type) as types, values(severity) count min(_time) as firstTime max(_time) as lastTime
@@ -29,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src_host$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src_host
@@ -51,6 +51,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/multiple_low_alert/crowdstrike_multiple_low_cleaned.log
-          sourcetype: CrowdStrike:Event:Streams:JSON
           source: CrowdStrike:Event:Streams
+          sourcetype: CrowdStrike:Event:Streams:JSON
       test_type: unit

@@ -10,7 +10,7 @@ description: The following analytic detects suspicious Kerberos Ticket Granting 
 data_source:
     - Windows Event Log Security 4768
     - Windows Event Log Security 4781
-search: |-
+search: |
     `wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$") OR (EventCode=4768 TargetUserName!="*$")
       | eval RenamedComputerAccount = coalesce(NewTargetUserName, TargetUserName)
       | transaction RenamedComputerAccount startswith=(EventCode=4781) endswith=(EventCode=4768)

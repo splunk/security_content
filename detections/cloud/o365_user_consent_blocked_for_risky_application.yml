@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies instances where Office 365 has blocked a user's attempt to grant consent to an application deemed risky or potentially malicious. This detection leverages O365 audit logs, specifically focusing on failed user consent actions due to system-driven blocks. Monitoring these blocked consent attempts is crucial as it highlights potential threats early on, indicating that a user might be targeted or that malicious applications are attempting to infiltrate the organization. If confirmed malicious, this activity suggests that O365's security measures successfully prevented a harmful application from accessing organizational data, warranting immediate investigation.
 data_source:
     - O365 Consent to application.
-search: "`o365_management_activity` Workload=AzureActiveDirectory Operation=\"Consent to application.\" ResultStatus=Failure | eval permissions =mvindex('ModifiedProperties{}.NewValue', 4) | eval reason =mvindex('ModifiedProperties{}.NewValue', 5) | search reason = \"Risky application detected\" | rex field=permissions \"Scope: (?<Scope>[^,]+)\" | fillnull | stats max(_time) as lastTime by user, reason, object, Scope, dest, src, vendor_account, vendor_product, signature | `security_content_ctime(lastTime)` | `o365_user_consent_blocked_for_risky_application_filter`"
+search: |
+    `o365_management_activity` Workload=AzureActiveDirectory Operation="Consent to application." ResultStatus=Failure | eval permissions =mvindex('ModifiedProperties{}.NewValue', 4) | eval reason =mvindex('ModifiedProperties{}.NewValue', 5) | search reason = "Risky application detected" | rex field=permissions "Scope: (?<Scope>[^,]+)" | fillnull | stats max(_time) as lastTime by user, reason, object, Scope, dest, src, vendor_account, vendor_product, signature | `security_content_ctime(lastTime)` | `o365_user_consent_blocked_for_risky_application_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Microsofts algorithm to identify risky applications is unknown and may flag legitimate applications.
 references:
@@ -27,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: O365 has blocked $user$ attempt to grant to consent to an application deemed risky.
     entity:

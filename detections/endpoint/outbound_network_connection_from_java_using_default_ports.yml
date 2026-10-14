@@ -6,14 +6,16 @@ modification_date: '2026-05-13'
 author: Mauricio Velazco, Lou Stella, Splunk
 status: production
 type: TTP
-description: |
-    The following analytic detects outbound network connections from Java processes to default ports used by LDAP and RMI protocols, which may indicate exploitation of the CVE-2021-44228-Log4j vulnerability.
+description: 'The following analytic detects outbound network connections from Java processes to default ports used by LDAP and RMI protocols, which may indicate exploitation of the CVE-2021-44228-Log4j vulnerability.
+
     This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and network traffic logs.
-    Monitoring this activity is crucial as it can signify an attacker's attempt to perform JNDI lookups and retrieve malicious payloads.
-    If confirmed malicious, this activity could lead to remote code execution and further compromise of the affected server.
+
+    Monitoring this activity is crucial as it can signify an attacker''s attempt to perform JNDI lookups and retrieve malicious payloads.
+
+    If confirmed malicious, this activity could lead to remote code execution and further compromise of the affected server.'
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 3
-search: |-
+search: |
     | tstats `security_content_summariesonly` count
     FROM datamodel=Endpoint.Processes WHERE
 
@@ -58,10 +60,8 @@ search: |-
             process_path process_name process process_hash
             connection_to_CNC dest_port user
     | `outbound_network_connection_from_java_using_default_ports_filter`
-how_to_implement: |
-    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: |
-    Legitimate Java applications may use perform outbound connections to these ports. Filter as needed
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate Java applications may use perform outbound connections to these ports. Filter as needed
 references:
     - https://www.lunasec.io/docs/blog/log4j-zero-day/
     - https://www.govcert.admin.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
@@ -73,7 +73,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Java performed outbound connections to default ports of LDAP or RMI on $dest$
     entity:

@@ -9,7 +9,7 @@ type: Anomaly
 description: This detection identifies DNS queries to domains that match previously decommissioned S3 buckets. This activity is significant because attackers may attempt to recreate deleted S3 buckets that were previously public to hijack them for malicious purposes. If successful, this could allow attackers to host malicious content or exfiltrate data through compromised bucket names that may still be referenced by legitimate applications.
 data_source:
     - Sysmon EventID 22
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Resolution
       WHERE DNS.message_type=QUERY
       BY DNS.answer DNS.answer_count DNS.query
@@ -61,12 +61,12 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/cloudtrail.json
           source: cloudtrail
           sourcetype: aws:cloudtrail
-      test_type: experimental
       description: This test is a legacy experimental test and may not be accurate.
+      test_type: experimental
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/dns.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
-      test_type: experimental
       description: This test is a legacy experimental test and may not be accurate.
+      test_type: experimental

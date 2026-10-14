@@ -10,7 +10,8 @@ description: The following analytic detects driver load errors in the Windows Pr
 data_source:
     - Windows Event Log Printservice 808
     - Windows Event Log Printservice 4909
-search: '`printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909")) OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\")) | stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `print_spooler_failed_to_load_a_plug_in_filter`'
+search: |
+    `printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909")) OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\")) | stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `print_spooler_failed_to_load_a_plug_in_filter`
 how_to_implement: You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
 known_false_positives: False positives are unknown and filtering may be required.
 references:
@@ -25,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$ComputerName$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$ComputerName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Suspicious printer spooler errors have occurred on endpoint $ComputerName$ with EventCode $EventCode$.
     entity:

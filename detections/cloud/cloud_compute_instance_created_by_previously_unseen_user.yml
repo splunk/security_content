@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies the creation of cloud compute instances by users who have not previously created them. It leverages data from the Change data model, focusing on 'create' actions by users, and cross-references with a baseline of known user activities. This activity is significant as it may indicate unauthorized access or misuse of cloud resources by new or compromised accounts. If confirmed malicious, attackers could deploy unauthorized compute instances, leading to potential data exfiltration, increased costs, or further exploitation within the cloud environment.
 data_source:
     - AWS CloudTrail
-search: |-
+search: |
     | tstats `security_content_summariesonly` count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object) as dest FROM datamodel=Change
       WHERE All_Changes.action=created
       BY All_Changes.user All_Changes.vendor_region
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest
@@ -62,7 +62,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       description: PORTED MANUAL TEST - This search needs the baseline `Previously Seen Cloud Compute Creations By User` to be run first.
       test_type: experimental

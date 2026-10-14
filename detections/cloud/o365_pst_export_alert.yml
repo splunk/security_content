@@ -9,17 +9,8 @@ type: TTP
 description: The following analytic detects instances where a user has initiated an eDiscovery search or exported a PST file in an Office 365 environment. It leverages Office 365 management activity logs, specifically filtering for events under ThreatManagement with the name "eDiscovery search started or exported." This activity is significant as it may indicate data exfiltration attempts or unauthorized access to sensitive information. If confirmed malicious, it suggests an attacker or insider threat is attempting to gather or exfiltrate data, potentially leading to data breaches, loss of intellectual property, or unauthorized access to confidential communications. Immediate investigation is required.
 data_source:
     - O365
-search: |-
-    `o365_management_activity` Category=ThreatManagement Name="eDiscovery search started or exported"
-      | fillnull
-      | stats count earliest(_time) as firstTime latest(_time) as lastTime
-        BY Source Severity AlertEntityId
-           Name user src
-           vendor_account vendor_product dest
-           signature
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `o365_pst_export_alert_filter`
+search: |
+    `o365_management_activity` Category="ThreatManagement" Name="eDiscovery search started or exported" | eval user=User, new_value='ModifiedProperties{}.NewValue', signature=signature, Severity=Severity | stats count min(_time) as firstTime max(_time) as lastTime by Category Name | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_pst_export_alert_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: PST export can be done for legitimate purposes but due to the sensitive nature of its content it must be monitored.
 references:
@@ -32,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ has exported a PST file from the search using this operation- $signature$ with a severity of $Severity$
     entity:
@@ -55,6 +46,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

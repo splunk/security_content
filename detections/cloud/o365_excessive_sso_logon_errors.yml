@@ -9,15 +9,8 @@ type: Anomaly
 description: The following analytic detects accounts experiencing a high number of Single Sign-On (SSO) logon errors. It leverages data from the `o365_management_activity` dataset, focusing on failed user login attempts with SSO errors. This activity is significant as it may indicate brute-force attempts or the hijacking/reuse of SSO tokens. If confirmed malicious, attackers could potentially gain unauthorized access to user accounts, leading to data breaches, privilege escalation, or further lateral movement within the organization.
 data_source:
     - O365 UserLoginFailed
-search: |-
-    `o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed
-      | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user
-        BY src vendor_account vendor_product
-           dest signature user_agent
-      | where count >= 5
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `o365_excessive_sso_logon_errors_filter`
+search: |
+    `o365_management_activity` Operation=UserLoginFailed Workload="AzureActiveDirectory" LogonError="*Sso*" | eval user_agent=user_agent | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_excessive_sso_logon_errors_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: Logon errors may not be malicious in nature however it may indicate attempts to reuse a token or password obtained via credential access attack.
 references:
@@ -30,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -56,6 +49,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors2.json
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

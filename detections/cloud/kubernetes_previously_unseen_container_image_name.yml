@@ -8,7 +8,7 @@ status: experimental
 type: Anomaly
 description: The following analytic identifies the creation of containerized workloads using previously unseen images in a Kubernetes cluster. It leverages process metrics from an OTEL collector and Kubernetes cluster receiver, pulled from Splunk Observability Cloud. The detection compares container image names seen in the last hour with those from the previous 30 days. This activity is significant as unfamiliar container images may introduce vulnerabilities, malware, or misconfigurations, posing threats to the cluster's integrity. If confirmed malicious, compromised images can lead to data breaches, service disruptions, unauthorized access, and potential lateral movement within the cluster.
 data_source: []
-search: |-
+search: |
     | mstats  count(k8s.container.ready) as k8s.container.ready_count where `kubernetes_metrics` AND earliest=-24h by host.name k8s.cluster.name k8s.node.name container.image.name
     | eval current="True"
     | append [mstats  count(k8s.container.ready) as k8s.container.ready_count where `kubernetes_metrics` AND earliest=-30d latest=-1h  by host.name k8s.cluster.name k8s.node.name container.image.name

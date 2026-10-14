@@ -6,14 +6,16 @@ modification_date: '2026-09-23'
 author: Steven Dick
 status: production
 type: Anomaly
-description: |-
-    The following analytic identifies when an O365 email account sends an excessive number of email attachments to external recipients within a short period (within 1 hour).
+description: 'The following analytic identifies when an O365 email account sends an excessive number of email attachments to external recipients within a short period (within 1 hour).
+
     This behavior may indicate a compromised account where the threat actor is attempting to exfiltrate data from the mailbox.
+
     Threat actors may attempt to transfer data through email as a simple means of exfiltration from the compromised mailbox.
-    Some account owner legitimate behaviors can trigger this alert, however these actions may not be aligned with organizational expectations / best practice behaviors.
+
+    Some account owner legitimate behaviors can trigger this alert, however these actions may not be aligned with organizational expectations / best practice behaviors.'
 data_source:
     - Office 365 Universal Audit Log
-search: |-
+search: |
     `o365_messagetrace` status_code=Delivered
     | eval mailtime = _time
     | bin _time span=1hr
@@ -37,10 +39,8 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `o365_email_send_attachments_excessive_volume_filter`
-how_to_implement: |-
-    You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
-known_false_positives: |-
-    Users or processes that are send a large number of attachments may trigger this alert, adjust thresholds accordingly.
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
+known_false_positives: Users or processes that are send a large number of attachments may trigger this alert, adjust thresholds accordingly.
 references:
     - https://attack.mitre.org/techniques/T1114/
     - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
@@ -53,7 +53,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate Email for $user$
       search: '`o365_management_activity` Workload=Exchange (Operation IN ("Send*")) AND Item.Attachments=* AND UserId = "$user$"'
       earliest_offset: $info_min_time$

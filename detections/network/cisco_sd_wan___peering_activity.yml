@@ -6,17 +6,22 @@ modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
-description: |
-    This analytic detects Cisco SD-WAN `control-connection-state-change` events where a control connection transitions.
+description: 'This analytic detects Cisco SD-WAN `control-connection-state-change` events where a control connection transitions.
+
     It extracts and highlights key triage fields including `peer-type`, `peer-system-ip`, `public-ip`, and `public-port`.
+
     Analysts should manually validate whether the `peer-system-ip` matches the expected SD-WAN addressing schema and
+
     device inventory, whether the event timing aligns with known operational activity (maintenance, failover, or
+
     planned changes), and whether the `public-ip` is an expected source for control peering in the environment.
+
     Treat `peer-type:vmanage` events with higher scrutiny, especially when peer or source IP values are previously
-    unseen.
+
+    unseen.'
 data_source:
     - Cisco SD-WAN NTCE 1000001
-search: |-
+search: |
     `cisco_sd_wan_syslog`
     TERM("*control-connection-state-change*")
     TERM("*peer-system-ip:*")
@@ -41,14 +46,16 @@ search: |-
     | table event_time dest peer_type peer_system_ip
             public_ips public_ports count
     | `cisco_sd_wan___peering_activity_filter`
-how_to_implement: |
-    This analytic requires Cisco SD-WAN/vSmart logs in Splunk and assumes control peering status
+how_to_implement: 'This analytic requires Cisco SD-WAN/vSmart logs in Splunk and assumes control peering status
+
     messages are searchable via the `cisco_sd_wan_syslog` macro. Update that macro with your environment-specific index and sourcetype settings.
-    Follow the documentation https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging to start ingesting these logs.
-known_false_positives: |
-    New controller onboarding, topology expansion, controller failover, maintenance windows, and temporary transport.
+
+    Follow the documentation https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging to start ingesting these logs.'
+known_false_positives: 'New controller onboarding, topology expansion, controller failover, maintenance windows, and temporary transport.
+
     Path changes can create rare peer/public-IP combinations.
-    Validate outliers against change records and known SD-WAN inventory before escalating.
+
+    Validate outliers against change records and known SD-WAN inventory before escalating.'
 references:
     - https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems
     - https://blog.talosintelligence.com/uat-8616-sd-wan/

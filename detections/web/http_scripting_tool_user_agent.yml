@@ -9,7 +9,7 @@ type: Anomaly
 description: This Splunk query analyzes web access logs to identify and categorize non-browser user agents, detecting various types of security tools, scripting languages, automation frameworks, and suspicious patterns. This activity can signify malicious actors attempting to interact with web endpoints in non-standard ways.
 data_source:
     - Nginx Access
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
     from datamodel=Web where
     Web.http_user_agent =*
@@ -49,7 +49,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

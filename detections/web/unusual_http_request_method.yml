@@ -6,60 +6,21 @@ modification_date: '2026-10-12'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects Zeek HTTP requests using methods outside a configurable allowlist of standard and commonly used HTTP methods.
+description: 'The following analytic detects Zeek HTTP requests using methods outside a configurable allowlist of standard and commonly used HTTP methods.
+
     Unusual methods can indicate protocol abuse, exploitation attempts, or command-and-control traffic.
-    Review the method, source, destination, and URI to assess the activity.
+
+    Review the method, source, destination, and URI to assess the activity.'
 data_source:
     - Zeek HTTP
-search: |-
-    `zeek_http`
-    method=*
-    NOT method IN (
-          "ACL",
-          "CCM_POST",
-          "CONNECT",
-          "COPY",
-          "DELETE",
-          "GET",
-          "HEAD",
-          "LOCK",
-          "MKCOL",
-          "MOVE",
-          "OPTIONS",
-          "PATCH",
-          "POST",
-          "PRI",
-          "PROPFIND",
-          "PROPPATCH",
-          "PUT",
-          "REPORT",
-          "SEARCH",
-          "TRACE",
-          "unknown",
-          "UNLOCK"
-        )
+search: |
+    `zeek_http` method="*" NOT (method IN ("ACL", "CCM_POST", "CONNECT", "COPY", "DELETE", "GET", "HEAD", "LOCK", "MKCOL", "MOVE", "OPTIONS", "PATCH", "POST", "PRI", "PROPFIND", "PROPPATCH", "PUT", "REPORT", "SEARCH", "TRACE", "unknown", "UNLOCK")) | stats count min(_time) as firstTime max(_time) as lastTime by orig_h resp_h resp_p uri method status_code src dest dest_port | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `unusual_http_request_method_filter`
+how_to_implement: 'Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
 
-    | eval dest_port=coalesce(dest_port, 'id.resp_p'),
-           dest=coalesce(dest, dest_ip, 'id.resp_h'),
-           src=coalesce(src, src_ip, 'id.orig_h')
+    Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.'
+known_false_positives: 'Some legitimate applications and frameworks may use non-standard HTTP methods.
 
-    | stats count min(_time) as firstTime max(_time) as lastTime
-                  values(method) as method
-                  values(uri) as uri
-                  values(status_code) as status_code
-
-      by src dest dest_port
-
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `unusual_http_request_method_filter`
-how_to_implement: |-
-    Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
-    Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
-known_false_positives: |-
-    Some legitimate applications and frameworks may use non-standard HTTP methods.
-    Review the method and destination to determine whether the traffic is expected, then add confirmed legitimate methods to the allowlist.
+    Review the method and destination to determine whether the traffic is expected, then add confirmed legitimate methods to the allowlist.'
 references:
     - https://attack.mitre.org/techniques/T1071/001/
     - https://attack.mitre.org/techniques/T1190/
@@ -72,16 +33,14 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$id.orig_h$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src
           type: system
           score: 20
           message: An unusual HTTP method [$method$] ws observed from [$src$] to [$dest$] over port [$dest_port$] to URI - [$uri$].
-threat_objects:
-    - field: uri
-      type: uri
+threat_objects: []
 analytic_story:
     - Command And Control
     - HTTP Request Smuggling
@@ -99,6 +58,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071/zeek_http_unusual_method/http.log
-          sourcetype: zeek:http
           source: http.log
+          sourcetype: zeek:http
       test_type: unit

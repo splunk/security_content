@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies the creation of open/public S3 buckets in AWS. It detects this activity by analyzing AWS CloudTrail events for `PutBucketAcl` actions where the access control list (ACL) grants permissions to all users or authenticated users. This activity is significant because open S3 buckets can expose sensitive data to unauthorized access, leading to data breaches. If confirmed malicious, an attacker could read, write, or fully control the contents of the bucket, potentially leading to data exfiltration or tampering.
 data_source:
     - AWS CloudTrail
-search: |-
+search: |
     `cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl
       | rex field=_raw "(?<json_field>{.+})"
       | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{}
@@ -37,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user_arn$" and "$bucketName$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_arn$", "$bucketName$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user_arn$ has created an open/public bucket $bucketName$ with the following permissions $permission$
     entity:
@@ -59,6 +59,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

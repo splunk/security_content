@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies the assignment of sensitive and privileged Azure Active Directory roles to an Azure AD user. Adversaries and red teams alike may assign these roles to a compromised account to establish Persistence in an Azure AD environment. This detection leverages the O365 Universal Audit Log data source.
 data_source:
     - Office 365 Universal Audit Log
-search: "`o365_management_activity` Workload=AzureActiveDirectory Operation IN (\"Add member to role.\",\"Add eligible member to role.\") | eval user = ObjectId, src_user = case(match(mvindex('Actor{}.ID',-1),\"User\"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),\"ServicePrincipal\"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)), object_name = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',\"Role\\.DisplayName\")), object_id = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',\"Role\\.TemplateId\")), signature = Operation, result = ResultStatus, category = mvindex('Target{}.ID',2) | fillnull | stats count, min(_time) as firstTime, max(_time) as lastTime by src_user, src, user, category, result, object_name, object_id, signature, vendor_account, vendor_product, dest | lookup local=t privileged_azure_ad_roles azuretemplateid as object_id OUTPUT isprvilegedadrole | search isprvilegedadrole=\"TRUE\" category=\"User\" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_privileged_role_assigned_filter`"
+search: |
+    `o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add member to role.","Add eligible member to role.") | eval user = ObjectId, src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)), object_name = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.DisplayName")), object_id = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.TemplateId")), signature = Operation, result = ResultStatus, category = mvindex('Target{}.ID',2) | fillnull | stats count, min(_time) as firstTime, max(_time) as lastTime by src_user, src, user, category, result, object_name, object_id, signature, vendor_account, vendor_product, dest | lookup local=t privileged_azure_ad_roles azuretemplateid as object_id OUTPUT isprvilegedadrole | search isprvilegedadrole="TRUE" category="User" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_privileged_role_assigned_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Administrators will legitimately assign the privileged roles users as part of administrative tasks. Microsoft Privileged Identity Management (PIM) may cause false positives / less accurate alerting.
 references:
@@ -24,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$src_user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A privileged Azure AD role [$object_name$] was assigned to user $user$ by $src_user$
     entity:
@@ -53,6 +54,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

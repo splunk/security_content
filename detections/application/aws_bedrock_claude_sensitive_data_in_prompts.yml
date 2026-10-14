@@ -9,7 +9,7 @@ type: Anomaly
 description: This detection identifies sensitive data such as social security numbers, passwords, API keys, and credit card numbers being sent in prompts to AWS Bedrock Claude models. Exposure of sensitive data through AI prompts may indicate data loss, credential leakage, or insider threat activity.
 data_source:
     - AWS Bedrock Claude
-search: |-
+search: |
     `aws_bedrock_claude`
     | rename "identity.arn" AS user_arn, "input.inputBodyJson.messages{}.content{}.text" AS prompt_mv, "accountId" AS account_id
     | eval prompt_text = mvjoin(prompt_mv, " || ")
@@ -39,7 +39,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$host$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: host
@@ -59,8 +59,8 @@ category: application
 security_domain: endpoint
 tests:
     - name: True Positive Test
-      test_type: unit
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_sensitive_data_in_prompts.ndjson
-          sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
+          sourcetype: json_no_timestamp
+      test_type: unit

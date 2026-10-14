@@ -9,7 +9,7 @@ type: TTP
 description: This analytic identifies potential exploitation attempts of ProxyShell (CVE-2021-34473, CVE-2021-34523, CVE-2021-31207) and ProxyNotShell (CVE-2022-41040, CVE-2022-41082) vulnerabilities in Microsoft Exchange Server. The detection focuses on identifying the SSRF attack patterns used in these exploit chains. The analytic monitors for suspicious POST requests to /autodiscover/autodiscover.json endpoints that may indicate attempts to enumerate LegacyDN attributes as part of initial reconnaissance. It also detects requests containing X-Rps-CAT parameters that could indicate attempts to impersonate Exchange users and access the PowerShell backend. Additionally, it looks for MAPI requests that may be used to obtain user SIDs, along with suspicious user agents (particularly Python-based) commonly used in automated exploit attempts. If successful, these attacks can lead to remote code execution as SYSTEM, allowing attackers to deploy webshells, access mailboxes, or gain persistent access to the Exchange server and potentially the broader network environment.
 data_source:
     - Windows IIS
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE (
             Web.status=200
@@ -50,7 +50,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Activity related to ProxyShell or ProxyNotShell has been identified on $dest$. Review events and take action accordingly.
     entity:

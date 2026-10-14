@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies threats detected by Okta ThreatInsight, such as password spraying, login failures, and high counts of unknown user login attempts. It leverages Okta Identity Management logs, specifically focusing on security.threat.detected events. This activity is significant for a SOC as it highlights potential unauthorized access attempts and credential-based attacks. If confirmed malicious, these activities could lead to unauthorized access, data breaches, and further exploitation of compromised accounts, posing a significant risk to the organization's security posture.
 data_source:
     - Okta
-search: |-
+search: |
     `okta` eventType = security.threat.detected
       | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$app$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$app$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: app

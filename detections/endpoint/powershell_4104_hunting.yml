@@ -6,118 +6,18 @@ modification_date: '2026-09-03'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: |-
-    The following analytic identifies suspicious PowerShell execution using Script Block Logging (EventCode 4104). It leverages specific patterns and keywords within the ScriptBlockText field to detect potentially malicious activities. This detection is significant for SOC analysts as PowerShell is commonly used by attackers for various malicious purposes, including code execution, privilege escalation, and persistence.
-    If confirmed malicious, this activity could allow attackers to execute arbitrary commands, exfiltrate data, or maintain long-term access to the compromised system, posing a severe threat to the organization's security.
+description: 'The following analytic identifies suspicious PowerShell execution using Script Block Logging (EventCode 4104). It leverages specific patterns and keywords within the ScriptBlockText field to detect potentially malicious activities. This detection is significant for SOC analysts as PowerShell is commonly used by attackers for various malicious purposes, including code execution, privilege escalation, and persistence.
+
+    If confirmed malicious, this activity could allow attackers to execute arbitrary commands, exfiltrate data, or maintain long-term access to the compromised system, posing a severe threat to the organization''s security.'
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell`
-    EventCode=4104
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process IN ("*-dumpcr*", "* -version *", "*::decompress*", "*Add-Exfiltration*", "*Add-Persistence*", "*Add-RegBackdoor*", "*Add-ScrnSaveBackdoor*", "*AmsiBypass*", "*assemblybuilderaccess*", "*backdoor*", "*backupprivilege*", "*beacon*", "*bitstransfer*", "*Brute-Force*", "*BruteForce*", "*CachedRDPConnection*", "*Check-VM*", "*cnvert*", "*compress-archive*", "*ComputerProperty*", "*comsvcs*", "*copy-vss*", "*CreateShortcut*", "*disablerealtimemonitoring*", "*Do-Exfiltration*", "*downloadfile*", "*downloadstring*", "*Enabled-DuplicateToken*", "*EXEonRemote*", "*exfiltration*", "*expand-archive*", "*Exploit-*", "*exploit*", "*Find-*", "*Frombase64*", "*Get-ApplicationHost*", "*Get-ChromeDump*", "*Get-ClipboardContents*", "*Get-*Credent*", "*Get-FoxDump*", "*Get-GPPPassword*", "*Get-IndexedItem*", "*Get-Keystrokes*", "*Get-PassHash*", "*Get-*Password*", "*Get-RegAlwaysInstallElevated*", "*Get-RegAutoLogon*", "*Get-RickAstley*", "*Get-Screenshot*", "*Get-SecurityPackages*", "*Get-ServiceFilePermission*", "*Get-ServicePermission*", "*Get-ServiceUnquoted*", "*Get-SiteListPassword*", "*Get-System*", "*Get-TimedScreenshot*", "*Get-UnattendedInstallFile*", "*Get-Unconstrained*", "*Get-VaultCredential*", "*Get-VulnAutoRun*", "*Get-VulnSchTask*", "*Gupt-Backdoor*", "*gzipstream*", "*hijack*", "*HTTP-Login*", "*IEX *", "*injection*", "*Install-Service*", "*Install-ServiceBinary*", "*Install-SSP*", "*internetexplorer.application*", "*Invoke-*", "*io.compression*", "*kerberos::*", "*lastloggedon*", "*localadmin*", "*LSASecret*", "*lsass.exe*", "*MailRaider*", "*metasp*", "*mimikatz*", "*NEEEEWWW*", "*netfirewall*", "*NetworkRelay*", "*New-HoneyHash*", "*ngrok*", "*nishang*", "*Out-Minidump*", "*out-shortcut*", "*Port-Scan*", "*PortScan*", "*PowerBreach*", "*PowerShellIcmp*", "*PowerShelludp*", "*powershellwmi*", "*PowerUp*", "*PowerView*", "*rc4bytestream*", "*reflection.assembly*", "*remoteps*", "*remotewmi*", "*Remove-Update*", "*SEKURLSA::*", "*Set-MacAttribute*", "*Set-Wallpaper*", "*shell.application*", "*shellcode*", "*Show-TargetScreen*", "*Start-CaptureServer*", "*start-process*", "*system.security.cryptography*", "*Uninstall-Windows*", "*UserProperty*", "*VolumeShadowCopyTools*", "*WebClient*", "*webrequest*", "*wmicommand*", "*wmimethod*", "*wmiobject*", "*write-zip*", "*xmlhttp*") by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_4104_hunting_filter`
+how_to_implement: 'The following Hunting analytic requires PowerShell operational logs to be ingested with ScriptBlockLogging enabled.
 
-    ScriptBlockText IN (
-        "*-dumpcr*", "* -version *", "*::decompress*",
-        "*Add-Exfiltration*", "*Add-Persistence*", "*Add-RegBackdoor*",
-        "*Add-ScrnSaveBackdoor*", "*AmsiBypass*", "*assemblybuilderaccess*", "*backdoor*",
-        "*backupprivilege*", "*beacon*", "*bitstransfer*", "*Brute-Force*", "*BruteForce*",
-        "*CachedRDPConnection*", "*Check-VM*", "*cnvert*", "*compress-archive*", "*ComputerProperty*",
-        "*comsvcs*", "*copy-vss*", "*CreateShortcut*", "*disablerealtimemonitoring*",
-        "*Do-Exfiltration*", "*downloadfile*", "*downloadstring*", "*Enabled-DuplicateToken*",
-        "*EXEonRemote*", "*exfiltration*", "*expand-archive*", "*Exploit-*", "*exploit*",
-        "*Find-*", "*Frombase64*", "*Get-ApplicationHost*", "*Get-ChromeDump*",
-        "*Get-ClipboardContents*", "*Get-*Credent*", "*Get-FoxDump*", "*Get-GPPPassword*", "*Get-IndexedItem*",
-        "*Get-Keystrokes*", "*Get-PassHash*", "*Get-*Password*", "*Get-RegAlwaysInstallElevated*", "*Get-RegAutoLogon*",
-        "*Get-RickAstley*", "*Get-Screenshot*", "*Get-SecurityPackages*", "*Get-ServiceFilePermission*",
-        "*Get-ServicePermission*", "*Get-ServiceUnquoted*", "*Get-SiteListPassword*",
-        "*Get-System*", "*Get-TimedScreenshot*", "*Get-UnattendedInstallFile*",
-        "*Get-Unconstrained*", "*Get-VaultCredential*", "*Get-VulnAutoRun*",
-        "*Get-VulnSchTask*", "*Gupt-Backdoor*", "*gzipstream*", "*hijack*",
-        "*HTTP-Login*", "*IEX *", "*injection*", "*Install-Service*",
-        "*Install-ServiceBinary*", "*Install-SSP*", "*internetexplorer.application*",
-        "*Invoke-*", "*io.compression*", "*kerberos::*", "*lastloggedon*",
-        "*localadmin*", "*LSASecret*", "*lsass.exe*", "*MailRaider*", "*metasp*",
-        "*mimikatz*", "*NEEEEWWW*", "*netfirewall*", "*NetworkRelay*",
-        "*New-HoneyHash*", "*ngrok*", "*nishang*", "*Out-Minidump*",
-        "*out-shortcut*", "*Port-Scan*", "*PortScan*", "*PowerBreach*",
-        "*PowerShellIcmp*", "*PowerShelludp*", "*powershellwmi*", "*PowerUp*", "*PowerView*",
-        "*rc4bytestream*", "*reflection.assembly*", "*remoteps*", "*remotewmi*",
-        "*Remove-Update*", "*SEKURLSA::*", "*Set-MacAttribute*", "*Set-Wallpaper*",
-        "*shell.application*", "*shellcode*", "*Show-TargetScreen*", "*Start-CaptureServer*",
-        "*start-process*", "*system.security.cryptography*", "*Uninstall-Windows*", "*UserProperty*",
-        "*VolumeShadowCopyTools*", "*WebClient*", "*webrequest*", "*wmicommand*",
-        "*wmimethod*", "*wmiobject*", "*write-zip*", "*xmlhttp*",
-    )
-
-    | eval script_lower=lower(ScriptBlockText)
-
-    | eval ecnoded_command_keyword=if(match(ScriptBlockText,"(?i)(?:^|\\s)(?:/(?!/)|--?|–{1,2}|—{1,2}|―{1,2})(?:ec|encodedcommand|encodedcomman|encodedcomma|encodedcomm|encodedcom|encodedco|encodedc|encoded|encode|encod|enco|enc|en|e(?=\\s))\\s+['\\\"]?[A-Za-z0-9+/=]{5,}['\\\"]?"), 4, 0)
-
-    | eval suspicious_cmdlets=if(match(ScriptBlockText, "(?i)Add-Exfiltration|Add-Persistence|Add-RegBackdoor|Add-ScrnSaveBackdoor|Check-VM|Do-Exfiltration|Enabled-DuplicateToken|Exploit-|Find-Fruit|Find-GPOLocation|Find-TrustedDocuments|Get-ApplicationHost|Get-ChromeDump|Get-ClipboardContents|Get-FoxDump|Get-GPPPassword|Get-IndexedItem|Get-Keystrokes|LSASecret|Get-PassHash|Get-RegAlwaysInstallElevated|Get-RegAutoLogon|Get-RickAstley|Get-Screenshot|Get-SecurityPackages|Get-ServiceFilePermission|Get-ServicePermission|Get-ServiceUnquoted|Get-SiteListPassword|Get-System|Get-TimedScreenshot|Get-UnattendedInstallFile|Get-Unconstrained|Get-VaultCredential|Get-VulnAutoRun|Get-VulnSchTask|Gupt-Backdoor|HTTP-Login|Install-SSP|Install-ServiceBinary|Invoke-ACLScanner|Invoke-ADSBackdoor|Invoke-ARPScan|Invoke-AllChecks|Invoke-BackdoorLNK|Invoke-BypassUAC|Invoke-CredentialInjection|Invoke-DCSync|Invoke-DllInjection|Invoke-DowngradeAccount|Invoke-EgressCheck|Invoke-Inveigh|Invoke-InveighRelay|Invoke-Mimikittenz|Invoke-NetRipper|Invoke-NinjaCopy|Invoke-PSInject|Invoke-Paranoia|Invoke-PortScan|Invoke-PoshRat|Invoke-PostExfil|Invoke-PowerDump|Invoke-PowerShellTCP|Invoke-PsExec|Invoke-PsUaCme|Invoke-ReflectivePEInjection|Invoke-ReverseDNSLookup|Invoke-RunAs|Invoke-SMBScanner|Invoke-SSHCommand|Invoke-Service|Invoke-Shellcode|Invoke-Tater|Invoke-ThunderStruck|Invoke-Token|Invoke-UserHunter|Invoke-VoiceTroll|Invoke-WScriptBypassUAC|Invoke-WinEnum|MailRaider|New-HoneyHash|Out-Minidump|Port-Scan|PowerBreach|PowerUp|PowerView|Remove-Update|Set-MacAttribute|Set-Wallpaper|Show-TargetScreen|Start-CaptureServer|VolumeShadowCopyTools|NEEEEWWW|(Computer|User)Property|CachedRDPConnection|invoke-\S+hunter|Install-Service|get-\S+(credent|password)|remoteps|netfirewall|Uninstall-Windows|AmsiBypass|nishang|Invoke-Interceptor|EXEonRemote|NetworkRelay|PowerShelludp|PowerShellIcmp|CreateShortcut|copy-vss|invoke-dll|invoke-mass|out-shortcut|Invoke-ShellCommand"),1,0)
-
-    | eval base64_keyword=if(like(script_lower,"%frombase64%"), 4, 0)
-
-    | eval empire=if(like(script_lower,"%system.net.webclient%") AND like(script_lower,"%frombase64%"),5,0)
-
-    | eval mimikatz=if(like(script_lower,"%mimikatz%") OR like(script_lower,"%-dumpcr%") OR like(script_lower,"%sekurlsa::pth%") OR like(script_lower,"%kerberos::ptt%") OR like(script_lower,"%kerberos::golden%"),5,0)
-
-    | eval invoke_expression_keyword=if(like(script_lower,"%iex %") OR like(script_lower,"%invoke-expression %"),2,0)
-
-    | eval webclient=if(like(script_lower,"%webclient%") OR like(script_lower,"%webrequest%") OR like(script_lower,"%downloadfile%") OR like(script_lower,"%downloadstring%") OR like(script_lower,"%bitstransfer%") OR like(script_lower,"%internetexplorer.application%") OR like(script_lower,"%xmlhttp%"),5,0)
-
-    | eval suspicious_keyword=if(match(script_lower, "(metasp|assemblybuilderaccess|reflection\.assembly|shellcode|injection|cnvert|shell\.application|start-process |rc4bytestream|system\.security\.cryptography|lsass\.exe|localadmin|lastloggedon|hijack|backupprivilege|ngrok|comsvcs|backdoor|brute.?force|port.?scan|exfiltration|exploit|disablerealtimemonitoring|beacon)"),1,0)
-
-    | eval invoke_wmi_keyword=if(like(script_lower,"%wmiobject%") OR like(script_lower,"%wmimethod%") OR like(script_lower,"%remotewmi%") OR like(script_lower,"%powershellwmi%") OR like(script_lower,"%wmicommand%"),5,0)
-
-    | eval downgrade_version=if(like(script_lower, "% -version 2%"),3,0)
-
-    | eval compression_keyword=if(match(script_lower, "gzipstream|::decompress|io.compression|write-zip|(expand|compress)-archive"),5,0)
-
-    | eval invoke_command_keyword=if(like(script_lower,"%invoke-command%"), 4, 0)
-
-    | eval Score=ecnoded_command_keyword
-        + suspicious_cmdlets
-        + suspicious_keyword
-        + compression_keyword
-        + downgrade_version
-        + mimikatz
-        + invoke_expression_keyword
-        + empire
-        + webclient
-        + invoke_wmi_keyword
-        + invoke_command_keyword
-        + base64_keyword
-
-    | where Score>=4 OR mimikatz>0 OR suspicious_cmdlets>0 OR suspicious_keyword>0
-
-    | eval matched_rules=mvappend(
-        if(ecnoded_command_keyword>0, "Encoded Command Keywords", null()),
-        if(suspicious_cmdlets>0, "Suspicious Cmdlets", null()),
-        if(base64_keyword>0, "Base64 Keyword", null()),
-        if(empire>0, "Empire Framework Commands", null()),
-        if(mimikatz>0, "Mimikatz Keywords or Strings", null()),
-        if(invoke_expression_keyword>0, "Invoke Expression Keywords", null()),
-        if(webclient>0, "Webclient Keywords", null()),
-        if(suspicious_keyword>0, "Potentially Suspicious Keywords or Strings", null()),
-        if(invoke_wmi_keyword>0, "Invoke WMI Keywords", null()),
-        if(downgrade_version>0, "PowerShell Downgrade Version Attempt", null()),
-        if(compression_keyword>0, "Compression Keywords", null()),
-        if(invoke_command_keyword>0, "Invoke Command Keywords", null())
-    )
-
-    | eval matched_rules=mvfilter(isnotnull(matched_rules))
-
-    | rename Computer as dest, UserID as user
-
-    | stats max(Score) as Score values(matched_rules) as matched_rules
-      BY user dest ScriptBlockId
-
-    | eval matched_rules=mvjoin(matched_rules, ", ")
-
-    | `powershell_4104_hunting_filter`
-how_to_implement: |-
-    The following Hunting analytic requires PowerShell operational logs to be ingested with ScriptBlockLogging enabled.
     Modify the powershell macro as needed to match the sourcetype or add index.
-    This analytic is specific to EventID 4104, or PowerShell Script Block Logging.
+
+    This analytic is specific to EventID 4104, or PowerShell Script Block Logging.'
 known_false_positives: Limited false positives. May filter as needed.
 references:
     - https://github.com/inodee/threathunting-spl/blob/master/hunt-queries/powershell_qualifiers.md

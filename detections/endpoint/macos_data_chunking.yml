@@ -6,13 +6,14 @@ modification_date: '2026-09-01'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects suspicious data chunking activities that involve the use of split or dd, potentially indicating an attempt to evade detection by breaking large files into smaller parts.
+description: 'The following analytic detects suspicious data chunking activities that involve the use of split or dd, potentially indicating an attempt to evade detection by breaking large files into smaller parts.
+
     Attackers may use this technique to bypass size-based security controls, facilitating the covert exfiltration of sensitive data.
-    By monitoring for unusual or unauthorized use of these commands, this analytic helps identify potential data exfiltration attempts, allowing security teams to intervene and prevent the unauthorized transfer of critical information from the network.
+
+    By monitoring for unusual or unauthorized use of these commands, this analytic helps identify potential data exfiltration attempts, allowing security teams to intervene and prevent the unauthorized transfer of critical information from the network.'
 data_source:
     - Osquery Results
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -40,11 +41,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_data_chunking_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: |-
-    Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
+how_to_implement: 'This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.'
+known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://ss64.com/mac/dd.html
@@ -57,7 +57,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

@@ -6,13 +6,14 @@ modification_date: '2026-05-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects network connections from processes running out of suspicious Windows directories such as Recycle Bin, Public, PerfLogs, systemprofile, Fonts, IME, and Addins paths.
+description: 'The following analytic detects network connections from processes running out of suspicious Windows directories such as Recycle Bin, Public, PerfLogs, systemprofile, Fonts, IME, and Addins paths.
+
     This activity is significant because malware often executes from writable or unusual directories while communicating with external infrastructure.
-    If confirmed malicious, the process may represent command-and-control, staging, or data exfiltration activity from a compromised endpoint.
+
+    If confirmed malicious, the process may represent command-and-control, staging, or data exfiltration activity from a compromised endpoint.'
 data_source:
     - Sysmon EventID 3
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -52,7 +53,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

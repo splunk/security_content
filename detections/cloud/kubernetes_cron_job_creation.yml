@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects the creation of a Kubernetes cron job, which is a task scheduled to run automatically at specified intervals. It identifies this activity by monitoring Kubernetes Audit logs for the creation events of cron jobs. This behavior is significant for a SOC as it could allow an attacker to execute malicious tasks repeatedly and automatically, posing a threat to the Kubernetes infrastructure. If confirmed malicious, this activity could lead to persistent attacks, service disruptions, or unauthorized access to sensitive information.
 data_source:
     - Kubernetes Audit
-search: |-
+search: |
     `kube_audit` verb=create "objectRef.resource"=cronjobs
       | fillnull
       | stats count values(user.groups{}) as user_groups
@@ -32,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -57,6 +57,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.007/kubernetes_audit_cron_job_creation/kubernetes_audit_cron_job_creation.json
-          sourcetype: _json
           source: kubernetes
+          sourcetype: _json
       test_type: unit

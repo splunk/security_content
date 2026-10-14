@@ -6,13 +6,14 @@ modification_date: '2026-06-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    This analytic detects Windchill MethodServer log4j events that contain the CVE-2026-4681 exploitation probe `run?c=echo%20GW_READY_OK`.
+description: 'This analytic detects Windchill MethodServer log4j events that contain the CVE-2026-4681 exploitation probe `run?c=echo%20GW_READY_OK`.
+
     PTC identifies `GW_READY_OK` and related `run?c=` activity as log indicators associated with Windchill and FlexPLM exploitation.
-    This behavior is significant because attackers use the probe to confirm that a staged gateway component is reachable before sending operating system commands through the same `c=` parameter.
+
+    This behavior is significant because attackers use the probe to confirm that a staged gateway component is reachable before sending operating system commands through the same `c=` parameter.'
 data_source:
     - Windchill Log4j
-search: |-
+search: |
     `windchill_log4j`
     ("GW_READY_OK" OR "run?c=echo%20GW_READY_OK" OR "c=echo%20GW_READY_OK")
     | rex field=_raw "^(?:[^:\r\n]+:)?(?<log_ts>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2},\d{3})\s+(?<log_level>\w+)\s+\[(?<thread>[^\]]+)\]\s+(?<logger>\S+)\s+-\s+(?<payload>.*)$"
@@ -46,12 +47,12 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `ptc_windchill_gw_ready_ok_probe_filter`
-how_to_implement: |
-    To implement this analytic, ingest PTC Windchill MethodServer log4j logs into Splunk with sourcetype `log4j`.
+how_to_implement: 'To implement this analytic, ingest PTC Windchill MethodServer log4j logs into Splunk with sourcetype `log4j`.
+
     Update the `windchill_log4j` macro to include the appropriate index constraints for your environment.
-    The analytic expects log entries from the `wt.servlet.ServletRequestMonitor.request` and `wt.method.MethodContextMonitor.contexts.servletRequest` loggers.
-known_false_positives: |
-    This probe string is specific to the PTC-published Windchill exploitation indicators. False positives should be rare. Validate whether any internal testing, incident response activity, or vendor diagnostics intentionally generated `GW_READY_OK` requests.
+
+    The analytic expects log entries from the `wt.servlet.ServletRequestMonitor.request` and `wt.method.MethodContextMonitor.contexts.servletRequest` loggers.'
+known_false_positives: This probe string is specific to the PTC-published Windchill exploitation indicators. False positives should be rare. Validate whether any internal testing, incident response activity, or vendor diagnostics intentionally generated `GW_READY_OK` requests.
 references:
     - https://www.ptc.com/en/about/trust-center/advisory-center/active-advisories/windchill-flexplm-critical-vulnerability
     - https://nvd.nist.gov/vuln/detail/CVE-2026-4681
@@ -64,7 +65,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src

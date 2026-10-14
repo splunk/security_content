@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects the addition of permissions required for a DCSync attack, specifically DS-Replication-Get-Changes, DS-Replication-Get-Changes-All, and DS-Replication-Get-Changes-In-Filtered-Set. It leverages EventCode 5136 from the Windows Security Event Log to identify when these permissions are granted. This activity is significant because it indicates potential preparation for a DCSync attack, which can be used to replicate AD objects and exfiltrate sensitive data. If confirmed malicious, an attacker could gain extensive access to Active Directory, leading to severe data breaches and privilege escalation.
 data_source:
     - Windows Event Log Security 5136
-search: |-
+search: |
     `wineventlog_security` EventCode=5136 ObjectClass=domainDNS
       | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType
           BY ObjectClass ObjectDN OpCorrelationID
@@ -46,7 +46,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$src_user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: $src_user$ has granted $user$ permission to replicate AD objects
     entity:

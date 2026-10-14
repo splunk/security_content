@@ -6,14 +6,16 @@ modification_date: '2026-09-03'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects the use of macOS AppleScript utilities to execute shell commands or compile AppleScript containing shell-command logic.
-    The analytic identifies `osascript` invocations using AppleScript's `do shell script` command, which executes shell commands on the host.
+description: 'The following analytic detects the use of macOS AppleScript utilities to execute shell commands or compile AppleScript containing shell-command logic.
+
+    The analytic identifies `osascript` invocations using AppleScript''s `do shell script` command, which executes shell commands on the host.
+
     It also identifies `osacompile` invocations referencing `do shell script`. `osacompile` compiles AppleScript into a compiled script but does not execute it directly.
-    Adversaries may abuse these utilities to execute shell commands, stage AppleScript payloads, or prepare scripts for later execution. Matches involving `osacompile` should be interpreted as script compilation or staging rather than confirmed shell-command execution.
+
+    Adversaries may abuse these utilities to execute shell commands, stage AppleScript payloads, or prepare scripts for later execution. Matches involving `osacompile` should be interpreted as script compilation or staging rather than confirmed shell-command execution.'
 data_source:
     - Osquery Results
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -45,11 +47,10 @@ search: |-
     | table firstTime lastTime dest user activity_type parent_process process parent_process_name parent_process_exec parent_process_guid parent_process_id parent_process_path process_exec process_guid process_hash process_id process_integrity_level process_name process_path action user_id vendor_product
 
     | `macos_applescript_shell_execution_and_compilation_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the TA-OSquery (https://splunkbase.splunk.com/app/8574) must be deployed in order to have the osquery data populate the data models.
-known_false_positives: |-
-    Legitimate administrative scripts or automation tools using Applescript.
+how_to_implement: 'This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+
+    Also the TA-OSquery (https://splunkbase.splunk.com/app/8574) must be deployed in order to have the osquery data populate the data models.'
+known_false_positives: Legitimate administrative scripts or automation tools using Applescript.
 references:
     - https://attack.mitre.org/tactics/TA0002/
     - https://attack.mitre.org/techniques/T1059/002/
@@ -63,7 +64,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

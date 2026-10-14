@@ -9,7 +9,7 @@ type: Anomaly
 description: Detects when a request has more than one of the same header. This is commonly used in request smuggling and other web based attacks. HTTP Request Smuggling exploits inconsistencies in how front-end and back-end servers parse HTTP requests by using ambiguous or malformed headers to hide malicious requests within legitimate ones. Attackers leverage duplicate headers, particularly Content-Length and Transfer-Encoding, to cause different servers in the chain to disagree on where one request ends and another begins. RFC7230 states that a sender MUST NOT generate multiple header fields with the same field name in a message unless either the entire field value for that header field is defined as a comma-separated list or the header field is a well-known exception.
 data_source:
     - Suricata
-search: |-
+search: |
     `suricata` http.request_headers{}.name="*"
       | rename dest_ip as dest
       | spath path=http.request_headers{}.name output=header_names
@@ -38,7 +38,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest
@@ -64,6 +64,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/request_smuggling/suricata_request_smuggling.log
-          sourcetype: suricata
           source: not_applicable
+          sourcetype: suricata
       test_type: unit

@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic identifies AWS console login attempts by users from a new region. It leverages AWS CloudTrail events and compares current login regions against a baseline of previously seen regions for each user. This activity is significant as it may indicate unauthorized access attempts or compromised credentials. If confirmed malicious, an attacker could gain unauthorized access to AWS resources, potentially leading to data breaches, resource manipulation, or further lateral movement within the cloud environment.
 data_source:
     - AWS CloudTrail
-search: |-
+search: |
     | tstats earliest(_time) as firstTime latest(_time) as lastTime FROM datamodel=Authentication
       WHERE Authentication.signature=ConsoleLogin
       BY Authentication.user Authentication.src
@@ -54,7 +54,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       description: PORTED MANUAL TEST - This search needs the baseline to be run first to create a lookup. It also requires that the timestamps in the dataset be updated.
       test_type: experimental

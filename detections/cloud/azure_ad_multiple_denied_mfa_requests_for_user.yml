@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects an unusually high number of denied Multi-Factor Authentication (MFA) requests for a single user within a 10-minute window, specifically when more than nine MFA prompts are declined. It leverages Azure Active Directory (Azure AD) sign-in logs, focusing on "Sign-in activity" events with error code 500121 and additional details indicating "MFA denied; user declined the authentication." This behavior is significant as it may indicate a targeted attack or account compromise attempt, with the user actively declining unauthorized access. If confirmed malicious, it could lead to data exfiltration, lateral movement, or further malicious activities.
 data_source:
     - Azure Active Directory Sign-in activity
-search: |-
+search: |
     `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
       | rename properties.* as *
       | search status.errorCode=500121 status.additionalDetails="MFA denied; user declined the authentication"
@@ -40,7 +40,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ denied more than 9 MFA requests in a timespan of 10 minutes.
     entity:

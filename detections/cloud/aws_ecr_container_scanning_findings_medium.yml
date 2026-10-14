@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies medium-severity findings from AWS Elastic Container Registry (ECR) image scans. It leverages AWS CloudTrail logs, specifically the DescribeImageScanFindings event, to detect vulnerabilities in container images. This activity is significant for a SOC as it highlights potential security risks in containerized applications, which could be exploited if not addressed. If confirmed malicious, these vulnerabilities could lead to unauthorized access, data breaches, or further exploitation within the container environment, compromising the overall security posture.
 data_source:
     - AWS CloudTrail DescribeImageScanFindings
-search: |-
+search: |
     `cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings
       | spath path=responseElements.imageScanFindings.findings{} output=findings
       | mvexpand findings
@@ -37,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -59,6 +59,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_image_scanning/aws_ecr_scanning_findings_events.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

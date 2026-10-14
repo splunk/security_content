@@ -6,8 +6,7 @@ modification_date: '2026-09-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic detects DNS queries initiated by the Windows AI Platform to domains associated with Hugging Face, OpenAI, and other popular providers of machine learning models and services. Monitoring these DNS requests is important because it can reveal when systems are accessing external AI platforms, which may indicate the use of third-party AI resources or the transfer of sensitive data outside the organization’s environment. Detecting such activity enables organizations to enforce data governance policies, prevent unapproved use of external AI services, and maintain visibility into potential data exfiltration risks. Proactive monitoring provides better control over AI model usage and helps safeguard organizational data flows.
+description: The following analytic detects DNS queries initiated by the Windows AI Platform to domains associated with Hugging Face, OpenAI, and other popular providers of machine learning models and services. Monitoring these DNS requests is important because it can reveal when systems are accessing external AI platforms, which may indicate the use of third-party AI resources or the transfer of sensitive data outside the organization’s environment. Detecting such activity enables organizations to enforce data governance policies, prevent unapproved use of external AI services, and maintain visibility into potential data exfiltration risks. Proactive monitoring provides better control over AI model usage and helps safeguard organizational data flows.
 data_source:
     - Sysmon EventID 22
 search: |
@@ -33,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

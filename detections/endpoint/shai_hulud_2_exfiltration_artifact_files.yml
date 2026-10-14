@@ -6,11 +6,13 @@ modification_date: '2026-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: |
-    Detects creation of exfiltration artifact files associated with Shai-Hulud 2.0 npm supply
+description: 'Detects creation of exfiltration artifact files associated with Shai-Hulud 2.0 npm supply
+
     chain malware. The malware creates cloud.json, contents.json, environment.json, truffleSecrets.json,
+
     and actionsSecrets.json files containing harvested credentials from AWS, Azure, GCP, GitHub secrets,
-    and environment variables. These files are staged before being pushed to attacker-controlled repositories.
+
+    and environment variables. These files are staged before being pushed to attacker-controlled repositories.'
 data_source:
     - Sysmon for Linux EventID 11
     - Sysmon EventID 11
@@ -35,17 +37,22 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `shai_hulud_2_exfiltration_artifact_files_filter`
-how_to_implement: |
-    The detection is based on data that originates from Endpoint Detection
+how_to_implement: 'The detection is based on data that originates from Endpoint Detection
+
     and Response (EDR) agents. These agents are designed to provide security-related
+
     telemetry from the endpoints where the agent is installed. To implement this search,
+
     you must ingest logs that contain filesystem events, specifically file creation
+
     events. These logs must be processed using the appropriate Splunk Technology Add-ons
+
     that are specific to the EDR product. The logs must also be mapped to the `Filesystem`
+
     node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM)
-    to normalize the field names and speed up the data modeling process.
-known_false_positives: |
-    Low but possible. Generic filenames like cloud.json or environment.json may appear in legitimate contexts. Correlate with npm install activity or suspicious parent processes.
+
+    to normalize the field names and speed up the data modeling process.'
+known_false_positives: Low but possible. Generic filenames like cloud.json or environment.json may appear in legitimate contexts. Correlate with npm install activity or suspicious parent processes.
 references:
     - https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
     - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
@@ -57,7 +64,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Shai-Hulud 2.0 exfiltration artifact $file_name$ created on $dest$
     entity:

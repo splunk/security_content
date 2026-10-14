@@ -6,12 +6,12 @@ modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects a process requesting PROCESS_TERMINATE access to Lsass.exe.
-    It leverages Sysmon EventCode 10 and checks for access masks that combine PROCESS_TERMINATE (0x1).
+description: 'The following analytic detects a process requesting PROCESS_TERMINATE access to Lsass.exe.
+
+    It leverages Sysmon EventCode 10 and checks for access masks that combine PROCESS_TERMINATE (0x1).'
 data_source:
     - Sysmon EventID 10
-search: |-
+search: |
     `sysmon`
     EventCode=10
     TargetImage="*\\lsass.exe"
@@ -49,7 +49,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -9,7 +9,8 @@ type: Anomaly
 description: The following analytic identifies the creation of a suspicious file named 'win.dat' in the root directory (C:\). It leverages data from the Endpoint.Filesystem datamodel to detect this activity. This behavior is significant as it is commonly used by malware like NjRAT to check for administrative privileges on a compromised host. If confirmed malicious, this activity could indicate that the malware has administrative access, allowing it to perform high-privilege actions, potentially leading to further system compromise and persistence.
 data_source:
     - Sysmon EventID 11
-search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.exe", "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe", "*.js", "*.bat", "*.cmd", "*.pif", "*.lnk", "*.dat") by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | eval dropped_file_path = split(file_path, "\\") | eval dropped_file_path_split_count = mvcount(dropped_file_path) | eval root_drive = mvindex(dropped_file_path,0) | where LIKE(root_drive, "C:") AND dropped_file_path_split_count = 2 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_admin_permission_discovery_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.exe", "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe", "*.js", "*.bat", "*.cmd", "*.pif", "*.lnk", "*.dat") by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_admin_permission_discovery_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
 known_false_positives: False positives may occur if there are legitimate accounts with the privilege to drop files in the root of the C drive. It's recommended to verify the legitimacy of such actions and the accounts involved.
 references:
@@ -22,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

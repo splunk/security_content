@@ -9,7 +9,7 @@ type: Hunting
 description: This search surfaces AWS Bedrock Claude prompts containing phrases commonly associated with prompt injection or jailbreak attempts, such as instruction overrides, persona switching, or requests to ignore prior guidance. These strings are not inherently malicious on their own - many of them (for example "act as", "you must", or "new persona") appear routinely in legitimate system prompts, few-shot examples, and role-play or creative-writing use cases. This is a hunting search rather than an anomaly detection because the base rate of benign matches is high; use it to pivot into the surrounding conversation and look for corroborating signals such as the phrase appearing mid-conversation rather than in an expected system/few-shot prompt, the user attempting to override guardrails or safety instructions rather than set a benign persona, instructions that follow the injected phrase requesting privilege escalation, data exfiltration, or access to restricted tools/resources, repeated or iterative attempts from the same user/role after being refused, and injected phrases originating from untrusted input (e.g., retrieved documents or tool output) rather than the human user turn.
 data_source:
     - AWS Bedrock Claude
-search: |-
+search: |
     `aws_bedrock_claude`
     | rename "identity.arn" AS user_arn, "input.inputBodyJson.messages{}.content{}.text" AS prompt_mv
     | eval prompt_text = mvjoin(prompt_mv, " || ")
@@ -40,7 +40,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$host$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 analytic_story:
     - Suspicious AWS Bedrock Claude Activities
 asset_type: Web Application
@@ -54,8 +54,8 @@ category: application
 security_domain: endpoint
 tests:
     - name: True Positive Test
-      test_type: unit
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/aws_bedrock_claude/aws_bedrock_claude_possible_prompt_injection.ndjson
-          sourcetype: json_no_timestamp
           source: http:bulkawsbedrock
+          sourcetype: json_no_timestamp
+      test_type: unit
