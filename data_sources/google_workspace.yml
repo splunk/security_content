@@ -45,4 +45,5 @@ fields:
     - splunk_server
     - timeendpos
     - timestartpos
-example_log: '"kind": "admin#reports#activity", "id": {"time": "2022-10-12T18:00:23.093Z", "uniqueQualifier": "-7844406841853338111", "applicationName": "admin", "customerId": "C046r85ir"}, "etag": "\"JCPRxFaiNR1s5TJ6ecIH8OpGdY4efiOYXbIB65itOzY/afZBU3WDeiuPqFyleWyTnwyU3fE\"", "actor": {"callerType": "USER", "email": "evil_admin@splunkresearch.com", "profileId": "100059258581444193973"}, "ipAddress": "22.33.111.55", "event": {"type": "USER_SETTINGS", "name": "UNENROLL_USER_FROM_STRONG_AUTH", "parameters": [{"name": "USER_EMAIL", "value": "victim_user@splunkresearch.com"}]}}'
+example_log: |
+    {"kind": "admin#reports#activity", "id": {"time": "2022-10-13T20:57:35.833Z", "uniqueQualifier": "437744618349", "applicationName": "login", "customerId": "C046r85ir"}, "etag": "\"JCPRxFaiNR1s5TJ6ecIH8OpGdY4efiOYXbIB65itOzY/OgAbD-Tz8hSD1vUJWw7NLiJ5SF4\"", "actor": {"email": "user1@splunkresearch.com", "profileId": "112184723778873345717"}, "ipAddress": "45.23.129.123", "event": {"type": "login", "name": "login_success", "parameters": [{"name": "login_type", "value": "google_password"}, {"name": "login_challenge_method", "multiValue": ["password", "password", "password", "password", "password"]}, {"name": "is_suspicious", "boolValue": false}]}}

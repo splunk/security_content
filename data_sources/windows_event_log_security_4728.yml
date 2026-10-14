@@ -135,4 +135,5 @@ fields:
     - Version
 output_fields:
     - dest
-example_log: ''
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4728</EventID><Version>0</Version><Level>0</Level><Task>13826</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-12-18T06:27:14.146391300Z'/><EventRecordID>11728112</EventRecordID><Correlation/><Execution ProcessID='588' ThreadID='2232'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='MemberName'>CN=unpriv2,CN=Users,DC=attackrange,DC=local</Data><Data Name='MemberSid'>ATTACKRANGE\unpriv2</Data><Data Name='TargetUserName'>Domain Admins</Data><Data Name='TargetDomainName'>ATTACKRANGE</Data><Data Name='TargetSid'>ATTACKRANGE\Domain Admins</Data><Data Name='SubjectUserSid'>ATTACKRANGE\unpriv2</Data><Data Name='SubjectUserName'>unpriv2</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x3cce43a</Data><Data Name='PrivilegeList'>-</Data></EventData></Event>

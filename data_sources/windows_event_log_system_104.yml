@@ -83,4 +83,5 @@ fields:
     - Version
 output_fields:
     - dest
-example_log: ''
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Eventlog' Guid='{fc65ddd8-d6ef-4962-83d5-6e5cfe9ce148}'/><EventID>104</EventID><Version>0</Version><Level>4</Level><Task>104</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2024-07-22T16:38:18.385285600Z'/><EventRecordID>180851</EventRecordID><Correlation/><Execution ProcessID='364' ThreadID='2656'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security UserID='S-1-5-21-1782075985-493120923-1327655172-500'/></System><UserData><LogFileCleared xmlns='http://manifests.microsoft.com/win/2004/08/windows/eventlog'><SubjectUserName>Administrator</SubjectUserName><SubjectDomainName>ATTACKRANGE</SubjectDomainName><Channel>System</Channel><BackupPath></BackupPath></LogFileCleared></UserData></Event>

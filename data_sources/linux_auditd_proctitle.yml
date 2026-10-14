@@ -47,4 +47,5 @@ fields:
     - timeendpos
     - timestartpos
     - type
-example_log: 'type=PROCTITLE msg=audit(1722944427.844:4146): proctitle=63686D6F640037373700312E7368'
+example_log: |
+    type=PROCTITLE msg=audit(02/20/2025 10:42:55.725:93710): proctitle=echo malware_user ALL=(ALL) NOPASSWD: ALL

@@ -106,4 +106,16 @@ fields:
     - Version
 output_fields:
     - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4703</EventID><Version>0</Version><Level>0</Level><Task>13317</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2022-08-31T09:47:43.137598500Z'/><EventRecordID>328761</EventRecordID><Correlation/><Execution ProcessID='4' ThreadID='320'/><Channel>Security</Channel><Computer>win-host-ctus-attack-range-115</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>WIN-HOST-CTUS-A\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>WIN-HOST-CTUS-A</Data><Data Name='SubjectLogonId'>0x288b91</Data><Data Name='TargetUserSid'>WIN-HOST-CTUS-A\Administrator</Data><Data Name='TargetUserName'>Administrator</Data><Data Name='TargetDomainName'>WIN-HOST-CTUS-A</Data><Data Name='TargetLogonId'>0x288b91</Data><Data Name='ProcessName'>C:\Temp\poc_2\c2_agent.exe</Data><Data Name='ProcessId'>0x570</Data><Data Name='EnabledPrivilegeList'>SeDebugPrivilege</Data><Data Name='DisabledPrivilegeList'>-</Data></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4703</EventID><Version>0</Version><Level>0</Level><Task>13317</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2022-08-31T09:48:50.196191700Z'/><EventRecordID>328878</EventRecordID><Correlation/><Execution ProcessID='4' ThreadID='4892'/><Channel>Security</Channel><Computer>win-host-ctus-attack-range-115</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>NT AUTHORITY\SYSTEM</Data><Data Name='SubjectUserName'>WIN-HOST-CTUS-A$</Data><Data Name='SubjectDomainName'>WORKGROUP</Data><Data Name='SubjectLogonId'>0x3e7</Data><Data Name='TargetUserSid'>NULL SID</Data><Data Name='TargetUserName'>WIN-HOST-CTUS-A$</Data><Data Name='TargetDomainName'>WORKGROUP</Data><Data Name='TargetLogonId'>0x3e7</Data><Data Name='ProcessName'>C:\Windows\System32\svchost.exe</Data><Data Name='ProcessId'>0x35c</Data><Data Name='EnabledPrivilegeList'>SeAssignPrimaryTokenPrivilege
+                SeIncreaseQuotaPrivilege
+                SeSecurityPrivilege
+                SeTakeOwnershipPrivilege
+                SeLoadDriverPrivilege
+                SeSystemtimePrivilege
+                SeBackupPrivilege
+                SeRestorePrivilege
+                SeShutdownPrivilege
+                SeSystemEnvironmentPrivilege
+                SeUndockPrivilege
+                SeManageVolumePrivilege</Data><Data Name='DisabledPrivilegeList'>-</Data></EventData></Event>

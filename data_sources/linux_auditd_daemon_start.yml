@@ -60,4 +60,5 @@ output_fields:
     - pid
     - uid
     - dest
-example_log: 'type=DAEMON_START msg=audit(06/05/2025 11:03:38.949:6844) : op=start ver=3.0.7 format=enriched kernel=6.8.0-1029-aws auid=unset pid=61323 uid=root ses=unset subj=unconfined  res=success'
+example_log: |
+    type=DAEMON_START msg=audit(06/05/2025 11:03:38.949:6844) : op=start ver=3.0.7 format=enriched kernel=6.8.0-1029-aws auid=unset pid=61323 uid=root ses=unset subj=unconfined  res=success

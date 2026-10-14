@@ -91,4 +91,54 @@ fields:
     - vendor
     - vendor_product
     - Version
-example_log: <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event"><System> <Provider Name="Microsoft-Windows-Security-Auditing" Guid="{54849625-5478-4994-A5BA-3E3B0328C30D}" />  <EventID>4702</EventID>  <Version>0</Version>  <Level>0</Level>  <Task>12804</Task>  <Opcode>0</Opcode>  <Keywords>0x8020000000000000</Keywords>  <TimeCreated SystemTime="2015-09-23T03:00:59.343820000Z" />  <EventRecordID>344863</EventRecordID>  <Correlation />  <Execution ProcessID="516" ThreadID="596" />  <Channel>Security</Channel>  <Computer>DC01.contoso.local</Computer>  <Security />  </System><EventData> <Data Name="SubjectUserSid">S-1-5-21-3457937927-2839227994-823803824-1104</Data>  <Data Name="SubjectUserName">dadmin</Data>  <Data Name="SubjectDomainName">CONTOSO</Data>  <Data Name="SubjectLogonId">0x364eb</Data>  <Data Name="TaskName">\\Microsoft\\StartListener</Data>  <Data Name="TaskContentNew"><?xml version="1.0" encoding="UTF-16"?> <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"> <RegistrationInfo> <Date>2015-09-22T19:03:06.9258653</Date> <Author>CONTOSO\\dadmin</Author> </RegistrationInfo> <Triggers /> <Principals> <Principal id="Author"> <RunLevel>HighestAvailable</RunLevel> <UserId>CONTOSO\\dadmin</UserId> <LogonType>InteractiveToken</LogonType> </Principal> </Principals> <Settings> <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy> <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries> <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries> <AllowHardTerminate>true</AllowHardTerminate> <StartWhenAvailable>false</StartWhenAvailable> <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable> <IdleSettings> <StopOnIdleEnd>true</StopOnIdleEnd> <RestartOnIdle>false</RestartOnIdle> </IdleSettings> <AllowStartOnDemand>true</AllowStartOnDemand> <Enabled>true</Enabled> <Hidden>false</Hidden> <RunOnlyIfIdle>false</RunOnlyIfIdle> <WakeToRun>false</WakeToRun> <ExecutionTimeLimit>P3D</ExecutionTimeLimit> <Priority>7</Priority> </Settings> <Actions Context="Author"> <Exec> <Command>C:\\Documents\\listener.exe</Command> </Exec> </Actions> </Task></Data>  </EventData> </Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4698</EventID><Version>1</Version><Level>0</Level><Task>12804</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2025-02-06T20:42:02.1636605Z'/><EventRecordID>355503124</EventRecordID><Correlation ActivityID='{023dc5ef-7644-0002-81c6-3d024476db01}'/><Execution ProcessID='980' ThreadID='22008'/><Channel>Security</Channel><Computer>VICTIM_PC.ATTACK_RANGE.LAN</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>S-1-5-21-522199786-2067774556-312552118-87710</Data><Data Name='SubjectUserName'>ATTACKER</Data><Data Name='SubjectDomainName'>ATTACK_RANGE</Data><Data Name='SubjectLogonId'>0x31b543a1</Data><Data Name='TaskName'>\WallPaperChangeApp</Data><Data Name='TaskContent'>&lt;?xml version="1.0" encoding="UTF-16"?&gt;
+    &lt;Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"&gt;
+      &lt;RegistrationInfo&gt;
+        &lt;Date&gt;2025-02-06T15:42:02.105785&lt;/Date&gt;
+        &lt;Author&gt;ATTACK_RANGE\ATTACKER&lt;/Author&gt;
+        &lt;URI&gt;\WallPaperChangeApp&lt;/URI&gt;
+      &lt;/RegistrationInfo&gt;
+      &lt;Triggers&gt;
+        &lt;CalendarTrigger&gt;
+          &lt;StartBoundary&gt;2025-02-06T15:41:26.5273439&lt;/StartBoundary&gt;
+          &lt;Enabled&gt;true&lt;/Enabled&gt;
+          &lt;ScheduleByDay&gt;
+            &lt;DaysInterval&gt;1&lt;/DaysInterval&gt;
+          &lt;/ScheduleByDay&gt;
+        &lt;/CalendarTrigger&gt;
+      &lt;/Triggers&gt;
+      &lt;Principals&gt;
+        &lt;Principal id="Author"&gt;
+          &lt;RunLevel&gt;LeastPrivilege&lt;/RunLevel&gt;
+          &lt;UserId&gt;ATTACK_RANGE\ATTACKER&lt;/UserId&gt;
+          &lt;LogonType&gt;InteractiveToken&lt;/LogonType&gt;
+        &lt;/Principal&gt;
+      &lt;/Principals&gt;
+      &lt;Settings&gt;
+        &lt;MultipleInstancesPolicy&gt;IgnoreNew&lt;/MultipleInstancesPolicy&gt;
+        &lt;DisallowStartIfOnBatteries&gt;true&lt;/DisallowStartIfOnBatteries&gt;
+        &lt;StopIfGoingOnBatteries&gt;true&lt;/StopIfGoingOnBatteries&gt;
+        &lt;AllowHardTerminate&gt;true&lt;/AllowHardTerminate&gt;
+        &lt;StartWhenAvailable&gt;false&lt;/StartWhenAvailable&gt;
+        &lt;RunOnlyIfNetworkAvailable&gt;false&lt;/RunOnlyIfNetworkAvailable&gt;
+        &lt;IdleSettings&gt;
+          &lt;Duration&gt;PT10M&lt;/Duration&gt;
+          &lt;WaitTimeout&gt;PT1H&lt;/WaitTimeout&gt;
+          &lt;StopOnIdleEnd&gt;true&lt;/StopOnIdleEnd&gt;
+          &lt;RestartOnIdle&gt;false&lt;/RestartOnIdle&gt;
+        &lt;/IdleSettings&gt;
+        &lt;AllowStartOnDemand&gt;true&lt;/AllowStartOnDemand&gt;
+        &lt;Enabled&gt;true&lt;/Enabled&gt;
+        &lt;Hidden&gt;false&lt;/Hidden&gt;
+        &lt;RunOnlyIfIdle&gt;false&lt;/RunOnlyIfIdle&gt;
+        &lt;WakeToRun&gt;false&lt;/WakeToRun&gt;
+        &lt;ExecutionTimeLimit&gt;P3D&lt;/ExecutionTimeLimit&gt;
+        &lt;Priority&gt;7&lt;/Priority&gt;
+      &lt;/Settings&gt;
+      &lt;Actions Context="Author"&gt;
+        &lt;Exec&gt;
+          &lt;Command&gt;calc.exe&lt;/Command&gt;
+        &lt;/Exec&gt;
+      &lt;/Actions&gt;
+    &lt;/Task&gt;</Data><Data Name='ClientProcessStartKey'>26740122787530279</Data><Data Name='ClientProcessId'>24712</Data><Data Name='ParentProcessId'>7572</Data><Data Name='RpcCallClientLocality'>0</Data><Data Name='FQDN'>VICTIM_PC.ATTACK_RANGE.LAN</Data></EventData></Event>

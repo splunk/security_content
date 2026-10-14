@@ -90,4 +90,14 @@ fields:
     - Version
 output_fields:
     - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4672</EventID><Version>0</Version><Level>0</Level><Task>12548</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-03-27T18:35:15.439521100Z'/><EventRecordID>148946</EventRecordID><Correlation ActivityID='{a51712a7-60c1-0000-3513-17a5c160d901}'/><Execution ProcessID='624' ThreadID='728'/><Channel>Security</Channel><Computer>ar-win-6.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\REED_MORSE</Data><Data Name='SubjectUserName'>REED_MORSE</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x509b11</Data><Data Name='PrivilegeList'>SeSecurityPrivilege
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4672</EventID><Version>0</Version><Level>0</Level><Task>12548</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-03-27T18:31:25.452042300Z'/><EventRecordID>211384</EventRecordID><Correlation/><Execution ProcessID='612' ThreadID='7000'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>NT AUTHORITY\SYSTEM</Data><Data Name='SubjectUserName'>AR-WIN-DC$</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x5d96be</Data><Data Name='PrivilegeList'>SeSecurityPrivilege
+                SeBackupPrivilege
+                SeRestorePrivilege
+                SeTakeOwnershipPrivilege
+                SeDebugPrivilege
+                SeSystemEnvironmentPrivilege
+                SeLoadDriverPrivilege
+                SeImpersonatePrivilege
+                SeDelegateSessionUserImpersonatePrivilege
+                SeEnableDelegationPrivilege</Data></EventData></Event>

@@ -58,4 +58,6 @@ fields:
     - type
     - UID
     - uid
-example_log: 'type=ADD_USER msg=audit(1722950859.266:6994): pid=1788 uid=0 auid=1000 ses=1 subj=unconfined msg=''op=adding user id=1002 exe="/usr/sbin/useradd" hostname=ar-linux1 addr=? terminal=pts/1 res=success''UID="root" AUID="ubuntu" ID="unknown(1002)"'
+example_log: |
+    type=ADD_USER msg=audit(1722950859.266:6994): pid=1788 uid=0 auid=1000 ses=1 subj=unconfined msg='op=adding user id=1002 exe="/usr/sbin/useradd" hostname=ar-linux1 addr=? terminal=pts/1 res=success'
+    UID="root" AUID="ubuntu" ID="unknown(1002)"

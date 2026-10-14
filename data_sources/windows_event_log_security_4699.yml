@@ -82,4 +82,5 @@ fields:
     - Version
 output_fields:
     - dest
-example_log: 11/12/2021 05:16:44 PM
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4699</EventID><Version>0</Version><Level>0</Level><Task>12804</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2021-11-12T17:16:44Z'/><EventRecordID>3702198</EventRecordID><Correlation/><Execution/><Channel>Security</Channel><Computer>win-host-987.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0xA6E4D16</Data><Data Name='TaskName'>\evilTask</Data><Data Name='TaskContent'></Data></EventData></Event>

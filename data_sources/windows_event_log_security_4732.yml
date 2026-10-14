@@ -104,4 +104,5 @@ fields:
     - Version
 output_fields:
     - dest
-example_log: 10/09/2020 10:41:26 AM
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4732</EventID><Version>0</Version><Level>0</Level><Task>13826</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-04-06T18:45:13.034499300Z'/><EventRecordID>170552</EventRecordID><Correlation/><Execution ProcessID='624' ThreadID='3280'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='MemberName'>CN=MAURICE_ANDERSON,OU=Groups,OU=BDE,OU=Tier 1,DC=attackrange,DC=local</Data><Data Name='MemberSid'>ATTACKRANGE\MAURICE_ANDERSON</Data><Data Name='TargetUserName'>DnsAdmins</Data><Data Name='TargetDomainName'>ATTACKRANGE</Data><Data Name='TargetSid'>ATTACKRANGE\DnsAdmins</Data><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x5184c3</Data><Data Name='PrivilegeList'>-</Data></EventData></Event>

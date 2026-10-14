@@ -65,4 +65,24 @@ fields:
     - Type
     - User
     - user
-example_log: ''
+example_log: |
+    11/17/2023 05:23:37 PM
+    LogName=Microsoft-Windows-Windows Defender/Operational
+    EventCode=1129
+    EventType=4
+    ComputerName=researchvmhaa
+    User=NOT_TRANSLATED
+    Sid=S-1-5-18
+    SidType=0
+    SourceName=Microsoft-Windows-Windows Defender
+    Type=Information
+    RecordNumber=2360
+    Keywords=None
+    TaskCategory=None
+    OpCode=Info
+    Message=A user has allowed a blocked Microsoft Defender Exploit Guard operation.
+         ID: D1E49AAC-8F56-4280-B9BA-993A6D77406C
+         User: NT AUTHORITY\SYSTEM
+         Path: C:\Windows\System32\cmd.exe
+         Process Name: C:\Windows\PSEXESVC.exe
+         Involved File:

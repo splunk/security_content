@@ -55,4 +55,5 @@ output_fields:
     - pid
     - uid
     - dest
-example_log: 'type=DAEMON_END msg=audit(06/05/2025 11:01:46.838:9436) : op=terminate auid=root pid=1 subj=unconfined res=success'
+example_log: |
+    type=DAEMON_END msg=audit(06/05/2025 11:01:46.838:9436) : op=terminate auid=root pid=1 subj=unconfined res=success

@@ -39,4 +39,5 @@ fields:
     - timeendpos
     - timestartpos
     - type
-example_log: 'type=CWD msg=audit(11/20/2025 16:57:48.909:110027) : cwd=/etc/ssh'
+example_log: |
+    type=CWD msg=audit(11/24/2025 14:48:16.990:118) : cwd=/
