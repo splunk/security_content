@@ -1,0 +1,26 @@
+name: Rule Tests
+
+on:
+  pull_request:
+    paths:
+      - detections/**
+      - scripts/test_rules.py
+      - .github/workflows/rule-tests.yml
+  push:
+    branches:
+      - develop
+    paths:
+      - detections/**
+      - scripts/test_rules.py
+      - .github/workflows/rule-tests.yml
+
+jobs:
+  test-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - run: pip install PyYAML
+      - run: python scripts/test_rules.py
