@@ -1,8 +1,8 @@
 name: Windows Domain Admin Impersonation Indicator
 id: 10381f93-6d38-470a-9c30-d25478e3bd3f
-version: 12
+version: 13
 creation_date: '2023-10-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ search: |-
         BY _time TargetUserName GroupMembership
            action app dest
            signature_id user vendor_product
-      | lookup domain_admins username as TargetUserName OUTPUT username
+      | lookup local=t domain_admins username as TargetUserName OUTPUT username
       | fillnull value=NotDA username
       | search username = "NotDA"
       | `windows_domain_admin_impersonation_indicator_filter`

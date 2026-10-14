@@ -1,8 +1,8 @@
 name: Detect hosts connecting to dynamic domain providers
 id: a1e761ac-1344-4dbd-88b2-3f34c912d359
-version: 13
+version: 14
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -18,8 +18,8 @@ search: |
          DNS.reply_code_id DNS.src DNS.vendor_product
     | `drop_dm_object_name("DNS")`
     | `security_content_ctime(firstTime)`
-    | lookup update=true dynamic_dns_providers_default dynamic_dns_domains as query OUTPUTNEW isDynDNS_default
-    | lookup update=true dynamic_dns_providers_local dynamic_dns_domains as query OUTPUTNEW isDynDNS_local
+    | lookup local=t update=true dynamic_dns_providers_default dynamic_dns_domains as query OUTPUTNEW isDynDNS_default
+    | lookup local=t update=true dynamic_dns_providers_local dynamic_dns_domains as query OUTPUTNEW isDynDNS_local
     | eval isDynDNS = coalesce(isDynDNS_local,isDynDNS_default)
     |fields - isDynDNS_default, isDynDNS_local| search isDynDNS=True
     | `detect_hosts_connecting_to_dynamic_domain_providers_filter`

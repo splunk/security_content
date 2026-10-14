@@ -1,8 +1,8 @@
 name: Windows Kerberos Local Successful Logon
 id: 8309c3a8-4d34-48ae-ad66-631658214653
-version: 15
+version: 16
 creation_date: '2022-04-28'
-modification_date: '2026-07-27'
+modification_date: '2026-09-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ search: |-
          src_port status subject
          user user_group vendor_product
 
-    | lookup update=true domain_controllers sAMAccountName as dest OUTPUT isDC
+    | lookup local=t update=true domain_controllers sAMAccountName as dest OUTPUT isDC
     | where isnull(isDC)
     | fields - isDC
 

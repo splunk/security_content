@@ -1,8 +1,8 @@
 name: Detect Remote Access Software Usage File
 id: 3bf5541a-6a45-4fdc-b01d-59b899fff961
-version: 16
+version: 17
 creation_date: '2024-03-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -40,7 +40,7 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `drop_dm_object_name(Filesystem)`
-    | lookup remote_access_software remote_utility AS file_name OUTPUT isutility, description as signature, comment_reference as desc, category
+    | lookup local=t remote_access_software remote_utility AS file_name OUTPUT isutility, description as signature, comment_reference as desc, category
     | search isutility = TRUE
     | `remote_access_software_usage_exceptions`
     | `detect_remote_access_software_usage_file_filter`

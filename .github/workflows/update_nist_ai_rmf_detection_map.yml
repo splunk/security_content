@@ -43,7 +43,7 @@ jobs:
           commit-message: Update NIST AI RMF detection map
           branch: auto-nist-ai-rmf-detection-map-${{ github.run_number }}
           base: develop
-          title: Automated NIST AI RMF detection map update ${{ github.run_number }}
+          title: Automated NIST AI RMF lookup table update
           body: |
             This PR updates the generated NIST AI RMF detection-to-subcategory lookup.
 

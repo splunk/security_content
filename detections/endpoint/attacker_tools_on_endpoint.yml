@@ -1,8 +1,8 @@
 name: Attacker Tools On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-16a110145893
-version: 19
+version: 20
 creation_date: '2021-07-12'
-modification_date: '2026-07-14'
+modification_date: '2026-09-22'
 author: Bhavin Patel, Splunk, sventec, Github Community
 status: production
 type: TTP
@@ -42,7 +42,7 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | lookup attacker_tools attacker_tool_names AS process_name OUTPUT description
+    | lookup local=t attacker_tools attacker_tool_names AS process_name OUTPUT description
     | search description !=false
     | `attacker_tools_on_endpoint_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.

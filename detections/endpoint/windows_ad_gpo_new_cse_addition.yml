@@ -1,8 +1,8 @@
 name: Windows AD GPO New CSE Addition
 id: 700c11d1-da09-47b2-81aa-358c143c7986
-version: 10
+version: 11
 creation_date: '2024-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Dean Luxton
 status: production
 type: TTP
@@ -24,7 +24,7 @@ search: |-
       | \d]+\-[A-Z
       | \d]+\-[A-Z
       | \d]+\}")
-      | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType
+      | lookup local=t msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType
       | eval newPolicy=if(policyType like "%",policyType,new_values)
       | join ObjectDN  [
       | search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update
