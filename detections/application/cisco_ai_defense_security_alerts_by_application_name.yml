@@ -1,6 +1,6 @@
 name: Cisco AI Defense Security Alerts by Application Name
 id: 105e4a69-ec55-49fc-be1f-902467435ea8
-version: 9
+version: 8
 creation_date: '2025-02-14'
 modification_date: '2026-10-15'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
