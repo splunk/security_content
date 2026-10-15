@@ -39,7 +39,7 @@ search: |-
     | eval encoding=ltrim(if(match(post_body, "^(?:\\\\u[A-Fa-f0-9]{4}|\\\\u\{[A-Fa-f0-9]+\}){2,}"), encoding." + Unicode", encoding), " + ")
     | eval encoding=ltrim(if(match(post_body, "^(?:\\\\\\d{3}){2,}"), encoding." + Octal", encoding), " + ")
 
-    | where encoding!="" 
+    | where encoding!=""
     | stats count min(_time) as firstTime
         max(_time) as lastTime
         values(url) as url
