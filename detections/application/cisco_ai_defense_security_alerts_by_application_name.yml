@@ -1,14 +1,15 @@
 name: Cisco AI Defense Security Alerts by Application Name
 id: 105e4a69-ec55-49fc-be1f-902467435ea8
-version: 8
+version: 10
 creation_date: '2025-02-14'
-modification_date: '2026-10-15'
+modification_date: '2026-10-16'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |-
     This analytic summarizes Cisco AI Defense events by application, connection, action, message direction, and severity over ten-minute intervals.
     Allowed responses flagged for privacy guardrails are handled by the dedicated sensitive-response detection.
+    Allowed prompts flagged for privacy guardrails are handled by Cisco AI Defense Allowed Sensitive Prompt.
     Repeated prompt injection, code detection, PII, or PCI events are handled by the repeated high-risk activity detection.
 data_source:
     - Cisco AI Defense Alerts
@@ -26,7 +27,7 @@ search: |-
 
            action=lower(event_action), message_type=lower(event_message_type),
 
-           has_privacy=if(mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)personally identifiable information|payment card industry")>=0, 1, 0),
+           has_privacy=if(mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry")>=0, 1, 0),
 
            has_sensitive_response=if(message_type="response" AND has_privacy=1, 1, 0),
 
@@ -57,7 +58,8 @@ search: |-
            connection_key=if(isnotnull(connection_id) AND len(trim(connection_id))>0, connection_id, connection_name),
            is_high_risk=if(has_security=1 OR has_privacy=1, 1, 0),
            is_allowed_sensitive_response=if(action="allow" AND has_sensitive_response=1, 1, 0),
-           high_risk_event_id=if(has_security=1 OR has_privacy=1, event_id, null()),
+           is_allowed_sensitive_prompt=if(action="allow" AND message_type="prompt" AND has_privacy=1, 1, 0),
+           high_risk_event_id=if((has_security=1 OR has_privacy=1) AND is_allowed_sensitive_prompt=0, event_id, null()),
            event_time=_time
 
     | bin _time span=10m
@@ -65,8 +67,8 @@ search: |-
     ```Use the same application/connection window and threshold as Cisco AI Defense Repeated High Risk Activity```
     | eventstats dc(high_risk_event_id) as high_risk_event_count by _time application_key connection_key
 
-    ```Leave allowed sensitive responses to Cisco AI Defense Allowed Sensitive Response and repeated high-risk bursts to Cisco AI Defense Repeated High Risk Activity```
-    | where is_allowed_sensitive_response=0 AND NOT (is_high_risk=1 AND high_risk_event_count>=5)
+    ```Leave allowed sensitive responses to Cisco AI Defense Allowed Sensitive Response, allowed sensitive prompts to Cisco AI Defense Allowed Sensitive Prompt, and repeated high-risk bursts to Cisco AI Defense Repeated High Risk Activity```
+    | where is_allowed_sensitive_response=0 AND is_allowed_sensitive_prompt=0 AND NOT (is_high_risk=1 AND high_risk_event_count>=5)
 
     | stats count as event_count
             dc(event_id) as distinct_event_count

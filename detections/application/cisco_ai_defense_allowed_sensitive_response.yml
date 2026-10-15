@@ -1,8 +1,8 @@
 name: Cisco AI Defense Allowed Sensitive Response
 id: 6e4cd833-ea98-4c16-a7e7-e1909fad3fb2
-version: 2
+version: 1
 creation_date: '2026-10-15'
-modification_date: '2026-10-15'
+modification_date: '2026-10-16'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -26,7 +26,7 @@ search: |-
 
            policy_name='policy.policy_name'
 
-    | where mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)personally identifiable information|payment card industry")>=0
+    | where mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry")>=0
 
     | table _time event_date event_id event_message_type event_action resource_type
             application_id application_name connection_id connection_name model.model_name

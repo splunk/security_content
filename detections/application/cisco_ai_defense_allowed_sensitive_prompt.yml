@@ -1,0 +1,95 @@
+name: Cisco AI Defense Allowed Sensitive Prompt
+id: 75f06fd6-2b31-4ca4-9aaf-56448c342e44
+version: 1
+creation_date: '2026-10-16'
+modification_date: '2026-10-16'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    Detects Cisco AI Defense prompt events that were allowed and matched a privacy guardrail for personally identifiable information or payment card data.
+    These events may indicate that sensitive information was submitted to an AI application and should be reviewed against the organization's data handling policy.
+data_source:
+    - Cisco AI Defense Alerts
+search: |-
+    `cisco_ai_defense`
+    event_action="allow"
+    event_message_type="prompt"
+
+    | eval guardrail_ruleset_type=mvjoin('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', ", "),
+
+           guardrail_entity_name=mvjoin('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name', ", "),
+
+           application_name=if(isnotnull('genai_application.application_name') AND len(trim('genai_application.application_name'))>0, 'genai_application.application_name', "unknown"),
+
+           connection_name=if(isnotnull('connection.connection_name') AND len(trim('connection.connection_name'))>0, 'connection.connection_name', "unknown"),
+
+           application_key=if(isnotnull(application_id) AND len(trim(application_id))>0, application_id, application_name),
+
+           connection_key=if(isnotnull(connection_id) AND len(trim(connection_id))>0, connection_id, connection_name),
+
+           policy_name='policy.policy_name',
+
+           event_time=_time
+
+    | where mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry")>=0
+
+    | bin _time span=10m
+
+    | stats count as event_count
+            dc(event_id) as distinct_event_count
+            min(event_time) as firstTime
+            max(event_time) as lastTime
+            values(event_id) as event_ids
+            values(guardrail_ruleset_type) as guardrail_ruleset_types
+            values(guardrail_entity_name) as guardrail_entity_names
+            values(policy_name) as policy_names
+            values(application_name) as application_names
+            values(connection_name) as connection_names
+        by _time application_key connection_key
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+
+    | table _time firstTime lastTime application_key application_names connection_key connection_names
+            distinct_event_count event_count event_ids guardrail_ruleset_types guardrail_entity_names policy_names
+
+    | `cisco_ai_defense_allowed_sensitive_prompt_filter`
+how_to_implement: |-
+    Install and configure the Cisco Security Cloud app to ingest Cisco AI Defense alerts into Splunk with the cisco:ai:defense sourcetype.
+    Confirm that extraction is enabled for the required fields as shown in the detection search.
+    Configure the "cisco_ai_defense" macro to match the index, source, and sourcetype used in your environment.
+    The search groups matching prompt events by application and connection in ten-minute windows to reduce duplicate findings.
+known_false_positives: |-
+    Authorized testing, demonstrations, synthetic data, or approved workflows may submit content that matches PII or PCI guardrails.
+    Review the application, connection, policy, guardrail entity, and data handling requirements before treating an event as a policy violation.
+drilldown_searches:
+    - name: View the detection results for - "$application_names$"
+      search: '%original_detection_search% | search application_names="$application_names$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+finding:
+    title: Cisco AI Defense allowed [$distinct_event_count$] sensitive prompt event(s) for application [$application_names$] and connection [$connection_names$] matched guardrail(s) [$guardrail_ruleset_types$].
+    entity:
+        field: application_key
+        type: other
+        score: 50
+threat_objects: []
+analytic_story:
+    - AI Threats
+    - Data Protection
+asset_type: Web Application
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/cisco_ai_defense_alerts/cisco_ai_defense_alerts.json
+          source: not_applicable
+          sourcetype: cisco:ai:defense
+      test_type: unit

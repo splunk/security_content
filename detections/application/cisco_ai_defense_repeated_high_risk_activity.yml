@@ -2,17 +2,21 @@ name: Cisco AI Defense Repeated High Risk Activity
 id: 45c5cf84-8ad0-4923-8332-a7fd3dab59d4
 version: 2
 creation_date: '2026-10-15'
-modification_date: '2026-10-15'
+modification_date: '2026-10-16'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |-
     Detects repeated Cisco AI Defense events matching prompt injection, code detection, PII, or PCI guardrails for the same application and connection within ten minutes.
+    Allowed PII/PCI prompt events are handled by Cisco AI Defense Allowed Sensitive Prompt.
     A burst can indicate iterative probing or repeated attempts to use an AI application to access restricted data or capabilities.
 data_source:
     - Cisco AI Defense Alerts
 search: |-
     `cisco_ai_defense`
+
+    ```Leave allowed PII/PCI prompt events to Cisco AI Defense Allowed Sensitive Prompt```
+    | where NOT (lower(event_action)="allow" AND lower(event_message_type)="prompt" AND mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry")>=0)
 
     | eval guardrail_ruleset_type=mvjoin('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', ", "),
            application_name=if(isnotnull('genai_application.application_name') AND len(trim('genai_application.application_name'))>0, 'genai_application.application_name', "unknown"),
@@ -20,7 +24,7 @@ search: |-
            application_key=if(isnotnull(application_id) AND len(trim(application_id))>0, application_id, application_name),
            connection_key=if(isnotnull(connection_id) AND len(trim(connection_id))>0, connection_id, connection_name)
 
-    | where mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)prompt injection|code detection|personally identifiable information|payment card industry")>=0
+    | where mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)prompt injection|code detection|\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry")>=0
 
     | bin _time span=10m
 
