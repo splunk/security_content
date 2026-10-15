@@ -16,6 +16,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://threadreaderapp.com/thread/1423361119926816776.html
+    - https://DO_NOT_MERGE_ME_CHANGE_ONLY_FOR_TESTING.COM
 analytic_story:
     - Ransomware
 asset_type: Endpoint
