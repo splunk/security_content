@@ -38,8 +38,10 @@ jobs:
         - name: Install contentctl-ng
           shell: bash
           run: |
-            echo "- Build Tool Version - $(cat requirements.txt)"
-            pip install -r requirements.txt
+            # TEMPORARY: hardcoded because this step runs on the base branch checkout, whose requirements.txt
+            # does not yet pin 1.2.0b1. Revert to `pip install -r requirements.txt` before merging.
+            echo "- Build Tool Version - contentctl-ng==1.2.0b1 (hardcoded)"
+            pip install contentctl-ng==1.2.0b1
 
         # Check out the PR, even if it lives in a fork.
         # Instructions for pulling a PR were taken from:
