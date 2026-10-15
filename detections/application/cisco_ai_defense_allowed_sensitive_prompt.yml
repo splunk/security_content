@@ -1,8 +1,8 @@
 name: Cisco AI Defense Allowed Sensitive Prompt
 id: 75f06fd6-2b31-4ca4-9aaf-56448c342e44
 version: 1
-creation_date: '2026-10-16'
-modification_date: '2026-10-16'
+creation_date: '2026-10-15'
+modification_date: '2026-10-15'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP

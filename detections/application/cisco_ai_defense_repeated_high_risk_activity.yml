@@ -2,7 +2,7 @@ name: Cisco AI Defense Repeated High Risk Activity
 id: 45c5cf84-8ad0-4923-8332-a7fd3dab59d4
 version: 2
 creation_date: '2026-10-15'
-modification_date: '2026-10-16'
+modification_date: '2026-10-15'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP

@@ -2,7 +2,7 @@ name: Cisco AI Defense Allowed Sensitive Response
 id: 6e4cd833-ea98-4c16-a7e7-e1909fad3fb2
 version: 1
 creation_date: '2026-10-15'
-modification_date: '2026-10-16'
+modification_date: '2026-10-15'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
