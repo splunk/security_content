@@ -1,8 +1,8 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
-version: 17
+version: 18
 creation_date: '2021-11-29'
-modification_date: '2026-05-13'
+modification_date: '2026-10-09'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -13,7 +13,6 @@ description: |
     If confirmed malicious, this behavior could allow attackers to execute code remotely, escalate privileges, or persist within the environment.
 data_source:
     - Sysmon EventID 1
-    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
     count min(_time) as firstTime

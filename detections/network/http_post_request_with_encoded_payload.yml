@@ -1,0 +1,89 @@
+name: HTTP POST Request with Encoded Payload
+id: 0590881d-7b81-48dd-9674-1f23f7db5d40
+version: 1
+creation_date: '2026-10-12'
+modification_date: '2026-10-12'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects HTTP POST requests containing heavily encoded data in the post body, specifically looking for sequences of hex-encoded bytes or base64-encoded strings.
+    It leverages Zeek HTTP logs to identify POST requests where the body contains eight or more consecutive hex escape sequences or sixteen or more consecutive base64 character groups.
+    This activity is significant as adversaries commonly use hex or base64 encoding to obfuscate C2 communication, exfiltrate data, or deliver encoded payloads.
+data_source:
+    - Zeek HTTP
+search: |-
+    `zeek_http`
+    method="POST"
+    post_body="*"
+
+    | eval dest_port=coalesce(dest_port, 'id.resp_p'),
+           dest=coalesce(dest, dest_ip, 'id.resp_h'),
+           src=coalesce(src, src_ip, 'id.orig_h')
+
+    | eval _hex=if(match(post_body, "(?:\\\\x[0-9a-fA-F]{2}){8,}|(?:%[0-9a-fA-F]{2}){8,}"), 1, 0)
+    | eval _b64=if(match(post_body, "(?:[A-Za-z0-9+/]{4}){16,}={0,2}"), 1, 0)
+
+    | where _hex=1 OR _b64=1
+
+    | eval encoding_type=case(_hex=1 AND _b64=1, "Hexadecimal + Base64", _hex=1, "Hexadecimal", _b64=1, "Base64")
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(encoding_type) as encoding_type
+                  values(post_body) as post_body
+
+      by src dest dest_port uri method status_code
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `http_post_request_with_encoded_payload_filter`
+how_to_implement: |-
+    Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
+    The "post_body" field must be populated, which requires Zeek to be configured with the HTTP post body extraction policy.
+    Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
+known_false_positives: |-
+    Legitimate applications may POST base64-encoded data, particularly APIs that transmit binary content.
+    Review the destination, URI, and post body content to confirm whether the activity is expected.
+references:
+    - https://attack.mitre.org/techniques/T1071/001/
+    - https://attack.mitre.org/techniques/T1132/001/
+    - https://docs.zeek.org/en/master/logs/http.html
+drilldown_searches:
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$id.orig_h$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: src
+          type: system
+          score: 20
+          message: An HTTP POST request with an encoded body of type [$encoding_type$] was detected from [$src$] to [$dest$] over port [$dest_port$] to URI - [$uri$].
+threat_objects:
+    - field: uri
+      type: uri
+analytic_story:
+    - Command And Control
+    - Data Exfiltration
+asset_type: Network
+mitre_attack_id:
+    - T1071.001
+    - T1132.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.001/zeek_http_encoded_post/http.log
+          sourcetype: zeek:http
+          source: http.log
+      test_type: unit

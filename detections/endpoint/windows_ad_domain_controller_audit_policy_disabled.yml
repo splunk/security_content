@@ -1,8 +1,8 @@
 name: Windows AD Domain Controller Audit Policy Disabled
 id: fc3ccef1-60a4-4239-bd66-b279511b4d14
-version: 12
+version: 13
 creation_date: '2023-01-25'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Dean Luxton
 status: production
 type: TTP
@@ -15,7 +15,7 @@ search: |-
       | eval AuditPolicyChanges=coalesce(AuditPolicyChanges,Changes), SubcategoryGuid=coalesce(SubcategoryGuid,Subcategory_GUID)
       | stats min(_time) as _time values(host) as dest
         BY AuditPolicyChanges SubcategoryGuid
-      | lookup advanced_audit_policy_guids GUID as SubcategoryGuid OUTPUT Category SubCategory
+      | lookup local=t advanced_audit_policy_guids GUID as SubcategoryGuid OUTPUT Category SubCategory
       | `windows_ad_domain_controller_audit_policy_disabled_filter`
 how_to_implement: Ensure you are ingesting EventCode `4719` from your domain controllers, the category domain_controller exists in assets and identities, and that assets and identities is enabled. If A&I is not configured, you will need to manually filter the results within the base search.
 known_false_positives: No false positives have been identified at this time.

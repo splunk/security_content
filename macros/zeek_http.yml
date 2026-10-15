@@ -1,0 +1,8 @@
+name: zeek_http
+id: 5deefc82-d7b0-4c6a-a9e3-fce5ebbd4291
+version: 1
+creation_date: '2026-10-12'
+modification_date: '2026-10-12'
+author: Splunk Threat Research Team
+description: Customer specific Splunk configuration for Zeek HTTP logs. Update the sourcetype to match your environment.
+definition: sourcetype="zeek:http"
