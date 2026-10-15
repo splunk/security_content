@@ -1,45 +1,104 @@
 name: Cisco AI Defense Security Alerts by Application Name
 id: 105e4a69-ec55-49fc-be1f-902467435ea8
-version: 7
+version: 9
 creation_date: '2025-02-14'
-modification_date: '2026-05-13'
-author: Bhavin Patel, Splunk
+modification_date: '2026-10-15'
+author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: The search surfaces alerts from the Cisco AI Defense product for potential attacks against the AI models running in your environment. This analytic identifies security events within Cisco AI Defense by examining event messages, actions, and policy names. It focuses on connections and applications associated with specific guardrail entities and ruleset types. By aggregating and analyzing these elements, the search helps detect potential policy violations and security threats, enabling proactive defense measures and ensuring network integrity.
+description: |-
+    This analytic summarizes Cisco AI Defense events by application, connection, action, message direction, and severity over ten-minute intervals.
+    Allowed responses flagged for privacy guardrails are handled by the dedicated sensitive-response detection.
+    Repeated prompt injection, code detection, PII, or PCI events are handled by the repeated high-risk activity detection.
 data_source:
     - Cisco AI Defense Alerts
 search: |-
     `cisco_ai_defense`
-      | rename genai_application.application_name as application_name
-      | rename connection.connection_name as connection_name
-      ```Aggregating data by model name, connection name, application name, application ID, and user ID```
-      | stats count
-          values(user_id) as user_id
-          values(event_message_type) as event_message_type
-          values(event_action) as event_action
-          values(policy.policy_name) as policy_name
-          values(event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name) as guardrail_entity_name
-          values(event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type) as guardrail_ruleset_type
-          by model.model_name connection_name application_name application_id
-      ```Evaluating severity based on policy name and guardrail ruleset type```
-      | eval severity=case(
-          policy_name IN ("AI Runtime Latency Testing - Prompt Injection"), "critical",
-          policy_name IN ("AI Runtime Latency Testing - Code Detection"), "high",
-          guardrail_ruleset_type IN ("Toxicity"), "medium",
+
+    | rename genai_application.application_name as application_name,
+             connection.connection_name as connection_name
+
+    | eval policy_name='policy.policy_name',
+
+           guardrail_ruleset_type=mvjoin('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', ", "),
+
+           guardrail_entity_name=mvjoin('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name', ", "),
+
+           action=lower(event_action), message_type=lower(event_message_type),
+
+           has_privacy=if(mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)personally identifiable information|payment card industry")>=0, 1, 0),
+
+           has_sensitive_response=if(message_type="response" AND has_privacy=1, 1, 0),
+
+           has_security=if(mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)prompt injection|code detection")>=0, 1, 0)
+
+    ```Prioritize allowed sensitive responses, then security and privacy guardrails```
+
+    | eval severity=case(
+          action="allow" AND has_sensitive_response=1, "critical",
+          action="block" AND has_sensitive_response=1, "high",
+          action="allow" AND has_security=1, "high",
+          action="block" AND has_security=1, "medium",
+          action="allow" AND has_privacy=1, "high",
+          action="block" AND has_privacy=1, "medium",
           true(), "low"
       )
-      ```Calculating risk score based on severity level```
-      | eval risk_score=case(
-          severity="critical", 100,
-          severity="high", 75,
-          severity="medium", 50,
-          severity="low", 25
-      )
-      | table model.model_name, user_id, event_action, application_id, application_name, severity, risk_score, policy_name, connection_name, guardrail_ruleset_type, guardrail_entity_name
-      | `cisco_ai_defense_security_alerts_by_application_name_filter`
-how_to_implement: To enable this detection, you need to ingest alerts from the Cisco AI Defense product. This can be done by using this app from splunkbase - Cisco Security Cloud and ingest alerts into the cisco:ai:defense sourcetype.
-known_false_positives: False positives may vary based on Cisco AI Defense configuration; monitor and filter out the alerts that are not relevant to your environment.
+
+    | eval risk_score=case(
+        severity="critical", 100,
+        severity="high", 80,
+        severity="medium", 50,
+        severity="low", 20
+    )
+
+    | eval application_name=if(isnotnull(application_name) AND len(trim(application_name))>0, application_name, "unknown"),
+           connection_name=if(isnotnull(connection_name) AND len(trim(connection_name))>0, connection_name, "unknown"),
+           application_key=if(isnotnull(application_id) AND len(trim(application_id))>0, application_id, application_name),
+           connection_key=if(isnotnull(connection_id) AND len(trim(connection_id))>0, connection_id, connection_name),
+           is_high_risk=if(has_security=1 OR has_privacy=1, 1, 0),
+           is_allowed_sensitive_response=if(action="allow" AND has_sensitive_response=1, 1, 0),
+           high_risk_event_id=if(has_security=1 OR has_privacy=1, event_id, null()),
+           event_time=_time
+
+    | bin _time span=10m
+
+    ```Use the same application/connection window and threshold as Cisco AI Defense Repeated High Risk Activity```
+    | eventstats dc(high_risk_event_id) as high_risk_event_count by _time application_key connection_key
+
+    ```Leave allowed sensitive responses to Cisco AI Defense Allowed Sensitive Response and repeated high-risk bursts to Cisco AI Defense Repeated High Risk Activity```
+    | where is_allowed_sensitive_response=0 AND NOT (is_high_risk=1 AND high_risk_event_count>=5)
+
+    | stats count as event_count
+            dc(event_id) as distinct_event_count
+            min(event_time) as firstTime
+            max(event_time) as lastTime
+            values(event_id) as event_ids
+            values(event_action) as event_actions
+            values(event_message_type) as message_types
+            values(resource_type) as resource_types
+            values(model.model_name) as model_names
+            values(application_name) as application_name
+            values(connection_name) as connection_name
+            values(policy_name) as policy_names
+            values(guardrail_ruleset_type) as guardrail_ruleset_types
+            values(guardrail_entity_name) as guardrail_entity_names
+            max(risk_score) as risk_score
+        by _time application_key connection_key action message_type severity
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+
+    | table _time firstTime lastTime application_key application_name connection_key connection_name
+            action message_type severity risk_score event_count distinct_event_count event_ids
+            resource_types model_names policy_names guardrail_ruleset_types guardrail_entity_names
+
+    | `cisco_ai_defense_security_alerts_by_application_name_filter`
+how_to_implement: |-
+    Install and configure the Cisco Security Cloud app to ingest Cisco AI Defense alerts into Splunk with the cisco:ai:defense sourcetype.
+    Confirm that extraction is enabled for the required fields as shown in the detection search.
+    Configure the cisco_ai_defense macro to match the index, source, and sourcetype used in your environment.
+known_false_positives: |-
+    False positives may vary based on Cisco AI Defense configuration; monitor and filter out the alerts that are not relevant to your environment.
 references:
     - https://www.robustintelligence.com/blog-posts/prompt-injection-attack-on-gpt-4
     - https://docs.aws.amazon.com/prescriptive-guidance/latest/llm-prompt-engineering-best-practices/common-attacks.html
@@ -57,9 +116,10 @@ intermediate_findings:
         - field: application_name
           type: other
           score: 20
-          message: Cisco AI Defense Security Alert has been action - [$event_action$] for the application name - [$application_name$]
+          message: Cisco AI Defense summarized [$event_count$] events for application [$application_name$] and connection [$connection_name$] over ten minutes. Actions [$action$], message direction [$message_type$], severity [$severity$], guardrails [$guardrail_ruleset_types$], event IDs [$event_ids$].
+threat_objects: []
 analytic_story:
-    - Critical Alerts
+    - AI Threats
 asset_type: Web Application
 mitre_attack_id: []
 product:
@@ -72,7 +132,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/cisco_ai_defense_alerts/cisco_ai_defense_alerts.json
-          source: cisco_ai_defense
+          source: not_applicable
           sourcetype: cisco:ai:defense
-      description: PORTED MANUAL TEST - We are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection.
-      test_type: experimental
+      description: We are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection.
+      test_type: unit

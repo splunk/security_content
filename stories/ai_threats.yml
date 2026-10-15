@@ -1,0 +1,23 @@
+name: AI Threats
+id: f79c6573-5550-4adc-b673-bb0d8c9e1df1
+version: 1
+creation_date: '2026-10-15'
+modification_date: '2026-10-15'
+author: Nasreddine Bencherchali, Splunk
+status: production
+description: |-
+    Detect and investigate threats targeting or abusing artificial intelligence services and applications.
+    Coverage includes prompt injection, attempts to bypass model safeguards, repeated high-risk guardrail events, and possible sensitive data disclosure through model interactions.
+narrative: |-
+    AI applications can expose sensitive information, invoke connected tools, or process untrusted prompts. Attackers and malicious insiders may try to override model instructions, extract restricted data, misuse AI-enabled tools, or repeatedly probe guardrails.
+    Use this story to investigate AI security events across model providers and application integrations. Review the affected application and connection, event action, prompt or response direction, policy, and guardrail categories. An allowed event can indicate exposure, while a blocked event records an attempt; neither alone confirms the full impact. Correlate high-risk events with identity, application, data access, and tool activity where those logs are available.
+references:
+    - https://atlas.mitre.org/
+    - https://owasp.org/www-project-top-10-for-large-language-model-applications/
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

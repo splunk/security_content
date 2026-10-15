@@ -1,0 +1,83 @@
+name: Cisco AI Defense Repeated High Risk Activity
+id: 45c5cf84-8ad0-4923-8332-a7fd3dab59d4
+version: 2
+creation_date: '2026-10-15'
+modification_date: '2026-10-15'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    Detects repeated Cisco AI Defense events matching prompt injection, code detection, PII, or PCI guardrails for the same application and connection within ten minutes.
+    A burst can indicate iterative probing or repeated attempts to use an AI application to access restricted data or capabilities.
+data_source:
+    - Cisco AI Defense Alerts
+search: |-
+    `cisco_ai_defense`
+
+    | eval guardrail_ruleset_type=mvjoin('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', ", "),
+           application_name=if(isnotnull('genai_application.application_name') AND len(trim('genai_application.application_name'))>0, 'genai_application.application_name', "unknown"),
+           connection_name=if(isnotnull('connection.connection_name') AND len(trim('connection.connection_name'))>0, 'connection.connection_name', "unknown"),
+           application_key=if(isnotnull(application_id) AND len(trim(application_id))>0, application_id, application_name),
+           connection_key=if(isnotnull(connection_id) AND len(trim(connection_id))>0, connection_id, connection_name)
+
+    | where mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)prompt injection|code detection|personally identifiable information|payment card industry")>=0
+
+    | bin _time span=10m
+
+    | stats count as event_count
+            dc(event_id) as distinct_event_count
+            count(eval(lower(event_action)="allow")) as allowed_event_count
+            count(eval(lower(event_action)="block")) as blocked_event_count
+            values(event_id) as event_ids
+            values(event_action) as event_actions
+            values(event_message_type) as message_types
+            values(policy.policy_name) as policy_names
+            values(guardrail_ruleset_type) as guardrail_ruleset_types
+            values(connection_name) as connection_names
+            values(application_name) as application_names
+        by _time application_key connection_key
+
+    | where distinct_event_count>=5
+
+    | table _time application_key application_names connection_key connection_names
+            distinct_event_count allowed_event_count blocked_event_count event_actions
+            message_types policy_names guardrail_ruleset_types event_ids
+
+    | `cisco_ai_defense_repeated_high_risk_activity_filter`
+how_to_implement: |-
+    Install and configure the Cisco Security Cloud app to ingest Cisco AI Defense alerts into Splunk.
+    Confirm that extraction is enabled for the required fields as shown in the detection search.
+    Configure the "cisco_ai_defense" macro to match the index, source, and sourcetype used in your environment.
+    Adjust the five-event threshold and ten-minute window as needed.
+known_false_positives: |-
+    Automated testing, red-team exercises, application QA, or a popular shared application may generate repeated guardrail events.
+    Review whether the window contains allowed events and whether the activity was expected for the application and connection.
+drilldown_searches:
+    - name: View the detection results for - "$application_key$"
+      search: '%original_detection_search% | search application_key="$application_key$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+finding:
+    title: Cisco AI Defense observed [$distinct_event_count$] high risk events in ten minutes for application [$application_names$] and connection [$connection_names$]. Allowed events -> [$allowed_event_count$] ; Blocked events -> [$blocked_event_count$].
+    entity:
+        field: application_key
+        type: other
+        score: 50
+threat_objects: []
+analytic_story:
+    - AI Threats
+asset_type: Web Application
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/cisco_ai_defense_alerts/cisco_ai_defense_alerts.json
+          source: not_applicable
+          sourcetype: cisco:ai:defense
+      test_type: unit
