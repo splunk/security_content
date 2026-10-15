@@ -44,9 +44,9 @@ references:
     - https://stratus-red-team.cloud/attack-techniques/AWS/aws.lateral-movement.ec2-instance-connect/
     - https://www.elastic.co/guide/en/security/8.19/prebuilt-rule-8-19-14-aws-ec2-instance-connect-ssh-public-key-uploaded.html
 finding:
-    title: AWS identity $user$ uploaded $event_count$ SSH public keys using EC2 Instance Connect
+    title: AWS identity $user_arn$ uploaded $event_count$ SSH public keys using EC2 Instance Connect
     entity:
-        field: user
+        field: user_arn
         type: user
         score: 50
 threat_objects:
