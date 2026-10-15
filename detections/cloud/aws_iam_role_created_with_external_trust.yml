@@ -34,7 +34,10 @@ search: |-
         principal_json=json_extract(statements, "Principal")
     | eval actions=if(match(actions_json, "^\s*\["), json_array_to_mv(actions_json, true()), actions_json)
     | mvexpand actions
-    | where effect="Allow" AND actions="sts:AssumeRole"
+    | mvexpand actions
+    | eval trust_action=actions
+    | eval action_pattern=replace(replace(lower(trust_action), "[*]", "%"), "[?]", "_")
+    | where effect="Allow" AND like("sts:assumerole", action_pattern)
     | eval aws_json=json_extract(principal_json, "AWS")
     | eval principals=case(
         match(aws_json, "^\s*\["), json_array_to_mv(aws_json, true()),
@@ -57,7 +60,7 @@ search: |-
     | where trust_type="wildcard" OR trust_type="external"
     | eval event_key=coalesce(eventID, md5(_raw))
     | dedup event_key trust_principal
-    | table _time eventID user_arn src role_name role_arn role_account_id trust_type trust_principal principal_account_id
+    | table _time eventID user_arn src role_name role_arn role_account_id trust_type trust_principal principal_account_id trust_action
     | `aws_iam_role_created_with_external_trust_filter`
 how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
 known_false_positives: >-
