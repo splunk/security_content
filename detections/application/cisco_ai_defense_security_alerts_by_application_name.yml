@@ -122,6 +122,7 @@ intermediate_findings:
 threat_objects: []
 analytic_story:
     - Abuse of GenAI Systems and Applications
+    - Critical Alerts
 asset_type: Web Application
 mitre_attack_id: []
 product:
