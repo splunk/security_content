@@ -1,6 +1,6 @@
 name: Cisco AI Defense Repeated High Risk Activity
 id: 45c5cf84-8ad0-4923-8332-a7fd3dab59d4
-version: 2
+version: 1
 creation_date: '2026-10-15'
 modification_date: '2026-10-15'
 author: Nasreddine Bencherchali, Splunk
@@ -70,6 +70,7 @@ finding:
 threat_objects: []
 analytic_story:
     - Abuse of GenAI Systems and Applications
+    - Critical Alerts
 asset_type: Web Application
 mitre_attack_id: []
 product:

@@ -6,7 +6,7 @@ modification_date: '2026-10-15'
 author: Nasreddine Bencherchali, Splunk
 status: production
 description: |-
-    Detect and investigate threats targeting or abusing artificial intelligence services and applications.
+    Detect and investigate threats targeting or abusing artificial intelligence systems, services and applications.
     Coverage includes prompt injection, attempts to bypass model safeguards, repeated high-risk guardrail events, and possible sensitive data disclosure through model interactions.
 narrative: |-
     AI applications can expose sensitive information, invoke connected tools, or process untrusted prompts. Attackers and malicious insiders may try to override model instructions, extract restricted data, misuse AI-enabled tools, or repeatedly probe guardrails.
