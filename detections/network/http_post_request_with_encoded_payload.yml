@@ -2,14 +2,14 @@ name: HTTP POST Request with Encoded Payload
 id: 0590881d-7b81-48dd-9674-1f23f7db5d40
 version: 1
 creation_date: '2026-10-12'
-modification_date: '2026-10-12'
+modification_date: '2026-10-13'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic detects HTTP POST requests containing heavily encoded data in the post body, specifically looking for sequences of hex-encoded bytes or base64-encoded strings.
-    It leverages Zeek HTTP logs to identify POST requests where the body contains eight or more consecutive hex escape sequences or sixteen or more consecutive base64 character groups.
-    This activity is significant as adversaries commonly use hex or base64 encoding to obfuscate C2 communication, exfiltrate data, or deliver encoded payloads.
+    The following analytic detects HTTP POST requests containing heavily encoded data in the post body, specifically looking for sequences of hex, base64, URL, XML, Unicode, or Octal encoded strings.
+    It leverages Zeek HTTP logs to identify POST requests where the body contains eight or more consecutive hex, URL, XML, Unicode, or Octal escape sequences or sixteen or more consecutive base64 character groups.
+    This activity is significant as adversaries commonly use various encoding schemes to obfuscate C2 communication, exfiltrate data, or deliver encoded payloads.
 data_source:
     - Zeek HTTP
 search: |-
@@ -17,23 +17,35 @@ search: |-
     method="POST"
     post_body="*"
 
+    NOT orig_mime_type_first_stated IN (
+        "application/x-www-form-urlencoded",
+        "application/ocsp-request"
+    )
+
+    NOT user_agent IN (
+        "MicroMessenger Client",
+        "Dalvik*",
+        "AliPayWallet*"
+    )
+
     | eval dest_port=coalesce(dest_port, 'id.resp_p'),
-           dest=coalesce(dest, dest_ip, 'id.resp_h'),
-           src=coalesce(src, src_ip, 'id.orig_h')
+            dest=coalesce(dest, dest_ip, 'id.resp_h'),
+            src=coalesce(src, src_ip, 'id.orig_h')
 
-    | eval _hex=if(match(post_body, "(?:\\\\x[0-9a-fA-F]{2}){8,}|(?:%[0-9a-fA-F]{2}){8,}"), 1, 0)
-    | eval _b64=if(match(post_body, "(?:[A-Za-z0-9+/]{4}){16,}={0,2}"), 1, 0)
+    | eval encoding=ltrim(if(match(post_body, "^(?:\\\\x[0-9a-fA-F]{2}){8,}|(?:%[0-9a-fA-F]{2}){8,}"), "Hexadecimal", ""), " + ")
+    | eval encoding=ltrim(if(match(post_body, "^(?:[A-Za-z0-9+\\/]{4}){16,}={0,2}"), encoding." + Base64", encoding), " + ")
+    | eval encoding=ltrim(if(match(post_body, "^(?:0x[A-Fa-f0-9]{2}){8,}"), encoding." + URL Encoding", encoding), " + ")
+    | eval encoding=ltrim(if(match(post_body, "^(?:\\&\\#x?[A-Za-z0-9]{2,3}\;?){8,}"), encoding." + XML Encoding", encoding), " + ")
+    | eval encoding=ltrim(if(match(post_body, "^(?:\\\\u[A-Fa-f0-9]{4}|\\\\u\{[A-Fa-f0-9]+\}){8,}"), encoding." + Unicode", encoding), " + ")
+    | eval encoding=ltrim(if(match(post_body, "^(?:\\\\\\d{3}){8,}"), encoding." + Octal", encoding), " + ")
 
-    | where _hex=1 OR _b64=1
-
-    | eval encoding_type=case(_hex=1 AND _b64=1, "Hexadecimal + Base64", _hex=1, "Hexadecimal", _b64=1, "Base64")
-
+    | where encoding!=""
     | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-                  values(encoding_type) as encoding_type
-                  values(post_body) as post_body
-
-      by src dest dest_port uri method status_code
+        max(_time) as lastTime
+        values(uri) as uri
+        values(encoding) as encoding
+        values(post_body) as post_body
+    by src dest dest_port method status_code
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -49,6 +61,7 @@ references:
     - https://attack.mitre.org/techniques/T1071/001/
     - https://attack.mitre.org/techniques/T1132/001/
     - https://docs.zeek.org/en/master/logs/http.html
+    - https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/XSS%20Injection/README.md
 drilldown_searches:
     - name: View the detection results for - "$src$"
       search: '%original_detection_search% | search src = "$src$"'
@@ -63,7 +76,7 @@ intermediate_findings:
         - field: src
           type: system
           score: 20
-          message: An HTTP POST request with an encoded body of type [$encoding_type$] was detected from [$src$] to [$dest$] over port [$dest_port$] to URI - [$uri$].
+          message: An HTTP POST request with an encoded body of type [$encoding$] was detected from [$src$] to [$dest$] over port [$dest_port$] to URI - [$uri$].
 threat_objects:
     - field: uri
       type: uri

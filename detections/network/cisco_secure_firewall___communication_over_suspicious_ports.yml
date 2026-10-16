@@ -1,8 +1,8 @@
 name: Cisco Secure Firewall - Communication Over Suspicious Ports
 id: d85c05c8-42c0-4e4a-87e7-4e1bb3e844e3
-version: 8
+version: 9
 creation_date: '2025-04-03'
-modification_date: '2026-05-13'
+modification_date: '2026-10-08'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -11,7 +11,18 @@ description: |
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-    `cisco_secure_firewall` EventType=ConnectionEvent dest_port IN ("888", "999", "2200", "2222", "4000", "4444", "6789", "8531", "50501", "51820") | fillnull value="unknown" url
+    `cisco_secure_firewall` EventType=ConnectionEvent dest_port>1024 dest_port<49151
+    | where (
+      ```Same digit ports, i.e 4444, 55555```
+      (isint(dest_port/1111) AND dest_port<10000)
+      OR isint(dest_port/11111)
+      ```Ports with sequentially increasing digits, i.e 1234, 12345```
+      OR (isint((dest_port-123)/1111) AND dest_port<7000)
+      OR isint((dest_port-1234)/11111)
+      ```Ports with sequentially decreasing digits, i.e 4321```
+      OR (isint((dest_port+123)/1111) AND dest_port>4000 AND dest_port<10000)
+    )
+    | fillnull value="unknown" url
     | stats min(_time) as firstTime max(_time) as lastTime
           values(src_port) as src_port
           values(url) as url
