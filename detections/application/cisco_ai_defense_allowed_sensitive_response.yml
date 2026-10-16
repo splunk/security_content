@@ -53,7 +53,7 @@ finding:
         score: 50
 threat_objects: []
 analytic_story:
-    - AI Threats
+    - Abuse of GenAI Systems and Applications
     - Data Protection
     - Critical Alerts
 asset_type: Web Application

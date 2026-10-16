@@ -76,7 +76,7 @@ finding:
         score: 50
 threat_objects: []
 analytic_story:
-    - AI Threats
+    - Abuse of GenAI Systems and Applications
     - Data Protection
 asset_type: Web Application
 mitre_attack_id: []
