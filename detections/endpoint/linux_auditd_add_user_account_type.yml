@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects the suspicious add user account type. This behavior is critical for a SOC to monitor because it may indicate attempts to gain unauthorized access or maintain control over a system. Such actions could be signs of malicious activity. If confirmed, this could lead to serious consequences, including a compromised system, unauthorized access to sensitive data, or even a wider breach affecting the entire network. Detecting and responding to these signs early is essential to prevent potential security incidents.
 data_source:
     - Linux Auditd Add User
-search: |-
+search: |
     `linux_auditd` type=ADD_USER
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -30,7 +30,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -6,37 +6,17 @@ modification_date: '2026-06-29'
 author: Michael Haag, Teoderick Contreras Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects the use of PowerShell scripts to load .NET assemblies into memory via reflection, a technique often used in malicious activities such as those by Empire and Cobalt Strike.
+description: 'The following analytic detects the use of PowerShell scripts to load .NET assemblies into memory via reflection, a technique often used in malicious activities such as those by Empire and Cobalt Strike.
+
     It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command executed.
+
     This behavior is significant as it can indicate advanced attack techniques aiming to execute code in memory, bypassing traditional defenses.
-    If confirmed malicious, this activity could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.
+
+    If confirmed malicious, this activity could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.'
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` EventCode=4104
-    ScriptBlockText IN (
-        "*.LoadFrom(*",
-        "*.LoadModule(*",
-        "*.LoadWithPartialName*",
-        "*Reflection.Assembly.Load*",
-        "*Reflection.Assembly]::('daoL'[-1..-4] -join '')*",
-        "*Reflection.Assembly]::Load*",
-        "*ReflectionOnlyLoad*",
-        "*UnsafeLoadFrom*"
-    )
-
-    | fillnull
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-      by dest signature signature_id user_id
-         vendor_product EventID Guid Opcode
-         Name Path ProcessID
-         ScriptBlockId ScriptBlockText
-
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `powershell_loading_dotnet_into_memory_via_reflection_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process IN ("*.LoadFrom(*", "*.LoadModule(*", "*.LoadWithPartialName*", "*Reflection.Assembly.Load*", "*Reflection.Assembly]::('daoL'[-1..-4] -join '')*", "*Reflection.Assembly]::Load*", "*ReflectionOnlyLoad*", "*UnsafeLoadFrom*") by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_loading_dotnet_into_memory_via_reflection_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: False positives should be limited as day to day scripts do not use this method.
 references:

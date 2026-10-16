@@ -6,14 +6,13 @@ modification_date: '2026-09-22'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: |-
-    This detection searches for ASR audit events that are generated when a process or application attempts to perform an action that would be blocked by an ASR rule, but is allowed to proceed for auditing purposes.
+description: This detection searches for ASR audit events that are generated when a process or application attempts to perform an action that would be blocked by an ASR rule, but is allowed to proceed for auditing purposes.
 data_source:
     - Windows Event Log Defender 1122
     - Windows Event Log Defender 1125
     - Windows Event Log Defender 1132
     - Windows Event Log Defender 1134
-search: |-
+search: |
     `ms_defender`
     EventCode IN (
         1122,
@@ -36,8 +35,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `windows_defender_asr_audit_events_filter`
 how_to_implement: The following analytic requires collection of Windows Defender Operational logs in either XML or multi-line. To collect, setup a new input for the Windows Defender Operational logs. In addition, it does require a lookup that maps the ID to ASR Rule name. Note that Audit and block Event IDs have different fields, therefore the analytic will need to be modified for each type of event.
-known_false_positives: |-
-    Some false positives are expected initially as the ASR rules are tuned and configured.
+known_false_positives: Some false positives are expected initially as the ASR rules are tuned and configured.
 references:
     - https://asrgen.streamlit.app/
     - https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-overview
@@ -49,7 +47,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

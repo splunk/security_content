@@ -6,16 +6,17 @@ modification_date: '2026-09-22'
 author: Bhavin Patel, Splunk, sventec, Github Community
 status: production
 type: TTP
-description: |-
-    The following analytic detects the execution of tools commonly exploited by cybercriminals, such as those used for unauthorized access, network scanning, privilege escalation, password dumping or data exfiltration.
+description: 'The following analytic detects the execution of tools commonly exploited by cybercriminals, such as those used for unauthorized access, network scanning, privilege escalation, password dumping or data exfiltration.
+
     It leverages process activity data from Endpoint Detection and Response (EDR) agents, focusing on known attacker tool names.
-    This activity is significant because it serves as an early warning system for potential security incidents, enabling prompt response. If confirmed malicious, this activity could lead to unauthorized access, data theft, or further network compromise, posing a severe threat to the organization's security infrastructure.
+
+    This activity is significant because it serves as an early warning system for potential security incidents, enabling prompt response. If confirmed malicious, this activity could lead to unauthorized access, data theft, or further network compromise, posing a severe threat to the organization''s security infrastructure.'
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -56,7 +57,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: An attacker tool $process_name$, listed in attacker_tools.csv is executed on host $dest$ by User $user$. $process_name$ is known for [$description$].
     entity:

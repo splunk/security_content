@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies discrepancies between the source and response events for Okta Verify Push requests, indicating potential suspicious behavior. It leverages Okta System Log events, specifically `system.push.send_factor_verify_push` and `user.authentication.auth_via_mfa` with the factor "OKTA_VERIFY_PUSH." The detection groups events by SessionID, calculates the ratio of successful sign-ins to push requests, and checks for session roaming and new device/IP usage. This activity is significant as it may indicate push spam or unauthorized access attempts. If confirmed malicious, attackers could bypass MFA, leading to unauthorized access to sensitive systems.
 data_source:
     - Okta
-search: |-
+search: |
     `okta` eventType IN (system.push.send_factor_verify_push) OR (eventType IN (user.authentication.auth_via_mfa) debugContext.debugData.factor="OKTA_VERIFY_PUSH")
       | eval groupby="authenticationContext.externalSessionId"
       | eval group_push_time=_time
@@ -41,7 +41,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A mismatch between source and response for verifying a push request has occurred for $user$
     entity:

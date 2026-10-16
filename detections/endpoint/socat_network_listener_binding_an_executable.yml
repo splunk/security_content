@@ -6,13 +6,13 @@ modification_date: '2026-08-27'
 author: Maria Jose Erquiaga, Splunk
 status: production
 type: TTP
-description: |-
-    The following analytic detects the execution of the socat utility with command-line arguments that configure a TCP or OpenSSL listener and bind an executable to incoming connections.
-    Socat is a legitimate network utility, but this behavior may be used to expose executables, establish bind shells, facilitate remote command execution, or support lateral movement.
+description: 'The following analytic detects the execution of the socat utility with command-line arguments that configure a TCP or OpenSSL listener and bind an executable to incoming connections.
+
+    Socat is a legitimate network utility, but this behavior may be used to expose executables, establish bind shells, facilitate remote command execution, or support lateral movement.'
 data_source:
     - Osquery Results
     - Sysmon for Linux EventID 1
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count
       min(_time) as firstTime
@@ -35,11 +35,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `socat_network_listener_binding_an_executable_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: |-
-    Developers, network engineers, and system administrators may use socat to expose benign executables for protocol testing, debugging, data transformation, or troubleshooting.
+how_to_implement: 'This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.'
+known_false_positives: Developers, network engineers, and system administrators may use socat to expose benign executables for protocol testing, debugging, data transformation, or troubleshooting.
 references:
     - https://attack.mitre.org/tactics/TA0002/
     - https://attack.mitre.org/techniques/T1059
@@ -54,7 +53,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Socat was executed with a TCP or OpenSSL listener configured to pass inbound connections to an executable via [$process$] on endpoint [$dest$] by user [$user$].
     entity:
@@ -77,9 +76,9 @@ mitre_attack_id:
     - T1059
     - T1572
 product:
-    - Splunk Cloud
     - Splunk Enterprise
     - Splunk Enterprise Security
+    - Splunk Cloud
 category: endpoint
 security_domain: endpoint
 tests:

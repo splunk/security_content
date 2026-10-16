@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects a single source IP address failing to authenticate into more than 20 unique Google Workspace user accounts within a 5-minute window. It leverages Google Workspace login failure events to identify potential password spraying attacks. This activity is significant as it may indicate an adversary attempting to gain unauthorized access or elevate privileges within the Google Cloud Platform. If confirmed malicious, this behavior could lead to unauthorized access to sensitive resources, data breaches, or further exploitation within the environment.
 data_source:
     - Google Workspace
-search: |-
+search: |
     `gws_reports_login` event.type = login event.name = login_failure
       | bucket span=5m _time
       | stats count dc(user) AS unique_accounts values(user) as tried_accounts values(authentication_method) AS authentication_method earliest(_time) as firstTime latest(_time) as lastTime
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$tried_accounts$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$tried_accounts$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: tried_accounts

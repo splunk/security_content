@@ -9,18 +9,8 @@ type: TTP
 description: The following analytic detects the execution of the `Get-ForestDomain` cmdlet, a component of the PowerView toolkit used for Windows domain enumeration. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this activity. Detecting `Get-ForestDomain` is significant because adversaries and Red Teams use it to gather detailed information about Active Directory forest and domain configurations. If confirmed malicious, this activity could enable attackers to understand the domain structure, facilitating lateral movement or privilege escalation within the environment.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell` EventCode=4104 ScriptBlockText = "*Get-ForestDomain*"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_forest_discovery_with_getforestdomain_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process="*Get-ForestDomain*" by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_forest_discovery_with_getforestdomain_filter`
 how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
 references:
@@ -35,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Suspicious PowerShell Get-ForestDomain was identified on endpoint $dest$ by user $user_id$.
     entity:

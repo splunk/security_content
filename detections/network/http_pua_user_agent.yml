@@ -9,7 +9,7 @@ type: Anomaly
 description: This Splunk query analyzes web logs to identify and categorize user agents, detecting various types of unwanted applications. This activity can signify possible compromised hosts on the network.
 data_source:
     - Suricata
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE Web.http_user_agent != null
       BY Web.http_user_agent Web.http_method, Web.url,
@@ -35,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src
@@ -63,6 +63,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.001/http_user_agents/suricata_pua.log
-          sourcetype: suricata
           source: not_applicable
+          sourcetype: suricata
       test_type: unit

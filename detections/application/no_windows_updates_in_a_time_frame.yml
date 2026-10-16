@@ -8,7 +8,7 @@ status: experimental
 type: Hunting
 description: The following analytic identifies Windows endpoints that have not generated an event indicating a successful Windows update in the last 60 days. It leverages the 'Update' data model in Splunk, specifically looking for the latest 'Installed' status events from Microsoft Windows. This activity is significant for a SOC because endpoints that are not regularly patched are vulnerable to known exploits and security vulnerabilities. If confirmed malicious, this could indicate a compromised endpoint that is intentionally being kept unpatched, potentially allowing attackers to exploit unpatched vulnerabilities and gain unauthorized access or control.
 data_source: []
-search: |-
+search: |
     | tstats `security_content_summariesonly` max(_time) as lastTime FROM datamodel=Updates
       WHERE Updates.status=Installed Updates.vendor_product="Microsoft Windows"
       BY Updates.dest Updates.status Updates.vendor_product

@@ -6,10 +6,11 @@ modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: Anomaly
-description: |
-    The following analytic identifies a LOLBAS process being executed outside of it's expected location.
+description: 'The following analytic identifies a LOLBAS process being executed outside of it''s expected location.
+
     Processes being executed outside of expected locations may be an indicator that an adversary is attempting to evade defenses or execute malicious code.
-    The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
+
+    The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.'
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -43,9 +44,9 @@ search: |
     | `security_content_ctime(lastTime)`
     | `windows_lolbas_executed_outside_expected_path_filter`
 how_to_implement: To implement this search, you must ingest logs that contain the process name and process path, such as with Sysmon EID 1.
-known_false_positives: |
-    Vendors, third party software or update processes may use versions of the binaries listed in the lookup table from non-standard paths.
-    It is recommended to tune this analytic to exclude any known legitimate software or paths in your environment
+known_false_positives: 'Vendors, third party software or update processes may use versions of the binaries listed in the lookup table from non-standard paths.
+
+    It is recommended to tune this analytic to exclude any known legitimate software or paths in your environment'
 references:
     - https://attack.mitre.org/techniques/T1036/
     - https://attack.mitre.org/techniques/T1036/005/
@@ -57,7 +58,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

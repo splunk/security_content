@@ -10,7 +10,7 @@ description: The following analytic identifies potential Remote Desktop Protocol
 data_source:
     - Sysmon EventID 3
     - Cisco Secure Access Firewall
-search: |-
+search: |
     | tstats `security_content_summariesonly` count, min(_time) as firstTime, max(_time) as lastTime values(Al_Traffic.src_port) as src_port FROM datamodel=Network_Traffic
       WHERE (
             All_Traffic.app=rdp
@@ -41,7 +41,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

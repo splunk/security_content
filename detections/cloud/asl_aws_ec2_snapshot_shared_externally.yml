@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects when an EC2 snapshot is shared publicly by analyzing AWS CloudTrail events. This detection method leverages CloudTrail logs to identify modifications in snapshot permissions, specifically when the snapshot is shared outside the originating AWS account. This activity is significant as it may indicate an attempt to exfiltrate sensitive data stored in the snapshot. If confirmed malicious, an attacker could gain unauthorized access to the snapshot's data, potentially leading to data breaches or further exploitation of the compromised information.
 data_source:
     - ASL AWS CloudTrail
-search: |-
+search: |
     `amazon_security_lake` api.operation=ModifySnapshotAttribute
       | spath input=api.request.data path=createVolumePermission.add.items{}.group output=group
       | search group=all
@@ -36,7 +36,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: AWS EC2 snapshot from user $user$ is shared publicly
     entity:
@@ -62,6 +62,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/asl_ocsf_cloudtrail.json
-          sourcetype: aws:asl
           source: aws_asl
+          sourcetype: aws:asl
       test_type: unit

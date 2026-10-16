@@ -8,7 +8,7 @@ status: experimental
 type: TTP
 description: The following analytic identifies unexpected Active Directory replication traffic from non-domain controller sources. It leverages data from the Network Traffic datamodel, specifically looking for applications related to AD replication. This activity is significant because AD replication traffic should typically only occur between domain controllers. Detection of such traffic from other sources may indicate malicious activities like DCSync or DCShadow, which are used for credential dumping. If confirmed malicious, this could allow attackers to exfiltrate sensitive credentials, leading to unauthorized access and potential domain-wide compromise.
 data_source: []
-search: |-
+search: |
     | tstats `security_content_summariesonly` count values(All_Traffic.transport) as transport values(All_Traffic.user) as user values(All_Traffic.src_category) as src_category values(All_Traffic.dest_category) as dest_category min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Traffic
       WHERE All_Traffic.app IN ("ms-dc-replication","*drsr*","ad drs")
       BY All_Traffic.src All_Traffic.dest All_Traffic.app

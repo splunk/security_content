@@ -6,60 +6,21 @@ modification_date: '2026-10-12'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects SSH connections presenting client banners that do not match known, common SSH client software by leveraging Zeek ssh logs.
-    Unusual or unknown SSH client banners may indicate custom tooling, offensive frameworks, tunneling utilities, or malware using SSH for command-and-control or lateral movement.
+description: 'The following analytic detects SSH connections presenting client banners that do not match known, common SSH client software by leveraging Zeek ssh logs.
+
+    Unusual or unknown SSH client banners may indicate custom tooling, offensive frameworks, tunneling utilities, or malware using SSH for command-and-control or lateral movement.'
 data_source:
     - Zeek SSH
-search: |-
-    `zeek_ssh`
-    client="*"
-    NOT client IN (
-        "SSH-2.0-AsyncSSH*",
-        "SSH-2.0-Bitvise*",
-        "SSH-2.0-Cisco*",
-        "SSH-2.0-CyberArk*",
-        "SSH-2.0-dropbear*",
-        "SSH-2.0-FileZilla*",
-        "SSH-2.0-Go*",
-        "SSH-2.0-JSCH*",
-        "SSH-2.0-Juniper*",
-        "SSH-2.0-libssh*",
-        "SSH-2.0-MobaXterm*",
-        "SSH-2.0-OpenSSH*",
-        "SSH-2.0-paramiko*",
-        "SSH-2.0-PuTTY*",
-        "SSH-2.0-Renci.SshNet*",
-        "SSH-2.0-SecureCRT*",
-        "SSH-2.0-ssh2*",
-        "SSH-2.0-TTSSH*",
-        "SSH-2.0-WinSCP*",
-        "SSH-2.0-Xshell*"
-    )
+search: |
+    `zeek_ssh` client="*" NOT (client IN ("SSH-2.0-AsyncSSH*", "SSH-2.0-Bitvise*", "SSH-2.0-Cisco*", "SSH-2.0-CyberArk*", "SSH-2.0-dropbear*", "SSH-2.0-FileZilla*", "SSH-2.0-Go*", "SSH-2.0-JSCH*", "SSH-2.0-Juniper*", "SSH-2.0-libssh*", "SSH-2.0-MobaXterm*", "SSH-2.0-OpenSSH*", "SSH-2.0-paramiko*", "SSH-2.0-PuTTY*", "SSH-2.0-Renci.SshNet*", "SSH-2.0-SecureCRT*", "SSH-2.0-ssh2*", "SSH-2.0-TTSSH*", "SSH-2.0-WinSCP*", "SSH-2.0-Xshell*")) | stats count min(_time) as firstTime max(_time) as lastTime by orig_h resp_h resp_p client src dest dest_port | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `unusual_ssh_client_banner_filter`
+how_to_implement: 'Zeek SSH logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
 
-    | eval dest_port=coalesce(dest_port, 'id.resp_p'),
-           dest=coalesce(dest, dest_ip, 'id.resp_h'),
-           src=coalesce(src, src_ip, 'id.orig_h')
-
-    | fillnull value=NULL
-
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-                  values(client) as client
-                  values(post_body) as post_body
-
-      by src dest dest_port
-
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `unusual_ssh_client_banner_filter`
-how_to_implement: |-
-    Zeek SSH logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
     The client field should be populated from the SSH handshake banner.
-    Configure the `zeek_ssh` macro to match the sourcetype used by your Zeek add-on.
-known_false_positives: |-
-    Legitimate but uncommon SSH client software not included will generate false positives.
-    Review the client banner and tune the filter accordingly.
+
+    Configure the `zeek_ssh` macro to match the sourcetype used by your Zeek add-on.'
+known_false_positives: 'Legitimate but uncommon SSH client software not included will generate false positives.
+
+    Review the client banner and tune the filter accordingly.'
 references:
     - https://docs.zeek.org/en/master/logs/ssh.html
     - https://attack.mitre.org/techniques/T1021/004/
@@ -72,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$id.orig_h$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src
@@ -97,6 +58,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/zeek_ssh_unusual_client/ssh.log
-          sourcetype: zeek:ssh
           source: ssh.log
+          sourcetype: zeek:ssh
       test_type: unit

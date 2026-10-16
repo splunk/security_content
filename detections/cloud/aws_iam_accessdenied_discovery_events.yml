@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies excessive AccessDenied events within an hour timeframe for IAM users in AWS. It leverages AWS CloudTrail logs to detect multiple failed access attempts from the same source IP and user identity. This activity is significant as it may indicate that an access key has been compromised and is being misused for unauthorized discovery actions. If confirmed malicious, this could allow attackers to gather information about the AWS environment, potentially leading to further exploitation or privilege escalation.
 data_source:
     - AWS CloudTrail
-search: |-
+search: |
     `cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
       | bucket _time span=1h
       | rename user_name as user
@@ -32,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user
@@ -57,6 +57,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

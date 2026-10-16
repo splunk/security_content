@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects the creation of an Outlook Macro (VbaProject.OTM) by a suspicious process. This file is normally created when you create a macro from within Outlook. If this file is created by a process other than Outlook.exe it may be maliciously created. This detection leverages data from the Filesystem datamodel, specifically looking for the file creation event for VbaProject.OTM. This activity is significant as it is commonly associated with some malware infections, indicating potential malicious intent to harvest email information.
 data_source:
     - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_create_time) as file_create_time from datamodel=Endpoint.Filesystem where Filesystem.file_path="*Appdata\\Roaming\\Microsoft\\Outlook\\VbaProject.OTM" by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_outlook_macro_created_by_suspicious_process_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="*Appdata\\Roaming\\Microsoft\\Outlook\\VbaProject.OTM" by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_outlook_macro_created_by_suspicious_process_filter`
 how_to_implement: You must be ingesting data that records file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 known_false_positives: Because this file are always created by Outlook in normal operations, you should investigate all results.
 references:
@@ -23,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Suspicious Outlook macro $file_name$ created on $dest$
     entity:

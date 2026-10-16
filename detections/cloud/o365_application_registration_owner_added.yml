@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies instances where a new owner is assigned to an application registration within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to changes in owner assignments within the AzureActiveDirectory workload. This activity is significant because assigning a new owner to an application registration can grant significant control over the application's configuration, permissions, and behavior. If confirmed malicious, an attacker could modify the application's settings, permissions, and behavior, leading to unauthorized data access, privilege escalation, or the introduction of malicious behavior within the application's operations.
 data_source:
     - O365 Add owner to application.
-search: "`o365_management_activity` Workload=AzureActiveDirectory Operation=\"Add owner to application.\" | eval app_id=mvindex('ModifiedProperties{}.NewValue', 0) | eval app_displayName=mvindex('ModifiedProperties{}.NewValue', 1) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product app_id app_displayName object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_application_registration_owner_added_filter`"
+search: |
+    `o365_management_activity` Operation=Add owner to application. Workload="AzureActiveDirectory" | eval app_displayName=app_displayName, object=object | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_application_registration_owner_added_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Application owners may be added for legitimate reasons, filter as needed.
 references:
@@ -23,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Application registration $app_displayName$ was assigned a new owner $object$
     entity:

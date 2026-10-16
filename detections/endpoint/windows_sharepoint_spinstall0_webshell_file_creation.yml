@@ -9,7 +9,8 @@ type: TTP
 description: This detection identifies the creation or modification of the "spinstall0.aspx" webshell file in Microsoft SharePoint directories. This file is a known indicator of compromise associated with the exploitation of CVE-2025-53770 (ToolShell vulnerability). Attackers exploit the vulnerability to drop webshells that provide persistent access to compromised SharePoint servers, allowing them to execute arbitrary commands, access sensitive data, and move laterally within the network.
 data_source:
     - Sysmon EventID 11
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name="spinstall0.aspx" AND (Filesystem.file_path="*\\microsoft shared\\Web Server Extensions\\16\\TEMPLATE\\LAYOUTS*" OR Filesystem.file_path="*\\microsoft shared\\Web Server Extensions\\15\\TEMPLATE\\LAYOUTS*") by Filesystem.dest Filesystem.user Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.action Filesystem.process_guid Filesystem.process_id Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sharepoint_spinstall0_webshell_file_creation_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*spinstall0.aspx" Filesystem.file_path IN ("*\\microsoft shared\\Web Server Extensions\\16\\TEMPLATE\\LAYOUTS*", "*\\microsoft shared\\Web Server Extensions\\15\\TEMPLATE\\LAYOUTS*") by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sharepoint_spinstall0_webshell_file_creation_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the file name, file path, and process information from your endpoints. If you are using Sysmon, you must have at least Sysmon version 6.0.4 with Event Code 11 enabled. You can also use other EDR products or Windows Event Logs that capture file creation events. The detection requires the Endpoint data model, populated with file creation events in the SharePoint directories.
 known_false_positives: Limited false positives are expected as the spinstall0.aspx file is not a legitimate SharePoint component. However, there might be rare cases where legitimate files with similar names are created during SharePoint updates or maintenance. Verify the process that created the file and the file content to confirm malicious intent.
 references:
@@ -24,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Potential SharePoint webshell (spinstall0.aspx) detected on $dest$ related to CVE-2025-53770.
     entity:

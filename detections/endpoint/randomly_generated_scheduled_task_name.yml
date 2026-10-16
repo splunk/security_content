@@ -9,7 +9,7 @@ type: Hunting
 description: The following analytic detects the creation of a Scheduled Task with a high entropy, randomly generated name, leveraging Event ID 4698. It uses the `ut_shannon` function from the URL ToolBox Splunk application to measure the entropy of the Task Name. This activity is significant as adversaries often use randomly named Scheduled Tasks for lateral movement and remote code execution, employing tools like Impacket or CrackMapExec. If confirmed malicious, this could allow attackers to execute arbitrary code remotely, potentially leading to further compromise and persistence within the network.
 data_source:
     - Windows Event Log Security 4698
-search: |-
+search: |
     `wineventlog_security` EventCode=4698
       | xmlkv Message
       | lookup ut_shannon_lookup word as Task_Name

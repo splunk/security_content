@@ -10,7 +10,8 @@ description: The following analytic detects excessive file deletion events in th
 data_source:
     - Sysmon EventID 23
     - Sysmon EventID 26
-search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\ProgramData\\Microsoft\\Windows Defender\\*" | stats count min(_time) as firstTime, max(_time) as lastTime values(file_path) as file_path values(file_hash) as file_hash values(file_name) as file_name values(file_modify_time) as file_modify_time values(process_name) as process_name values(process_path) as process_path values(process_guid) as process_guid values(process_id) as process_id values(process_exec) as process_exec by action dest dvc signature signature_id user user_id vendor_product | where count >=50 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `excessive_file_deletion_in_windefender_folder_filter`'
+search: |
+    `sysmon` EventCode=23 EventCode="26" TargetFilename="*\\ProgramData\\Microsoft\\Windows Defender\\*" | stats count min(_time) as firstTime max(_time) as lastTime by action dest dvc file_path file_hash file_name file_modify_time process_exec process_guid process_id process_name process_path signature signature_id user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `excessive_file_deletion_in_windefender_folder_filter`
 how_to_implement: To successfully implement this search, you must ingest logs that include the process name, TargetFilename, and ProcessID executions from your endpoints. If you are utilizing Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
 known_false_positives: Windows Defender AV updates may trigger this alert. Please adjust the filter macros to mitigate false positives.
 references:
@@ -23,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Excessive file deletion events were detected in the Windows Defender folder on $dest$ by $user$. Investigate further to determine if this activity is malicious.
     entity:

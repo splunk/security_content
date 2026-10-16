@@ -11,7 +11,7 @@ data_source:
     - Windows Event Log Security 4688
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_powershell`
       BY Processes.action Processes.dest Processes.original_file_name
@@ -42,7 +42,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$","$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate PowerShell on $dest$
       search: '| from datamodel:Endpoint.Processes | search dest=$dest|s$ process_name=$process_name$ "*$match$*"'
       earliest_offset: $info_min_time$

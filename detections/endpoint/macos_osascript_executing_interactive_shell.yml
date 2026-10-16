@@ -6,14 +6,16 @@ modification_date: '2026-09-18'
 author: Radka Viskova, Splunk
 status: production
 type: Anomaly
-description: |-
-    This analytic detects the macOS osascript utility being used with an interactive Bash invocation, identified by the presence
+description: 'This analytic detects the macOS osascript utility being used with an interactive Bash invocation, identified by the presence
+
     of "bash -i" in the command line.
-    Adversaries may abuse osascript and AppleScript's shell execution capabilities to launch
-    interactive shells, establish remote access, or execute post-exploitation commands.
+
+    Adversaries may abuse osascript and AppleScript''s shell execution capabilities to launch
+
+    interactive shells, establish remote access, or execute post-exploitation commands.'
 data_source:
     - Osquery Results
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -36,11 +38,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_osascript_executing_interactive_shell_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: |-
-    Legitimate administrative scripts, MDM workflows, software deployment tools, developer automation, or support utilities may use osascript to invoke an interactive shell.
+how_to_implement: 'This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.'
+known_false_positives: Legitimate administrative scripts, MDM workflows, software deployment tools, developer automation, or support utilities may use osascript to invoke an interactive shell.
 references:
     - https://attack.mitre.org/tactics/TA0002/
     - https://attack.mitre.org/techniques/T1059/002/
@@ -55,7 +56,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

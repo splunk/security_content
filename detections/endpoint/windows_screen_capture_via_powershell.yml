@@ -9,25 +9,8 @@ type: TTP
 description: The following analytic detects the execution of a PowerShell script designed to capture screen images on a host. It leverages PowerShell Script Block Logging to identify specific script block text patterns associated with screen capture activities. This behavior is significant as it may indicate an attempt to exfiltrate sensitive information by capturing desktop screenshots. If confirmed malicious, this activity could allow an attacker to gather visual data from the compromised system, potentially leading to data breaches or further exploitation.
 data_source:
     - Powershell Script Block Logging 4104
-search: |-
-    `powershell`
-    EventCode=4104
-    ScriptBlockText IN (
-        "*[Drawing.Graphics]::FromImage*",
-        "*Drawing.Bitmap*",
-        "*Graphics.FromImage*"
-    )
-    ScriptBlockText = "*.CopyFromScreen*"
-    | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime
-      BY dest signature signature_id
-         user_id vendor_product EventID
-         Guid Opcode Name
-         Path ProcessID ScriptBlockId
-         ScriptBlockText
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_screen_capture_via_powershell_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process IN ("*[Drawing.Graphics]::FromImage*", "*Drawing.Bitmap*", "*Graphics.FromImage*") Processes.process="*.CopyFromScreen*" by Processes.dest Processes.signature Processes.signature_id Processes.user_id Processes.vendor_product Processes.Guid Processes.Opcode Processes.Name Processes.Path Processes.ProcessID Processes.ScriptBlockId Processes.ScriptBlockText | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_screen_capture_via_powershell_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: No false positives have been identified at this time.
 references:
@@ -41,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$Computer$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A PowerShell script was identified possibly performing screen captures on $dest$.
     entity:

@@ -6,14 +6,16 @@ modification_date: '2026-05-13'
 author: Steven Dick
 status: production
 type: TTP
-description: |
-    The following analytic detects when a process with low, medium, or high integrity spawns a system integrity process from a user-controlled location.
+description: 'The following analytic detects when a process with low, medium, or high integrity spawns a system integrity process from a user-controlled location.
+
     This behavior is indicative of privilege escalation attempts where attackers elevate their privileges to SYSTEM level from a user-controlled process or service.
+
     The detection leverages Sysmon data, specifically Event ID 15, to identify such transitions.
-    Monitoring this activity is crucial as it can signify an attacker gaining SYSTEM-level access, potentially leading to full control over the affected system, unauthorized access to sensitive data, and further malicious activities.
+
+    Monitoring this activity is crucial as it can signify an attacker gaining SYSTEM-level access, potentially leading to full control over the affected system, unauthorized access to sensitive data, and further malicious activities.'
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 1
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
 
@@ -96,7 +98,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The user $user$ launched the process $process_name$ which spawned a system level integrity process.
     entity:
@@ -129,9 +131,9 @@ product:
 category: endpoint
 security_domain: endpoint
 tests:
-    - attack_data:
+    - name: True Positive Test
+      attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/windows_escalation_behavior/windows_escalation_behavior_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
-      name: True Positive Test
       test_type: unit

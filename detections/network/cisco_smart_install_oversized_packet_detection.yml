@@ -6,12 +6,15 @@ modification_date: '2026-05-13'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP
-description: |
-    This analytic detects oversized Cisco Smart Install (SMI) protocol messages by inspecting traffic to TCP port 4786
+description: 'This analytic detects oversized Cisco Smart Install (SMI) protocol messages by inspecting traffic to TCP port 4786
+
     within the Network_Traffic data model. Abnormally large SMI payloads have been associated with exploitation and
+
     protocol abuse (e.g., CVE-2018-0171; activity reported by the "Static Tundra" threat actor). Monitoring message
+
     sizes over time can help identify possible attempts at remote code execution, denial of service, or reconnaissance
-    against Cisco devices exposing Smart Install.
+
+    against Cisco devices exposing Smart Install.'
 data_source:
     - Splunk Stream TCP
 search: |
@@ -25,15 +28,18 @@ search: |
     | where max_bytes > 500
     | eval severity=case(max_bytes>1400, "critical", max_bytes>1000, "high", 1=1, "medium")
     | `cisco_smart_install_oversized_packet_detection_filter`
-how_to_implement: |
-    To implement this search, ingest network traffic into the Network_Traffic data model (e.g., via Splunk Stream with
+how_to_implement: 'To implement this search, ingest network traffic into the Network_Traffic data model (e.g., via Splunk Stream with
+
     sourcetype "stream:tcp"). The search analyzes TCP traffic to destination port 4786 (Cisco Smart Install) over hourly
+
     buckets, flags sessions with unusually large maximum bytes, and assigns a basic severity based on size thresholds.
+
     You may tune thresholds or restrict to perimeter-facing traffic. Consider blocking or disabling Smart Install where
-    not required.
-known_false_positives: |
-    Legitimate Smart Install operations (e.g., image/config transfers) can produce larger payloads. Baseline typical sizes
-    for your environment and allowlist known management stations when appropriate.
+
+    not required.'
+known_false_positives: 'Legitimate Smart Install operations (e.g., image/config transfers) can produce larger payloads. Baseline typical sizes
+
+    for your environment and allowlist known management stations when appropriate.'
 references:
     - https://blog.talosintelligence.com/static-tundra/
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
@@ -45,7 +51,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest_ip$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Buffer overflow attempt detected in Cisco Smart Install message to $dest_ip$ from $src_ip$
     entity:
@@ -72,6 +78,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/stream_tcp.log
-          sourcetype: stream:tcp
           source: stream:tcp
+          sourcetype: stream:tcp
       test_type: unit

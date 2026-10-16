@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic detects the assignment of the Privileged Authentication Administrator role to an Azure AD user. It leverages Azure Active Directory audit logs to identify when this specific role is assigned. This activity is significant because users in this role can set or reset authentication methods for any user, including those in privileged roles like Global Administrators. If confirmed malicious, an attacker could change credentials and assume the identity and permissions of high-privilege users, potentially leading to unauthorized access to sensitive information and critical configurations.
 data_source:
     - Azure Active Directory Add member to role
-search: |-
+search: |
     `azure_monitor_aad` "operationName"="Add member to role" "properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged Authentication Administrator\""
       | rename properties.* as *
       | rename initiatedBy.user.userPrincipalName as initiatedBy
@@ -35,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The privileged Azure AD role Privileged Authentication Administrator was assigned for User $user$ initiated by $initiatedBy$
     entity:

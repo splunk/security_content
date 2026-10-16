@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$dest$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: 'A prompt injection attempt was detected on $dest$ via MCP server. An attacker attempted to override AI instructions using phrases like IGNORE PREVIOUS INSTRUCTIONS or SYSTEM PROMPT OVERRIDE. This technique (AML.T0051) attempts to manipulate the LLM into bypassing security controls or executing unauthorized actions. Payload detected: $injection_payload$'
     entity:
@@ -56,6 +56,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
-          sourcetype: mcp:jsonrpc
           source: mcp.log
+          sourcetype: mcp:jsonrpc
       test_type: unit

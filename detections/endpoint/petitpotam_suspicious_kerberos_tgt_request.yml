@@ -9,24 +9,12 @@ type: TTP
 description: The following analytic detects a suspicious Kerberos Ticket Granting Ticket (TGT) request, identified by Event Code 4768. This detection leverages Windows Security Event Logs to identify TGT requests with unusual fields, which may indicate the use of tools like Rubeus following the exploitation of CVE-2021-36942 (PetitPotam). This activity is significant as it can signal an attacker leveraging a compromised certificate to request Kerberos tickets, potentially leading to unauthorized access. If confirmed malicious, this could allow attackers to escalate privileges and persist within the environment, posing a severe security risk.
 data_source:
     - Windows Event Log Security 4768
-search: |-
-    `wineventlog_security`
-    EventCode=4768
-    src!="::1"
-    TargetUserName=*$
-    CertThumbprint!=""
-    PreAuthType=2
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-      BY dest TargetUserName PreAuthType CertThumbprint src action
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `petitpotam_suspicious_kerberos_tgt_request_filter`
-how_to_implement: |-
-    The following analytic requires Event Code 4768. Ensure that it is logging no Domain Controllers and appearing in Splunk.
-known_false_positives: |-
-    False positives are possible if the environment is using certificates for authentication, since PreAuthType 2 can appear on some initial or fallback authentication flows alongside a populated certificate field.
-    Tune further based on observed authentication patterns in the environment.
+search: |
+    `wineventlog_security` EventCode=4768 NOT src="::1" TargetUserName="*$" NOT CertThumbprint="" PreAuthType="2" | eval src_ip=src_ip | stats count min(_time) as firstTime max(_time) as lastTime by dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `petitpotam_suspicious_kerberos_tgt_request_filter`
+how_to_implement: The following analytic requires Event Code 4768. Ensure that it is logging no Domain Controllers and appearing in Splunk.
+known_false_positives: 'False positives are possible if the environment is using certificates for authentication, since PreAuthType 2 can appear on some initial or fallback authentication flows alongside a populated certificate field.
+
+    Tune further based on observed authentication patterns in the environment.'
 references:
     - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4768
     - https://isc.sans.edu/forums/diary/Active+Directory+Certificate+Services+ADCS+PKI+domain+admin+vulnerability/27668/
@@ -39,7 +27,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A Kerberos TGT was requested in a non-standard manner against $dest$, potentially related to CVE-2021-36942, PetitPotam.
     entity:

@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies a successful single-factor authentication event against Azure Active Directory. It leverages Azure SignInLogs data, specifically focusing on events where single-factor authentication succeeded. This activity is significant as it may indicate a misconfiguration, policy violation, or potential account takeover attempt. If confirmed malicious, an attacker could gain unauthorized access to the account, potentially leading to data breaches, privilege escalation, or further exploitation within the environment.
 data_source:
     - Azure Active Directory
-search: |-
+search: |
     `azure_monitor_aad` category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication properties.authenticationDetails{}.succeeded=true
       | rename properties.* as *
       | rename userAgent as user_agent
@@ -35,7 +35,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Successful authentication for user $user$ without MFA
     entity:

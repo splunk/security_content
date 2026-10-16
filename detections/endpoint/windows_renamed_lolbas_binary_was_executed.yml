@@ -6,14 +6,15 @@ modification_date: '2026-09-23'
 author: Steven Dick, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic identifies a LOLBAS process being executed where it's process name does not match it's original file name attribute.
+description: 'The following analytic identifies a LOLBAS process being executed where it''s process name does not match it''s original file name attribute.
+
     Processes that have been renamed and executed may be an indicator that an adversary is attempting to evade defenses or execute malicious code.
-    The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
+
+    The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.'
 data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) AS firstTime
             max(_time) AS lastTime
@@ -53,16 +54,20 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_renamed_lolbas_binary_was_executed_filter`
-how_to_implement: |-
-    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents
+how_to_implement: 'The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents
+
     are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement
+
     this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally,
+
     you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk
+
     Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node
+
     of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and
-    speed up the data modeling process.
-known_false_positives: |-
-    3rd party software binaries sharing the same name as LOLBAS utilities may trigger false positives.
+
+    speed up the data modeling process.'
+known_false_positives: 3rd party software binaries sharing the same name as LOLBAS utilities may trigger false positives.
 references:
     - https://attack.mitre.org/techniques/T1036/
     - https://attack.mitre.org/techniques/T1036/003/
@@ -75,7 +80,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

@@ -6,17 +6,22 @@ modification_date: '2026-09-22'
 author: Dean Luxton
 status: production
 type: TTP
-description: |
-    This detection identifies when users are added to privileged Active Directory
+description: 'This detection identifies when users are added to privileged Active Directory
+
     groups by leveraging the Windows Security Event Code 4728 along with a lookup
+
     of privileged AD groups provided by Splunk Enterprise Security.
+
     Attackers often add user accounts to privileged AD groups to escalate privileges
+
     or maintain persistence within an Active Directory environment.
+
     Monitoring for modifications to privileged groups can help identify potential security breaches
-    and unauthorized access attempts.
+
+    and unauthorized access attempts.'
 data_source:
     - Windows Event Log Security 4728
-search: |-
+search: |
     `wineventlog_security` EventCode IN (4728)
       | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc
         BY signature, Group_Name,src_user dest
@@ -35,7 +40,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: $user$ was added to privileged AD Group $Group_Name$ by $src_user$
     entity:

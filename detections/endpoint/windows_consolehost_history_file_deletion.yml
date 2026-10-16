@@ -10,7 +10,8 @@ description: The following analytic detects the deletion of the ConsoleHost_hist
 data_source:
     - Sysmon EventID 23
     - Sysmon EventID 26
-search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\Microsoft\\Windows\\PowerShell\\PSReadline\\ConsoleHost_history.txt" | stats count min(_time) as firstTime, max(_time) as lastTime by action dest dvc file_path file_hash file_name file_modify_time process_name process_exec process_id process_path user_id vendor_product process_guid signature signature_id user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_consolehost_history_file_deletion_filter`'
+search: |
+    `sysmon` EventCode=23 EventCode="26" TargetFilename="*\\Microsoft\\Windows\\PowerShell\\PSReadline\\ConsoleHost_history.txt" | stats count min(_time) as firstTime max(_time) as lastTime by action dest dvc file_path file_hash file_name file_modify_time process_exec process_guid process_id process_name process_path signature signature_id user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_consolehost_history_file_deletion_filter`
 how_to_implement: To successfully implement this search, you need to ingest logs that include the deleted target file name, process name, and process ID from your endpoints. If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
 known_false_positives: An administrator may delete the ConsoleHost history file on a specific machine, potentially triggering this detection. However, this action is uncommon for regular users who are not accustomed to using the PowerShell command line
 references:
@@ -23,7 +24,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user_id$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

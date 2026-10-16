@@ -6,64 +6,27 @@ modification_date: '2026-07-15'
 author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
-description: |
-    Detects the creation of Large Language Model (LLM) files on Windows endpoints by monitoring file creation events for specific model file formats and extensions commonly used by local AI frameworks.
+description: 'Detects the creation of Large Language Model (LLM) files on Windows endpoints by monitoring file creation events for specific model file formats and extensions commonly used by local AI frameworks.
+
     This detection identifies potential shadow AI deployments, unauthorized model downloads, and rogue LLM infrastructure by detecting file creation patterns associated with quantized models (.gguf, .ggml), safetensors model format files, and Ollama Modelfiles.
+
     These file types are characteristic of local inference frameworks such as Ollama, llama.cpp, GPT4All, LM Studio, and similar tools that enable running LLMs locally without cloud dependencies.
-    Organizations can use this detection to identify potential data exfiltration risks, policy violations related to unapproved AI usage, and security blind spots created by decentralized AI deployments that bypass enterprise governance and monitoring.
+
+    Organizations can use this detection to identify potential data exfiltration risks, policy violations related to unapproved AI usage, and security blind spots created by decentralized AI deployments that bypass enterprise governance and monitoring.'
 data_source:
     - Sysmon EventID 11
 search: |
-    | tstats `security_content_summariesonly` count
-        min(_time) as firstTime
-        max(_time) as lastTime
-    from datamodel=Endpoint.Filesystem where
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="ggml-*" Filesystem.file_name IN ("*.gguf", "*.safetensors", "*ggml.dll", "*modelfile", "*.dll") NOT (Filesystem.file_path IN ("__PSScriptPolicyTest*", ".csv*", ".doc*", ".docx*", ".jpeg*", ".jpg*", ".pdf*", ".png*", ".ppt*", ".pptx*", ".py*", ".xls*", ".xlsx*", "Bentley.Civil*")) by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `llm_model_file_creation_filter`
+how_to_implement: 'To successfully implement this search, you need to be ingesting logs with file creation events from your endpoints.
 
-    (
-        Filesystem.file_name IN (
-            "*.gguf",
-            "*.safetensors",
-            "*ggml.dll",
-            "*modelfile*"
-        )
-        OR
-        (
-            Filesystem.file_name = "ggml-*"
-            Filesystem.file_name = "*.dll"
-        )
-    )
-    NOT Filesystem.file_name IN (
-        "__PSScriptPolicyTest*",
-        "*.csv",
-        "*.doc",
-        "*.docx",
-        "*.jpeg",
-        "*.jpg",
-        "*.pdf",
-        "*.png",
-        "*.ppt",
-        "*.pptx",
-        "*.py",
-        "*.xls",
-        "*.xlsx",
-        "*Bentley.Civil*"
-    )
-    by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
-       Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
-       Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
-       Filesystem.user Filesystem.vendor_product
-    | `drop_dm_object_name(Filesystem)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `llm_model_file_creation_filter`
-how_to_implement: |
-    To successfully implement this search, you need to be ingesting logs with file creation events from your endpoints.
     Ensure that the Endpoint data model is properly populated with filesystem events from EDR agents or Sysmon Event ID 11.
+
     The logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product.
+
     The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model.
-    Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: |
-    Legitimate creation of LLM model files by authorized developers, ML engineers, and researchers during model training, fine-tuning, or experimentation. Approved AI/ML sandboxes and lab environments where model file creation is expected. Automated ML pipelines and workflows that generate or update model files as part of their normal operation. Third-party applications and services that manage or cache LLM model files for legitimate purposes.
+
+    Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.'
+known_false_positives: Legitimate creation of LLM model files by authorized developers, ML engineers, and researchers during model training, fine-tuning, or experimentation. Approved AI/ML sandboxes and lab environments where model file creation is expected. Automated ML pipelines and workflows that generate or update model files as part of their normal operation. Third-party applications and services that manage or cache LLM model files for legitimate purposes.
 references:
     - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
     - https://www.ibm.com/think/topics/shadow-ai

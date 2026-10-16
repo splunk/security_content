@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies instances where Multi-Factor Authentication (MFA) is disabled for a user within the Office 365 environment. It leverages O365 audit logs, specifically focusing on events related to MFA settings. Disabling MFA removes a critical security layer, making accounts more vulnerable to unauthorized access. If confirmed malicious, this activity could indicate an attacker attempting to maintain persistence or an insider threat, significantly increasing the risk of unauthorized access. Immediate investigation is required to validate the reason for disabling MFA, potentially re-enable it, and assess any other suspicious activities related to the affected account.
 data_source:
     - O365 Disable Strong Authentication.
-search: |-
+search: |
     `o365_management_activity` Operation="Disable Strong Authentication."
       | rename UserId as user object as src_user
       | fillnull
@@ -32,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $src_user$ has executed an operation $signature$ for user $user$
     entity:
@@ -54,6 +54,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

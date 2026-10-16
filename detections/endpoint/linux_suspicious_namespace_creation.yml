@@ -6,8 +6,7 @@ modification_date: '2026-05-12'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: |-
-    The following analytic detects an unprivileged user invoking the unshare syscall with user namespace flags followed within 120 seconds by a root-owned shell or interpreter spawning under the same parent process, correlating auditd syscall telemetry with Sysmon process creation events to identify the two-step sequence characteristic of user-namespace-based Linux kernel privilege escalation exploits such as DirtyFrag.
+description: The following analytic detects an unprivileged user invoking the unshare syscall with user namespace flags followed within 120 seconds by a root-owned shell or interpreter spawning under the same parent process, correlating auditd syscall telemetry with Sysmon process creation events to identify the two-step sequence characteristic of user-namespace-based Linux kernel privilege escalation exploits such as DirtyFrag.
 data_source:
     - Linux Auditd Syscall
     - Sysmon for Linux EventID 1
@@ -81,7 +80,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Suspicious namespace created on $dest$ indicating possible privilege escalation via DirtyFrag.
     entity:

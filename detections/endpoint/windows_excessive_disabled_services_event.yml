@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies an excessive number of system events where services are modified from start to disabled. It leverages Windows Event Logs (EventCode 7040) to detect multiple service state changes on a single host. This activity is significant as it may indicate an adversary attempting to disable security applications or other critical services, potentially leading to defense evasion or destructive actions. If confirmed malicious, this behavior could allow attackers to disable security defenses, disrupt system operations, and achieve their objectives on the compromised system.
 data_source:
     - Windows Event Log System 7040
-search: |-
+search: |
     `wineventlog_system` EventCode=7040 "disabled"
       | stats count values(EventData_Xml) as MessageList dc(EventData_Xml) as MessageCount min(_time) as firstTime max(_time) as lastTime
         BY Computer EventCode UserID
@@ -30,7 +30,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: An excessive number (Count - $MessageCount$) of Windows services were disabled on dest - $dest$.
     entity:

@@ -10,23 +10,7 @@ description: The following analytic detects the execution of regasm.exe establis
 data_source:
     - Sysmon EventID 3
 search: |
-    `sysmon`
-    EventID=3
-    process_name=regasm.exe
-    NOT dest_ip IN (
-      "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
-      "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
-      "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
-      "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
-      "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
-    )
-    | stats count min(_time) as firstTime max(_time) as lastTime
-      by action app dest dest_ip dest_port direction dvc protocol protocol_version src
-         src_ip src_port transport user vendor_product process_name process_exec process_guid
-         process_id
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `detect_regasm_with_network_connection_filter`
+    `sysmon` EventCode=3 process_name="regasm.exe" NOT (dest_ip IN ("10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10", "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32", "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24", "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24", "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4")) | eval process_name=process_name | stats count min(_time) as firstTime max(_time) as lastTime by action app dest dest_ip dest_port direction dvc protocol protocol_version src src_ip src_port transport user vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_regasm_with_network_connection_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: Although unlikely, limited instances of regasm.exe with a network connection may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 references:
@@ -41,7 +25,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: An instance of $process_name$ contacting a remote destination was identified on endpoint $dest$ by user $user$. This behavior is not normal for $process_name$.
     entity:

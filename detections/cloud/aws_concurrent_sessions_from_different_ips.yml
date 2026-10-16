@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies an AWS IAM account with concurrent sessions originating from more than one unique IP address within a 5-minute window. It leverages AWS CloudTrail logs, specifically the `DescribeEventAggregates` event, to detect this behavior. This activity is significant as it may indicate a session hijacking attack, where an adversary uses stolen session cookies to access AWS resources from a different location. If confirmed malicious, this could allow unauthorized access to sensitive corporate resources, leading to potential data breaches or further exploitation within the AWS environment.
 data_source:
     - AWS CloudTrail DescribeEventAggregates
-search: |-
+search: |
     `cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal"
       | bin span=5m _time
       | rename user_name as user
@@ -34,7 +34,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ has concurrent sessions from more than one unique IP address $src$ in the span of 5 minutes.
     entity:
@@ -61,6 +61,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/cloudtrail.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

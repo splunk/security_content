@@ -9,19 +9,8 @@ type: TTP
 description: The following analytic detects the addition of a new custom domain within an Azure Active Directory (AD) tenant. It leverages Azure AD AuditLogs to identify successful "Add unverified domain" operations. This activity is significant as it may indicate an adversary attempting to establish persistence by setting up identity federation backdoors, allowing them to impersonate users and bypass authentication mechanisms. If confirmed malicious, this could enable attackers to gain unauthorized access, escalate privileges, and maintain long-term access to the Azure AD environment, posing a severe security risk.
 data_source:
     - Azure Active Directory Add unverified domain
-search: |-
-    `azure_monitor_aad` operationName="Add unverified domain" properties.result=success
-      | rename properties.* as *
-      | rename targetResources{}.displayName as domain
-      | rename userAgent as user_agent
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest user src
-           vendor_account vendor_product user_agent
-           domain signature
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `azure_ad_new_custom_domain_added_filter`
+search: |
+    `azure_monitor_aad` operationName=Add unverified domain properties.result="success" | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_new_custom_domain_added_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
 known_false_positives: In most organizations, new customm domains will be updated infrequently. Filter as needed.
 references:
@@ -39,7 +28,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A new custom domain, $domain$ , was added by $user$
     entity:

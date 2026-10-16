@@ -6,13 +6,14 @@ modification_date: '2026-09-01'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects the creation of a new local user account on a MacOS system. It leverages osquery logs to identify this activity.
+description: 'The following analytic detects the creation of a new local user account on a MacOS system. It leverages osquery logs to identify this activity.
+
     Monitoring the creation of local accounts is crucial for a SOC as it can indicate unauthorized access or lateral movement within the network.
-    If confirmed malicious, this activity could allow an attacker to establish persistence, escalate privileges, or gain unauthorized access to sensitive systems and data.
+
+    If confirmed malicious, this activity could allow an attacker to establish persistence, escalate privileges, or gain unauthorized access to sensitive systems and data.'
 data_source:
     - Osquery Results
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -52,11 +53,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `macos_account_created_filter`
-how_to_implement: |-
-    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: |-
-    Creating new accounts after initial endpoint management should be rare in most environments. Investigate and tune as needed.
+how_to_implement: 'This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.'
+known_false_positives: Creating new accounts after initial endpoint management should be rare in most environments. Investigate and tune as needed.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://ss64.com/mac/sysadminctl.html
@@ -70,7 +70,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: user

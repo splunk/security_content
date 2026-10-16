@@ -6,14 +6,16 @@ modification_date: '2026-09-08'
 author: 0xC0FFEEEE, Github Community
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects potential process injection attempts into executables that are commonly abused leveraging Sysmon EventCode 10.
+description: 'The following analytic detects potential process injection attempts into executables that are commonly abused leveraging Sysmon EventCode 10.
+
     It identifies Access Mask requests (0x40 and 0x1fffff) to processes such as notepad.exe, wordpad.exe and calc.exe, excluding common system paths like System32, Syswow64, and Program Files.
+
     This activity was associated with the SliverC2 framework by BishopFox.
-    Monitoring this activity may indicate an initial payload attempting to execute malicious code.
+
+    Monitoring this activity may indicate an initial payload attempting to execute malicious code.'
 data_source:
     - Sysmon EventID 10
-search: |-
+search: |
     `sysmon`
     EventCode=10
     TargetImage IN (
@@ -81,7 +83,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

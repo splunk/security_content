@@ -8,7 +8,7 @@ status: experimental
 type: TTP
 description: The following analytic identifies specific GET or HEAD requests to web servers that indicate reconnaissance attempts to find vulnerable JBoss servers. It leverages data from the Web data model, focusing on HTTP methods and URLs associated with JBoss management interfaces. This activity is significant because it often precedes exploitation attempts using tools like JexBoss, which can compromise the server. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code, or escalate privileges, leading to potential data breaches and system compromise.
 data_source: []
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
       WHERE (
             Web.http_method="GET"

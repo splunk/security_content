@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies DNS queries with unusually large lengths by computing the standard deviation of query lengths and filtering those exceeding two times the standard deviation. It leverages DNS query data from the Network_Resolution data model, focusing on the length of the domain names being resolved. This activity is significant as unusually long DNS queries can indicate data exfiltration or command-and-control communication attempts. If confirmed malicious, this activity could allow attackers to stealthily transfer data or maintain persistent communication channels within the network.
 data_source:
     - Sysmon EventID 22
-search: |-
+search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Resolution
       WHERE NOT DNS.record_type IN ("Pointer","PTR","SOA", "SRV") DNS.query != *.
       BY DNS.answer DNS.answer_count DNS.query
@@ -41,7 +41,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src

@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic identifies the issuance of a new certificate by Certificate Services - AD CS, detected via Event ID 4887. This event logs the requester user context, DNS hostname of the requesting machine, and the request time. Monitoring this activity is crucial as it can indicate potential misuse of authentication certificates. If confirmed malicious, an attacker could use the issued certificate to impersonate users, escalate privileges, or maintain persistence within the environment. This detection helps in identifying and correlating suspicious certificate-related activities for further investigation.
 data_source:
     - Windows Event Log Security 4887
-search: |-
+search: |
     `wineventlog_security`  EventCode=4887
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest, name, Requester,
@@ -29,7 +29,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

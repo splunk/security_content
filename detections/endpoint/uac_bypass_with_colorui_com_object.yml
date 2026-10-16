@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects a potential UAC bypass using the colorui.dll COM Object. It leverages Sysmon EventCode 7 to identify instances where colorui.dll is loaded by a process other than colorcpl.exe, excluding common system directories. This activity is significant because UAC bypass techniques are often used by malware, such as LockBit ransomware, to gain elevated privileges without user consent. If confirmed malicious, this could allow an attacker to execute code with higher privileges, leading to further system compromise and persistence within the environment.
 data_source:
     - Sysmon EventID 7
-search: '`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe" NOT(Image IN("*\\windows\\*", "*\\program files*")) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `uac_bypass_with_colorui_com_object_filter`'
+search: |
+    `sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" NOT process_name="colorcpl.exe" NOT (Image IN ("*\\windows\\*", "*\\program files*")) | eval User=User | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `uac_bypass_with_colorui_com_object_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: not so common. but 3rd part app may load this dll.
 references:
@@ -22,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $dest$.
     entity:

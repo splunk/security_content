@@ -6,18 +6,24 @@ modification_date: '2026-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: |
-    The following analytic detects when a Duo policy is created or updated to allow tampered or rooted devices, such as jailbroken smartphones,
+description: 'The following analytic detects when a Duo policy is created or updated to allow tampered or rooted devices, such as jailbroken smartphones,
+
     to access protected resources. It identifies this behavior by searching Duo administrator activity logs for policy changes where the allow_rooted_devices
+
     setting is enabled. This is accomplished by filtering for policy creation or update actions and parsing the policy description for the relevant configuration.
+
     Allowing tampered devices poses a significant security risk, as these devices may bypass built-in security controls, run unauthorized software, or be more
+
     susceptible to compromise. For a Security Operations Center (SOC), identifying such policy changes is critical because it may indicate either a
+
     misconfiguration or a malicious attempt to weaken authentication requirements, potentially enabling attackers to access sensitive systems with
+
     compromised devices. The impact of this attack can include unauthorized access, data breaches, and lateral movement within the environment,
-    making prompt detection and response essential to maintaining organizational security.
+
+    making prompt detection and response essential to maintaining organizational security.'
 data_source:
     - Cisco Duo Administrator
-search: |-
+search: |
     `cisco_duo_administrator` action=policy_update OR action=policy_create
       | spath input=description
       | search allow_rooted_devices=true
@@ -40,7 +46,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A policy has been created or updated to allow tampered devices by user $user$ with email $admin_email$
     entity:

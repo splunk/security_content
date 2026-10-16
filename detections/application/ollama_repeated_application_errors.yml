@@ -6,11 +6,10 @@ modification_date: '2026-10-09'
 author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |-
-    Detects repeated Ollama application error events as a possible availability issue. Ollama application logs do not reliably record process termination, so this search cannot confirm a service crash without operating system or service manager telemetry.
+description: Detects repeated Ollama application error events as a possible availability issue. Ollama application logs do not reliably record process termination, so this search cannot confirm a service crash without operating system or service manager telemetry.
 data_source:
     - Ollama Server
-search: |-
+search: |
     `ollama_server`
     (level=ERROR OR level=FATAL)
 
@@ -38,28 +37,29 @@ search: |-
             unique_errors error_messages severity attack_type
 
     | `ollama_repeated_application_errors_filter`
-how_to_implement: |-
-    Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.
-known_false_positives: |-
-    Recoverable model load failures, temporary registry or network errors, resource constraints, and other repeated application errors may trigger this exploratory signal without causing a service outage.
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
+known_false_positives: Recoverable model load failures, temporary registry or network errors, resource constraints, and other repeated application errors may trigger this exploratory signal without causing a service outage.
 references:
     - https://github.com/rosplk/ta-ollama
 drilldown_searches:
     - name: View the detection results for - "$host$"
-      search: |-
-        %original_detection_search%
-        | search host="$host$"
+      search: '%original_detection_search%
+
+        | search host="$host$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$host$"
-      search: |-
-        from datamodel Risk.All_Risk
+      search: 'from datamodel Risk.All_Risk
+
         | search normalized_risk_object IN ("$host$")
+
         | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object
+
         | `security_content_ctime(firstTime)`
-        | `security_content_ctime(lastTime)`
+
+        | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: host
@@ -80,6 +80,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
-          sourcetype: ollama:server
           source: app.log
+          sourcetype: ollama:server
       test_type: unit

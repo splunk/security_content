@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects `spoolsv.exe` writing a `.dll` file, which is unusual behavior and may indicate exploitation of vulnerabilities like CVE-2021-34527 (PrintNightmare). This detection leverages Sysmon EventID 11 to monitor file creation events in the `\spool\drivers\x64\` directory. This activity is significant because `spoolsv.exe` typically does not write DLL files, and such behavior could signify an ongoing attack. If confirmed malicious, this could allow an attacker to execute arbitrary code, escalate privileges, or maintain persistence on the compromised system.
 data_source:
     - Sysmon EventID 11
-search: '`sysmon` EventID=11 process_name=spoolsv.exe file_path="*\\spool\\drivers\\x64\\*" file_name=*.dll | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name file_path  process_guid process_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `spoolsv_writing_a_dll___sysmon_filter`'
+search: |
+    `sysmon` EventCode=11 process_name="spoolsv.exe" TargetFilename="*\\spool\\drivers\\x64\\*" TargetFilename="*.dll" | eval process_name=process_name, root_drive=root_drive | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name file_path process_guid process_id user vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `spoolsv_writing_a_dll___sysmon_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 known_false_positives: Limited false positives. Filter as needed.
 references:
@@ -25,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A process has been identified writing dll's to $file_path$ on endpoint $dest$. This behavior is suspicious and related to PrintNightmare.
     entity:

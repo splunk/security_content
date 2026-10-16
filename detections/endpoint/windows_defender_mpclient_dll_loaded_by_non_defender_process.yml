@@ -6,13 +6,14 @@ modification_date: '2026-08-19'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects mpclient.dll, the Windows Defender client API library, being loaded by a process that is not part of the Windows Defender platform.
-    mpclient.dll exposes the API surface used to drive on-demand Defender scans (IOAV, MpScan). In the ShieldBreak exploit, the attacker binary loads mpclient.dll directly and calls its scan APIs against an object-manager path in order to trigger a Defender scan against attacker-controlled content as part of a race condition targeting Defender's placeholder-hydration behavior.
-    If confirmed malicious, this activity indicates an attempt to weaponize Windows Defender's own scanning pipeline for local privilege escalation.
+description: 'The following analytic detects mpclient.dll, the Windows Defender client API library, being loaded by a process that is not part of the Windows Defender platform.
+
+    mpclient.dll exposes the API surface used to drive on-demand Defender scans (IOAV, MpScan). In the ShieldBreak exploit, the attacker binary loads mpclient.dll directly and calls its scan APIs against an object-manager path in order to trigger a Defender scan against attacker-controlled content as part of a race condition targeting Defender''s placeholder-hydration behavior.
+
+    If confirmed malicious, this activity indicates an attempt to weaponize Windows Defender''s own scanning pipeline for local privilege escalation.'
 data_source:
     - Sysmon EventID 7
-search: |-
+search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
             max(_time) as lastTime
@@ -40,11 +41,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_defender_mpclient_dll_loaded_by_non_defender_process_filter`
-how_to_implement: |-
-    To successfully implement this search, you need to be ingesting logs with the driver/module loaded from your endpoints.
-    If you are using Sysmon, configuration must explicitly include image loading events targeting mpclient.dll.
-known_false_positives: |-
-    Third-party security products or custom AV-integration tooling that legitimately calls into the Defender client API may load mpclient.dll outside the Defender platform directories. Filter as necessary for your environment.
+how_to_implement: 'To successfully implement this search, you need to be ingesting logs with the driver/module loaded from your endpoints.
+
+    If you are using Sysmon, configuration must explicitly include image loading events targeting mpclient.dll.'
+known_false_positives: Third-party security products or custom AV-integration tooling that legitimately calls into the Defender client API may load mpclient.dll outside the Defender platform directories. Filter as necessary for your environment.
 references:
     - https://www.cyderes.com/howler-cell/rogueplanet-windows-zero-day
     - https://www.threatlocker.com/blog/nightmareeclipse-releases-new-poc-shieldbreak-exploits-same-weakness-as-rogueplanet
@@ -56,7 +56,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

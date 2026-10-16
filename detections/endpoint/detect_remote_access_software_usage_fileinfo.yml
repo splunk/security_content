@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects the execution of processes with file or code signing attributes from known remote access software within the environment. It leverages Sysmon EventCode 1 data and cross-references a lookup table of remote access utilities such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This activity is significant as adversaries often use these tools to maintain unauthorized remote access. If confirmed malicious, this could allow attackers to persist in the environment, potentially leading to data exfiltration or further compromise of the network.
 data_source:
     - Sysmon EventID 1
-search: |-
+search: |
     `sysmon` EventCode=1
       | stats count min(_time) as firstTime max(_time) as lastTime, values(Company) as Company values(Product) as Product
         BY action dest original_file_name
@@ -37,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
     - name: Investigate processes on $dest$
       search: '| from datamodel:Endpoint.Processes| search dest=$dest$ process_name=$process_name$'
       earliest_offset: $info_min_time$

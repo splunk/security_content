@@ -6,10 +6,11 @@ modification_date: '2026-05-13'
 author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP
-description: |
-    This analytic detects Lumma Stealer activity using Cisco Secure Firewall Intrusion Events.
+description: 'This analytic detects Lumma Stealer activity using Cisco Secure Firewall Intrusion Events.
+
     It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where four of the following Snort signature IDs 64793, 64794, 64797, 64798, 64799, 64800, 64801, 62709, 64167, 64168, 64169, 64796, 62710, 62711, 62712, 62713, 62714, 62715, 62716, 62717, 64812, 64810, 64811 occurs in the span of 15 minutes from the same host.
-    If confirmed malicious, this behavior is highly indicative of a successful infection of Lumma Stealer.
+
+    If confirmed malicious, this behavior is highly indicative of a successful infection of Lumma Stealer.'
 data_source:
     - Cisco Secure Firewall Threat Defense Intrusion Event
 search: |
@@ -35,15 +36,21 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_secure_firewall___lumma_stealer_activity_filter`
-how_to_implement: |
-    This search requires Cisco Secure Firewall Threat Defense Logs, which
+how_to_implement: 'This search requires Cisco Secure Firewall Threat Defense Logs, which
+
     includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+
     We strongly recommend that you specify your environment-specific configurations
+
     (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+
     with configurations for your Splunk environment. The search also uses a post-filter
+
     macro designed to filter out known false positives.
+
     The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-    The intrusion access policy must also be configured.
+
+    The intrusion access policy must also be configured.'
 known_false_positives: False positives should be very unlikely.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma
@@ -55,7 +62,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Lumma Stealer Activity on host $dest$ origniating from $src$
     entity:
@@ -78,8 +85,8 @@ mitre_attack_id:
     - T1204
 product:
     - Splunk Enterprise
-    - Splunk Cloud
     - Splunk Enterprise Security
+    - Splunk Cloud
 category: network
 security_domain: network
 tests:

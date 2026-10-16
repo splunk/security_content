@@ -8,7 +8,7 @@ status: experimental
 type: Anomaly
 description: The following analytic detects spikes in Server Message Block (SMB) traffic connections, which are used for sharing files and resources between computers. It leverages network traffic logs to monitor connections on ports 139 and 445, and SMB application usage. By calculating the average and standard deviation of SMB connections over the past 70 minutes, it identifies sources exceeding two standard deviations from the average. This activity is significant as it may indicate potential SMB-based attacks, such as ransomware or data theft. If confirmed malicious, attackers could exfiltrate data or spread malware within the network.
 data_source: []
-search: |-
+search: |
     | tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic
       WHERE All_Traffic.dest_port=139
         OR

@@ -9,7 +9,7 @@ type: Anomaly
 description: The following analytic detects the (re)initialization of the Linux audit daemon (auditd) by identifying log entries of type DAEMON_START. This event indicates that the audit subsystem has resumed logging after being stopped or has started during system boot. While DAEMON_START may be expected during reboots or legitimate configuration changes, it can also signal attempts to re-enable audit logging after evasion, or restarts with modified or reduced rule sets. Monitoring this event in correlation with DAEMON_END, DAEMON_ABORT, and auditctl activity provides visibility into the continuity and integrity of audit logs. Frequent or unexplained DAEMON_START events should be investigated, especially if they are not accompanied by valid administrative or system activity.
 data_source:
     - Linux Auditd Daemon Start
-search: |-
+search: |
     `linux_auditd` type=DAEMON_START
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -30,7 +30,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

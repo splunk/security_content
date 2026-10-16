@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies a successful Console Login authentication event for an AWS IAM user account without Multi-Factor Authentication (MFA) enabled. It leverages AWS CloudTrail logs to detect instances where MFA was not used during login. This activity is significant as it may indicate a misconfiguration, policy violation, or potential account takeover attempt. If confirmed malicious, an attacker could gain unauthorized access to the AWS environment, potentially leading to data exfiltration, resource manipulation, or further privilege escalation.
 data_source:
     - AWS CloudTrail ConsoleLogin
-search: |-
+search: |
     `cloudtrail` eventName= ConsoleLogin errorCode=success "additionalEventData.MFAUsed"=No
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
@@ -33,7 +33,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ has successfully logged into an AWS Console without Multi-Factor Authentication from $src$
     entity:
@@ -59,6 +59,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/aws_login_sfa/cloudtrail.json
-          sourcetype: aws:cloudtrail
           source: aws_cloudtrail
+          sourcetype: aws:cloudtrail
       test_type: unit

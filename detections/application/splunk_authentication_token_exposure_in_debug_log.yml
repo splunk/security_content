@@ -6,13 +6,15 @@ modification_date: '2026-06-24'
 author: Rod Soto, Chase Franklin
 status: production
 type: TTP
-description: |-
-    The following analytic identifies exposed authentication tokens in debug logs within Splunk Enterprise.
+description: 'The following analytic identifies exposed authentication tokens in debug logs within Splunk Enterprise.
+
     It leverages logs from the `splunkd` component with a DEBUG log level, specifically searching for event messages that validate tokens. This activity is significant because exposed tokens can be exploited by attackers to gain unauthorized access to the Splunk environment.
+
     If confirmed malicious, this exposure could lead to unauthorized data access, privilege escalation, and potential compromise of the entire Splunk infrastructure.
-    Monitoring and addressing this vulnerability is crucial for maintaining the security and integrity of the Splunk deployment.
+
+    Monitoring and addressing this vulnerability is crucial for maintaining the security and integrity of the Splunk deployment.'
 data_source: []
-search: |-
+search: |
     `splunkd`
     component=JsonWebToken
     log_level=DEBUG
@@ -56,8 +58,8 @@ mitre_attack_id:
     - T1654
 product:
     - Splunk Enterprise
-    - Splunk Cloud
     - Splunk Enterprise Security
+    - Splunk Cloud
 category: application
 security_domain: endpoint
 tests:

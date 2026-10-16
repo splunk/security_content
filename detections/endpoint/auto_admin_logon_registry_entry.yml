@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic detects a suspicious registry modification that enables auto admin logon on a host. It leverages data from the Endpoint.Registry data model, specifically looking for changes to the "AutoAdminLogon" value within the "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon" registry path. This activity is significant because it was observed in BlackMatter ransomware attacks to maintain access after a safe mode reboot, facilitating further encryption. If confirmed malicious, this could allow attackers to automatically log in and continue their operations, potentially leading to widespread network encryption and data loss.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon*" AND Registry.registry_value_name=AutoAdminLogon AND Registry.registry_value_data=1) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `auto_admin_logon_registry_entry_filter`'
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon*" Registry.registry_value_name="*AutoAdminLogon" Registry.registry_value_data="1" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `auto_admin_logon_registry_entry_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: No false positives have been identified at this time.
 references:
@@ -22,7 +23,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: modified registry key $registry_key_name$ with registry value $registry_value_name$ to prepare autoadminlogon
     entity:

@@ -6,12 +6,12 @@ modification_date: '2026-10-10'
 author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |-
-    Identifies repeated Ollama inference requests with long response times on /api/generate, /api/chat, and /v1/chat/completions.
-    Long response time can result from model size, prompt length, host resources, or normal workload. GIN access logs do not include prompt content and cannot establish a prompt injection or jailbreak attempt, so use this as an exploratory performance signal.
+description: 'Identifies repeated Ollama inference requests with long response times on /api/generate, /api/chat, and /v1/chat/completions.
+
+    Long response time can result from model size, prompt length, host resources, or normal workload. GIN access logs do not include prompt content and cannot establish a prompt injection or jailbreak attempt, so use this as an exploratory performance signal.'
 data_source:
     - Ollama Server
-search: |-
+search: |
     `ollama_server`
     "[GIN]"
 
@@ -49,29 +49,30 @@ search: |-
             status_codes severity attack_type
 
     | `ollama_long_running_inference_requests_filter`
-how_to_implement: |-
-    Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.
-known_false_positives: |-
-    Legitimate complex queries requiring extensive model reasoning, large context windows processing substantial amounts of text, batch processing operations, or resource-constrained systems experiencing performance degradation may trigger this detection during normal operations.
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
+known_false_positives: Legitimate complex queries requiring extensive model reasoning, large context windows processing substantial amounts of text, batch processing operations, or resource-constrained systems experiencing performance degradation may trigger this detection during normal operations.
 references:
     - https://github.com/rosplk/ta-ollama
     - https://github.com/OWASP/www-project-ai-testing-guide
 drilldown_searches:
     - name: View the detection results for - "$src$"
-      search: |-
-        %original_detection_search%
-        | search src="$src$"
+      search: '%original_detection_search%
+
+        | search src="$src$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$src$"
-      search: |-
-        from datamodel Risk.All_Risk
+      search: 'from datamodel Risk.All_Risk
+
         | search normalized_risk_object IN ("$src$")
+
         | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object
+
         | `security_content_ctime(firstTime)`
-        | `security_content_ctime(lastTime)`
+
+        | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: src
@@ -92,6 +93,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/server.log
-          sourcetype: ollama:server
           source: server.log
+          sourcetype: ollama:server
       test_type: unit

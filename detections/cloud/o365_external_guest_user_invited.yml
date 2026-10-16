@@ -9,7 +9,8 @@ type: TTP
 description: The following analytic identifies the invitation of an external guest user within Azure AD. With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users. External guest account invitations should be monitored by security teams as they could potentially lead to unauthorized access. An example of this attack vector was described at BlackHat 2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking Azure AD Accounts by Abusing External Identities`. This detection leverages the Universal Audit Log (UAL)/o365:management:activity sourcetype as a detection data source.
 data_source:
     - Office 365 Universal Audit Log
-search: "`o365_management_activity` Workload=AzureActiveDirectory AND Operation=\"Add user*\" AND ModifiedProperties{}.NewValue=\"[*Guest*]\" AND ModifiedProperties{}.NewValue=\"[*Invitation*]\" | eval user = (mvindex('ModifiedProperties{}.NewValue',5)), src_user = case(match(mvindex('Actor{}.ID',-1),\"User\"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),\"ServicePrincipal\"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)) | rex field=user \"(?<user> [ \\w\\.-]+@ [ \\w-]+\\. [ \\w-]{2,4})\" | rename Operation as signature, Id as signature_id | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id src_user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_external_guest_user_invited_filter`"
+search: |
+    `o365_management_activity` Workload=AzureActiveDirectory AND Operation="Add user*" AND ModifiedProperties{}.NewValue="[*Guest*]" AND ModifiedProperties{}.NewValue="[*Invitation*]" | eval user = (mvindex('ModifiedProperties{}.NewValue',5)), src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)) | rex field=user "(?<user> [ \w\.-]+@ [ \w-]+\. [ \w-]{2,4})" | rename Operation as signature, Id as signature_id | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id src_user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_external_guest_user_invited_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Administrator may legitimately invite external guest users. Filter as needed.
 references:
@@ -25,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$" and "$src_user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$src_user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Azure Guest User $user$ invited by $src_user$
     entity:
@@ -53,6 +54,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
-          sourcetype: o365:management:activity
           source: o365
+          sourcetype: o365:management:activity
       test_type: unit

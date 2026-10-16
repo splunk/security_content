@@ -6,51 +6,25 @@ modification_date: '2026-08-20'
 author: Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
-description: |-
-    The following analytic detects creation of DLL files with names associated with phantom DLL hijacking opportunities.
+description: 'The following analytic detects creation of DLL files with names associated with phantom DLL hijacking opportunities.
+
     These DLLs are usually absent from standard Windows installations, but legitimate Windows components or services may attempt to load them when they are present in expected search paths such as System32.
+
     Phantom DLL hijacking involves placing a malicious DLL where a legitimate process will search for a non-existent dependency, allowing the attacker-controlled library to execute in that process context.
+
     ShieldBreak is one example where the exploit redirects a privileged Defender-driven write into C:\Windows\System32\phoneinfo.dll and then triggers Windows Error Reporting so wermgr.exe loads the planted DLL at SYSTEM integrity.
-    If confirmed malicious, this activity can indicate preparation for code execution, persistence, or local privilege escalation through DLL search order hijacking.
+
+    If confirmed malicious, this activity can indicate preparation for code execution, persistence, or local privilege escalation through DLL search order hijacking.'
 data_source:
     - Sysmon EventID 11
-search: |-
-    | tstats `security_content_summariesonly`
-      count min(_time) as firstTime
-            max(_time) as lastTime
-    from datamodel=Endpoint.Filesystem where
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*:\\Windows\\System32\\axeonoffhelper.dll", "*:\\Windows\\System32\\cdpsgshims.dll", "*:\\Windows\\System32\\oci.dll", "*:\\Windows\\System32\\offdmpsvc.dll", "*:\\Windows\\System32\\shellchromeapi.dll", "*:\\Windows\\System32\\TSMSISrv.dll", "*:\\Windows\\System32\\TSVIPSrv.dll", "*:\\Windows\\System32\\wbem\\wbemcomn.dll", "*:\\Windows\\System32\\WLBSCTRL.dll", "*:\\Windows\\System32\\wow64log.dll", "*:\\Windows\\System32\\WptsExtensions.dll", "*\\phoneinfo.dll", "*\\SprintCSP.dll") by Filesystem.action Filesystem.dest Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_phantom_dll_created_on_disk_filter`
+how_to_implement: 'To successfully implement this search, you need file creation telemetry from Windows endpoints mapped into the Endpoint.Filesystem datamodel.
 
-    Filesystem.action IN ("created","modified")
+    If you are using Sysmon, enable EventID 11 and ensure the FileCreate configuration captures the full target filename for DLL creations in Windows system paths.'
+known_false_positives: 'Some legacy or third-party components may create DLLs with these names for legitimate compatibility reasons, but creation in Windows system paths should be uncommon.
 
-    Filesystem.file_path IN (
-        "*:\\Windows\\System32\\axeonoffhelper.dll",
-        "*:\\Windows\\System32\\cdpsgshims.dll",
-        "*:\\Windows\\System32\\oci.dll",
-        "*:\\Windows\\System32\\offdmpsvc.dll",
-        "*:\\Windows\\System32\\shellchromeapi.dll",
-        "*:\\Windows\\System32\\TSMSISrv.dll",
-        "*:\\Windows\\System32\\TSVIPSrv.dll",
-        "*:\\Windows\\System32\\wbem\\wbemcomn.dll",
-        "*:\\Windows\\System32\\WLBSCTRL.dll",
-        "*:\\Windows\\System32\\wow64log.dll",
-        "*:\\Windows\\System32\\WptsExtensions.dll",
-        "*\\phoneinfo.dll",
-        "*\\SprintCSP.dll"
-    )
-    by Filesystem.action Filesystem.dest Filesystem.file_hash
-       Filesystem.file_name Filesystem.file_path Filesystem.process_id
-       Filesystem.user Filesystem.vendor_product
-
-    | `drop_dm_object_name(Filesystem)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_phantom_dll_created_on_disk_filter`
-how_to_implement: |-
-    To successfully implement this search, you need file creation telemetry from Windows endpoints mapped into the Endpoint.Filesystem datamodel.
-    If you are using Sysmon, enable EventID 11 and ensure the FileCreate configuration captures the full target filename for DLL creations in Windows system paths.
-known_false_positives: |-
-    Some legacy or third-party components may create DLLs with these names for legitimate compatibility reasons, but creation in Windows system paths should be uncommon.
-    Review the creating process, signer, file hash, path, and whether the DLL is expected on the host before tuning.
+    Review the creating process, signer, file hash, path, and whether the DLL is expected on the host before tuning.'
 references:
     - http://remoteawesomethoughts.blogspot.com/2019/05/windows-10-task-schedulerservice.html
     - https://clement.notin.org/blog/2020/09/12/CVE-2020-7315-McAfee-Agent-DLL-injection/
@@ -76,7 +50,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A phantom DLL candidate named [$file_name$] was created at [$file_path$] on [$dest$]
     entity:

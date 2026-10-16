@@ -9,14 +9,8 @@ type: TTP
 description: The following analytic detects attempts to exploit the CVE-2024-27198 vulnerability in JetBrains TeamCity on-premises servers, which allows attackers to bypass authentication mechanisms. It leverages Suricata HTTP traffic logs to identify suspicious POST requests to the `/app/rest/users` and `/app/rest/users/id:1/tokens` endpoints. This activity is significant because it can lead to unauthorized administrative access, enabling attackers to gain full control over the TeamCity server, including projects, builds, agents, and artifacts. If confirmed malicious, this could result in severe security breaches and compromise the integrity of the development environment.
 data_source:
     - Suricata
-search: |-
-    `suricata` ((http.url="*?jsp=*" AND http.url="*;.jsp*") http.status=200 http_method=POST) OR (http.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*") http.status=200 http_method=POST )
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY src, dest, http.http_user_agent,
-           http.url, http.status,http_method
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `jetbrains_teamcity_authentication_bypass_suricata_cve_2024_27198_filter`
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web where (Web.url="**jsp=*" Web.url="*;.jsp*" Web.status="200" Web.http_method="POST") OR (Web.url IN ("jsp=/app/rest/users;.jsp", "*jsp=/app/rest/users;.jsp", "*jsp=.*/app/rest/users/id:*/tokens;") Web.status="200" Web.http_method="POST") by Web.dest Web.http_method Web.http_user_agent Web.status Web.url Web.url_length Web.src | `drop_dm_object_name(Web)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `jetbrains_teamcity_authentication_bypass_suricata_cve_2024_27198_filter`
 how_to_implement: The following detection relies on the Suricata TA and ensuring it is properly configured to monitor HTTP traffic. Modify the query for your environment and log sources as needed.
 known_false_positives: False positives are not expected, as this detection is based on the presence of specific URI paths and HTTP methods that are indicative of the CVE-2024-27198 vulnerability exploitation. Monitor, filter and tune as needed based on organization log sources.
 references:
@@ -32,7 +26,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: Possible JetBrains TeamCity Authentication Bypass Attempt against $dest$ from $src$.
     entity:
@@ -60,6 +54,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27198.log
-          sourcetype: suricata
           source: not_applicable
+          sourcetype: suricata
       test_type: unit

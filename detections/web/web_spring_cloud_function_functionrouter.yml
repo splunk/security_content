@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies HTTP POST requests to the Spring Cloud Function endpoint containing "functionRouter" in the URL. It leverages the Web data model to detect these requests based on specific fields such as http_method, url, and http_user_agent. This activity is significant because it targets CVE-2022-22963, a known vulnerability in Spring Cloud Function, which has multiple proof-of-concept exploits available. If confirmed malicious, this activity could allow attackers to execute arbitrary code, potentially leading to unauthorized access, data exfiltration, or further compromise of the affected system.
 data_source:
     - Splunk Stream HTTP
-search: |-
+search: |
     | tstats count FROM datamodel=Web
       WHERE Web.http_method IN ("POST") Web.url="*/functionRouter*"
       BY Web.http_user_agent Web.http_method, Web.url,Web.url_length
@@ -32,7 +32,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: A suspicious URL has been requested against $dest$ by $src$, related to a vulnerability in Spring Cloud.
     entity:

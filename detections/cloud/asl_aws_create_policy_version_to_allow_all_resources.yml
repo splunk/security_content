@@ -9,7 +9,7 @@ type: TTP
 description: The following analytic identifies the creation of a new AWS IAM policy version that allows access to all resources. It detects this activity by analyzing AWS CloudTrail logs for the CreatePolicyVersion event with a policy document that grants broad permissions. This behavior is significant because it violates the principle of least privilege, potentially exposing the environment to misuse or abuse. If confirmed malicious, an attacker could gain extensive access to AWS resources, leading to unauthorized actions, data exfiltration, or further compromise of the AWS environment.
 data_source:
     - ASL AWS CloudTrail
-search: |-
+search: |
     `amazon_security_lake` api.operation=CreatePolicy
       | spath input=api.request.data
       | spath input=policyDocument
@@ -37,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$user$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 finding:
     title: User $user$ created a policy version that allows them to access any resource in their account
     entity:
@@ -60,6 +60,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/asl_ocsf_cloudtrail.json
-          sourcetype: aws:asl
           source: aws_asl
+          sourcetype: aws:asl
       test_type: unit

@@ -6,13 +6,17 @@ modification_date: '2026-08-24'
 author: Steven Dick, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: |
-    The following analytic identifies public network connections initiated by Living Off the Land Binaries and Scripts (LOLBAS) that rarely require direct outbound network access.
+description: 'The following analytic identifies public network connections initiated by Living Off the Land Binaries and Scripts (LOLBAS) that rarely require direct outbound network access.
+
     It leverages the Network Traffic data model and focuses on native Windows binaries where any public destination should be investigated and explicitly approved.
+
     This activity may indicate proxy execution, process injection, payload download, command-and-control, or other abuse of trusted binaries to evade security controls.
+
     Keep in mind that some of these binaries, such as Netsh.exe, Gpscript.exe, Wmic.exe, etc., will occasionally communicate with public network resources to perform their intended function.
+
     Exclude said processes from the detection if they are too noisy for your environment.
-    Join this detection with the Process Execution events to provide context and avoid false positives.
+
+    Join this detection with the Process Execution events to provide context and avoid false positives.'
 data_source:
     - Sysmon EventID 3
 search: |
@@ -85,13 +89,14 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `lolbas_rare_network_connection_filter`
-how_to_implement: |-
-    To successfully implement this detection you must ingest events into the Network Traffic data model that contain the source, destination, destination port, and communicating process name in the app field. Sysmon EventID 3 is a common source for this data when normalized into the Network Traffic data model.
-known_false_positives: |-
-    Limited legitimate administrative automation and scripts may cause false positives.
+how_to_implement: To successfully implement this detection you must ingest events into the Network Traffic data model that contain the source, destination, destination port, and communicating process name in the app field. Sysmon EventID 3 is a common source for this data when normalized into the Network Traffic data model.
+known_false_positives: 'Limited legitimate administrative automation and scripts may cause false positives.
+
     Any recurring use of these binaries for public network access should be reviewed, approved, and filtered with the analytic filter macro.
-    Notepad.exe can now communicate with Microsoft's service "apsaiservices.microsoft.com" over port 443 to provide AI services. Apply filtering if this behavior is known in your environment.
-    PowerShell, PowerShell ISE, PowerShell 7 (pwsh.exe), and cmd.exe are intentionally excluded from this analytic because they are too noisy.
+
+    Notepad.exe can now communicate with Microsoft''s service "apsaiservices.microsoft.com" over port 443 to provide AI services. Apply filtering if this behavior is known in your environment.
+
+    PowerShell, PowerShell ISE, PowerShell 7 (pwsh.exe), and cmd.exe are intentionally excluded from this analytic because they are too noisy.'
 references:
     - https://lolbas-project.github.io/#
     - https://www.sans.org/presentations/lolbin-detection-methods-seven-common-attacks-revealed/
@@ -103,7 +108,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$src$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest

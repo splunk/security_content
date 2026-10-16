@@ -6,13 +6,14 @@ modification_date: '2026-07-05'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
-description: |-
-    The following analytic detects a high volume of Kerberos service ticket requests, specifically more than 30, from a single source within a 5-minute window.
+description: 'The following analytic detects a high volume of Kerberos service ticket requests, specifically more than 30, from a single source within a 5-minute window.
+
     It leverages Event ID 4769, which logs when a Kerberos service ticket is requested, focusing on requests with computer names as the Service Name. This behavior is significant as it may indicate malicious activities such as lateral movement, malware staging, or reconnaissance.
-    If confirmed malicious, an attacker could gain unauthorized access to multiple endpoints, potentially compromising the entire network.
+
+    If confirmed malicious, an attacker could gain unauthorized access to multiple endpoints, potentially compromising the entire network.'
 data_source:
     - Windows Event Log Security 4769
-search: |-
+search: |
     `wineventlog_security` EventCode=4769 ServiceName="*$" TargetUserName!="*$"
     | eval TargetUserName = mvindex(split(TargetUserName, "@"), 0)
     | search NOT TargetUserName="*$"
@@ -37,7 +38,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$IpAddress$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$IpAddress$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: IpAddress
