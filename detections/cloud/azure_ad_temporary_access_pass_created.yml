@@ -1,0 +1,75 @@
+name: Azure AD Temporary Access Pass Created
+id: f820b423-7299-4bb6-9bf3-860bd475cddb
+version: 1
+creation_date: '2026-05-20'
+modification_date: '2026-06-13'
+author: descambiado
+status: production
+type: TTP
+description: The following analytic detects the creation of a Temporary Access Pass (TAP) for an Azure AD user. It leverages Azure Active Directory AuditLogs to identify the "Create Temporary Access Pass method for user" operation. TAPs are time-limited passcodes that bypass all authentication requirements including MFA and FIDO2 - an attacker who creates a TAP for a compromised account can sign in from any location without any additional factor. If confirmed malicious, this activity provides an attacker with an unchallenged authentication path into the affected account.
+data_source:
+    - Azure Active Directory Update user
+search: |-
+    `azure_monitor_aad` category=AuditLogs operationName="Create Temporary Access Pass method for user"
+      | rename properties.* as *
+      | rename initiatedBy.user.userPrincipalName as initiatedBy
+      | rename initiatedBy.app.displayName as initiatedByApp
+      | eval actor = coalesce(initiatedBy, initiatedByApp)
+      | rename targetResources{}.userPrincipalName as targetUser
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product user_agent
+           actor targetUser signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_temporary_access_pass_created_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
+known_false_positives: IT administrators legitimately create TAPs for users who are locked out or onboarding a new passwordless authentication method. The key differentiators are the actor and timing -- a helpdesk account creating a TAP for a user who just reported a lockout is expected; an unfamiliar actor creating a TAP outside business hours or for a high-privilege account warrants investigation.
+references:
+    - https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-temporary-access-pass
+    - https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-methods
+    - https://attack.mitre.org/techniques/T1556/006/
+    - https://attack.mitre.org/techniques/T1078/004/
+drilldown_searches:
+    - name: View the detection results for - "$targetUser$"
+      search: '%original_detection_search% | search  targetUser = "$targetUser$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$targetUser$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$targetUser$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Temporary Access Pass created for $targetUser$ by $actor$
+    entity:
+        field: actor
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
+        - field: targetUser
+          type: user
+          score: 70
+          message: A Temporary Access Pass was created for user $targetUser$ by $actor$
+analytic_story:
+    - Azure Active Directory Persistence
+    - Azure Active Directory Account Takeover
+asset_type: Azure Active Directory
+mitre_attack_id:
+    - T1556.006
+    - T1078.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/azure_ad_temporary_access_pass/azure-audit.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad
+      test_type: unit
