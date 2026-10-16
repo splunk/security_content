@@ -16,30 +16,30 @@ data_source:
     - AWS CloudTrail
 search: |-
     `cloudtrail` eventSource="ec2.amazonaws.com" eventName IN ("StopInstances", "ModifyInstanceAttribute")
-    | eval actor='userIdentity.arn'
+    | eval user_arn='userIdentity.arn'
     | eval instance_id=case(
         eventName="StopInstances", 'requestParameters.instancesSet.items{}.instanceId',
         eventName="ModifyInstanceAttribute", 'requestParameters.instanceId'
       )
     | mvexpand instance_id
-    | where isnotnull(eventID) AND isnotnull(instance_id) AND isnotnull(actor)
+    | where isnotnull(eventID) AND isnotnull(instance_id) AND isnotnull(user_arn)
         AND (isnull(errorCode) OR errorCode="" OR lower(errorCode)="success")
     | where eventName="StopInstances"
         OR (eventName="ModifyInstanceAttribute" AND 'requestParameters.attribute'="userData")
     | dedup eventID instance_id
     | eval event_epoch=coalesce(strptime(eventTime, "%Y-%m-%dT%H:%M:%SZ"), _time)
-    | sort 0 actor instance_id awsRegion event_epoch
+    | sort 0 user_arn instance_id awsRegion event_epoch
     | streamstats current=f
         last(eval(if(eventName="StopInstances", event_epoch, null()))) AS stop_epoch
         last(eval(if(eventName="StopInstances", eventID, null()))) AS stop_event_id
-        BY actor instance_id awsRegion
+        BY user_arn instance_id awsRegion
     | where eventName="ModifyInstanceAttribute" AND isnotnull(stop_epoch)
     | eval elapsed_seconds=event_epoch-stop_epoch
     | where elapsed_seconds>0 AND elapsed_seconds<=3600
     | eval stop_time_utc=strftime(stop_epoch, "%Y-%m-%dT%H:%M:%SZ")
     | eval modification_time_utc=strftime(event_epoch, "%Y-%m-%dT%H:%M:%SZ")
     | rename eventID AS modification_event_id
-    | table actor instance_id awsRegion stop_time_utc modification_time_utc elapsed_seconds stop_event_id modification_event_id
+    | table user_arn instance_id awsRegion stop_time_utc modification_time_utc elapsed_seconds stop_event_id modification_event_id
     | `aws_ec2_startup_script_modified_on_stopped_instance_filter`
 how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
 known_false_positives: >-
@@ -50,9 +50,9 @@ references:
     - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
     - https://stratus-red-team.cloud/attack-techniques/AWS/aws.execution.ec2-user-data/
 finding:
-    title: IAM principal $actor$ modified user data on stopped EC2 instance $instance_id$
+    title: IAM principal $user_arn$ modified user data on stopped EC2 instance $instance_id$
     entity:
-        field: actor
+        field: user_arn
         type: user
         score: 50
 analytic_story:
