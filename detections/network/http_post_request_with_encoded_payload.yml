@@ -30,7 +30,7 @@ search: |-
 
     | eval dest_port=coalesce(dest_port, 'id.resp_p'),
             dest=coalesce(dest, dest_ip, 'id.resp_h'),
-            src=coalesce(src, src_ip, 'id.orig_h'),
+            src=coalesce(src, src_ip, 'id.orig_h')
 
     | eval encoding=ltrim(if(match(post_body, "^(?:\\\\x[0-9a-fA-F]{2}){8,}|(?:%[0-9a-fA-F]{2}){8,}"), "Hexadecimal", ""), " + ")
     | eval encoding=ltrim(if(match(post_body, "^(?:[A-Za-z0-9+\\/]{4}){16,}={0,2}"), encoding." + Base64", encoding), " + ")
