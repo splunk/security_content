@@ -1,8 +1,8 @@
 name: AWS CloudTrail DeleteLogStream
 id: 6f8bb808-89f8-465e-a34d-229df2f46402
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the deletion of a log stream within a CloudWatch log group, including details about the stream name and associated log group.
 mitre_components:
@@ -22,8 +22,9 @@ fields:
     - _time
     - apiVersion
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
+    - change_type
     - command
     - date_hour
     - date_mday
@@ -42,8 +43,8 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -66,6 +67,7 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - tag
     - tag::eventtype
@@ -75,6 +77,12 @@ fields:
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -83,13 +91,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
@@ -102,4 +103,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLI4PXTGCEU", "arn": "arn:aws:iam::111111111111:user/gowthamaraj_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLFLKADUVG", "userName": "gowthamaraj_cli"}, "eventTime": "2022-07-20T21:09:51Z", "eventSource": "logs.amazonaws.com", "eventName": "DeleteLogStream", "awsRegion": "us-west-2", "sourceIPAddress": "67.171.71.185", "userAgent": "aws-cli/2.7.3 Python/3.9.13 Darwin/21.5.0 source/x86_64 prompt/off command/logs.delete-log-stream", "requestParameters": {"logGroupName": "test-logs", "logStreamName": "20150601"}, "responseElements": null, "requestID": "2d7e859e-d697-426f-8b56-c4c11c4055f3", "eventID": "561c3f4e-17ca-4438-b15d-29903baf7b13", "readOnly": false, "eventType": "AwsApiCall", "apiVersion": "20140328", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "logs.us-west-2.amazonaws.com"}}'
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLI4PXTGCEU", "arn": "arn:aws:iam::111111111111:user/gowthamaraj_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLFLKADUVG", "userName": "gowthamaraj_cli"}, "eventTime": "2022-07-20T21:09:51Z", "eventSource": "logs.amazonaws.com", "eventName": "DeleteLogStream", "awsRegion": "us-west-2", "sourceIPAddress": "67.171.71.185", "userAgent": "aws-cli/2.7.3 Python/3.9.13 Darwin/21.5.0 source/x86_64 prompt/off command/logs.delete-log-stream", "requestParameters": {"logGroupName": "test-logs", "logStreamName": "20150601"}, "responseElements": null, "requestID": "2d7e859e-d697-426f-8b56-c4c11c4055f3", "eventID": "561c3f4e-17ca-4438-b15d-29903baf7b13", "readOnly": false, "eventType": "AwsApiCall", "apiVersion": "20140328", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "logs.us-west-2.amazonaws.com"}}

@@ -1,8 +1,8 @@
 name: AWS CloudTrail PutBucketLifecycle
 id: 1c73e954-87b6-4bd7-ac6a-5db7c4082b22
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a lifecycle configuration is added to an S3 bucket in AWS CloudTrail.
 mitre_components:
@@ -19,14 +19,15 @@ supported_TA:
 fields:
     - _time
     - additionalEventData.AuthenticationMethod
-    - additionalEventData.CipherSuite
-    - additionalEventData.SignatureVersion
     - additionalEventData.bytesTransferredIn
     - additionalEventData.bytesTransferredOut
+    - additionalEventData.CipherSuite
+    - additionalEventData.SignatureVersion
     - additionalEventData.x-amz-id-2
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
+    - change_type
     - command
     - date_hour
     - date_mday
@@ -45,6 +46,7 @@ fields:
     - eventSource
     - eventTime
     - eventType
+    - eventtype
     - eventVersion
     - host
     - index
@@ -60,16 +62,17 @@ fields:
     - recipientAccountId
     - region
     - requestID
+    - requestParameters.bucketName
     - requestParameters.Host
+    - requestParameters.lifecycle
     - requestParameters.LifecycleConfiguration.Rule.Expiration.Days
+    - requestParameters.LifecycleConfiguration.Rule.Filter
     - requestParameters.LifecycleConfiguration.Rule.Filter.Prefix
     - requestParameters.LifecycleConfiguration.Rule.ID
     - requestParameters.LifecycleConfiguration.Rule.Status
     - requestParameters.LifecycleConfiguration.xmlns
-    - requestParameters.bucketName
-    - requestParameters.lifecycle
-    - resources{}.ARN
     - resources{}.accountId
+    - resources{}.ARN
     - resources{}.type
     - responseElements
     - signature
@@ -79,32 +82,42 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
+    - tag
+    - tag::eventtype
     - timeendpos
     - timestartpos
     - tlsDetails.cipherSuite
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
     - userIdentity.arn
     - userIdentity.principalId
+    - userIdentity.sessionContext.attributes.creationDate
+    - userIdentity.sessionContext.attributes.mfaAuthenticated
+    - userIdentity.sessionContext.sessionIssuer.accountId
+    - userIdentity.sessionContext.sessionIssuer.arn
+    - userIdentity.sessionContext.sessionIssuer.principalId
+    - userIdentity.sessionContext.sessionIssuer.type
+    - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
     - vendor_region
+    - vpcEndpointId
 output_fields:
     - dest
     - user
@@ -113,4 +126,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKQ3U2PDY", "userName": "bhavin_cli"}, "eventTime": "2022-07-13T21:58:27Z", "eventSource": "s3.amazonaws.com", "eventName": "PutBucketLifecycle", "awsRegion": "us-west-2", "sourceIPAddress": "192.184.242.57", "userAgent": "[stratus-red-team_d73089cf-1905-430c-b6d3-4dc4d669190f]", "requestParameters": {"lifecycle": "", "bucketName": "my-cloudtrail-bucket-alfsujjpnbpguqrh", "LifecycleConfiguration": {"xmlns": "http://s3.amazonaws.com/doc/2006-03-01/", "Rule": {"Status": "Enabled", "Filter": {"Prefix": "*"}, "Expiration": {"Days": 1}, "ID": "nuke-cloudtrail-logs-after-1-day"}}, "Host": "my-cloudtrail-bucket-alfsujjpnbpguqrh.s3.us-west-2.amazonaws.com"}, "responseElements": null, "additionalEventData": {"SignatureVersion": "SigV4", "CipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "bytesTransferredIn": 249, "AuthenticationMethod": "AuthHeader", "x-amz-id-2": "TVXZE5kOVTMLqYlmKK+j/5g6flwkiFXFfw8PyNivFO4/9YXnDsyzFlGEzAy2rukTTiukLdEwtuM=", "bytesTransferredOut": 0}, "requestID": "1P8X27T2BCMY93Y9", "eventID": "25d92cd1-f366-4b11-b408-967a17ce70f3", "readOnly": false, "resources": [{"accountId": "111111111111", "type": "AWS::S3::Bucket", "ARN": "arn:aws:s3:::my-cloudtrail-bucket-alfsujjpnbpguqrh"}], "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "my-cloudtrail-bucket-alfsujjpnbpguqrh.s3.us-west-2.amazonaws.com"}}'
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLDF6WP4HD6:pbareiss@splunk.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/pbareiss@splunk.com", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLM5HY7JVK", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WP4HD6", "arn": "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f", "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"}, "webIdFederationData": {}, "attributes": {"creationDate": "2022-07-20T10:51:41Z", "mfaAuthenticated": "false"}}}, "eventTime": "2022-07-20T10:52:35Z", "eventSource": "s3.amazonaws.com", "eventName": "PutBucketLifecycle", "awsRegion": "us-east-1", "sourceIPAddress": "95.90.195.57", "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.1030 Linux/5.4.196-119.356.amzn2int.x86_64 OpenJDK_64-Bit_Server_VM/25.302-b08 java/1.8.0_302 vendor/Oracle_Corporation cfg/retry-mode/standard]", "requestParameters": {"lifecycle": "", "bucketName": "cb-events-security-content-2", "LifecycleConfiguration": {"xmlns": "http://s3.amazonaws.com/doc/2006-03-01/", "Rule": {"Status": "Enabled", "Filter": "", "Expiration": {"Days": 1}, "ID": "delete_after_1_day"}}, "Host": "s3.amazonaws.com"}, "responseElements": null, "additionalEventData": {"SignatureVersion": "SigV4", "CipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "bytesTransferredIn": 209, "AuthenticationMethod": "AuthHeader", "x-amz-id-2": "RzbZZFJT/j4JjNhsI3LFzrohMJTjrRVRwl54CBzwglaNTlN6R4lPVs47mSu5STi62E1PRjGtPNY=", "bytesTransferredOut": 0}, "requestID": "J6JW719PEACSG3KW", "eventID": "4d407667-6627-49dd-8ed3-c3b008c7a1a5", "readOnly": false, "resources": [{"accountId": "111111111111", "type": "AWS::S3::Bucket", "ARN": "arn:aws:s3:::cb-events-security-content-2"}], "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "vpcEndpointId": "vpce-f40dc59d", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "s3.amazonaws.com"}}

@@ -1,8 +1,8 @@
 name: Windows Event Log Application 2282
 id: 4490537e-5e0c-46f7-9209-f56f852aa237
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event in IIS when a module DLL fails to load due to a configuration issue, including details about the module and error message.
 mitre_components:
@@ -21,53 +21,48 @@ fields:
     - _time
     - Channel
     - Computer
+    - dest
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
     - EventCode
     - EventData_Xml
     - EventRecordID
     - EventSourceName
+    - eventtype
     - Guid
+    - host
+    - id
+    - index
     - Keywords
     - Level
+    - linecount
     - ModuleDll
     - Name
     - Opcode
     - ProcessID
     - ProcessorArchitecture
+    - punct
     - Qualifiers
     - RecordNumber
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - Version
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - host
-    - id
-    - index
-    - linecount
-    - punct
+    - severity
+    - severity_id
     - signature_id
     - source
     - sourcetype
     - splunk_server
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-IIS-W3SVC-WP' Guid='{670080D9-742A-4187-8D16-41143D1290BD}' EventSourceName='W3SVC-WP'/><EventID Qualifiers='49152'>2282</EventID><Version>0</Version><Level>2</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x80000000000000</Keywords><TimeCreated SystemTime='2022-12-20T15:58:25.325383600Z'/><EventRecordID>1001307</EventRecordID><Correlation/><Execution ProcessID='0' ThreadID='0'/><Channel>Application</Channel><Computer>win-dc-exch01.attackrange.local</Computer><Security/></System><EventData><Data Name='ModuleDll'>c:\temp\msf.dll</Data><Data Name='ProcessorArchitecture'>AMD64</Data><Binary>C1000000</Binary></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-IIS-W3SVC-WP' Guid='{670080D9-742A-4187-8D16-41143D1290BD}' EventSourceName='W3SVC-WP'/><EventID Qualifiers='49152'>2282</EventID><Version>0</Version><Level>2</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x80000000000000</Keywords><TimeCreated SystemTime='2022-12-20T15:58:25.281388000Z'/><EventRecordID>1001304</EventRecordID><Correlation/><Execution ProcessID='0' ThreadID='0'/><Channel>Application</Channel><Computer>win-dc-exch01.attackrange.local</Computer><Security/></System><EventData><Data Name='ModuleDll'>c:\temp\msf.dll</Data><Data Name='ProcessorArchitecture'>AMD64</Data><Binary>C1000000</Binary></EventData></Event>

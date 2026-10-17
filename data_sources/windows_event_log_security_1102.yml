@@ -1,8 +1,8 @@
 name: Windows Event Log Security 1102
 id: 8db7b91a-6d7a-40e7-bfac-06f8e901a9cb
-version: 5
+version: 6
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when the audit log is cleared.
 mitre_components:
@@ -19,56 +19,43 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - Caller_User_Name
-    - Channel
-    - Computer
-    - Error_Code
-    - EventCode
-    - EventID
-    - EventRecordID
-    - Guid
-    - Keywords
-    - Level
-    - LogFileCleared_Xml
-    - Name
-    - Opcode
-    - ProcessID
-    - RecordNumber
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - UserData_Xml
-    - Version
     - action
     - app
+    - Caller_User_Name
     - change_type
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - Channel
+    - Computer
     - dest
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
+    - LogFileCleared_Xml
+    - Name
     - name
+    - object
     - object_attrs
     - object_category
+    - Opcode
+    - ProcessID
     - product
     - punct
+    - RecordNumber
+    - result
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
@@ -77,13 +64,25 @@ fields:
     - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - user
+    - user_name
+    - UserData_Xml
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - action
     - change_type
@@ -94,4 +93,5 @@ output_fields:
     - status
     - user
     - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Eventlog' Guid='{fc65ddd8-d6ef-4962-83d5-6e5cfe9ce148}'/><EventID>1102</EventID><Version>0</Version><Level>4</Level><Task>104</Task><Opcode>0</Opcode><Keywords>0x4020000000000000</Keywords><TimeCreated SystemTime='2024-03-05T09:18:29.313328400Z'/><EventRecordID>1826166</EventRecordID><Correlation/><Execution ProcessID='412' ThreadID='1072'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><UserData><LogFileCleared xmlns='http://manifests.microsoft.com/win/2004/08/windows/eventlog'><SubjectUserSid>ATTACKRANGE\Administrator</SubjectUserSid><SubjectUserName>Administrator</SubjectUserName><SubjectDomainName>ATTACKRANGE</SubjectDomainName><SubjectLogonId>0x34a3a27</SubjectLogonId></LogFileCleared></UserData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Eventlog' Guid='{fc65ddd8-d6ef-4962-83d5-6e5cfe9ce148}'/><EventID>1102</EventID><Version>0</Version><Level>4</Level><Task>104</Task><Opcode>0</Opcode><Keywords>0x4020000000000000</Keywords><TimeCreated SystemTime='2024-07-22T16:25:54.942380300Z'/><EventRecordID>1430687</EventRecordID><Correlation/><Execution ProcessID='364' ThreadID='2028'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><UserData><LogFileCleared xmlns='http://manifests.microsoft.com/win/2004/08/windows/eventlog'><SubjectUserSid>ATTACKRANGE\Administrator</SubjectUserSid><SubjectUserName>Administrator</SubjectUserName><SubjectDomainName>ATTACKRANGE</SubjectDomainName><SubjectLogonId>0x40cbb8f</SubjectLogonId></LogFileCleared></UserData></Event>

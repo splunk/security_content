@@ -1,8 +1,8 @@
 name: Windows Event Log Security 5140
 id: 93e0ca09-e4b8-4da6-872a-d0127c4d2b22
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs access to a network share, including details about the user, share path, and the access type.
 mitre_components:
@@ -22,65 +22,54 @@ fields:
     - _time
     - AccessList
     - AccessMask
+    - action
+    - app
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - Computer
+    - dest
+    - dest_nt_domain
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
+    - event_time
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
+    - file_name
+    - file_path
     - Guid
+    - host
+    - id
+    - index
     - IpAddress
     - IpPort
     - Keywords
     - Level
+    - linecount
     - Logon_ID
     - Name
+    - name
     - ObjectType
     - Opcode
     - ProcessID
-    - RecordNumber
-    - ShareName
-    - Source_Port
-    - Source_Workstation
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - Version
-    - action
-    - app
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - file_name
-    - host
-    - id
-    - index
-    - linecount
-    - name
     - product
     - punct
+    - RecordNumber
     - session_id
+    - severity
+    - severity_id
+    - ShareLocalPath
+    - ShareName
     - signature
     - signature_id
     - source
+    - Source_Port
+    - Source_Workstation
     - sourcetype
     - splunk_server
     - src
@@ -88,17 +77,28 @@ fields:
     - src_nt_domain
     - src_nt_host
     - src_port
+    - src_subject_user_id
     - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - user
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
 field_mappings:
@@ -115,4 +115,6 @@ field_mappings:
           SubjectUserName: actor.user.name
           SubjectLogonId: actor.session.uid
           SubjectUserSid: actor.user.uid
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>5140</EventID><Version>1</Version><Level>0</Level><Task>12808</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-03-23T15:59:26.669364000Z'/><EventRecordID>138541</EventRecordID><Correlation/><Execution ProcessID='4' ThreadID='3792'/><Channel>Security</Channel><Computer>ar-win-66.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\ELMER_SALAS</Data><Data Name='SubjectUserName'>ELMER_SALAS</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x2f259b</Data><Data Name='ObjectType'>File</Data><Data Name='IpAddress'>10.0.1.16</Data><Data Name='IpPort'>49864</Data><Data Name='ShareName'>\\*\IPC$</Data><Data Name='ShareLocalPath'></Data><Data Name='AccessMask'>0x1</Data><Data Name='AccessList'>%%4416
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>5140</EventID><Version>1</Version><Level>0</Level><Task>12808</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-03-23T15:59:24.633152200Z'/><EventRecordID>369814</EventRecordID><Correlation/><Execution ProcessID='4' ThreadID='160'/><Channel>Security</Channel><Computer>ar-win-62.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\ELMER_SALAS</Data><Data Name='SubjectUserName'>ELMER_SALAS</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x27e0e5</Data><Data Name='ObjectType'>File</Data><Data Name='IpAddress'>10.0.1.16</Data><Data Name='IpPort'>49874</Data><Data Name='ShareName'>\\*\IPC$</Data><Data Name='ShareLocalPath'></Data><Data Name='AccessMask'>0x1</Data><Data Name='AccessList'>%%4416
+                    </Data></EventData></Event>

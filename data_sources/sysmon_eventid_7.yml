@@ -1,8 +1,8 @@
 name: Sysmon EventID 7
 id: 45512fa5-4d55-4088-9d51-f4dedc16fdff
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the loading of an image (module) into a process, including details about the image name, file path, and hash information.
 mitre_components:
@@ -22,50 +22,10 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
     - Channel
     - Company
     - Computer
-    - Description
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - FileVersion
-    - Guid
-    - Hashes
-    - IMPHASH
-    - Image
-    - ImageLoaded
-    - Keywords
-    - Level
-    - MD5
-    - Name
-    - Opcode
-    - OriginalFileName
-    - ProcessGuid
-    - ProcessID
-    - ProcessId
-    - Product
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SHA256
-    - SecurityID
-    - Signature
-    - SignatureStatus
-    - Signed
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - TimeCreated
-    - User
-    - UserID
-    - UtcTime
-    - Version
-    - action
     - date_hour
     - date_mday
     - date_minute
@@ -74,40 +34,84 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - Description
     - dest
+    - dvc
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
     - eventtype
+    - FileVersion
+    - Guid
+    - Hashes
     - host
     - id
+    - Image
+    - ImageLoaded
+    - IMPHASH
     - index
+    - Keywords
+    - Level
     - linecount
+    - loaded_file
+    - loaded_file_path
+    - MD5
+    - Name
+    - Opcode
+    - original_file_name
+    - OriginalFileName
     - os
-    - parent_process_exec
-    - parent_process_guid
-    - parent_process_id
-    - parent_process_name
-    - parent_process_path
     - process_exec
+    - process_guid
     - process_hash
+    - process_id
     - process_name
     - process_path
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
+    - Product
     - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
     - service_dll_signature_exists
     - service_dll_signature_verified
+    - severity
+    - severity_id
+    - SHA256
+    - Signature
     - signature
     - signature_id
+    - SignatureStatus
+    - Signed
     - source
     - sourcetype
     - splunk_server
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::action
     - tag::eventtype
+    - Task
+    - TaskCategory
+    - ThreadID
+    - TimeCreated
     - timeendpos
     - timestartpos
+    - User
     - user
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - Image
     - ImageLoaded
@@ -126,4 +130,5 @@ output_fields:
     - signature_id
     - user_id
     - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>7</EventID><Version>3</Version><Level>4</Level><Task>7</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2023-09-12T08:06:31.445185300Z'/><EventRecordID>45273</EventRecordID><Correlation/><Execution ProcessID='2464' ThreadID='2888'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2023-09-12 08:06:31.433</Data><Data Name='ProcessGuid'>{8814F3F5-1C07-6500-9600-000000000E03}</Data><Data Name='ProcessId'>4440</Data><Data Name='Image'>C:\Users\Administrator\AppData\Local\Temp\server.exe</Data><Data Name='ImageLoaded'>C:\Users\Administrator\AppData\Local\Temp\server.exe</Data><Data Name='FileVersion'>-</Data><Data Name='Description'>-</Data><Data Name='Product'>-</Data><Data Name='Company'>-</Data><Data Name='OriginalFileName'>-</Data><Data Name='Hashes'>MD5=696CBE2CB6F7FAC5ED6262BCA51238BB,SHA256=43005D86607DC94C7D378AA1B8844947BAA03860652F2F2340266061AF12E524,IMPHASH=F34D5F2D4577ED6D9CEEC516C1F5A744</Data><Data Name='Signed'>false</Data><Data Name='Signature'>-</Data><Data Name='SignatureStatus'>Unavailable</Data><Data Name='User'>ATTACKRANGE\Administrator</Data></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>7</EventID><Version>3</Version><Level>4</Level><Task>7</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2026-08-14T16:03:24.3068421Z'/><EventRecordID>12799</EventRecordID><Correlation/><Execution ProcessID='3376' ThreadID='4340'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>EC2AMAZ-FKEOM7G</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2026-08-14 16:03:24.305</Data><Data Name='ProcessGuid'>{1b43529b-3c4c-6a7f-c904-000000006300}</Data><Data Name='ProcessId'>8748</Data><Data Name='Image'>C:\Users\Administrator\Desktop\ShieldBreak.exe</Data><Data Name='ImageLoaded'>C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.26070.9-0\MpClient.dll</Data><Data Name='FileVersion'>4.18.26070.9 (797b3603749206dfffe67a1cc891531b0a2cf438)</Data><Data Name='Description'>Client Interface</Data><Data Name='Product'>Microsoft® Windows® Operating System</Data><Data Name='Company'>Microsoft Corporation</Data><Data Name='OriginalFileName'>mpclient.dll</Data><Data Name='Hashes'>MD5=BD542955CA16303D5042FA6C519470F6,SHA256=F5BB3463A94C4D87CC90691B474126F5EC1330579DD596F381322C3DAF7F44DC,IMPHASH=E8D5A007E0A362B0C7263E95E1F2C82A</Data><Data Name='Signed'>true</Data><Data Name='Signature'>Microsoft Windows</Data><Data Name='SignatureStatus'>Valid</Data><Data Name='User'>EC2AMAZ-FKEOM7G\Administrator</Data></EventData></Event>

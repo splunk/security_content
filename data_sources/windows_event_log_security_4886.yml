@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4886
 id: c5abd97d-b468-451f-bd65-b4f97efa4ecc
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the deletion of a cryptographic key container, including details about the key container name and the user performing the action.
 mitre_components:
@@ -20,51 +20,41 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
+    - action
     - ActivityID
+    - app
     - Attributes
     - Channel
     - Computer
+    - dest
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
+    - event_time
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
-    - Guid
-    - Keywords
-    - Level
-    - Name
-    - Opcode
-    - ProcessID
-    - RecordNumber
-    - RequestId
-    - Requester
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - Version
-    - action
-    - app
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
     - eventtype
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
+    - Name
     - name
+    - Opcode
+    - ProcessID
     - product
     - punct
+    - RecordNumber
+    - Requester
+    - RequestId
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
@@ -72,14 +62,23 @@ fields:
     - splunk_server
     - status
     - subject
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4886</EventID><Version>0</Version><Level>0</Level><Task>12805</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-02-06T13:13:36.529622400Z'/><EventRecordID>15379925</EventRecordID><Correlation ActivityID='{E37FFFB9-381B-0002-BFFF-7FE31B38D901}'/><Execution ProcessID='652' ThreadID='368'/><Channel>Security</Channel><Computer>win-dc-mhaag-attack-range-84.attackrange.local</Computer><Security/></System><EventData><Data Name='RequestId'>7</Data><Data Name='Requester'>ATTACKRANGE\administrator</Data><Data Name='Attributes'>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4886</EventID><Version>0</Version><Level>0</Level><Task>12805</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-02-06T13:13:36.529622400Z'/><EventRecordID>15379925</EventRecordID><Correlation ActivityID='{E37FFFB9-381B-0002-BFFF-7FE31B38D901}'/><Execution ProcessID='652' ThreadID='368'/><Channel>Security</Channel><Computer>win-dc-mhaag-attack-range-84.attackrange.local</Computer><Security/></System><EventData><Data Name='RequestId'>7</Data><Data Name='Requester'>ATTACKRANGE\administrator</Data><Data Name='Attributes'>
+    UserAgent:Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
+
+    ccm:win-dc-mhaag-attack-range-84.attackrange.local</Data></EventData></Event>

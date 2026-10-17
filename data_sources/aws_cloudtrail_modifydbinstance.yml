@@ -1,8 +1,8 @@
 name: AWS CloudTrail ModifyDBInstance
 id: bfa2912d-1a33-4b05-be46-543874d68241
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a modification is made to an AWS database instance, such as parameters or configurations.
 mitre_components:
@@ -20,8 +20,9 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
+    - change_type
     - command
     - date_hour
     - date_mday
@@ -69,7 +70,9 @@ fields:
     - responseElements.dBInstanceArn
     - responseElements.dBInstanceClass
     - responseElements.dBInstanceIdentifier
+    - responseElements.dbInstancePort
     - responseElements.dBInstanceStatus
+    - responseElements.dbiResourceId
     - responseElements.dBParameterGroups{}.dBParameterGroupName
     - responseElements.dBParameterGroups{}.parameterApplyStatus
     - responseElements.dBSubnetGroup.dBSubnetGroupDescription
@@ -79,8 +82,6 @@ fields:
     - responseElements.dBSubnetGroup.subnets{}.subnetIdentifier
     - responseElements.dBSubnetGroup.subnets{}.subnetStatus
     - responseElements.dBSubnetGroup.vpcId
-    - responseElements.dbInstancePort
-    - responseElements.dbiResourceId
     - responseElements.deletionProtection
     - responseElements.endpoint.address
     - responseElements.endpoint.hostedZoneId
@@ -124,7 +125,12 @@ fields:
     - start_time
     - timeendpos
     - timestartpos
-    - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -139,13 +145,6 @@ fields:
     - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
@@ -158,4 +157,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLDF6WP4HD6:gowthamarajr@splunk.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/gowthamarajr@splunk.com", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLAKJDBQGB", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WP4HD6", "arn": "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f", "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"}, "webIdFederationData": {}, "attributes": {"creationDate": "2022-08-05T08:47:55Z", "mfaAuthenticated": "false"}}}, "eventTime": "2022-08-05T09:19:15Z", "eventSource": "rds.amazonaws.com", "eventName": "ModifyDBInstance", "awsRegion": "us-west-2", "sourceIPAddress": "AWS Internal", "userAgent": "AWS Internal", "requestParameters": {"dBInstanceIdentifier": "database-1", "applyImmediately": true, "masterUserPassword": "****", "allowMajorVersionUpgrade": false, "deletionProtection": true}, "responseElements": {"dBInstanceIdentifier": "database-1", "dBInstanceClass": "db.m6g.large", "engine": "postgres", "dBInstanceStatus": "available", "masterUsername": "postgres", "endpoint": {"address": "database-1.ce6wk5bvtc0t.us-west-2.rds.amazonaws.com", "port": 5432, "hostedZoneId": "Z1PVIF0B656C1W"}, "allocatedStorage": 5, "instanceCreateTime": "Aug 5, 2022 9:02:51 AM", "preferredBackupWindow": "06:35-07:05", "backupRetentionPeriod": 7, "dBSecurityGroups": [], "vpcSecurityGroups": [{"vpcSecurityGroupId": "sg-46cfd020", "status": "active"}], "dBParameterGroups": [{"dBParameterGroupName": "default.postgres14", "parameterApplyStatus": "in-sync"}], "availabilityZone": "us-west-2a", "dBSubnetGroup": {"dBSubnetGroupName": "default", "dBSubnetGroupDescription": "default", "vpcId": "vpc-5f02343b", "subnetGroupStatus": "Complete", "subnets": [{"subnetIdentifier": "subnet-43225f35", "subnetAvailabilityZone": {"name": "us-west-2b"}, "subnetOutpost": {}, "subnetStatus": "Active"}, {"subnetIdentifier": "subnet-e55d7881", "subnetAvailabilityZone": {"name": "us-west-2a"}, "subnetOutpost": {}, "subnetStatus": "Active"}, {"subnetIdentifier": "subnet-0beddb972f034bdaa", "subnetAvailabilityZone": {"name": "us-west-2c"}, "subnetOutpost": {}, "subnetStatus": "Active"}, {"subnetIdentifier": "subnet-2d70cd75", "subnetAvailabilityZone": {"name": "us-west-2c"}, "subnetOutpost": {}, "subnetStatus": "Active"}]}, "preferredMaintenanceWindow": "sat:11:44-sat:12:14", "pendingModifiedValues": {"masterUserPassword": "****"}, "latestRestorableTime": "Aug 5, 2022 9:12:31 AM", "multiAZ": false, "engineVersion": "14.2", "autoMinorVersionUpgrade": true, "readReplicaDBInstanceIdentifiers": [], "licenseModel": "postgresql-license", "storageThroughput": 0, "optionGroupMemberships": [{"optionGroupName": "default:postgres-14", "status": "in-sync"}], "publiclyAccessible": false, "storageType": "standard", "dbInstancePort": 0, "storageEncrypted": true, "kmsKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623", "dbiResourceId": "db-IX2K4LYFLBVZDHBYNPEAVFHFQM", "cACertificateIdentifier": "rds-ca-2019", "domainMemberships": [], "copyTagsToSnapshot": true, "monitoringInterval": 60, "enhancedMonitoringResourceArn": "arn:aws:logs:us-west-2:111111111111:log-group:RDSOSMetrics:log-stream:db-IX2K4LYFLBVZDHBYNPEAVFHFQM", "monitoringRoleArn": "arn:aws:iam::111111111111:role/rds-monitoring-role", "dBInstanceArn": "arn:aws:rds:us-west-2:111111111111:db:database-1", "iAMDatabaseAuthenticationEnabled": false, "performanceInsightsEnabled": true, "performanceInsightsKMSKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623", "performanceInsightsRetentionPeriod": 7, "deletionProtection": true, "associatedRoles": [], "httpEndpointEnabled": false, "tagList": [], "customerOwnedIpEnabled": false, "networkType": "IPV4", "backupTarget": "region"}, "requestID": "59e6b621-2f12-415b-bde4-21fa2dc7c113", "eventID": "46351ca1-760e-4eef-b3ff-19723e13fbf8", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "sessionCredentialFromConsole": "true"}'
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLDF6WP4HD6:gowthamarajr@splunk.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/gowthamarajr@splunk.com", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLAKJDBQGB", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WP4HD6", "arn": "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f", "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"}, "webIdFederationData": {}, "attributes": {"creationDate": "2022-08-05T08:47:55Z", "mfaAuthenticated": "false"}}}, "eventTime": "2022-08-05T09:19:15Z", "eventSource": "rds.amazonaws.com", "eventName": "ModifyDBInstance", "awsRegion": "us-west-2", "sourceIPAddress": "AWS Internal", "userAgent": "AWS Internal", "requestParameters": {"dBInstanceIdentifier": "database-1", "applyImmediately": true, "masterUserPassword": "****", "allowMajorVersionUpgrade": false, "deletionProtection": true}, "responseElements": {"dBInstanceIdentifier": "database-1", "dBInstanceClass": "db.m6g.large", "engine": "postgres", "dBInstanceStatus": "available", "masterUsername": "postgres", "endpoint": {"address": "database-1.ce6wk5bvtc0t.us-west-2.rds.amazonaws.com", "port": 5432, "hostedZoneId": "Z1PVIF0B656C1W"}, "allocatedStorage": 5, "instanceCreateTime": "Aug 5, 2022 9:02:51 AM", "preferredBackupWindow": "06:35-07:05", "backupRetentionPeriod": 7, "dBSecurityGroups": [], "vpcSecurityGroups": [{"vpcSecurityGroupId": "sg-46cfd020", "status": "active"}], "dBParameterGroups": [{"dBParameterGroupName": "default.postgres14", "parameterApplyStatus": "in-sync"}], "availabilityZone": "us-west-2a", "dBSubnetGroup": {"dBSubnetGroupName": "default", "dBSubnetGroupDescription": "default", "vpcId": "vpc-5f02343b", "subnetGroupStatus": "Complete", "subnets": [{"subnetIdentifier": "subnet-43225f35", "subnetAvailabilityZone": {"name": "us-west-2b"}, "subnetOutpost": {}, "subnetStatus": "Active"}, {"subnetIdentifier": "subnet-e55d7881", "subnetAvailabilityZone": {"name": "us-west-2a"}, "subnetOutpost": {}, "subnetStatus": "Active"}, {"subnetIdentifier": "subnet-0beddb972f034bdaa", "subnetAvailabilityZone": {"name": "us-west-2c"}, "subnetOutpost": {}, "subnetStatus": "Active"}, {"subnetIdentifier": "subnet-2d70cd75", "subnetAvailabilityZone": {"name": "us-west-2c"}, "subnetOutpost": {}, "subnetStatus": "Active"}]}, "preferredMaintenanceWindow": "sat:11:44-sat:12:14", "pendingModifiedValues": {"masterUserPassword": "****"}, "latestRestorableTime": "Aug 5, 2022 9:12:31 AM", "multiAZ": false, "engineVersion": "14.2", "autoMinorVersionUpgrade": true, "readReplicaDBInstanceIdentifiers": [], "licenseModel": "postgresql-license", "storageThroughput": 0, "optionGroupMemberships": [{"optionGroupName": "default:postgres-14", "status": "in-sync"}], "publiclyAccessible": false, "storageType": "standard", "dbInstancePort": 0, "storageEncrypted": true, "kmsKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623", "dbiResourceId": "db-IX2K4LYFLBVZDHBYNPEAVFHFQM", "cACertificateIdentifier": "rds-ca-2019", "domainMemberships": [], "copyTagsToSnapshot": true, "monitoringInterval": 60, "enhancedMonitoringResourceArn": "arn:aws:logs:us-west-2:111111111111:log-group:RDSOSMetrics:log-stream:db-IX2K4LYFLBVZDHBYNPEAVFHFQM", "monitoringRoleArn": "arn:aws:iam::111111111111:role/rds-monitoring-role", "dBInstanceArn": "arn:aws:rds:us-west-2:111111111111:db:database-1", "iAMDatabaseAuthenticationEnabled": false, "performanceInsightsEnabled": true, "performanceInsightsKMSKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623", "performanceInsightsRetentionPeriod": 7, "deletionProtection": true, "associatedRoles": [], "httpEndpointEnabled": false, "tagList": [], "customerOwnedIpEnabled": false, "networkType": "IPV4", "backupTarget": "region"}, "requestID": "59e6b621-2f12-415b-bde4-21fa2dc7c113", "eventID": "46351ca1-760e-4eef-b3ff-19723e13fbf8", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "sessionCredentialFromConsole": "true"}

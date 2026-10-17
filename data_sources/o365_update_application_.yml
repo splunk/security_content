@@ -1,8 +1,8 @@
 name: O365 Update application.
 id: 62159133-911b-4c63-9e30-a6a8c89195ca
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs updates made to applications in Microsoft 365, including changes to configurations, permissions, and role assignments.
 mitre_components:
@@ -20,39 +20,17 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
+    - action
     - ActorContextId
     - Actor{}.ID
     - Actor{}.Type
-    - AzureActiveDirectoryEventType
-    - CreationTime
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - ModifiedProperties{}.Name
-    - ModifiedProperties{}.NewValue
-    - ModifiedProperties{}.OldValue
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - ResultStatus
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - action
     - additionalDetails
     - app
     - authentication_service
+    - AzureActiveDirectoryEventType
     - change_type
     - command
+    - CreationTime
     - dataset_name
     - date_hour
     - date_mday
@@ -68,21 +46,42 @@ fields:
     - event_type
     - eventtype
     - extendedAuditEventCategory
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
     - linecount
+    - ModifiedProperties{}.Name
+    - ModifiedProperties{}.NewValue
+    - ModifiedProperties{}.OldValue
+    - obj_id
     - object
     - object_attrs
     - object_category
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
     - signature
     - source
     - sourcetype
     - splunk_server
     - status
+    - SupportTicketId
     - tag
     - tag::eventtype
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
     - timeendpos
     - timestartpos
     - user
@@ -90,12 +89,18 @@ fields:
     - user_agent_change
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"CreationTime": "2023-09-01T17:16:20", "Id": "c428c85c-4fa0-4e97-9033-6a76d9dee45d", "Operation": "Update application.", "OrganizationId": "58aee3b9-7433-46a0-b54e-2429487992a0", "RecordType": 8, "ResultStatus": "Success", "UserKey": "1003BFFD98415B4E@contoso.onmicrosoft.com", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory", "ObjectId": "Application_a2d68f8b-ab9f-47ac-934f-b966c3ac134f", "UserId": "attacker@contoso.onmicrosoft.com", "AzureActiveDirectoryEventType": 1, "ExtendedProperties": [{"Name": "additionalDetails", "Value": "{\"User-Agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36\",\"AppId\":\"95106c0e-3519-450e-8e38-7f326d873454\"}"}, {"Name": "extendedAuditEventCategory", "Value": "Application"}], "ModifiedProperties": [{"Name": "RequiredResourceAccess", "NewValue": "[\r\n  {\r\n    \"ResourceAppId\": \"00000003-0000-0000-c000-000000000000\",\r\n    \"RequiredAppPermissions\": [\r\n      {\r\n        \"EntitlementId\": \"e1fe6dd8-ba31-4d61-89e7-88639da4683d\",\r\n        \"DirectAccessGrant\": false,\r\n        \"ImpersonationAccessGrants\": [\r\n          20\r\n        ]\r\n      },\r\n      {\r\n        \"EntitlementId\": \"810c84a8-4a9e-49e6-bf7d-12d183f40d01\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      },\r\n      {\r\n        \"EntitlementId\": \"b633e1c5-b582-4048-a93e-9f11b44c7e96\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      }\r\n    ],\r\n    \"EncodingVersion\": 1\r\n  }\r\n]", "OldValue": "[\r\n  {\r\n    \"ResourceAppId\": \"00000003-0000-0000-c000-000000000000\",\r\n    \"RequiredAppPermissions\": [\r\n      {\r\n        \"EntitlementId\": \"e1fe6dd8-ba31-4d61-89e7-88639da4683d\",\r\n        \"DirectAccessGrant\": false,\r\n        \"ImpersonationAccessGrants\": [\r\n          20\r\n        ]\r\n      }\r\n    ],\r\n    \"EncodingVersion\": 1\r\n  }\r\n]"}, {"Name": "Included Updated Properties", "NewValue": "RequiredResourceAccess", "OldValue": ""}], "Actor": [{"ID": "attacker@contoso.onmicrosoft.com", "Type": 5}, {"ID": "1003BFFD98415B4E", "Type": 3}, {"ID": "18ed3507-a475-4ccb-b669-d66bc9f2a36e", "Type": 2}, {"ID": "User_e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "User", "Type": 2}], "ActorContextId": "58aee3b9-7433-46a0-b54e-2429487992a0", "InterSystemsId": "6a0bc9d4-eb2d-4eb0-a524-601dac6914a6", "IntraSystemId": "a2d4d7c4-727c-401b-9e6c-70413a080855", "SupportTicketId": "", "Target": [{"ID": "Application_a2d68f8b-ab9f-47ac-934f-b966c3ac134f", "Type": 2}, {"ID": "a2d68f8b-ab9f-47ac-934f-b966c3ac134f", "Type": 2}, {"ID": "Application", "Type": 2}, {"ID": "TestApp2", "Type": 1}, {"ID": "95106c0e-3519-450e-8e38-7f326d873454", "Type": 2}], "TargetContextId": "58aee3b9-7433-46a0-b54e-2429487992a0"}'
+example_log: |
+    {"CreationTime": "2024-01-30T15:24:59", "Id": "7c93e761-608c-4ef2-9bde-049f680d3b45", "Operation": "Update application.", "OrganizationId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "RecordType": 8, "ResultStatus": "Success", "UserKey": "1003BFFD98415B4E@splunkresearch.onmicrosoft.com", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory", "ObjectId": "Application_75924835-d844-4947-96ba-18074e997386", "UserId": "user30@splunkresearch.onmicrosoft.com", "AzureActiveDirectoryEventType": 1, "ExtendedProperties": [{"Name": "additionalDetails", "Value": "{\"User-Agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\",\"AppId\":\"867f0d29-0eab-4017-b691-c4713cc7d7b0\"}"}, {"Name": "extendedAuditEventCategory", "Value": "Application"}], "ModifiedProperties": [{"Name": "RequiredResourceAccess", "NewValue": "[\r\n  {\r\n    \"ResourceAppId\": \"00000002-0000-0ff1-ce00-000000000000\",\r\n    \"RequiredAppPermissions\": [\r\n      {\r\n        \"EntitlementId\": \"dc890d15-9560-4a4c-9b7f-a736ec74ec40\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      }\r\n    ],\r\n    \"EncodingVersion\": 1\r\n  },\r\n  {\r\n    \"ResourceAppId\": \"00000003-0000-0000-c000-000000000000\",\r\n    \"RequiredAppPermissions\": [\r\n      {\r\n        \"EntitlementId\": \"570282fd-fa5c-430d-a7fd-fc8dc98a9dca\",\r\n        \"DirectAccessGrant\": false,\r\n        \"ImpersonationAccessGrants\": [\r\n          20\r\n        ]\r\n      },\r\n      {\r\n        \"EntitlementId\": \"7427e0e9-2fba-42fe-b0c0-848c9e6a8182\",\r\n        \"DirectAccessGrant\": false,\r\n        \"ImpersonationAccessGrants\": [\r\n          20\r\n        ]\r\n      },\r\n      {\r\n        \"EntitlementId\": \"e1fe6dd8-ba31-4d61-89e7-88639da4683d\",\r\n        \"DirectAccessGrant\": false,\r\n        \"ImpersonationAccessGrants\": [\r\n          20\r\n        ]\r\n      },\r\n      {\r\n        \"EntitlementId\": \"1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      },\r\n      {\r\n        \"EntitlementId\": \"06b708a9-e830-4db3-a914-8e69da51d44f\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      },\r\n      {\r\n        \"EntitlementId\": \"810c84a8-4a9e-49e6-bf7d-12d183f40d01\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      },\r\n      {\r\n        \"EntitlementId\": \"9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      }\r\n    ],\r\n    \"EncodingVersion\": 1\r\n  }\r\n]", "OldValue": "[\r\n  {\r\n    \"ResourceAppId\": \"00000002-0000-0ff1-ce00-000000000000\",\r\n    \"RequiredAppPermissions\": [\r\n      {\r\n        \"EntitlementId\": \"dc890d15-9560-4a4c-9b7f-a736ec74ec40\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      }\r\n    ],\r\n    \"EncodingVersion\": 1\r\n  },\r\n  {\r\n    \"ResourceAppId\": \"00000003-0000-0000-c000-000000000000\",\r\n    \"RequiredAppPermissions\": [\r\n      {\r\n        \"EntitlementId\": \"570282fd-fa5c-430d-a7fd-fc8dc98a9dca\",\r\n        \"DirectAccessGrant\": false,\r\n        \"ImpersonationAccessGrants\": [\r\n          20\r\n        ]\r\n      },\r\n      {\r\n        \"EntitlementId\": \"7427e0e9-2fba-42fe-b0c0-848c9e6a8182\",\r\n        \"DirectAccessGrant\": false,\r\n        \"ImpersonationAccessGrants\": [\r\n          20\r\n        ]\r\n      },\r\n      {\r\n        \"EntitlementId\": \"e1fe6dd8-ba31-4d61-89e7-88639da4683d\",\r\n        \"DirectAccessGrant\": false,\r\n        \"ImpersonationAccessGrants\": [\r\n          20\r\n        ]\r\n      },\r\n      {\r\n        \"EntitlementId\": \"810c84a8-4a9e-49e6-bf7d-12d183f40d01\",\r\n        \"DirectAccessGrant\": true,\r\n        \"ImpersonationAccessGrants\": []\r\n      }\r\n    ],\r\n    \"EncodingVersion\": 1\r\n  }\r\n]"}, {"Name": "Included Updated Properties", "NewValue": "RequiredResourceAccess", "OldValue": ""}], "Actor": [{"ID": "user30@splunkresearch.onmicrosoft.com", "Type": 5}, {"ID": "1003BFFD98415B4E", "Type": 3}, {"ID": "18ed3507-a475-4ccb-b669-d66bc9f2a36e", "Type": 2}, {"ID": "User_e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "User", "Type": 2}], "ActorContextId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "InterSystemsId": "5e800cf4-1869-4a9c-81c1-55ffa81d7ec1", "IntraSystemId": "00000000-0000-0000-0000-000000000000", "SupportTicketId": "", "Target": [{"ID": "Application_75924835-d844-4947-96ba-18074e997386", "Type": 2}, {"ID": "75924835-d844-4947-96ba-18074e997386", "Type": 2}, {"ID": "Application", "Type": 2}, {"ID": "MaliciousApp", "Type": 1}, {"ID": "867f0d29-0eab-4017-b691-c4713cc7d7b0", "Type": 2}], "TargetContextId": "75243ab2-44f8-435c-a7a6-b479385df6d4"}

@@ -1,8 +1,8 @@
 name: AWS CloudTrail DeleteIPSet
 id: ebdeeb63-77a0-4808-a6fe-549956731377
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the deletion of an IP set in AWS WAF or GuardDuty, including details about the IP set ID and its associated configurations.
 mitre_components:
@@ -20,8 +20,9 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
+    - change_type
     - command
     - date_hour
     - date_mday
@@ -40,8 +41,8 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -66,12 +67,19 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - tag
     - tag::eventtype
     - timeendpos
     - timestartpos
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -80,13 +88,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
@@ -99,4 +100,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKQ3U2PDY", "userName": "bhavin_cli"}, "eventTime": "2022-07-26T23:14:57Z", "eventSource": "guardduty.amazonaws.com", "eventName": "DeleteIPSet", "awsRegion": "us-west-2", "sourceIPAddress": "142.254.89.27", "userAgent": "aws-cli/2.0.62 Python/3.9.2 Darwin/21.5.0 source/x86_64 command/guardduty.delete-ip-set", "errorCode": "BadRequestException", "requestParameters": {"detectorId": "11111", "ipSetId": "1111"}, "responseElements": {"message": "The request is rejected because the parameter detectorId has an invalid value.", "__type": "InvalidInputException"}, "requestID": "70d36916-4ce7-4b6e-9226-9da47d58d554", "eventID": "884dc529-d98f-4529-bfa1-8cdd6c06d02f", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management"}'
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKQ3U2PDY", "userName": "bhavin_cli"}, "eventTime": "2022-07-26T23:14:57Z", "eventSource": "guardduty.amazonaws.com", "eventName": "DeleteIPSet", "awsRegion": "us-west-2", "sourceIPAddress": "142.254.89.27", "userAgent": "aws-cli/2.0.62 Python/3.9.2 Darwin/21.5.0 source/x86_64 command/guardduty.delete-ip-set", "errorCode": "BadRequestException", "requestParameters": {"detectorId": "11111", "ipSetId": "1111"}, "responseElements": {"message": "The request is rejected because the parameter detectorId has an invalid value.", "__type": "InvalidInputException"}, "requestID": "70d36916-4ce7-4b6e-9226-9da47d58d554", "eventID": "884dc529-d98f-4529-bfa1-8cdd6c06d02f", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management"}

@@ -1,8 +1,8 @@
 name: Windows Event Log Security 5145
 id: 0746479b-7b82-4d7e-8811-0b35da00f798
-version: 5
+version: 6
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs detailed information about access to a network share, including the user, share path, accessed file, and access permissions.
 mitre_components:
@@ -23,68 +23,55 @@ fields:
     - AccessList
     - AccessMask
     - AccessReason
+    - action
+    - app
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - Computer
+    - dest
+    - dest_nt_domain
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
+    - event_time
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
+    - file_name
+    - file_path
     - Guid
+    - host
+    - id
+    - index
     - IpAddress
     - IpPort
     - Keywords
     - Level
+    - linecount
     - Logon_ID
     - Name
+    - name
     - ObjectType
     - Opcode
     - ProcessID
-    - RecordNumber
-    - RelativeTargetName
-    - ShareLocalPath
-    - ShareName
-    - Source_Port
-    - Source_Workstation
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - Version
-    - action
-    - app
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - file_name
-    - file_path
-    - host
-    - id
-    - index
-    - linecount
-    - name
     - product
     - punct
+    - RecordNumber
+    - RelativeTargetName
     - session_id
+    - severity
+    - severity_id
+    - ShareLocalPath
+    - ShareName
     - signature
     - signature_id
     - source
+    - Source_Port
+    - Source_Workstation
     - sourcetype
     - splunk_server
     - src
@@ -92,17 +79,27 @@ fields:
     - src_nt_domain
     - src_nt_host
     - src_port
+    - src_subject_user_id
     - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
 field_mappings:
@@ -137,4 +134,6 @@ field_mappings:
           SubjectUserSid: actor.user.uid
           ShareName: share
           Computer: device.hostname
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>5145</EventID><Version>0</Version><Level>0</Level><Task>12811</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2024-03-11T03:06:39.742608600Z'/><EventRecordID>2018939</EventRecordID><Correlation/><Execution ProcessID='4' ThreadID='304'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ANONYMOUS LOGON</Data><Data Name='SubjectUserName'>ANONYMOUS LOGON</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x13ef1b</Data><Data Name='ObjectType'>File</Data><Data Name='IpAddress'>10.0.1.15</Data><Data Name='IpPort'>50160</Data><Data Name='ShareName'>\\*\SYSVOL</Data><Data Name='ShareLocalPath'>\??\C:\Windows\SYSVOL\sysvol</Data><Data Name='RelativeTargetName'>lsarpc</Data><Data Name='AccessMask'>0x120089</Data><Data Name='AccessList'>%%1538
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>5145</EventID><Version>0</Version><Level>0</Level><Task>12811</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2024-02-07T19:54:29.628595800Z'/><EventRecordID>507919</EventRecordID><Correlation/><Execution ProcessID='4' ThreadID='2168'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x4cd7d</Data><Data Name='ObjectType'>File</Data><Data Name='IpAddress'>fe80::f442:1ec1:2f89:4669</Data><Data Name='IpPort'>51109</Data><Data Name='ShareName'>\\*\C$</Data><Data Name='ShareLocalPath'>\??\C:\</Data><Data Name='RelativeTargetName'>test.exe</Data><Data Name='AccessMask'>0x2</Data><Data Name='AccessList'>%%4417
+                    </Data><Data Name='AccessReason'>-</Data></EventData></Event>
