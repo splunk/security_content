@@ -6,76 +6,99 @@ modification_date: '2026-10-13'
 author: Maria Jose Erquiaga, Splunk
 status: production
 type: TTP
-description: >-
-    Detects a successful AWS IAM CreateRole event whose trust policy allows
-    sts:AssumeRole by a principal in another AWS account or by a wildcard
-    principal. This configuration may provide persistent access if the
-    principal can assume the role. The event alone does not establish that
-    the role was assumed or that its creation was unauthorized.
+description: |-
+    Detects a successful AWS IAM CreateRole event whose trust policy allows sts:AssumeRole by a principal in another AWS account or by a wildcard
+    principal.
+    This configuration may provide persistent access if the principal can assume the role. The event alone does not establish that the role was assumed or that its creation was unauthorized.
 data_source:
     - AWS CloudTrail
 search: |-
-    `cloudtrail` eventSource="iam.amazonaws.com" eventName="CreateRole"
+    `cloudtrail`
+    eventSource="iam.amazonaws.com"
+    eventName="CreateRole"
+
     | where isnull(errorCode) OR errorCode="" OR lower(errorCode)="success"
+
     | eval policy_raw='requestParameters.assumeRolePolicyDocument',
-        role_name='requestParameters.roleName',
-        role_arn='responseElements.role.arn',
-        user_arn=coalesce(user_arn, 'userIdentity.arn'),
-        src=coalesce(src, sourceIPAddress)
+           role_name='requestParameters.roleName',
+           role_arn='responseElements.role.arn',
+           user_arn=coalesce(user_arn, 'userIdentity.arn'),
+           src=coalesce(src, sourceIPAddress)
+
     | where isnotnull(policy_raw)
+
     | eval policy=if(match(policy_raw, "(?i)^%7b"), urldecode(policy_raw), policy_raw)
+
     | rex field=role_arn "^arn:[^:]+:iam::(?<account_from_role_arn>[0-9]{12}):role/"
+
     | eval role_account_id=coalesce(account_from_role_arn, recipientAccountId)
     | eval statements_json=json_extract(policy, "Statement")
     | eval statements=if(match(statements_json, "^\s*\["), json_array_to_mv(statements_json), statements_json)
+
     | mvexpand statements
+
     | eval effect=json_extract(statements, "Effect"),
-        actions_json=json_extract(statements, "Action"),
-        principal_json=json_extract(statements, "Principal")
+           actions_json=json_extract(statements, "Action"),
+           principal_json=json_extract(statements, "Principal")
+
     | eval actions=if(match(actions_json, "^\s*\["), json_array_to_mv(actions_json, true()), actions_json)
+
     | mvexpand actions
     | mvexpand actions
+
     | eval trust_action=actions
     | eval action_pattern=replace(replace(lower(trust_action), "[*]", "%"), "[?]", "_")
+
     | where effect="Allow" AND like("sts:assumerole", action_pattern)
     | eval aws_json=json_extract(principal_json, "AWS")
+
     | eval principals=case(
         match(aws_json, "^\s*\["), json_array_to_mv(aws_json, true()),
         isnotnull(aws_json), aws_json,
         principal_json="*", "*"
       )
+
     | mvexpand principals
+
     | eval trust_principal=principals
+
     | rex field=trust_principal "^arn:[^:]+:iam::(?<principal_account_from_arn>[0-9]{12}):"
+
     | eval principal_account_id=if(
         match(trust_principal, "^[0-9]{12}$"),
         trust_principal,
         principal_account_from_arn
       )
+
     | eval trust_type=case(
         trust_principal="*", "wildcard",
         isnotnull(role_account_id) AND isnotnull(principal_account_id)
           AND principal_account_id!=role_account_id, "external"
       )
+
     | where trust_type="wildcard" OR trust_type="external"
+
     | eval event_key=coalesce(eventID, md5(_raw))
+
     | dedup event_key trust_principal
-    | table _time eventID user_arn src role_name role_arn role_account_id trust_type trust_principal principal_account_id trust_action
+
+    | table _time eventID user_arn src role_name role_arn role_account_id
+            trust_type trust_principal principal_account_id trust_action
+
     | `aws_iam_role_created_with_external_trust_filter`
 how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
-known_false_positives: >-
-    Approved cross-account integrations and deliberately configured wildcard
-    trust may match. Review the role owner, trust-policy conditions, role
-    permissions, and whether the principal is expected.
+known_false_positives: |-
+    Approved cross-account integrations and deliberately configured wildcard trust may match.
+    Review the role owner, trust-policy conditions, role permissions, and whether the principal is expected.
 references:
     - https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html
     - https://stratus-red-team.cloud/attack-techniques/aws/aws.persistence.iam-backdoor-role/
 finding:
-    title: AWS IAM role $role_name$ created with $trust_type$ trust
+    title: The AWS IAM role [$role_name$] created with [$trust_type$] trust
     entity:
         field: user_arn
         type: user
-        score: 40
+        score: 50
 threat_objects:
     - field: src
       type: ip_address
