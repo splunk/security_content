@@ -21,21 +21,22 @@ search: |
       count min(_time) as firstTime,
             max(_time) as lastTime
             values(Filesystem.file_path) as file_path
-    FROM datamodel=Endpoint.Filesystem
-    WHERE
-      [
+
+    FROM datamodel=Endpoint.Filesystem WHERE
+
+    [
         | inputlookup remote_access_software
         | search file_name!=""
         | rename file_name as Filesystem.file_name
         | table Filesystem.file_name
-      ]
-      OR
-      [
+    ]
+    OR
+    [
         | inputlookup remote_access_software
         | search file_path!=""
         | rename file_path as Filesystem.file_path
         | table Filesystem.file_path
-      ]
+    ]
 
     BY Filesystem.action Filesystem.dest Filesystem.file_access_time
        Filesystem.file_create_time Filesystem.file_hash
@@ -43,6 +44,7 @@ search: |
        Filesystem.file_path Filesystem.file_acl Filesystem.file_size
        Filesystem.process_guid Filesystem.process_id
        Filesystem.user Filesystem.vendor_product
+
     | `drop_dm_object_name(Filesystem)`
 
     | lookup local=t remote_access_software file_name OUTPUT app as signature, category, reference, description
@@ -50,7 +52,9 @@ search: |
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
+
     | `remote_access_software_usage_exceptions`
+
     | `detect_remote_access_software_usage_file_filter`
 how_to_implement: |-
     The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to

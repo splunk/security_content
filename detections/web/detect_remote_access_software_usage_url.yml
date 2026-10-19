@@ -6,16 +6,12 @@ modification_date: '2026-10-08'
 author: Steven Dick, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
-description: |
+description: |-
     The following analytic detects the execution of known remote access software within the environment.
-    It leverages network logs mapped to the Web data model, identifying specific URLs and user agents associated with remote
-    access tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
-    This activity is significant as adversaries often use these utilities to maintain unauthorized remote access. If confirmed
-    malicious, this could allow attackers to control systems remotely, exfiltrate data, or further compromise the network,
-    posing a severe security risk.
+    It leverages network logs mapped to the Web data model, identifying specific URLs and user agents associated with remote access tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
 data_source:
     - Palo Alto Network Threat
-search: |
+search: |-
     | tstats `security_content_summariesonly`
              count min(_time) as firstTime
                    max(_time) as lastTime
@@ -25,30 +21,32 @@ search: |
                    latest(Web.user) as user
                    latest(Web.dest) as dest
 
-    FROM datamodel=Web
-    WHERE
-      Web.url_domain=*
-      NOT Web.url_domain IN (
+    FROM datamodel=Web WHERE
+
+    Web.url_domain=*
+    NOT Web.url_domain IN (
           "-",
           "unknown"
-      )
-      [
+    )
+    [
         | inputlookup remote_access_software
         | search domain!=""
         | rename domain as Web.url_domain
         | table Web.url_domain
-      ]
+    ]
 
     BY Web.action Web.src Web.category
        Web.url_domain Web.url_length
 
     | `drop_dm_object_name("Web")`
+
     | lookup local=t remote_access_software domain AS url_domain OUTPUT app as signature, category, reference, description
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
 
     | `remote_access_software_usage_exceptions`
+
     | `detect_remote_access_software_usage_url_filter`
 how_to_implement: |
     The detection is based on data that originates from network logs. These logs must be processed using the appropriate Splunk Technology Add-ons

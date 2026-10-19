@@ -23,19 +23,26 @@ search: |-
       | table Product
     ]
 
-    | stats count min(_time) as firstTime max(_time) as lastTime, values(Company) as Company values(Product) as Product
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(Company) as Company
+                  values(Product) as Product
+
       BY action dest original_file_name
-          parent_process parent_process_exec parent_process_guid
-          parent_process_id parent_process_name parent_process_path
-          process process_exec process_guid
-          process_hash process_id process_integrity_level
-          process_name process_path user
-          user_id vendor_product
+         parent_process parent_process_exec parent_process_guid
+         parent_process_id parent_process_name parent_process_path
+         process process_exec process_guid
+         process_hash process_id process_integrity_level
+         process_name process_path user
+         user_id vendor_product
+
     | lookup local=t remote_access_software file_info as Product OUTPUT app as signature, category, reference, description
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
+
     | `remote_access_software_usage_exceptions`
+
     | `detect_remote_access_software_usage_fileinfo_filter`
 how_to_implement: |-
     This analytic relies on Sysmon to be properly installed and utilized in the environment. Ensure that proper logging is setup for

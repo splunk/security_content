@@ -3,7 +3,7 @@ id: 0590881d-7b81-48dd-9674-1f23f7db5d40
 version: 1
 creation_date: '2026-10-12'
 modification_date: '2026-10-13'
-author: Raven Tait, Splunk
+author: Raven Tait, Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
 description: |-
@@ -40,12 +40,14 @@ search: |-
     | eval encoding=ltrim(if(match(post_body, "^(?:\\\\\\d{3}){8,}"), encoding." + Octal", encoding), " + ")
 
     | where encoding!=""
+
     | stats count min(_time) as firstTime
-        max(_time) as lastTime
-        values(uri) as uri
-        values(encoding) as encoding
-        values(post_body) as post_body
-    by src dest dest_port method status_code
+                  max(_time) as lastTime
+                  values(uri) as uri
+                  values(encoding) as encoding
+                  values(post_body) as post_body
+
+      by src dest dest_port method status_code
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
