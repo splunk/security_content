@@ -1,8 +1,8 @@
 name: Download Files Using Telegram
 id: 58194e28-ae5e-11eb-8912-acde48001122
-version: 12
+version: 13
 creation_date: '2021-05-07'
-modification_date: '2026-05-13'
+modification_date: '2026-10-06'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -47,6 +47,7 @@ analytic_story:
     - XMRig
     - Water Gamayun
     - 0bj3ctivity Stealer
+    - Braodo Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1105

@@ -1,0 +1,9 @@
+name: Cisco AI Defense Threat Operations
+id: 7b8213d0-61e3-46ec-9c8b-b6ab5820b849
+version: 1
+creation_date: '2026-10-18'
+modification_date: '2026-10-18'
+author: Nasreddine Bencherchali, Splunk
+description: |-
+    Monitor Cisco AI Defense enforcement activity, risky prompts and responses, sensitive data detections, application and model activity, and related security detections.
+    This dashboard uses the cisco_ai_defense macro to find Cisco AI Defense events; configure it for your index, source, and sourcetype before use.

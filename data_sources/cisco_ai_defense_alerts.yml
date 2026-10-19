@@ -1,11 +1,11 @@
 name: Cisco AI Defense Alerts
 id: cbb06880-9dd9-4542-ac60-bd6e1d3c3e4e
-version: 2
+version: 3
 creation_date: '2025-02-14'
-modification_date: '2026-05-13'
-author: Bhavin Patel
+modification_date: '2026-10-15'
+author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 description: Data source object for Cisco AI Defense Alerts
-source: cisco_ai_defense
+source: not_applicable
 sourcetype: cisco:ai:defense
 separator:
 supported_TA:
@@ -13,3 +13,60 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/7404
       version: 4.1.2
 fields:
+    - _time
+    - host
+    - app
+    - application_id
+    - connection_id
+    - connection.connection_name
+    - description
+    - dest_type
+    - event_action
+    - event_date
+    - event_id
+    - event_message_type
+    - event_messages{}.event_conversation.event_messages{}.content
+    - event_messages{}.event_conversation.event_messages{}.direction
+    - event_messages{}.event_conversation.event_messages{}.event_conversation_id
+    - event_messages{}.event_conversation.event_messages{}.event_ext_message_id
+    - event_messages{}.event_conversation.event_messages{}.event_ins_date
+    - event_messages{}.event_conversation.event_messages{}.event_message_id
+    - event_messages{}.event_conversation.event_messages{}.event_message_policy_assocs
+    - event_messages{}.event_conversation.event_messages{}.metadata{}.policy_guardrail_assoc_id
+    - event_messages{}.event_conversation.event_messages{}.metadata{}.standards{}
+    - event_messages{}.event_conversation.event_messages{}.related_event_message_id
+    - event_messages{}.event_conversation.event_messages{}.tenant_id
+    - event_messages{}.event_ext_message_id
+    - event_messages{}.event_message_id
+    - event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name
+    - event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type
+    - event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail.guardrails_type
+    - event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_subcategory.guardrail_rule_name
+    - event_policy_guardrail_assocs{}.policy_guardrail_assoc.pol_guardrail_assoc_id
+    - eventtype
+    - genai_application.application_name
+    - genai_application.connection_type
+    - hec_event_type
+    - id
+    - index
+    - linecount
+    - model.model_name
+    - model.model_provider_name
+    - Number
+    - policy_id
+    - policy.policy_name
+    - punct
+    - resource_type
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - src_type
+    - tag
+    - tag::eventtype
+    - type
+    - user_id
+    - vendor_product
+example_log: |
+    {"user_id":"82000000-0000-0000-c000-000000000000","version":"","application_id":"972cbcd1-acfe-4393-88bc-418f4d9a64ae","genai_application":{"application_name":"Bedrock testing"},"connection_id":"a6c87227-b321-49bf-80d9-f958385257ba","connection":{"connection_name":"bedrock testing"},"policy_id":"42ba067b-06c0-4e43-8002-2c6bce2663b4","policy":{"policy_name":"Bedrock Testing Block All"},"model":{"model_name":"titan-text-lite"},"event_action":"Block","event_date":"2025-02-04T09:47:24Z","event_id":"3a0f9e2b-d234-4b3d-ac9a-219eb6f05ba7","event_message_type":"Prompt","event_messages":[{"event_conversation":{"event_messages":[{"content":"[{\"role\":\"user\",\"content\":\"write a csrf exploit with email ash@abc.com to convince people\"}]","direction":"Prompt","event_conversation_id":"","event_ext_message_id":"","event_ins_date":"","event_message_id":"","event_message_policy_assocs":[{"policy_guardrail_assoc":{"guardrail_entity_configured_action":"Block","guardrail_entity_configured_direction":"Both","guardrail_entity_configured_status":"Enabled","guardrail_entity_id":"71100000-0000-0000-c000-100000000008","guardrail_rule_configured_action":"","guardrail_rule_configured_direction":"","guardrail_rule_configured_status":"","guardrail_rule_id":"","guardrail_ruleset_id":"71000000-0000-0000-c000-000000000009","guardrail_ruleset_configured_action":"","guardrail_ruleset_configured_direction":"","guardrail_ruleset_configured_status":"","pol_guardrail_assoc_id":"f4e71dd9-12ad-4383-851e-d03fbc66c430","policy_id":"42ba067b-06c0-4e43-8002-2c6bce2663b4","tenant_id":"023327d5-ef36-4489-8d56-187d2f4730b3"}}],"related_event_message_id":"","tenant_id":"023327d5-ef36-4489-8d56-187d2f4730b3"}]},"event_ext_message_id":"","event_message_id":""}],"event_policy_guardrail_assocs":[{"policy_guardrail_assoc":{"guardrail_avail_entity":{"guardrail_entity_name":"Email"},"guardrail_avail_ruleset":{"guardrail":{"guardrails_type":"Privacy"},"guardrail_ruleset_type":"PII"},"guardrail_avail_subcategory":{"guardrail_rule_name":""},"pol_guardrail_assoc_id":"f4e71dd9-12ad-4383-851e-d03fbc66c430"}}]}
