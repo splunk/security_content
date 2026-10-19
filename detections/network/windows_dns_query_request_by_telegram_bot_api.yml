@@ -1,8 +1,8 @@
 name: Windows DNS Query Request by Telegram Bot API
 id: 86f66f44-94d9-412d-a71d-5d8ed0fef72e
-version: 12
+version: 13
 creation_date: '2021-08-03'
-modification_date: '2026-07-20'
+modification_date: '2026-10-06'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -47,6 +47,7 @@ analytic_story:
     - VIP Keylogger
     - Phantom Stealer
     - Starland RAT Campaign
+    - Braodo Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1071.004
