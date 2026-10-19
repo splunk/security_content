@@ -51,8 +51,8 @@ search: |-
       Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
     | `drop_dm_object_name(Registry)`
 
-    | rex field=registry_value_data "[\\\b](?<file_name>[^\\\/\'\"]+\.\w{2,5})\b"
-    | rex field=registry_value_data "(?<file_path>\w\:[\\](?:[^\\\/\'\"]+\\)+[^\\\/\'\"]+\.\w{2,5})\b"
+    | rex field=registry_value_data "(?i)(?:^|\\)(?<file_name>[^\\\/\'\"]+\.\w{2,5})\b"
+    | rex field=registry_value_data "(?i)(?<file_path>\w\:[\\](?:[^\\\/\'\"]+\\)+[^\\\/\'\"]+\.\w{2,5})\b"
     | lookup local=t remote_access_software file_name OUTPUT app as signature, category, reference, description
     | lookup local=t remote_access_software file_path OUTPUT app as signature, category, reference, description
 
