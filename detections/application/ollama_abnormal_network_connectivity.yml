@@ -2,7 +2,7 @@ name: Ollama Abnormal Network Connectivity
 id: 19ec30ad-faa2-496a-a6a9-f2e5f778fbdb
 version: 6
 creation_date: '2025-10-13'
-modification_date: '2026-10-09'
+modification_date: '2026-10-19'
 author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -25,6 +25,7 @@ search: |-
         "*unreachable*"
     )
 
+    | eval dest=coalesce(dest, host)
     | bin _time span=5m
     | stats count as incidents
             values(msg) as warning_messages

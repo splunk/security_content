@@ -2,7 +2,7 @@ name: Ollama Repeated Application Errors
 id: e0fff27e-ee9b-4b8d-b247-f93a93cefa71
 version: 1
 creation_date: '2026-10-09'
-modification_date: '2026-10-09'
+modification_date: '2026-10-19'
 author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -17,11 +17,12 @@ search: |-
     | rex field=_raw "msg=\"(?<msg>[^\"]+)\""
     | rex field=_raw "exit_code=(?<exit_code>\d+)"
 
+    | eval event_time=_time
     | bin _time span=5m
 
     | stats count as error_count
-            earliest(_time) as first_seen
-            latest(_time) as last_seen
+            earliest(event_time) as first_seen
+            latest(event_time) as last_seen
             values(msg) as error_messages
             values(exit_code) as exit_codes
             dc(msg) as unique_errors
