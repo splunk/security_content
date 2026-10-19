@@ -9,7 +9,7 @@ type: Anomaly
 description: |
     The following analytic detects potential reverse shell activity by identifying connections involving ports commonly associated with remote access tools, shell listeners, or tunneling utilities.
     It leverages Cisco Secure Firewall Threat Defense logs and monitors destination ports against a list of non-standard, high-risk port values often used in post-exploitation scenarios.
-    Adversaries frequently configure tools like netcat, Meterpreter, or other backdoors to listen or connect over uncommon ports such as 4444, 2222, or 51820 to bypass standard monitoring and firewall rules.
+    Adversaries frequently configure tools like netcat, Meterpreter, or other backdoors to listen or connect over uncommon ports such as 4444 or 2222 to bypass standard monitoring and firewall rules.
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
 search: |
