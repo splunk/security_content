@@ -22,7 +22,7 @@ search: |
         ```Same digit ports, i.e 4444, 55555```
         (
             isint(dest_port/1111)
-            dest_port<10000
+            AND dest_port<10000
         )
         OR
         isint(dest_port/11111)
@@ -31,7 +31,7 @@ search: |
         OR
         (
             isint((dest_port-123)/1111)
-            dest_port<7000
+            AND dest_port<7000
         )
         OR
         isint((dest_port-1234)/11111)
@@ -40,8 +40,8 @@ search: |
         OR
         (
             isint((dest_port+123)/1111)
-            dest_port>4000
-            dest_port<10000
+            AND dest_port>4000
+            AND dest_port<10000
         )
     )
 
