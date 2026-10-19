@@ -2,7 +2,7 @@ name: Cisco AI Defense Security Alerts by Application Name
 id: 105e4a69-ec55-49fc-be1f-902467435ea8
 version: 8
 creation_date: '2025-02-14'
-modification_date: '2026-10-15'
+modification_date: '2026-10-19'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -65,10 +65,11 @@ search: |-
     | bin _time span=10m
 
     ```Use the same application/connection window and threshold as Cisco AI Defense Repeated High Risk Activity```
+    | eventstats count as same_high_risk_event_count by _time application_key connection_key high_risk_event_id
     | eventstats dc(high_risk_event_id) as high_risk_event_count by _time application_key connection_key
 
     ```Leave allowed sensitive responses to Cisco AI Defense Allowed Sensitive Response, allowed sensitive prompts to Cisco AI Defense Allowed Sensitive Prompt, and repeated high-risk bursts to Cisco AI Defense Repeated High Risk Activity```
-    | where is_allowed_sensitive_response=0 AND is_allowed_sensitive_prompt=0 AND NOT (is_high_risk=1 AND high_risk_event_count>=5)
+    | where is_allowed_sensitive_response=0 AND is_allowed_sensitive_prompt=0 AND NOT (is_high_risk=1 AND (high_risk_event_count>=5 OR same_high_risk_event_count>=3))
 
     | stats count as event_count
             dc(event_id) as distinct_event_count
