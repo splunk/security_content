@@ -6,43 +6,56 @@ modification_date: '2026-10-19'
 author: Bhavin Patel, Radka Viskova, Splunk
 status: production
 type: Hunting
-description: This hunting query identifies successful AWS IAM access key creation events where a named IAM user creates a key for a different named IAM user. Such activity may indicate persistence or privilege escalation, particularly when the target user has elevated permissions. The query compares the caller and target usernames; it does not assess the target user's permissions. Hunting queries are designed to be run manually during threat hunting.
+description: |-
+    This hunting query identifies successful AWS IAM access key creation events where a named IAM user creates a key for a different named IAM user.
+    Such activity may indicate persistence or privilege escalation, particularly when the target user has elevated permissions. The query compares the caller and target usernames; it does not assess the target user's permissions.
+    Hunting queries are designed to be run manually during threat hunting activities.
 data_source:
     - AWS CloudTrail CreateAccessKey
 search: |-
-    `cloudtrail` eventName = CreateAccessKey
-      | where (isnull(errorCode) OR errorCode="success")
-        AND 'userIdentity.type'="IAMUser"
-        AND isnotnull('userIdentity.userName')
-        AND isnotnull('requestParameters.userName')
-        AND 'userIdentity.userName'!='requestParameters.userName'
-      | eval caller_user='userIdentity.userName',
-        target_user='requestParameters.userName',
-        caller_arn='userIdentity.arn',
-        caller_principal_id='userIdentity.principalId'
-      | eval signature=coalesce(signature,eventName),
-        dest=coalesce(dest,eventSource),
-        user_agent=coalesce(user_agent,userAgent),
-        src=coalesce(src,sourceIPAddress),
-        vendor_account=coalesce(vendor_account,recipientAccountId),
-        vendor_region=coalesce(vendor_region,awsRegion),
-        vendor_product=coalesce(vendor_product,"AWS"),
-        user_arn=coalesce(user_arn,caller_arn)
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        values(signature) as signature
-        values(dest) as dest
-        values(user_agent) as user_agent
-        values(src) as src
-        values(vendor_region) as vendor_region
-        values(vendor_product) as vendor_product
-        values(user_arn) as user_arn
-        values(eventID) as eventIDs
-        by vendor_account caller_user caller_principal_id target_user
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `aws_createaccesskey_filter`
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
-known_false_positives: While this search has no known false positives, it is possible that an AWS admin has legitimately created keys for another user.
+    `cloudtrail`
+    eventName = CreateAccessKey
+
+    | where (isnull(errorCode) OR errorCode="success")
+            AND 'userIdentity.type'="IAMUser"
+            AND isnotnull('userIdentity.userName')
+            AND isnotnull('requestParameters.userName')
+            AND 'userIdentity.userName'!='requestParameters.userName'
+
+    | eval
+           caller_arn='userIdentity.arn',
+           caller_principal_id='userIdentity.principalId',
+           caller_user='userIdentity.userName',
+           dest=coalesce(dest,eventSource),
+           signature=coalesce(signature,eventName),
+           src=coalesce(src,sourceIPAddress),
+           target_user='requestParameters.userName',
+           user_agent=coalesce(user_agent,userAgent),
+           user_arn=coalesce(user_arn,caller_arn),
+           vendor_account=coalesce(vendor_account,recipientAccountId),
+           vendor_product=coalesce(vendor_product,"AWS"),
+           vendor_region=coalesce(vendor_region,awsRegion)
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(dest) as dest
+                  values(eventID) as eventIDs
+                  values(signature) as signature
+                  values(src) as src
+                  values(user_agent) as user_agent
+                  values(user_arn) as user_arn
+                  values(vendor_product) as vendor_product
+                  values(vendor_region) as vendor_region
+
+      by vendor_account caller_user caller_principal_id target_user
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `aws_createaccesskey_filter`
+how_to_implement: |-
+    You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+known_false_positives: |-
+    While this search has no known false positives, it is possible that an AWS admin has legitimately created keys for another user.
 references:
     - https://bishopfox.com/blog/privilege-escalation-in-aws
     - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
