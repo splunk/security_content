@@ -1,0 +1,1008 @@
+{
+  "title": "Cisco AI Defense Threat Operations",
+  "description": "Monitor Cisco AI Defense enforcement activity, risky prompts and responses, sensitive data detections, application and model activity, and related security detections.\n\nThis dashboard uses the `cisco_ai_defense` macro to find Cisco AI Defense events; configure it for your index, source, and sourcetype before use.",
+  "dataSources": {
+    "ds_filter_applications": {
+      "type": "ds.search",
+      "name": "Available AI applications",
+      "options": {
+        "query": "`cisco_ai_defense`\n| spath path=\"genai_application.application_name\" output=Application\n| where isnotnull(application_id) AND application_id!=\"\"\n| eval Application=if(isnull(Application) OR len(trim(Application))=0,application_id,Application)\n| stats count as event_count values(Application) as application_names by application_id\n| eval Application=mvjoin(application_names,\" / \")\n| table Application application_id event_count\n| sort 0 Application"
+      }
+    },
+    "ds_filter_models": {
+      "type": "ds.search",
+      "name": "Available AI models",
+      "options": {
+        "query": "`cisco_ai_defense` | search model.model_name!=\"\" | stats count as event_count by model.model_name | rename model.model_name as model_name | table model_name event_count | sort 0 model_name"
+      }
+    },
+    "ds_ai_events_base": {
+      "type": "ds.search",
+      "name": "Cisco AI Defense normalized event base",
+      "options": {
+        "query": "`cisco_ai_defense`\n| where (application_id IN ($application_tok|s$) OR \"*\" IN ($application_tok|s$))\n    AND ('model.model_name' IN ($model_tok|s$) OR \"*\" IN ($model_tok|s$))\n| eval action=lower(event_action), direction=lower(event_message_type)\n| spath path=\"genai_application.application_name\" output=application_name\n| spath path=\"connection.connection_name\" output=connection_name\n| spath path=\"policy.policy_name\" output=policy_name\n| spath path=\"event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type\" output=guardrails\n| spath path=\"event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail.guardrails_type\" output=guardrail_categories\n| spath path=\"event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name\" output=entities\n| spath path=\"event_messages{}.event_conversation.event_messages{}.metadata{}.standards{}\" output=standards\n| eval application_name=if(isnull(application_name) OR len(trim(application_name))=0,if(isnull(application_id) OR application_id=\"\",\"Unknown application\",application_id),application_name), connection_name=if(isnull(connection_name) OR len(trim(connection_name))=0,if(isnull(connection_id) OR connection_id=\"\",\"Unknown connection\",connection_id),connection_name), model_name=if(isnull('model.model_name') OR len(trim('model.model_name'))=0,\"Unknown model\",'model.model_name'), policy_name=if(isnull(policy_name) OR len(trim(policy_name))=0,\"Unknown policy\",policy_name)\n| fields _time event_id application_id application_name connection_id connection_name model_name policy_name action direction resource_type guardrails guardrail_categories entities standards"
+      }
+    },
+    "ds_total_events": {
+      "type": "ds.chain",
+      "name": "Total observed events",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| stats dc(event_id) as count"
+      }
+    },
+    "ds_blocked_events": {
+      "type": "ds.chain",
+      "name": "Blocked events",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| stats dc(eval(if(action=\"block\",event_id,null()))) as count"
+      }
+    },
+    "ds_allowed_highrisk": {
+      "type": "ds.chain",
+      "name": "Allowed high-risk events",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| eval is_highrisk=if(mvfind(guardrails,\"(?i)prompt injection|code detection|\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0,1,0)\n| stats dc(eval(if(action=\"allow\" AND is_highrisk=1,event_id,null()))) as count"
+      }
+    },
+    "ds_allowed_sensitive_responses": {
+      "type": "ds.chain",
+      "name": "Allowed sensitive responses",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| eval is_privacy=if(mvfind(guardrails,\"(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0,1,0)\n| stats dc(eval(if(action=\"allow\" AND direction=\"response\" AND is_privacy=1,event_id,null()))) as count"
+      }
+    },
+    "ds_redacted_events": {
+      "type": "ds.chain",
+      "name": "Redacted events",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| stats dc(eval(if(action=\"redact\",event_id,null()))) as count"
+      }
+    },
+    "ds_runtime_actions": {
+      "type": "ds.chain",
+      "name": "Runtime actions over time",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| timechart span=1h dc(event_id) as events by action"
+      }
+    },
+    "ds_sensitive_entities": {
+      "type": "ds.chain",
+      "name": "Sensitive entities by action",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| where mvfind(guardrails,\"(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0\n| mvexpand entities\n| where isnotnull(entities) AND len(trim(entities))>0\n| chart dc(event_id) over entities by action\n| fillnull value=0"
+      }
+    },
+    "ds_sensitive_event_details": {
+      "type": "ds.chain",
+      "name": "Sensitive match review",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| where mvfind(guardrails,\"(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0\n| eval rulesets=mvjoin(guardrails,\", \"), detected_entities=mvjoin(entities,\", \")\n| sort 0 - _time\n| table _time action direction application_name application_id connection_name model_name policy_name rulesets detected_entities event_id\n| head 100"
+      }
+    },
+    "ds_applications_by_action": {
+      "type": "ds.chain",
+      "name": "Observed applications by event volume",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| stats dc(event_id) as events values(action) as actions values(model_name) as models by application_name application_id\n| eval actions=mvjoin(mvsort(actions),\", \"), models=mvjoin(mvsort(models),\", \")\n| sort 0 - events\n| head 15\n| rename application_name as Application application_id as \"Application ID\" events as Events actions as Actions models as \"Models observed\"\n| table Application \"Application ID\" Events Actions \"Models observed\""
+      }
+    },
+    "ds_models_by_action": {
+      "type": "ds.chain",
+      "name": "Observed events by model and action",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| stats dc(event_id) as events by model_name action\n| chart max(events) over model_name by action\n| fillnull value=0"
+      }
+    },
+    "ds_ai_detection_readiness": {
+      "type": "ds.search",
+      "name": "ESCU AI Defense detection readiness",
+      "options": {
+        "query": "| makeresults\n| eval detection_name=split(\"Cisco AI Defense Security Alerts by Application Name|Cisco AI Defense Repeated High Risk Activity|Cisco AI Defense Allowed Sensitive Response|Cisco AI Defense Allowed Sensitive Prompt\",\"|\")\n| mvexpand detection_name\n| eval expected_savedsearch=\"ESCU - \".detection_name.\" - Rule\", ai_system=\"Cisco AI Defense\", mapped=1, data_sources=\"Cisco AI Defense Alerts\"\n| fields ai_system detection_name expected_savedsearch mapped data_sources\n| append\n    [ | rest /servicesNS/-/-/saved/searches splunk_server=local\n      | where title IN (\"ESCU - Cisco AI Defense Security Alerts by Application Name - Rule\",\"ESCU - Cisco AI Defense Repeated High Risk Activity - Rule\",\"ESCU - Cisco AI Defense Allowed Sensitive Response - Rule\",\"ESCU - Cisco AI Defense Allowed Sensitive Prompt - Rule\")\n      | rename title as expected_savedsearch\n      | eval savedsearch_present=1\n      | eval enabled=if(disabled==0 OR disabled==\"0\",\"Enabled\",\"Disabled\")\n      | eval scheduled=if(is_scheduled==1 OR is_scheduled==\"1\",\"Scheduled\",\"Not scheduled\")\n      | eval finding_output=case(match(actions,\"(^|,)risk(,|$)\") OR 'action.risk'==1 OR 'action.risk'==\"1\",\"Risk\", match(actions,\"(^|,)notable(,|$)\") OR 'action.notable'==1 OR 'action.notable'==\"1\",\"Notable\", true(),\"No risk/notable\")\n      | eval schedule=coalesce(cron_schedule,\"\"), window=coalesce('dispatch.earliest_time',\"\").\" to \".coalesce('dispatch.latest_time',\"\"), app_name=coalesce('eai:acl.app','eai:appName',\"\")\n      | fields expected_savedsearch savedsearch_present enabled scheduled finding_output schedule window app_name ]\n| stats max(mapped) as mapped values(ai_system) as ai_system values(data_sources) as data_sources values(detection_name) as detection_name max(savedsearch_present) as savedsearch_present values(enabled) as enabled values(scheduled) as scheduled values(finding_output) as finding_output values(schedule) as schedule values(window) as window values(app_name) as app_name by expected_savedsearch\n| where mapped==1\n| eval present=if(savedsearch_present==1,\"Present\",\"Missing\")\n| eval enabled=coalesce(mvindex(enabled,0),\"Missing\"), scheduled=coalesce(mvindex(scheduled,0),\"Missing\"), finding_output=coalesce(mvindex(finding_output,0),\"Missing\")\n| eval readiness=case(present==\"Missing\",\"Missing saved search\",enabled!=\"Enabled\",\"Disabled\",scheduled!=\"Scheduled\",\"Not scheduled\",finding_output==\"No risk/notable\",\"No risk/notable action\",true(),\"Ready\")\n| eval data_sources=mvjoin(mvsort(data_sources),\", \"), schedule=coalesce(mvindex(schedule,0),\"\"), window=coalesce(mvindex(window,0),\"\"), app_name=coalesce(mvindex(app_name,0),\"\")\n| sort readiness detection_name\n| rename detection_name as Detection expected_savedsearch as \"Saved Search\" readiness as Readiness finding_output as \"Finding Output\" schedule as Schedule window as Window app_name as App data_sources as \"Data Sources\"\n| table Detection \"Saved Search\" Readiness \"Finding Output\" Schedule Window App \"Data Sources\"",
+        "queryParameters": {
+          "earliest": "0",
+          "latest": "now"
+        }
+      }
+    },
+    "ds_live_ai_findings_base": {
+      "type": "ds.search",
+      "name": "Cisco AI Defense ESCU risk and notable results",
+      "options": {
+        "query": "search (index=risk OR index=notable)\n    [ | makeresults\n      | eval savedsearch_title=mvappend(\"ESCU - Cisco AI Defense Security Alerts by Application Name - Rule\", \"ESCU - Cisco AI Defense Repeated High Risk Activity - Rule\", \"ESCU - Cisco AI Defense Allowed Sensitive Response - Rule\", \"ESCU - Cisco AI Defense Allowed Sensitive Prompt - Rule\")\n      | mvexpand savedsearch_title\n      | stats values(savedsearch_title) as savedsearch_title dc(savedsearch_title) as savedsearch_count\n      | eval quoted=\"\\\"\".mvjoin(savedsearch_title,\"\\\",\\\"\").\"\\\"\"\n      | eval search=if(savedsearch_count>0,\"(source IN (\".quoted.\") OR search_name IN (\".quoted.\") OR savedsearch_name IN (\".quoted.\") OR orig_source IN (\".quoted.\") OR rule_name IN (\".quoted.\"))\",\"source=\\\"__cisco_ai_defense_no_match__\\\"\")\n      | return $search ]\n| eval finding_source=case(index=\"risk\",\"Risk event\",index=\"notable\",\"Notable\",true(),index)\n| eval savedsearch_title=coalesce(if(match(search_name,\"^ESCU - Cisco AI Defense .+ - Rule$\"),search_name,null()),if(match(source,\"^ESCU - Cisco AI Defense .+ - Rule$\"),source,null()),if(match(savedsearch_name,\"^ESCU - Cisco AI Defense .+ - Rule$\"),savedsearch_name,null()),if(match(orig_source,\"^ESCU - Cisco AI Defense .+ - Rule$\"),orig_source,null()),if(match(rule_name,\"^ESCU - Cisco AI Defense .+ - Rule$\"),rule_name,null()))\n| where savedsearch_title IN (\"ESCU - Cisco AI Defense Security Alerts by Application Name - Rule\",\"ESCU - Cisco AI Defense Repeated High Risk Activity - Rule\",\"ESCU - Cisco AI Defense Allowed Sensitive Response - Rule\",\"ESCU - Cisco AI Defense Allowed Sensitive Prompt - Rule\")\n| eval detection=replace(replace(savedsearch_title,\"^ESCU - \",\"\"),\" - Rule$\",\"\")\n| eval risk_numeric=tonumber(coalesce(calculated_risk_score,risk_score))\n| eval severity=case(finding_source=\"Risk event\",lower(coalesce(severity,case(risk_numeric>=80,\"critical\",risk_numeric>=50,\"high\",risk_numeric>=20,\"medium\",risk_numeric>0,\"low\",true(),\"unknown\"))),finding_source=\"Notable\",lower(coalesce(severity,urgency,\"unknown\")),true(),lower(coalesce(severity,\"unknown\")))\n| eval entity=case(finding_source=\"Risk event\",coalesce(risk_object,normalized_risk_object,user,dest,src,host,\"unknown\"),finding_source=\"Notable\",coalesce(risk_object,normalized_risk_object,user,dest,src,host,rule_name,\"unknown\"),true(),coalesce(risk_object,normalized_risk_object,user,dest,src,host,\"unknown\"))\n| eval detail=case(finding_source=\"Risk event\",coalesce(risk_message,source,search_name,detection,\"\"),finding_source=\"Notable\",coalesce(rule_description,description,rule_name,detection,\"\"),true(),coalesce(risk_message,rule_description,source,detection,\"\"))\n| eval detail=substr(detail,1,500), event_key=coalesce(event_id,source_event_id,sid,_cd,tostring(_time).\"|\".savedsearch_title.\"|\".entity.\"|\".coalesce(detail,\"\"))\n| dedup event_key detection\n| fields _time finding_source detection severity risk_numeric entity detail savedsearch_title"
+      }
+    },
+    "ds_live_findings_by_detection": {
+      "type": "ds.chain",
+      "name": "ESCU finding counts by detection",
+      "options": {
+        "extend": "ds_live_ai_findings_base",
+        "query": "| stats count as Findings dc(entity) as Entities by detection finding_source\n| appendpipe [ | stats count as result_count | where result_count==0 | eval detection=\"No matching detection results\", finding_source=\"Status\", Findings=0, Entities=0 | fields - result_count ]\n| sort 0 - Findings"
+      }
+    },
+    "ds_live_findings_over_time": {
+      "type": "ds.chain",
+      "name": "ESCU findings over time",
+      "options": {
+        "extend": "ds_live_ai_findings_base",
+        "query": "| timechart span=1d count by finding_source\n| appendpipe [ | stats count as result_count | where result_count==0 | eval _time=now(), \"No detection results\"=0 | fields _time \"No detection results\" ]\n| fillnull value=0"
+      }
+    },
+    "ds_live_findings_detail": {
+      "type": "ds.chain",
+      "name": "Recent ESCU AI Defense Findings",
+      "options": {
+        "extend": "ds_live_ai_findings_base",
+        "query": "| eval eventTime=strftime(_time,\"%Y-%m-%d %H:%M:%S\")\n| sort 0 -_time\n| table eventTime finding_source severity detection entity risk_numeric detail\n| appendpipe [ | stats count as result_count | where result_count==0 | eval eventTime=\"\", finding_source=\"Status\", severity=\"info\", detection=\"No matching detection results\", entity=\"No risk/notable events in selected time window\", risk_numeric=0, detail=\"This table populates when one of the four Cisco AI Defense ESCU detections produces risk or notable output.\" | fields - result_count ]"
+      }
+    },
+    "ds_attack_outcomes": {
+      "type": "ds.chain",
+      "name": "High-risk activity by enforcement outcome",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| where mvfind(guardrails,\"(?i)prompt injection|code detection|\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0\n| stats dc(eval(if(action=\"allow\",event_id,null()))) as count"
+      }
+    },
+    "ds_blocked_attack_outcomes": {
+      "type": "ds.chain",
+      "name": "Blocked high-risk activity",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| where action=\"block\" AND mvfind(guardrails,\"(?i)prompt injection|code detection|\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0\n| stats dc(event_id) as count"
+      }
+    },
+    "ds_allowed_sensitive_response_count": {
+      "type": "ds.chain",
+      "name": "Allowed sensitive responses",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| where action=\"allow\" AND direction=\"response\" AND mvfind(guardrails,\"(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0\n| stats dc(event_id) as count"
+      }
+    },
+    "ds_repeated_event_ids": {
+      "type": "ds.chain",
+      "name": "Repeated high-risk event IDs",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| where isnotnull(event_id) AND len(trim(event_id))>0 AND mvfind(guardrails,\"(?i)prompt injection|code detection|\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0\n| bin _time span=10m\n| stats count as Occurrences values(action) as Actions values(direction) as Directions values(guardrails) as Guardrails values(model_name) as Models by _time application_name application_id connection_name connection_id event_id\n| where Occurrences>=3\n| eval Window=strftime(_time,\"%Y-%m-%d %H:%M:%S\")\n| rename application_name as Application connection_name as Connection event_id as \"Event ID\"\n| table Window Application Connection \"Event ID\" Occurrences Actions Directions Guardrails Models\n| sort 0 - Occurrences\n| head 100"
+      }
+    },
+    "ds_attack_paths": {
+      "type": "ds.search",
+      "name": "Risky behavior by direction and policy outcome",
+      "options": {
+        "query": "`cisco_ai_defense`\n| where (application_id IN ($application_tok|s$) OR \"*\" IN ($application_tok|s$))\n    AND ('model.model_name' IN ($model_tok|s$) OR \"*\" IN ($model_tok|s$))\n| eval action=lower(event_action), direction=lower(event_message_type)\n| spath path=\"genai_application.application_name\" output=application_name\n| spath path=\"connection.connection_name\" output=connection_name\n| spath path=\"policy.policy_name\" output=policy_name\n| spath path=\"event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type\" output=guardrails\n| spath path=\"event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail.guardrails_type\" output=guardrail_categories\n| spath path=\"event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name\" output=entities\n| spath path=\"event_messages{}.event_conversation.event_messages{}.metadata{}.standards{}\" output=standards\n| eval application_name=if(isnull(application_name) OR len(trim(application_name))=0,if(isnull(application_id) OR application_id=\"\",\"Unknown application\",application_id),application_name), connection_name=if(isnull(connection_name) OR len(trim(connection_name))=0,if(isnull(connection_id) OR connection_id=\"\",\"Unknown connection\",connection_id),connection_name), model_name=if(isnull('model.model_name') OR len(trim('model.model_name'))=0,\"Unknown model\",'model.model_name'), policy_name=if(isnull(policy_name) OR len(trim(policy_name))=0,\"Unknown policy\",policy_name)\n| fields _time event_id application_id application_name connection_id connection_name model_name policy_name action direction resource_type guardrails guardrail_categories entities standards\n| mvexpand guardrails\n| eval attack_class=case(match(guardrails,\"(?i)prompt injection\"),\"Prompt injection\",match(guardrails,\"(?i)code detection\"),\"Code generation or abuse\",match(guardrails,\"(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\"),\"Sensitive data (PII/PCI)\",true(),null())\n| where isnotnull(attack_class)\n| eval attack_path=attack_class.\" / \".coalesce(direction,\"unknown\")\n| stats dc(event_id) as events by attack_path action\n| chart max(events) over attack_path by action\n| fillnull value=0\n| sort 0 attack_path"
+      }
+    },
+    "ds_allowed_risk_cases": {
+      "type": "ds.chain",
+      "name": "Allowed high-risk paths for review",
+      "options": {
+        "extend": "ds_ai_events_base",
+        "query": "| where action=\"allow\" AND mvfind(guardrails,\"(?i)prompt injection|code detection|\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0\n| eval attack_class=case(mvfind(guardrails,\"(?i)prompt injection\")>=0,\"Prompt injection\",mvfind(guardrails,\"(?i)code detection\")>=0,\"Code generation or abuse\",mvfind(guardrails,\"(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry\")>=0,\"Sensitive data (PII/PCI)\",true(),\"Other high-risk\")\n| stats dc(event_id) as Events values(direction) as Directions values(guardrails) as Guardrails values(entities) as Entities values(policy_name) as Policies values(connection_name) as Connections by application_name application_id model_name attack_class\n| eval Directions=mvjoin(Directions,\", \"), Guardrails=mvjoin(Guardrails,\", \"), Entities=mvjoin(Entities,\", \"), Policies=mvjoin(Policies,\", \"), Connections=mvjoin(Connections,\", \")\n| rename application_name as Application application_id as \"Application ID\" model_name as Model attack_class as \"Attack class\"\n| sort 0 - Events\n| head 100\n| table Application \"Application ID\" Model \"Attack class\" Events Directions Guardrails Entities Policies Connections"
+      }
+    }
+  },
+  "visualizations": {
+    "viz_threat_header": {
+      "type": "splunk.markdown",
+      "options": {
+        "markdown": "## Cisco AI Defense | Threat Overview\nRuntime enforcement, allowed high-risk activity, and sensitive response signals. Use Application and Model filters to focus event telemetry."
+      }
+    },
+    "viz_total_events": {
+      "type": "splunk.singlevalue",
+      "title": "Events Observed",
+      "description": "Distinct Cisco AI Defense event IDs in the selected time range.",
+      "dataSources": {
+        "primary": "ds_total_events"
+      },
+      "options": {
+        "majorFontSize": 30,
+        "sparklineDisplay": "off",
+        "trendDisplay": "off"
+      }
+    },
+    "viz_blocked_events": {
+      "type": "splunk.singlevalue",
+      "title": "Blocked Events",
+      "description": "Distinct events blocked by AI Defense.",
+      "dataSources": {
+        "primary": "ds_blocked_events"
+      },
+      "options": {
+        "majorFontSize": 30,
+        "sparklineDisplay": "off",
+        "trendDisplay": "off"
+      }
+    },
+    "viz_allowed_highrisk": {
+      "type": "splunk.singlevalue",
+      "title": "Allowed High-Risk Events",
+      "description": "Allowed events matching prompt-injection, code, PII, or PCI guardrails.",
+      "dataSources": {
+        "primary": "ds_allowed_highrisk"
+      },
+      "options": {
+        "majorFontSize": 30,
+        "sparklineDisplay": "off",
+        "trendDisplay": "off"
+      }
+    },
+    "viz_allowed_sensitive_responses": {
+      "type": "splunk.singlevalue",
+      "title": "Sensitive Responses Allowed",
+      "description": "Allowed responses matching PII or PCI privacy guardrails.",
+      "dataSources": {
+        "primary": "ds_allowed_sensitive_responses"
+      },
+      "options": {
+        "majorFontSize": 30,
+        "sparklineDisplay": "off",
+        "trendDisplay": "off"
+      }
+    },
+    "viz_repeat_window_count": {
+      "type": "splunk.singlevalue",
+      "title": "Redacted Events",
+      "description": "Distinct events redacted by AI Defense in the selected time range.",
+      "dataSources": {
+        "primary": "ds_redacted_events"
+      },
+      "options": {
+        "majorFontSize": 30,
+        "sparklineDisplay": "off",
+        "trendDisplay": "off"
+      }
+    },
+    "viz_risk_timeline": {
+      "type": "splunk.line",
+      "title": "Runtime Enforcement Over Time",
+      "description": "Hourly volume by observed action. This includes all events, not only high-risk matches.",
+      "dataSources": {
+        "primary": "ds_runtime_actions"
+      },
+      "options": {
+        "legendDisplay": "bottom",
+        "xAxisTitleText": "Time",
+        "yAxisTitleText": "Events",
+        "seriesColorsByField": {
+          "block": "#D64545",
+          "allow": "#3B82F6",
+          "redact": "#F59E0B",
+          "monitor": "#2F9E76"
+        }
+      }
+    },
+    "viz_sensitive_entities": {
+      "type": "splunk.bar",
+      "title": "Sensitive Entities by Action",
+      "description": "PII/PCI entity categories observed in events; message content is not shown.",
+      "dataSources": {
+        "primary": "ds_sensitive_entities"
+      },
+      "options": {
+        "legendDisplay": "bottom",
+        "xAxisTitleVisibility": "hide",
+        "yAxisTitleText": "Distinct events",
+        "stackMode": "stacked",
+        "seriesColorsByField": {
+          "allow": "#F59E0B",
+          "block": "#D64545",
+          "redact": "#2F9E76"
+        }
+      }
+    },
+    "viz_repeat_windows": {
+      "type": "splunk.table",
+      "title": "Sensitive Match Review",
+      "description": "Event-level PII/PCI matches with application, model, policy, and entity metadata. Prompt and response text is omitted.",
+      "dataSources": {
+        "primary": "ds_sensitive_event_details"
+      },
+      "options": {
+        "headerVisibility": "fixed",
+        "count": 50,
+        "wrap": true
+      }
+    },
+    "viz_priority_queue": {
+      "type": "splunk.table",
+      "title": "Recent ESCU AI Defense Findings",
+      "description": "Actual risk or notable records attributed to the four Cisco AI Defense ESCU detections. The empty state is informational, not a synthetic finding.",
+      "dataSources": {
+        "primary": "ds_live_findings_detail"
+      },
+      "options": {
+        "headerVisibility": "fixed",
+        "count": 50,
+        "wrap": true
+      }
+    },
+    "viz_header_attack_activity": {
+      "type": "splunk.markdown",
+      "options": {
+        "markdown": "## Attack Activity\n\n### Prompt or Response → Guardrail Match → Policy Action\n\nCompare risky behavior with enforcement outcomes, then review allowed paths and repeated event IDs. Counts describe observed events; the dashboard does not infer a successful compromise."
+      }
+    },
+    "viz_header_data_exposure": {
+      "type": "splunk.markdown",
+      "options": {
+        "markdown": "## Data Exposure\nReview PII/PCI entities and affected applications, models, policies, and event direction. Payload text is intentionally excluded."
+      }
+    },
+    "viz_apps_activity": {
+      "type": "splunk.table",
+      "title": "Most Active Observed Applications",
+      "dataSources": {
+        "primary": "ds_applications_by_action"
+      },
+      "options": {
+        "count": 15,
+        "drilldown": "none",
+        "wrap": true
+      },
+      "description": "Applications observed in Cisco AI Defense runtime events."
+    },
+    "viz_models_activity": {
+      "type": "splunk.bar",
+      "title": "Observed Activity by Model and Action",
+      "dataSources": {
+        "primary": "ds_models_by_action"
+      },
+      "options": {
+        "legendDisplay": "bottom",
+        "seriesColorsByField": {
+          "allow": "#3B82F6",
+          "block": "#D64545",
+          "redact": "#F59E0B",
+          "monitor": "#2F9E76"
+        }
+      },
+      "description": "Model names are taken from runtime events; unknown means the model field was not present."
+    },
+    "viz_detection_readiness": {
+      "type": "splunk.table",
+      "title": "Configured Detection Status",
+      "dataSources": {
+        "primary": "ds_ai_detection_readiness"
+      },
+      "options": {
+        "count": 10,
+        "drilldown": "none",
+        "wrap": true,
+        "columnFormat": {
+          "Readiness": {
+            "rowBackgroundColors": "> table | seriesByName(\"Readiness\") | matchValue(ReadinessColorConfig)"
+          }
+        }
+      },
+      "description": "Shows whether each expected saved search is present, enabled, scheduled, and configured for risk/notable output. Requires saved-search REST visibility.",
+      "context": {
+        "ReadinessColorConfig": [
+          {
+            "match": "Ready",
+            "value": "#4C8B5B"
+          },
+          {
+            "match": "Disabled",
+            "value": "#B5432F"
+          },
+          {
+            "match": "Missing saved search",
+            "value": "#B5432F"
+          },
+          {
+            "match": "Not scheduled",
+            "value": "#C99A3B"
+          },
+          {
+            "match": "No risk/notable action",
+            "value": "#C99A3B"
+          }
+        ]
+      }
+    },
+    "viz_findings_by_detection": {
+      "type": "splunk.bar",
+      "title": "Generated Findings by Detection and Source",
+      "dataSources": {
+        "primary": "ds_live_findings_by_detection"
+      },
+      "options": {
+        "legendDisplay": "bottom",
+        "stackMode": "stacked",
+        "seriesColorsByField": {
+          "Risk event": "#C99A3B",
+          "Notable": "#B5432F"
+        }
+      },
+      "description": "Risk and notable events attributed to the Cisco AI Defense detections."
+    },
+    "viz_findings_over_time": {
+      "type": "splunk.line",
+      "title": "Detection Output Over Time",
+      "dataSources": {
+        "primary": "ds_live_findings_over_time"
+      },
+      "options": {
+        "legendDisplay": "bottom",
+        "seriesColorsByField": {
+          "Risk event": "#C99A3B",
+          "Notable": "#B5432F",
+          "No detection results": "#C9CDD1"
+        }
+      },
+      "description": "Daily risk and notable events generated by these detections."
+    },
+    "viz_header_app_model": {
+      "type": "splunk.markdown",
+      "options": {
+        "markdown": "## Application and Model Activity\nExplore Cisco AI Defense runtime event volume across observed applications and models."
+      }
+    },
+    "viz_header_detection_activity": {
+      "type": "splunk.markdown",
+      "options": {
+        "markdown": "## Detection Coverage and Outcomes\nReview configured Cisco AI Defense detections and the risk or notable events they generate."
+      }
+    },
+    "viz_allowed_risk_count": {
+      "type": "splunk.singlevalue",
+      "title": "Allowed High-Risk Events",
+      "description": "Distinct allowed events matching prompt injection, code, PII, or PCI guardrails.",
+      "dataSources": {
+        "primary": "ds_attack_outcomes"
+      },
+      "options": {
+        "majorFontSize": 34,
+        "sparklineDisplay": "off",
+        "trendDisplay": "off",
+        "backgroundColor": "> majorValue | rangeValue(valueColor)"
+      },
+      "context": {
+        "valueColor": [
+          {
+            "to": 0,
+            "value": "#2B755C"
+          },
+          {
+            "from": 1,
+            "value": "#A33D3D"
+          }
+        ]
+      }
+    },
+    "viz_blocked_risk_count": {
+      "type": "splunk.singlevalue",
+      "title": "Blocked High-Risk Events",
+      "description": "Distinct high-risk events blocked by AI Defense.",
+      "dataSources": {
+        "primary": "ds_blocked_attack_outcomes"
+      },
+      "options": {
+        "majorFontSize": 34,
+        "sparklineDisplay": "off",
+        "trendDisplay": "off",
+        "backgroundColor": "> majorValue | rangeValue(valueColor)"
+      },
+      "context": {
+        "valueColor": [
+          {
+            "to": 0,
+            "value": "#263B46"
+          },
+          {
+            "from": 1,
+            "value": "#197B72"
+          }
+        ]
+      }
+    },
+    "viz_allowed_sensitive_response_count": {
+      "type": "splunk.singlevalue",
+      "title": "Sensitive Responses Allowed",
+      "description": "Distinct allowed responses matching PII or PCI guardrails.",
+      "dataSources": {
+        "primary": "ds_allowed_sensitive_response_count"
+      },
+      "options": {
+        "majorFontSize": 34,
+        "sparklineDisplay": "off",
+        "trendDisplay": "off",
+        "backgroundColor": "> majorValue | rangeValue(valueColor)"
+      },
+      "context": {
+        "valueColor": [
+          {
+            "to": 0,
+            "value": "#263B46"
+          },
+          {
+            "from": 1,
+            "value": "#A33D3D"
+          }
+        ]
+      }
+    },
+    "viz_attack_paths": {
+      "type": "splunk.bar",
+      "title": "Risky Behavior by Direction and Policy Outcome",
+      "description": "Distinct events classified from prompt-injection, code, and PII/PCI guardrails.",
+      "dataSources": {
+        "primary": "ds_attack_paths"
+      },
+      "options": {
+        "legendDisplay": "bottom",
+        "stackMode": "stacked",
+        "seriesColorsByField": {
+          "allow": "#D96C5F",
+          "block": "#47B8AE",
+          "monitor": "#D6A443",
+          "redact": "#8D7BD6"
+        }
+      }
+    },
+    "viz_allowed_risk_cases": {
+      "type": "splunk.table",
+      "title": "Allowed High-Risk Paths Requiring Review",
+      "description": "Allowed events grouped by application, model, guardrail, and message direction. Message content is excluded.",
+      "dataSources": {
+        "primary": "ds_allowed_risk_cases"
+      },
+      "options": {
+        "headerVisibility": "fixed",
+        "count": 25,
+        "wrap": true
+      }
+    },
+    "viz_repeated_event_ids": {
+      "type": "splunk.table",
+      "title": "Repeated High-Risk Event IDs",
+      "description": "Event IDs with three or more high-risk occurrences in a ten-minute bucket, matching the repeated-activity detection threshold.",
+      "dataSources": {
+        "primary": "ds_repeated_event_ids"
+      },
+      "options": {
+        "headerVisibility": "fixed",
+        "count": 25,
+        "wrap": true
+      }
+    }
+  },
+  "inputs": {
+    "input_global_time": {
+      "type": "input.timerange",
+      "title": "Time range",
+      "options": {
+        "token": "global_time",
+        "defaultValue": "-7d@d,now"
+      }
+    },
+    "input_application": {
+      "type": "input.multiselect",
+      "title": "Application",
+      "options": {
+        "items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+        "token": "application_tok",
+        "defaultValue": "*"
+      },
+      "dataSources": {
+        "primary": "ds_filter_applications"
+      },
+      "context": {
+        "formattedConfig": {
+          "number": {
+            "prefix": ""
+          }
+        },
+        "formattedStatics": ">statics | formatByType(formattedConfig)",
+        "statics": [
+          [
+            "All"
+          ],
+          [
+            "*"
+          ]
+        ],
+        "label": ">primary | seriesByName(\"Application\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+        "value": ">primary | seriesByName(\"application_id\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+      }
+    },
+    "input_model": {
+      "type": "input.multiselect",
+      "title": "Model",
+      "options": {
+        "items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+        "token": "model_tok",
+        "defaultValue": "*"
+      },
+      "dataSources": {
+        "primary": "ds_filter_models"
+      },
+      "context": {
+        "formattedConfig": {
+          "number": {
+            "prefix": ""
+          }
+        },
+        "formattedStatics": ">statics | formatByType(formattedConfig)",
+        "statics": [
+          [
+            "All"
+          ],
+          [
+            "*"
+          ]
+        ],
+        "label": ">primary | seriesByName(\"model_name\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+        "value": ">primary | seriesByName(\"model_name\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+      }
+    }
+  },
+  "layout": {
+    "tabs": {
+      "items": [
+        {
+          "layoutId": "layout_overview",
+          "label": "Threat Overview"
+        },
+        {
+          "layoutId": "layout_attack_activity",
+          "label": "Attack Activity"
+        },
+        {
+          "layoutId": "layout_data_exposure",
+          "label": "Data Exposure"
+        },
+        {
+          "layoutId": "layout_app_model",
+          "label": "Applications & Models"
+        },
+        {
+          "layoutId": "layout_detection_activity",
+          "label": "ESCU Detection Coverage"
+        }
+      ]
+    },
+    "layoutDefinitions": {
+      "layout_overview": {
+        "type": "absolute",
+        "options": {
+          "height": 900,
+          "width": 1440,
+          "display": "auto-scale",
+          "gutterSize": 10
+        },
+        "structure": [
+          {
+            "item": "viz_threat_header",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1440,
+              "h": 80
+            }
+          },
+          {
+            "item": "viz_total_events",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 90,
+              "w": 288,
+              "h": 130
+            }
+          },
+          {
+            "item": "viz_blocked_events",
+            "type": "block",
+            "position": {
+              "x": 288,
+              "y": 90,
+              "w": 288,
+              "h": 130
+            }
+          },
+          {
+            "item": "viz_allowed_highrisk",
+            "type": "block",
+            "position": {
+              "x": 576,
+              "y": 90,
+              "w": 288,
+              "h": 130
+            }
+          },
+          {
+            "item": "viz_allowed_sensitive_responses",
+            "type": "block",
+            "position": {
+              "x": 864,
+              "y": 90,
+              "w": 288,
+              "h": 130
+            }
+          },
+          {
+            "item": "viz_repeat_window_count",
+            "type": "block",
+            "position": {
+              "x": 1152,
+              "y": 90,
+              "w": 288,
+              "h": 130
+            }
+          },
+          {
+            "item": "viz_risk_timeline",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 230,
+              "w": 1440,
+              "h": 600
+            }
+          }
+        ]
+      },
+      "layout_attack_activity": {
+        "type": "absolute",
+        "options": {
+          "height": 1050,
+          "width": 1440,
+          "display": "auto-scale",
+          "gutterSize": 10
+        },
+        "structure": [
+          {
+            "item": "viz_header_attack_activity",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1440,
+              "h": 110
+            }
+          },
+          {
+            "item": "viz_allowed_risk_count",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 120,
+              "w": 480,
+              "h": 135
+            }
+          },
+          {
+            "item": "viz_blocked_risk_count",
+            "type": "block",
+            "position": {
+              "x": 480,
+              "y": 120,
+              "w": 480,
+              "h": 135
+            }
+          },
+          {
+            "item": "viz_allowed_sensitive_response_count",
+            "type": "block",
+            "position": {
+              "x": 960,
+              "y": 120,
+              "w": 480,
+              "h": 135
+            }
+          },
+          {
+            "item": "viz_attack_paths",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 265,
+              "w": 1440,
+              "h": 360
+            }
+          },
+          {
+            "item": "viz_allowed_risk_cases",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 635,
+              "w": 720,
+              "h": 390
+            }
+          },
+          {
+            "item": "viz_repeated_event_ids",
+            "type": "block",
+            "position": {
+              "x": 720,
+              "y": 635,
+              "w": 720,
+              "h": 390
+            }
+          }
+        ]
+      },
+      "layout_data_exposure": {
+        "type": "absolute",
+        "options": {
+          "height": 980,
+          "width": 1440,
+          "display": "auto-scale",
+          "gutterSize": 10
+        },
+        "structure": [
+          {
+            "item": "viz_header_data_exposure",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1440,
+              "h": 80
+            }
+          },
+          {
+            "item": "viz_sensitive_entities",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 90,
+              "w": 1440,
+              "h": 350
+            }
+          },
+          {
+            "item": "viz_repeat_windows",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 450,
+              "w": 1440,
+              "h": 480
+            }
+          }
+        ]
+      },
+      "layout_app_model": {
+        "type": "absolute",
+        "options": {
+          "height": 1120,
+          "width": 1440,
+          "display": "auto-scale",
+          "gutterSize": 10
+        },
+        "structure": [
+          {
+            "item": "viz_header_app_model",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1440,
+              "h": 80
+            }
+          },
+          {
+            "item": "viz_apps_activity",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 90,
+              "w": 1440,
+              "h": 470
+            }
+          },
+          {
+            "item": "viz_models_activity",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 570,
+              "w": 1440,
+              "h": 470
+            }
+          }
+        ]
+      },
+      "layout_detection_activity": {
+        "type": "absolute",
+        "options": {
+          "height": 1350,
+          "width": 1440,
+          "display": "auto-scale",
+          "gutterSize": 10
+        },
+        "structure": [
+          {
+            "item": "viz_header_detection_activity",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1440,
+              "h": 100
+            }
+          },
+          {
+            "item": "viz_detection_readiness",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 110,
+              "w": 1440,
+              "h": 300
+            }
+          },
+          {
+            "item": "viz_findings_by_detection",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 420,
+              "w": 720,
+              "h": 340
+            }
+          },
+          {
+            "item": "viz_findings_over_time",
+            "type": "block",
+            "position": {
+              "x": 720,
+              "y": 420,
+              "w": 720,
+              "h": 340
+            }
+          },
+          {
+            "item": "viz_priority_queue",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 770,
+              "w": 1440,
+              "h": 520
+            }
+          }
+        ]
+      }
+    },
+    "globalInputs": [
+      "input_global_time",
+      "input_application",
+      "input_model"
+    ],
+    "options": {
+      "submitButton": true,
+      "submitOnDashboardLoad": true,
+      "showTitleAndDescription": true
+    }
+  },
+  "defaults": {
+    "dataSources": {
+      "ds.search": {
+        "options": {
+          "queryParameters": {
+            "earliest": "$global_time.earliest$",
+            "latest": "$global_time.latest$"
+          }
+        }
+      }
+    }
+  }
+}
