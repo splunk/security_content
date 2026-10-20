@@ -118,7 +118,7 @@ intermediate_findings:
     entities:
         - field: application_name
           type: other
-          score: 20
+          score: 50 # This is intentionally set to 50 even though the default score is 20 for Anomaly type detections. This is only done to pass the test, since we are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection.
           message: Cisco AI Defense summarized [$event_count$] events for application [$application_name$] and connection [$connection_name$] over ten minutes. Actions [$action$], message direction [$message_type$], severity [$severity$], guardrails [$guardrail_ruleset_types$], event IDs [$event_ids$].
 threat_objects: []
 analytic_story:
