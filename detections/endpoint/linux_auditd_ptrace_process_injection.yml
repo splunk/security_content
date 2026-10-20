@@ -1,0 +1,65 @@
+name: Linux Auditd Ptrace Process Injection Or Credential Access
+id: f8c6ebe4-cacd-444d-b052-3da6ea5c1c0f
+version: 1
+creation_date: '2026-10-20'
+modification_date: '2026-10-20'
+author: vahid malekmohammadi
+status: production
+type: TTP
+description: The following analytic detects use of the ptrace(2) syscall to attach to, seize, or write into the memory of another process on a Linux host. It leverages Linux Auditd SYSCALL records, focusing on the ptrace request stored in the first syscall argument (a0) and the target pid (a1). Cross-process ptrace is the core primitive behind local process injection and in-memory credential theft (for example reading secrets out of sshd, ssh-agent, gpg-agent, or a browser). PTRACE_TRACEME (a0=0), a process tracing itself for anti-debug, is intentionally excluded. If confirmed malicious, this activity could allow an attacker to inject code into a trusted process or steal credentials directly from memory.
+data_source:
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd` type=SYSCALL (syscall=ptrace OR syscall=101)
+      | eval request=case(a0 IN ("0","0x0"),"PTRACE_TRACEME", a0 IN ("16","0x10"),"PTRACE_ATTACH", a0 IN ("16902","0x4206"),"PTRACE_SEIZE", a0 IN ("4","0x4"),"PTRACE_POKETEXT", a0 IN ("5","0x5"),"PTRACE_POKEDATA", a0 IN ("6","0x6"),"PTRACE_POKEUSR", true(),"other:".a0)
+      | where request!="PTRACE_TRACEME"
+      | rename host as dest, a1 as target_pid
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY comm exe syscall request target_pid
+           uid auid ppid pid proctitle key
+           dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_ptrace_process_injection_filter`
+how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, TYPE, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize field names to the Splunk CIM. Critically, the host must have an audit rule that logs the ptrace syscall, otherwise no events are generated and this detection is blind. Add to /etc/audit/rules.d/ and reload with augenrules --load - "-a always,exit -F arch=b64 -S ptrace -k ptrace" and "-a always,exit -F arch=b32 -S ptrace -k ptrace". Confirm the a0/a1/comm/exe field names against a real event before enabling, as auditd field extraction can vary by deployment.
+known_false_positives: Debuggers and profilers (gdb, lldb, strace, ltrace, gcore, perf), crash handlers (systemd-coredump, apport), and container runtimes (runc, containerd, dockerd) legitimately issue cross-process ptrace. Update the filter macro to remove false positives for your host roles.
+references:
+    - https://attack.mitre.org/techniques/T1055/008/
+    - https://attack.mitre.org/techniques/T1003/
+    - https://man7.org/linux/man-pages/man2/ptrace.2.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 56
+          message: A cross-process ptrace [$request$] by [$comm$] (pid $pid$) targeting pid $target_pid$ occurred on host - [$dest$].
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Living Off The Land
+    - Compromised Linux Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1055.008
+    - T1003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055.008/linux_auditd_ptrace/linux_auditd_ptrace.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
