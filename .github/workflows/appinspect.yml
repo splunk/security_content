@@ -50,15 +50,12 @@ jobs:
 
       - name: Compare savedsearches.conf against latest release
         run: |
-          # Fails if any stanza changed without a change beyond the
-          # action.correlationsearch.metadata field (e.g. a version bump with no real change)
-          NEW_APP=$(ls dist/DA-ESS-ContentUpdate-*.tar.gz | head -n 1)
-          echo "Comparing $NEW_APP against DA-ESS-ContentUpdate-latest.tar.gz"
+          # Fails if any stanza has a detection_version bump with no other change.
+          # The table is rendered in the run summary and uploaded as an artifact below.
           status=0
           python scripts/check_accidental_bumps.py \
             --previous-version DA-ESS-ContentUpdate-latest.tar.gz \
-            --new-version "$NEW_APP" > savedsearches_comparison.md || status=$?
-          cat savedsearches_comparison.md
+            --new-version dist/DA-ESS-ContentUpdate.tar.gz > savedsearches_comparison.md || status=$?
           {
             echo "## savedsearches.conf comparison"
             cat savedsearches_comparison.md
@@ -74,4 +71,12 @@ jobs:
           path: |
             dist/*.html
             dist/*.tar.gz
-            
+
+      - name: store_savedsearches_comparison
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: savedsearches_comparison
+          path: savedsearches_comparison.md
+          if-no-files-found: ignore
+

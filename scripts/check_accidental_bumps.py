@@ -6,9 +6,10 @@ Usage: check_accidental_bumps.py --previous-version OLD_ARCHIVE --new-version NE
 Prints a table of every stanza (present in both packages) that changed, with
 the action.correlationsearch.metadata detection_version bump and whether any
 other field changed. Sorted by "Any other changes" (No first), then stanza name.
+The metadata publish_time is ignored: it is rewritten on every build.
 
 Exit code: 1 if at least one changed stanza has no changes beyond the
-metadata field, else 0 (2 on usage/input errors).
+detection_version bump, else 0 (2 on usage/input errors).
 """
 import argparse
 import json
@@ -20,6 +21,7 @@ import tempfile
 
 CONF_SUFFIX = os.path.join("default", "savedsearches.conf")
 METADATA_KEY = "action.correlationsearch.metadata"
+VOLATILE_METADATA = ("publish_time",)
 
 
 def extract(archive, dest):
@@ -64,9 +66,12 @@ def parse_conf(path):
 
 def metadata(stanza):
     try:
-        return json.loads(stanza.get(METADATA_KEY, "{}"))
+        meta = json.loads(stanza.get(METADATA_KEY, "{}"))
     except json.JSONDecodeError:
         return {}
+    for key in VOLATILE_METADATA:
+        meta.pop(key, None)
+    return meta
 
 
 def compare(old, new):
@@ -75,10 +80,17 @@ def compare(old, new):
         o, n = old[name], new[name]
         if o == n:
             continue
-        other = sorted(k for k in set(o) | set(n) if k != METADATA_KEY and o.get(k) != n.get(k))
-        ov = metadata(o).get("detection_version")
-        nv = metadata(n).get("detection_version")
-        rows.append({"name": name, "ov": ov, "nv": nv, "bump": ov != nv, "other": other})
+        om, nm = metadata(o), metadata(n)
+        ov, nv = om.get("detection_version"), nm.get("detection_version")
+        other = [k for k in set(o) | set(n) if k != METADATA_KEY and o.get(k) != n.get(k)]
+        other += [
+            f"metadata.{k}"
+            for k in set(om) | set(nm)
+            if k != "detection_version" and om.get(k) != nm.get(k)
+        ]
+        if ov == nv and not other:
+            continue
+        rows.append({"name": name, "ov": ov, "nv": nv, "bump": ov != nv, "other": sorted(other)})
     rows.sort(key=lambda r: (bool(r["other"]), r["name"].lower()))
     return rows
 
@@ -115,7 +127,7 @@ def main(argv):
     no_other = sum(1 for r in rows if not r["other"])
     print(
         f"\n{len(rows)} changed stanzas; {sum(r['bump'] for r in rows)} with a version bump; "
-        f"{no_other} with no changes beyond {METADATA_KEY}.",
+        f"{no_other} with no changes beyond the detection_version bump.",
         file=sys.stderr,
     )
     return 1 if no_other else 0
