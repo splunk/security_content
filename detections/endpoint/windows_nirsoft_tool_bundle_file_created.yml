@@ -21,13 +21,7 @@ search: |
 
     FROM datamodel=Endpoint.Filesystem WHERE
 
-    ``` Increase coverage by adding additional Nirsoft tool bundle or tool filenames ```
-    [
-      | inputlookup nirsoft_utilities_lookup
-      | search original_file_name = "*.zip"
-      | table original_file_name
-      | rename original_file_name as Filesystem.file_name
-    ]
+    Filesystem.file_name = "*.zip"
 
     BY Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
        Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
@@ -35,6 +29,15 @@ search: |
        Filesystem.user Filesystem.vendor_product
 
     | `drop_dm_object_name("Filesystem")`
+
+    ``` Increase coverage by adding additional Nirsoft tool bundle or tool filenames ```
+    | search [
+                 | inputlookup nirsoft_utilities_lookup
+                 | search original_file_name = "*.zip"
+                 | table original_file_name
+                 | rename original_file_name as Filesystem.file_name
+             ]
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_nirsoft_tool_bundle_file_created_filter`

@@ -21,12 +21,7 @@ search: |
 
     FROM datamodel=Endpoint.Processes WHERE
 
-    [
-        | inputlookup nirsoft_utilities_lookup
-        | search original_file_name=*.exe
-        | table original_file_name
-        | rename original_file_name as Processes.original_file_name
-    ]
+    Processes.original_file_name = "*.exe"
 
     BY Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
@@ -36,6 +31,13 @@ search: |
        Processes.user Processes.user_id Processes.vendor_product
 
     | `drop_dm_object_name("Processes")`
+
+    | search [
+                 | inputlookup nirsoft_utilities_lookup
+                 | search original_file_name=*.exe
+                 | table original_file_name
+                 | rename original_file_name as Processes.original_file_name
+             ]
 
     | lookup local=t nirsoft_utilities_lookup original_file_name OUTPUT description
 

@@ -48,7 +48,9 @@ search: |
     | `drop_dm_object_name(Filesystem)`
 
     | lookup local=t remote_access_software file_name OUTPUT app as name_signature, category as name_category, reference as name_reference, description as name_description
+
     | lookup local=t remote_access_software file_path OUTPUT app as path_signature, category as path_category, reference as path_reference, description as path_description
+
     | eval signature=coalesce(nullif(name_signature, ""), path_signature),
            category=coalesce(nullif(name_category, ""), path_category),
            reference=coalesce(nullif(name_reference, ""), path_reference),
