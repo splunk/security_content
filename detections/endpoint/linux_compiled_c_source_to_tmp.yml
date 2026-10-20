@@ -82,5 +82,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/vghost/sysmon.log
           source: Syslog:Linux-Sysmon/Operational
-          sourcetype: syslog
+          sourcetype: sysmon:linux
       test_type: unit
