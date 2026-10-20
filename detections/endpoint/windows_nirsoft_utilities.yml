@@ -36,7 +36,6 @@ search: |
                  | inputlookup nirsoft_utilities_lookup
                  | search original_file_name=*.exe
                  | table original_file_name
-                 | rename original_file_name as Processes.original_file_name
              ]
 
     | lookup local=t nirsoft_utilities_lookup original_file_name OUTPUT description
