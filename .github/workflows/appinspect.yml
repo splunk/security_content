@@ -55,7 +55,7 @@ jobs:
           NEW_APP=$(ls dist/DA-ESS-ContentUpdate-*.tar.gz | head -n 1)
           echo "Comparing $NEW_APP against DA-ESS-ContentUpdate-latest.tar.gz"
           status=0
-          python scripts/compare_savedsearches.py \
+          python scripts/check_accidental_bumps.py \
             --previous-version DA-ESS-ContentUpdate-latest.tar.gz \
             --new-version "$NEW_APP" > savedsearches_comparison.md || status=$?
           cat savedsearches_comparison.md

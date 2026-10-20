@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare default/savedsearches.conf between two content-update packages.
 
-Usage: compare_savedsearches.py --previous-version OLD_ARCHIVE --new-version NEW_ARCHIVE
+Usage: check_accidental_bumps.py --previous-version OLD_ARCHIVE --new-version NEW_ARCHIVE
 
 Prints a table of every stanza (present in both packages) that changed, with
 the action.correlationsearch.metadata detection_version bump and whether any
