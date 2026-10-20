@@ -41,7 +41,7 @@ search: |-
            actions_json=json_extract(statements, "Action"),
            principal_json=json_extract(statements, "Principal")
 
-    | eval actions=if(match(actions_json, "^\s*\["), json_array_to_mv(actions_json, true()), actions_json)
+    | eval actions=if(match(actions_json, "^\s*\["), json_array_to_mv(actions_json), actions_json)
 
     | mvexpand actions
     | mvexpand actions
@@ -53,7 +53,7 @@ search: |-
     | eval aws_json=json_extract(principal_json, "AWS")
 
     | eval principals=case(
-        match(aws_json, "^\s*\["), json_array_to_mv(aws_json, true()),
+        match(aws_json, "^\s*\["), json_array_to_mv(aws_json),
         isnotnull(aws_json), aws_json,
         principal_json="*", "*"
       )
