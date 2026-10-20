@@ -48,6 +48,23 @@ jobs:
           cp -r dist/*.html artifacts/app_inspect_report
           cp -r dist/*.tar.gz artifacts/
 
+      - name: Compare savedsearches.conf against latest release
+        run: |
+          # Fails if any stanza changed without a change beyond the
+          # action.correlationsearch.metadata field (e.g. a version bump with no real change)
+          NEW_APP=$(ls dist/DA-ESS-ContentUpdate-*.tar.gz | head -n 1)
+          echo "Comparing $NEW_APP against DA-ESS-ContentUpdate-latest.tar.gz"
+          status=0
+          python scripts/compare_savedsearches.py \
+            --previous-version DA-ESS-ContentUpdate-latest.tar.gz \
+            --new-version "$NEW_APP" > savedsearches_comparison.md || status=$?
+          cat savedsearches_comparison.md
+          {
+            echo "## savedsearches.conf comparison"
+            cat savedsearches_comparison.md
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+
       # Store inspect artifacts
       - name: store_artifacts
         if: always()
