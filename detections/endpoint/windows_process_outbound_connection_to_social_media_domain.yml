@@ -1,0 +1,107 @@
+name: Windows Process Outbound Connection To Social Media Domain
+id: d6dc231e-8595-499b-889e-cf6a055df4d4
+version: 1
+creation_date: '2026-10-06'
+modification_date: '2026-10-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects outbound network connections from a Python process running from suspicious or non-standard directories to social media related domains.
+    It leverages Sysmon Event ID 3 to surface this anomalous behavior.
+    Legitimate Python applications rarely originate from paths such as "C:\Users\Public\", Windows font or debug folders, or the Recycle Bin, making direct outbound calls to social media infrastructure from these locations a strong indicator of compromise.
+    For example the Braodo Stealer, a Python-based credential-harvesting malware, abuses authenticated browser sessions to query the Meta Graph API and enumerate the victim's Facebook and Meta advertising infrastructure.
+data_source:
+    - Sysmon EventID 3
+search: |-
+    `sysmon`
+    EventCode=3
+    Image IN (
+        "*:\\$Recycle.Bin\\*",
+        "*:\\PerfLogs\\*",
+        "*:\\Users\\Administrator\\Music\\*",
+        "*:\\Users\\Public\\*",
+        "*:\\Windows\\Cursors\\*",
+        "*:\\Windows\\debug\\*",
+        "*:\\Windows\\fonts\\*",
+        "*:\\Windows\\INF\\*",
+        "*:\\Windows\\Media\\*",
+        "*:\\Windows\\Prefetch\\*",
+        "*\\Windows\\repair\\*"
+    )
+
+    process_name IN (
+        "py.exe",
+        "pypy.exe",
+        "python.exe",
+        "python2*.exe",
+        "python3*.exe",
+        "pythonw.exe"
+    )
+
+    dest IN (
+        "*.facebook.com",
+        "*.facebook.net",
+        "*.facebook.org",
+        "*.fb.com",
+        "*.fbcd.net",
+        "*.fbsbx.com",
+        "*.fbstatic-a.akamaihd.net",
+        "*.tfbw.net"
+    )
+    direction = outbound
+
+    | rename Image as process_path
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+      by action app dest dest_ip dest_port direction dvc protocol protocol_version
+         process_path process_name process_guid process_id
+         src src_ip src_port transport user vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_process_outbound_connection_to_social_media_domain_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting logs with the process name and sysmon eventcode = 3 connection events from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: |-
+    No false positives have been identified at this time.
+references:
+    - https://www.splunk.com/en_us/blog/security/cracking-braodo-stealer-analyzing-python-malware-and-its-obfuscated-loader.html
+drilldown_searches:
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: src
+          type: system
+          score: 20
+          message: A python process located in [$process_path$] with the name [$process_name$] and GUID [$process_guid$] and ID [$process_id$] was observed accessing a social media domain [$dest$]
+threat_objects:
+    - field: process_path
+      type: file_path
+analytic_story:
+    - Braodo Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1586.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.001/python_fb/python_facebook.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
