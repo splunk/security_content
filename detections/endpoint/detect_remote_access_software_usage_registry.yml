@@ -2,7 +2,7 @@ name: Detect Remote Access Software Usage Registry
 id: 33804986-25dd-43cf-bb6b-dc14956c7cbc
 version: 15
 creation_date: '2024-12-28'
-modification_date: '2026-10-08'
+modification_date: '2026-10-19'
 author: Steven Dick, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -54,11 +54,15 @@ search: |-
 
     | `drop_dm_object_name(Registry)`
 
-    | rex field=registry_value_data "(?i)(?:^|\\)(?<file_name>[^\\\/\'\"]+\.\w{2,5})\b"
-    | rex field=registry_value_data "(?i)(?<file_path>\w\:[\\](?:[^\\\/\'\"]+\\)+[^\\\/\'\"]+\.\w{2,5})\b"
+    | rex field=registry_value_data "(?i)(?:^|\x5c)(?<file_name>[^\x5c/\x27\x22]+\.\w{2,5})\b"
+    | rex field=registry_value_data "(?i)(?<file_path>\w:\x5c(?:[^\x5c/\x27\x22]+\x5c)+[^\x5c/\x27\x22]+\.\w{2,5})\b"
 
-    | lookup local=t remote_access_software file_name OUTPUT app as signature, category, reference, description
-    | lookup local=t remote_access_software file_path OUTPUT app as signature, category, reference, description
+    | lookup local=t remote_access_software file_name OUTPUT app as name_signature, category as name_category, reference as name_reference, description as name_description
+    | lookup local=t remote_access_software file_path OUTPUT app as path_signature, category as path_category, reference as path_reference, description as path_description
+    | eval signature=coalesce(nullif(name_signature, ""), path_signature),
+           category=coalesce(nullif(name_category, ""), path_category),
+           reference=coalesce(nullif(name_reference, ""), path_reference),
+           description=coalesce(nullif(name_description, ""), path_description)
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
