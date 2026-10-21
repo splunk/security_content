@@ -1,39 +1,78 @@
 name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
-version: 18
+version: 19
 creation_date: '2024-03-06'
-modification_date: '2026-09-22'
-author: Steven Dick, Sebastian Wurl, Splunk Community
+modification_date: '2026-10-19'
+author: Steven Dick, Sebastian Wurl, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the execution of known remote access software within the environment. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent processes mapped to the Endpoint data model. We then compare with with a list of known remote access software shipped as a lookup file - remote_access_software. This activity is significant as adversaries often use remote access tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer to maintain unauthorized access. If confirmed malicious, this could allow attackers to control systems remotely, exfiltrate data, or deploy additional malware, posing a severe threat to the organization's security.
+description: |-
+    The following analytic detects the execution of known remote access software within the environment.
+    It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent processes mapped to the Endpoint data model. We then compare with with a list of known remote access software shipped as a lookup file - remote_access_software.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.parent_process) as parent_process
-      from datamodel=Endpoint.Processes
-      where
-      [| inputlookup remote_access_software where isutility=TRUE
-      | rename remote_utility AS Processes.process_name
-      | fields Processes.process_name]
-      AND Processes.dest!="unknown"
-      AND Processes.user!="unknown"
-      by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+            values(Processes.parent_process) as parent_process
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    [
+      | inputlookup remote_access_software
+      | search file_name!=""
+      | rename file_name as Processes.process_name
+      | table Processes.process_name
+    ]
+
+    Processes.dest!="unknown"
+    Processes.user!="unknown"
+
+    BY Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id
+       Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+
+    | lookup local=t remote_access_software file_name AS process_name OUTPUT app as signature, category, reference, description
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `drop_dm_object_name(Processes)`
-    | lookup local=t remote_access_software remote_utility AS process_name OUTPUT isutility description AS signature comment_reference AS desc category
-    | search isutility = TRUE
+
     | `remote_access_software_usage_exceptions`
+
     | `detect_remote_access_software_usage_process_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process. The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions" that lets you track and maintain device- based exceptions for this set of detections.
-known_false_positives: It is possible that legitimate remote access software is used within the environment. Ensure that the lookup is reviewed and updated with any additional remote access software that is used within the environment. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related
+    telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name,
+    and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology
+    Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common
+    Information Model (CIM) to normalize the field names and speed up the data modeling process. The "exceptions" macro leverages both an Assets and Identities
+    lookup, as well as a KVStore collection called "remote_software_exceptions" that lets you track and maintain device- based exceptions for this set of detections.
+known_false_positives: |-
+    It is possible that legitimate remote access software is used within the environment. Ensure that the lookup is reviewed and updated with any additional
+    remote access software that is used within the environment. Known false positives can be added to the remote_access_software_usage_exception.csv lookup
+    to globally suppress these situations across all remote access content
 references:
     - https://attack.mitre.org/techniques/T1219/
     - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
     - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L5
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L95
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L222
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L250
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L287
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L314
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L342
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L371
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L452
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L483
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1219/T1219.yaml#L509
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -52,11 +91,11 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A process for a known remote access software $process_name$ was identified on $dest$.
+          message: A process [$process_name$] for a known remote access software [$signature$] was identified on [$dest$] by [$user$].
         - field: user
           type: user
           score: 20
-          message: A process for a known remote access software $process_name$ was identified on $dest$.
+          message: A process [$process_name$] for a known remote access software [$signature$] was identified on [$dest$] by [$user$].
 threat_objects:
     - field: process_name
       type: process_name
@@ -77,6 +116,18 @@ analytic_story:
     - Scattered Lapsus$ Hunters
     - Storm-0501 Ransomware
 asset_type: Endpoint
+atomic_guid:
+    - 8ca3b96d-8983-4a7f-b125-fc98cc0a2aa0
+    - d03683ec-aae0-42f9-9b4c-534780e0f8e1
+    - 0ae9e327-3251-465a-a53b-485d4e3f58fa
+    - fbff3f1f-b0bf-448e-840f-7e1687affdce
+    - ecca999b-e0c8-40e8-8416-ad320b146a75
+    - 19acf63b-55c4-4b6a-8552-00a8865105c8
+    - 42e51815-a6cc-4c75-b970-3f0ff54b610e
+    - b1b8128b-c5d4-4de9-bf70-e60419274562
+    - b025c580-029e-4023-888d-a42710d76934
+    - 3e1858ee-3550-401c-86ec-5e70ed79295b
+    - 1aea6d15-70f1-4b4e-8b02-397b5d5ffe75
 mitre_attack_id:
     - T1219
 product:

@@ -11,7 +11,7 @@ separator:
 supported_TA:
     - name: Cisco Enterprise Networking Add-on for Splunk
       url: https://splunkbase.splunk.com/app/7538
-      version: 4.0.35
+      version: 4.0.50
 fields:
     - _time
     - aci_message_text

@@ -1,0 +1,91 @@
+name: PowerShell Download from Code Hosting Service
+id: 3ffbd4d4-84a7-453e-9e06-8e9cd0350366
+version: 1
+creation_date: '2026-10-06'
+modification_date: '2026-10-13'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects PowerShell Script Block Logging (Event ID 4104) events that use common download methods to retrieve files directly from raw-content URLs on GitHub, GitLab, or Codeberg.
+    These code hosting services can be abused to stage payloads, but administrators and developers also download files from them.
+    A match identifies a download attempt; it does not establish that the file was successfully retrieved or executed. Review the full script block, destination path, process ancestry, and related endpoint activity.
+data_source:
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell` EventCode=4104 ScriptBlockText IN ("*.DownloadFile(*", "*.DownloadData(*", "*.DownloadString(*", "*Invoke-WebRequest*", "*Invoke-RestMethod*", "*Start-BitsTransfer*", "*iwr *", "*irm *", "*curl *", "*wget *")
+    | where match(
+        ScriptBlockText,
+        "(?ix)
+            (?:
+                \.Download(?:File|Data|String)\s*\(\s*['\"]?
+                |
+                (?:Invoke-WebRequest|Invoke-RestMethod|iwr|irm)
+                (?:\s+(?:-Uri\s+)?|\b[^;\r\n]{0,200}?\s-Uri\s+)['\"]?
+                |
+                Start-BitsTransfer\b[^;\r\n]{0,200}?-Source\s+['\"]?
+                |
+                (?:curl|wget)\s+(?:-Uri\s+)?['\"]?
+            )
+            https?://
+            (?:
+                raw\.githubusercontent\.com/[^/\s'\"]+/[^/\s'\"]+/[^/\s'\"]+(?:/[^/\s'\"]+)*
+                |
+                (?:github|gitlab)\.com/[^/\s'\"]+/[^/\s'\"]+/(?:-/)?raw/(?:refs/(?:heads|tags)/)?[^/\s'\"]+(?:/[^/\s'\"]+)*
+                |
+                codeberg\.org/[^/\s'\"]+/[^/\s'\"]+/raw/(?:branch/)?[^/\s'\"]+(?:/[^/\s'\"]+)*
+            )
+            \.(?:bat|cmd|ps1|js|vbs|vbe|py|zip|7z|rar|tar|gz|exe|dll|msi)
+            (?:[?#][^\s'\"]*)?
+            (?=['\"\s),;]|$)"
+    )
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `powershell_download_from_code_hosting_service_filter`
+how_to_implement: |-
+    To implement this analytic, enable PowerShell Script Block Logging and ingest Event ID 4104 events with the `ScriptBlockText` field extracted.
+    Confirm that the `powershell` macro scopes the search to the correct PowerShell Operational logs in your environment.
+known_false_positives: |-
+    Administrators, developers, and software deployment tools may download legitimate files from GitHub, GitLab, and Codeberg.
+    Review repository ownership, the downloaded file, destination path, signer where applicable, process ancestry, and subsequent execution before taking action.
+references:
+    - https://www.splunk.com/en_us/blog/security/cracking-braodo-stealer-analyzing-python-malware-and-its-obfuscated-loader.html
+    - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows?view=powershell-7.6
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: A PowerShell script on [$dest$] invoked a download method with a raw code-hosting URL in ScriptBlockText with ScriptBlockId [$ScriptBlockId$].
+threat_objects: []
+analytic_story:
+    - Braodo Stealer
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+    - T1105
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_github/powershell_githu_download.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

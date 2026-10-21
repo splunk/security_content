@@ -1,0 +1,36 @@
+name: Zeek HTTP
+id: 257a3ae6-a3f6-44e0-9d10-bdc5b4f011a3
+version: 1
+creation_date: '2026-10-12'
+modification_date: '2026-10-12'
+author: Raven Tait, Nasreddine Bencherchali, Splunk
+description: Logs HTTP requests and responses analyzed by Zeek, including methods, URI, host, status codes, and request bodies when configured.
+mitre_components:
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Application Log Content
+source: http.log
+sourcetype: zeek:http
+supported_TA:
+    - name: TA for Zeek
+      url: https://splunkbase.splunk.com/app/5466
+      version: 1.0.11
+fields:
+    - id.orig_h
+    - id.orig_p
+    - id.resp_h
+    - id.resp_p
+    - method
+    - uri
+    - host
+    - status_code
+    - post_body
+    - user_agent
+output_fields:
+    - id.orig_h
+    - id.resp_h
+    - id.resp_p
+    - uri
+    - method
+    - status_code
+example_log: '{"ts": 1665164348.511363, "uid": "Ct9dph2EXJhTjowDF3", "id.orig_h": "192.168.196.131", "id.orig_p": 50050, "id.resp_h": "192.168.196.129", "id.resp_p": 80, "trans_depth": 13, "method": "POST", "host": "192.168.196.129", "uri": "/test.php", "version": "1.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36", "request_body_len": 108, "response_body_len": 0, "status_code": 200, "status_msg": "OK", "tags": [], "orig_fuids": ["FwroIQ2TSmbiOBzVz4"], "orig_mime_types": ["text/plain"], "post_body": "hMUlHTVEzmc+5fNbbspSRUEVsphYbAJ2Sy3CJZ9K12xyL1cRo1jrslMNWGGNnxbHB14R/CMybW0Z2+wOIuWtkDfKUG2IMpcOUutkDFdSiKo=", "client_header_names": ["USER-AGENT", "HOST", "CONTENT-LENGTH", "CACHE-CONTROL"], "client_header_values": ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36", "192.168.196.129", "108", "no-cache"], "server_header_names": ["CONTENT-TYPE", "DATE", "CONTENT-LENGTH"], "server_header_values": ["text/html", "Fri, 07 Oct 2022 17:39:09 GMT", "0"], "row_id": "dd80e4d5-b10b-4de0-bcd8-dba62c2901ea", "snapattack_session": "e50dc64e-0fc6-b1ad-429c-23ccdd5452c4"}'
