@@ -16,9 +16,9 @@ sourcetype: sysmon:linux
 separator: EventID
 separator_value: '1'
 supported_TA:
-    - name: Splunk Add-on for Sysmon for Linux
-      url: https://splunkbase.splunk.com/app/6652
-      version: 1.0.0
+    - name: Add-on for Linux Sysmon
+      url: https://splunkbase.splunk.com/app/6176
+      version: 1.0.4
 fields:
     - _time
     - Channel
