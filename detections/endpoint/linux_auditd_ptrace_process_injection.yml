@@ -28,7 +28,7 @@ references:
     - https://attack.mitre.org/techniques/T1003/
     - https://man7.org/linux/man-pages/man2/ptrace.2.html
     - https://www.exploit-db.com/exploits/47163
-    - https://github.com/gladiatx0r/3snake
+    - https://github.com/blendin/3snake
     - https://www.akamai.com/blog/security-research/the-definitive-guide-to-linux-process-injection
 drilldown_searches:
     - name: View the detection results for - "$dest$"
