@@ -10,18 +10,19 @@ description: The following analytic detects use of the ptrace(2) syscall to atta
 data_source:
     - Linux Auditd Syscall
 search: |-
-    `linux_auditd` type=SYSCALL (syscall=ptrace OR syscall=101)
-      | eval request=case(a0 IN ("0","0x0"),"PTRACE_TRACEME", a0 IN ("16","0x10"),"PTRACE_ATTACH", a0 IN ("16902","0x4206"),"PTRACE_SEIZE", a0 IN ("4","0x4"),"PTRACE_POKETEXT", a0 IN ("5","0x5"),"PTRACE_POKEDATA", a0 IN ("6","0x6"),"PTRACE_POKEUSR", true(),"other:".a0)
+    `linux_auditd` type=SYSCALL SYSCALL=ptrace
+      | eval request=case(a0="0","PTRACE_TRACEME", a0="10","PTRACE_ATTACH", a0="11","PTRACE_DETACH", a0="4206","PTRACE_SEIZE", a0="4","PTRACE_POKETEXT", a0="5","PTRACE_POKEDATA", a0="6","PTRACE_POKEUSER", true(),"other:0x".a0)
       | where request!="PTRACE_TRACEME"
-      | rename host as dest, a1 as target_pid
+      | eval target_pid=tonumber(a1,16)
+      | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
-        BY comm exe syscall request target_pid
-           uid auid ppid pid proctitle key
+        BY comm exe request target_pid
+           uid auid ppid pid key
            dest
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
       | `linux_auditd_ptrace_process_injection_filter`
-how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, TYPE, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize field names to the Splunk CIM. Critically, the host must have an audit rule that logs the ptrace syscall, otherwise no events are generated and this detection is blind. Add to /etc/audit/rules.d/ and reload with augenrules --load - "-a always,exit -F arch=b64 -S ptrace -k ptrace" and "-a always,exit -F arch=b32 -S ptrace -k ptrace". Confirm the a0/a1/comm/exe field names against a real event before enabling, as auditd field extraction can vary by deployment.
+how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, TYPE, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize field names to the Splunk CIM. Critically, the host must have an audit rule that logs the ptrace syscall, otherwise no events are generated and this detection is blind. Add to /etc/audit/rules.d/ and reload with augenrules --load - "-a always,exit -F arch=b64 -S ptrace -k ptrace" and "-a always,exit -F arch=b32 -S ptrace -k ptrace". The interpreted syscall name is in the uppercase SYSCALL field (lowercase syscall is numeric and arch-specific); syscall arguments a0/a1 are unprefixed hexadecimal, so the ptrace request is decoded from a0 (hex) and the target pid from a1 via tonumber(a1,16). proctitle is on the separate PROCTITLE record and is intentionally not used as a grouping field here. Confirm field names against a real event before enabling, as auditd extraction can vary by deployment.
 known_false_positives: Debuggers and profilers (gdb, lldb, strace, ltrace, gcore, perf), crash handlers (systemd-coredump, apport), and container runtimes (runc, containerd, dockerd) legitimately issue cross-process ptrace. Update the filter macro to remove false positives for your host roles.
 references:
     - https://attack.mitre.org/techniques/T1055/008/
