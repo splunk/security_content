@@ -1,11 +1,11 @@
-name: Linux Auditd Ptrace Process Injection Or Credential Access
+name: Linux Auditd Cross-Process Ptrace Activity
 id: f8c6ebe4-cacd-444d-b052-3da6ea5c1c0f
 version: 1
 creation_date: '2026-10-20'
 modification_date: '2026-10-21'
 author: vahid malekmohammadi
 status: production
-type: TTP
+type: Anomaly
 description: The following analytic detects use of the ptrace(2) syscall to attach to, seize, or write into the memory of another process on a Linux host. It leverages Linux Auditd SYSCALL records, focusing on the ptrace request stored in the first syscall argument (a0) and the target pid (a1). Cross-process ptrace is the core primitive behind local process injection and in-memory credential theft (for example reading secrets out of sshd, ssh-agent, gpg-agent, or a browser). PTRACE_TRACEME (a0=0), a process tracing itself for anti-debug, is intentionally excluded. If confirmed malicious, this activity could allow an attacker to inject code into a trusted process or steal credentials directly from memory.
 data_source:
     - Linux Auditd Syscall
