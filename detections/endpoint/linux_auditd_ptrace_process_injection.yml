@@ -2,7 +2,7 @@ name: Linux Auditd Ptrace Process Injection Or Credential Access
 id: f8c6ebe4-cacd-444d-b052-3da6ea5c1c0f
 version: 1
 creation_date: '2026-10-20'
-modification_date: '2026-10-20'
+modification_date: '2026-10-21'
 author: vahid malekmohammadi
 status: production
 type: TTP
@@ -27,6 +27,9 @@ references:
     - https://attack.mitre.org/techniques/T1055/008/
     - https://attack.mitre.org/techniques/T1003/
     - https://man7.org/linux/man-pages/man2/ptrace.2.html
+    - https://www.exploit-db.com/exploits/47163
+    - https://github.com/gladiatx0r/3snake
+    - https://www.akamai.com/blog/security-research/the-definitive-guide-to-linux-process-injection
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
