@@ -13,7 +13,7 @@ data_source:
 search: >-
     `azure_monitor_aad` operationName="Register device"
     | rename properties.* as *, targetResources{}.displayName as dvc, userAgent as user_agent
-    | where match(dvc, "^DESKTOP-[A-Z0-9]{6}$") OR match(dvc, "^DESKTOP-[A-Z0-9]{8}$") OR match(user_Agent, "^Dsreg\/10\.0 \(Windows 10\.0\.19041\.928\)$")
+    | where match(dvc, "^DESKTOP-[A-Z0-9]{6}$") OR match(dvc, "^DESKTOP-[A-Z0-9]{8}$") OR match(user_agent, "^Dsreg\/10\.0 \(Windows 10\.0\.19041\.928\)$")
     | fillnull
     | table _time user user_agent signature result src dvc vendor_account vendor_product
     | stats count min(_time) as firstTime max(_time) as lastTime values(*) as * by user signature vendor_account vendor_product
@@ -25,12 +25,12 @@ known_false_positives: Users may register devices with names that match the susp
 references:
     - https://www.wiz.io/blog/detecting-entra-device-registration-abuse
 drilldown_searches:
-    - name: View the detection results for - "risk_object$"
-      search: '%original_detection_search% | search  risk_object = "risk_object$"'
-      earliest_offset: info_min_time$
-      latest_offset: info_max_time$
-    - name: View risk events for the last 7 days for - "risk_object$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    - name: View the detection results for - "$risk_object$"
+      search: '%original_detection_search% | search  risk_object = "$risk_object$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$risk_object$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
