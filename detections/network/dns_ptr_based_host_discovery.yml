@@ -26,6 +26,8 @@ intermediate_findings:
           message: DNS PTR-based host discovery from $src$
 references:
     - https://attack.mitre.org/techniques/T1018/
+    - https://nmap.org/book/host-discovery-dns.html
+    - https://medium.com/@mehrab.bakhtar/who-is-really-scanning-your-network-next-generation-detection-for-nmap-3d4e0589e177
 mitre_attack_id:
     - T1018
 analytic_story:
@@ -37,6 +39,14 @@ product:
     - Splunk Cloud
 category: network
 security_domain: network
+drilldown_searches:
+    - name: View DNS PTR Queries for - "$src$"
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.query) as all_query FROM datamodel=Network_Resolution WHERE DNS.record_type="PTR" DNS.src="$src$" BY DNS.src
+        | `drop_dm_object_name("DNS")`
+        | `security_content_ctime(firstTime)`
+        | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 tests:
     - name: Manual Validation
       description: Manually validate that a source generating at least 80 unique DNS PTR queries is returned by the detection.
