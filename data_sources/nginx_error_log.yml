@@ -6,7 +6,11 @@ modification_date: '2026-10-22'
 author: Nasreddine Bencherchali, Onur Erdogan, Raven Tait, Splunk
 description: Nginx error log events including severity, process and thread identifiers, client address, server, request, and error message details.
 mitre_components:
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Response Metadata
     - Application Log Content
+    - User Account Metadata
 source: /var/log/nginx/error.log
 sourcetype: nginx:plus:error
 supported_TA:
