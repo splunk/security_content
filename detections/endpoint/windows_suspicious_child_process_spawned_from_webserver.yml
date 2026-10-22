@@ -1,30 +1,94 @@
 name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
-version: 12
+version: 13
 creation_date: '2023-04-12'
-modification_date: '2026-05-13'
+modification_date: '2026-10-22'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic identifies the execution of suspicious processes typically associated with WebShell activity on web servers. It detects when processes like `cmd.exe`, `powershell.exe`, or `bash.exe` are spawned by web server processes such as `w3wp.exe` or `nginx.exe`. This behavior is significant as it may indicate an adversary exploiting a web application vulnerability to install a WebShell, providing persistent access and command execution capabilities. If confirmed malicious, this activity could allow attackers to maintain control over the compromised server, execute arbitrary commands, and potentially escalate privileges or exfiltrate sensitive data.
+description: |-
+    The following analytic identifies the execution of suspicious processes typically associated with WebShell activity on web servers.
+    It detects when processes like `cmd.exe`, `powershell.exe`, or `bash.exe` are spawned by web server processes such as `w3wp.exe` or `nginx.exe`.
+    This behavior is significant as it may indicate an adversary exploiting a web application vulnerability to install a WebShell, providing persistent access and command execution capabilities.
+    If confirmed malicious, this activity could allow attackers to maintain control over the compromised server, execute arbitrary commands, and potentially escalate privileges or exfiltrate sensitive data.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime FROM datamodel=Endpoint.Processes
-      WHERE (
-            Processes.process_name IN ("arp.exe","at.exe","bash.exe","bitsadmin.exe","certutil.exe","cmd.exe","cscript.exe", "dsget.exe","dsquery.exe","find.exe","findstr.exe","fsutil.exe","hostname.exe","ipconfig.exe","ksh.exe","nbstat.exe", "net.exe","net1.exe","netdom.exe","netsh.exe","netstat.exe","nltest.exe","nslookup.exe","ntdsutil.exe","pathping.exe", "ping.exe","powershell.exe","pwsh.exe","qprocess.exe","query.exe","qwinsta.exe","reg.exe","rundll32.exe","sc.exe", "scrcons.exe","schtasks.exe","sh.exe","systeminfo.exe","tasklist.exe","tracert.exe","ver.exe","vssadmin.exe", "wevtutil.exe","whoami.exe","wmic.exe","wscript.exe","wusa.exe","zsh.exe")
-            AND
-            Processes.parent_process_name IN ("w3wp.exe", "http*.exe", "nginx*.exe", "php*.exe", "php-cgi*.exe","tomcat*.exe")
+    | tstats `security_content_summariesonly`
+      count max(_time) as lastTime
+            min(_time) as firstTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.parent_process_name IN (
+            "caddy.exe",
+            "http*.exe",
+            "java.exe",
+            "nginx*.exe",
+            "node.exe",
+            "php*.exe",
+            "tomcat*.exe"
+            "UMWorkerProcess.exe",
+            "w3wp.exe",
+            "ws_TomcatService.exe"
         )
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+
+    Processes.process_name IN (
+        "arp.exe",
+        "at.exe",
+        "bitsadmin.exe",
+        "certutil.exe",
+        "cscript.exe",
+        "dsget.exe",
+        "dsquery.exe",
+        "find.exe",
+        "findstr.exe",
+        "fsutil.exe",
+        "hostname.exe",
+        "ipconfig.exe",
+        "ksh.exe",
+        "nbstat.exe",
+        "net.exe",
+        "net1.exe",
+        "netdom.exe",
+        "netsh.exe",
+        "netstat.exe",
+        "nltest.exe",
+        "nslookup.exe",
+        "ntdsutil.exe",
+        "pathping.exe",
+        "ping.exe",
+        "qprocess.exe",
+        "query.exe",
+        "qwinsta.exe",
+        "reg.exe",
+        "rundll32.exe",
+        "sc.exe",
+        "schtasks.exe",
+        "scrcons.exe",
+        "systeminfo.exe",
+        "tasklist.exe",
+        "tracert.exe",
+        "ver.exe",
+        "vssadmin.exe",
+        "wevtutil.exe",
+        "whoami.exe",
+        "wmic.exe",
+        "wscript.exe",
+        "wusa.exe",
+        "zsh.exe"
+    )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name("Processes")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -49,12 +113,14 @@ intermediate_findings:
         - field: user
           type: user
           score: 10
-          message: Webshell Exploit Behavior - $parent_process_name$ spawned $process_name$ on $dest$.
+          message: Webshell Exploit Behavior - [$parent_process_name$] spawned [$process_name$] on [$dest$].
         - field: dest
           type: system
           score: 10
-          message: Webshell Exploit Behavior - $parent_process_name$ spawned $process_name$ on $dest$.
+          message: Webshell Exploit Behavior - [$parent_process_name$] spawned [$process_name$] on [$dest$].
 threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
     - field: process_name
       type: process_name
 analytic_story:
