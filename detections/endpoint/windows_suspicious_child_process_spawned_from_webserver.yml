@@ -23,12 +23,16 @@ search: |-
     FROM datamodel=Endpoint.Processes WHERE
 
     Processes.parent_process_name IN (
+            "apache*.exe",
             "caddy.exe",
+            "frankenphp.exe",
             "http*.exe",
+            "iisexpress.exe",
             "java.exe",
+            "lighttpd.exe",
             "nginx*.exe",
-            "node.exe",
             "php*.exe",
+            "roadrunner.exe",
             "tomcat*.exe"
             "UMWorkerProcess.exe",
             "w3wp.exe",
@@ -59,7 +63,9 @@ search: |-
         "nslookup.exe",
         "ntdsutil.exe",
         "pathping.exe",
+        "perl.exe",
         "ping.exe",
+        "python.exe",
         "qprocess.exe",
         "query.exe",
         "qwinsta.exe",
@@ -123,6 +129,8 @@ threat_objects:
       type: parent_process_name
     - field: process_name
       type: process_name
+    - field: process
+      type: process
 analytic_story:
     - Flax Typhoon
     - BlackByte Ransomware

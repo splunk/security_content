@@ -23,13 +23,12 @@ search: |
 
     (
         Processes.parent_process_name IN (
-            "apache2",
+            "apache*",
             "caddy",
             "httpd",
             "java",
             "lighttpd",
             "nginx",
-            "node",
             "php*",
             "tomcat*"
         )
@@ -38,14 +37,17 @@ search: |
     OR
     (
         Processes.parent_process_name IN (
+            "apache*.exe",
             "caddy.exe",
-            "httpd.exe",
+            "frankenphp.exe",
+            "http*.exe",
+            "iisexpress.exe",
             "java.exe",
-            "nginx.exe",
-            "node.exe",
-            "php-cgi.exe",
+            "lighttpd.exe",
+            "nginx*.exe",
             "php*.exe",
-            "tomcat*.exe",
+            "roadrunner.exe",
+            "tomcat*.exe"
             "UMWorkerProcess.exe",
             "w3wp.exe",
             "ws_TomcatService.exe"
@@ -98,6 +100,8 @@ threat_objects:
       type: parent_process_name
     - field: process_name
       type: process_name
+    - field: process
+      type: process
 analytic_story:
     - BlackByte Ransomware
     - CISA AA22-257A
