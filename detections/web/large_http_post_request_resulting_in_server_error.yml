@@ -57,6 +57,7 @@ threat_objects:
       type: ip_address
 analytic_story:
     - PHP2Shell
+asset_type: Web Application
 cve:
     - CVE-2026-109618
     - CVE-2026-109619
