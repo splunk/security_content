@@ -1,0 +1,29 @@
+name: PHP2Shell
+id: 9cb29d42-7c34-4db8-86b4-b385848d2b3c
+version: 1
+creation_date: '2026-10-22'
+modification_date: '2026-10-22'
+author: Nasreddine Bencherchali, Raven Tait, Onur Erdogan, Splunk
+status: production
+description: |-
+    This analytic story covers exploitation attempts and post-exploitation activity associated with PHP2Shell vulnerabilities.
+    The coverage includes multipart requests that trigger PHP memory exhaustion, suspicious inline PHP execution, and web server process behavior that may indicate command execution after exploitation.
+narrative: |-
+    PHP2Shell refers to vulnerabilities in PHP that can allow an attacker to reach command execution through a vulnerable PHP deployment.
+    Exploitation may be preceded by crafted multipart/form-data requests that exercise vulnerable handling of request data and trigger PHP memory exhaustion errors.
+    Successful exploitation can lead to inline PHP execution or a web application process spawning shells and other suspicious child processes.
+    Use the detections in this story together to investigate activity across the exploitation attempt and post-exploitation stages. Correlate web access and PHP error events using request identifiers where available, then examine endpoint process telemetry for PHP inline execution and unexpected child processes from web or application servers.
+    Validate the PHP version and deployment configuration, review the relevant request and error logs, and investigate processes and network activity on affected systems.
+references:
+    - https://www.php2shell.com/
+    - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection
