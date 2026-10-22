@@ -132,6 +132,7 @@ threat_objects:
     - field: process
       type: process
 analytic_story:
+    - PHP2Shell
     - Flax Typhoon
     - BlackByte Ransomware
     - CISA AA22-257A
