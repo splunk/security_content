@@ -132,23 +132,26 @@ threat_objects:
     - field: process
       type: process
 analytic_story:
-    - PHP2Shell
-    - Flax Typhoon
     - BlackByte Ransomware
     - CISA AA22-257A
-    - HAFNIUM Group
     - CISA AA22-264A
+    - Citrix ShareFile RCE CVE-2023-24489
+    - Compromised Windows Host
+    - Flax Typhoon
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - HAFNIUM Group
+    - Medusa Ransomware
+    - Microsoft SharePoint Vulnerabilities
+    - Microsoft WSUS CVE-2025-59287
+    - PHP2Shell
+    - ProxyNotShell
     - ProxyShell
     - SysAid On-Prem Software CVE-2023-47246 Vulnerability
-    - ProxyNotShell
-    - Medusa Ransomware
     - WS FTP Server Critical Vulnerabilities
-    - Compromised Windows Host
-    - Citrix ShareFile RCE CVE-2023-24489
-    - Microsoft SharePoint Vulnerabilities
-    - GhostRedirector IIS Module and Rungan Backdoor
-    - Microsoft WSUS CVE-2025-59287
 asset_type: Endpoint
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
 mitre_attack_id:
     - T1505.003
 product:

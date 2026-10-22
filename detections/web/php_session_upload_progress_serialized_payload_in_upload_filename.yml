@@ -1,4 +1,4 @@
-name: PHP Session Upload Progress with Serialized Payload in Upload Filename
+name: PHP Session Upload Progress Serialized Payload in Upload Filename
 id: 47b3ff26-c4cc-4413-9bf3-f44dbac36785
 version: 1
 creation_date: '2026-10-22'
@@ -39,7 +39,7 @@ search: |-
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `php_session_upload_progress_with_serialized_payload_in_upload_filename_filter`
+    | `php_session_upload_progress_serialized_payload_in_upload_filename_filter`
 how_to_implement: |-
     Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
     Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
