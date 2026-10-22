@@ -33,7 +33,7 @@ search: |-
             "nginx*.exe",
             "php*.exe",
             "roadrunner.exe",
-            "tomcat*.exe"
+            "tomcat*.exe",
             "UMWorkerProcess.exe",
             "w3wp.exe",
             "ws_TomcatService.exe"

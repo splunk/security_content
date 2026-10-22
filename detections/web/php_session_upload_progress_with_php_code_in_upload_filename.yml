@@ -41,7 +41,6 @@ search: |-
     | `php_session_upload_progress_with_php_code_in_upload_filename_filter`
 how_to_implement: |-
     Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
-    The "post_body" field must be populated, which requires Zeek to be configured with the HTTP post body extraction policy.
     Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
 known_false_positives: |-
     Security testing tools or development environments may upload files with PHP code in the filename. Review the request headers, destination application, and any follow-on requests or server-side execution evidence.
