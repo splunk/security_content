@@ -1,0 +1,60 @@
+name: Azure AD Suspicious Device Registration
+id: 4cfe7afd-a22b-4af5-9520-39f7f6564e7f
+version: 1
+creation_date: '2026-10-12'
+modification_date: '2026-10-12'
+author: Jake Enea
+status: production
+type: TTP
+description: >-
+    The following analytic detects suspicious Azure Active Directory device registrations by monitoring "Register device" audit events for device names matching specific DESKTOP patterns or the user agent "Dsreg/10.0 (Windows 10.0.19041.928)". This user agent may indicate device registration activity using a suspicious or atypical Windows build. Device registration can support persistence or provide a device identity that can be used to access internal resources. If confirmed malicious, an attacker could use the registered device to maintain access or facilitate further compromise of the environment.
+data_source:
+    - Azure Active Directory
+search: >-
+    `azure_monitor_aad` operationName="Register device"
+    | rename properties.* as *, targetResources{}.displayName as dvc, userAgent as user_agent
+    | where match(dvc, "^DESKTOP-[A-Z0-9]{6}$") OR match(dvc, "^DESKTOP-[A-Z0-9]{8}$") OR match(user_agent, "^Dsreg\/10\.0 \(Windows 10\.0\.19041\.928\)$")
+    | fillnull
+    | table _time user user_agent signature result src dvc vendor_account vendor_product
+    | stats count min(_time) as firstTime max(_time) as lastTime values(*) as * by user signature vendor_account vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `azure_ad_suspicious_device_registration_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: Users may register devices with names that match the suspicious patterns. Filter as needed.
+references:
+    - https://www.wiz.io/blog/detecting-entra-device-registration-abuse
+drilldown_searches:
+    - name: View the detection results for - "$risk_object$"
+      search: '%original_detection_search% | search  risk_object = "$risk_object$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$risk_object$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Suspicious device registered by $user$ with device name $dvc$
+    entity:
+        field: user
+        type: user
+        score: 50
+analytic_story:
+    - Azure Active Directory Account Takeover
+    - Azure Active Directory Persistence
+asset_type: Azure Active Directory
+mitre_attack_id:
+    - T1098.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: identity
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/azure_ad_suspicious_device_registration/azure_ad_suspicious_device_registration.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad
+      test_type: unit
