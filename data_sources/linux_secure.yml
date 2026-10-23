@@ -1,8 +1,8 @@
 name: Linux Secure
 id: 9a47d88b-1b17-49ce-a0ef-b440ddbd98bb
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs authentication and authorization events on a Linux system, including login attempts, SSH connections, and privilege escalation activities.
 mitre_components:
@@ -30,18 +30,23 @@ fields:
     - date_year
     - date_zone
     - dest
+    - dest_dns
     - dvc
     - eventtype
     - host
     - index
     - linecount
+    - name
     - pid
     - process
     - punct
+    - reason
+    - signature
     - source
     - sourcetype
     - splunk_server
     - src
+    - src_ip
     - src_port
     - sshd_protocol
     - tag
@@ -49,8 +54,10 @@ fields:
     - tag::eventtype
     - timeendpos
     - timestartpos
+    - uid
     - user
     - user_name
     - vendor_action
     - vendor_product
-example_log: 'May 27 09:28:36 ip-172-31-24-46 sshd[5617]: Accepted password for mikael from 84.202.159.161 port 63487 ssh2'
+example_log: |
+    May 27 09:28:36 ip-172-31-24-46 sshd[5617]: Accepted password for mikael from 84.202.159.161 port 63487 ssh2

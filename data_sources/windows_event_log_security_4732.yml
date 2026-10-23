@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4732
 id: b0d61c5d-aefe-486a-9152-de45cc10fbb4
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a member is added to a security-enabled local group on a Windows system.
 mitre_components:
@@ -17,63 +17,51 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - Account_Domain
-    - Account_Name
-    - CategoryString
-    - ComputerName
-    - Error_Code
-    - EventCode
-    - EventType
-    - Group_Domain
-    - Group_Name
-    - Keywords
-    - LogName
-    - Logon_ID
-    - Message
-    - OpCode
-    - Privileges
-    - RecordNumber
-    - Security_ID
-    - SourceName
-    - Subject_Account_Domain
-    - Subject_Account_Name
-    - Subject_Logon_ID
-    - Subject_Security_ID
-    - TaskCategory
-    - Type
     - action
     - app
-    - body
-    - category
+    - Caller_Domain
+    - Caller_User_Name
+    - CategoryString
     - change_type
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - Channel
+    - Computer
     - dest
     - dest_nt_domain
-    - dest_nt_host
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
     - eventtype
+    - Group_Domain
+    - Group_Name
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
-    - member_dn
-    - member_id
-    - member_nt_domain
+    - Logon_ID
+    - member_user_name
+    - MemberName
+    - MemberSid
+    - Name
     - name
+    - object
     - object_attrs
     - object_category
-    - privilege_id
+    - object_id
+    - Opcode
+    - PrivilegeList
+    - ProcessID
     - product
     - punct
+    - RecordNumber
     - result
     - session_id
     - severity
@@ -84,21 +72,37 @@ fields:
     - sourcetype
     - splunk_server
     - src_nt_domain
+    - src_subject_user_id
     - src_user
+    - src_user_name
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - ta_windows_security_CategoryString
     - tag
-    - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Target_Domain
+    - Target_User_Name
+    - TargetDomainName
+    - TargetSid
+    - TargetUserName
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - user
     - user_group
+    - user_name
     - vendor
-    - vendor_privilege
     - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: 10/09/2020 10:41:26 AM
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4732</EventID><Version>0</Version><Level>0</Level><Task>13826</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2023-04-06T18:45:13.034499300Z'/><EventRecordID>170552</EventRecordID><Correlation/><Execution ProcessID='624' ThreadID='3280'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='MemberName'>CN=MAURICE_ANDERSON,OU=Groups,OU=BDE,OU=Tier 1,DC=attackrange,DC=local</Data><Data Name='MemberSid'>ATTACKRANGE\MAURICE_ANDERSON</Data><Data Name='TargetUserName'>DnsAdmins</Data><Data Name='TargetDomainName'>ATTACKRANGE</Data><Data Name='TargetSid'>ATTACKRANGE\DnsAdmins</Data><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x5184c3</Data><Data Name='PrivilegeList'>-</Data></EventData></Event>

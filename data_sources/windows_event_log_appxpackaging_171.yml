@@ -1,8 +1,8 @@
 name: Windows Event Log AppXPackaging 171
 id: 2d0f8e3c-a2d7-4b9e-8f1c-6a5d7e3e9f2b
-version: 2
+version: 3
 creation_date: '2025-08-18'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Michael Haag, Splunk
 description: 'This data source captures Windows Event Logs from the Microsoft-Windows-AppXPackaging/Operational channel, specifically focusing on EventCode 171. These events are generated when a user clicks on or attempts to interact with an MSIX package, even if the package is not fully installed.
 
@@ -21,32 +21,120 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/742
       version: 11.0.3
 fields:
+    - _time
+    - action
+    - ActivityID
+    - CallingProcess
+    - CallOrigin
     - CategoryString
     - Channel
     - Computer
+    - DependencyPaths
+    - DeploymentOperation
+    - DeploymentOptions
+    - DestinationFolderPath
+    - DetailedMessageInfo
+    - directlyServicedPackagesList
+    - dvc
+    - dvc_nt_host
+    - Error
+    - ErrorCode
+    - ErrorCount
+    - ErrorFileInfo
+    - event_id
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
+    - FailedDeploymentState
+    - filename
+    - FilePath
+    - Flags
+    - FlagsHigh
+    - forceUpdateDeferredByPackage
+    - Guid
+    - HasFullTrust
+    - HasWin32alacarte
+    - host
+    - id
+    - index
+    - indirectlyServicedPackagesList
+    - IsCentennial
+    - IsInPlaceUpdate
+    - IsInRelatedSet
+    - IsOptional
+    - IsPackageEncrypted
+    - IsPackageUsingBDC
+    - isSessionLocked
+    - IsStreamingPackage
     - Keywords
     - Level
+    - linecount
+    - MainPackageFamilyName
+    - MainPackageFullName
+    - MainPackageMoniker
+    - Message
+    - MountPoint
+    - Name
+    - name
+    - namespace
+    - numAttempts
     - Opcode
+    - PackageDisplayName
+    - PackageFlags
+    - PackageFlags2
+    - PackageFullName
+    - packageFullName
+    - PackageList
+    - PackageMoniker
+    - PackageName
+    - PackageSourceUri
+    - PackageType
+    - Path
     - ProcessID
+    - punct
     - RecordNumber
-    - SourceName
-    - SystemTime
+    - RequeueReason
+    - ResiliencyFilePath
+    - RollbackDetailedMessageInfo
+    - RollbackErrorFileInfo
+    - runningAppsList
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - SourceFolderPath
+    - sourcetype
+    - splunk_server
+    - StatusToClear
+    - StatusToSet
+    - StorageId
+    - String
+    - subject
+    - subjectName
+    - Summary
+    - SummaryError
     - System_Props_Xml
+    - SystemTime
+    - SystemVolume
+    - tag
+    - tag::eventtype
+    - TargetPlatform
     - Task
     - TaskCategory
     - ThreadID
-    - Version
-    - _time
-    - dest
-    - host
-    - packageFullName
+    - timestamp
     - user_id
+    - UserID
+    - UserSid
+    - userSid
+    - vendor_product
+    - Version
 references:
     - https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
     - https://www.appdeploynews.com/packaging-types/msix/troubleshooting-an-msix-package/
     - https://redcanary.com/blog/msix-installers/
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-AppXPackaging' Guid='{4bfe0fde-99d6-5630-8a47-da7bfaefd876}'/><EventID>171</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x4000000000000000</Keywords><TimeCreated SystemTime='2025-08-05T12:34:56.7890123Z'/><EventRecordID>123456</EventRecordID><Correlation/><Execution ProcessID='1234' ThreadID='5678'/><Channel>Microsoft-Windows-AppXPackaging/Operational</Channel><Computer>DESKTOP-EXAMPLE</Computer><Security UserID='S-1-5-21-1234567890-1234567890-1234567890-1001'/></System><EventData><Data Name='packageFullName'>MaliciousApp_1.0.0.0_x64__abcd1234</Data></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-AppXDeployment-Server' Guid='{3f471139-acb7-4a01-b7a7-ff5da4ba2d43}'/><EventID>8100</EventID><Version>0</Version><Level>5</Level><Task>49</Task><Opcode>0</Opcode><Keywords>0x4000000000000001</Keywords><TimeCreated SystemTime='2025-08-05T16:59:12.6240071Z'/><EventRecordID>15605</EventRecordID><Correlation/><Execution ProcessID='10864' ThreadID='10184'/><Channel>Microsoft-Windows-AppXDeploymentServer/Operational</Channel><Computer>HaagMSIX</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='PackageFullName'>Microsoft.WidgetsPlatformRuntime_1.6.9.0_x64__8wekyb3d8bbwe</Data><Data Name='Flags'>0x103</Data></EventData></Event>

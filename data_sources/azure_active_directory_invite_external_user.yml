@@ -1,8 +1,8 @@
 name: Azure Active Directory Invite external user
 id: d3818bd5-f283-4518-8b67-df19240c3e40
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when an external user is invited to join an Azure Active Directory tenant.
 mitre_components:
@@ -19,10 +19,16 @@ supported_TA:
       version: 6.3.3
 fields:
     - _time
-    - Level
+    - action
+    - additional_details
+    - additional_details_name
+    - additional_details_value
     - callerIpAddress
     - category
+    - change_type
+    - command
     - correlationId
+    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -31,12 +37,23 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - dest
+    - dest_type
     - durationMs
+    - dvc
+    - eventtype
     - host
+    - id
     - index
+    - Level
     - linecount
+    - object
+    - object_attrs
+    - object_category
+    - object_id
     - operationName
     - operationVersion
+    - path_from_resourceId
     - properties.activityDateTime
     - properties.activityDisplayName
     - properties.additionalDetails{}.key
@@ -59,18 +76,35 @@ fields:
     - properties.userAgent
     - punct
     - resourceId
+    - result
+    - result_id
     - resultSignature
+    - signature
     - source
     - sourcetype
     - splunk_server
+    - src
+    - src_ip
+    - src_user
+    - src_user_name
+    - src_user_type
+    - status
+    - tag
+    - tag::eventtype
     - tenantId
     - time
     - timeendpos
     - timestartpos
+    - user
+    - user_name
+    - user_type
+    - vendor_account
+    - vendor_product
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"time": "2023-07-13T00:29:59.5100003Z", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/Microsoft.aadiam", "operationName": "Invite external user", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "40.126.4.40", "correlationId": "e7d580a6-eaac-4f82-843c-40b0b5f3cf99", "Level": 4, "properties": {"id": "Invited Users_e7d580a6-eaac-4f82-843c-40b0b5f3cf99_YNUMP_7291793", "category": "UserManagement", "correlationId": "e7d580a6-eaac-4f82-843c-40b0b5f3cf99", "result": "success", "resultReason": null, "activityDisplayName": "Invite external user", "activityDateTime": "2023-07-13T00:29:59.5100003+00:00", "loggedByService": "Invited Users", "operationType": "Add", "userAgent": null, "initiatedBy": {"user": {"id": "728989f4-eb3d-45c2-8741-2f2af4e485ce", "displayName": null, "userPrincipalName": "oopsr@splunkresearch.com", "ipAddress": "40.126.4.40", "roles": []}}, "targetResources": [{"id": "f416526a-17ee-4129-8ca9-f5ee55f69f34", "displayName": "oops", "type": "User", "userPrincipalName": "oops360_gmail.com#EXT#@strtadminsplunkresearch.onmicrosoft.com", "modifiedProperties": [], "administrativeUnits": []}], "additionalDetails": [{"key": "oid", "value": "728989f4-eb3d-45c2-8741-2f2af4e485ce"}, {"key": "tid", "value": "fc69e276-e9e8-4af9-9002-1e410d77244e"}, {"key": "ipaddr", "value": "2601:646:a000:200:c4db:f288:7e28:21b3"}, {"key": "wids", "value": "62e90394-69f5-4237-9190-012177145e10"}, {"key": "InvitationId", "value": "65c7d12f-c6f3-44f0-8fad-4f57a1020484"}, {"key": "invitedUserEmailAddress", "value": "oops360@gmail.com"}]}}'
+example_log: |
+    {"time": "2023-07-13T00:29:59.5100003Z", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/Microsoft.aadiam", "operationName": "Invite external user", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "40.126.4.40", "correlationId": "e7d580a6-eaac-4f82-843c-40b0b5f3cf99", "Level": 4, "properties": {"id": "Invited Users_e7d580a6-eaac-4f82-843c-40b0b5f3cf99_YNUMP_7291793", "category": "UserManagement", "correlationId": "e7d580a6-eaac-4f82-843c-40b0b5f3cf99", "result": "success", "resultReason": null, "activityDisplayName": "Invite external user", "activityDateTime": "2023-07-13T00:29:59.5100003+00:00", "loggedByService": "Invited Users", "operationType": "Add", "userAgent": null, "initiatedBy": {"user": {"id": "728989f4-eb3d-45c2-8741-2f2af4e485ce", "displayName": null, "userPrincipalName": "oopsr@splunkresearch.com", "ipAddress": "40.126.4.40", "roles": []}}, "targetResources": [{"id": "f416526a-17ee-4129-8ca9-f5ee55f69f34", "displayName": "oops", "type": "User", "userPrincipalName": "oops360_gmail.com#EXT#@strtadminsplunkresearch.onmicrosoft.com", "modifiedProperties": [], "administrativeUnits": []}], "additionalDetails": [{"key": "oid", "value": "728989f4-eb3d-45c2-8741-2f2af4e485ce"}, {"key": "tid", "value": "fc69e276-e9e8-4af9-9002-1e410d77244e"}, {"key": "ipaddr", "value": "2601:646:a000:200:c4db:f288:7e28:21b3"}, {"key": "wids", "value": "62e90394-69f5-4237-9190-012177145e10"}, {"key": "InvitationId", "value": "65c7d12f-c6f3-44f0-8fad-4f57a1020484"}, {"key": "invitedUserEmailAddress", "value": "oops360@gmail.com"}]}}

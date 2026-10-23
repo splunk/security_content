@@ -1,8 +1,8 @@
 name: AWS CloudTrail DeleteRule
 id: b5760623-f3ca-492d-a372-d5c2b3567dfc
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the deletion of an event rule in AWS EventBridge, including details about the rule name and its associated targets or schedules.
 mitre_components:
@@ -22,8 +22,8 @@ fields:
     - _time
     - apiVersion
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - command
     - date_hour
     - date_mday
@@ -36,14 +36,15 @@ fields:
     - dest
     - dvc
     - errorCode
+    - errorMessage
     - eventCategory
     - eventID
     - eventName
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -53,12 +54,16 @@ fields:
     - product
     - punct
     - readOnly
+    - reason
     - recipientAccountId
     - region
     - requestID
     - requestParameters.changeToken
     - requestParameters.ruleId
+    - responseElements
     - responseElements.changeToken
+    - result
+    - result_id
     - signature
     - source
     - sourceIPAddress
@@ -66,6 +71,7 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - tag
     - tag::eventtype
@@ -75,6 +81,12 @@ fields:
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -83,13 +95,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
@@ -102,4 +107,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLI4PXTGCEU", "arn": "arn:aws:iam::111111111111:user/gowthamaraj_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLFLKADUVG", "userName": "gowthamaraj_cli"}, "eventTime": "2022-07-20T21:40:42Z", "eventSource": "waf.amazonaws.com", "eventName": "DeleteRule", "awsRegion": "us-east-1", "sourceIPAddress": "67.171.71.185", "userAgent": "aws-cli/2.7.3 Python/3.9.13 Darwin/21.5.0 source/x86_64 prompt/off command/waf.delete-rule", "requestParameters": {"changeToken": "c5daf4cb-68e1-425f-b52d-49a32a7f187f", "ruleId": "5a9b1c4a-a999-4bb2-9f51-555f086ff34f"}, "responseElements": {"changeToken": "c5daf4cb-68e1-425f-b52d-49a32a7f187f"}, "requestID": "2089be3e-28ea-4349-b505-db72c81c272a", "eventID": "0f815483-f6bb-42d9-b870-0dcc64ddc9a4", "readOnly": false, "eventType": "AwsApiCall", "apiVersion": "2015-08-24", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "waf.amazonaws.com"}}'
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLI4PXTGCEU", "arn": "arn:aws:iam::111111111111:user/gowthamaraj_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLFLKADUVG", "userName": "gowthamaraj_cli"}, "eventTime": "2022-07-20T21:40:42Z", "eventSource": "waf.amazonaws.com", "eventName": "DeleteRule", "awsRegion": "us-east-1", "sourceIPAddress": "67.171.71.185", "userAgent": "aws-cli/2.7.3 Python/3.9.13 Darwin/21.5.0 source/x86_64 prompt/off command/waf.delete-rule", "requestParameters": {"changeToken": "c5daf4cb-68e1-425f-b52d-49a32a7f187f", "ruleId": "5a9b1c4a-a999-4bb2-9f51-555f086ff34f"}, "responseElements": {"changeToken": "c5daf4cb-68e1-425f-b52d-49a32a7f187f"}, "requestID": "2089be3e-28ea-4349-b505-db72c81c272a", "eventID": "0f815483-f6bb-42d9-b870-0dcc64ddc9a4", "readOnly": false, "eventType": "AwsApiCall", "apiVersion": "2015-08-24", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "waf.amazonaws.com"}}

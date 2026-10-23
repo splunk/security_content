@@ -1,8 +1,8 @@
 name: Azure Active Directory Update authorization policy
 id: c5b7ffcd-73d8-4fe5-afd8-b1218d715c0c
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when an authorization policy is updated in Azure Active Directory.
 mitre_components:
@@ -19,10 +19,16 @@ supported_TA:
       version: 6.3.3
 fields:
     - _time
-    - Level
+    - action
+    - additional_details
+    - additional_details_name
+    - additional_details_value
     - callerIpAddress
     - category
+    - change_type
+    - command
     - correlationId
+    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -31,12 +37,23 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - dest
+    - dest_type
     - durationMs
+    - dvc
+    - eventtype
     - host
+    - id
     - index
+    - Level
     - linecount
+    - object
+    - object_attrs
+    - object_category
+    - object_id
     - operationName
     - operationVersion
+    - path_from_resourceId
     - properties.activityDateTime
     - properties.activityDisplayName
     - properties.additionalDetails{}.key
@@ -61,18 +78,36 @@ fields:
     - properties.userAgent
     - punct
     - resourceId
+    - result
+    - result_id
     - resultSignature
+    - signature
     - source
     - sourcetype
     - splunk_server
+    - src
+    - src_ip
+    - src_user
+    - src_user_name
+    - src_user_type
+    - status
+    - tag
+    - tag::eventtype
     - tenantId
     - time
     - timeendpos
     - timestartpos
+    - user
+    - user_agent
+    - user_name
+    - user_type
+    - vendor_account
+    - vendor_product
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"time": "2023-10-26T19:22:20.2814027Z", "resourceId": "/tenants/5f210575-a69b-41a7-b623-3f6d79ccd432/providers/Microsoft.aadiam", "operationName": "Update authorization policy", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "5f210575-a69b-41a7-b623-3f6d79ccd432", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "1.2.3.4", "correlationId": "cc46d719-4c0f-4b78-8795-b0d6ca5b2065", "Level": 4, "properties": {"id": "Directory_cc46d719-4c0f-4b78-8795-b0d6ca5b2065_6CH7M_196574953", "category": "AuthorizationPolicy", "correlationId": "cc46d719-4c0f-4b78-8795-b0d6ca5b2065", "result": "success", "resultReason": "", "activityDisplayName": "Update authorization policy", "activityDateTime": "2023-10-26T19:22:20.2814027+00:00", "loggedByService": "Core Directory", "operationType": "Update", "userAgent": null, "initiatedBy": {"user": {"id": "e4c722ac-3b83-478d-8f52-c388885dc30f", "displayName": null, "userPrincipalName": "attacker@splunkresearch.onmicrosoft.com", "ipAddress": "1.2.3.4", "roles": []}}, "targetResources": [{"id": "24484114-1daa-4700-aaf7-44ee5cbe5678", "displayName": "Authorization Policy", "type": "Other", "modifiedProperties": [{"displayName": "AllowUserConsentForRiskyApps", "oldValue": "[false]", "newValue": "[true]"}, {"displayName": "PermissionGrantPolicyIdsAssignedToDefaultUserRole", "oldValue": "[\"ManagePermissionGrantsForSelf.microsoft-user-default-legacy\"]", "newValue": "[\"microsoft-user-default-legacy\"]"}, {"displayName": "Included Updated Properties", "oldValue": null, "newValue": "\"AllowUserConsentForRiskyApps, PermissionGrantPolicyIdsAssignedToDefaultUserRole\""}], "administrativeUnits": []}], "additionalDetails": [{"key": "User-Agent", "value": "Swagger-Codegen/1.0.0.0/csharp/msal"}]}}'
+example_log: |
+    {"time": "2023-10-26T19:22:20.2814027Z", "resourceId": "/tenants/5f210575-a69b-41a7-b623-3f6d79ccd432/providers/Microsoft.aadiam", "operationName": "Update authorization policy", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "5f210575-a69b-41a7-b623-3f6d79ccd432", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "1.2.3.4", "correlationId": "cc46d719-4c0f-4b78-8795-b0d6ca5b2065", "Level": 4, "properties": {"id": "Directory_cc46d719-4c0f-4b78-8795-b0d6ca5b2065_6CH7M_196574953", "category": "AuthorizationPolicy", "correlationId": "cc46d719-4c0f-4b78-8795-b0d6ca5b2065", "result": "success", "resultReason": "", "activityDisplayName": "Update authorization policy", "activityDateTime": "2023-10-26T19:22:20.2814027+00:00", "loggedByService": "Core Directory", "operationType": "Update", "userAgent": null, "initiatedBy": {"user": {"id": "e4c722ac-3b83-478d-8f52-c388885dc30f", "displayName": null, "userPrincipalName": "attacker@splunkresearch.onmicrosoft.com", "ipAddress": "1.2.3.4", "roles": []}}, "targetResources": [{"id": "24484114-1daa-4700-aaf7-44ee5cbe5678", "displayName": "Authorization Policy", "type": "Other", "modifiedProperties": [{"displayName": "AllowUserConsentForRiskyApps", "oldValue": "[false]", "newValue": "[true]"}, {"displayName": "PermissionGrantPolicyIdsAssignedToDefaultUserRole", "oldValue": "[\"ManagePermissionGrantsForSelf.microsoft-user-default-legacy\"]", "newValue": "[\"microsoft-user-default-legacy\"]"}, {"displayName": "Included Updated Properties", "oldValue": null, "newValue": "\"AllowUserConsentForRiskyApps, PermissionGrantPolicyIdsAssignedToDefaultUserRole\""}], "administrativeUnits": []}], "additionalDetails": [{"key": "User-Agent", "value": "Swagger-Codegen/1.0.0.0/csharp/msal"}]}}

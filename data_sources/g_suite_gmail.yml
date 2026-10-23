@@ -1,8 +1,8 @@
 name: G Suite Gmail
 id: 706c3978-41de-406b-b6e0-75bd01e12a5d
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs Gmail activities in G Suite, including email sending, receiving, and access details, as well as potential security-related events.
 mitre_components:
@@ -22,8 +22,6 @@ fields:
     - attachment{}.file_extension_type
     - attachment{}.malware_family
     - attachment{}.sha256
-    - connection_info.authenticated_domain{}.name
-    - connection_info.authenticated_domain{}.type
     - connection_info.client_host_zone
     - connection_info.client_ip
     - connection_info.dkim_pass
@@ -87,4 +85,5 @@ fields:
     - tag::eventtype
     - timestamp
     - upload_error_category
-example_log: '{"action_type": 10, "rfc2822_message_id": "<CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC@mail.gmail.com>", "subject": "New Order DHL0000001 - Dummy email for Detection Development", "payload_size": 6733, "source": {"address": "john@external_test_email.com", "service": "gmail-for-work", "selector": "policy", "from_header_address": "john@external_test_email.com", "from_header_displayname": "john smith"}, "destination": [{"address": "peter@internal_test_email.com", "service": "smtp-outbound", "selector": "gmail-for-work", "smime_signature_verification_success": null, "smime_decryption_success": null, "smime_parsing_success": null, "smime_extraction_success": null, "rcpt_response": null}], "flattened_destinations": "smtp-outbound:gmail-for-work:peter@internal_test_email.com", "description": "", "connection_info": {"client_ip": "null", "smtp_in_connect_ip": null, "smtp_out_connect_ip": "null", "failed_smtp_out_connect_ip": [], "smtp_tls_state": 1, "smtp_reply_code": 250, "tls_required_but_unavailable": false, "smtp_out_remote_host": "internal_test_app.com", "smtp_user_agent_ip": "null", "is_intra_domain": false, "dmarc_pass": null, "dmarc_published_domain": null, "client_host_zone": null, "smtp_response_reason": null, "ip_geo_city": null, "ip_geo_country": null, "authenticated_domain": [{"name": "internal_test_email.com", "type": 2}, {"name": "internal_test_email.com", "type": 6}, {"name": "internal_test_email.com", "type": 1}], "is_internal": false, "dkim_pass": true, "spf_pass": true, "smtp_tls_version": "TLSv9.9", "smtp_tls_cipher": "TLS_AES"}, "is_spam": null, "is_policy_check_for_sender": false, "num_message_attachments": 1, "message_set": [{"type": 57}, {"type": 9}, {"type": 22}, {"type": 15}, {"type": 48}, {"type": 27}, {"type": 10}, {"type": 50}, {"type": 51}, {"type": 46}, {"type": 61}, {"type": 44}], "smtp_relay_error": null, "upload_error_category": null, "structured_policy_log_info": null, "triggered_rule_info": [], "flattened_triggered_rule_info": null, "smime_sign_message": null, "smime_encrypt_message": null, "smime_packaging_success": null, "smime_extraction_success": null, "smime_content_type": null, "link_domain": [], "attachment": [{"sha256": "1111111111111111111111111111111111111111111111111111111111111111", "file_extension_type": "zip", "malware_family": null}], "spam_info": null, "timestamp": 1629378633.802384}'
+example_log: |
+    {"action_type": 2, "rfc2822_message_id": "<AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-QQQQQQ01@mail.gmail.com>", "subject": "test email dev", "payload_size": 43826, "source": {"address": "juan@internal_test_email.com", "service": "gmail-ui", "selector": "send", "from_header_address": "juan@internal_test_email.com", "from_header_displayname": "Events Test2"}, "destination": [{"address": "pepe@external_test_email.com", "service": "smtp-outbound", "selector": "gmail-for-work", "smime_signature_verification_success": null, "smime_decryption_success": null, "smime_parsing_success": null, "smime_extraction_success": null, "rcpt_response": null}], "flattened_destinations": "smtp-outbound:gmail-for-work:pepe@external_test_email.com", "description": null, "connection_info": {"client_ip": "null", "smtp_in_connect_ip": null, "smtp_out_connect_ip": null, "failed_smtp_out_connect_ip": [], "smtp_tls_state": null, "smtp_reply_code": 0, "tls_required_but_unavailable": null, "smtp_out_remote_host": null, "smtp_user_agent_ip": null, "is_intra_domain": true, "dmarc_pass": null, "dmarc_published_domain": null, "client_host_zone": null, "smtp_response_reason": null, "ip_geo_city": null, "ip_geo_country": null, "authenticated_domain": [], "is_internal": true, "dkim_pass": false, "spf_pass": false, "smtp_tls_version": null, "smtp_tls_cipher": null}, "is_spam": null, "is_policy_check_for_sender": true, "num_message_attachments": 1, "message_set": [{"type": 8}, {"type": 27}, {"type": 15}, {"type": 10}, {"type": 44}], "smtp_relay_error": null, "upload_error_category": null, "structured_policy_log_info": null, "triggered_rule_info": [], "flattened_triggered_rule_info": null, "smime_sign_message": null, "smime_encrypt_message": null, "smime_packaging_success": null, "smime_extraction_success": null, "smime_content_type": 0, "link_domain": [], "attachment": [{"sha256": "1111111111111111111111111111111111111111111111111111111111111111", "file_extension_type": "doc", "malware_family": null}], "spam_info": null, "timestamp": 1629290144.338942}

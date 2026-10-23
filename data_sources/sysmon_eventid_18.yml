@@ -1,8 +1,8 @@
 name: Sysmon EventID 18
 id: 37eb3554-214e-4e66-af10-c3ffc5b8ca82
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the connection to a named pipe, including details about the pipe name, source and destination processes, and communication direction.
 mitre_components:
@@ -21,38 +21,9 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
     - Channel
     - Computer
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - EventType
-    - Guid
-    - Image
-    - Keywords
-    - Level
-    - Name
-    - Opcode
-    - PipeName
-    - ProcessGuid
-    - ProcessID
-    - ProcessId
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SecurityID
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - TimeCreated
-    - UserID
-    - UtcTime
-    - Version
-    - action
     - date_hour
     - date_mday
     - date_minute
@@ -62,33 +33,66 @@ fields:
     - date_year
     - date_zone
     - dest
+    - dvc
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
+    - EventType
     - eventtype
+    - Guid
     - host
     - id
+    - Image
     - index
+    - Keywords
+    - Level
     - linecount
+    - Name
+    - Opcode
     - os
     - pipe_name
+    - PipeName
     - process_exec
     - process_guid
     - process_id
     - process_name
     - process_path
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
     - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
+    - severity
     - severity_id
     - signature
     - signature_id
     - source
     - sourcetype
     - splunk_server
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
+    - Task
+    - ThreadID
+    - TimeCreated
     - timeendpos
     - timestartpos
+    - User
+    - user
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - dest
     - dvc
@@ -102,4 +106,5 @@ output_fields:
     - signature_id
     - user_id
     - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>18</EventID><Version>1</Version><Level>4</Level><Task>18</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2021-04-19T21:00:19.312721800Z'/><EventRecordID>162173</EventRecordID><Correlation/><Execution ProcessID='2816' ThreadID='2452'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-982.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='EventType'>ConnectPipe</Data><Data Name='UtcTime'>2021-04-19 21:00:19.312</Data><Data Name='ProcessGuid'>{761B69BB-EF62-607D-B211-00000000BA01}</Data><Data Name='ProcessId'>6960</Data><Data Name='PipeName'>\MSSE-1516-server</Data><Data Name='Image'>C:\Users\Administrator\Desktop\beacon.exe</Data></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>18</EventID><Version>1</Version><Level>4</Level><Task>18</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2025-02-11T09:49:08.450028700Z'/><EventRecordID>1090401</EventRecordID><Correlation/><Execution ProcessID='2408' ThreadID='2904'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='EventType'>ConnectPipe</Data><Data Name='UtcTime'>2025-02-11 09:49:08.448</Data><Data Name='ProcessGuid'>{A9E392D4-1CF5-67AB-7902-00000000CD03}</Data><Data Name='ProcessId'>2336</Data><Data Name='PipeName'>&lt;Anonymous Pipe&gt;</Data><Data Name='Image'>C:\Users\Public\mspaint.exe</Data><Data Name='User'>ATTACKRANGE\Administrator</Data></EventData></Event>

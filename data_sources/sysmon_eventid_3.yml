@@ -1,8 +1,8 @@
 name: Sysmon EventID 3
 id: 01d84dff-4e26-422c-9389-6a579ee6e75b
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs details of network connections initiated by processes, including source and destination IPs, ports, protocols, and the associated process metadata.
 mitre_components:
@@ -22,50 +22,10 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
-    - Channel
-    - Computer
-    - DestinationHostname
-    - DestinationIp
-    - DestinationIsIpv6
-    - DestinationPort
-    - DestinationPortName
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - Guid
-    - Image
-    - Initiated
-    - Keywords
-    - Level
-    - Name
-    - Opcode
-    - ProcessGuid
-    - ProcessID
-    - ProcessId
-    - Protocol
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SecurityID
-    - SourceHostname
-    - SourceIp
-    - SourceIsIpv6
-    - SourcePort
-    - SourcePortName
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - TimeCreated
-    - User
-    - UserID
-    - UtcTime
-    - Version
     - action
     - app
+    - Channel
+    - Computer
     - creation_time
     - date_hour
     - date_mday
@@ -76,28 +36,61 @@ fields:
     - date_year
     - date_zone
     - dest
+    - dest_host
     - dest_ip
     - dest_port
+    - DestinationHostname
+    - DestinationIp
+    - DestinationIsIpv6
+    - DestinationPort
+    - DestinationPortName
     - direction
     - dvc
     - dvc_ip
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
     - host
     - id
+    - Image
     - index
+    - Initiated
+    - Keywords
+    - Level
     - linecount
+    - Name
+    - Opcode
     - process_exec
     - process_guid
     - process_id
     - process_name
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
+    - Protocol
     - protocol
     - protocol_version
     - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
+    - SourceHostname
+    - SourceIp
+    - SourceIsIpv6
+    - SourcePort
+    - SourcePortName
     - sourcetype
     - splunk_server
     - src
@@ -105,15 +98,24 @@ fields:
     - src_ip
     - src_port
     - state
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
+    - Task
+    - TaskCategory
+    - ThreadID
     - timeendpos
     - timestartpos
     - transport
     - transport_dest_port
+    - User
     - user
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - action
     - app
@@ -130,4 +132,5 @@ output_fields:
     - transport
     - user
     - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>3</EventID><Version>5</Version><Level>4</Level><Task>3</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2022-09-15T12:56:22.958249300Z'/><EventRecordID>156837</EventRecordID><Correlation/><Execution ProcessID='2684' ThreadID='1380'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-ctus-attack-range-403.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2022-09-15 12:56:19.679</Data><Data Name='ProcessGuid'>{6820D070-1F1B-6323-E113-000000007402}</Data><Data Name='ProcessId'>5728</Data><Data Name='Image'>C:\Temp\agent_tesla-deob.exe</Data><Data Name='User'>ATTACKRANGE\Administrator</Data><Data Name='Protocol'>tcp</Data><Data Name='Initiated'>true</Data><Data Name='SourceIsIpv6'>false</Data><Data Name='SourceIp'>10.0.1.14</Data><Data Name='SourceHostname'>win-dc-ctus-attack-range-403.attackrange.local</Data><Data Name='SourcePort'>61722</Data><Data Name='SourcePortName'>-</Data><Data Name='DestinationIsIpv6'>false</Data><Data Name='DestinationIp'>41.77.117.236</Data><Data Name='DestinationHostname'>youssef5.genious.net</Data><Data Name='DestinationPort'>21</Data><Data Name='DestinationPortName'>ftp</Data></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name="Microsoft-Windows-Sysmon" Guid="5770385F-C22A-43E0-BF4C-06F5698FFBD9">    </Provider>    <EventID>3</EventID>    <Version>5</Version>    <Level>4</Level>    <Task>3</Task>    <Opcode>0</Opcode>    <Keywords>0x8000000000000000</Keywords>    <TimeCreated SystemTime='2023-03-09 00:08:10.302510 UTC'>    </TimeCreated>    <EventRecordID>1785</EventRecordID>    <Correlation>    </Correlation>    <Execution ProcessID="3120" ThreadID="5028">    </Execution>    <Channel>Microsoft-Windows-Sysmon/Operational</Channel>    <Computer>SLABS-DC.snapattack.labs</Computer>    <Security UserID="S-1-5-18">    </Security></System><EventData><Data Name='RuleName'>-</Data>    <Data Name='UtcTime'>2023-03-09 00:08:09.283</Data>    <Data Name='ProcessGuid'>97232C30-2368-6409-E605-000000000902</Data>    <Data Name='ProcessId'>2264</Data>    <Data Name='Image'>C:\Users\Public\Documents\dsquery.exe</Data>    <Data Name='User'>NT AUTHORITY\SYSTEM</Data>    <Data Name='Protocol'>tcp</Data>    <Data Name='Initiated'>true</Data>    <Data Name='SourceIsIpv6'>true</Data>    <Data Name='SourceIp'>fe80:0:0:0:4582:ae34:10a5:1f41</Data>    <Data Name='SourceHostname'>SLABS-DC.snapattack.labs</Data>    <Data Name='SourcePort'>64020</Data>    <Data Name='SourcePortName'>-</Data>    <Data Name='DestinationIsIpv6'>true</Data>    <Data Name='DestinationIp'>fe80:0:0:0:4582:ae34:10a5:1f41</Data>    <Data Name='DestinationHostname'>SLABS-DC.snapattack.labs</Data>    <Data Name='DestinationPort'>389</Data>    <Data Name='DestinationPortName'>ldap</Data></EventData></Event>

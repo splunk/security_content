@@ -1,8 +1,8 @@
 name: Windows Event Log AppXDeployment-Server 855
 id: 4491537c-521c-46f7-9209-f56f852aa231
-version: 2
+version: 3
 creation_date: '2025-08-18'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Michael Haag, Splunk
 description: 'This data source captures Windows Event Logs from the Microsoft-Windows-AppXDeploymentServer/Operational channel, specifically focusing on EventCode 855. These events are generated when a package deployment operation completes successfully, providing details about the packages that were installed or updated.
 
@@ -21,29 +21,117 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/742
       version: 11.0.3
 fields:
+    - _time
+    - action
+    - ActivityID
+    - CallingProcess
+    - CallOrigin
     - CategoryString
     - Channel
     - Computer
-    - Correlation
+    - DependencyPaths
+    - DeploymentOperation
+    - DeploymentOptions
+    - DestinationFolderPath
+    - DetailedMessageInfo
+    - directlyServicedPackagesList
+    - dvc
+    - dvc_nt_host
+    - Error
+    - ErrorCode
+    - ErrorCount
+    - ErrorFileInfo
+    - event_id
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
+    - FailedDeploymentState
+    - filename
+    - FilePath
+    - Flags
+    - FlagsHigh
+    - forceUpdateDeferredByPackage
+    - Guid
+    - HasFullTrust
+    - HasWin32alacarte
+    - host
+    - id
+    - index
+    - indirectlyServicedPackagesList
+    - IsCentennial
+    - IsInPlaceUpdate
+    - IsInRelatedSet
+    - IsOptional
+    - IsPackageEncrypted
+    - IsPackageUsingBDC
+    - isSessionLocked
+    - IsStreamingPackage
     - Keywords
     - Level
+    - linecount
+    - MainPackageFamilyName
+    - MainPackageFullName
+    - MainPackageMoniker
+    - Message
+    - MountPoint
+    - Name
+    - name
+    - namespace
+    - numAttempts
     - Opcode
+    - PackageDisplayName
+    - PackageFlags
+    - PackageFlags2
+    - PackageFullName
+    - packageFullName
+    - PackageList
     - PackageMoniker
+    - PackageName
+    - PackageSourceUri
+    - PackageType
+    - Path
     - ProcessID
-    - Provider
-    - ProviderGuid
+    - punct
+    - RecordNumber
+    - RequeueReason
+    - ResiliencyFilePath
+    - RollbackDetailedMessageInfo
+    - RollbackErrorFileInfo
+    - runningAppsList
+    - severity
+    - severity_id
+    - signature
+    - signature_id
+    - source
+    - SourceFolderPath
+    - sourcetype
+    - splunk_server
+    - StatusToClear
+    - StatusToSet
+    - StorageId
+    - String
+    - subject
+    - subjectName
+    - Summary
+    - SummaryError
+    - System_Props_Xml
+    - SystemTime
+    - SystemVolume
+    - tag
+    - tag::eventtype
+    - TargetPlatform
     - Task
+    - TaskCategory
     - ThreadID
-    - TimeCreated
-    - Version
-    - _time
-    - dest
-    - host
+    - timestamp
     - user_id
+    - UserID
+    - UserSid
+    - userSid
+    - vendor_product
+    - Version
 output_fields:
     - _time
     - dest
@@ -54,4 +142,5 @@ references:
     - https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
     - https://www.advancedinstaller.com/msix-installation-or-launching-errors-and-fixes.html
     - https://redcanary.com/blog/msix-installers/
-example_log: '<Event xmlns=''http://schemas.microsoft.com/win/2004/08/events/event''><System><Provider Name=''Microsoft-Windows-AppXDeployment-Server'' Guid=''{3f471139-acb7-4a01-b7a7-ff5da4ba2d43}''/><EventID>855</EventID><Version>0</Version><Level>4</Level><Task>4</Task><Opcode>0</Opcode><Keywords>0x4000000000000001</Keywords><TimeCreated SystemTime=''2025-08-06T16:20:58.5814488Z''/><EventRecordID>16417</EventRecordID><Correlation ActivityID=''{df6fb197-9b7b-0002-d0dd-a29ded06dc01}''/><Execution ProcessID=''5820'' ThreadID=''5960''/><Channel>Microsoft-Windows-AppXDeploymentServer/Operational</Channel><Computer>HaagMSIX</Computer><Security UserID=''S-1-5-21-2568234075-4274264167-1034506908-500''/></System><EventData><Data Name=''PackageMoniker''> addPackageList: Microsoft.DesktopAppInstaller_1.26.430.0_neutral_split.scale-100_8wekyb3d8bbwe Microsoft.DesktopAppInstaller_2025.717.1857.0_neutral_~_8wekyb3d8bbwe updateList: Microsoft.DesktopAppInstaller_1.26.429.0_x64__8wekyb3d8bbwe is updating to Microsoft.DesktopAppInstaller_1.26.430.0_x64__8wekyb3d8bbwe</Data></EventData></Event>'
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-AppXDeployment-Server' Guid='{3f471139-acb7-4a01-b7a7-ff5da4ba2d43}'/><EventID>8100</EventID><Version>0</Version><Level>5</Level><Task>49</Task><Opcode>0</Opcode><Keywords>0x4000000000000001</Keywords><TimeCreated SystemTime='2025-08-05T16:59:12.6240071Z'/><EventRecordID>15605</EventRecordID><Correlation/><Execution ProcessID='10864' ThreadID='10184'/><Channel>Microsoft-Windows-AppXDeploymentServer/Operational</Channel><Computer>HaagMSIX</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='PackageFullName'>Microsoft.WidgetsPlatformRuntime_1.6.9.0_x64__8wekyb3d8bbwe</Data><Data Name='Flags'>0x103</Data></EventData></Event>
