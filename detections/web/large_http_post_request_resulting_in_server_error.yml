@@ -1,8 +1,8 @@
 name: Large HTTP POST Request Resulting in Server Error
 id: 284ab19f-15f6-4f1c-9a4d-9f331438e37d
-version: 1
+version: 2
 creation_date: '2026-10-22'
-modification_date: '2026-10-22'
+modification_date: '2026-10-23'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -12,27 +12,16 @@ description: |-
 data_source:
     - Zeek HTTP
 search: |-
-    `zeek_http`
-    method="POST"
-    status_code=500
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+    where
+        Web.http_method=POST
+        Web.bytes>1000000
+        Web.status=500
 
-    | eval src=coalesce(src, src_ip, 'id.orig_h'),
-           dest=coalesce(dest, dest_ip, 'id.resp_h'),
-           dest_port=coalesce(dest_port, 'id.resp_p')
+    BY Web.http_user_agent Web.status Web.http_method
+       Web.url Web.url_length Web.src Web.dest Web.bytes
 
-    | eval body_bytes=coalesce(tonumber(request_body_len), len(post_body), 0)
-
-    | where body_bytes>=1000000
-
-    | stats count min(_time) as firstTime
-                  max(_time) as lastTime
-                  max(body_bytes) as body_bytes
-                  values(user_agent) as user_agent
-                  values(status_code) as status_code
-
-      by src dest dest_port uri
-
-    | `security_content_ctime(firstTime)`
+    | `drop_dm_object_name("Web")`| `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `large_http_post_request_resulting_in_server_error_filter`
 how_to_implement: |-
@@ -51,7 +40,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A large HTTP POST request of [$body_bytes$] bytes from [$src$] to [$dest$] received an HTTP 500 response.
+          message: A large HTTP POST request of [$bytes$] bytes from [$src$] to [$dest$] received an HTTP 500 response.
 threat_objects:
     - field: src
       type: ip_address

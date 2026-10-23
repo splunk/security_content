@@ -2,7 +2,7 @@ name: PHP Session Upload Progress Serialized Payload in Upload Filename
 id: 47b3ff26-c4cc-4413-9bf3-f44dbac36785
 version: 1
 creation_date: '2026-10-22'
-modification_date: '2026-10-22'
+modification_date: '2026-10-23'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -42,6 +42,7 @@ search: |-
     | `php_session_upload_progress_serialized_payload_in_upload_filename_filter`
 how_to_implement: |-
     Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
+    For request headers to be captured you must enable their extraction via the HTTP::log_client_header_names and HTTP::log_client_header_values fields.
     Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
 known_false_positives: |-
     Applications may upload files with names containing serialized-looking text as part of testing or unusual workflows. Review the complete request headers, source, destination, and application context before determining intent.
@@ -49,6 +50,7 @@ references:
     - https://www.php2shell.com/
     - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
     - https://docs.zeek.org/en/master/logs/http.html
+    - https://docs.zeek.org/en/master/scripts/policy/protocols/http/header-names.zeek.html
 intermediate_findings:
     entities:
         - field: dest

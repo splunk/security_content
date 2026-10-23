@@ -2,7 +2,7 @@ name: PHP Session Upload Progress with PHP Code in Upload Filename
 id: e50cc2d0-7c71-4a2f-83dc-5ee6d4bb76a7
 version: 1
 creation_date: '2026-10-22'
-modification_date: '2026-10-22'
+modification_date: '2026-10-23'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -41,6 +41,7 @@ search: |-
     | `php_session_upload_progress_with_php_code_in_upload_filename_filter`
 how_to_implement: |-
     Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
+    For request headers to be captured you must enable their extraction via the HTTP::log_client_header_names and HTTP::log_client_header_values fields.
     Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
 known_false_positives: |-
     Security testing tools or development environments may upload files with PHP code in the filename. Review the request headers, destination application, and any follow-on requests or server-side execution evidence.
@@ -48,6 +49,7 @@ references:
     - https://www.php2shell.com/
     - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
     - https://docs.zeek.org/en/master/logs/http.html
+    - https://docs.zeek.org/en/master/scripts/policy/protocols/http/header-names.zeek.html
 intermediate_findings:
     entities:
         - field: dest
