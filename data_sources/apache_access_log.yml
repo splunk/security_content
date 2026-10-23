@@ -19,21 +19,30 @@ supported_TA:
       version: 3.0.0
 fields:
     - _time
+    - action
+    - bytes
     - bytes_in
     - bytes_out
     - client
     - http_method
     - http_referrer
+    - http_referrer_domain
     - http_user_agent
+    - http_user_agent_length
     - http_version
+    - logname
     - request
     - request_bytes
     - src
     - status
+    - status_description
+    - status_type
+    - timestamp
     - uri_path
     - uri_query
     - url
     - user
+    - vendor_product
 output_fields:
     - src
     - http_method

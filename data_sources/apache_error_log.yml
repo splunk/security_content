@@ -25,10 +25,14 @@ fields:
     - file_path
     - module
     - process_id
+    - product
+    - req_time
     - severity
     - src
     - threshhold_id
     - timestamp
+    - vendor
+    - vendor_product
 output_fields:
     - src
     - process_id
