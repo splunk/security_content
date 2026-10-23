@@ -1,0 +1,62 @@
+name: PHP Code in Upload Filename
+id: 79fe02c5-5ccd-4119-9d94-c3f8418fae2a
+version: 1
+creation_date: '2026-10-23'
+modification_date: '2026-10-23'
+author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects multipart POST requests containing a PHPSESSID form field and an uploaded filename with a PHP opening tag.
+    When observed with "PHP_SESSION_UPLOAD_PROGRESS" behavior, this may indicate an attempt to place executable PHP content into session-related data as part of PHP2Shell exploitation.
+data_source:
+    - Suricata
+search: |-
+    `suricata` http_method=POST fileinfo.filename=*
+    | rex field=fileinfo.filename max_match=0 "(?i)(?<php_token>(?:<\\?php\\b|<\\?=)")
+    | where isnotnull(php_token)
+    | rename dest_ip as dest
+    | rename src_ip as src
+    | stats count values(php_token) as serialization_tokens by fileinfo.filename, src, src_port, dest, dest_port, url, http_method, http_content_type
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `php_code_in_upload_filename_filter`
+how_to_implement: |-
+    The following detection relies on the Suricata TA and ensuring it is properly configured to monitor HTTP traffic. Modify the query for your environment and log sources as needed.
+known_false_positives: |-
+    Security testing tools or development environments may upload files with PHP code in the filename. Review the request headers, destination application, and any follow-on requests or server-side execution evidence.
+references:
+    - https://www.php2shell.com/
+    - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
+    - https://docs.zeek.org/en/master/logs/http.html
+    - https://docs.zeek.org/en/master/scripts/policy/protocols/http/header-names.zeek.html
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 40
+          message: A multipart POST request from [$src$] to [$dest$] included a PHP opening tag in an upload filename.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - PHP2Shell
+asset_type: Web Application
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/suricata.log
+          source: not_applicable
+          sourcetype: suricata
+      test_type: unit
