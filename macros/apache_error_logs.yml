@@ -5,4 +5,4 @@ creation_date: '2026-10-22'
 modification_date: '2026-10-23'
 author: Splunk Threat Research Team
 description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
-definition: (source="/var/log/apache2/error.log" OR sourcetype="apache:error" OR sourcetype="apache_error")
+definition: (source="/var/log/apache2/error.log" OR sourcetype IN ("apache:error", "apache_error"))
