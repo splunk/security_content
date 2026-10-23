@@ -1,0 +1,86 @@
+name: Linux Compiled C Source To Tmp
+id: e873b93d-7f7e-4376-99f0-edb7856ce199
+version: 1
+creation_date: '2026-10-19'
+modification_date: '2026-10-19'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects a C/C++ compiler compiling a C source file with the output binary written to /tmp, executed as a non-root user.
+    This is a compile-after-delivery privilege escalation pattern. Kernel exploit PoCs and local privilege escalation tools commonly drop a C source file
+    use compilers at runtime to produce a platform-specific binary in /tmp. This avoids architecture mismatches and allows the exploit to adapt to the running
+    kernel's symbol offsets.
+data_source:
+    - Sysmon for Linux EventID 1
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+        FROM datamodel=Endpoint.Processes
+        WHERE (
+            Processes.process_name=*gcc* OR
+            Processes.process_name=*clang* OR
+            Processes.process_name=cc OR
+            Processes.process_name=cc1 OR
+            Processes.process_name=cc1plus OR
+            Processes.process_name=*g++* OR
+            Processes.process_name=tcc
+            )
+        Processes.process IN ("*.c *","*.c","*.cpp*","*.cxx*","*.cc*","*.c++")
+        Processes.process=*/tmp/*
+        Processes.user!=root
+        BY Processes.process_name Processes.process Processes.user Processes.dest
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_compiled_c_source_to_tmp_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Developers compiling C code that outputs to /tmp. Filter by user to exclude known developer accounts. CTF or security research environments may produce this pattern legitimately.
+references:
+    - https://www.cve.org/CVERecord?id=CVE-2026-74580
+    - https://attack.mitre.org/techniques/T1068/
+    - https://attack.mitre.org/techniques/T1027/004/
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Compiler compiled source to /tmp on [$dest$] by [$user$]
+        - field: user
+          type: user
+          score: 20
+          message: Compiler compiled source to /tmp on [$dest$] by [$user$]
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Living Off The Land
+    - Compromised Linux Host
+asset_type: Endpoint
+cve:
+    - CVE-2026-74580
+mitre_attack_id:
+    - T1068
+    - T1027.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/vghost/sysmon.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux
+      test_type: unit
