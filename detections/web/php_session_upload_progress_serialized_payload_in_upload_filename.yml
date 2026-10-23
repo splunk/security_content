@@ -1,6 +1,6 @@
 name: PHP Session Upload Progress Serialized Payload in Upload Filename
 id: 47b3ff26-c4cc-4413-9bf3-f44dbac36785
-version: 2
+version: 1
 creation_date: '2026-10-22'
 modification_date: '2026-10-23'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
