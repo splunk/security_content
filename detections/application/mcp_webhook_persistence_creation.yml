@@ -6,7 +6,7 @@ modification_date: '2026-06-29'
 author: Adam Lin
 status: production
 type: TTP
-description: This detection identifies the creation of repository webhooks that point to untrusted or higher-risk endpoints through MCP (Model Context Protocol) tool calls. Adversaries who gain access to an MCP-enabled agent can register a webhook that points to an attacker-controlled endpoint, giving them durable persistence and a covert exfiltration channel - every future repository event (pushes, pull requests, secrets) is delivered to the external URL without any further interaction. The search monitors inbound JSON-RPC create_webhook operations, extracts the destination host, and only surfaces webhooks whose host is not in the editable mcp_trusted_webhook_domains allowlist or that exhibit higher-risk traits (a plaintext http endpoint or a raw IP address destination), so the narrowing is performed by the detection logic rather than by deferred tuning.
+description: This detection identifies the creation of repository webhooks that point to untrusted or higher-risk endpoints through MCP (Model Context Protocol) tool calls. Adversaries who gain access to an MCP-enabled agent can register a webhook that points to an attacker-controlled endpoint, giving them durable persistence and a covert exfiltration channel - every future repository event (pushes, pull requests, secrets) is delivered to the external URL without any further interaction. The search monitors inbound JSON-RPC create_webhook operations, extracts the destination host (after any userinfo, so a URL such as https://trusted.example:x@attacker.test/hook is attributed to attacker.test; a URL with a backslash in the authority is never treated as trusted), and only surfaces webhooks whose host is not in the editable mcp_trusted_webhook_domains allowlist or that exhibit higher-risk traits (a plaintext http endpoint or a raw IP address destination), so the narrowing is performed by the detection logic rather than by deferred tuning.
 data_source:
     - MCP Server
 search: |
@@ -15,7 +15,7 @@ search: |
     | eval webhook_url='params.url'
     | eval target_repo='params.repo'
     | eval target_owner='params.owner'
-    | rex field=webhook_url "^(?<url_scheme>https?)://(?<webhook_host>[^/:]+)"
+    | rex field=webhook_url "^(?<url_scheme>https?)://(?:[^/?#\\\\]*@)?(?<webhook_host>[^/?#:\\\\@]+)(?=[/?#:]|$)"
     | eval is_trusted_domain=if(match(webhook_host, `mcp_trusted_webhook_domains`), 1, 0)
     | eval is_plaintext_http=if(url_scheme="http", 1, 0)
     | eval is_raw_ip_dest=if(match(webhook_host, "^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$"), 1, 0)

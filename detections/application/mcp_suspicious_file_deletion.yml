@@ -6,15 +6,16 @@ modification_date: '2026-06-29'
 author: Adam Lin
 status: production
 type: TTP
-description: This detection identifies the deletion of security-relevant files, or anomalously high deletion volume, performed through MCP (Model Context Protocol) tool calls. An adversary who has compromised or hijacked an MCP-enabled agent can use its file system or repository tools to destroy data or remove security-relevant files such as SECURITY.md, audit and access logs, or CI and workflow configuration under .github/, achieving data destruction and defense evasion. The search monitors inbound JSON-RPC delete_file operations, matches each deleted path against the editable mcp_security_relevant_deletion_targets macro, and only surfaces hosts that either delete a security-relevant file or exceed a per-host deletion-burst threshold, so the narrowing is performed by the detection logic rather than by deferred tuning.
+description: This detection identifies the deletion of security-relevant files, or anomalously high deletion volume, performed through MCP (Model Context Protocol) tool calls. An adversary who has compromised or hijacked an MCP-enabled agent can use its file system or repository tools to destroy data or remove security-relevant files such as SECURITY.md, audit and access logs, or CI and workflow configuration under .github/, achieving data destruction and defense evasion. The search monitors inbound JSON-RPC delete_file operations, converts backslashes in each deleted path to forward slashes so Windows paths are covered, matches it against the editable mcp_security_relevant_deletion_targets macro, and only surfaces hosts that either delete a security-relevant file or exceed a per-host deletion-burst threshold, so the narrowing is performed by the detection logic rather than by deferred tuning.
 data_source:
     - MCP Server
 search: |
     `mcp_server` direction=inbound method=delete_file
     | eval dest=host
     | eval target_path='params.path'
+    | eval normalized_path=replace(target_path, "\\\\", "/")
     | eval target_repo='params.repo'
-    | eval is_security_relevant=if(match(target_path, `mcp_security_relevant_deletion_targets`), 1, 0)
+    | eval is_security_relevant=if(match(normalized_path, `mcp_security_relevant_deletion_targets`), 1, 0)
     | stats count as deletion_count min(_time) as firstTime max(_time) as lastTime values(method) as method values(target_path) as target_path values(target_repo) as target_repo max(is_security_relevant) as is_security_relevant dc(target_path) as distinct_paths by dest, source
     | eval is_deletion_burst=if(deletion_count>=10, 1, 0)
     | where is_security_relevant=1 OR is_deletion_burst=1
