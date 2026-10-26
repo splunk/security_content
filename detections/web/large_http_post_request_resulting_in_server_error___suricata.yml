@@ -72,7 +72,7 @@ security_domain: network
 tests:
     - name: True Positive Test
       attack_data:
-        - data: http://localhost/emerging_threats/php2shell/suricata.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/suricata.log
           source: not_applicable
           sourcetype: suricata
       test_type: unit
