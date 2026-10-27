@@ -18,14 +18,14 @@ search: |
             values(All_Traffic.dest_port) as dest_port
             latest(All_Traffic.user) as user
 
-    FROM datamodel=Network_Traffic
-    WHERE
-      [
+    FROM datamodel=Network_Traffic WHERE
+
+    [
         | inputlookup remote_access_software
         | search match_pattern!=""
         | rename match_pattern as All_Traffic.app
         | table All_Traffic.app
-      ]
+    ]
 
     BY All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in
        All_Traffic.bytes_out All_Traffic.dest All_Traffic.dest_ip
@@ -33,6 +33,7 @@ search: |
        All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip
        All_Traffic.src_port All_Traffic.transport All_Traffic.user
        All_Traffic.vendor_product
+
     | `drop_dm_object_name("All_Traffic")`
 
     | lookup local=t remote_access_software match_pattern AS app OUTPUT app as signature, category, reference, description

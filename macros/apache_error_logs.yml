@@ -1,0 +1,8 @@
+name: apache_error_logs
+id: cfb0ac6a-4e17-43d4-9cc1-fb9244b87e90
+version: 1
+creation_date: '2026-10-22'
+modification_date: '2026-10-22'
+author: Splunk Threat Research Team
+description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
+definition: source="/var/log/apache2/error.log"

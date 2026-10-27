@@ -16,6 +16,7 @@ data_source:
     - Sysmon EventID 1
 search: |-
     `sysmon` EventCode=1
+
     [
       | inputlookup remote_access_software
       | search file_info!=""

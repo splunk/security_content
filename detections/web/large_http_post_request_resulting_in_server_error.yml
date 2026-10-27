@@ -1,0 +1,78 @@
+name: Large HTTP POST Request Resulting in Server Error
+id: 284ab19f-15f6-4f1c-9a4d-9f331438e37d
+version: 1
+creation_date: '2026-10-22'
+modification_date: '2026-10-22'
+author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects HTTP POST requests with a body of at least one megabyte that receive an HTTP 500 response.
+    Large failed uploads can indicate attempts to trigger resource exhaustion or exploit vulnerable request handling, including behavior associated with PHP2Shell, but require investigation with related web and application logs.
+data_source:
+    - Zeek HTTP
+search: |-
+    `zeek_http`
+    method="POST"
+    status_code=500
+
+    | eval src=coalesce(src, src_ip, 'id.orig_h'),
+           dest=coalesce(dest, dest_ip, 'id.resp_h'),
+           dest_port=coalesce(dest_port, 'id.resp_p')
+
+    | eval body_bytes=coalesce(tonumber(request_body_len), len(post_body), 0)
+
+    | where body_bytes>=1000000
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  max(body_bytes) as body_bytes
+                  values(user_agent) as user_agent
+                  values(status_code) as status_code
+
+      by src dest dest_port uri
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `large_http_post_request_resulting_in_server_error_filter`
+how_to_implement: |-
+    Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
+    The "post_body" field must be populated, which requires Zeek to be configured with the HTTP post body extraction policy.
+    Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
+known_false_positives: |-
+    Large legitimate uploads can fail because of application limits, timeouts, storage constraints, or transient server errors.
+    Review the request URI, upload size, server logs, and client behavior before classifying the activity as malicious.
+references:
+    - https://www.php2shell.com/
+    - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
+    - https://docs.zeek.org/en/master/logs/http.html
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: A large HTTP POST request of [$body_bytes$] bytes from [$src$] to [$dest$] received an HTTP 500 response.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - PHP2Shell
+asset_type: Web Application
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/zeek_large_post_body.log
+          source: http.log
+          sourcetype: zeek:http
+      test_type: unit

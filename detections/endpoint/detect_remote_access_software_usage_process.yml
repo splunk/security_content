@@ -2,7 +2,7 @@ name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
 version: 19
 creation_date: '2024-03-06'
-modification_date: '2026-10-08'
+modification_date: '2026-10-19'
 author: Steven Dick, Sebastian Wurl, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -39,7 +39,7 @@ search: |
 
     | `drop_dm_object_name(Processes)`
 
-    | lookup local=t remote_access_software file_name OUTPUT app as signature, category, reference, description
+    | lookup local=t remote_access_software file_name AS process_name OUTPUT app as signature, category, reference, description
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
