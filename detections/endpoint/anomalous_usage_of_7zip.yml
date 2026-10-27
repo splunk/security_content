@@ -31,6 +31,7 @@ references:
     - https://attack.mitre.org/techniques/T1560/001/
     - https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
     - https://thedfirreport.com/2021/01/31/bazar-no-ryuk/
+    - https://DO_NOT_MERGE_ME_CHANGE_ONLY_FOR_TESTING.COM
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
