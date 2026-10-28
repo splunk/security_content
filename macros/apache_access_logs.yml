@@ -1,8 +1,8 @@
 name: apache_access_logs
 id: 6a0b2a22-56bb-49e9-9efa-fb896d2758a1
-version: 1
+version: 2
 creation_date: '2026-10-22'
-modification_date: '2026-10-22'
+modification_date: '2026-10-23'
 author: Splunk Threat Research Team
 description: Customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
-definition: source="/var/log/apache2/access.log"
+definition: (source="/var/log/apache2/access.log" OR sourcetype IN ("apache:access", "apache:access:combined", "apache:access:kv", "apache:access:json", "access_combined"))
