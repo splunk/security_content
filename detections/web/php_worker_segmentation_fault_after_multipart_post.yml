@@ -1,0 +1,113 @@
+name: PHP Worker Segmentation Fault After Multipart POST
+id: 0ace6522-ee55-4e5c-bd69-d6f0a8e69e6a
+version: 1
+creation_date: '2026-10-28'
+modification_date: '2026-10-28'
+author: Onur Mustafa Erdogan, Raven Tait, Nasreddine Bencherchali, Splunk
+status: experimental
+type: Anomaly
+description: |-
+    This analytic pairs an Apache AH00051 worker segmentation-fault notice with
+    the most recent logged request from that child PID on the same host and
+    Apache instance. It reports cases where the request was a multipart POST
+    within 30 seconds of the crash, a pattern that can occur during PHP2Shell
+    exploitation. The access event is a candidate for the associated request;
+    a request that kills the worker may never reach the access log.
+data_source:
+    - Apache Access Log
+    - Apache Error Log
+search: |-
+    (
+        `apache_access_logs` OR `apache_error_logs`
+        OR `nginx_access_logs` OR `nginx_error_logs`
+    )
+    (
+        (http_content_type="multipart/form-data*" AND http_method=POST)
+        OR error_message="*exit signal Segmentation fault*"
+    )
+
+    | bin _time span=1m 
+    | rex field=error_message "child\s+pid\s+(?<child_pid>\d+)"
+
+    | rex field=_raw "client\:?\s+(?<client>.*?)(?:,|\]|$)"
+    | rex mode=sed field=client "s/\:\d+$//g"
+
+    | eval pid=coalesce(child_pid,process_id,pid)
+    | eval message=coalesce(error_message,message)
+    | eval src=coalesce(client,src,src_ip)
+    | eval dest=coalesce(server,dest,dest_ip)
+    | eval uri_query=coalesce(uri_query,"")
+    | eval uri_path=coalesce(uri_path,"")
+    | eval uri=coalesce(uri_path.uri_query,uri)
+
+    | stats count min(_time) as firstTime last(_time) as lastTime
+        dc(source) as dc_source
+        values(source) as source
+        values(http_method) as http_method
+        values(src) as src
+        values(dest) as dest
+        values(dest_port) as dest_port
+        values(site) as site
+        values(uri) as uri
+        values(url) as url
+        values(status) as status
+        values(memory_bytes) as memory_bytes
+        values(http_content_length) as http_content_length
+        values(http_content_type) as http_content_type
+        values(http_referrer) as http_referrer
+        values(http_user_agent) as http_user_agent
+        values(message) as message
+        by _time pid host
+    | where mvfind(source,"access")>=0 AND mvfind(source,"error")>=0
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `php_worker_segmentation_fault_after_multipart_post_filter`
+how_to_implement: |-
+    Ingest Apache (https://splunkbase.splunk.com/app/3186) access and error logs into Splunk using their default Splunk add-ons.
+    Follow configuration instructions (https://splunk.github.io/splunk-add-on-for-apache-web-server/Configure/) to properly set up Apache access and error log format.
+    In addition to default log formats, enable logging of worker PID (process ID) in both access and error logs.
+    Make sure that you configure the `apache_access_logs` and `apache_error_logs` or `nginx_access_logs` and `nginx_error_logs` macros with the corresponding source and sourcetype patterns for your environment.
+known_false_positives: |-
+    Legitimate large multipart uploads, application bugs, or load tests can cause memory-limit errors.
+    Review the correlated access and PHP error events before classifying this activity as exploitation.
+references:
+    - https://www.php2shell.com/
+    - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
+    - https://securitylabs.datadoghq.com/articles/php2shell-critical-vulnerabilities-in-php
+    - https://panop.io/threat-intelligence/php2shell-cve-2026-109618-cve-2026-109619/
+intermediate_findings:
+    entities:
+        - field: host
+          type: system
+          score: 20
+          message: Apache worker [$pid$] on [$host$] crashed after a multipart POST from [$src$] to [$uri$].
+threat_objects:
+    - field: src
+      type: ip_address
+    - field: uri
+      type: url
+analytic_story:
+    - PHP2Shell
+asset_type: Web Application
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/apache_segfault_error.log
+          source: /var/log/apache2/error.log
+          sourcetype: apache:error
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/apache_segfault_access.log
+          source: /var/log/apache2/access.log
+          sourcetype: apache:access:kv
+      test_type: unit
