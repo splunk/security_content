@@ -4,29 +4,28 @@ version: 1
 creation_date: '2026-10-28'
 modification_date: '2026-10-28'
 author: Onur Mustafa Erdogan, Raven Tait, Nasreddine Bencherchali, Splunk
-status: experimental
+status: production
 type: Anomaly
 description: |-
     This analytic pairs an Apache AH00051 worker segmentation-fault notice with
-    the most recent logged request from that child PID on the same host and
-    Apache instance. It reports cases where the request was a multipart POST
-    within 30 seconds of the crash, a pattern that can occur during PHP2Shell
-    exploitation. The access event is a candidate for the associated request;
-    a request that kills the worker may never reach the access log.
+    the most recent logged request from that child PID on the same host and Apache
+    instance. It looks for multipart POST requests within short time frame around
+    the crash, a pattern that can occur during PHP2Shell exploitation. Captured
+    access event is a candidate for the associated request that leads to crash.
+    Yet, request that kills the worker may never reach the access log.
 data_source:
     - Apache Access Log
     - Apache Error Log
 search: |-
     (
         `apache_access_logs` OR `apache_error_logs`
-        OR `nginx_access_logs` OR `nginx_error_logs`
     )
     (
         (http_content_type="multipart/form-data*" AND http_method=POST)
         OR error_message="*exit signal Segmentation fault*"
     )
 
-    | bin _time span=1m 
+    | bin _time span=1m
     | rex field=error_message "child\s+pid\s+(?<child_pid>\d+)"
 
     | rex field=_raw "client\:?\s+(?<client>.*?)(?:,|\]|$)"
@@ -81,7 +80,7 @@ intermediate_findings:
         - field: host
           type: system
           score: 20
-          message: Apache worker [$pid$] on [$host$] crashed after a multipart POST from [$src$] to [$uri$].
+          message: Apache worker [$pid$] on [$host$] crashed after a multipart POST from [$src$] to [$url$].
 threat_objects:
     - field: src
       type: ip_address
