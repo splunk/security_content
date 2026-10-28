@@ -1,13 +1,13 @@
 name: Inline PHP Code Execution
 id: 312567b0-4e9b-4f3a-b842-a3ba17a89975
-version: 1
+version: 2
 creation_date: '2026-10-22'
-modification_date: '2026-10-22'
+modification_date: '2026-10-28'
 author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |
-    The following analytic detects PHP command-line interpreters executing code supplied directly on the command line with the CLI -r / --run options, or code supplied to PHPDBG through standard input.
+    The following analytic detects PHP command-line interpreters executing code supplied directly on the command line with the CLI -r / --run options, per-line execution flags, non-empty auto-prepend or auto-append settings, or code supplied to PHPDBG through standard input.
     It covers common CLI executable names on Linux and Windows, including php.exe, php-win.exe, the legacy php-cli.exe name, versioned Linux php binaries, phpdbg, and FrankenPHP's php-cli subcommand.
     PHP-CGI and PHP-FPM are excluded because they do not support the PHP CLI inline -r option.
     This behavior can be used legitimately for administration and automation, but unexpected or obfuscated inline PHP execution may indicate an attacker using an installed interpreter to run commands without dropping a script file.
@@ -22,21 +22,26 @@ search: |
             max(_time) as lastTime
 
     FROM datamodel=Endpoint.Processes WHERE
-
     (
         (
             Processes.process_name IN (
                 "php-cli.exe",
+                "php-cli",
                 "php-win.exe",
                 "php.exe",
                 "php",
                 "php5*",
                 "php7*",
                 "php8*",
-                "php9*",
+                "php9*"
             )
-            Processes.process IN ("* -r *", "* --run *", "* --run=*")
             NOT Processes.process_name IN ("*cgi*", "*fpm*")
+            Processes.process IN (
+                "* -r *", "* --run *", "* --run=*", "* -r\"*", "* -r'*", "* -r$*",
+                "* -B *", "* -R *", "* -E *", "* -F *",
+                "* --process-begin *", "* --process-code *", "* --process-file *", "* --process-end *",
+                "*auto_prepend_file=*", "*auto_append_file=*", "*allow_url_include=*"
+            )
         )
         OR
         (
@@ -46,20 +51,41 @@ search: |
         OR
         (
             Processes.process_name IN ("frankenphp", "frankenphp.exe")
-            Processes.process= "*php-cli*"
-            Processes.process= "* -r *"
+            Processes.process="*php-cli*"
+            Processes.process IN ("* -r *", "* -r\"*", "* -r'*", "* -r$*")
         )
     )
 
-    by Processes.action Processes.dest Processes.original_file_name
-       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-       Processes.process Processes.process_exec Processes.process_guid
-       Processes.process_hash Processes.process_id Processes.process_integrity_level
-       Processes.process_name Processes.process_path Processes.user
-       Processes.user_id Processes.vendor_product
+    BY Processes.action Processes.dest Processes.original_file_name
+        Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+        Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+        Processes.process Processes.process_exec Processes.process_guid
+        Processes.process_hash Processes.process_id Processes.process_integrity_level
+        Processes.process_name Processes.process_path Processes.user
+        Processes.user_id Processes.vendor_product
 
     | `drop_dm_object_name(Processes)`
+
+    | eval php_inline_r=if(match(process, "(^|\s)(-r|--run)(\s|=|\"|'|\$)"), 1, 0)
+    | eval php_per_line=if(match(process, "(^|\s)(-[BREF]|--process-(begin|code|file|end))(\s|$)"), 1, 0)
+    | eval php_ini_inject=if(match(process, "(?i)-d\s*\"?(auto_prepend_file|auto_append_file)\s*=\s*\"?[^\s\"']"), 1, 0)
+    | eval php_allow_url_include=if(match(process, "(?i)-d\s*\"?allow_url_include\s*=\s*\"?(?:1|on|true|yes)(?=\s|\"|'|$)"), 1, 0)
+    | eval phpdbg_or_franken=if(match(process_name, "(?i)^(phpdbg|frankenphp)"), 1, 0)
+
+    | where (
+        php_inline_r=1
+        OR php_per_line=1
+        OR php_ini_inject=1
+        OR php_allow_url_include=1
+        OR phpdbg_or_franken=1
+    )
+
+
+    | where NOT (
+        match(process, "-r\s+\"define\('LARAVEL_START'")
+        OR match(process, "-r\s+\"echo (PHP_VERSION|'PHP;', PHP_VERSION_ID)")
+    )
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `inline_php_code_execution_filter`
