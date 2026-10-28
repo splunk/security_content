@@ -5,4 +5,4 @@ creation_date: '2020-05-05'
 modification_date: '2026-10-28'
 author: Splunk Threat Research Team
 description: Linux shell process names, including ash, mksh, and busybox used by Alpine and BusyBox environments.
-definition: (Processes.process_name IN ("sh", "ksh", "zsh", "bash", "dash", "rbash", "fish", "csh", "tcsh", "ion", "eshell", "ash", "mksh", "busybox"))
+definition: (Processes.process_name IN ("ash", "bash", "csh", "dash", "eshell", "fish", "ion", "ksh", "mksh", "rbash", "sh", "tcsh", "zsh"))

@@ -68,13 +68,15 @@ search: |
 
     | eval php_inline_r=if(match(process, "(^|\s)(-r|--run)(\s|=|\"|'|\$)"), 1, 0)
     | eval php_per_line=if(match(process, "(^|\s)(-[BREF]|--process-(begin|code|file|end))(\s|$)"), 1, 0)
-    | eval php_ini_inject=if(match(process, "(?i)-d\s*\"?(auto_prepend_file|auto_append_file|allow_url_include)\s*=\s*\"?[^\s\"']"), 1, 0)
+    | eval php_ini_inject=if(match(process, "(?i)-d\s*\"?(auto_prepend_file|auto_append_file)\s*=\s*\"?[^\s\"']"), 1, 0)
+    | eval php_allow_url_include=if(match(process, "(?i)-d\s*\"?allow_url_include\s*=\s*\"?(?:1|on|true|yes)(?=\s|\"|'|$)"), 1, 0)
     | eval phpdbg_or_franken=if(match(process_name, "(?i)^(phpdbg|frankenphp)"), 1, 0)
 
     | where (
         php_inline_r=1
         OR php_per_line=1
         OR php_ini_inject=1
+        OR php_allow_url_include=1
         OR phpdbg_or_franken=1
     )
 

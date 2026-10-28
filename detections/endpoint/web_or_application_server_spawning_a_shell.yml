@@ -7,10 +7,9 @@ author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |
-    The following analytic detects instances where Java, or Tomcat processes spawn a Linux shell, which may indicate exploitation attempts, such as those related to CVE-2021-44228 (Log4Shell).
+    The following analytic detects instances where Java, web server, or application server processes spawn a Linux shell, which may indicate exploitation attempts.
     This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names and parent-child process relationships.
-    This activity is significant as it can signify a compromised Java application, potentially leading to unauthorized shell access.
-    If confirmed malicious, attackers could execute arbitrary commands, escalate privileges, or maintain persistent access, posing a severe threat to the environment.
+    This activity may indicate a compromised service leading to unauthorized shell access. If confirmed malicious, attackers could execute commands, escalate privileges, or maintain persistent access.
 data_source:
     - Sysmon for Linux EventID 1
     - Sysmon EventID 1
