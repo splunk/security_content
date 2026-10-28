@@ -37,11 +37,29 @@ search: |
     OR
     (
         Processes.parent_process_name IN (
-            "apache*.exe", "caddy.exe", "frankenphp.exe", "http*.exe", "iisexpress.exe",
-            "java.exe", "javaw.exe", "lighttpd.exe", "nginx*.exe", "php*.exe", "roadrunner.exe",
-            "tomcat*.exe", "UMWorkerProcess.exe", "w3wp.exe", "ws_TomcatService.exe",
-            "coldfusion.exe", "jrun.exe", "beasvc.exe", "wildfly-service.exe", "jbosssvc.exe",
-            "openresty.exe", "traefik.exe", "lsphp*.exe"
+            "apache*.exe",
+            "beasvc.exe",
+            "caddy.exe",
+            "coldfusion.exe",
+            "frankenphp.exe",
+            "http*.exe",
+            "iisexpress.exe",
+            "java.exe",
+            "javaw.exe",
+            "jbosssvc.exe",
+            "jrun.exe",
+            "lighttpd.exe",
+            "lsphp*.exe",
+            "nginx*.exe",
+            "openresty.exe",
+            "php*.exe",
+            "roadrunner.exe",
+            "tomcat*.exe",
+            "traefik.exe",
+            "UMWorkerProcess.exe",
+            "w3wp.exe",
+            "wildfly-service.exe",
+            "ws_TomcatService.exe"
         )
         `windows_shells`
     )
