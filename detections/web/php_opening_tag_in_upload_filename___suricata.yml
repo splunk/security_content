@@ -26,11 +26,12 @@ search: |-
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
                   values(php_token) as php_token
+                  values(http_content_type) as http_content_type
 
       by fileinfo.filename
          src src_port
          dest dest_port
-         url http_method http_content_type
+         url http_method
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
