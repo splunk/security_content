@@ -1,8 +1,8 @@
 name: O365 Add-MailboxPermission
 id: 9c0babdb-bb15-449e-abba-0a9cdb3fc061
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the addition of mailbox permissions in Microsoft 365, including details about the mailbox, granted permissions, and the user or administrator performing the action.
 mitre_components:
@@ -21,14 +21,25 @@ supported_TA:
 fields:
     - _time
     - AccessRights
+    - app
     - AppId
+    - authentication_service
     - ClientAppId
     - ClientIP
+    - command
     - CreationTime
+    - dest
+    - dest_name
+    - dvc
     - ExternalAccess
+    - host
     - Id
     - Identity
+    - index
     - InheritanceType
+    - linecount
+    - object
+    - object_id
     - ObjectId
     - Operation
     - OrganizationId
@@ -36,35 +47,13 @@ fields:
     - OriginatingServer
     - Parameters{}.Name
     - Parameters{}.Value
-    - RecordType
-    - ResultStatus
-    - SessionId
-    - User
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - app
-    - authentication_service
-    - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dest_name
-    - dvc
-    - host
-    - index
-    - linecount
-    - object
+    - Params
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
+    - SessionId
     - signature
     - source
     - sourcetype
@@ -72,17 +61,24 @@ fields:
     - src
     - src_ip
     - status
-    - timeendpos
-    - timestartpos
+    - tenant_id
+    - timestamp
+    - User
     - user
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"AppId": "", "ClientAppId": "", "ClientIP": "18.159.234.121:30395", "CreationTime": "2020-12-15T10:18:53", "ExternalAccess": false, "Id": "bb6e31a3-e98f-493d-bbff-08d8a0e2d2b0", "ObjectId": "jhernan", "Operation": "Add-MailboxPermission", "OrganizationId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "OrganizationName": "rodsoto.onmicrosoft.com", "OriginatingServer": "PH0PR14MB4341 (15.20.3654.025)", "Parameters": [{"Name": "Identity", "Value": "jhernan"}, {"Name": "User", "Value": "Patrick Bareiss"}, {"Name": "AccessRights", "Value": "FullAccess"}, {"Name": "InheritanceType", "Value": "All"}], "RecordType": 1, "ResultStatus": "True", "SessionId": "2be46662-a743-4a05-8744-c2f75f886512", "UserId": "pbareiss@rodsoto.onmicrosoft.com", "UserKey": "10032001020A3408", "UserType": 2, "Version": 1, "Workload": "Exchange"}'
+example_log: |
+    {"AppId": "", "ClientAppId": "", "ClientIP": "18.159.234.121:30395", "CreationTime": "2020-12-15T09:41:16", "ExternalAccess": false, "Id": "d2a5f7e4-804e-432a-4318-08d8a0dd9195", "ObjectId": "jhernan", "Operation": "Add-MailboxPermission", "OrganizationId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "OrganizationName": "rodsoto.onmicrosoft.com", "OriginatingServer": "PH0PR14MB4341 (15.20.3654.025)", "Parameters": [{"Name": "Identity", "Value": "jhernan"}, {"Name": "User", "Value": "Patrick Bareiss"}, {"Name": "AccessRights", "Value": "FullAccess"}, {"Name": "InheritanceType", "Value": "All"}], "RecordType": 1, "ResultStatus": "True", "SessionId": "2be46662-a743-4a05-8744-c2f75f886512", "UserId": "pbareiss@rodsoto.onmicrosoft.com", "UserKey": "10032001020A3408", "UserType": 2, "Version": 1, "Workload": "Exchange"}

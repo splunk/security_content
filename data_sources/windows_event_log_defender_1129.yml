@@ -1,8 +1,8 @@
 name: Windows Event Log Defender 1129
 id: 0572e119-a48a-4c70-bc58-90e453edacd2
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a user overrides a security policy set by an Attack Surface Reduction rule in Microsoft Defender.
 mitre_components:
@@ -19,24 +19,9 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - ComputerName
-    - EventCode
-    - EventType
-    - ID
-    - Keywords
-    - LogName
-    - Message
-    - OpCode
-    - Path
-    - Process_Name
-    - RecordNumber
-    - Sid
-    - SidType
-    - SourceName
-    - TaskCategory
-    - Type
-    - User
     - category
+    - ComputerName
+    - date
     - date_hour
     - date_mday
     - date_minute
@@ -45,23 +30,59 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - dest
     - dvc_nt_host
     - event_id
+    - EventCode
+    - EventType
     - eventtype
+    - file_name
+    - file_path
     - host
+    - ID
     - id
     - index
+    - Keywords
     - linecount
+    - LogName
+    - Message
+    - OpCode
+    - Path
+    - Process_Name
     - punct
-    - severity
-    - severity_id
+    - RecordNumber
+    - Sid
+    - SidType
     - signature_id
     - source
     - sourcetype
     - splunk_server
     - tag
     - tag::eventtype
+    - TaskCategory
     - timeendpos
     - timestartpos
-    - vendor_product
-example_log: ''
+    - Type
+    - User
+    - user
+example_log: |
+    11/17/2023 05:23:37 PM
+    LogName=Microsoft-Windows-Windows Defender/Operational
+    EventCode=1129
+    EventType=4
+    ComputerName=researchvmhaa
+    User=NOT_TRANSLATED
+    Sid=S-1-5-18
+    SidType=0
+    SourceName=Microsoft-Windows-Windows Defender
+    Type=Information
+    RecordNumber=2360
+    Keywords=None
+    TaskCategory=None
+    OpCode=Info
+    Message=A user has allowed a blocked Microsoft Defender Exploit Guard operation.
+         ID: D1E49AAC-8F56-4280-B9BA-993A6D77406C
+         User: NT AUTHORITY\SYSTEM
+         Path: C:\Windows\System32\cmd.exe
+         Process Name: C:\Windows\PSEXESVC.exe
+         Involved File:

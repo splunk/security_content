@@ -1,8 +1,8 @@
 name: O365 Set Company Information.
 id: 06c6d576-f032-41e3-b15d-80a434ce13d8
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs updates to organizational settings and company information in Microsoft 365, including changes to contact details, branding, and configuration policies.
 mitre_components:
@@ -20,83 +20,82 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
+    - action
     - ActorContextId
     - ActorIpAddress
     - Actor{}.ID
     - Actor{}.Type
-    - AzureActiveDirectoryEventType
-    - ClientIP
-    - CreationTime
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - ModifiedProperties{}.Name
-    - ModifiedProperties{}.NewValue
-    - ModifiedProperties{}.OldValue
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - ResultStatus
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - action
     - additionalDetails
     - app
     - authentication_service
+    - AzureActiveDirectoryEventType
     - change_type
+    - ClientIP
     - command
+    - CreationTime
     - dataset_name
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
     - dest
     - dest_name
     - dvc
     - event_type
     - eventtype
-    - extendedAuditEventCategory
     - extended_properties
+    - extendedAuditEventCategory
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
     - linecount
+    - modified_properties
+    - modified_properties_name
+    - modified_properties_new_value
+    - ModifiedProperties{}.Name
+    - ModifiedProperties{}.NewValue
+    - ModifiedProperties{}.OldValue
+    - obj_id
     - object
     - object_attrs
     - object_category
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
     - signature
     - source
     - sourcetype
     - splunk_server
     - status
+    - SupportTicketId
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
+    - timestamp
     - user
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"Actor": [{"ID": "bpatel@rodsoto.onmicrosoft.com", "Type": 5}, {"ID": "100320010208B5DC", "Type": 3}, {"ID": "User_425b75db-38be-4c7b-a474-5f0709247370", "Type": 2}, {"ID": "425b75db-38be-4c7b-a474-5f0709247370", "Type": 2}, {"ID": "User", "Type": 2}], "ActorContextId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "ActorIpAddress": "", "AzureActiveDirectoryEventType": 1, "ClientIP": "", "CreationTime": "2021-01-13T22:57:21", "ExtendedProperties": [{"Name": "additionalDetails", "Value": "{}"}, {"Name": "extendedAuditEventCategory", "Value": "Company"}], "Id": "50a62783-f9d7-472c-9e44-f4f3d346e53c", "InterSystemsId": "6f435e84-e95b-44da-820f-2d2c9c237293", "IntraSystemId": "1163f0db-2241-4689-8486-b15c7812bbe0", "ModifiedProperties": [{"Name": "StrongAuthenticationPolicy", "NewValue": "[\r\n  {\r\n    \"RelyingPartyStrongAuthenticationPolicies\": [\r\n      {\r\n        \"RelyingParties\": [\r\n          \"*\"\r\n        ],\r\n        \"Rules\": [\r\n          {\r\n            \"SelectionConditions\": [\r\n              {\r\n                \"Claim\": 1,\r\n                \"Operator\": 0,\r\n                \"Values\": [\r\n                  \"73.15.72.101/32\",\r\n                  \"66.176.252.11/32\"\r\n                ]\r\n              }\r\n            ]\r\n          }\r\n        ],\r\n        \"Enabled\": true\r\n      }\r\n    ]\r\n  }\r\n]", "OldValue": "[\r\n  {\r\n    \"RelyingPartyStrongAuthenticationPolicies\": [\r\n      {\r\n        \"RelyingParties\": [\r\n          \"*\"\r\n        ],\r\n        \"Rules\": [\r\n          {\r\n            \"SelectionConditions\": [\r\n              {\r\n                \"Claim\": 1,\r\n                \"Operator\": 0,\r\n                \"Values\": [\r\n                  \"73.15.72.101/32\",\r\n                  \"66.176.252.11/32\"\r\n                ]\r\n              }\r\n            ]\r\n          },\r\n          {\r\n            \"SelectionConditions\": [\r\n              {\r\n                \"Claim\": 2,\r\n                \"Operator\": 0,\r\n                \"Values\": [\r\n                  \"insidecorporatenetwork--true\"\r\n                ]\r\n              }\r\n            ]\r\n          }\r\n        ],\r\n        \"Enabled\": true\r\n      }\r\n    ]\r\n  }\r\n]"}, {"Name": "Included Updated Properties", "NewValue": "StrongAuthenticationPolicy", "OldValue": ""}], "ObjectId": "Company_0e8108b1-18e9-41a4-961b-dfcddf92ef08", "Operation": "Set Company Information.", "OrganizationId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "RecordType": 8, "ResultStatus": "Success", "SupportTicketId": "", "Target": [{"ID": "Company_0e8108b1-18e9-41a4-961b-dfcddf92ef08", "Type": 2}, {"ID": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "Type": 2}, {"ID": "Directory", "Type": 2}, {"ID": "Emergency Information Technology Services LLC", "Type": 1}], "TargetContextId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "UserId": "bpatel@rodsoto.onmicrosoft.com", "UserKey": "100320010208B5DC@rodsoto.onmicrosoft.com", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory"}'
+example_log: |
+    {"Actor": [{"ID": "bpatel@rodsoto.onmicrosoft.com", "Type": 5}, {"ID": "100320010208B5DC", "Type": 3}, {"ID": "User_425b75db-38be-4c7b-a474-5f0709247370", "Type": 2}, {"ID": "425b75db-38be-4c7b-a474-5f0709247370", "Type": 2}, {"ID": "User", "Type": 2}], "ActorContextId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "ActorIpAddress": "", "AzureActiveDirectoryEventType": 1, "ClientIP": "", "CreationTime": "2021-01-06T01:50:42", "ExtendedProperties": [{"Name": "additionalDetails", "Value": "{}"}, {"Name": "extendedAuditEventCategory", "Value": "Company"}], "Id": "0446789a-4b8c-4a63-a425-b370df0524f6", "InterSystemsId": "f18836fb-fa5a-4476-864a-972215d182d6", "IntraSystemId": "8b498fc4-57ad-4a1e-87bd-d0846a19393f", "ModifiedProperties": [{"Name": "StrongAuthenticationPolicy", "NewValue": "[\r\n  {\r\n    \"RelyingPartyStrongAuthenticationPolicies\": [\r\n      {\r\n        \"RelyingParties\": [\r\n          \"*\"\r\n        ],\r\n        \"Rules\": [\r\n          {\r\n            \"SelectionConditions\": [\r\n              {\r\n                \"Claim\": 1,\r\n                \"Operator\": 0,\r\n                \"Values\": [\r\n                  \"73.15.72.101/32\"\r\n                ]\r\n              }\r\n            ]\r\n          }\r\n        ],\r\n        \"Enabled\": true\r\n      }\r\n    ]\r\n  }\r\n]", "OldValue": "[]"}, {"Name": "Included Updated Properties", "NewValue": "StrongAuthenticationPolicy", "OldValue": ""}], "ObjectId": "Company_0e8108b1-18e9-41a4-961b-dfcddf92ef08", "Operation": "Set Company Information.", "OrganizationId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "RecordType": 8, "ResultStatus": "Success", "SupportTicketId": "", "Target": [{"ID": "Company_0e8108b1-18e9-41a4-961b-dfcddf92ef08", "Type": 2}, {"ID": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "Type": 2}, {"ID": "Directory", "Type": 2}, {"ID": "Emergency Information Technology Services LLC", "Type": 1}], "TargetContextId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "UserId": "bpatel@rodsoto.onmicrosoft.com", "UserKey": "100320010208B5DC@rodsoto.onmicrosoft.com", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory"}

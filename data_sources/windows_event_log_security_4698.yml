@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4698
 id: 32c06703-02d3-47ec-8856-b0dc3045866c
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a new scheduled task is created
 mitre_components:
@@ -18,57 +18,50 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
-    - Account_Domain
-    - Account_Name
-    - ComputerName
-    - Error_Code
-    - EventCode
-    - EventType
-    - Keywords
-    - LogName
-    - Logon_ID
-    - Message
-    - OpCode
-    - RecordNumber
-    - Security_ID
-    - SourceName
-    - Subject_Account_Domain
-    - Subject_Account_Name
-    - Subject_Logon_ID
-    - Subject_Security_ID
-    - TaskCategory
-    - Task_Content
-    - Task_Name
-    - Type
     - action
+    - ActivityID
     - app
-    - body
-    - category
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - Caller_Domain
+    - Caller_User_Name
+    - change_type
+    - Channel
+    - ClientProcessId
+    - ClientProcessStartKey
+    - Computer
     - dest
     - dest_nt_domain
-    - dest_nt_host
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
     - eventtype
+    - FQDN
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
-    - member_dn
-    - member_id
-    - member_nt_domain
+    - Logon_ID
+    - Name
     - name
+    - object
+    - object_attrs
+    - object_category
+    - Opcode
+    - ParentProcessId
+    - ProcessID
     - product
     - punct
+    - RecordNumber
+    - result
+    - RpcCallClientLocality
     - session_id
     - severity
     - severity_id
@@ -78,17 +71,74 @@ fields:
     - sourcetype
     - splunk_server
     - src_nt_domain
+    - src_subject_user_id
+    - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
-    - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - TaskContent
+    - TaskName
+    - ThreadID
+    - timestamp
     - user
+    - user_name
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: 04/26/2022 11:12:09 AM
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4698</EventID><Version>1</Version><Level>0</Level><Task>12804</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2024-09-10T10:02:23.845080200Z'/><EventRecordID>341052</EventRecordID><Correlation ActivityID='{54d67b3e-02b6-0003-507b-d654b602db01}'/><Execution ProcessID='612' ThreadID='7324'/><Channel>Security</Channel><Computer>testlab-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x7eb3a</Data><Data Name='TaskName'>\CompMgmtLauncher</Data><Data Name='TaskContent'>&lt;?xml version="1.0" encoding="UTF-16"?&gt;
+    &lt;Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"&gt;
+      &lt;RegistrationInfo&gt;
+        &lt;URI&gt;\CompMgmtLauncher&lt;/URI&gt;
+      &lt;/RegistrationInfo&gt;
+      &lt;Triggers&gt;
+        &lt;LogonTrigger&gt;
+          &lt;Enabled&gt;true&lt;/Enabled&gt;
+        &lt;/LogonTrigger&gt;
+      &lt;/Triggers&gt;
+      &lt;Principals&gt;
+        &lt;Principal id="Author"&gt;
+          &lt;RunLevel&gt;HighestAvailable&lt;/RunLevel&gt;
+          &lt;UserId&gt;ATTACKRANGE\administrator&lt;/UserId&gt;
+          &lt;LogonType&gt;InteractiveToken&lt;/LogonType&gt;
+        &lt;/Principal&gt;
+      &lt;/Principals&gt;
+      &lt;Settings&gt;
+        &lt;MultipleInstancesPolicy&gt;Parallel&lt;/MultipleInstancesPolicy&gt;
+        &lt;DisallowStartIfOnBatteries&gt;false&lt;/DisallowStartIfOnBatteries&gt;
+        &lt;StopIfGoingOnBatteries&gt;false&lt;/StopIfGoingOnBatteries&gt;
+        &lt;AllowHardTerminate&gt;true&lt;/AllowHardTerminate&gt;
+        &lt;StartWhenAvailable&gt;false&lt;/StartWhenAvailable&gt;
+        &lt;RunOnlyIfNetworkAvailable&gt;false&lt;/RunOnlyIfNetworkAvailable&gt;
+        &lt;IdleSettings&gt;
+          &lt;Duration&gt;PT10M&lt;/Duration&gt;
+          &lt;WaitTimeout&gt;PT1H&lt;/WaitTimeout&gt;
+          &lt;StopOnIdleEnd&gt;true&lt;/StopOnIdleEnd&gt;
+          &lt;RestartOnIdle&gt;false&lt;/RestartOnIdle&gt;
+        &lt;/IdleSettings&gt;
+        &lt;AllowStartOnDemand&gt;true&lt;/AllowStartOnDemand&gt;
+        &lt;Enabled&gt;true&lt;/Enabled&gt;
+        &lt;Hidden&gt;false&lt;/Hidden&gt;
+        &lt;RunOnlyIfIdle&gt;false&lt;/RunOnlyIfIdle&gt;
+        &lt;WakeToRun&gt;false&lt;/WakeToRun&gt;
+        &lt;ExecutionTimeLimit&gt;PT72H&lt;/ExecutionTimeLimit&gt;
+        &lt;Priority&gt;7&lt;/Priority&gt;
+      &lt;/Settings&gt;
+      &lt;Actions Context="Author"&gt;
+        &lt;Exec&gt;
+          &lt;Command&gt;C:\Windows\System32\CompMgmtLauncher.exe&lt;/Command&gt;
+        &lt;/Exec&gt;
+      &lt;/Actions&gt;
+    &lt;/Task&gt;</Data><Data Name='ClientProcessStartKey'>185773484629040073</Data><Data Name='ClientProcessId'>6916</Data><Data Name='ParentProcessId'>3192</Data><Data Name='RpcCallClientLocality'>0</Data><Data Name='FQDN'>testlab-win-dc.attackrange.local</Data></EventData></Event>

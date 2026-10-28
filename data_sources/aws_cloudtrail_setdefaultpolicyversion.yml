@@ -1,8 +1,8 @@
 name: AWS CloudTrail SetDefaultPolicyVersion
 id: 06e0b5a0-8d36-485e-befc-4ae79d77ef6c
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when the default version of a resource policy in AWS is set or changed.
 mitre_components:
@@ -20,29 +20,22 @@ fields:
     - _time
     - action
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
     - dest
     - dvc
     - errorCode
+    - errorMessage
     - eventCategory
     - eventID
     - eventName
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -52,12 +45,15 @@ fields:
     - product
     - punct
     - readOnly
+    - reason
     - recipientAccountId
     - region
     - requestID
     - requestParameters.policyArn
     - requestParameters.versionId
     - responseElements
+    - result
+    - result_id
     - signature
     - source
     - sourceIPAddress
@@ -65,13 +61,19 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - status
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - timestamp
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -80,13 +82,6 @@ fields:
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
@@ -99,4 +94,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLESDK2NOSX", "arn": "arn:aws:iam::111111111111:user/AtomicRedTeam", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKMZDMPVA", "userName": "AtomicRedTeam"}, "eventTime": "2021-03-02T21:05:49Z", "eventSource": "iam.amazonaws.com", "eventName": "SetDefaultPolicyVersion", "awsRegion": "us-east-1", "sourceIPAddress": "73.15.72.101", "userAgent": "aws-cli/2.0.62 Python/3.9.0 Darwin/19.6.0 source/x86_64 command/iam.set-default-policy-version", "requestParameters": {"policyArn": "arn:aws:iam::111111111111:policy/VulnerablePolicy", "versionId": "v1"}, "responseElements": null, "requestID": "3bdf8738-2eab-4ae8-a858-2e2a4ccfc66b", "eventID": "742f6e55-4bc7-49e2-965f-56ffbc46a980", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLNWREA6ND", "userName": "bhavin_cli"}, "eventTime": "2021-02-25T00:47:28Z", "eventSource": "iam.amazonaws.com", "eventName": "SetDefaultPolicyVersion", "awsRegion": "us-east-1", "sourceIPAddress": "73.15.72.101", "userAgent": "aws-cli/2.0.62 Python/3.9.0 Darwin/19.6.0 source/x86_64 command/iam.set-default-policy-version", "requestParameters": {"policyArn": "arn:aws:iam::111111111111:policy/VulnerablePolicy", "versionId": "v1"}, "responseElements": null, "requestID": "26aeca5f-8610-4abe-9f07-2cf0d958682a", "eventID": "d0fd02d6-385a-4226-8e1e-c409ff5a6a94", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}

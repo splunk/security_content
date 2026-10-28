@@ -1,8 +1,8 @@
 name: O365 UserLoggedIn
 id: ed29c8c4-4053-419c-b133-16abf2a1c4c9
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs successful login events by users in Microsoft 365, including details about the user account, IP address, and session metadata.
 mitre_components:
@@ -20,45 +20,21 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
+    - action
     - ActorContextId
     - ActorIpAddress
     - Actor{}.ID
     - Actor{}.Type
+    - app
     - ApplicationId
+    - authentication_method
+    - authentication_service
     - AzureActiveDirectoryEventType
     - BrowserType
     - ClientIP
-    - CreationTime
-    - DeviceProperties{}.Name
-    - DeviceProperties{}.Value
-    - ErrorNumber
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - OS
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - RequestType
-    - ResultStatus
-    - ResultStatusDetail
-    - SessionId
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserAgent
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
-    - app
-    - authentication_service
     - command
+    - CreationTime
+    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -69,14 +45,33 @@ fields:
     - date_zone
     - dest
     - dest_name
+    - DeviceProperties{}.Name
+    - DeviceProperties{}.Value
     - dvc
+    - ErrorNumber
     - event_type
+    - eventtype
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
+    - KeepMeSignedIn
     - linecount
-    - object
+    - ObjectId
+    - Operation
+    - OrganizationId
+    - OS
     - punct
     - record_type
+    - RecordType
+    - RequestType
+    - result
+    - ResultStatus
+    - ResultStatusDetail
+    - SessionId
     - signature
     - source
     - sourcetype
@@ -84,17 +79,34 @@ fields:
     - src
     - src_ip
     - status
+    - SupportTicketId
+    - tag
+    - tag::action
+    - tag::eventtype
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
     - timeendpos
     - timestartpos
     - user
     - user_agent
+    - user_id
     - user_type
+    - UserAgent
+    - UserAuthenticationMethod
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"CreationTime": "2023-12-04T20:42:05", "Id": "52d72a62-132b-487b-bb7f-c4c119f90700", "Operation": "UserLoggedIn", "OrganizationId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "RecordType": 15, "ResultStatus": "Success", "UserKey": "2d2f9e2c-8350-4d98-852e-3f06daaf7185", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory", "ClientIP": "54.68.231.63", "ObjectId": "00000002-0000-0ff1-ce00-000000000000", "UserId": "user15@splunkresearch.onmicrosoft.com", "AzureActiveDirectoryEventType": 1, "ExtendedProperties": [{"Name": "ResultStatusDetail", "Value": "Success"}, {"Name": "UserAgent", "Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"}, {"Name": "RequestType", "Value": "OAuth2:Authorize"}], "ModifiedProperties": [], "Actor": [{"ID": "2d2f9e2c-8350-4d98-852e-3f06daaf7185", "Type": 0}, {"ID": "user15@splunkresearch.onmicrosoft.com", "Type": 5}], "ActorContextId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "ActorIpAddress": "54.68.231.63", "InterSystemsId": "6463a6ad-27ec-b311-dc52-ecdde38d9492", "IntraSystemId": "52d72a62-132b-487b-bb7f-c4c119f90700", "SupportTicketId": "", "Target": [{"ID": "00000002-0000-0ff1-ce00-000000000000", "Type": 0}], "TargetContextId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "ApplicationId": "00000002-0000-0ff1-ce00-000000000000", "DeviceProperties": [{"Name": "OS", "Value": "Windows10"}, {"Name": "BrowserType", "Value": "Firefox"}, {"Name": "SessionId", "Value": "15e27956-79a0-45b2-9d02-60f48349f692"}], "ErrorNumber": "0"}'
+example_log: |
+    {"CreationTime": "2023-12-04T20:42:05", "Id": "52d72a62-132b-487b-bb7f-c4c119f90700", "Operation": "UserLoggedIn", "OrganizationId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "RecordType": 15, "ResultStatus": "Success", "UserKey": "2d2f9e2c-8350-4d98-852e-3f06daaf7185", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory", "ClientIP": "54.68.231.63", "ObjectId": "00000002-0000-0ff1-ce00-000000000000", "UserId": "user15@splunkresearch.onmicrosoft.com", "AzureActiveDirectoryEventType": 1, "ExtendedProperties": [{"Name": "ResultStatusDetail", "Value": "Success"}, {"Name": "UserAgent", "Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"}, {"Name": "RequestType", "Value": "OAuth2:Authorize"}], "ModifiedProperties": [], "Actor": [{"ID": "2d2f9e2c-8350-4d98-852e-3f06daaf7185", "Type": 0}, {"ID": "user15@splunkresearch.onmicrosoft.com", "Type": 5}], "ActorContextId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "ActorIpAddress": "54.68.231.63", "InterSystemsId": "6463a6ad-27ec-b311-dc52-ecdde38d9492", "IntraSystemId": "52d72a62-132b-487b-bb7f-c4c119f90700", "SupportTicketId": "", "Target": [{"ID": "00000002-0000-0ff1-ce00-000000000000", "Type": 0}], "TargetContextId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "ApplicationId": "00000002-0000-0ff1-ce00-000000000000", "DeviceProperties": [{"Name": "OS", "Value": "Windows10"}, {"Name": "BrowserType", "Value": "Firefox"}, {"Name": "SessionId", "Value": "15e27956-79a0-45b2-9d02-60f48349f692"}], "ErrorNumber": "0"}

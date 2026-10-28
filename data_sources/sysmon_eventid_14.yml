@@ -1,8 +1,8 @@
 name: Sysmon EventID 14
 id: 77c4b345-0eab-415e-98c6-f4114b021723
-version: 3
+version: 4
 creation_date: '2025-02-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Splunk
 description: Data source object for Sysmon EventID 14
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
@@ -15,4 +15,121 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
-example_log: ''
+    - action
+    - Channel
+    - CommandLine
+    - Company
+    - Computer
+    - CurrentDirectory
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - Description
+    - dest
+    - Details
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
+    - EventType
+    - eventtype
+    - FileVersion
+    - Guid
+    - Hashes
+    - host
+    - id
+    - Image
+    - IMPHASH
+    - index
+    - IntegrityLevel
+    - Keywords
+    - Level
+    - linecount
+    - LogonGuid
+    - LogonId
+    - MD5
+    - Name
+    - object_category
+    - object_path
+    - Opcode
+    - original_file_name
+    - OriginalFileName
+    - os
+    - parent_process
+    - parent_process_exec
+    - parent_process_guid
+    - parent_process_id
+    - parent_process_name
+    - parent_process_path
+    - ParentCommandLine
+    - ParentImage
+    - ParentProcessGuid
+    - ParentProcessId
+    - ParentUser
+    - process
+    - process_current_directory
+    - process_exec
+    - process_guid
+    - process_hash
+    - process_id
+    - process_integrity_level
+    - process_name
+    - process_path
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
+    - Product
+    - punct
+    - RecordID
+    - RecordNumber
+    - registry_hive
+    - registry_key_name
+    - registry_path
+    - registry_value_data
+    - registry_value_name
+    - registry_value_type
+    - RegistryValueData
+    - RegistryValueType
+    - RuleName
+    - SecurityID
+    - severity
+    - severity_id
+    - SHA256
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - status
+    - System_Props_Xml
+    - SystemTime
+    - tag
+    - tag::eventtype
+    - tag::object_category
+    - TargetObject
+    - Task
+    - TaskCategory
+    - TerminalSessionId
+    - ThreadID
+    - TimeCreated
+    - timeendpos
+    - timestartpos
+    - User
+    - user
+    - user_id
+    - UserID
+    - UtcTime
+    - vendor_product
+    - Version
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name="Microsoft-Windows-Sysmon" Guid="5770385F-C22A-43E0-BF4C-06F5698FFBD9">    </Provider>    <EventID>1</EventID>    <Version>5</Version>    <Level>4</Level>    <Task>1</Task>    <Opcode>0</Opcode>    <Keywords>0x8000000000000000</Keywords>    <TimeCreated SystemTime='2024-10-25T17:34:44.953081Z'>    </TimeCreated>    <EventRecordID>1588086</EventRecordID>    <Correlation>    </Correlation>    <Execution ProcessID="3372" ThreadID="4656">    </Execution>    <Channel>Microsoft-Windows-Sysmon/Operational</Channel>    <Computer>WIN10-21H1.snapattack.labs</Computer>    <Security UserID="S-1-5-18">    </Security></System><EventData><Data Name='RuleName'>-</Data>    <Data Name='UtcTime'>2024-10-25 17:34:44.951</Data>    <Data Name='ProcessGuid'>F51F9151-D6B4-671B-5506-000000001600</Data>    <Data Name='ProcessId'>3020</Data>    <Data Name='Image'>C:\Windows\System32\svchost.exe</Data>    <Data Name='FileVersion'>10.0.19041.546 (WinBuild.160101.0800)</Data>    <Data Name='Description'>Host Process for Windows Services</Data>    <Data Name='Product'>Microsoft® Windows® Operating System</Data>    <Data Name='Company'>Microsoft Corporation</Data>    <Data Name='OriginalFileName'>svchost.exe</Data>    <Data Name='CommandLine'>C:\Windows\system32\svchost.exe -k localService -p -s RemoteRegistry</Data>    <Data Name='CurrentDirectory'>C:\Windows\system32\</Data>    <Data Name='User'>NT AUTHORITY\LOCAL SERVICE</Data>    <Data Name='LogonGuid'>F51F9151-D420-671B-E503-000000000000</Data>    <Data Name='LogonId'>0x3e5</Data>    <Data Name='TerminalSessionId'>0</Data>    <Data Name='IntegrityLevel'>System</Data>    <Data Name='Hashes'>MD5=F586835082F632DC8D9404D83BC16316,SHA256=643EC58E82E0272C97C2A59F6020970D881AF19C0AD5029DB9C958C13B6558C7,IMPHASH=F9BBD96FAE53B7A31264A703CAFA0666</Data>    <Data Name='ParentProcessGuid'>F51F9151-D420-671B-0B00-000000001600</Data>    <Data Name='ParentProcessId'>708</Data>    <Data Name='ParentImage'>C:\Windows\System32\services.exe</Data>    <Data Name='ParentCommandLine'>C:\Windows\system32\services.exe</Data>    <Data Name='ParentUser'>NT AUTHORITY\SYSTEM</Data></EventData></Event>
