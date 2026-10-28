@@ -66,9 +66,9 @@ how_to_implement: |-
     Ingest Apache (https://splunkbase.splunk.com/app/3186) access and error logs into Splunk using their default Splunk add-ons.
     Follow configuration instructions (https://splunk.github.io/splunk-add-on-for-apache-web-server/Configure/) to properly set up Apache access and error log format.
     In addition to default log formats, enable logging of worker PID (process ID) in both access and error logs.
-    Make sure that you configure the `apache_access_logs` and `apache_error_logs` or `nginx_access_logs` and `nginx_error_logs` macros with the corresponding source and sourcetype patterns for your environment.
+    Make sure that you configure the `apache_access_logs` and `apache_error_logs` macros with the corresponding source and sourcetype patterns for your environment.
 known_false_positives: |-
-    Legitimate large multipart uploads, application bugs, or load tests can cause memory-limit errors.
+    Legitimate large multipart uploads, application bugs, or load tests can cause segmentation fault errors.
     Review the correlated access and PHP error events before classifying this activity as exploitation.
 references:
     - https://www.php2shell.com/
@@ -84,7 +84,7 @@ intermediate_findings:
 threat_objects:
     - field: src
       type: ip_address
-    - field: uri
+    - field: url
       type: url
 analytic_story:
     - PHP2Shell
