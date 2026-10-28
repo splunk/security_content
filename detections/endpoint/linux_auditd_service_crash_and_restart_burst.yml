@@ -7,7 +7,7 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    This analytic detects repeated Linux process crash events followed by repeated successful executions of the same executable on the same host within 60 seconds. A rapid crash and restart pattern in a service process can indicate exploitation attempts or unstable application behavior and should be correlated with network and application telemetry.
+    This analytic detects repeated Linux process crash events followed by repeated successful executions of the same executable on the same host within 10 seconds. A rapid crash and restart pattern in a service process can indicate exploitation attempts or unstable application behavior and should be correlated with network and application telemetry.
 data_source:
     - Linux Auditd Syscall
 search: |-
@@ -42,7 +42,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Executable [$exe$] crashed and restarted repeatedly on [$dest$] within 60 seconds.
+          message: Executable [$exe$] crashed and restarted repeatedly on [$dest$] within 10 seconds.
 analytic_story:
     - Node2Shell
     - PHP2Shell

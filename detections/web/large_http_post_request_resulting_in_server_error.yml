@@ -14,7 +14,7 @@ data_source:
 search: |-
     `zeek_http`
     method="POST"
-    (status_code=500 OR NOT status_code)
+    (status_code=500 OR NOT status_code=*)
 
     | eval src=coalesce(src, src_ip, 'id.orig_h'),
            dest=coalesce(dest, dest_ip, 'id.resp_h'),
