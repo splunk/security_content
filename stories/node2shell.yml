@@ -1,0 +1,28 @@
+name: Node2Shell
+id: 4d0d8b78-d715-4d2e-8f2e-81c530c274bd
+version: 1
+creation_date: '2026-10-28'
+modification_date: '2026-10-28'
+author: Raven Tait, Splunk
+status: production
+description: |-
+    This analytic story covers exploitation attempts and post-exploitation activity associated with Node2Shell (CVE-2026-111497), an out-of-bounds write in the Brotli decoder used by Node.js.
+    Its detections identify large HTTP POST requests that receive server errors and Linux auditd process image changes under the same PID, which can help surface exploit attempts and command execution for investigation.
+narrative: |-
+    Node2Shell (CVE-2026-111497) is a memory corruption vulnerability in the Brotli decoder used by Node.js. Applications that process untrusted Brotli data may be at risk of exploitation, which can result in application crashes or code execution.
+
+    The detections in this story identify suspicious web request patterns and unexpected Linux process activity that may be associated with exploitation and post-exploitation behavior.
+
+    Review relevant web, application, and endpoint telemetry together. Validate affected software versions and how the application processes untrusted data, and investigate unusual process activity in the context of the host and application. Tune detections for expected application behavior and legitimate large requests.
+references:
+    - https://access.redhat.com/security/vulnerabilities/RHSB-2026-015
+    - https://nodejs.org/en/blog/vulnerability/october-2026-security-releases
+cve:
+    - CVE-2026-111497
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

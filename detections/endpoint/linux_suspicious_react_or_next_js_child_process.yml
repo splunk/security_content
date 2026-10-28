@@ -147,7 +147,10 @@ threat_objects:
       type: process
 analytic_story:
     - React2Shell
+    - Node2Shell
 asset_type: Endpoint
+cve:
+    - CVE-2026-111497
 mitre_attack_id:
     - T1190
     - T1059.004
