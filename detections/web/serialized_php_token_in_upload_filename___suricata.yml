@@ -17,7 +17,7 @@ search: |-
     | where isnotnull(serialization_token)
     | rename dest_ip as dest
     | rename src_ip as src
-    | stats count min(_time) as firstTime max(_time) as lastTime values(serialization_token) as serialization_tokens by fileinfo.filename, src, src_port,  dest, dest_port, url, http_method, http_content_type
+    | stats count min(_time) as firstTime max(_time) as lastTime values(serialization_token) as serialization_tokens values(http_content_type) as http_content_type by fileinfo.filename, src, src_port, dest, dest_port, url, http_method
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `serialized_php_token_in_upload_filename___suricata_filter`

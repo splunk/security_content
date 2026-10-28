@@ -80,10 +80,12 @@ search: |
         OR phpdbg_or_franken=1
     )
 
-
     | where NOT (
-        match(process, "-r\s+\"define\('LARAVEL_START'")
-        OR match(process, "-r\s+\"echo (PHP_VERSION|'PHP;', PHP_VERSION_ID)")
+        lower(parent_process_name)="cmd.exe"
+        AND like(lower(process), "%\\.config\\herd\\bin\\php8%\\php.exe%")
+        AND like(lower(process), "% -r \"define('laravel_start'%")
+        AND like(lower(process), "%vendor/autoload.php%")
+        AND like(lower(process), "%bootstrap/app.php%")
     )
 
     | `security_content_ctime(firstTime)`
