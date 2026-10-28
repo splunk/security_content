@@ -2,7 +2,7 @@ name: PHP Session Upload Progress with PHP Code in Upload Filename
 id: e50cc2d0-7c71-4a2f-83dc-5ee6d4bb76a7
 version: 1
 creation_date: '2026-10-22'
-modification_date: '2026-10-23'
+modification_date: '2026-10-28'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -40,9 +40,12 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `php_session_upload_progress_with_php_code_in_upload_filename_filter`
 how_to_implement: |-
-    Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
-    For request headers to be captured you must enable their extraction via the HTTP::log_client_header_names and HTTP::log_client_header_values fields.
-    Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
+    Ingest Zeek `http.log` with the TA for Zeek (https://splunkbase.splunk.com/app/5466), then set the
+    `zeek_http` macro to select that data (the search expects sourcetype `zeek:http` by default). Standard
+    Zeek HTTP logs do not include full multipart request headers. Enable a Zeek HTTP header logging script or
+    package that captures client header names and values, and map them into `request_headers`. Each POST
+    record must include the `Content-Disposition` lines so the search can see `name="PHPSESSID"` and an
+    upload `filename` containing `<?php` or `<?=`.
 known_false_positives: |-
     Security testing tools or development environments may upload files with PHP code in the filename. Review the request headers, destination application, and any follow-on requests or server-side execution evidence.
 references:

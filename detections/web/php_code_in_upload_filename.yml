@@ -2,27 +2,46 @@ name: PHP Code in Upload Filename
 id: 79fe02c5-5ccd-4119-9d94-c3f8418fae2a
 version: 1
 creation_date: '2026-10-23'
-modification_date: '2026-10-23'
+modification_date: '2026-10-28'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |-
-    This analytic detects multipart POST requests containing a PHPSESSID form field and an uploaded filename with a PHP opening tag.
-    When observed with "PHP_SESSION_UPLOAD_PROGRESS" behavior, this may indicate an attempt to place executable PHP content into session-related data as part of PHP2Shell exploitation.
+    This analytic detects Suricata multipart POST events with an uploaded filename containing a PHP opening tag.
+    Suricata EVE HTTP events do not expose multipart form field names, so this variant cannot confirm the PHPSESSID or PHP_SESSION_UPLOAD_PROGRESS fields without additional request-body inspection. The filename pattern may indicate an attempt to place executable PHP content into session-related data as part of PHP2Shell exploitation.
 data_source:
     - Suricata
 search: |-
-    `suricata` http_method=POST fileinfo.filename=*
-    | rex field=fileinfo.filename max_match=0 "(?i)(?<php_token>(?:<\\?php\\b|<\\?=)")
+    `suricata`
+    http_method=POST
+    fileinfo.filename=*
+
+    | rex field=fileinfo.filename max_match=0 "(?i)(?<php_token>(?:<\\?php\\b|<\\?=))"
+
     | where isnotnull(php_token)
-    | rename dest_ip as dest
-    | rename src_ip as src
-    | stats count values(php_token) as serialization_tokens by fileinfo.filename, src, src_port, dest, dest_port, url, http_method, http_content_type
+
+    | rename dest_ip as dest,
+             src_ip as src
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(php_token) as serialization_tokens
+
+      by fileinfo.filename
+         src src_port
+         dest dest_port
+         url http_method http_content_type
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `php_code_in_upload_filename_filter`
 how_to_implement: |-
-    The following detection relies on the Suricata TA and ensuring it is properly configured to monitor HTTP traffic. Modify the query for your environment and log sources as needed.
+    Configure Suricata EVE JSON to emit HTTP and fileinfo events, and ingest the JSON with the Splunk TA for
+    Suricata. Set the `suricata` macro to the TA's sourcetype (commonly `sourcetype=suricata`). Verify that
+    POST file events expose `http_method`, `fileinfo.filename`, `src_ip`, `src_port`, `dest_ip`, `dest_port`,
+    and the HTTP URL/content type fields used by the search. This rule matches PHP opening tags in the
+    filename only; Suricata EVE does not provide the multipart form field names needed to verify PHPSESSID or
+    PHP_SESSION_UPLOAD_PROGRESS.
 known_false_positives: |-
     Security testing tools or development environments may upload files with PHP code in the filename. Review the request headers, destination application, and any follow-on requests or server-side execution evidence.
 references:

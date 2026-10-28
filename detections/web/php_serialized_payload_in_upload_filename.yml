@@ -2,7 +2,7 @@ name: PHP Serialized Payload in Upload Filename
 id: f5abaeab-eabd-4b8a-bc62-ec3d3722e4fe
 version: 1
 creation_date: '2026-10-23'
-modification_date: '2026-10-23'
+modification_date: '2026-10-28'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -17,12 +17,17 @@ search: |-
     | where isnotnull(serialization_token)
     | rename dest_ip as dest
     | rename src_ip as src
-    | stats count values(serialization_token) as serialization_tokens by fileinfo.filename, src, src_port,  dest, dest_port, url, http_method, http_content_type
+    | stats count min(_time) as firstTime max(_time) as lastTime values(serialization_token) as serialization_tokens by fileinfo.filename, src, src_port,  dest, dest_port, url, http_method, http_content_type
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `php_serialized_payload_in_upload_filename_filter`
 how_to_implement: |-
-    The following detection relies on the Suricata TA and ensuring it is properly configured to monitor HTTP traffic. Modify the query for your environment and log sources as needed.
+    Configure Suricata EVE JSON to emit HTTP and fileinfo events, and ingest the JSON with the Splunk TA for
+    Suricata. Set the `suricata` macro to the TA's sourcetype (commonly `sourcetype=suricata`). Verify that
+    POST file events expose `http_method`, `fileinfo.filename`, `src_ip`, `src_port`, `dest_ip`, `dest_port`,
+    and the HTTP URL/content type fields used by the search. This rule matches serialized PHP tokens in the
+    filename only; Suricata EVE does not provide multipart form field names, so it cannot verify
+    PHP_SESSION_UPLOAD_PROGRESS.
 known_false_positives: |-
     Applications may upload files with names containing serialized-looking text as part of testing or unusual workflows. Review the filename, source, destination, and application context before determining intent.
 references:
