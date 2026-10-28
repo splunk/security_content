@@ -25,7 +25,7 @@ search: |-
 
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
-                  values(php_token) as serialization_tokens
+                  values(php_token) as php_token
 
       by fileinfo.filename
          src src_port
@@ -47,14 +47,13 @@ known_false_positives: |-
 references:
     - https://www.php2shell.com/
     - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
-    - https://docs.zeek.org/en/master/logs/http.html
-    - https://docs.zeek.org/en/master/scripts/policy/protocols/http/header-names.zeek.html
+    - https://docs.suricata.io/en/latest/output/eve/eve-json-output.html
 intermediate_findings:
     entities:
         - field: dest
           type: system
           score: 40
-          message: A multipart POST request from [$src$] to [$dest$] included a PHP opening tag in an upload filename.
+          message: A POST request from [$src$] to [$dest$] included a PHP opening tag in an upload filename.
 threat_objects:
     - field: src
       type: ip_address

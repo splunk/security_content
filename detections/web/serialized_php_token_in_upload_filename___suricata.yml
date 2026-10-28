@@ -39,7 +39,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 40
-          message: A multipart POST request from [$src$] to [$dest$] included a serialized PHP structure in an upload filename.
+          message: A POST request from [$src$] to [$dest$] included a serialized PHP structure in an upload filename.
 threat_objects:
     - field: src
       type: ip_address
