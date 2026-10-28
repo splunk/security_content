@@ -1,4 +1,4 @@
-name: PHP Serialized Payload in Upload Filename
+name: Serialized PHP Token in Upload Filename - Suricata
 id: f5abaeab-eabd-4b8a-bc62-ec3d3722e4fe
 version: 1
 creation_date: '2026-10-23'
@@ -20,7 +20,7 @@ search: |-
     | stats count min(_time) as firstTime max(_time) as lastTime values(serialization_token) as serialization_tokens by fileinfo.filename, src, src_port,  dest, dest_port, url, http_method, http_content_type
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `php_serialized_payload_in_upload_filename_filter`
+    | `serialized_php_token_in_upload_filename___suricata_filter`
 how_to_implement: |-
     Configure Suricata EVE JSON to emit HTTP and fileinfo events, and ingest the JSON with the Splunk TA for
     Suricata. Set the `suricata` macro to the TA's sourcetype (commonly `sourcetype=suricata`). Verify that

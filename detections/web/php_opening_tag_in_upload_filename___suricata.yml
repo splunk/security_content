@@ -1,4 +1,4 @@
-name: PHP Code in Upload Filename
+name: PHP Opening Tag in Upload Filename - Suricata
 id: 79fe02c5-5ccd-4119-9d94-c3f8418fae2a
 version: 1
 creation_date: '2026-10-23'
@@ -34,7 +34,7 @@ search: |-
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `php_code_in_upload_filename_filter`
+    | `php_opening_tag_in_upload_filename___suricata_filter`
 how_to_implement: |-
     Configure Suricata EVE JSON to emit HTTP and fileinfo events, and ingest the JSON with the Splunk TA for
     Suricata. Set the `suricata` macro to the TA's sourcetype (commonly `sourcetype=suricata`). Verify that

@@ -1,4 +1,4 @@
-name: Large HTTP POST Request Resulting in Server Error - Suricata
+name: Large HTTP POST Request Failure or Missing Response - Suricata
 id: e2cda18b-ec22-4028-ba77-26e88a6c865a
 version: 1
 creation_date: '2026-10-26'
@@ -43,7 +43,7 @@ search: |-
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `large_http_post_request_resulting_in_server_error___suricata_filter`
+    | `large_http_post_request_failure_or_missing_response___suricata_filter`
 how_to_implement: |-
     Configure Suricata EVE JSON HTTP logging with `extended: yes` and `dump-all-headers: both` under the EVE
     `http` type, then ingest the JSON with the Splunk TA for Suricata. Set the `suricata` macro to the TA's
