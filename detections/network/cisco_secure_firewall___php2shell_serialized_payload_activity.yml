@@ -1,0 +1,86 @@
+name: Cisco Secure Firewall - PHP2Shell Serialized Payload Activity
+id: 60ad33a2-6fa8-4d13-b7be-fbe5167ea0ca
+version: 1
+creation_date: '2026-10-28'
+modification_date: '2026-10-28'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |
+    This analytic detects suspicious PHP web application requests using Cisco Secure Firewall Threat Defense Intrusion Events.
+    The matching network signature identifies a serialized input pattern associated with attempts to exploit PHP request handling.
+    Investigate the source, targeted application, and related web server activity to determine whether the request was part of PHP2Shell exploitation.
+data_source:
+    - Cisco Secure Firewall Threat Defense Intrusion Event
+search: |
+    `cisco_secure_firewall` EventType=IntrusionEvent SignatureID=67359
+    | fillnull
+    | stats min(_time) as firstTime
+            max(_time) as lastTime
+            values(SignatureID) as SignatureID
+            values(signature) as signature
+            values(class_desc) as class_desc
+            values(MitreAttackGroups) as MitreAttackGroups
+            values(InlineResult) as InlineResult
+            values(InlineResultReason) as InlineResultReason
+            values(src) as src
+            values(dest_port) as dest_port
+            values(rule) as rule
+            values(transport) as transport
+            values(app) as app
+            by dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___php2shell_serialized_payload_activity_filter`
+how_to_implement: |
+    This search requires Cisco Secure Firewall Threat Defense logs with IntrusionEvent data.
+    It uses the `cisco_secure_firewall` input macro, configure it for your environment (index, source, sourcetype).
+    Ensure intrusion events are collected via the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404) and that the relevant intrusion policy is enabled.
+known_false_positives: |-
+    Security testing or applications that legitimately submit serialized PHP data may trigger this signature. Review the request context and the targeted service.
+references:
+    - https://www.php2shell.com/
+    - https://nvd.nist.gov/vuln/detail/CVE-2026-109618
+    - https://nvd.nist.gov/vuln/detail/CVE-2026-109619
+drilldown_searches:
+    - name: View the detection results for - "$src$" and "$dest$"
+      search: '%original_detection_search% | search src="$src$" dest="$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Suspicious PHP serialized input from [$src$] targeting [$dest$]
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: signature
+      type: signature
+    - field: src
+      type: ip_address
+analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - PHP2Shell
+asset_type: Network
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/cisco_sfw_intrusion_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer
+      test_type: unit

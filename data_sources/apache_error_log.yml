@@ -1,0 +1,41 @@
+name: Apache Error Log
+id: 4abf5ed1-29c9-4d57-8b1b-56cbd793557c
+version: 2
+creation_date: '2026-10-22'
+modification_date: '2026-10-23'
+author: Nasreddine Bencherchali, Raven Tait, Splunk
+description: Apache HTTP Server error log events including PHP runtime errors, client addresses, and proxy or PHP-FPM backend errors.
+mitre_components:
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Response Metadata
+    - Application Log Content
+    - User Account Metadata
+source: /var/log/apache2/error.log
+sourcetype: apache:error
+supported_TA:
+    - name: Splunk Add-on for Apache Web Server
+      url: https://splunkbase.splunk.com/app/3186
+      version: 3.0.0
+fields:
+    - _time
+    - error_code
+    - error_message
+    - error_port
+    - file_path
+    - module
+    - process_id
+    - product
+    - req_time
+    - severity
+    - src
+    - threshhold_id
+    - timestamp
+    - vendor
+    - vendor_product
+output_fields:
+    - src
+    - process_id
+    - error_message
+example_log: |-
+    [Wed Oct 21 23:17:54.944504 2026] [php:error] [pid 50519:tid 50519] [client 10.3.99.1:44076] PHP Fatal error: Allowed memory size of 33554432 bytes exhausted (tried to allocate 102400 bytes) in Unknown on line 0
