@@ -59,3 +59,8 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+deprecation_info:
+    reason: Detection deprecated because its parent and child process selection is covered by the expanded Windows Remote Management Execute Shell detection.
+    removed_in_version: 6.10.0
+    replacement_content:
+        - Windows Remote Management Execute Shell
