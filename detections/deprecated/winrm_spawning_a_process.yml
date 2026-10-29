@@ -1,10 +1,10 @@
 name: WinRM Spawning a Process
 id: a081836a-ba4d-11eb-8593-acde48001122
-version: 11
+version: 12
 creation_date: '2021-05-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-29'
 author: Drew Church, Michael Haag, Splunk
-status: experimental
+status: deprecated
 type: TTP
 description: The following analytic detects suspicious processes spawned by WinRM (wsmprovhost.exe). It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific child processes like cmd.exe, powershell.exe, and others. This activity is significant as it may indicate exploitation attempts of vulnerabilities like CVE-2021-31166, which could lead to system instability or compromise. If confirmed malicious, attackers could execute arbitrary commands, escalate privileges, or maintain persistence, posing a severe threat to the environment.
 data_source:
