@@ -1,0 +1,77 @@
+name: Linux Auditd Web or Application Server Spawning a Shell
+id: 59a644b2-51eb-4995-9fc5-b0ff08926d73
+version: 1
+creation_date: '2026-10-29'
+modification_date: '2026-10-29'
+author: Raven Tait, Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |
+    The following analytic detects instances where Java, web server, or application server processes spawn a Linux shell, which may indicate exploitation attempts. This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names and parent-child process relationships. This activity may indicate a compromised service leading to unauthorized shell access. If confirmed malicious, attackers could execute commands, escalate privileges, or maintain persistent access.
+data_source:
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd` type=SYSCALL success=yes (syscall=59 OR SYSCALL=execve)
+    | where match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$")
+        OR match(exe, "/(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$")
+    | eval event_time=_time
+    | eval child_pid=pid
+    | eval parent_pid=ppid
+    | eval process_name=coalesce(comm, replace(exe, "^.*/", ""))
+    | eval process=exe
+    | join type=inner max=0 host parent_pid [
+        search `linux_auditd` type=SYSCALL
+        | where match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$")
+            OR match(exe, "/(apache[^/]*|caddy|httpd|java|lighttpd|nginx|php[^/]*|tomcat[^/]*)$")
+        | eval parent_pid=pid
+        | eval parent_process_name=coalesce(comm, replace(exe, "^.*/", ""))
+        | eval parent_process=exe
+        | eval parent_time=_time
+        | fields host parent_pid parent_process_name parent_process parent_time
+      ]
+    | where abs(event_time-parent_time)<=60
+    | rex "msg=audit\([^:]+:(?<audit_id>\d+)\)"
+    | rename host as dest
+    | stats count min(event_time) as firstTime max(event_time) as lastTime
+        values(audit_id) as audit_id
+        by dest parent_process_name parent_process parent_pid
+           process_name process child_pid uid
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_auditd_web_or_application_server_spawning_a_shell_filter`
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on asset type.
+references:
+    - https://www.php2shell.com/
+    - https://attack.mitre.org/techniques/T1190/
+finding:
+    title: A Linux web or application server process [$parent_process_name$] spawned shell [$process_name$] on endpoint [$dest$].
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process
+analytic_story:
+    - PHP2Shell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/audit.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit

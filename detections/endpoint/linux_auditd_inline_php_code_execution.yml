@@ -1,0 +1,94 @@
+name: Linux Auditd Inline PHP Code Execution
+id: 6c2f98e2-9ded-4f86-ae7a-5a59a6a28301
+version: 1
+creation_date: '2026-10-29'
+modification_date: '2026-10-29'
+author: Raven Tait, Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+status: production
+type: Anomaly
+description: |
+    The following analytic detects PHP command-line interpreters executing code supplied directly on the command line with CLI code-execution options such as -r / --run and -B / -R / -E / -F, or PHP runtime INI overrides that can load code. It also detects code supplied to PHPDBG through the -s option and FrankenPHP php-cli execution.
+    It covers common Linux CLI executable names, including php, versioned PHP binaries, phpdbg, and FrankenPHP. PHP-CGI and PHP-FPM are excluded from the CLI option branch because they do not support the PHP CLI inline -r option.
+    This behavior can be used legitimately for administration and automation, but unexpected or obfuscated inline PHP execution may indicate an attacker using an installed interpreter to run commands without dropping a script file.
+data_source:
+    - Linux Auditd Execve
+search: |-
+    `linux_auditd` type=EXECVE
+    | eval process_name=lower(replace(coalesce(a0, ""), "^.*/", ""))
+    | eval process=coalesce(execve_command, _raw)
+    | eval php_code_option=if(
+        match(process, "(^|[[:space:]])(-r|--run|-B|-R|-E|-F|--process-begin|--process-code|--process-file|--process-end)(=|[$[:space:]]|$)")
+        OR match(_raw, "a[0-9]+=\"(-r|--run|-B|-R|-E|-F|--process-begin|--process-code|--process-file|--process-end)(=|[$[:space:]]|\"|$)"),
+        1, 0
+      )
+    | eval php_ini_override=if(
+        match(process, "(auto_prepend_file|auto_append_file|allow_url_include)=[^[:space:]]*")
+        OR match(_raw, "(auto_prepend_file|auto_append_file|allow_url_include)="),
+        1, 0
+      )
+    | where (
+        match(process_name, "^php([5-9](\\.[0-9]+)*)?(-cli)?$")
+        AND (php_code_option=1 OR php_ini_override=1)
+        AND NOT match(process_name, "(cgi|fpm)")
+      )
+      OR (
+        process_name="phpdbg"
+        AND (
+          match(process, "(^|[[:space:]])-s(=|[$[:space:]]|$)")
+          OR match(_raw, "a[0-9]+=\"-s(=|[$[:space:]]|\"|$)")
+        )
+      )
+      OR (
+        process_name="frankenphp"
+        AND (
+          match(process, "php-cli.*(^|[[:space:]])-r(=|[$[:space:]]|$)")
+          OR match(_raw, "php-cli.*-r")
+        )
+      )
+    | rex "msg=audit\([^:]+:(?<audit_id>\d+)\)"
+    | rename host as dest
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        values(execve_command) as execve_command
+        values(a0) as argv0
+        values(auid) as auid
+        values(uid) as uid
+        values(audit_id) as audit_id
+        by dest process_name process
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_auditd_inline_php_code_execution_filter`
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Developers and administrators may use PHP CLI or PHPDBG for legitimate automation and troubleshooting. Review the command line, parent process, user, host, and execution context. Tune approved automation by host or parent process as needed.
+references:
+    - https://www.php.net/commandline.options
+    - https://www.php.net/phpdbg
+    - https://www.php2shell.com/
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: PHP inline code execution using [$process_name$] was observed on endpoint [$dest$] by user ID [$auid$] with command line [$process$].
+threat_objects:
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process
+analytic_story:
+    - PHP2Shell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/audit.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
