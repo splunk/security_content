@@ -25,7 +25,6 @@ search: |-
         OR error_message="*exit signal Segmentation fault*"
     )
 
-    | bin _time span=1m
     | rex field=error_message "child\s+pid\s+(?<child_pid>\d+)"
 
     | rex field=_raw "client\:?\s+(?<client>.*?)(?:,|\]|$)"
@@ -42,6 +41,7 @@ search: |-
     | stats count min(_time) as firstTime last(_time) as lastTime
         dc(source) as dc_source
         values(source) as source
+        values(sourcetype) as sourcetype
         values(http_method) as http_method
         values(src) as src
         values(dest) as dest
@@ -56,8 +56,8 @@ search: |-
         values(http_referrer) as http_referrer
         values(http_user_agent) as http_user_agent
         values(message) as message
-        by _time pid host
-    | where mvfind(source,"access")>=0 AND mvfind(source,"error")>=0
+        by pid host
+    | where mvfind(sourcetype,"access")>=0 AND mvfind(sourcetype,"error")>=0
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
