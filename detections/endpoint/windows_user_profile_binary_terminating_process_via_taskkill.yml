@@ -1,0 +1,92 @@
+name: Windows User Profile Binary Terminating Process Via Taskkill
+id: 9bb17e12-719b-4158-adec-e002879f42aa
+version: 1
+creation_date: '2026-10-19'
+modification_date: '2026-10-19'
+author: Onur Mustafa Erdogan, Splunk
+status: experimental
+type: TTP
+description: |
+    The following analytic detects taskkill.exe being launched with a process ID (/pid) argument by an executable that resides directly within
+    a user profile folder, such as the Downloads or Desktop folder. Filtering for parent processes located two to three directory levels deep
+    under root folder. This activity is significant because browser hijackers and adware droppers executed from the Downloads folder forcefully
+    terminate the running browser by PID so that they can modify its profile and relaunch it with their own settings. If confirmed malicious, this
+    could allow an attacker to tamper with browser preference files, side-load extensions and redirect the victim's browsing traffic.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+search: |
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    (Processes.process_name=taskkill.exe OR Processes.original_file_name=taskkill.exe)
+    Processes.process IN ("* /pid *", "* -pid *")
+    Processes.parent_process_path="*:\\Users\\*"
+
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+       Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | regex parent_process_path="(?i)^\\w+\\:\\\\(?:[^\\\\\\/\\x27\\x22]+\\\\){2,3}[^\\\\\\/\\x27\\x22]+\\.exe$"
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_user_profile_binary_terminating_process_via_taskkill_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide
+    security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain
+    the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be
+    processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the
+    `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up
+    the data modeling process.
+known_false_positives: |-
+    Portable applications, installers and updaters executed from a user's Downloads or Desktop folder may legitimately use taskkill.exe to
+    close a running instance of themselves or another application. Filter as needed based on the parent process name or path.
+references:
+    - https://www.joesandbox.com/analysis/1965188/0/html
+    - https://www.gdatasoftware.com/blog/2025/11/38298-learning-about-browser-hijacking
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/taskkill
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: The user profile binary [$parent_process_path$] terminated a process via [$process$] on [$dest$].
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: parent_process_path
+      type: parent_process_path
+    - field: process
+      type: process
+analytic_story:
+    - Browser Hijacking
+    - Living Off The Land
+asset_type: Endpoint
+mitre_attack_id:
+    - T1685
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1685/user_binary_terminated_taskkill/user_binary_terminated_taskkill.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
