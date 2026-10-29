@@ -1,8 +1,8 @@
 name: Windows Remote Management Spawned Process
 id: 28b80028-851d-4b8d-88a5-375ba115418a
-version: 8
+version: 9
 creation_date: '2023-04-12'
-modification_date: '2026-05-13'
+modification_date: '2026-10-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
