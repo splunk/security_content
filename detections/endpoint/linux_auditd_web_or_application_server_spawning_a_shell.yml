@@ -14,28 +14,42 @@ search: |-
     `linux_auditd` type=SYSCALL success=yes (syscall=59 OR SYSCALL=execve)
     | where match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$")
         OR match(exe, "/(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$")
-    | eval event_time=_time
+    | rex field=_raw "msg=audit\((?<audit_event_time>[^:]+):(?<child_audit_id>\d+)\)"
+    | eval event_time=tonumber(audit_event_time)
+    | eval child_audit_id=tonumber(child_audit_id)
     | eval child_pid=pid
     | eval parent_pid=ppid
     | eval process_name=coalesce(comm, replace(exe, "^.*/", ""))
     | eval process=exe
     | join type=inner max=0 host parent_pid [
-        search `linux_auditd` type=SYSCALL
-        | where match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$")
+        search earliest=0 latest=now `linux_auditd` type=SYSCALL
+        | where (success=yes AND (syscall=59 OR SYSCALL=execve))
+            OR match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$")
             OR match(exe, "/(apache[^/]*|caddy|httpd|java|lighttpd|nginx|php[^/]*|tomcat[^/]*)$")
         | eval parent_pid=pid
         | eval parent_process_name=coalesce(comm, replace(exe, "^.*/", ""))
         | eval parent_process=exe
-        | eval parent_time=_time
-        | fields host parent_pid parent_process_name parent_process parent_time
+        | rex field=_raw "msg=audit\((?<parent_event_time>[^:]+):(?<parent_audit_id>\d+)\)"
+        | eval parent_time=tonumber(parent_event_time)
+        | eval parent_audit_id=tonumber(parent_audit_id)
+        | fields host parent_pid parent_process_name parent_process parent_time parent_audit_id
       ]
-    | where abs(event_time-parent_time)<=60
-    | rex "msg=audit\([^:]+:(?<audit_id>\d+)\)"
+    | where parent_time < event_time OR (parent_time=event_time AND parent_audit_id < child_audit_id)
+    | sort 0 host child_audit_id -parent_time -parent_audit_id
+    | dedup host child_audit_id
+    | where match(parent_process_name, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$")
+        OR match(parent_process, "/(apache[^/]*|caddy|httpd|java|lighttpd|nginx|php[^/]*|tomcat[^/]*)$")
     | rename host as dest
     | stats count min(event_time) as firstTime max(event_time) as lastTime
-        values(audit_id) as audit_id
-        by dest parent_process_name parent_process parent_pid
-           process_name process child_pid uid
+        values(parent_process_name) as parent_process_name
+        values(parent_process) as parent_process
+        values(parent_pid) as parent_pid
+        values(process_name) as process_name
+        values(process) as process
+        values(child_pid) as child_pid
+        values(uid) as uid
+        values(child_audit_id) as audit_id
+        by dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_auditd_web_or_application_server_spawning_a_shell_filter`

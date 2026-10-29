@@ -22,9 +22,11 @@ search: |-
         1, 0
       )
     | eval php_ini_override=if(
-        match(process, "(auto_prepend_file|auto_append_file|allow_url_include)=[^[:space:]]*")
-        OR match(_raw, "(auto_prepend_file|auto_append_file|allow_url_include)="),
-        1, 0
+        match(process, "(^|[[:space:]])(-d[[:space:]]+|-d|--define[[:space:]]+|--define=)(auto_prepend_file|auto_append_file|allow_url_include)=")
+        OR match(_raw, "a[0-9]+=\"(-d|--define)\" a[0-9]+=\"(auto_prepend_file|auto_append_file|allow_url_include)=")
+        OR match(_raw, "a[0-9]+=\"-d(auto_prepend_file|auto_append_file|allow_url_include)=")
+        OR match(_raw, "a[0-9]+=\"--define=(auto_prepend_file|auto_append_file|allow_url_include)=")
+        , 1, 0
       )
     | where (
         match(process_name, "^php([5-9](\\.[0-9]+)*)?(-cli)?$")
