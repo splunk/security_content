@@ -1,8 +1,8 @@
 name: Apache Access Log
 id: 6ea32d4e-e6d0-4ceb-88d0-2b640457c894
-version: 1
+version: 2
 creation_date: '2026-10-22'
-modification_date: '2026-10-22'
+modification_date: '2026-10-23'
 author: Nasreddine Bencherchali, Raven Tait, Splunk
 description: Apache HTTP Server access log events including client address, request method, URI, response status, and response size.
 mitre_components:
@@ -12,10 +12,41 @@ mitre_components:
     - Application Log Content
     - User Account Metadata
 source: /var/log/apache2/access.log
-sourcetype: access_combined
+sourcetype: apache:access:combined
+supported_TA:
+    - name: Splunk Add-on for Apache Web Server
+      url: https://splunkbase.splunk.com/app/3186
+      version: 3.0.0
 fields:
     - _time
+    - action
+    - bytes
+    - bytes_in
+    - bytes_out
+    - client
+    - http_method
+    - http_referrer
+    - http_referrer_domain
+    - http_user_agent
+    - http_user_agent_length
+    - http_version
+    - logname
+    - request
+    - request_bytes
+    - src
+    - status
+    - status_description
+    - status_type
+    - timestamp
+    - uri_path
+    - uri_query
+    - url
+    - user
+    - vendor_product
 output_fields:
-    - dest
+    - src
+    - http_method
+    - url
+    - status
 example_log: |-
     198.51.100.3 - - [21/Oct/2026:23:22:28 +0000] "GET /vuln.php?page=/var/lib/php2shell-lab/sessions/sess_example HTTP/1.1" 200 604 "-" "-"

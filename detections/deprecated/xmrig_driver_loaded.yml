@@ -2,9 +2,9 @@ name: XMRIG Driver Loaded
 id: 90080fa6-a8df-11eb-91e4-acde48001122
 version: 11
 creation_date: '2021-05-07'
-modification_date: '2026-10-23'
+modification_date: '2026-09-08'
 author: Teoderick Contreras, Splunk
-status: removed
+status: deprecated
 type: TTP
 description: The following analytic detects the installation of the XMRIG coinminer driver on a system. It identifies the loading of the `WinRing0x64.sys` driver, commonly associated with XMRIG, by analyzing Sysmon EventCode 6 logs for specific signatures and image loads. This activity is significant because XMRIG is an open-source CPU miner frequently exploited by adversaries to mine cryptocurrency illicitly. If confirmed malicious, this activity could lead to unauthorized resource consumption, degraded system performance, and potential financial loss due to unauthorized cryptocurrency mining.
 data_source:

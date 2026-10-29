@@ -1,16 +1,16 @@
 name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
-version: 13
+version: 14
 creation_date: '2023-04-12'
-modification_date: '2026-10-22'
-author: Steven Dick
+modification_date: '2026-10-28'
+author: Steven Dick, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic identifies the execution of suspicious processes typically associated with WebShell activity on web servers.
-    It detects when processes like `cmd.exe`, `powershell.exe`, or `bash.exe` are spawned by web server processes such as `w3wp.exe` or `nginx.exe`.
-    This behavior is significant as it may indicate an adversary exploiting a web application vulnerability to install a WebShell, providing persistent access and command execution capabilities.
-    If confirmed malicious, this activity could allow attackers to maintain control over the compromised server, execute arbitrary commands, and potentially escalate privileges or exfiltrate sensitive data.
+    This analytic detects selected system, scripting, discovery, and administration utilities spawned by Windows web or application server processes.
+    Parent processes include common web server and application server services; Java and JavaW parents are included when their command lines identify known server frameworks or applications.
+    Unexpected child process activity may indicate that an exposed application or web server has been abused to run commands on the host.
+    Review the parent command line, child process, user, and surrounding activity to determine whether the behavior is authorized.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -23,68 +23,42 @@ search: |-
     FROM datamodel=Endpoint.Processes WHERE
 
     Processes.parent_process_name IN (
-            "apache*.exe",
-            "caddy.exe",
-            "frankenphp.exe",
-            "http*.exe",
-            "iisexpress.exe",
-            "java.exe",
-            "lighttpd.exe",
-            "nginx*.exe",
-            "php*.exe",
-            "roadrunner.exe",
-            "tomcat*.exe",
-            "UMWorkerProcess.exe",
-            "w3wp.exe",
-            "ws_TomcatService.exe"
-        )
+        "apache*.exe",
+        "beasvc.exe",
+        "caddy.exe",
+        "coldfusion.exe",
+        "frankenphp.exe",
+        "http*.exe",
+        "iisexpress.exe",
+        "java.exe",
+        "javaw.exe",
+        "jbosssvc.exe",
+        "jrun.exe",
+        "lighttpd.exe",
+        "lsphp*.exe",
+        "nginx*.exe",
+        "openresty.exe",
+        "php*.exe",
+        "roadrunner.exe",
+        "tomcat*.exe",
+        "traefik.exe",
+        "UMWorkerProcess.exe",
+        "w3wp.exe",
+        "wildfly-service.exe",
+        "ws_TomcatService.exe"
+    )
+    NOT Processes.parent_process_name IN ("phpstorm*")
 
     Processes.process_name IN (
-        "arp.exe",
-        "at.exe",
-        "bitsadmin.exe",
-        "certutil.exe",
-        "cscript.exe",
-        "dsget.exe",
-        "dsquery.exe",
-        "find.exe",
-        "findstr.exe",
-        "fsutil.exe",
-        "hostname.exe",
-        "ipconfig.exe",
-        "ksh.exe",
-        "nbstat.exe",
-        "net.exe",
-        "net1.exe",
-        "netdom.exe",
-        "netsh.exe",
-        "netstat.exe",
-        "nltest.exe",
-        "nslookup.exe",
-        "ntdsutil.exe",
-        "pathping.exe",
-        "perl.exe",
-        "ping.exe",
-        "python.exe",
-        "qprocess.exe",
-        "query.exe",
-        "qwinsta.exe",
-        "reg.exe",
-        "rundll32.exe",
-        "sc.exe",
-        "schtasks.exe",
-        "scrcons.exe",
-        "systeminfo.exe",
-        "tasklist.exe",
-        "tracert.exe",
-        "ver.exe",
-        "vssadmin.exe",
-        "wevtutil.exe",
-        "whoami.exe",
-        "wmic.exe",
-        "wscript.exe",
-        "wusa.exe",
-        "zsh.exe"
+        "adfind.exe", "arp.exe", "at.exe", "bitsadmin.exe", "certreq.exe", "certutil.exe", "cmdkey.exe",
+        "cscript.exe", "curl.exe", "dnscmd.exe", "dsget.exe", "dsquery.exe", "find.exe", "findstr.exe",
+        "fsutil.exe", "getmac.exe", "hostname.exe", "ipconfig.exe", "klist.exe", "mshta.exe",
+        "nbtstat.exe", "net.exe", "net1.exe", "netdom.exe", "netsh.exe", "netstat.exe", "nltest.exe",
+        "nslookup.exe", "ntdsutil.exe", "pathping.exe", "perl.exe", "ping.exe", "python.exe",
+        "qprocess.exe", "query.exe", "quser.exe", "qwinsta.exe", "reg.exe", "regsvr32.exe", "route.exe",
+        "rundll32.exe", "sc.exe", "schtasks.exe", "scrcons.exe", "setspn.exe", "systeminfo.exe",
+        "tasklist.exe", "tracert.exe", "vssadmin.exe", "wevtutil.exe", "wget.exe", "whoami.exe",
+        "wmic.exe", "wscript.exe", "wusa.exe"
     )
 
     BY Processes.action Processes.dest Processes.original_file_name
@@ -96,11 +70,47 @@ search: |-
        Processes.user_id Processes.vendor_product
 
     | `drop_dm_object_name("Processes")`
+
+    ```Keep Java and JavaW parents only when their command line identifies a known web or application server.```
+
+    | where (
+        NOT match(parent_process_name, "(?i)^javaw?(\.exe)?$")
+        OR match(parent_process, "(?i)(org\.apache\.catalina\.startup\.Bootstrap|-Dcatalina\.base=|org\.eclipse\.jetty\.start\.Main|-Djetty\.home=|org\.jboss\.modules\.Main|-Djboss\.home\.dir=|weblogic\.Server|-Dweblogic\.Name=|weblogic-launcher\.jar|com\.ibm\.ws\.runtime\.WsServer|com\.ibm\.ws\.kernel\.boot\.cmdline\.Bootstrap|com\.sun\.enterprise\.glassfish\.bootstrap\.ASMain|com\.caucho\.server\.resin\.Resin)")
+        OR match(parent_process, "(?i)(org\.springframework\.boot\.loader\.|quarkus-run\.jar|io\.quarkus\.runner\.GeneratedMain|io\.micronaut\.runtime\.Micronaut|io\.dropwizard\.cli\.ServerCommand|play\.core\.server\.ProdServerStart|io\.helidon\.microprofile\.server\.Main|io\.helidon\.webserver|io\.vertx\.core\.Launcher)")
+        OR match(parent_process, "(?i)(org\.keycloak|org\.apereo\.cas|org\.elasticsearch\.bootstrap\.Elasticsearch|com\.atlassian\.jira\.startup\.Launcher|BitbucketServerLauncher|com\.google\.gerrit\.pgm\.Daemon|-Dsolr\.solr\.home=|jenkins\.war)")
+    )
+
+    | where NOT (
+        process_name="tasklist.exe"
+        AND match(
+            lower(process),
+            "^\"?tasklist(\.exe)?\"? +/fi +\"pid eq [0-9]+\" *$"
+        )
+    )
+
+    | where NOT (
+        (
+            match(parent_process_path, "(?i)^C:\\\\Program Files\\\\Datacard\\\\AppContainer\\\\bin\\\\tomcat.*\.exe$")
+            AND process_name="reg.exe"
+            AND match(
+                process,
+                "(?i)^reg query \"HKEY_LOCAL_MACHINE\\\\(SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Print\\\\Printers|SYSTEM\\\\CurrentControlSet\\\\Control\\\\Print\\\\Monitors)"
+            )
+        )
+        OR
+        (
+            match(parent_process_path, "(?i)^E:\\\\Program Files\\\\AeroScout\\\\MobileView\\\\services\\\\.*\\\\tomcat9\.exe$")
+            AND process_name="sc.exe"
+            AND match(process, "(?i)^sc qc (mv_[a-z-]+|mobileviewhttpserver)( [0-9]+)?$")
+        )
+    )
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_suspicious_child_process_spawned_from_webserver_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Legitimate OS functions called by vendor applications, baseline the environment and filter before enabling. Recommend throttle by dest/process_name
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Legitimate OS functions called by vendor applications, baseline the environment and filter before enabling. Recommend throttle by dest/process_name
 references:
     - https://attack.mitre.org/techniques/T1505/003/
     - https://github.com/nsacyber/Mitigating-Web-Shells
@@ -118,11 +128,11 @@ intermediate_findings:
     entities:
         - field: user
           type: user
-          score: 10
+          score: 20
           message: Webshell Exploit Behavior - [$parent_process_name$] spawned [$process_name$] on [$dest$].
         - field: dest
           type: system
-          score: 10
+          score: 20
           message: Webshell Exploit Behavior - [$parent_process_name$] spawned [$process_name$] on [$dest$].
 threat_objects:
     - field: parent_process_name

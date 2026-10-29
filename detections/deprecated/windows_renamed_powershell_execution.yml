@@ -2,9 +2,9 @@ name: Windows Renamed Powershell Execution
 id: c08014de-cc5a-42de-9775-76ecd5b37bbd
 version: 9
 creation_date: '2022-10-27'
-modification_date: '2026-10-23'
+modification_date: '2026-09-23'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
-status: removed
+status: deprecated
 type: TTP
 description: The following analytic identifies instances where the PowerShell executable has been renamed and executed under an alternate filename. This behavior is commonly associated with attempts to evade security controls or bypass logging mechanisms that monitor standard PowerShell usage. While rare in legitimate environments, renamed PowerShell binaries are frequently observed in malicious campaigns leveraging Living-off-the-Land Binaries (LOLBins) and fileless malware techniques. This detection flags executions of PowerShell where the process name does not match the default powershell.exe or pwsh.exe, especially when invoked from unusual paths or accompanied by suspicious command-line arguments.
 data_source:

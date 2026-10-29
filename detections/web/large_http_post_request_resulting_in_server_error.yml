@@ -2,7 +2,7 @@ name: Large HTTP POST Request Resulting in Server Error
 id: 284ab19f-15f6-4f1c-9a4d-9f331438e37d
 version: 1
 creation_date: '2026-10-22'
-modification_date: '2026-10-22'
+modification_date: '2026-10-28'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -36,9 +36,12 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `large_http_post_request_resulting_in_server_error_filter`
 how_to_implement: |-
-    Zeek HTTP logs must be ingested into Splunk using the latest version of Splunk Add-on for Zeek (https://splunkbase.splunk.com/app/5466).
-    The "post_body" field must be populated, which requires Zeek to be configured with the HTTP post body extraction policy.
-    Configure the `zeek_http` macro to match the sourcetype used by your Zeek add-on.
+    Ingest Zeek `http.log` with the TA for Zeek (https://splunkbase.splunk.com/app/5466), then set the
+    `zeek_http` macro to select that data (the search expects sourcetype `zeek:http` by default). Ensure each
+    record contains `method`, `status_code`, `request_body_len`, `uri`, and endpoint fields such as
+    `id.orig_h`/`id.resp_h` and `id.resp_p` (or the equivalent `src`/`dest` fields). The search uses
+    `request_body_len` for the request size and falls back to `post_body` only when that field is null. It
+    alerts only on HTTP 500 responses.
 known_false_positives: |-
     Large legitimate uploads can fail because of application limits, timeouts, storage constraints, or transient server errors.
     Review the request URI, upload size, server logs, and client behavior before classifying the activity as malicious.
