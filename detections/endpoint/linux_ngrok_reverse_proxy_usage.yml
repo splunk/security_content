@@ -1,8 +1,8 @@
 name: Linux Ngrok Reverse Proxy Usage
 id: bc84d574-708c-467d-b78a-4c1e20171f97
-version: 12
+version: 13
 creation_date: '2023-01-12'
-modification_date: '2026-05-13'
+modification_date: '2026-10-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -11,7 +11,7 @@ data_source:
     - Sysmon for Linux EventID 1
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.process_name=ngrok Processes.process IN ("*start*", "*--config*","*http*","*authtoken*", "*http*", "*tcp*")
+      WHERE Processes.process_name=ngrok Processes.process IN ("*start*", "*--config*","*http*","*authtoken*", "*tcp*")
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
