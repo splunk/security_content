@@ -59,8 +59,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_auditd_inline_php_code_execution_filter`
-how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
-known_false_positives: Developers and administrators may use PHP CLI or PHPDBG for legitimate automation and troubleshooting. Review the command line, parent process, user, host, and execution context. Tune approved automation by host or parent process as needed.
+how_to_implement: |-
+    To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: |-
+    Developers and administrators may use PHP CLI or PHPDBG for legitimate automation and troubleshooting. Review the command line, parent process, user, host, and execution context. Tune approved automation by host or parent process as needed.
 references:
     - https://www.php.net/commandline.options
     - https://www.php.net/phpdbg
