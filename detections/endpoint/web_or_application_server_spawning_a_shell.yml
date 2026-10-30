@@ -1,6 +1,6 @@
 name: Web or Application Server Spawning a Shell
 id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
-version: 7
+version: 8
 creation_date: '2021-12-13'
 modification_date: '2026-10-28'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
@@ -98,6 +98,7 @@ search: |
             match(parent_process_path, "(?i)^C:\\\\Program Files\\\\CCSI\\\\Instance_[0-9]+\\\\Apache\\\\bin\\\\httpd\.exe$")
             AND process_name="cmd.exe"
             AND match(process, "(?i)^cmd\.exe /s /c \"\"C:\\\\Program Files\\\\CCSI\\\\Instance_[0-9]+\\\\(ObixHMAC|TraceGen|UAAnalyzer)\.exe\"")
+            AND NOT match(process, "[&|<>]")
         )
     )
 
