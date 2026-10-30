@@ -1,6 +1,6 @@
 name: Large HTTP POST Request Resulting in Server Error
 id: 284ab19f-15f6-4f1c-9a4d-9f331438e37d
-version: 1
+version: 2
 creation_date: '2026-10-22'
 modification_date: '2026-10-28'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
@@ -14,7 +14,7 @@ data_source:
 search: |-
     `zeek_http`
     method="POST"
-    status_code=500
+    (status_code=500 OR NOT status_code=*)
 
     | eval src=coalesce(src, src_ip, 'id.orig_h'),
            dest=coalesce(dest, dest_ip, 'id.resp_h'),
@@ -60,10 +60,12 @@ threat_objects:
       type: ip_address
 analytic_story:
     - PHP2Shell
+    - Node2Shell
 asset_type: Web Application
 cve:
     - CVE-2026-109618
     - CVE-2026-109619
+    - CVE-2026-111497
 mitre_attack_id:
     - T1190
 product:

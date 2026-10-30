@@ -1,0 +1,67 @@
+name: Linux Auditd Service Crash and Restart Burst
+id: 528a6791-3772-46de-9b7e-2f98c9ca6a8f
+version: 1
+creation_date: '2026-10-28'
+modification_date: '2026-10-28'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects repeated Linux process crash events followed by repeated successful executions of the same executable on the same host within 10 seconds. A rapid crash and restart pattern in a service process can indicate exploitation attempts or unstable application behavior and should be correlated with network and application telemetry.
+data_source:
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd` (type=ANOM_ABEND OR (type=SYSCALL success="yes" (syscall IN ("59", "221", "11") OR SYSCALL="execve")))
+    | eval exe=coalesce(exe, executable), event_type=if(type="ANOM_ABEND", "crash", "start")
+    | eval sig=coalesce(sig, signal)
+    | where event_type="start" OR tonumber(sig) IN (6, 7, 11)
+    | sort 0 _time
+    | streamstats time_window=10s count(eval(event_type="crash")) as crash_count max(eval(if(event_type="crash", _time, null()))) as last_crash_time values(eval(if(event_type="crash", sig, null()))) as crash_signals by host exe
+    | eval restart_after_crash=if(event_type="start" AND _time>last_crash_time, 1, 0)
+    | streamstats time_window=10s sum(restart_after_crash) as restart_count by host exe
+    | where event_type="start" AND crash_count>=2 AND restart_count>=2
+    | stats min(_time) as firstTime max(_time) as lastTime max(crash_count) as crash_count max(restart_count) as restart_count values(crash_signals) as crash_signals values(comm) as process_name values(uid) as uid values(auid) as auid values(ppid) as parent_pid by host exe
+    | rename host as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_auditd_service_crash_and_restart_burst_filter`
+how_to_implement: |-
+    To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: |-
+    Application defects, resource pressure, and supervisor restart policies can produce repeated crashes and restarts. Review the affected executable, user, parent process, host role, and related application or network activity. Tune thresholds or exclude expected workloads with the filter macro.
+references:
+    - https://man7.org/linux/man-pages/man8/auditd.8.html
+    - https://access.redhat.com/security/vulnerabilities/RHSB-2026-015
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest="$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Executable [$exe$] crashed and restarted repeatedly on [$dest$] within 10 seconds.
+analytic_story:
+    - Node2Shell
+    - PHP2Shell
+    - Compromised Linux Host
+asset_type: Endpoint
+cve:
+    - CVE-2026-111497
+mitre_attack_id:
+    - T1499.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/node2shell/audit.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
