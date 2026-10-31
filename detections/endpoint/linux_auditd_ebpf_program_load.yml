@@ -1,0 +1,62 @@
+name: Linux Auditd eBPF Program Load
+id: b469bd55-6398-4be5-ba23-c077f673d5f3
+version: 1
+date: '2026-10-31'
+author: vahid malekmohammadi
+status: production
+type: Anomaly
+description: The following analytic detects a process loading an eBPF program via the bpf() syscall (BPF_PROG_LOAD) on a Linux host, using Linux Auditd. eBPF lets a privileged process attach probes to kernel and userland functions; adversaries abuse it to hook authentication routines and steal credentials - for example pamspy attaches a uprobe to pam_get_authtok in libpam to capture plaintext passwords during sshd, sudo and su authentication - and to build stealthy rootkits and backdoors. The Linux kernel emits a native AUDIT_BPF (type=BPF) record together with a SYSCALL record (syscall=bpf, a0=BPF_PROG_LOAD) for every program load, so no dedicated audit syscall rule is required to observe it. Because container runtimes (runc, containerd), CNIs (Cilium) and eBPF-based security or observability agents legitimately load eBPF programs, this is modeled as an anomaly and must be tuned with the filter macro to allow those. If confirmed malicious, eBPF abuse enables in-memory credential theft and defense evasion that sidesteps ptrace-based detection.
+data_source:
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd` type=SYSCALL SYSCALL=bpf
+      | rename host as dest
+      | eval bpf_cmd=case(a0 IN ("5","0x5","BPF_PROG_LOAD"),"BPF_PROG_LOAD", true(),"other:".a0)
+      | where bpf_cmd="BPF_PROG_LOAD"
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY comm exe bpf_cmd uid auid ppid pid key dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_ebpf_program_load_filter`
+how_to_implement: To implement this detection, ingest auditd SYSCALL and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833) and normalize field names to the Splunk CIM. No custom audit rule is required for program loads - the kernel emits a native type=BPF record plus a companion type=SYSCALL (syscall=bpf) record for every BPF_PROG_LOAD as long as auditd is running. Confirm field names against a real event, as auditd extraction can vary by deployment - the interpreted syscall name is in the uppercase SYSCALL field and a0 holds the bpf command, either numeric (5) or symbolic (BPF_PROG_LOAD), both handled here. Critically, tune the filter macro for your environment first, because container runtimes and eBPF agents load eBPF programs constantly and will dominate results until allowlisted.
+known_false_positives: Container runtimes (runc, containerd, dockerd, crio, conmon, kubelet), CNIs such as Cilium (cilium-agent), and eBPF security or observability agents (Falcon, Tetragon, sysdig, bpftrace, pyroscope), as well as systemd, legitimately load eBPF programs. Update the filter macro to allowlist the eBPF loaders expected for your host roles.
+references:
+    - https://attack.mitre.org/techniques/T1556/003/
+    - https://attack.mitre.org/techniques/T1003/
+    - https://github.com/citronneur/pamspy
+    - https://www.elastic.co/guide/en/security/current/bpf-program-or-map-load-via-bpftool.html
+    - https://man7.org/linux/man-pages/man2/bpf.2.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 56
+          message: Process [$comm$] (pid $pid$) loaded an eBPF program (BPF_PROG_LOAD) on host - [$dest$].
+analytic_story:
+    - Linux Living Off The Land
+    - Compromised Linux Host
+asset_type: Endpoint
+mitre_attack_id:
+    - T1556.003
+    - T1003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.003/linux_auditd_ebpf/linux_auditd_ebpf.log
+          source: auditd
+          sourcetype: auditd
