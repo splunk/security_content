@@ -1,0 +1,87 @@
+name: PHP Session Upload Progress with PHP Code in Upload Filename
+id: e50cc2d0-7c71-4a2f-83dc-5ee6d4bb76a7
+version: 1
+creation_date: '2026-10-22'
+modification_date: '2026-10-28'
+author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects multipart POST requests containing a PHPSESSID form field and an uploaded filename with a PHP opening tag.
+    When observed with "PHP_SESSION_UPLOAD_PROGRESS" behavior, this may indicate an attempt to place executable PHP content into session-related data as part of PHP2Shell exploitation.
+data_source:
+    - Zeek HTTP
+search: |-
+    `zeek_http`
+    method="POST"
+    request_headers="*"
+
+    | eval src=coalesce(src, src_ip, 'id.orig_h'),
+           dest=coalesce(dest, dest_ip, 'id.resp_h'),
+           dest_port=coalesce(dest_port, 'id.resp_p')
+
+    | eval has_phpsessid_field=if(match(request_headers, "(?im)\s*form-data;[^\\r\\n]*\\bname\\s*=\\s*\\\"?PHPSESSID\\\"?(?:;|[\\r\\n]|$)"), 1, 0)
+
+    | rex max_match=0 field=request_headers "(?im)\s*form-data;(?<part_disposition>[^\\r\\n]*)"
+
+    | eval php_open_tag_filenames=mvfilter(match(part_disposition, "(?i)\\bfilename\\s*=.*(?:<\\?php\\b|<\\?=)"))
+
+    | where has_phpsessid_field=1 AND mvcount(php_open_tag_filenames)>0
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(status_code) as status_code
+                  values(user_agent) as user_agent
+                  values(php_open_tag_filenames) as php_open_tag_filenames
+
+      by src dest dest_port uri
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `php_session_upload_progress_with_php_code_in_upload_filename_filter`
+how_to_implement: |-
+    Ingest Zeek `http.log` with the TA for Zeek (https://splunkbase.splunk.com/app/5466), then set the
+    `zeek_http` macro to select that data (the search expects sourcetype `zeek:http` by default). Standard
+    Zeek HTTP logs do not include full multipart request headers. Enable a Zeek HTTP header logging script or
+    package that captures client header names and values, and map them into `request_headers`. Each POST
+    record must include the `Content-Disposition` lines so the search can see `name="PHPSESSID"` and an
+    upload `filename` containing `<?php` or `<?=`.
+known_false_positives: |-
+    Security testing tools or development environments may upload files with PHP code in the filename. Review the request headers, destination application, and any follow-on requests or server-side execution evidence.
+references:
+    - https://www.php2shell.com/
+    - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
+    - https://docs.zeek.org/en/master/logs/http.html
+    - https://docs.zeek.org/en/master/scripts/policy/protocols/http/header-names.zeek.html
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 40
+          message: A multipart POST request from [$src$] to [$dest$] included a PHPSESSID form field and a PHP opening tag in an upload filename.
+threat_objects:
+    - field: src
+      type: ip_address
+    - field: php_open_tag_filenames
+      type: file_name
+analytic_story:
+    - PHP2Shell
+asset_type: Web Application
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/php_tag_filename.log
+          source: http.log
+          sourcetype: zeek:http
+      test_type: unit

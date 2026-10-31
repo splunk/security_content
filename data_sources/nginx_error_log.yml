@@ -1,0 +1,36 @@
+name: Nginx Error Log
+id: 3c43a18f-738b-4d0f-b885-f66580b2bf77
+version: 1
+creation_date: '2026-10-22'
+modification_date: '2026-10-22'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Raven Tait, Splunk
+description: Nginx error log events including severity, process and thread identifiers, client address, server, request, and error message details.
+mitre_components:
+    - Network Traffic Content
+    - Network Traffic Flow
+    - Response Metadata
+    - Application Log Content
+    - User Account Metadata
+source: /var/log/nginx/error.log
+sourcetype: nginx:plus:error
+supported_TA:
+    - name: Splunk Add-on for NGINX
+      url: https://splunkbase.splunk.com/app/3258
+      version: 3.3.2
+fields:
+    - _time
+    - client
+    - host
+    - index
+    - message
+    - pid
+    - request
+    - server
+    - source
+    - sourcetype
+    - src
+    - tid
+output_fields:
+    - src
+example_log: |-
+    2026/10/22 13:58:58 [error] 199705#199705: *2052 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 6324224 bytes) in Unknown on line 0" while reading response header from upstream, client: 10.0.1.10, server: php2shell-lab, request: "POST /index.php HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "10.0.2.168"
