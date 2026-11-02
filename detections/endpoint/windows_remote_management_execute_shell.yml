@@ -3,12 +3,12 @@ id: 28b80028-851d-4b8d-88a5-375ba115418a
 version: 9
 creation_date: '2023-04-12'
 modification_date: '2026-10-29'
-author: Teoderick Contreras, Splunk
+author: Drew Church, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: >-
-    This analytic detects selected processes spawned directly by Windows remote
-    management host processes winrshost.exe and wsmprovhost.exe. The selected
+    This analytic detects selected processes spawned directly by Windows Remote
+    Management Host processes winrshost.exe and wsmprovhost.exe. The selected
     children include shells, scripting hosts, and administrative, discovery,
     and file-transfer utilities. This target-side process relationship can
     indicate remote execution, but it can also result from authorized WinRM
@@ -21,7 +21,7 @@ search: |-
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.parent_process_name IN ("winrshost.exe","wsmprovhost.exe")
         AND
-        Processes.process_name IN ("cmd.exe","*powershell*","pwsh.exe","sh.exe","bash.exe","schtasks.exe","certutil.exe","whoami.exe","bitsadmin.exe","scp.exe")
+        `windows_shells`
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -33,13 +33,21 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_remote_management_execute_shell_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+how_to_implement: |
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents
+    are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement
+    this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally,
+    you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk
+    Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node
+    of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and
+    speed up the data modeling process.
 known_false_positives: >-
     Authorized administrators and management software may launch these
     processes through WinRM. Shell and discovery activity may be routine;
     evaluate expected accounts, hosts, and workflows before tuning.
 references:
     - https://strontic.github.io/xcyclopedia/library/winrshost.exe-6790044CEB4BA5BE6AA8161460D990FD.html
+    - https://strontic.github.io/xcyclopedia/library/wsmprovhost.exe-620CBF4C26A1E8871F1767C5F00F96E1.html
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -54,12 +62,14 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Windows remote management process [$parent_process_name$] spawned [$process_name$] on [$dest$].
+          message: Windows Remote Management process [$parent_process_name$] spawned [$process_name$] on [$dest$].
 analytic_story:
     - Crypto Stealer
+    - Living Off The Land
 asset_type: Endpoint
 mitre_attack_id:
     - T1021.006
+    - T1059
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
