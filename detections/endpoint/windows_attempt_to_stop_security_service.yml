@@ -2,7 +2,7 @@ name: Windows Attempt To Stop Security Service
 id: 9ed27cea-4e27-4eff-b2c6-aac9e78a7517
 version: 12
 creation_date: '2020-04-29'
-modification_date: '2026-09-22'
+modification_date: '2026-10-02'
 author: Rico Valdez, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -37,6 +37,7 @@ known_false_positives: No false positives have been identified at this time. sho
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://github.com/redcanaryco/atomic-red-team/blob/61080b19460f2c6431c31689d58063c5f6c1f8fb/atomics/T1562.001/T1562.001.yaml#L306
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -71,6 +72,8 @@ analytic_story:
     - Azorult
     - Trickbot
 asset_type: Endpoint
+atomic_guid:
+    - a1230893-56ac-4c81-b644-2108e982f8f5
 mitre_attack_id:
     - T1685
 product:

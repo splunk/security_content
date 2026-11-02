@@ -2,7 +2,7 @@ name: Windows DotNet Binary in Non Standard Path
 id: fddf3b56-7933-11ec-98a6-acde48001122
 version: 15
 creation_date: '2022-01-20'
-modification_date: '2026-09-22'
+modification_date: '2026-10-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -65,6 +65,7 @@ references:
     - https://attack.mitre.org/techniques/T1036/003/
     - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1036.003/T1036.003.yaml#L74
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -99,6 +100,8 @@ analytic_story:
     - Data Destruction
     - WhisperGate
 asset_type: Endpoint
+atomic_guid:
+    - ac9d0fc3-8aa8-4ab5-b11f-682cd63b40aa
 mitre_attack_id:
     - T1036.003
     - T1218.004

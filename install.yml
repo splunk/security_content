@@ -12,10 +12,10 @@ apps:
       version: 2.3.4
     - appid: Splunk_TA_stream
       url: https://splunkbase.splunk.com/app/5238
-      version: 8.1.6
+      version: 8.1.7
     - appid: Splunk_TA_stream_wire_data
       url: https://splunkbase.splunk.com/app/5234
-      version: 8.1.6
+      version: 8.1.7
     - appid: TA-Zscaler_CIM
       url: https://splunkbase.splunk.com/app/3865
       version: 4.1.5
