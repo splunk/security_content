@@ -1,38 +1,45 @@
 name: Linux Auditd PAM Configuration File Modification
-id: 3c9a6e74-5b2d-4e71-8f0a-1d7c2b9e4a63
+id: 9e2b7c41-3f6a-4d58-b0e2-7a4c5d1f8b60
 version: 1
-creation_date: '2026-10-31'
-modification_date: '2026-10-31'
+creation_date: '2026-11-02'
+modification_date: '2026-11-02'
 author: vahid malekmohammadi
 status: production
 type: Anomaly
-description: The following analytic detects modification of Pluggable Authentication Modules (PAM) configuration under /etc/pam.d/ or /etc/security/ on a Linux host, using Linux Auditd. Adversaries tamper with the PAM auth stack to install authentication backdoors - for example adding "auth sufficient pam_permit.so" to a service so any account authenticates with no password, or inserting a pam_exec/custom module that grants access on a hardcoded "magic" password for any existing user - giving durable, credential-less access that survives password changes. The analytic correlates the auditd PATH record for a PAM file (nametype CREATE for an editor rewrite, or NORMAL for an in-place write) with the SYSCALL record from the same event to surface the editing process (comm/exe) and the user. Because package upgrades and pam-auth-update legitimately rewrite these files, this is modeled as an anomaly and must be tuned with the filter macro. If confirmed, PAM modification is both persistence and credential access and should be treated as high severity.
+description: The following analytic detects modification of the Linux PAM (Pluggable Authentication Modules) configuration under /etc/pam.d/ or /etc/security/, using Linux Auditd. Adversaries tamper with these files to backdoor authentication - for example adding "auth sufficient pam_permit.so" to allow any account to authenticate with no password, or wiring a pam_exec/custom module that grants access on a hardcoded password for any existing user - a stealthy persistence and defense-evasion technique (T1556.003). The analytic correlates the auditd PATH record for a PAM config file with the CWD and SYSCALL records from the same audit event, reconstructing the absolute path when the file was opened by a relative name (for example after a chdir into /etc/pam.d), requiring a successful modifying syscall, and surfacing the editing process (comm/exe) and user. Because package upgrades and pam-auth-update legitimately write these files, this is modeled as an anomaly and must be tuned with the filter macro.
 data_source:
     - Linux Auditd Path
+    - Linux Auditd Cwd
     - Linux Auditd Syscall
 search: |-
     `linux_auditd`
     (
-      (type=PATH name IN ("/etc/pam.d/*", "/etc/security/*") nametype IN ("CREATE","NORMAL","DELETE"))
-      OR
-      (type=SYSCALL syscall IN ("rename","renameat","renameat2","open","openat","openat2","write","truncate","ftruncate","unlinkat","unlink","linkat","symlinkat"))
+      (type=PATH nametype IN ("NORMAL","CREATE","DELETE"))
+      OR type=CWD
+      OR type=SYSCALL
     )
     | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
-    | stats values(name) as names values(nametype) as nametype values(comm) as process_name values(exe) as process values(syscall) as syscall values(auid) as auid values(uid) as uid min(_time) as firstTime max(_time) as lastTime BY audit_id host
-    | eval pam_file=mvfilter(match(names, "^/etc/pam\.d/.+$") OR match(names, "^/etc/security/.+$"))
-    | where mvcount(pam_file) > 0 AND isnotnull(process_name)
+    | stats values(name) as names values(nametype) as nametype values(cwd) as cwd_list values(comm) as process_name values(exe) as process values(success) as success values(auid) as auid values(uid) as uid values(_time) as event_times BY audit_id host
+    | eval current_working_directory=coalesce(mvindex(cwd_list,0),"N/A")
+    | eval candidate_paths=mvmap(names, if(match(names,"^/"), names, current_working_directory."/".names))
+    | eval matched_paths=mvfilter(match(candidate_paths,"^/etc/pam\.d/.+") OR match(candidate_paths,"^/etc/security/.+"))
+    | eval match_count=mvcount(matched_paths)
+    | eval reconstructed_path=mvindex(matched_paths,0)
+    | eval e_time=mvindex(event_times,0)
+    | where match_count>0 AND success="yes" AND isnotnull(process_name)
     | rename host as dest
+    | stats count min(e_time) as firstTime max(e_time) as lastTime values(nametype) as nametype values(process_name) as process_name values(process) as process values(auid) as auid values(uid) as uid BY reconstructed_path current_working_directory dest audit_id
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | table firstTime lastTime dest process_name process syscall nametype pam_file auid uid audit_id
+    | table firstTime lastTime dest reconstructed_path current_working_directory process_name process nametype auid uid audit_id
     | `linux_auditd_pam_configuration_file_modification_filter`
-how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). The host's auditd rules must generate PATH records for writes under /etc/pam.d/ and /etc/security/ - the common way is a watch such as "-w /etc/pam.d/ -p wa -k pam" and "-w /etc/security/ -p wa -k pam" (shipped by most hardened rulesets, e.g. the Neo23x0 auditd baseline). Confirm field names against a real event, as auditd extraction can vary by deployment - the file is in the PATH record "name" field and the editing process is in the companion SYSCALL record "comm"/"exe", joined here on the audit event id.
-known_false_positives: Package installation and upgrades (apt, dpkg, dpkg-reconfigure), pam-auth-update, ucf, and configuration-management tooling (Ansible, Puppet, Chef, Salt) legitimately modify PAM configuration files. Update the filter macro to allowlist the expected maintenance processes (for example process_name in dpkg, pam-auth-update, ucf, frontend) or the service accounts that run them for your environment.
+how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, CWD and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). Make sure the type=CWD record is captured in your auditd configuration, as it is used here to reconstruct the absolute path when a PAM file is opened by a relative name (for example after a chdir into /etc/pam.d). The host's auditd rules should generate PATH records for writes under these directories - the common way is a watch such as "-w /etc/pam.d/ -p wa -k pam" and "-w /etc/security/ -p wa -k pam" (shipped by most hardened rulesets, e.g. the Neo23x0 auditd baseline). The analytic requires a successful (success=yes) modifying syscall correlated to the PATH record, so denied/failed write attempts are not reported as modifications. Confirm field names against a real event, as auditd extraction can vary by deployment.
+known_false_positives: Package installation or upgrade of PAM-related packages (dpkg, apt, rpm) and the pam-auth-update / authselect tooling legitimately rewrite files under /etc/pam.d and /etc/security, as does configuration-management tooling (Ansible, Puppet, Chef, Salt). Update the filter macro to allowlist those processes or the service accounts that run them - for example exclude pam-auth-update and the package-manager binaries for your environment.
 references:
     - https://attack.mitre.org/techniques/T1556/003/
-    - https://attack.mitre.org/techniques/T1556/
     - https://github.com/zephrax/linux-pam-backdoor
-    - https://www.group-ib.com/blog/pam-backdoor/
+    - https://man7.org/linux/man-pages/man8/pam.8.html
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -46,17 +53,15 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 64
-          message: PAM configuration file [$pam_file$] was modified by process [$process_name$] on host - [$dest$], a possible authentication backdoor.
+          score: 72
+          message: PAM configuration file [$reconstructed_path$] was modified by process [$process_name$] on host - [$dest$], a possible authentication backdoor.
 analytic_story:
     - Linux Living Off The Land
     - Compromised Linux Host
     - Linux Persistence Techniques
-    - Linux Privilege Escalation
 asset_type: Endpoint
 mitre_attack_id:
     - T1556.003
-    - T1556
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
