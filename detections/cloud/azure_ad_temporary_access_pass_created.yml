@@ -57,14 +57,14 @@ drilldown_searches:
 finding:
     - title: User [$user$] has created Temporary Access Pass for [$targetUser$] from [$src$]
       entity:
-          field: user
-          type: user
-          score: 50
+        field: user
+        type: user
+        score: 50
     - title: User [$user$] has created Temporary Access Pass for [$targetUser$] from [$src$]
       entity:
-          field: targetUser
-          type: user
-          score: 50
+        field: targetUser
+        type: user
+        score: 50
 analytic_story:
     - Azure Active Directory Persistence
     - Azure Active Directory Account Takeover
