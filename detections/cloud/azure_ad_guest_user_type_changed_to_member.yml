@@ -63,14 +63,14 @@ drilldown_searches:
 finding:
     - title: Guest account [$targetUser$] was promoted to Member by [$user$]
       entity:
-          field: user
-          type: user
-          score: 50
+        field: user
+        type: user
+        score: 50
     - title: Guest account [$targetUser$] was promoted to Member by [$user$]
       entity:
-          field: targetUser
-          type: user
-          score: 50
+        field: targetUser
+        type: user
+        score: 50
 analytic_story:
     - Azure Active Directory Persistence
     - Azure Active Directory Privilege Escalation
