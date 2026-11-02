@@ -1,0 +1,60 @@
+name: Linux Auditd Memfd Create Fileless Execution
+id: 3d8f6a29-7b14-4c05-9e82-1f6a4b2c5d70
+version: 1
+creation_date: '2026-11-02'
+modification_date: '2026-11-02'
+author: vahid malekmohammadi
+status: production
+type: Anomaly
+description: The following analytic detects the creation of anonymous in-memory files via the memfd_create syscall on Linux, using Linux Auditd. Adversaries use memfd_create to allocate an anonymous, file-backed memory region that exists only in RAM (visible as /proc/<pid>/fd/<n> and memfd:<name>), write an ELF payload into it, and execute it with execveat(fd, "", ..., AT_EMPTY_PATH) - a fileless / reflective code loading technique that leaves no executable on disk and bypasses file-based scanning and integrity monitoring. Legitimate uses exist (systemd sd-exec, fwupd, some language runtimes and sandboxing libraries), so this is modeled as an anomaly surfacing the calling process (comm/exe), user and parent so an analyst can distinguish a known runtime from an attacker loading a payload from memory. The memfd_create record is emitted by the kernel for the calling process; pivot on the same ppid/pid to recover the loader that spawned it.
+data_source:
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd` type=SYSCALL syscall=memfd_create
+    | rename comm as process_name exe as process host as dest
+    | stats count min(_time) as firstTime max(_time) as lastTime values(process) as process values(success) as success values(key) as key BY process_name syscall uid auid ppid pid ses dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table firstTime lastTime dest process_name process syscall success uid auid ppid pid ses key count
+    | `linux_auditd_memfd_create_fileless_execution_filter`
+how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). The host's auditd rules must audit the memfd_create syscall - the common way is a rule such as "-a always,exit -F arch=b64 -S memfd_create -k anon_file_create" (shipped by hardened rulesets, e.g. the Neo23x0 auditd baseline). Confirm field names against a real event, as auditd extraction can vary by deployment - the syscall name is in the "syscall" field (memfd_create), and the calling process is in "comm"/"exe". Note that the execveat(..., AT_EMPTY_PATH) that actually runs the in-memory ELF is frequently NOT audited by execve watches (execve rules match execve, not execveat), which is why the memfd_create creation event is the reliable signal.
+known_false_positives: Some legitimate system components and runtimes use memfd_create - for example systemd (sd-exec), fwupd / fwupdmgr during firmware updates, container runtimes, and certain language or sandboxing libraries. Baseline the processes that call memfd_create in your environment and allowlist the expected ones (e.g. systemd, fwupdmgr, sd-exec) in the filter macro; alert on unexpected callers such as interpreters (python, perl, ruby) or unknown binaries running from world-writable paths.
+references:
+    - https://attack.mitre.org/techniques/T1620/
+    - https://man7.org/linux/man-pages/man2/memfd_create.2.html
+    - https://www.elastic.co/security-labs/linux-detection-engineering-with-auditd
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 64
+          message: Process [$process_name$] created an anonymous in-memory file via memfd_create on host - [$dest$], a possible fileless / in-memory payload execution.
+analytic_story:
+    - Compromised Linux Host
+    - Linux Living Off The Land
+asset_type: Endpoint
+mitre_attack_id:
+    - T1620
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1620/linux_auditd_memfd_create/linux_auditd_memfd_create.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
