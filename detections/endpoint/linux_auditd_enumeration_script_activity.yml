@@ -18,13 +18,13 @@ search: |-
       | eval base_cmd=mvindex(split(base_cmd,"/"),-1)
       | eval is_recon=if(base_cmd IN ("whoami","id","uname","hostname","hostnamectl","lsb_release","sudo","find","getcap","crontab","ps","netstat","ss","lsof","last","lastlog","w","who","arp","ip","ifconfig","route","mount","lsblk","df","dpkg","dpkg-query","rpm","getent","lsmod","modinfo","dmesg","env","uptime","aa-status","sestatus","capsh"),1,0)
       | bin _time span=2m
-      | stats count as exec_count dc(base_cmd) as distinct_commands sum(is_recon) as recon_executions dc(eval(if(is_recon=1,base_cmd,null()))) as distinct_recon_commands values(base_cmd) as commands min(_time) as firstTime max(_time) as lastTime BY _time dest
+      | stats count as exec_count dc(base_cmd) as distinct_commands sum(is_recon) as recon_executions dc(eval(if(is_recon=1,base_cmd,null()))) as distinct_recon_commands values(base_cmd) as commands values(auid) as auid values(uid) as uid values(process) as process dc(ppid) as distinct_parents values(ppid) as parent_pids min(_time) as firstTime max(_time) as lastTime BY _time dest
       | where exec_count>=50 AND distinct_commands>=15 AND distinct_recon_commands>=8
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
       | `linux_auditd_enumeration_script_activity_filter`
-how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, TYPE, EXECVE and PROCTITLE events, which capture command-line executions on Unix/Linux systems, using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). This analytic requires execve auditing to be enabled broadly enough to observe ordinary user command execution (not only privileged or specific-euid executions), because it relies on seeing the full fan-out of discovery utilities a script runs. The thresholds (exec_count, distinct_commands and distinct_recon_commands) are starting points tuned against LinEnum/LinPEAS-style runs and should be adjusted to the normal command volume of the host roles in your environment; busy automation or CI hosts may need higher thresholds or an allowlist in the filter macro.
-known_false_positives: Configuration-management runs (Ansible, Puppet, Chef, Salt), monitoring agents, backup jobs, provisioning scripts and administrator one-liners that iterate over many commands can produce a similar burst of diverse executions and may trigger this analytic. Update the filter macro to allowlist the service accounts, parent processes or hosts that legitimately run large automated command sequences.
+how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, TYPE, EXECVE and PROCTITLE events, which capture command-line executions on Unix/Linux systems, using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). This analytic requires execve auditing to be enabled broadly enough to observe ordinary user command execution (not only privileged or specific-euid executions), because it relies on seeing the full fan-out of discovery utilities a script runs. The window carries the account(s) (auid, uid), the executing binaries (process) and the parent pids seen in the burst, so the filter macro can allowlist a specific service account or parent process rather than suppressing the entire host. The thresholds (exec_count, distinct_commands and distinct_recon_commands) are starting points tuned against LinEnum/LinPEAS-style runs and should be adjusted to the normal command volume of the host roles in your environment; busy automation or CI hosts may need higher thresholds or an allowlist in the filter macro.
+known_false_positives: Configuration-management runs (Ansible, Puppet, Chef, Salt), monitoring agents, backup jobs, provisioning scripts and administrator one-liners that iterate over many commands can produce a similar burst of diverse executions and may trigger this analytic. Update the filter macro to allowlist the service accounts (auid/uid), parent processes (parent_pids) or hosts that legitimately run large automated command sequences.
 references:
     - https://attack.mitre.org/techniques/T1082/
     - https://attack.mitre.org/techniques/T1083/
@@ -46,7 +46,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 42
-          message: A burst of enumeration activity ($exec_count$ executions, $distinct_recon_commands$ distinct recon tools) was observed on host - [$dest$], consistent with an automated enumeration script.
+          message: A burst of enumeration activity ($exec_count$ executions, $distinct_recon_commands$ distinct recon tools) by account [$auid$] was observed on host - [$dest$], consistent with an automated enumeration script.
 analytic_story:
     - Linux Living Off The Land
     - Compromised Linux Host
