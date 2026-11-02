@@ -15,27 +15,28 @@ description: |
 data_source:
     - Linux Auditd Syscall
 search: |-
-    `linux_auditd` type=SYSCALL
+    `linux_auditd`
+    type=SYSCALL
     comm IN (
-        "sh",
-        "ksh",
-        "zsh",
-        "bash",
-        "dash",
-        "rbash",
-        "fish",
-        "csh",
-        "tcsh",
-        "ion",
-        "eshell",
         "apache*",
+        "bash",
         "caddy",
+        "csh",
+        "dash",
+        "eshell",
+        "fish",
         "httpd",
+        "ion",
         "java",
+        "ksh",
         "lighttpd",
         "nginx",
-        "php*", 
-        "tomcat*", 
+        "php*",
+        "rbash",
+        "sh",
+        "tcsh",
+        "tomcat*",
+        "zsh"
     )
 
     | eval web_process=if(match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$"),exe,null())
@@ -56,6 +57,7 @@ search: |-
         values(shell_process_name) as process_name
         values(shell_process) as process
         by host parent_pid
+
     | rename host as dest
 
     | where isnotnull(parent_process) AND isnotnull(process)
@@ -93,8 +95,6 @@ threat_objects:
       type: parent_process_name
     - field: process_name
       type: process_name
-    - field: process
-      type: process
 analytic_story:
     - PHP2Shell
 asset_type: Endpoint

@@ -17,7 +17,10 @@ description: |
 data_source:
     - Linux Auditd Execve
 search: |-
-    `linux_auditd` type=EXECVE php
+    `linux_auditd`
+    type=EXECVE
+    php
+
     | eval process_name=lower(replace(coalesce(a0, ""), "^.*/", ""))
     | eval process=coalesce(execve_command, _raw)
     | rex "msg=audit\([^:]+:(?<audit_id>\d+)\)"
@@ -54,6 +57,7 @@ search: |-
       )
 
     | rename host as dest
+
     | stats count min(_time) as firstTime max(_time) as lastTime
         values(execve_command) as execve_command
         values(a0) as argv0
