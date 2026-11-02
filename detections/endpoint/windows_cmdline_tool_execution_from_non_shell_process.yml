@@ -22,25 +22,25 @@ search: |-
     from datamodel=Endpoint.Processes where
 
     NOT Processes.parent_process_name IN (
+        "-",
         "cmd.exe",
-        "powershell.exe",
-        "powershell_ise.exe",
-        "pwsh.exe",
         "explorer.exe",
         "net.exe",
-        "-",
+        "powershell_ise.exe",
+        "powershell.exe",
+        "pwsh.exe",
         "unknown"
     )
     Processes.process_name IN (
+        "arp.exe",
+        "hostname.exe",
         "ipconfig.exe",
-        "systeminfo.exe",
         "net.exe",
         "net1.exe",
-        "arp.exe",
+        "netstat.exe",
         "nslookup.exe",
         "route.exe",
-        "netstat.exe",
-        "hostname.exe",
+        "systeminfo.exe",
         "whoami.exe"
     )
 
