@@ -10,14 +10,15 @@ description: The following analytic detects the creation of anonymous in-memory 
 data_source:
     - Linux Auditd Syscall
 search: |-
-    `linux_auditd` type=SYSCALL syscall=memfd_create
+    `linux_auditd` type=SYSCALL (syscall=memfd_create OR SYSCALL=memfd_create)
+    | eval syscall="memfd_create"
     | rename comm as process_name exe as process host as dest
     | stats count min(_time) as firstTime max(_time) as lastTime values(process) as process values(success) as success values(key) as key BY process_name syscall uid auid ppid pid ses dest
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | table firstTime lastTime dest process_name process syscall success uid auid ppid pid ses key count
     | `linux_auditd_memfd_create_fileless_execution_filter`
-how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). The host's auditd rules must audit the memfd_create syscall - the common way is a rule such as "-a always,exit -F arch=b64 -S memfd_create -k anon_file_create" (shipped by hardened rulesets, e.g. the Neo23x0 auditd baseline). Confirm field names against a real event, as auditd extraction can vary by deployment - the syscall name is in the "syscall" field (memfd_create), and the calling process is in "comm"/"exe". Note that the execveat(..., AT_EMPTY_PATH) that actually runs the in-memory ELF is frequently NOT audited by execve watches (execve rules match execve, not execveat), which is why the memfd_create creation event is the reliable signal.
+how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). The host's auditd rules must audit the memfd_create syscall - the common way is a rule such as "-a always,exit -F arch=b64 -S memfd_create -k anon_file_create" (shipped by hardened rulesets, e.g. the Neo23x0 auditd baseline). Confirm field names against a real event, as auditd extraction can vary by deployment - the syscall name may appear in a lowercase interpreted field (syscall=memfd_create) or an uppercase one (SYSCALL=memfd_create); both are matched here. The calling process is in "comm"/"exe". Note that the execveat(..., AT_EMPTY_PATH) that actually runs the in-memory ELF is frequently NOT audited by execve watches (execve rules match execve, not execveat), which is why the memfd_create creation event is the reliable signal.
 known_false_positives: Some legitimate system components and runtimes use memfd_create - for example systemd (sd-exec), fwupd / fwupdmgr during firmware updates, container runtimes, and certain language or sandboxing libraries. Baseline the processes that call memfd_create in your environment and allowlist the expected ones (e.g. systemd, fwupdmgr, sd-exec) in the filter macro; alert on unexpected callers such as interpreters (python, perl, ruby) or unknown binaries running from world-writable paths.
 references:
     - https://attack.mitre.org/techniques/T1620/
