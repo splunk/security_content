@@ -6,18 +6,40 @@ modification_date: '2026-10-28'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: This analytic detects a successful Linux execve event where a PID changes executable image under the same parent after the prior image has been active for at least one second and no more than 60 seconds. A delayed image change in an existing process can indicate execution following exploitation and should be investigated with related endpoint and network activity.
+description: |-
+    This analytic detects a successful Linux execve event where a PID changes executable image under the same parent after the prior image has been active for at least one second and no more than 60 seconds.
+    A delayed image change in an existing process can indicate execution following exploitation and should be investigated with related endpoint and network activity.
 data_source:
     - Linux Auditd Syscall
 search: |-
-    `linux_auditd` type=SYSCALL success="yes"
-        (syscall IN ("59", "221", "11") OR SYSCALL="execve")
+    `linux_auditd`
+    type=SYSCALL
+    success="yes"
+    (
+        syscall IN ("59", "221", "11")
+        OR
+        SYSCALL="execve"
+    )
+
     | sort 0 _time
+
     | streamstats current=f window=1 last(exe) as previous_exe last(_time) as previous_time last(ppid) as previous_ppid by host pid
+
     | eval transition_seconds=round(_time - previous_time, 3)
+
     | where isnotnull(previous_exe) AND previous_exe!=exe AND ppid=previous_ppid AND transition_seconds>=1 AND transition_seconds<=60
-    | stats count as transition_count min(previous_time) as firstTime max(_time) as lastTime values(comm) as process_name values(uid) as uid values(auid) as auid values(subj) as subj by host pid ppid previous_exe exe
+
+    | stats count as transition_count
+            min(previous_time) as firstTime
+            max(_time) as lastTime
+            values(comm) as process_name
+            values(uid) as uid
+            values(auid) as auid
+            values(subj) as subj
+      by host pid ppid previous_exe exe
+
     | rename host as dest exe as current_exe
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_auditd_process_image_change_under_same_pid_filter`
@@ -30,11 +52,15 @@ references:
     - https://access.redhat.com/security/vulnerabilities/RHSB-2026-015
 drilldown_searches:
     - name: View the detection results for - "$dest$"
-      search: '%original_detection_search% | search dest="$dest$"'
+      search: '%original_detection_search% | search  dest = "$dest$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
 finding:
-    title: PID $pid$ changed executable from $previous_exe$ to $current_exe$ on $dest$
+    title: PID [$pid$] changed executable from [$previous_exe$] to [$current_exe$] on [$dest$]
     entity:
         field: dest
         type: system
