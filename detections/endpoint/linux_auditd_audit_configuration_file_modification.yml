@@ -1,0 +1,71 @@
+name: Linux Auditd Audit Configuration File Modification
+id: 9e2b7c41-3f6a-4d58-b0e2-7a4c5d1f8b60
+version: 1
+creation_date: '2026-11-02'
+modification_date: '2026-11-02'
+author: vahid malekmohammadi
+status: production
+type: Anomaly
+description: The following analytic detects modification of the Linux audit (auditd) configuration under /etc/audit/ - rules files (/etc/audit/rules.d/*.rules, /etc/audit/audit.rules), the daemon config (/etc/audit/auditd.conf), audit dispatcher plugins (/etc/audit/plugins.d/) - or /etc/libaudit.conf, using Linux Auditd. Adversaries tamper with these files to weaken or disable logging so their activity is not recorded; unlike stopping the auditd service (which raises a DAEMON_END event), editing the on-disk config leaves the running daemon up and only takes effect on the next reload or reboot, making it a stealthier defense-evasion and anti-forensics technique. The analytic correlates the auditd PATH record for an audit config file (nametype CREATE for an editor rewrite, NORMAL for an in-place write, DELETE for removal) with the SYSCALL record from the same event to surface the editing process (comm/exe) and the user. Because package upgrades and the augenrules compile step legitimately write these files, this is modeled as an anomaly and must be tuned with the filter macro.
+data_source:
+    - Linux Auditd Path
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd`
+    (
+      (type=PATH name IN ("/etc/audit/*", "/etc/libaudit.conf") nametype IN ("CREATE","NORMAL","DELETE"))
+      OR
+      (type=SYSCALL syscall IN ("rename","renameat","renameat2","open","openat","openat2","write","truncate","ftruncate","unlinkat","unlink","linkat","symlinkat"))
+    )
+    | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
+    | stats values(name) as names values(nametype) as nametype values(comm) as process_name values(exe) as process values(syscall) as syscall values(auid) as auid values(uid) as uid min(_time) as firstTime max(_time) as lastTime BY audit_id host
+    | eval audit_config_file=mvfilter((match(names, "^/etc/audit/.+") OR match(names, "^/etc/libaudit\.conf$")) AND NOT match(names, "/$"))
+    | where mvcount(audit_config_file) > 0 AND isnotnull(process_name)
+    | rename host as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table firstTime lastTime dest process_name process syscall nametype audit_config_file auid uid audit_id
+    | `linux_auditd_audit_configuration_file_modification_filter`
+how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). The host's auditd rules must generate PATH records for writes under /etc/audit/ - the common way is a watch such as "-w /etc/audit/ -p wa -k auditconfig" and "-w /etc/libaudit.conf -p wa -k auditconfig" (shipped by most hardened rulesets, e.g. the Neo23x0 auditd baseline). Confirm field names against a real event, as auditd extraction can vary by deployment - the file is in the PATH record "name" field and the editing process is in the companion SYSCALL record "comm"/"exe", joined here on the audit event id.
+known_false_positives: The augenrules compile step rewrites /etc/audit/audit.rules (process augenrules) and package installation or upgrade of auditd (dpkg, apt, ucf) writes these files legitimately, as does configuration-management tooling (Ansible, Puppet, Chef, Salt). Update the filter macro to allowlist those processes or the service accounts that run them - for example exclude process_name=augenrules writing /etc/audit/audit.rules, and the package-manager binaries for your environment.
+references:
+    - https://attack.mitre.org/techniques/T1562/001/
+    - https://attack.mitre.org/techniques/T1070/
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+    - https://man7.org/linux/man-pages/man8/auditctl.8.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 64
+          message: Audit configuration file [$audit_config_file$] was modified by process [$process_name$] on host - [$dest$], a possible attempt to weaken or disable auditing.
+analytic_story:
+    - Linux Living Off The Land
+    - Compromised Linux Host
+    - Linux Persistence Techniques
+asset_type: Endpoint
+mitre_attack_id:
+    - T1562.001
+    - T1070
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/linux_auditd_audit_config_modification/linux_auditd_audit_config_modification.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
