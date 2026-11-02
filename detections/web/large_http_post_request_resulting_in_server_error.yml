@@ -1,20 +1,20 @@
 name: Large HTTP POST Request Resulting in Server Error
 id: 284ab19f-15f6-4f1c-9a4d-9f331438e37d
-version: 1
+version: 2
 creation_date: '2026-10-22'
 modification_date: '2026-10-28'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |-
-    This analytic detects HTTP POST requests with a body of at least one megabyte that receive an HTTP 500 response.
+    This analytic detects HTTP POST requests with a body of at least one megabyte that receive an HTTP 500 response or cause a server crash.
     Large failed uploads can indicate attempts to trigger resource exhaustion or exploit vulnerable request handling, including behavior associated with PHP2Shell, but require investigation with related web and application logs.
 data_source:
     - Zeek HTTP
 search: |-
     `zeek_http`
     method="POST"
-    status_code=500
+    (status_code=500 OR NOT status_code=*)
 
     | eval src=coalesce(src, src_ip, 'id.orig_h'),
            dest=coalesce(dest, dest_ip, 'id.resp_h'),
@@ -39,9 +39,7 @@ how_to_implement: |-
     Ingest Zeek `http.log` with the TA for Zeek (https://splunkbase.splunk.com/app/5466), then set the
     `zeek_http` macro to select that data (the search expects sourcetype `zeek:http` by default). Ensure each
     record contains `method`, `status_code`, `request_body_len`, `uri`, and endpoint fields such as
-    `id.orig_h`/`id.resp_h` and `id.resp_p` (or the equivalent `src`/`dest` fields). The search uses
-    `request_body_len` for the request size and falls back to `post_body` only when that field is null. It
-    alerts only on HTTP 500 responses.
+    `id.orig_h`/`id.resp_h` and `id.resp_p` (or the equivalent `src`/`dest` fields).
 known_false_positives: |-
     Large legitimate uploads can fail because of application limits, timeouts, storage constraints, or transient server errors.
     Review the request URI, upload size, server logs, and client behavior before classifying the activity as malicious.
@@ -54,16 +52,18 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: A large HTTP POST request of [$body_bytes$] bytes from [$src$] to [$dest$] received an HTTP 500 response.
+          message: A large HTTP POST request of [$body_bytes$] bytes from [$src$] to [$dest$] caused a server error.
 threat_objects:
     - field: src
       type: ip_address
 analytic_story:
     - PHP2Shell
+    - Node2Shell
 asset_type: Web Application
 cve:
     - CVE-2026-109618
     - CVE-2026-109619
+    - CVE-2026-111497
 mitre_attack_id:
     - T1190
 product:
