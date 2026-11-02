@@ -9,7 +9,7 @@ description: The following analytic detects a process loading an eBPF program vi
 data_source:
     - Linux Auditd Syscall
 search: |-
-    `linux_auditd` type=SYSCALL SYSCALL=bpf
+    `linux_auditd` type=SYSCALL SYSCALL=bpf success=yes
       | rename host as dest
       | eval bpf_cmd=case(a0 IN ("5","0x5","BPF_PROG_LOAD"),"BPF_PROG_LOAD", true(),"other:".a0)
       | where bpf_cmd="BPF_PROG_LOAD"
@@ -18,7 +18,7 @@ search: |-
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
       | `linux_auditd_ebpf_program_load_filter`
-how_to_implement: To implement this detection, ingest auditd SYSCALL and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833) and normalize field names to the Splunk CIM. No custom audit rule is required for program loads - the kernel emits a native type=BPF record plus a companion type=SYSCALL (syscall=bpf) record for every BPF_PROG_LOAD as long as auditd is running. Confirm field names against a real event, as auditd extraction can vary by deployment - the interpreted syscall name is in the uppercase SYSCALL field and a0 holds the bpf command, either numeric (5) or symbolic (BPF_PROG_LOAD), both handled here. Critically, tune the filter macro for your environment first, because container runtimes and eBPF agents load eBPF programs constantly and will dominate results until allowlisted.
+how_to_implement: To implement this detection, ingest auditd SYSCALL and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833) and normalize field names to the Splunk CIM. No custom audit rule is required for program loads - the kernel emits a native type=BPF record plus a companion type=SYSCALL (syscall=bpf) record for every BPF_PROG_LOAD as long as auditd is running. Confirm field names against a real event, as auditd extraction can vary by deployment - the interpreted syscall name is in the uppercase SYSCALL field and a0 holds the bpf command, either numeric (5) or symbolic (BPF_PROG_LOAD), both handled here. A success=yes guard ensures verifier failures and EPERM attempts (which still emit a SYSCALL record) are not reported as successful program loads. Critically, tune the filter macro for your environment first, because container runtimes and eBPF agents load eBPF programs constantly and will dominate results until allowlisted.
 known_false_positives: Container runtimes (runc, containerd, dockerd, crio, conmon, kubelet), CNIs such as Cilium (cilium-agent), and eBPF security or observability agents (Falcon, Tetragon, sysdig, bpftrace, pyroscope), as well as systemd, legitimately load eBPF programs. Update the filter macro to allowlist the eBPF loaders expected for your host roles.
 references:
     - https://attack.mitre.org/techniques/T1556/003/
