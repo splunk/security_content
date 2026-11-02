@@ -1,16 +1,15 @@
 name: Web or Application Server Spawning a Shell
 id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
-version: 6
+version: 7
 creation_date: '2021-12-13'
-modification_date: '2026-10-22'
+modification_date: '2026-10-28'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |
-    The following analytic detects instances where Java, or Tomcat processes spawn a Linux shell, which may indicate exploitation attempts, such as those related to CVE-2021-44228 (Log4Shell).
+    The following analytic detects instances where Java, web server, or application server processes spawn a Linux shell, which may indicate exploitation attempts.
     This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names and parent-child process relationships.
-    This activity is significant as it can signify a compromised Java application, potentially leading to unauthorized shell access.
-    If confirmed malicious, attackers could execute arbitrary commands, escalate privileges, or maintain persistent access, posing a severe threat to the environment.
+    This activity may indicate a compromised service leading to unauthorized shell access. If confirmed malicious, attackers could execute commands, escalate privileges, or maintain persistent access.
 data_source:
     - Sysmon for Linux EventID 1
     - Sysmon EventID 1
@@ -38,22 +37,32 @@ search: |
     (
         Processes.parent_process_name IN (
             "apache*.exe",
+            "beasvc.exe",
             "caddy.exe",
+            "coldfusion.exe",
             "frankenphp.exe",
             "http*.exe",
             "iisexpress.exe",
             "java.exe",
+            "javaw.exe",
+            "jbosssvc.exe",
+            "jrun.exe",
             "lighttpd.exe",
+            "lsphp*.exe",
             "nginx*.exe",
+            "openresty.exe",
             "php*.exe",
             "roadrunner.exe",
             "tomcat*.exe",
+            "traefik.exe",
             "UMWorkerProcess.exe",
             "w3wp.exe",
+            "wildfly-service.exe",
             "ws_TomcatService.exe"
         )
         `windows_shells`
     )
+    NOT Processes.parent_process_name IN ("phpstorm*")
 
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
@@ -62,6 +71,36 @@ search: |
        Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
 
     | `drop_dm_object_name(Processes)`
+
+    | where (
+        NOT match(parent_process_name, "(?i)^javaw?(\.exe)?$")
+        OR match(parent_process, "(?i)(org\.apache\.catalina\.startup\.Bootstrap|-Dcatalina\.base=|org\.eclipse\.jetty\.start\.Main|-Djetty\.home=|org\.jboss\.modules\.Main|-Djboss\.home\.dir=|weblogic\.Server|-Dweblogic\.Name=|weblogic-launcher\.jar|com\.ibm\.ws\.runtime\.WsServer|com\.ibm\.ws\.kernel\.boot\.cmdline\.Bootstrap|com\.sun\.enterprise\.glassfish\.bootstrap\.ASMain|com\.caucho\.server\.resin\.Resin)")
+        OR match(parent_process, "(?i)(org\.springframework\.boot\.loader\.|quarkus-run\.jar|io\.quarkus\.runner\.GeneratedMain|io\.micronaut\.runtime\.Micronaut|io\.dropwizard\.cli\.ServerCommand|play\.core\.server\.ProdServerStart|io\.helidon\.microprofile\.server\.Main|io\.helidon\.webserver|io\.vertx\.core\.Launcher)")
+        OR match(parent_process, "(?i)(org\.keycloak|org\.apereo\.cas|org\.elasticsearch\.bootstrap\.Elasticsearch|com\.atlassian\.jira\.startup\.Launcher|BitbucketServerLauncher|com\.google\.gerrit\.pgm\.Daemon|-Dsolr\.solr\.home=|jenkins\.war)")
+    )
+
+    | where NOT (
+        match(parent_process_name, "(?i)^php")
+        AND match(
+            lower(trim(process)),
+            "^(cmd\.exe /s /c \"stty 2> nul\"|c:\\\\windows\\\\system32\\\\cmd\.exe /s /c \"mode con\"|sh -c \"stty -a \| grep columns\"|sh -c nproc|sh -c \"stty -g\"|sh -c \"tput (cols|lines)\")$"
+        )
+    )
+
+    | where NOT (
+        (
+            match(parent_process_path, "(?i).*\\\\ArcGIS\\\\Portal\\\\framework\\\\runtime\\\\jre\\\\bin\\\\javaw\.exe$")
+            AND process_name="cmd.exe"
+            AND match(process, "(?i)^cmd\.exe /c \" whoami \"$")
+        )
+        OR
+        (
+            match(parent_process_path, "(?i)^C:\\\\Program Files\\\\CCSI\\\\Instance_[0-9]+\\\\Apache\\\\bin\\\\httpd\.exe$")
+            AND process_name="cmd.exe"
+            AND match(process, "(?i)^cmd\.exe /s /c \"\"C:\\\\Program Files\\\\CCSI\\\\Instance_[0-9]+\\\\(ObixHMAC|TraceGen|UAAnalyzer)\.exe\"")
+        )
+    )
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `web_or_application_server_spawning_a_shell_filter`

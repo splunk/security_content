@@ -1,0 +1,66 @@
+name: Serialized PHP Token in Upload Filename - Suricata
+id: f5abaeab-eabd-4b8a-bc62-ec3d3722e4fe
+version: 1
+creation_date: '2026-10-23'
+modification_date: '2026-10-28'
+author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects multipart POST traffic with a serialized PHP structure in an uploaded filename, which may indicate an attempt to exploit PHP session upload-progress handling and can be associated with PHP2Shell activity.
+    Suricata EVE's standard HTTP events do not expose multipart form field names, so this Suricata variant cannot confirm the PHP_SESSION_UPLOAD_PROGRESS field without additional request-body inspection.
+data_source:
+    - Suricata
+search: |-
+    `suricata` http_method=POST fileinfo.filename=*
+    | rex field=fileinfo.filename max_match=0 "(?i)(?<serialization_token>\|?O:\d+:|C:\d+:|a:\d+:\{|[sS]:\d+:|E:\d+:|[rR]:\d+;|i:-?\d+;|d:(?:[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?|INF|NAN);|b:[01];|N;)"
+    | where isnotnull(serialization_token)
+    | rename dest_ip as dest
+    | rename src_ip as src
+    | stats count min(_time) as firstTime max(_time) as lastTime values(serialization_token) as serialization_tokens values(http_content_type) as http_content_type by fileinfo.filename, src, src_port, dest, dest_port, url, http_method
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `serialized_php_token_in_upload_filename___suricata_filter`
+how_to_implement: |-
+    Configure Suricata EVE JSON to emit HTTP and fileinfo events, and ingest the JSON with the Splunk TA for
+    Suricata. Set the `suricata` macro to the TA's sourcetype (commonly `sourcetype=suricata`). Verify that
+    POST file events expose `http_method`, `fileinfo.filename`, `src_ip`, `src_port`, `dest_ip`, `dest_port`,
+    and the HTTP URL/content type fields used by the search. This rule matches serialized PHP tokens in the
+    filename only; Suricata EVE does not provide multipart form field names, so it cannot verify
+    PHP_SESSION_UPLOAD_PROGRESS.
+known_false_positives: |-
+    Applications may upload files with names containing serialized-looking text as part of testing or unusual workflows. Review the filename, source, destination, and application context before determining intent.
+references:
+    - https://www.php2shell.com/
+    - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
+    - https://docs.suricata.io/en/suricata-8.0.3/output/eve/eve-json-output.html
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 40
+          message: A POST request from [$src$] to [$dest$] included a serialized PHP structure in an upload filename.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - PHP2Shell
+asset_type: Web Application
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/suricata.log
+          source: not_applicable
+          sourcetype: suricata
+      test_type: unit
