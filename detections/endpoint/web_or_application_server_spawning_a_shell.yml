@@ -49,6 +49,7 @@ search: |
             "jrun.exe",
             "lighttpd.exe",
             "lsphp*.exe",
+            "MSExchangeHMWorker.exe",
             "nginx*.exe",
             "openresty.exe",
             "php*.exe",
