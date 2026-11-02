@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-10-19'
 modification_date: '2026-10-19'
 author: Onur Mustafa Erdogan, Splunk
-status: experimental
+status: production
 type: TTP
 description: |
     The following analytic detects a Chromium-based browser being launched with both the --hide-crash-restore-bubble and --restore-last-session
@@ -16,6 +16,7 @@ description: |
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -23,10 +24,10 @@ search: |
 
     from datamodel=Endpoint.Processes where
 
+    NOT Processes.parent_process_name IN ("chrome.exe", "msedge.exe", "brave.exe")
     Processes.process_name IN ("chrome.exe", "msedge.exe", "brave.exe")
     Processes.process="*--hide-crash-restore-bubble*"
     Processes.process="*--restore-last-session*"
-    NOT Processes.parent_process_name IN ("chrome.exe", "msedge.exe", "brave.exe")
 
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id

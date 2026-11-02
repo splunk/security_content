@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-10-19'
 modification_date: '2026-10-19'
 author: Onur Mustafa Erdogan, Splunk
-status: experimental
+status: production
 type: TTP
 description: |
     The following analytic detects cmd.exe being used to write a Windows Scheduled Task XML definition to disk through the echo command.
@@ -23,7 +23,11 @@ search: |
 
     from datamodel=Endpoint.Processes where
 
-    (Processes.process_name=cmd.exe OR Processes.original_file_name=Cmd.Exe)
+    (
+        Processes.process_name=cmd.exe
+        OR
+        Processes.original_file_name=Cmd.Exe
+    )
     Processes.process="*echo *"
     Processes.process="*Task version=*"
     Processes.process="*xmlns=\"http://schemas.microsoft.com/windows/*"
