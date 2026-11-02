@@ -31,13 +31,13 @@ search: >-
       )
       OR properties.userAgent="Dsreg/*"
     )
-    
+
     | rename properties.targetResources{}.displayName as dvc, properties.userAgent as user_agent
     | fillnull
     | stats count min(_time) as firstTime max(_time) as lastTime
         values(result) as result
         by tenantId user src dvc signature vendor_account vendor_product
-    
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `azure_ad_suspicious_device_registration_filter`
