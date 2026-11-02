@@ -13,8 +13,11 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
     - actor.email
     - actor.profileId
+    - app
+    - command
     - date_hour
     - date_mday
     - date_minute
@@ -43,7 +46,12 @@ fields:
     - source
     - sourcetype
     - splunk_server
+    - src
+    - status
     - timeendpos
     - timestartpos
+    - user
+    - user_name
+    - vendor_account
 example_log: |
     {"kind": "admin#reports#activity", "id": {"time": "2022-10-13T20:57:35.833Z", "uniqueQualifier": "437744618349", "applicationName": "login", "customerId": "C046r85ir"}, "etag": "\"JCPRxFaiNR1s5TJ6ecIH8OpGdY4efiOYXbIB65itOzY/OgAbD-Tz8hSD1vUJWw7NLiJ5SF4\"", "actor": {"email": "user1@splunkresearch.com", "profileId": "112184723778873345717"}, "ipAddress": "45.23.129.123", "event": {"type": "login", "name": "login_success", "parameters": [{"name": "login_type", "value": "google_password"}, {"name": "login_challenge_method", "multiValue": ["password", "password", "password", "password", "password"]}, {"name": "is_suspicious", "boolValue": false}]}}

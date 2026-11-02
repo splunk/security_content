@@ -38,6 +38,8 @@ fields:
     - EventID
     - EventRecordID
     - eventtype
+    - file_name
+    - file_path
     - Guid
     - HandleId
     - host
