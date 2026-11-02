@@ -1,12 +1,14 @@
 name: O365 Email Receive and Hard Delete Takeover Behavior
 id: b66aeaa4-586f-428b-8a2b-c4fd3039d8d3
-version: 6
+version: 7
 creation_date: '2025-01-23'
-modification_date: '2026-05-13'
+modification_date: '2026-09-23'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic identifies when an O365 email recipient receives and then deletes emails related to password or banking/payroll changes within a short period. This behavior may indicate a compromised account where the threat actor is attempting to redirect the victims payroll to an attacker controlled bank account.
+description: |-
+    The following analytic identifies when an O365 email recipient receives and then deletes emails related to password or banking/payroll changes within a short period.
+    This behavior may indicate a compromised account where the threat actor is attempting to redirect the victims payroll to an attacker controlled bank account.
 data_source:
     - Office 365 Universal Audit Log
     - Office 365 Reporting Message Trace
@@ -14,8 +16,8 @@ search: |-
     `o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*")
     | eval mailtime = _time
     | bin _time span=4hr
-    | eval user = lower(RecipientAddress)
-    | eval InternetMessageId = lower(MessageId)
+    | eval user = lower(recipient)
+    | eval InternetMessageId = lower(message_id)
     | join InternetMessageId, user max=0
       [
       | search `o365_management_activity` Workload=Exchange Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions")
@@ -31,8 +33,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `o365_email_receive_and_hard_delete_takeover_behavior_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
-known_false_positives: Possible new user/account onboarding processes.
+how_to_implement: |-
+    You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
+known_false_positives: |-
+    Possible new user/account onboarding processes.
 references:
     - https://attack.mitre.org/techniques/T1114/
     - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
@@ -47,7 +51,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
     - name: Investigate Email for $user$
-      search: '`o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*") AND RecipientAddress = "$user$"'
+      search: '`o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*") AND recipient = "$user$"'
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 intermediate_findings:
@@ -86,4 +90,13 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_messagetrace_suspect_events.log
           source: o365_messagetrace
           sourcetype: o365:reporting:messagetrace
+      test_type: unit
+    - name: True Positive Test - Graph message trace
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
+          source: o365
+          sourcetype: o365:management:activity
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_graph_messagetrace_suspect_events.log
+          source: o365_messagetrace
+          sourcetype: o365:graph:messagetrace
       test_type: unit

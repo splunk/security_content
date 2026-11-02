@@ -1,0 +1,36 @@
+name: Open Redirect in Splunk Web
+id: d199fb99-2312-451a-9daa-e5efa6ed76a7
+version: 3
+creation_date: '2019-10-16'
+modification_date: '2026-05-14'
+author: Bhavin Patel, Splunk
+status: removed
+type: TTP
+description: This search allows you to look for evidence of exploitation for CVE-2016-4859, the Splunk Open Redirect Vulnerability.
+data_source: []
+search: index=_internal sourcetype=splunk_web_access return_to="/%09/*" | `open_redirect_in_splunk_web_filter`
+how_to_implement: No extra steps needed to implement this search.
+known_false_positives: None identified
+references: []
+rba:
+    message: Exploitation of CVE-2016-4859
+    risk_objects:
+        - field: uri
+          type: other
+          score: 25
+    threat_objects: []
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    cve:
+        - CVE-2016-4859
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.2.0
+    replacement_content: []

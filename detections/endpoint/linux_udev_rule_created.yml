@@ -1,0 +1,78 @@
+name: Linux UDEV Rule Created
+id: 94d0e307-beae-4f85-8150-69c169b979c1
+version: 1
+creation_date: '2026-07-08'
+modification_date: '2026-07-08'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects the creation of files within udev rules directories, including /etc/udev/rules.d and /usr/lib/udev/rules.d. Adversaries abuse udev rules to achieve persistent code execution by embedding RUN+= directives that trigger arbitrary commands whenever a matching device event occurs, such as a USB device being connected or a network interface coming online. Because udev rules execute in the context of the udev daemon with elevated privileges, this technique can provide both persistence and privilege escalation. It is used by post-exploitation frameworks such as PANIX and is effective on headless servers where device events still fire despite no interactive user session.
+data_source:
+    - Sysmon for Linux EventID 11
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Filesystem WHERE
+
+    Filesystem.file_path IN (
+        "/etc/udev/rules.d/*",
+        "/usr/lib/udev/rules.d/*"
+    )
+
+    BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+       Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+       Filesystem.file_name Filesystem.file_path Filesystem.process_guid
+       Filesystem.process_id Filesystem.user Filesystem.vendor_product
+
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_udev_rule_created_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain file creation events including the file path and user context. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Legitimate system administrators or software installers may create udev rules as part of normal hardware configuration or device management tasks. Filter based on known administrative activity and trusted software installations.
+references:
+    - https://github.com/Aegrah/PANIX
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: '0'
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: New UDEV rule created under [$file_path$] by [$user$] on [$dest$]
+threat_objects:
+    - field: file_name
+      type: file_name
+analytic_story:
+    - Linux Persistence Techniques
+    - Linux Post-Exploitation
+    - Linux Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1547
+    - T1037
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      test_type: unit
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547/linux_udev_rule_created/snapattack_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

@@ -1,16 +1,38 @@
 name: Windows RDP Cache File Deletion
 id: f3e86ff3-b1f9-4382-8924-6913385f1019
-version: 4
+version: 5
 creation_date: '2025-08-06'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This detection identifies the deletion of RDP bitmap cache files—specifically .bmc and .bin files—typically stored in the user profile under the Terminal Server Client\Cache directory. These files are created by the native Windows Remote Desktop Client (mstsc.exe) and store graphical elements from remote sessions to improve performance. Deleting these files may indicate an attempt to remove forensic evidence of RDP usage. While rare in legitimate user behavior, this action is commonly associated with defense evasion techniques used by attackers or red teamers who wish to hide traces of interactive remote access. When observed in conjunction with recent logon activity, RDP session indicators, or script execution, this behavior should be treated as potentially malicious. Monitoring for deletion of these files provides valuable visibility into anti-forensic actions that often follow lateral movement or hands-on-keyboard activity.
+description: |-
+    This detection identifies the deletion of RDP bitmap cache files—specifically .bmc and .bin files—typically stored in the user profile under the Terminal Server Client\Cache directory.
+    These files are created by the native Windows Remote Desktop Client (mstsc.exe) and store graphical elements from remote sessions to improve performance.
+    Deleting these files may indicate an attempt to remove forensic evidence of RDP usage.
+    While rare in legitimate user behavior, this action is commonly associated with defense evasion techniques used by attackers or red teamers who wish to hide traces of interactive remote access.
+    When observed in conjunction with recent logon activity, RDP session indicators, or script execution, this behavior should be treated as potentially malicious. Monitoring for deletion of these files provides valuable visibility into anti-forensic actions that often follow lateral movement or hands-on-keyboard activity.
 data_source:
     - Sysmon EventID 23
     - Sysmon EventID 26
-search: '`sysmon` EventCode IN ("23", "26") TargetFilename IN ("*\\Terminal Server Client\\Cache\\*.bmc", "*\\Terminal Server Client\\Cache\\cache*.bin") | stats count min(_time) as firstTime, max(_time) as lastTime by action dest dvc file_path file_hash file_name file_modify_time process_exec process_guid process_id process_name process_path signature signature_id user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_rdp_cache_file_deletion_filter`'
+search: |-
+    `sysmon`
+    EventCode IN (23, 26)
+    TargetFilename IN (
+        "*\\Terminal Server Client\\Cache\\*.bmc",
+        "*\\Terminal Server Client\\Cache\\cache*.bin"
+    )
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+      by action dest dvc file_path file_hash file_name
+         file_modify_time process_exec process_guid process_id
+         process_name process_path signature
+         signature_id user user_id vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_rdp_cache_file_deletion_filter`
 how_to_implement: To successfully implement this search, you must ingest logs that include the process name, TargetFilename, and ProcessID executions from your endpoints. If you are utilizing Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
 known_false_positives: False positives will be present, filter as needed or restrict to critical assets on the perimeter.
 references:

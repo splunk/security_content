@@ -1,0 +1,20 @@
+name: Suspicious AWS Bedrock Claude Activities
+id: c155d248-406d-48c7-9dd4-1c35607242e0
+creation_date: '2026-07-06'
+modification_date: '2026-07-06'
+version: 1
+author: Rod Soto, Splunk
+status: production
+description: This analytic story provides detection coverage for prompt injection, jailbreak attempts and other suspicious activities targeting AWS Bedrock Claude AI services. It monitors user inputs to Claude models for known manipulation patterns such as instruction override phrases, persona hijacking, and safety bypass keywords. These techniques are commonly used by adversaries to circumvent AI safety controls, extract sensitive information, or repurpose the model for malicious tasks.
+narrative: This analytic story is designed to detect suspicious activities related to AWS Bedrock Claude, an AI service that allows users to interact with AI models. The story focuses on identifying potential malicious inputs that aim to manipulate the AI model's behavior. By monitoring for specific patterns in user inputs, security teams can identify and respond to potential abuse or exploitation of the AWS Bedrock Claude service. Security teams should review the context of detected prompts to determine if they represent actual prompt injection attempts or benign usage, as false positives may arise from legitimate user interactions with the AI model.
+references:
+- https://research.splunk.com/stories/aws_bedrock_security/
+- https://aws.amazon.com/blogs/apn/unlocking-the-power-of-splunk-with-amazon-bedrock-an-agentic-ai-approach-to-build-customized-splunk-assistants-using-bedrock-agents/
+- https://help.splunk.com/en/splunk-observability-cloud/observability-for-ai/splunk-ai-infrastructure-monitoring/set-up-ai-infrastructure-monitoring/amazon-bedrock
+category:
+- Adversary Tactics
+product:
+- Splunk Enterprise
+- Splunk Enterprise Security
+- Splunk Cloud
+usecase: Advanced Threat Detection

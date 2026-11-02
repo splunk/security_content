@@ -1,26 +1,30 @@
 name: Windows Mark Of The Web Bypass
 id: 8ca13343-7405-4916-a2d1-ae34ce0c28ae
-version: 12
+version: 13
 creation_date: '2023-08-14'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: The following analytic identifies a suspicious process that deletes the Mark-of-the-Web (MOTW) data stream. It leverages Sysmon EventCode 23 to detect when a file's Zone.Identifier stream is removed. This activity is significant because it is a common technique used by malware, such as Ave Maria RAT, to bypass security restrictions on files downloaded from the internet. If confirmed malicious, this behavior could allow an attacker to execute potentially harmful files without triggering security warnings, leading to further compromise of the system.
 data_source:
     - Sysmon EventID 23
+    - Sysmon EventID 26
 search: |-
-    `sysmon` EventCode=23 TargetFilename = "*:Zone.Identifier"
-      | stats count min(_time) as firstTime, max(_time) as lastTime
-        BY action dest dvc
-           file_path file_hash file_name
-           file_modify_time process_exec process_guid
-           process_id process_name process_path
-           signature signature_id user
-           user_id vendor_product
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_mark_of_the_web_bypass_filter`
+    `sysmon`
+    EventCode IN (23, 26)
+    TargetFilename = "*:Zone.Identifier"
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+    BY action dest dvc file_path
+       file_hash file_name
+       file_modify_time process_exec process_guid
+       process_id process_name process_path
+       signature signature_id user
+       user_id vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_mark_of_the_web_bypass_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the deleted target file name, process name and process id  from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: No false positives have been identified at this time.
 references:

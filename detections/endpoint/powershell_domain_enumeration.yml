@@ -1,19 +1,32 @@
 name: PowerShell Domain Enumeration
 id: e1866ce2-ca22-11eb-8e44-acde48001122
-version: 15
+version: 16
 creation_date: '2021-06-15'
-modification_date: '2026-05-13'
+modification_date: '2026-06-28'
 author: Michael Haag, Splunk
 status: production
-type: TTP
-description: The following analytic detects the execution of PowerShell commands used for domain enumeration, such as `get-netdomaintrust` and `get-adgroupmember`. It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command sent to PowerShell. This activity is significant as it often indicates reconnaissance efforts by an attacker to map out the domain structure and identify key users and groups. If confirmed malicious, this behavior could lead to further targeted attacks, privilege escalation, and unauthorized access to sensitive information within the domain.
+type: Anomaly
+description: |-
+    The following analytic detects the execution of PowerShell commands used for domain enumeration, such as `get-netdomaintrust` and `get-adgroupmember`.
+    It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command sent to PowerShell.
+    This activity is significant as it often indicates reconnaissance efforts by an attacker to map out the domain structure and identify key users and groups.
+    If confirmed malicious, this behavior could lead to further targeted attacks, privilege escalation, and unauthorized access to sensitive information within the domain.
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    `powershell` EventCode=4104 ScriptBlockText IN (*get-netdomaintrust*, *get-netforesttrust*, *get-addomain*, *get-adgroupmember*, *get-domainuser*)
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
+    `powershell`
+    EventCode=4104
+    ScriptBlockText IN (
+        *get-netdomaintrust*,
+        *get-netforesttrust*,
+        *get-addomain*,
+        *get-adgroupmember*,
+        *get-domainuser*
+    )
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      BY dest signature signature_id
            user_id vendor_product EventID
            Guid Opcode Name
            Path ProcessID ScriptBlockId
@@ -22,7 +35,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `powershell_domain_enumeration_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
-known_false_positives: It is possible there will be false positives, filter as needed.
+known_false_positives: Legitimate use can be common or expected in certain environments. Filter as needed.
 references:
     - https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
     - https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63
@@ -38,18 +51,12 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: A suspicious powershell script contains domain enumeration command in $ScriptBlockText$ in host $dest$
-    entity:
-        field: user_id
-        type: user
-        score: 50
 intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 50
-          message: A suspicious powershell script contains domain enumeration command in $ScriptBlockText$ in host $dest$
+          score: 20
+          message: A suspicious powershell script with the ScriptBlockId [$ScriptBlockId$] contains domain enumeration commands executed on host $dest$
 analytic_story:
     - Hermetic Wiper
     - Malicious PowerShell

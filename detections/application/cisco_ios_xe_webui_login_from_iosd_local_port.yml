@@ -1,0 +1,83 @@
+name: Cisco IOS XE WebUI Login From IOSd Local Port
+id: 77a1751f-552f-456c-b9ae-cdb66eec3e42
+version: 1
+creation_date: '2026-05-19'
+modification_date: '2026-05-19'
+author: Nasreddine Bencherchali
+status: production
+type: TTP
+description: |
+    This analytic detects Cisco IOS-XE WebUI authentication failure and success logs that include local port 21111.
+    This is a strong an indicator of WebUI exploitation because normal users should not authenticate through the underlying IOS-XE Linux shell path.
+data_source:
+    - Cisco IOS Logs
+search: |-
+    `cisco_ios`
+    facility="SEC_LOGIN"
+    mnemonic IN ("QUIET_MODE_ON", "LOGIN_SUCCESS", "LOGIN_FAILED")
+    message_text="*[localport: 21111]*"
+    | rex field=_raw "\[user:\s*(?<user>[^\]]+)\]"
+    | rex field=_raw "\[Source:\s*(?<src_ip>[^\]]+)\]"
+    | rex field=_raw "\[localport:\s*(?<local_port>[^\]]+)\]"
+    | rex field=_raw "\[Reason:\s*(?<reason>[^\]]+)\]"
+    | rex field=_raw "\[ACL:\s*(?<acl>[^\]]+)\]"
+    | eval dest=coalesce(host, dvc, dest, "unknown")
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(local_port) as local_port
+                  values(acl) as acl
+      by dest user src_ip reason
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_webui_login_from_iosd_local_port_filter`
+how_to_implement: |
+    Use the Cisco Catalyst Add-on for Splunk (https://splunkbase.splunk.com/app/7538) to Ingest Cisco IOS-XE syslog with sourcetype "cisco:ios".
+    Login failure logging must be enabled with "login on-failure log".
+known_false_positives: |
+    This local port value should not appear for normal WebUI logins. So false positives should very minimal.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+    - https://blog.talosintelligence.com/salt-typhoon-analysis/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: WebUI authentication failure with local port 21111 from $src_ip$.
+    entity:
+        field: user
+        type: user
+        score: 50
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 50
+          message: WebUI authentication failure with local port 21111 from $src_ip$ on $dest$.
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - Salt Typhoon
+asset_type: Network
+mitre_attack_id:
+    - T1190
+    - T1078
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_cisco.log
+          source: ctb:catalyst:syslog
+          sourcetype: cisco:ios
+      test_type: unit

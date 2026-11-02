@@ -1,8 +1,8 @@
 name: Cisco Secure Firewall - File Download Over Uncommon Port
 id: f26445a8-a6a2-4855-bec0-0c39e52e5b8f
-version: 8
+version: 9
 creation_date: '2025-04-09'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -12,7 +12,7 @@ data_source:
     - Cisco Secure Firewall Threat Defense File Event
 search: |
     `cisco_secure_firewall` EventType=FileEvent FileDirection="Download" NOT dest_port IN (80, 443)
-    | lookup cisco_secure_firewall_filetype_lookup Name as FileType OUTPUT Description
+    | lookup local=t cisco_secure_firewall_filetype_lookup Name as FileType OUTPUT Description
     | stats count min(_time) as firstTime max(_time) as lastTime
             values(file_name) as file_name
             values(uri) as uri

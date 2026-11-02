@@ -22,3 +22,11 @@ repos:
         pass_filenames: true
         # Optional: Specify custom yamlfmt binary path if not in PATH
         # args: [--yamlfmt-path, /path/to/yamlfmt]
+
+      - id: yaml-field-order
+        name: YAML field order (detections only)
+        description: Enforce configured root field order in detection YAML files
+        entry: python scripts/enforce_yaml_field_order.py --fix
+        language: python
+        files: ^detections/.*\.(yml|yaml)$
+        pass_filenames: true

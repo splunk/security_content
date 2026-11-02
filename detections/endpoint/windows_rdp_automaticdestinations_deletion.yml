@@ -1,8 +1,8 @@
 name: Windows Rdp AutomaticDestinations Deletion
 id: e40a40a1-9fea-4554-abdf-b164422f0627
-version: 4
+version: 5
 creation_date: '2025-08-06'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -10,7 +10,21 @@ description: This detection identifies the deletion of files within the Automati
 data_source:
     - Sysmon EventID 23
     - Sysmon EventID 26
-search: '`sysmon` EventCode=23 TargetFilename IN ("*\\Recent\\AutomaticDestinations*") | stats count min(_time) as firstTime, max(_time) as lastTime by action dest dvc file_path file_hash file_name file_modify_time process_exec process_guid process_id process_name process_path signature signature_id user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_rdp_automaticdestinations_deletion_filter`'
+search: |-
+    `sysmon`
+    EventCode IN (23, 26)
+    TargetFilename IN ("*\\Recent\\AutomaticDestinations*")
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+      by action dest dvc file_path file_hash file_name
+         file_modify_time process_exec process_guid process_id
+         process_name process_path signature
+         signature_id user user_id vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_rdp_automaticdestinations_deletion_filter`
 how_to_implement: To successfully implement this search, you must ingest logs that include the process name, TargetFilename, and ProcessID executions from your endpoints. If you are utilizing Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
 known_false_positives: False positives will be present, filter as needed or restrict to critical assets on the perimeter.
 references:

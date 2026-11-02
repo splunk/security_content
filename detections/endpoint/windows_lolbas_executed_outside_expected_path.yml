@@ -1,8 +1,8 @@
 name: Windows LOLBAS Executed Outside Expected Path
 id: 326fdf44-b90c-4d2e-adca-1fd140b10536
-version: 10
+version: 11
 creation_date: '2024-05-03'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -36,8 +36,8 @@ search: |
        Processes.process_path Processes.user Processes.user_id Processes.vendor_product
 
     |`drop_dm_object_name(Processes)`
-    | lookup lolbas_file_path lolbas_file_name as process_name OUTPUT description as desc
-    | lookup lolbas_file_path lolbas_file_name as process_name lolbas_file_path as process_path OUTPUT description as is_lolbas_path
+    | lookup local=t lolbas_file_path lolbas_file_name as process_name OUTPUT description as desc
+    | lookup local=t lolbas_file_path lolbas_file_name as process_name lolbas_file_path as process_path OUTPUT description as is_lolbas_path
     | search desc!="false" AND is_lolbas_path="false"
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

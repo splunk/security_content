@@ -1,9 +1,9 @@
 name: LLM Model File Creation
 id: 23e5b797-378d-45d6-ab3e-d034ca12a99b
-version: 2
+version: 3
 creation_date: '2025-11-24'
-modification_date: '2026-05-13'
-author: Rod Soto
+modification_date: '2026-07-15'
+author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
 description: |
@@ -17,12 +17,36 @@ search: |
     | tstats `security_content_summariesonly` count
         min(_time) as firstTime
         max(_time) as lastTime
-    from datamodel=Endpoint.Filesystem
-    where Filesystem.file_name IN (
-        "*.gguf*",
-        "*ggml*",
-        "*Modelfile*",
-        "*safetensors*"
+    from datamodel=Endpoint.Filesystem where
+
+    (
+        Filesystem.file_name IN (
+            "*.gguf",
+            "*.safetensors",
+            "*ggml.dll",
+            "*modelfile*"
+        )
+        OR
+        (
+            Filesystem.file_name = "ggml-*"
+            Filesystem.file_name = "*.dll"
+        )
+    )
+    NOT Filesystem.file_name IN (
+        "__PSScriptPolicyTest*",
+        "*.csv",
+        "*.doc",
+        "*.docx",
+        "*.jpeg",
+        "*.jpg",
+        "*.pdf",
+        "*.png",
+        "*.ppt",
+        "*.pptx",
+        "*.py",
+        "*.xls",
+        "*.xlsx",
+        "*Bentley.Civil*"
     )
     by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
        Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path

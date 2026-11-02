@@ -1,26 +1,35 @@
 name: Windows Powershell Import Applocker Policy
 id: 102af98d-0ca3-4aa4-98d6-7ab2b98b955a
-version: 13
+version: 14
 creation_date: '2022-06-30'
-modification_date: '2026-05-13'
+modification_date: '2026-06-29'
 author: Teoderick Contreras, Splunk
 status: production
-type: TTP
-description: The following analytic detects the import of Windows PowerShell Applocker cmdlets, specifically identifying the use of "Import-Module Applocker" and "Set-AppLockerPolicy" with an XML policy. It leverages PowerShell Script Block Logging (EventCode 4104) to capture and analyze script block text. This activity is significant as it may indicate an attempt to enforce restrictive Applocker policies, potentially used by malware like Azorult to disable antivirus products. If confirmed malicious, this could allow an attacker to bypass security controls, leading to further system compromise and persistence.
+type: Anomaly
+description: |-
+    The following analytic detects the import of Windows PowerShell Applocker cmdlets, specifically identifying the use of "Import-Module Applocker" and "Set-AppLockerPolicy" with an XML policy.
+    It leverages PowerShell Script Block Logging (EventCode 4104) to capture and analyze script block text.
+    This activity is significant as it may indicate an attempt to enforce restrictive Applocker policies, potentially used by malware like Azorult to disable antivirus products.
+    If confirmed malicious, this could allow an attacker to bypass security controls, leading to further system compromise and persistence.
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    `powershell` EventCode=4104 ScriptBlockText="*Import-Module Applocker*" ScriptBlockText="*Set-AppLockerPolicy*" ScriptBlockText="* -XMLPolicy *"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_powershell_import_applocker_policy_filter`
+    `powershell`
+    EventCode=4104
+    ScriptBlockText="*Import-Module Applocker*"
+    ScriptBlockText="*Set-AppLockerPolicy*"
+    ScriptBlockText="* -XMLPolicy *"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest signature signature_id
+         user_id vendor_product EventID
+         Guid Opcode Name
+         Path ProcessID ScriptBlockId
+         ScriptBlockText
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_powershell_import_applocker_policy_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: administrators may execute this command that may cause some false positive.
 references:
@@ -34,18 +43,16 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: A PowerShell script contains Import Applocker Policy command $ScriptBlockText$ on host $dest$
-    entity:
-        field: user_id
-        type: user
-        score: 50
 intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 50
-          message: A PowerShell script contains Import Applocker Policy command $ScriptBlockText$ on host $dest$
+          score: 20
+          message: A suspicious powershell script with the ScriptBlockId [$ScriptBlockId$] containing Import-Module Applocker and Set-AppLockerPolicy commands to import Applocker policy was executed on host $dest$
+        - field: user_id
+          type: user
+          score: 20
+          message: A suspicious powershell script with the ScriptBlockId [$ScriptBlockId$] containing Import-Module Applocker and Set-AppLockerPolicy commands to import Applocker policy was executed on host $dest$ by user $user_id$
 analytic_story:
     - Azorult
 asset_type: Endpoint

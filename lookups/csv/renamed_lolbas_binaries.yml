@@ -1,0 +1,14 @@
+name: renamed_lolbas_binaries
+id: 8fcee872-392f-41ab-95fb-a50f8557b03e
+version: 1
+creation_date: '2026-09-23'
+modification_date: '2026-09-23'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of LOLBAS binaries and detailed information regarding their usage
+default_match: 'false'
+match_type:
+    - WILDCARD(original_file_name)
+min_matches: 1
+max_matches: 1
+case_sensitive_match: false

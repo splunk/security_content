@@ -1,8 +1,8 @@
 name: Cisco Secure Firewall - Blacklisted SSL Certificate Fingerprint
 id: c43f7b49-2dab-4e76-892e-7f971c2f20f1
-version: 7
+version: 8
 creation_date: '2025-04-03'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -12,7 +12,7 @@ data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
 search: |
     `cisco_secure_firewall` EventType=* SSL_CertFingerprint=*
-    | lookup sslbl_ssl_certificate_blacklist SHA1 as SSL_CertFingerprint OUTPUT Listingdate, Listingreason
+    | lookup local=t sslbl_ssl_certificate_blacklist SHA1 as SSL_CertFingerprint OUTPUT Listingdate, Listingreason
     | where isnotnull(Listingreason)
     | stats min(_time) as firstTime max(_time) as lastTime
             values(dest) as dest

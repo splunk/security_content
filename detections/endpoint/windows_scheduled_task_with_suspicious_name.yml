@@ -1,8 +1,8 @@
 name: Windows Scheduled Task with Suspicious Name
 id: 9e9ab4e3-c9d0-4967-a197-6d755e8a7e6e
-version: 9
+version: 10
 creation_date: '2025-02-07'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Steven Dick
 status: production
 type: TTP
@@ -16,7 +16,7 @@ search: |-
     | eval TaskContent = case(isnotnull(TaskContentNew),TaskContentNew,true(),TaskContent)
     | xmlkv TaskContent
     | stats count min(_time) as firstTime max(_time) as lastTime latest(Arguments) as Arguments latest(Author) as Author by Computer, TaskName, Command, Enabled, Hidden,Caller_User_Name, EventCode
-    | lookup windows_suspicious_tasks task_name as TaskName
+    | lookup local=t windows_suspicious_tasks task_name as TaskName
     | where isnotnull(tool_type)
     | eval command=TaskName, process=Command+if(isnotnull(Arguments)," ".Arguments,""), src_user=Author, user = Caller_User_Name, dest = Computer
     | `security_content_ctime(firstTime)`

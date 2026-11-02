@@ -1,0 +1,9 @@
+name: domain_controllers
+id: f9983e0d-0201-40c1-babe-8b66b2cf963d
+version: 1
+creation_date: '2026-07-27'
+modification_date: '2026-07-27'
+author: Splunk Threat Research Team
+lookup_type: csv
+description: A list of domain controller hostnames used to filter known domain controllers.
+case_sensitive_match: false

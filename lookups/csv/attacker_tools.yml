@@ -1,8 +1,8 @@
 name: attacker_tools
 id: 72620fe1-26cb-4cee-a6ee-8c6127056d81
-version: 6
+version: 7
 creation_date: '2021-07-12'
-modification_date: '2026-05-13'
+modification_date: '2026-08-07'
 author: Splunk Threat Research Team
 lookup_type: csv
 description: A list of tools used by attackers

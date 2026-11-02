@@ -1,0 +1,50 @@
+name: Splunk Improperly Formatted Parameter Crashes splunkd
+id: 08978eca-caff-44c1-84dc-53f17def4e14
+version: 8
+creation_date: '2023-02-14'
+modification_date: '2026-05-14'
+author: Chase Franklin, Rod Soto, Splunk
+status: removed
+type: TTP
+description: The following analytic detects the execution of improperly formatted INGEST_EVAL parameters in Splunk Enterprise, which can crash the splunkd service. It leverages the Splunk_Audit.Search_Activity datamodel to identify ad-hoc searches containing specific keywords. This activity is significant because it can disrupt Splunk operations, leading to potential data loss and service downtime. If confirmed malicious, an attacker could exploit this to cause a denial of service, impacting the availability and reliability of the Splunk environment.
+data_source:
+    - Splunk
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime from datamodel=Splunk_Audit.Search_Activity where (Search_Activity.search="*makeresults*"AND
+    Search_Activity.search="*ingestpreview*transforms*") Search_Activity.search_type=adhoc
+    Search_Activity.search!="*splunk_improperly_formatted_parameter_crashes_splunkd_filter*"
+    Search_Activity.user!=splunk-system-user by Search_Activity.search, Search_Activity.info,
+    Search_Activity.total_run_time, Search_Activity.user, Search_Activity.search_type
+    | `drop_dm_object_name(Search_Activity)` 
+    | `security_content_ctime(firstTime)` 
+    | `security_content_ctime(lastTime)` 
+    | `splunk_improperly_formatted_parameter_crashes_splunkd_filter`
+how_to_implement: Requires access to audittrail and use of Splunk_Audit.Search_Activity datamodel.
+known_false_positives: This is a hunting search it should be focused on affected products, otherwise it is likely to produce false positives.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2023-0211
+    - https://advisory.splunk.com/advisories/SVD-2024-1006
+rba:
+    message: An attempt to exploit ingest eval parameter was detected from $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 100
+    threat_objects: []
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    cve:
+        - CVE-2023-22941
+        - CVE-2024-45736
+    mitre_attack_id:
+        - T1499
+    product:
+        - Splunk Enterprise
+    security_domain: threat
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.16.0
+    replacement_content: []

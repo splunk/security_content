@@ -5,12 +5,26 @@ on:
     paths:
       - 'detections/**/*.yml'
       - 'detections/**/*.yaml'
+      - '.yamlfieldorder'
+      - '.yamlfmt'
+      - '.yamllint'
+      - '.pre-commit-config.yaml'
+      - 'scripts/enforce_yaml_field_order.py'
+      - 'scripts/validate_yaml.py'
+      - '.github/workflows/yaml-validation.yml'
   push:
     branches:
       - develop
     paths:
       - 'detections/**/*.yml'
       - 'detections/**/*.yaml'
+      - '.yamlfieldorder'
+      - '.yamlfmt'
+      - '.yamllint'
+      - '.pre-commit-config.yaml'
+      - 'scripts/enforce_yaml_field_order.py'
+      - 'scripts/validate_yaml.py'
+      - '.github/workflows/yaml-validation.yml'
 
 jobs:
   validate:
@@ -19,7 +33,7 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       
@@ -33,7 +47,7 @@ jobs:
         run: pip install yamllint
       
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
       
       - name: Install yamlfmt
         run: |

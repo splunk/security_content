@@ -1,8 +1,8 @@
 name: Windows AD Privileged Group Modification
 id: 187bf937-c436-4c65-bbcb-7539ffe02da1
-version: 11
+version: 12
 creation_date: '2024-07-01'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Dean Luxton
 status: production
 type: TTP
@@ -20,7 +20,7 @@ search: |-
     `wineventlog_security` EventCode IN (4728)
       | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc
         BY signature, Group_Name,src_user dest
-      | lookup admon_groups_def  cn as Group_Name OUTPUT category
+      | lookup local=t admon_groups_def  cn as Group_Name OUTPUT category
       | where category="privileged"
       | `windows_ad_privileged_group_modification_filter`
 how_to_implement: This analytic requires eventCode 4728 to be ingested along with the admon_groups_def lookup being configured to include a list of AD groups along with a category to identify privileged groups. See splunkbase app listed in the references for further details.

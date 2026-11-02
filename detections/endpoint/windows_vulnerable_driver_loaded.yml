@@ -1,8 +1,8 @@
 name: Windows Vulnerable Driver Loaded
 id: a2b1f1ef-221f-4187-b2a4-d4b08ec745f4
-version: 10
+version: 11
 creation_date: '2022-12-31'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -15,7 +15,7 @@ search: |-
         BY ImageLoaded dest dvc
            process_hash process_path signature
            signature_id user_id vendor_product
-      | lookup loldrivers driver_name AS ImageLoaded OUTPUT is_driver driver_description
+      | lookup local=t loldrivers driver_name AS ImageLoaded OUTPUT is_driver driver_description
       | search is_driver = TRUE
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`

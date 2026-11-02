@@ -1,8 +1,8 @@
 name: Recon AVProduct Through Pwh or WMI
 id: 28077620-c9f6-11eb-8785-acde48001122
-version: 15
+version: 16
 creation_date: '2021-06-14'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -62,6 +62,7 @@ analytic_story:
     - MoonPeak
     - Qakbot
     - Windows Post-Exploitation
+    - Starland RAT Campaign
 asset_type: Endpoint
 mitre_attack_id:
     - T1592

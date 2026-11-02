@@ -1,9 +1,9 @@
 name: Windows Local LLM Framework Execution
 id: a3f8e2c9-7d4b-4e1f-9c6a-2b5d8f3e1a7c
-version: 2
+version: 3
 creation_date: '2025-11-24'
-modification_date: '2026-05-13'
-author: Rod Soto, Splunk
+modification_date: '2026-07-15'
+author: Rod Soto, Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
 description: |
@@ -37,13 +37,13 @@ search: |
           )
           OR
           Processes.original_file_name IN (
-              "ollama.exe",
-              "lmstudio.exe",
               "gpt4all.exe",
               "jan.exe",
-              "llama-run.exe",
               "koboldcpp.exe",
-              "nutstudio.exe"
+              "llama-run.exe",
+              "lmstudio.exe",
+              "nutstudio.exe",
+              "ollama.exe"
           )
           OR
           Processes.process IN (
@@ -75,6 +75,20 @@ search: |
               "text-generation-webui.exe"
           )
         )
+        NOT Processes.process_name IN (
+            "360se.exe", "Acrobat.exe", "arc.exe", "atlas.exe", "avastbrowser.exe",
+            "avgbrowser.exe", "blpbrowser.exe", "brave.exe", "braveupdate.exe",
+            "chrome.exe", "chromium.exe", "coccoc.exe", "comet.exe", "conhost.exe",
+            "dragon.exe", "duckduckgo.exe", "epic.exe", "EXCEL.EXE", "firefox.exe",
+            "FoxitPDFReader.exe", "ghost.exe", "iexplore.exe", "iridium.exe", "iron.exe",
+            "maxthon.exe", "microsoftedge.exe", "microsoftedgeupdate.exe", "msedge.exe",
+            "msedgewebview2.exe", "mspaint.exe", "NewformaOCR.exe", "notepad.exe",
+            "opera_autoupdate.exe", "opera.exe", "OUTLOOK.EXE", "perplexity.exe",
+            "Photos.exe", "POWERPNT.EXE", "rave.exe", "Revu.exe", "safari.exe",
+            "shift.exe", "sidekick.exe", "Stapler.exe", "thorium.exe", "torch.exe",
+            "vivaldi.exe", "wavebrowser.exe", "whale.exe", "WINWORD.EXE", "zen.exe"
+        )
+
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
        Processes.parent_process_name Processes.parent_process_path Processes.process

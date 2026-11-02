@@ -1,8 +1,8 @@
 name: Powershell Using memory As Backing Store
 id: c396a0c4-c9f2-11eb-b4f5-acde48001122
-version: 13
+version: 14
 creation_date: '2021-06-14'
-modification_date: '2026-05-13'
+modification_date: '2026-06-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -58,6 +58,7 @@ analytic_story:
     - Hermetic Wiper
     - IcedID
     - Malicious PowerShell
+    - Salat Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1059.001

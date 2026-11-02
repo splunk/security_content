@@ -1,0 +1,97 @@
+name: PTC Windchill GW READY OK Probe
+id: 2f37ab99-5eae-44c4-a6bc-15b6d9787a3d
+version: 1
+creation_date: '2026-06-14'
+modification_date: '2026-06-14'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic detects Windchill MethodServer log4j events that contain the CVE-2026-4681 exploitation probe `run?c=echo%20GW_READY_OK`.
+    PTC identifies `GW_READY_OK` and related `run?c=` activity as log indicators associated with Windchill and FlexPLM exploitation.
+    This behavior is significant because attackers use the probe to confirm that a staged gateway component is reachable before sending operating system commands through the same `c=` parameter.
+data_source:
+    - Windchill Log4j
+search: |-
+    `windchill_log4j`
+    ("GW_READY_OK" OR "run?c=echo%20GW_READY_OK" OR "c=echo%20GW_READY_OK")
+    | rex field=_raw "^(?:[^:\r\n]+:)?(?<log_ts>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2},\d{3})\s+(?<log_level>\w+)\s+\[(?<thread>[^\]]+)\]\s+(?<logger>\S+)\s+-\s+(?<payload>.*)$"
+    | search logger IN ("wt.servlet.ServletRequestMonitor.request", "wt.method.MethodContextMonitor.contexts.servletRequest")
+    | rex field=payload "^(?<event_ts>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\.\d{3})\s+(?<event_tz>[+\-]\d{4}),\s+(?<rest>.*)$"
+    | eval parts=split(rest,", ")
+    | eval event_type=case(logger="wt.servlet.ServletRequestMonitor.request","servlet_request",logger="wt.method.MethodContextMonitor.contexts.servletRequest","method_context_servlet_request",true(),"other")
+    | eval src_ip=case(event_type="servlet_request",mvindex(parts,2),event_type="method_context_servlet_request",mvindex(parts,5))
+    | eval uri_path=case(event_type="servlet_request",mvindex(parts,3),event_type="method_context_servlet_request",mvindex(parts,8))
+    | eval query_string=if(event_type="servlet_request",mvindex(parts,4),null())
+    | eval http_method=if(event_type="servlet_request",mvindex(parts,5),null())
+    | eval status=if(event_type="servlet_request",tonumber(mvindex(parts,6)),null())
+    | rex field=uri_path "^(?<uri_only>[^\?]+)(?:\?(?<uri_query>.*))?$"
+    | eval query_string=if(query_string="-",null(),query_string)
+    | eval query_string=coalesce(query_string,uri_query)
+    | rex field=query_string "(?i)(?:^|&)(?<query_param>[cp])=(?<query_value>[^&]*)"
+    | eval query_param=lower(query_param), query_value=urldecode(replace(query_value,"\+","%20"))
+    | where query_param="c" AND match(query_value,"(?i)^echo(\s|20)+GW_READY_OK$")
+    | eval src=src_ip, activity="gw_ready_ok_probe"
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(log_level) as log_level
+                  values(logger) as logger
+                  values(http_method) as http_method
+                  values(status) as status
+                  values(uri_only) as uri_path
+                  values(query_string) as query_string
+      by src activity query_param query_value
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `ptc_windchill_gw_ready_ok_probe_filter`
+how_to_implement: |
+    To implement this analytic, ingest PTC Windchill MethodServer log4j logs into Splunk with sourcetype `log4j`.
+    Update the `windchill_log4j` macro to include the appropriate index constraints for your environment.
+    The analytic expects log entries from the `wt.servlet.ServletRequestMonitor.request` and `wt.method.MethodContextMonitor.contexts.servletRequest` loggers.
+known_false_positives: |
+    This probe string is specific to the PTC-published Windchill exploitation indicators. False positives should be rare. Validate whether any internal testing, incident response activity, or vendor diagnostics intentionally generated `GW_READY_OK` requests.
+references:
+    - https://www.ptc.com/en/about/trust-center/advisory-center/active-advisories/windchill-flexplm-critical-vulnerability
+    - https://nvd.nist.gov/vuln/detail/CVE-2026-4681
+    - https://www.cisa.gov/news-events/ics-advisories/icsa-26-085-03
+drilldown_searches:
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: src
+          type: system
+          score: 20
+          message: PTC Windchill GW READY OK exploitation probe detected from $src$.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - PTC Windchill Exploitation
+asset_type: Web Application
+cve:
+    - CVE-2026-4681
+mitre_attack_id:
+    - T1190
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/windchill/windchill_exploitation.log
+          source: not_applicable
+          sourcetype: log4j
+      test_type: unit

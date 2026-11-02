@@ -1,8 +1,8 @@
 name: HTTP RMM User Agent
 id: 61884b02-0dcf-44c5-9094-db33bac09fa6
-version: 5
+version: 6
 creation_date: '2026-01-06'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -15,7 +15,7 @@ search: |-
       BY Web.http_user_agent Web.http_method, Web.url,
          Web.url_length Web.src, Web.dest
     | `drop_dm_object_name("Web")`
-    | lookup rmm_user_agents rmm_user_agent AS http_user_agent OUTPUT tool
+    | lookup local=t rmm_user_agents rmm_user_agent AS http_user_agent OUTPUT tool
     | where isnotnull(tool)
     | stats count min(firstTime) as first_seen max(lastTime) as last_seen
       BY tool url http_user_agent

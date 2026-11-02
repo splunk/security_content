@@ -1,26 +1,37 @@
 name: Powershell Windows Defender Exclusion Commands
 id: 907ac95c-4dd9-11ec-ba2c-acde48001122
-version: 15
+version: 17
 creation_date: '2021-11-25'
-modification_date: '2026-05-13'
+modification_date: '2026-06-29'
 author: Teoderick Contreras, Splunk
 status: production
-type: TTP
-description: The following analytic detects the use of PowerShell commands to add or set Windows Defender exclusions. It leverages EventCode 4104 to identify suspicious `Add-MpPreference` or `Set-MpPreference` commands with exclusion parameters. This activity is significant because adversaries often use it to bypass Windows Defender, allowing malicious code to execute without detection. If confirmed malicious, this behavior could enable attackers to evade antivirus defenses, maintain persistence, and execute further malicious activities undetected.
+type: Anomaly
+description: |-
+    The following analytic detects the use of PowerShell commands to add or set Windows Defender exclusions.
+    It leverages EventCode 4104 to identify suspicious `Add-MpPreference` or `Set-MpPreference` commands with exclusion parameters.
+    This activity is significant because adversaries often use it to bypass Windows Defender, allowing malicious code to execute without detection.
+    If confirmed malicious, this behavior could enable attackers to evade antivirus defenses, maintain persistence, and execute further malicious activities undetected.
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    `powershell` EventCode=4104 (ScriptBlockText = "*Add-MpPreference *" OR ScriptBlockText = "*Set-MpPreference *") AND ScriptBlockText = "*-exclusion*"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `powershell_windows_defender_exclusion_commands_filter`
+    `powershell`
+    EventCode=4104
+    ScriptBlockText IN (
+        "*Add-MpPreference *",
+        "*Set-MpPreference *"
+    )
+    ScriptBlockText = "*-exclusion*"
+    | fillnull
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest signature signature_id
+         user_id vendor_product EventID
+         Guid Opcode Name
+         Path ProcessID ScriptBlockId
+         ScriptBlockText
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `powershell_windows_defender_exclusion_commands_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
 known_false_positives: admin or user may choose to use this windows features.
 references:
@@ -36,18 +47,16 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: Exclusion command $ScriptBlockText$ executed on $dest$
-    entity:
-        field: user_id
-        type: user
-        score: 50
 intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 50
-          message: Exclusion command $ScriptBlockText$ executed on $dest$
+          score: 20
+          message: A suspicious powershell script with the ScriptBlockId [$ScriptBlockId$] containing exclusion commands to add or set Windows Defender exclusions was executed on host $dest$
+        - field: user_id
+          type: user
+          score: 20
+          message: A suspicious powershell script with the ScriptBlockId [$ScriptBlockId$] containing exclusion commands to add or set Windows Defender exclusions was executed on host $dest$ by user $user_id$
 analytic_story:
     - CISA AA22-320A
     - AgentTesla
@@ -58,6 +67,7 @@ analytic_story:
     - Warzone RAT
     - NetSupport RMM Tool Abuse
     - BlankGrabber Stealer
+    - Salat Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1685

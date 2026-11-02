@@ -1,0 +1,45 @@
+name: 'Splunk Persistent XSS via Props Conf'
+id: d7b5aa71-157f-4359-9c34-e35752b1d0a2
+version: 5
+creation_date: '2024-10-14'
+modification_date: '2026-05-14'
+author: Rod Soto
+data_source:
+    - Splunk
+type: Hunting
+status: removed
+description: In Splunk Enterprise versions below 9.2.3 and 9.1.6 and Splunk Cloud Platform versions below 9.2.2403.108 and 9.1.2312.205, a low-privileged user that does not hold the “admin” or “power” Splunk roles could craft a malicious payload through entity.details in props.conf that could result in execution of unauthorized JavaScript code in the browser of a user.
+search: |-
+    `splunkd_ui` status=201 uri_path="*/splunkd/__raw/servicesNS/*/*/configs/*" 
+    | stats count min(_time) as firstTime max(_time) as lastTime by host clientip user uri status 
+    | `security_content_ctime(firstTime)` 
+    | `security_content_ctime(lastTime)` 
+    | `splunk_persistent_xss_via_props_conf_filter`
+how_to_implement: Requires access to internal index and web component enabled.
+known_false_positives: This is a hunting search that provides information on the creation of a scheduled view against the targeted endpoint("*/splunkd/__raw/servicesNS/user/search/configs/*"). In the attack flow the payload is saved via scheduled view then sent to the victim.
+references:
+    - https://advisory.splunk.com/advisories/SVD-2024-1011
+tags:
+    analytic_story:
+        - Splunk Vulnerabilities
+    asset_type: Splunk Server
+    mitre_attack_id:
+        - T1189
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve:
+        - CVE-2024-45741
+tests:
+    - name: True Positive Test
+      attack_data:
+          - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/svd-2024-1011.log
+            sourcetype: splunkd_ui_access
+            custom_index: _internal
+            source: /opt/splunk/var/log/splunk/splunkd_ui_access.log
+deprecation_info:
+    reason: Detection is deprecated as the associated CVEs have been patched in the latest Splunk release.
+    removed_in_version: 5.6.0
+    replacement_content: []

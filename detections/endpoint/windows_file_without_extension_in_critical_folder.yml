@@ -1,21 +1,43 @@
 name: Windows File Without Extension In Critical Folder
 id: 0dbcac64-963c-11ec-bf04-acde48001122
-version: 12
+version: 13
 creation_date: '2022-02-25'
-modification_date: '2026-05-13'
+modification_date: '2026-07-27'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
-type: TTP
-description: This analytic detects the creation of files without extensions in critical Windows system and driver-related directories, including but not limited to System32\Drivers, Windows\WinSxS, and other known Windows driver storage and loading paths. The detection has been expanded to comprehensively cover all commonly abused and legitimate Windows driver folder locations, increasing visibility into attempts to stage or deploy kernel-mode components. The analytic leverages telemetry from the Endpoint.Filesystem data model, with a focus on file creation events and file path analysis. File creation activity in these directories—particularly involving extensionless files—is highly suspicious, as it may indicate the presence of destructive or stealthy malware. This behavior is consistent with malware families such as HermeticWiper, which deploy kernel driver components into trusted Windows driver directories to obtain low-level access and execute destructive payloads. If confirmed malicious, this activity can result in severe system compromise, including the deployment of malicious drivers, boot-sector or filesystem destruction, and ultimately system inoperability and irreversible data loss.
+type: Anomaly
+description: |-
+    This analytic detects the creation of files without extensions in critical Windows system and driver-related directories, including but not limited to System32\Drivers, and other known Windows driver storage and loading paths.
+    The analytic leverages telemetry from the Endpoint.Filesystem data model, with a focus on file creation events and file path analysis.
+    File creation activity in these directories—particularly involving extensionless files—is highly suspicious, as it may indicate the presence of destructive or stealthy malware.
+    This behavior is consistent with malware families such as HermeticWiper, which deploy kernel driver components into trusted Windows driver directories to obtain low-level access and execute destructive payloads.
+    If confirmed malicious, this activity can result in severe system compromise, including the deployment of malicious drivers, boot-sector or filesystem destruction, and ultimately system inoperability and irreversible data loss.
 data_source:
     - Sysmon EventID 11
 search: |
-    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
-    where Filesystem.file_path IN("*\\System32\\drivers\\*", "*\\syswow64\\drivers\\*", "*\\WINDOWS\\inf\\*","*\\Program Files*", "*\\WINDOWS\\System32\\DriverStore\\*","*:\\Windows\\WinSxS\\*","*\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\*","*\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*","*\\Windows\\servicing\\*", "*\\Windows\\ELAMBKUP\\*","*\\Windows\\Boot\\*","*\\System32\\Boot\\*","*\\System32\\Recovery\\*", "C:\\AMD\\*", "C:\\OEM\\*")
+    | tstats `security_content_summariesonly`
+      count FROM datamodel=Endpoint.Filesystem where
+
+    Filesystem.action IN ("created", "modified")
+    Filesystem.file_path IN(
+        "*:\\AMD\\*",
+        "*:\\OEM\\*",
+        "*:\\Windows\\Boot\\*",
+        "*:\\Windows\\ELAMBKUP\\*",
+        "*:\\Windows\\INF\\*",
+        "*:\\Windows\\servicing\\*",
+        "*:\\Windows\\System32\\Boot\\*",
+        "*:\\Windows\\System32\\Drivers\\*",
+        "*:\\Windows\\System32\\DriverStore\\*",
+        "*:\\Windows\\System32\\Recovery\\*",
+        "*:\\Windows\\SysWOW64\\Drivers\\*"
+    )
+
     by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
     Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
     Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
     Filesystem.user Filesystem.vendor_product
+
     | `drop_dm_object_name(Filesystem)`
     | rex field="file_name" "\.(?<extension>[^\.]*$)"
     | where isnull(extension)
@@ -23,7 +45,8 @@ search: |
     | `security_content_ctime(lastTime)`
     | `windows_file_without_extension_in_critical_folder_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: No false positives have been identified at this time.
+known_false_positives: |-
+    If you are leveraging Sysmon, you may see false positives related to folder creation, since Event ID 11 does not contain enough information to determine if the file is a File or a Directory. Filter out those entries when leveraging this analytic.
 references:
     - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
     - https://www.splunk.com/en_us/blog/security/detecting-hermeticwiper.html
@@ -37,12 +60,12 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: Driver file with out file extension drop in $file_path$ on $dest$
-    entity:
-        field: user
-        type: user
-        score: 50
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 20
+          message: A file without extension [$file_name$] was dropped in a critical folder [$file_path$] by $user$
 threat_objects:
     - field: file_name
       type: file_name

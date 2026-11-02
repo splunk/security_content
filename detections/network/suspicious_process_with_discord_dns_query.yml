@@ -1,8 +1,8 @@
 name: Suspicious Process With Discord DNS Query
 id: 4d4332ae-792c-11ec-89c1-acde48001122
-version: 13
+version: 14
 creation_date: '2022-01-19'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -40,6 +40,7 @@ analytic_story:
     - PXA Stealer
     - Cactus Ransomware
     - BlankGrabber Stealer
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1059.005

@@ -1,0 +1,80 @@
+name: Windows AppCertDLL Modification Via Registry
+id: 547d98dd-6d6e-4aa4-be91-a1a119f48df3
+version: 1
+creation_date: '2026-07-27'
+modification_date: '2026-07-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects attempts to modify AppCertDLL registry entries.
+    Values under this registry entry are used to specify DLLs loaded by the Windows Session Manager.
+    Such modifications can be abused by attackers to load malicious code early in the system startup process, enabling persistent malware execution with high privileges.
+    If confirmed malicious, this behavior may lead to system compromise, persistence, and the evasion of security controls.
+data_source:
+    - Sysmon EventID 13
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Registry WHERE
+
+    Registry.action = "modified"
+    Registry.registry_path= "*\\Control\\Session Manager\\AppCertDLLs\\*"
+    Registry.registry_value_data = "*"
+
+    by Registry.action Registry.dest Registry.process_guid Registry.process_id
+       Registry.registry_hive Registry.registry_path Registry.registry_key_name
+       Registry.registry_value_data Registry.registry_value_name
+       Registry.registry_value_type Registry.status
+       Registry.user Registry.vendor_product
+
+    | `drop_dm_object_name(Registry)`
+    | where isnotnull(registry_value_data)
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_appcertdll_modification_via_registry_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: |-
+    Modifications to AppCertDLL entries may be made by legitimate software updates or trusted system management tools. Review changes to ensure they are from approved sources.
+references:
+    - https://www.hexacorn.com/blog/2013/01/19/beyond-good-ol-run-key-part-3/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Potential AppCertDLL modification with value [$registry_value_data$] activity observed on [$dest$]
+threat_objects:
+    - field: registry_value_data
+      type: registry_value_text
+analytic_story:
+    - Windows Persistence Techniques
+    - Windows Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1546.009
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.009/snapattack/registry.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

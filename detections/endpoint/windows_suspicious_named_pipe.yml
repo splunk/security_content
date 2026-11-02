@@ -1,8 +1,8 @@
 name: Windows Suspicious Named Pipe
 id: 3a76d52f-a007-4a65-a37d-f313c2c83f31
-version: 5
+version: 6
 creation_date: '2025-12-08'
-modification_date: '2026-05-13'
+modification_date: '2026-09-22'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -38,7 +38,7 @@ search: |
       count by dest dvc process_exec process_guid process_id process_path
                pipe_name user_id process_name signature signature_id vendor_product
 
-    | lookup suspicious_named_pipes suspicious_pipe_name AS pipe_name OUTPUT tool, type, description
+    | lookup local=t suspicious_named_pipes suspicious_pipe_name AS pipe_name OUTPUT tool, type, description
     | where isnotnull(tool)
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`

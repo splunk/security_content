@@ -1,8 +1,8 @@
 name: Windows Obfuscated Files or Information via RAR SFX
 id: 4ab6862b-ce88-4223-96c0-f6da2cffb898
-version: 9
+version: 10
 creation_date: '2021-08-03'
-modification_date: '2026-05-13'
+modification_date: '2026-06-08'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -44,6 +44,7 @@ analytic_story:
     - Crypto Stealer
     - APT37 Rustonotto and FadeStealer
     - GhostRedirector IIS Module and Rungan Backdoor
+    - Salat Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1027.013

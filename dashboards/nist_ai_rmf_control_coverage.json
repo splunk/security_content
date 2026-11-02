@@ -1,0 +1,1032 @@
+{
+    "visualizations": {
+        "viz_BQYxvvZQ": {
+            "type": "splunk.markdown",
+            "options": {
+                "markdown": "# Configuration\n\n## Required lookups\n- `nist_ai_rmf_subcategories`: NIST AI RMF reference rows.\n- `detection_subcategory_map`: ESCU detection-to-RMF mapping.\n\n## Macros\n- Configure the AI detection macros for your environment: `mcp_server`, `m365_exported_ediscovery_prompt_logs`, `aws_bedrock_claude`, `ollama_server`, `cisco_ai_defense`.\n- Put index, source, and sourcetype constraints in macros.\n\n## Live findings\n- The Finding Window controls only live risk/notable panels. Coverage, inventory, and QA panels are lookup based.\n- Live panels read `index=risk` and `index=notable`.\n- Enable and schedule mapped ESCU detections and enable risk or notable output.\n- Supported saved-search title format: `ESCU - <detection_name> - Rule`."
+            }
+        },
+        "viz_QTxzlSCU": {
+            "type": "splunk.singlevalue",
+            "options": {
+                "unit": "%",
+                "numberPrecision": 1,
+                "backgroundColor": "> majorValue | rangeValue(convertedColorRange)"
+            },
+            "context": {
+                "convertedColorRange": [
+                    {
+                        "from": 75,
+                        "value": "#4C8B5B"
+                    },
+                    {
+                        "from": 25,
+                        "to": 75,
+                        "value": "#C99A3B"
+                    },
+                    {
+                        "to": 25,
+                        "value": "#B5432F"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_BRlMOk7d"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Overall Coverage"
+        },
+        "viz_cnGGAaf6": {
+            "type": "splunk.singlevalue",
+            "options": {
+                "backgroundColor": "> majorValue | rangeValue(convertedColorRange)"
+            },
+            "context": {
+                "convertedColorRange": [
+                    {
+                        "from": 1,
+                        "value": "#4C8B5B"
+                    },
+                    {
+                        "to": 1,
+                        "value": "#C9CDD1"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_gt18ik5M"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Covered Subcategories"
+        },
+        "viz_7wqkM9gb": {
+            "type": "splunk.singlevalue",
+            "options": {
+                "backgroundColor": "> majorValue | rangeValue(convertedColorRange)"
+            },
+            "context": {
+                "convertedColorRange": [
+                    {
+                        "from": 10,
+                        "value": "#B5432F"
+                    },
+                    {
+                        "from": 1,
+                        "to": 10,
+                        "value": "#C99A3B"
+                    },
+                    {
+                        "to": 1,
+                        "value": "#4C8B5B"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_vZrhxFOJ"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Evidence Gaps"
+        },
+        "viz_4Ftbhr59": {
+            "type": "splunk.singlevalue",
+            "options": {
+                "backgroundColor": "> majorValue | rangeValue(convertedColorRange)"
+            },
+            "context": {
+                "convertedColorRange": [
+                    {
+                        "from": 1,
+                        "value": "#2F6E7A"
+                    },
+                    {
+                        "to": 1,
+                        "value": "#C9CDD1"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_2SqA5f9A"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Evidence Mappings"
+        },
+        "viz_eW41wskU": {
+            "type": "splunk.pie",
+            "options": {
+                "seriesColorsByField": {
+                    "Covered": "#4C8B5B",
+                    "No Automated Evidence": "#C9CDD1"
+                }
+            },
+            "dataSources": {
+                "primary": "ds_63nvtA3f"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Overall Subcategory Coverage"
+        },
+        "viz_73j82pok": {
+            "type": "splunk.table",
+            "options": {
+                "count": 6,
+                "drilldown": "none",
+                "showInternalFields": false
+            },
+            "dataSources": {
+                "primary": "ds_eLy1BISV"
+            },
+            "title": "Current AI Data Sources"
+        },
+        "viz_kKUYcPFZ": {
+            "type": "splunk.column",
+            "options": {
+                "yAxisAbbreviation": "off",
+                "y2AxisAbbreviation": "off",
+                "showRoundedY2AxisLabels": false,
+                "legendTruncation": "ellipsisMiddle",
+                "showY2MajorGridLines": true,
+                "yAxisTitleText": "Coverage %",
+                "yAxisMax": 100,
+                "seriesColorsByField": {
+                    "coverage_pct": "#2F6E7A"
+                },
+                "legendDisplay": "off"
+            },
+            "dataSources": {
+                "primary": "ds_hS1OJKg4"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Coverage % by RMF Function"
+        },
+        "viz_hnOFRoBD": {
+            "type": "splunk.table",
+            "options": {
+                "count": 6,
+                "drilldown": "none",
+                "showInternalFields": false,
+                "columnFormat": {
+                    "Issues": {
+                        "rowBackgroundColors": "> table | seriesByName(\"Issues\") | rangeValue(IssuesColumnColorConfig)"
+                    }
+                }
+            },
+            "context": {
+                "IssuesColumnColorConfig": [
+                    {
+                        "to": 1,
+                        "value": "#8FBC8F"
+                    },
+                    {
+                        "from": 1,
+                        "to": 5,
+                        "value": "#C99A3B"
+                    },
+                    {
+                        "from": 5,
+                        "value": "#B5432F"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_OrjFXleV"
+            },
+            "title": "Lookup QA"
+        },
+        "viz_rBY5q7BC": {
+            "type": "splunk.table",
+            "options": {
+                "count": 5,
+                "drilldown": "none",
+                "showInternalFields": false,
+                "columnFormat": {
+                    "Gaps": {
+                        "rowBackgroundColors": "> table | seriesByName(\"Gaps\") | rangeValue(GapsColumnColorConfig)"
+                    }
+                }
+            },
+            "context": {
+                "GapsColumnColorConfig": [
+                    {
+                        "to": 2,
+                        "value": "#C9CDD1"
+                    },
+                    {
+                        "from": 2,
+                        "to": 5,
+                        "value": "#C99A3B"
+                    },
+                    {
+                        "from": 5,
+                        "value": "#B5432F"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_7kk8BZgQ"
+            },
+            "title": "Coverage Gaps by Category"
+        },
+        "viz_6bpl5nqi": {
+            "type": "splunk.table",
+            "options": {
+                "count": 15,
+                "drilldown": "none",
+                "showInternalFields": false,
+                "columnFormat": {
+                    "Coverage Score": {
+                        "rowBackgroundColors": "> table | seriesByName(\"Coverage Score\") | rangeValue(CoverageScoreColumnColorConfig)"
+                    },
+                    "Confidence": {
+                        "rowBackgroundColors": "> table | seriesByName(\"Confidence\") | matchValue(ConfidenceColumnColorConfig)"
+                    },
+                    "Status": {
+                        "rowBackgroundColors": "> table | seriesByName(\"Status\") | matchValue(StatusColumnColorConfig)"
+                    }
+                }
+            },
+            "context": {
+                "CoverageScoreColumnColorConfig": [
+                    {
+                        "to": 1,
+                        "value": "#D3D3D3"
+                    },
+                    {
+                        "from": 1,
+                        "to": 80,
+                        "value": "#E8C66A"
+                    },
+                    {
+                        "from": 80,
+                        "to": 100,
+                        "value": "#8FBC8F"
+                    },
+                    {
+                        "from": 100,
+                        "value": "#4C8B5B"
+                    }
+                ],
+                "ConfidenceColumnColorConfig": [
+                    {
+                        "match": "Production detection",
+                        "value": "#8FBC8F"
+                    },
+                    {
+                        "match": "High-confidence mapping",
+                        "value": "#CFE8D4"
+                    },
+                    {
+                        "match": "Mapped evidence",
+                        "value": "#E8C66A"
+                    },
+                    {
+                        "match": "Gap",
+                        "value": "#D3D3D3"
+                    }
+                ],
+                "StatusColumnColorConfig": [
+                    {
+                        "match": "Covered",
+                        "value": "#8FBC8F"
+                    },
+                    {
+                        "match": "No Automated Evidence",
+                        "value": "#D3D3D3"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_Twm3TjaW"
+            },
+            "title": "NIST AI RMF Coverage Matrix"
+        },
+        "viz_DsBuvQrU": {
+            "type": "splunk.bar",
+            "options": {
+                "yAxisAbbreviation": "off",
+                "y2AxisAbbreviation": "off",
+                "showRoundedY2AxisLabels": false,
+                "legendTruncation": "ellipsisMiddle",
+                "showY2MajorGridLines": true,
+                "stackMode": "stacked",
+                "xAxisTitleText": "Detections",
+                "seriesColorsByField": {
+                    "High confidence": "#4C8B5B",
+                    "Medium confidence": "#C99A3B",
+                    "Needs review": "#B5432F",
+                    "Validated legacy": "#2F6E7A",
+                    "Mapped": "#C9CDD1"
+                },
+                "legendDisplay": "right"
+            },
+            "dataSources": {
+                "primary": "ds_985blmZV"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Mapping Confidence by AI System"
+        },
+        "viz_kSKQYeUh": {
+            "type": "splunk.column",
+            "options": {
+                "yAxisAbbreviation": "off",
+                "y2AxisAbbreviation": "off",
+                "showRoundedY2AxisLabels": false,
+                "legendTruncation": "ellipsisMiddle",
+                "showY2MajorGridLines": true,
+                "stackMode": "stacked",
+                "yAxisTitleText": "Findings",
+                "seriesColorsByField": {
+                    "critical": "#7A1F1F",
+                    "high": "#B5432F",
+                    "medium": "#C99A3B",
+                    "low": "#4C8B5B",
+                    "info": "#C9CDD1"
+                },
+                "legendDisplay": "right"
+            },
+            "dataSources": {
+                "primary": "ds_GuKtVyMD"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Recent Finding Volume"
+        },
+        "viz_xPLJvtKV": {
+            "type": "splunk.line",
+            "options": {
+                "yAxisAbbreviation": "off",
+                "y2AxisAbbreviation": "off",
+                "showRoundedY2AxisLabels": false,
+                "legendTruncation": "ellipsisMiddle",
+                "showY2MajorGridLines": true,
+                "yAxisTitleText": "Findings",
+                "seriesColorsByField": {
+                    "MCP": "#2F6E7A",
+                    "M365 Copilot": "#96702C",
+                    "AWS Bedrock Claude": "#4C8B5B",
+                    "Ollama": "#B5432F",
+                    "No live findings": "#C9CDD1"
+                },
+                "legendDisplay": "right"
+            },
+            "dataSources": {
+                "primary": "ds_baqBk8nw"
+            },
+            "eventHandlers": [
+                {
+                    "type": "drilldown.linkToSearch",
+                    "options": {
+                        "type": "auto",
+                        "newTab": false
+                    }
+                }
+            ],
+            "title": "Recent Findings Over Time"
+        },
+        "viz_Rn9Wgakt": {
+            "type": "splunk.table",
+            "options": {
+                "count": 6,
+                "drilldown": "none",
+                "showInternalFields": false,
+                "columnFormat": {
+                    "Findings": {
+                        "rowBackgroundColors": "> table | seriesByName(\"Findings\") | rangeValue(FindingsColumnColorConfig)"
+                    }
+                }
+            },
+            "context": {
+                "FindingsColumnColorConfig": [
+                    {
+                        "to": 2,
+                        "value": "#C9CDD1"
+                    },
+                    {
+                        "from": 2,
+                        "to": 5,
+                        "value": "#C99A3B"
+                    },
+                    {
+                        "from": 5,
+                        "value": "#B5432F"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_dm3yXtFo"
+            },
+            "title": "Top Active Entities"
+        },
+        "viz_FSxVef4D": {
+            "type": "splunk.table",
+            "options": {
+                "count": 6,
+                "drilldown": "none",
+                "showInternalFields": false,
+                "columnFormat": {
+                    "severity": {
+                        "rowBackgroundColors": "> table | seriesByName(\"severity\") | matchValue(severityColumnColorConfig)"
+                    }
+                }
+            },
+            "context": {
+                "severityColumnColorConfig": [
+                    {
+                        "match": "critical",
+                        "value": "#7A1F1F"
+                    },
+                    {
+                        "match": "high",
+                        "value": "#B5432F"
+                    },
+                    {
+                        "match": "medium",
+                        "value": "#E8C66A"
+                    },
+                    {
+                        "match": "low",
+                        "value": "#8FBC8F"
+                    },
+                    {
+                        "match": "info",
+                        "value": "#C9CDD1"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_zqqriYdp"
+            },
+            "title": "Recent Findings Detail"
+        },
+        "viz_liveReadiness": {
+            "type": "splunk.table",
+            "options": {
+                "count": 10,
+                "drilldown": "none",
+                "showInternalFields": false,
+                "columnFormat": {
+                    "Readiness": {
+                        "rowBackgroundColors": "> table | seriesByName(\"Readiness\") | matchValue(ReadinessColumnColorConfig)"
+                    }
+                }
+            },
+            "context": {
+                "ReadinessColumnColorConfig": [
+                    {
+                        "match": "Ready",
+                        "value": "#8FBC8F"
+                    },
+                    {
+                        "match": "Disabled",
+                        "value": "#E8C66A"
+                    },
+                    {
+                        "match": "Not scheduled",
+                        "value": "#E8C66A"
+                    },
+                    {
+                        "match": "No risk/notable action",
+                        "value": "#C99A3B"
+                    },
+                    {
+                        "match": "Missing saved search",
+                        "value": "#B5432F"
+                    }
+                ]
+            },
+            "dataSources": {
+                "primary": "ds_live_readiness"
+            },
+            "title": "Live Findings Readiness"
+        }
+    },
+    "dataSources": {
+        "ds_coverage_base": {
+            "type": "ds.search",
+            "options": {
+                "query": "| inputlookup nist_ai_rmf_subcategories\n| eval rmf_row=1\n| fields function category_id subcategory_id subcategory_text rmf_row\n| append\n    [ | inputlookup detection_subcategory_map\n      | eval selected_ai_system=case(len($ai_system_filter|s$)==0 OR $ai_system_filter|s$==\"*\" OR $ai_system_filter|s$==\"__all__\" OR match($ai_system_filter|s$, \"^\\$.*\\$$\"), \"*\", true(), $ai_system_filter|s$)\n      | where selected_ai_system==\"*\" OR ai_system==selected_ai_system\n      | eval subcategory_ids=split(coalesce(subcategory_ids,\"\"), \"|\")\n      | mvexpand subcategory_ids\n      | eval subcategory_id=trim(subcategory_ids)\n      | where subcategory_id!=\"\"\n      | eval mapped_detection=1\n      | eval production_detection=if(lower(coalesce(detection_status,\"\"))==\"production\", 1, 0)\n      | eval mapping_confidence=lower(coalesce(mapping_confidence,\"mapped\"))\n      | eval mapping_state=case(\n          mapping_confidence==\"validated\", \"Validated legacy evidence\",\n          mapping_confidence==\"high\", \"High-confidence mapping\",\n          mapping_confidence==\"medium\", \"Medium-confidence mapping\",\n          mapping_confidence==\"review\", \"Review mapping\",\n          mapping_confidence==\"mapped\", \"Mapped legacy evidence\",\n          true(), \"Mapped evidence\")\n      | fields subcategory_id detection_name ai_system mapped_detection production_detection mapping_confidence mapping_state mapping_source mapping_reason detection_status detection_type analytic_stories data_sources ]\n| stats values(function) as function values(category_id) as category_id values(subcategory_text) as subcategory_text values(detection_name) as detections values(ai_system) as ai_systems dc(detection_name) as detection_count sum(mapped_detection) as mapped_rows sum(production_detection) as production_detections values(mapping_confidence) as mapping_confidence values(mapping_state) as mapping_state values(mapping_source) as mapping_source values(detection_status) as detection_status by subcategory_id\n| eval function=mvindex(function,0), category_id=mvindex(category_id,0), subcategory_text=mvindex(subcategory_text,0)\n| where isnotnull(function) AND isnotnull(category_id)\n| eval detection_count=coalesce(detection_count,0), mapped_rows=coalesce(mapped_rows,0), production_detections=coalesce(production_detections,0)\n| eval status=if(detection_count>0,\"Covered\",\"No Automated Evidence\")\n| eval mapping_confidence_text=mvjoin(mapping_confidence,\"|\")\n| eval confidence=case(production_detections>0,\"Production detection\", match(mapping_confidence_text,\"high\"),\"High-confidence mapping\", detection_count>0,\"Mapped evidence\", true(),\"Gap\")\n| eval selected_function=case($function_filter|s$==\"GOVERN\" OR $function_filter|s$==\"MAP\" OR $function_filter|s$==\"MEASURE\" OR $function_filter|s$==\"MANAGE\", $function_filter|s$, true(), \"*\")\n| where selected_function==\"*\" OR function==selected_function\n| fields - selected_function\n| eval selected_status=case($status_filter|s$==\"Covered\" OR $status_filter|s$==\"No Automated Evidence\", $status_filter|s$, true(), \"*\")\n| where selected_status==\"*\" OR status==selected_status\n| fields - selected_status mapping_confidence_text\n| table function category_id subcategory_id subcategory_text status confidence detection_count production_detections detections ai_systems mapping_state mapping_source detection_status",
+                "queryParameters": {
+                    "earliest": "0",
+                    "latest": "now"
+                }
+            },
+            "name": "ds_coverage_base"
+        },
+        "ds_live_findings_base": {
+            "type": "ds.search",
+            "options": {
+                "query": "search (index=risk OR index=notable)\n    [ | inputlookup detection_subcategory_map\n      | eval selected_ai_system=$ai_system_filter|s$\n      | eval selected_ai_system=case(len(selected_ai_system)==0 OR selected_ai_system==\"*\" OR selected_ai_system==\"__all__\" OR match(selected_ai_system, \"^\\$.*\\$$\"), \"*\", true(), selected_ai_system)\n      | where selected_ai_system==\"*\" OR ai_system==selected_ai_system\n      | eval savedsearch_title=if(match(detection_name,\"^ESCU - .+ - Rule$\"), detection_name, \"ESCU - \".detection_name.\" - Rule\")\n      | eval savedsearch_title=trim(savedsearch_title)\n      | where match(savedsearch_title,\"^ESCU - [A-Za-z0-9][A-Za-z0-9 _.\\-]{0,180} - Rule$\")\n      | stats values(savedsearch_title) as savedsearch_title dc(savedsearch_title) as savedsearch_count\n      | eval quoted=\"\\\"\".mvjoin(savedsearch_title,\"\\\",\\\"\").\"\\\"\"\n      | eval search=if(savedsearch_count>0, \"(source IN (\".quoted.\") OR search_name IN (\".quoted.\") OR savedsearch_name IN (\".quoted.\") OR orig_source IN (\".quoted.\") OR rule_name IN (\".quoted.\"))\", \"source=\\\"__nist_ai_no_match__\\\"\")\n      | return $search ]\n| eval finding_source=case(index=\"risk\",\"risk\", index=\"notable\",\"notable\", true(),index)\n| eval savedsearch_title=coalesce(if(match(search_name,\"^ESCU - .+ - Rule$\"),search_name,null()), if(match(source,\"^ESCU - .+ - Rule$\"),source,null()), if(match(savedsearch_name,\"^ESCU - .+ - Rule$\"),savedsearch_name,null()), if(match(rule_name,\"^ESCU - .+ - Rule$\"),rule_name,null()), if(match(orig_source,\"^ESCU - .+ - Rule$\"),orig_source,null()))\n| where isnotnull(savedsearch_title)\n| rex field=savedsearch_title \"^ESCU - (?<detection>.*?)(?: - Rule)?$\"\n| lookup detection_subcategory_map detection_name as detection OUTPUT ai_system subcategory_ids rmf_function analytic_stories\n| where isnotnull(ai_system)\n| eval nist_ai_finding_event_id=coalesce(event_id, source_event_id, sid, _cd, tostring(_time).\"|\".savedsearch_title.\"|\".coalesce(risk_object,\"\").\"|\".coalesce(dest,\"\").\"|\".coalesce(user,\"\").\"|\".coalesce(_raw,\"\"))\n| dedup nist_ai_finding_event_id detection\n| eval risk_numeric=tonumber(coalesce(calculated_risk_score, risk_score))\n| eval severity=case(\n    finding_source=\"risk\", lower(coalesce(severity, case(risk_numeric>=80,\"critical\", risk_numeric>=50,\"high\", risk_numeric>=20,\"medium\", risk_numeric>0,\"low\", true(),\"unknown\"))),\n    finding_source=\"notable\", lower(coalesce(severity, urgency, \"unknown\")),\n    true(), lower(coalesce(severity,\"unknown\")))\n| eval entity=case(\n    finding_source=\"risk\", coalesce(risk_object, normalized_risk_object, user, dest, src, host, \"unknown\"),\n    finding_source=\"notable\", coalesce(risk_object, normalized_risk_object, user, dest, src, host, rule_name, \"unknown\"),\n    true(), coalesce(risk_object, normalized_risk_object, user, dest, src, host, \"unknown\"))\n| eval target=case(\n    finding_source=\"risk\", coalesce(risk_object_type, dest, src, user, host, \"\"),\n    finding_source=\"notable\", coalesce(dest, src, user, host, \"\"),\n    true(), coalesce(dest, src, user, host, \"\"))\n| eval detail=case(\n    finding_source=\"risk\", coalesce(risk_message, source, search_name, detection, \"\"),\n    finding_source=\"notable\", coalesce(rule_description, description, rule_name, detection, \"\"),\n    true(), coalesce(risk_message, rule_description, source, detection, \"\"))\n| eval finding_type=case(finding_source=\"risk\", coalesce(analyticstories, rmf_function, \"Risk event\"), finding_source=\"notable\", coalesce(rmf_function, \"Notable event\"), true(), coalesce(rmf_function,\"Finding\"))\n| eval entity=coalesce(entity,\"unknown\")\n| eval source=coalesce(source, finding_source)\n| eval target=coalesce(target,\"\")\n| eval detail=substr(coalesce(detail,\"\"),1,500)\n| fields _time finding_source ai_system detection finding_type severity entity source target detail",
+                "queryParameters": {
+                    "earliest": "$global_time.earliest$",
+                    "latest": "$global_time.latest$"
+                }
+            },
+            "name": "ds_live_findings_base"
+        },
+        "ds_tvTy8Bkv": {
+            "type": "ds.search",
+            "options": {
+                "query": "| inputlookup detection_subcategory_map\n| where isnotnull(ai_system) AND ai_system!=\"\"\n| stats count by ai_system\n| sort ai_system",
+                "queryParameters": {
+                    "earliest": "0",
+                    "latest": "now"
+                }
+            },
+            "name": "AI System search"
+        },
+        "ds_BRlMOk7d": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_coverage_base",
+                "query": "| stats count as total count(eval(status==\"Covered\")) as covered\n| eval pct=if(total=0,0,round(100*covered/total,1))\n| fields pct"
+            },
+            "name": "Overall Coverage - Single value search"
+        },
+        "ds_gt18ik5M": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_coverage_base",
+                "query": "| stats count(eval(status==\"Covered\")) as covered\n| fields covered"
+            },
+            "name": "Covered Subcategories - Single value search"
+        },
+        "ds_vZrhxFOJ": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_coverage_base",
+                "query": "| stats count(eval(status==\"No Automated Evidence\")) as gaps\n| fields gaps"
+            },
+            "name": "Evidence Gaps - Single value search"
+        },
+        "ds_2SqA5f9A": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_coverage_base",
+                "query": "| stats sum(detection_count) as mapped_evidence\n| eval mapped_evidence=coalesce(mapped_evidence,0)\n| fields mapped_evidence"
+            },
+            "name": "Evidence Mappings - Single value search"
+        },
+        "ds_63nvtA3f": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_coverage_base",
+                "query": "| stats count by status\n| sort status"
+            },
+            "name": "Overall Subcategory Coverage - Pie chart search"
+        },
+        "ds_eLy1BISV": {
+            "type": "ds.search",
+            "options": {
+                "query": "| inputlookup detection_subcategory_map\n| eval selected_ai_system=case(len($ai_system_filter|s$)==0 OR $ai_system_filter|s$==\"*\" OR $ai_system_filter|s$==\"__all__\" OR match($ai_system_filter|s$, \"^\\$.*\\$$\"), \"*\", true(), $ai_system_filter|s$)\n| where selected_ai_system==\"*\" OR ai_system==selected_ai_system\n| where isnotnull(ai_system) AND ai_system!=\"\"\n| eval data_sources=coalesce(data_sources, ai_system)\n| eval data_source_list=split(data_sources,\"|\")\n| eval subcategory_ids=split(coalesce(subcategory_ids,\"\"), \"|\")\n| eval mapped_subcategories=mvcount(subcategory_ids)\n| eval production_detection=if(lower(coalesce(detection_status,\"\"))==\"production\", 1, 0)\n| eval mapping_confidence=lower(coalesce(mapping_confidence,\"mapped\"))\n| eval mapping_confidence=case(mapping_confidence==\"high\",\"High confidence\", mapping_confidence==\"medium\",\"Medium confidence\", mapping_confidence==\"review\",\"Needs review\", mapping_confidence==\"validated\",\"Validated legacy\", true(),\"Mapped\")\n| stats dc(detection_name) as detections values(data_source_list) as data_sources sum(mapped_subcategories) as mapped_subcategories sum(production_detection) as production_detections values(mapping_confidence) as mapping_confidence by ai_system\n| eval data_sources=mvjoin(mvsort(data_sources), \", \")\n| eval mapping_confidence=mvjoin(mvsort(mapping_confidence), \", \")\n| sort -detections ai_system\n| rename ai_system as \"AI System\", data_sources as \"Data Sources\", detections as \"Detections\", mapped_subcategories as \"Mapped Subcategories\", production_detections as \"Production Detections\", mapping_confidence as \"Mapping Confidence\"\n| table \"AI System\" \"Data Sources\" Detections \"Mapped Subcategories\" \"Production Detections\" \"Mapping Confidence\"",
+                "queryParameters": {
+                    "earliest": "0",
+                    "latest": "now"
+                }
+            },
+            "name": "Current AI Data Sources - Table search"
+        },
+        "ds_hS1OJKg4": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_coverage_base",
+                "query": "| stats count as total count(eval(status==\"Covered\")) as covered_n by function\n| eval coverage_pct=if(total=0,0,round(100*covered_n/total,1))\n| eval function_order=case(function=\"GOVERN\",1,function=\"MAP\",2,function=\"MEASURE\",3,function=\"MANAGE\",4,true(),99)\n| sort function_order\n| table function coverage_pct"
+            },
+            "name": "Coverage % by RMF Function - Column chart search"
+        },
+        "ds_OrjFXleV": {
+            "type": "ds.search",
+            "options": {
+                "query": "| makeresults\n| eval qa_check=\"Invalid subcategory IDs|Blank AI systems|Blank data sources|Duplicate mappings|Review mappings|Unexpected validated_count|Unsafe detection names\"\n| makemv delim=\"|\" qa_check\n| mvexpand qa_check\n| eval issue_count=0, examples=\"\"\n| append\n    [ | inputlookup detection_subcategory_map\n      | eval subcategory_ids=split(coalesce(subcategory_ids,\"\"),\"|\")\n      | mvexpand subcategory_ids\n      | eval subcategory_id=trim(subcategory_ids)\n      | eval mapped=1\n      | fields detection_name ai_system subcategory_id mapped\n      | append\n          [ | inputlookup nist_ai_rmf_subcategories\n            | eval valid_rmf=1\n            | fields subcategory_id valid_rmf ]\n      | stats max(mapped) as mapped max(valid_rmf) as valid_rmf values(detection_name) as detections by subcategory_id\n      | where mapped==1 AND isnull(valid_rmf)\n      | eval qa_check=\"Invalid subcategory IDs\", examples=subcategory_id.\" / \".mvindex(detections,0), issue_count=1\n      | fields qa_check issue_count examples ]\n| append\n    [ | inputlookup detection_subcategory_map\n      | where isnull(ai_system) OR trim(ai_system)==\"\"\n      | eval qa_check=\"Blank AI systems\", issue_count=1, examples=coalesce(detection_name,\"<blank detection>\")\n      | fields qa_check issue_count examples ]\n| append\n    [ | inputlookup detection_subcategory_map\n      | eval data_sources=coalesce(data_sources,\"\")\n      | where isnull(data_sources) OR trim(data_sources)==\"\"\n      | eval qa_check=\"Blank data sources\", issue_count=1, examples=coalesce(detection_name,\"<blank detection>\")\n      | fields qa_check issue_count examples ]\n| append\n    [ | inputlookup detection_subcategory_map\n      | eval subcategory_ids=split(coalesce(subcategory_ids,\"\"),\"|\")\n      | mvexpand subcategory_ids\n      | eval subcategory_id=trim(subcategory_ids)\n      | stats count as duplicate_count by detection_name ai_system subcategory_id\n      | where duplicate_count>1\n      | eval qa_check=\"Duplicate mappings\", issue_count=duplicate_count-1, examples=detection_name.\" / \".ai_system.\" / \".subcategory_id\n      | fields qa_check issue_count examples ]\n| append\n    [ | inputlookup detection_subcategory_map\n      | eval mapping_confidence=lower(coalesce(mapping_confidence,\"\")), mapping_source=lower(coalesce(mapping_source,\"\"))\n      | where mapping_confidence==\"review\" OR mapping_source==\"generated_review\"\n      | eval qa_check=\"Review mappings\", issue_count=1, examples=coalesce(detection_name,\"<blank detection>\").\" / \".coalesce(mapping_reason,\"<no reason>\")\n      | fields qa_check issue_count examples ]\n| append\n    [ | inputlookup detection_subcategory_map\n      | where isnotnull(validated_count)\n      | eval validated_count=trim(tostring(validated_count))\n      | where validated_count!=\"\" AND lower(validated_count)!=\"null\" AND NOT match(validated_count,\"^[0-9]+$\")\n      | eval qa_check=\"Unexpected validated_count\", issue_count=1, examples=coalesce(detection_name,\"<blank detection>\").\" / \".validated_count\n      | fields qa_check issue_count examples ]\n| append\n    [ | inputlookup detection_subcategory_map\n      | eval expected_savedsearch=if(match(detection_name,\"^ESCU - .+ - Rule$\"), detection_name, \"ESCU - \".detection_name.\" - Rule\")\n      | eval expected_savedsearch=trim(expected_savedsearch)\n      | where NOT match(expected_savedsearch,\"^ESCU - [A-Za-z0-9][A-Za-z0-9 _.\\-]{0,180} - Rule$\")\n      | eval qa_check=\"Unsafe detection names\", issue_count=1, examples=coalesce(detection_name,\"<blank detection>\")\n      | fields qa_check issue_count examples ]\n| stats sum(issue_count) as Issues values(examples) as examples by qa_check\n| eval examples=mvfilter(examples!=\"\")\n| eval Examples=mvjoin(mvindex(examples,0,5), \"; \")\n| rename qa_check as \"QA Check\"\n| table \"QA Check\" Issues Examples\n| sort -Issues \"QA Check\"",
+                "queryParameters": {
+                    "earliest": "0",
+                    "latest": "now"
+                }
+            },
+            "name": "Lookup QA - Table search"
+        },
+        "ds_7kk8BZgQ": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_coverage_base",
+                "query": "| where status==\"No Automated Evidence\"\n| stats count as gaps values(subcategory_id) as subcategories by function category_id\n| rename function as Function, category_id as Category, gaps as Gaps, subcategories as Subcategories\n| sort -Gaps Function Category"
+            },
+            "name": "Coverage Gaps by Category - Table search"
+        },
+        "ds_Twm3TjaW": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_coverage_base",
+                "query": "| eval coverage_score=case(confidence==\"Production detection\",100, confidence==\"High-confidence mapping\",80, confidence==\"Mapped evidence\",60, true(),0)\n| eval function_order=case(function=\"GOVERN\",1,function=\"MAP\",2,function=\"MEASURE\",3,function=\"MANAGE\",4,true(),99)\n| sort function_order category_id subcategory_id\n| rename function as Function, category_id as Category, subcategory_id as Subcategory, coverage_score as \"Coverage Score\", confidence as Confidence, detection_count as Detections, production_detections as \"Production Detections\", ai_systems as \"AI Systems\", subcategory_text as \"Subcategory Text\", mapping_state as \"Mapping State\", detection_status as \"Detection Status\", status as Status\n| table Function Category Subcategory \"Coverage Score\" Confidence Detections \"Production Detections\" \"AI Systems\" \"Mapping State\" \"Detection Status\" \"Subcategory Text\" Status"
+            },
+            "name": "NIST AI RMF Coverage Detail - Table search"
+        },
+        "ds_985blmZV": {
+            "type": "ds.search",
+            "options": {
+                "query": "| inputlookup detection_subcategory_map\n| eval selected_ai_system=case(len($ai_system_filter|s$)==0 OR $ai_system_filter|s$==\"*\" OR $ai_system_filter|s$==\"__all__\" OR match($ai_system_filter|s$, \"^\\$.*\\$$\"), \"*\", true(), $ai_system_filter|s$)\n| where selected_ai_system==\"*\" OR ai_system==selected_ai_system\n| where isnotnull(ai_system) AND ai_system!=\"\"\n| eval mapping_confidence=lower(coalesce(mapping_confidence,\"mapped\"))\n| eval mapping_confidence=case(mapping_confidence==\"high\",\"High confidence\", mapping_confidence==\"medium\",\"Medium confidence\", mapping_confidence==\"review\",\"Needs review\", mapping_confidence==\"validated\",\"Validated legacy\", true(),\"Mapped\")\n| stats count as detections by ai_system mapping_confidence\n| chart sum(detections) over ai_system by mapping_confidence\n| fillnull value=0",
+                "queryParameters": {
+                    "earliest": "0",
+                    "latest": "now"
+                }
+            },
+            "name": "Mapping Confidence by AI System - Bar chart search"
+        },
+        "ds_GuKtVyMD": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_live_findings_base",
+                "query": "| chart count over ai_system by severity\n| appendpipe\n    [ | stats count as result_count\n      | where result_count==0\n      | eval ai_system=\"No live findings\", info=0\n      | fields - result_count ]\n| fillnull value=0"
+            },
+            "name": "Recent Finding Volume - Column chart search"
+        },
+        "ds_baqBk8nw": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_live_findings_base",
+                "query": "| timechart count by ai_system\n| appendpipe\n    [ | stats count as result_count\n      | where result_count==0\n      | eval _time=now(), \"No live findings\"=0\n      | fields _time \"No live findings\" ]\n| fillnull value=0"
+            },
+            "name": "Recent Findings Over Time - Line chart search"
+        },
+        "ds_dm3yXtFo": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_live_findings_base",
+                "query": "| stats count as findings dc(detection) as detection_types values(ai_system) as ai_systems values(severity) as severities values(finding_source) as finding_sources max(_time) as last_time by entity\n| eval lastSeen=strftime(last_time,\"%Y-%m-%d %H:%M:%S\")\n| rename entity as Entity, findings as Findings, detection_types as \"Detection Types\", ai_systems as \"AI Systems\", severities as Severities, finding_sources as \"Finding Sources\", lastSeen as \"Last Seen\"\n| sort -Findings\n| table Entity Findings \"Detection Types\" \"AI Systems\" Severities \"Finding Sources\" \"Last Seen\"\n| appendpipe\n    [ | stats count as result_count\n      | where result_count==0\n      | eval Entity=\"No live findings\", Findings=0, \"Detection Types\"=\"Enable and schedule mapped AI detections\", \"AI Systems\"=\"Check Live Findings Readiness\", Severities=\"info\", \"Finding Sources\"=\"risk/notable\", \"Last Seen\"=\"No events in selected Finding Window\"\n      | fields - result_count ]"
+            },
+            "name": "Top Active Entities - Table search"
+        },
+        "ds_zqqriYdp": {
+            "type": "ds.chain",
+            "options": {
+                "extend": "ds_live_findings_base",
+                "query": "| eval eventTime=strftime(_time,\"%Y-%m-%d %H:%M:%S\")\n| sort -_time\n| rename finding_source as source_type\n| table eventTime source_type ai_system severity entity detection target detail\n| appendpipe\n    [ | stats count as result_count\n      | where result_count==0\n      | eval eventTime=\"\", source_type=\"Configuration\", ai_system=\"No live findings\", severity=\"info\", entity=\"No risk/notable events in selected window\", detection=\"Enable and schedule mapped AI detections\", target=\"\", detail=\"All mapped detections are disabled or no risk/notable output has been generated. Check Live Findings Readiness.\"\n      | fields - result_count ]"
+            },
+            "name": "Recent Findings Detail - Table search"
+        },
+        "ds_live_readiness": {
+            "type": "ds.search",
+            "options": {
+                "query": "| inputlookup detection_subcategory_map\n| eval selected_ai_system=case(len($ai_system_filter|s$)==0 OR $ai_system_filter|s$==\"*\" OR $ai_system_filter|s$==\"__all__\" OR match($ai_system_filter|s$, \"^\\$.*\\$$\"), \"*\", true(), $ai_system_filter|s$)\n| where selected_ai_system==\"*\" OR ai_system==selected_ai_system\n| eval expected_savedsearch=if(match(detection_name,\"^ESCU - .+ - Rule$\"), detection_name, \"ESCU - \".detection_name.\" - Rule\")\n| eval expected_savedsearch=trim(expected_savedsearch)\n| where match(expected_savedsearch,\"^ESCU - [A-Za-z0-9][A-Za-z0-9 _.\\-]{0,180} - Rule$\")\n| eval mapped=1\n| fields ai_system data_sources detection_name expected_savedsearch mapped\n| append\n    [ | rest /servicesNS/-/-/saved/searches splunk_server=local\n      | rename title as expected_savedsearch\n      | eval savedsearch_present=1\n      | eval enabled=if(disabled==0 OR disabled==\"0\",\"Enabled\",\"Disabled\")\n      | eval scheduled=if(is_scheduled==1 OR is_scheduled==\"1\",\"Scheduled\",\"Not scheduled\")\n      | eval finding_output=case(match(actions,\"(^|,)risk(,|$)\") OR 'action.risk'==1 OR 'action.risk'==\"1\",\"Risk\", match(actions,\"(^|,)notable(,|$)\") OR 'action.notable'==1 OR 'action.notable'==\"1\",\"Notable\", true(),\"No risk/notable\")\n      | eval schedule=coalesce(cron_schedule,\"\"), window=coalesce('dispatch.earliest_time',\"\").\" to \".coalesce('dispatch.latest_time',\"\")\n      | fields expected_savedsearch savedsearch_present enabled scheduled finding_output schedule window ]\n| stats max(mapped) as mapped values(ai_system) as ai_system values(data_sources) as data_sources values(detection_name) as detection_name max(savedsearch_present) as savedsearch_present values(enabled) as enabled values(scheduled) as scheduled values(finding_output) as finding_output values(schedule) as schedule values(window) as window by expected_savedsearch\n| where mapped==1\n| eval present=if(savedsearch_present==1,\"Present\",\"Missing\")\n| eval enabled=coalesce(mvindex(enabled,0),\"Missing\")\n| eval scheduled=coalesce(mvindex(scheduled,0),\"Missing\")\n| eval finding_output=coalesce(mvindex(finding_output,0),\"Missing\")\n| eval readiness=case(present==\"Missing\",\"Missing saved search\", enabled!=\"Enabled\",\"Disabled\", scheduled!=\"Scheduled\",\"Not scheduled\", finding_output==\"No risk/notable\",\"No risk/notable action\", true(),\"Ready\")\n| eval data_sources=mvjoin(mvsort(data_sources),\", \")\n| eval schedule=coalesce(mvindex(schedule,0),\"\"), window=coalesce(mvindex(window,0),\"\")\n| sort readiness ai_system detection_name\n| rename ai_system as \"AI System\", detection_name as Detection, expected_savedsearch as \"Saved Search\", readiness as Readiness, finding_output as \"Finding Output\", schedule as Schedule, window as Window, data_sources as \"Data Sources\"\n| table \"AI System\" Detection \"Saved Search\" Readiness \"Finding Output\" Schedule Window \"Data Sources\"",
+                "queryParameters": {
+                    "earliest": "0",
+                    "latest": "now"
+                }
+            },
+            "name": "Live Findings Readiness - Table search"
+        }
+    },
+    "defaults": {
+        "dataSources": {
+            "ds.search": {
+                "options": {
+                    "queryParameters": {
+                        "latest": "$global_time.latest$",
+                        "earliest": "$global_time.earliest$"
+                    }
+                }
+            }
+        }
+    },
+    "inputs": {
+        "input_JACuzsvA": {
+            "type": "input.timerange",
+            "options": {
+                "token": "global_time",
+                "defaultValue": "-90d@d,now"
+            },
+            "title": "Finding Window"
+        },
+        "input_3BYkUTy7": {
+            "type": "input.dropdown",
+            "options": {
+                "defaultValue": "*",
+                "items": [
+                    {
+                        "value": "*",
+                        "label": "All functions"
+                    },
+                    {
+                        "value": "GOVERN",
+                        "label": "GOVERN"
+                    },
+                    {
+                        "value": "MAP",
+                        "label": "MAP"
+                    },
+                    {
+                        "value": "MEASURE",
+                        "label": "MEASURE"
+                    },
+                    {
+                        "value": "MANAGE",
+                        "label": "MANAGE"
+                    }
+                ],
+                "token": "function_filter"
+            },
+            "title": "RMF Function"
+        },
+        "input_rjZO3BZq": {
+            "type": "input.dropdown",
+            "options": {
+                "defaultValue": "*",
+                "items": [
+                    {
+                        "value": "*",
+                        "label": "All statuses"
+                    },
+                    {
+                        "value": "Covered",
+                        "label": "Covered"
+                    },
+                    {
+                        "value": "No Automated Evidence",
+                        "label": "No Automated Evidence"
+                    }
+                ],
+                "token": "status_filter"
+            },
+            "title": "Coverage Status"
+        },
+        "input_jgTDQthW": {
+            "type": "input.dropdown",
+            "options": {
+                "defaultValue": "__all__",
+                "items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+                "token": "ai_system_filter"
+            },
+            "title": "AI System",
+            "context": {
+                "formattedConfig": {
+                    "number": {
+                        "prefix": ""
+                    }
+                },
+                "formattedStatics": ">statics | formatByType(formattedConfig)",
+                "statics": [
+                    [
+                        "All AI systems"
+                    ],
+                    [
+                        "__all__"
+                    ]
+                ],
+                "label": ">primary | seriesByName(\"ai_system\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+                "value": ">primary | seriesByName(\"ai_system\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+            },
+            "dataSources": {
+                "primary": "ds_tvTy8Bkv"
+            }
+        }
+    },
+    "layout": {
+        "type": "grid",
+        "options": {
+            "submitButton": false,
+            "height": 4460,
+            "width": 1440,
+            "submitOnDashboardLoad": true
+        },
+        "structure": [
+            {
+                "item": "viz_BQYxvvZQ",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "w": 1440,
+                    "h": 390
+                }
+            },
+            {
+                "item": "viz_QTxzlSCU",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 390,
+                    "w": 360,
+                    "h": 210
+                }
+            },
+            {
+                "item": "viz_cnGGAaf6",
+                "type": "block",
+                "position": {
+                    "x": 360,
+                    "y": 390,
+                    "w": 360,
+                    "h": 210
+                }
+            },
+            {
+                "item": "viz_7wqkM9gb",
+                "type": "block",
+                "position": {
+                    "x": 720,
+                    "y": 390,
+                    "w": 360,
+                    "h": 210
+                }
+            },
+            {
+                "item": "viz_4Ftbhr59",
+                "type": "block",
+                "position": {
+                    "x": 1080,
+                    "y": 390,
+                    "w": 360,
+                    "h": 210
+                }
+            },
+            {
+                "item": "viz_eW41wskU",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 600,
+                    "w": 720,
+                    "h": 300
+                }
+            },
+            {
+                "item": "viz_73j82pok",
+                "type": "block",
+                "position": {
+                    "x": 720,
+                    "y": 600,
+                    "w": 720,
+                    "h": 300
+                }
+            },
+            {
+                "item": "viz_kKUYcPFZ",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 900,
+                    "w": 1440,
+                    "h": 280
+                }
+            },
+            {
+                "item": "viz_hnOFRoBD",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 1180,
+                    "w": 1440,
+                    "h": 280
+                }
+            },
+            {
+                "item": "viz_rBY5q7BC",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 1460,
+                    "w": 1440,
+                    "h": 420
+                }
+            },
+            {
+                "item": "viz_6bpl5nqi",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 1880,
+                    "w": 1440,
+                    "h": 520
+                }
+            },
+            {
+                "item": "viz_DsBuvQrU",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 2400,
+                    "w": 1440,
+                    "h": 300
+                }
+            },
+            {
+                "item": "viz_kSKQYeUh",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 3060,
+                    "w": 1440,
+                    "h": 280
+                }
+            },
+            {
+                "item": "viz_liveReadiness",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 2700,
+                    "w": 1440,
+                    "h": 360
+                }
+            },
+            {
+                "item": "viz_xPLJvtKV",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 3340,
+                    "w": 1440,
+                    "h": 280
+                }
+            },
+            {
+                "item": "viz_Rn9Wgakt",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 3620,
+                    "w": 1440,
+                    "h": 420
+                }
+            },
+            {
+                "item": "viz_FSxVef4D",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 4040,
+                    "w": 1440,
+                    "h": 420
+                }
+            }
+        ],
+        "globalInputs": [
+            "input_JACuzsvA",
+            "input_3BYkUTy7",
+            "input_rjZO3BZq",
+            "input_jgTDQthW"
+        ]
+    },
+    "description": "Maps AI-related ESCU detections and ESCU-generated risk/notable findings to NIST AI RMF subcategories for coverage review, gap analysis, and operational follow-up. Coverage is generated from detection metadata and configured AI data-source selectors; live findings are limited to standard ESCU rule saved-search output in the form ESCU - <detection_name> - Rule. The mapping is practitioner-maintained operational guidance and is not an official NIST or Splunk taxonomy.",
+    "title": "NIST AI RMF Control Coverage"
+}

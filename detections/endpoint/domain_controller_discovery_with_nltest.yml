@@ -1,8 +1,8 @@
 name: Domain Controller Discovery with Nltest
 id: 41243735-89a7-4c83-bcdd-570aa78f00a1
-version: 13
+version: 14
 creation_date: '2021-09-01'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -57,6 +57,7 @@ analytic_story:
     - BlackSuit Ransomware
     - Rhysida Ransomware
     - NetSupport RMM Tool Abuse
+    - Starland RAT Campaign
 asset_type: Endpoint
 mitre_attack_id:
     - T1018

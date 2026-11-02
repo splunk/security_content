@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 6.0.0
+  version: 6.10.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -131,7 +131,7 @@ apps:
 - uid: 2757
   title: Splunk Add-on for Palo Alto Networks
   appid: SPLUNK_ADD_ON_FOR_PALO_ALTO_NETWORKS
-  version: 3.0.1
+  version: 3.1.0
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-palo-alto-networks_301.tgz
 - uid: 3865
@@ -167,7 +167,7 @@ apps:
 - uid: 3110
   title: Splunk Add-on for Microsoft Cloud Services
   appid: SPLUNK_TA_MICROSOFT_CLOUD_SERVICES
-  version: 6.1.1
+  version: 6.1.3
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-cloud-services_611.tgz
 - uid: 4055
@@ -241,10 +241,10 @@ apps:
   version: 4.0.3
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-vmware-indexes_403.tgz
 - uid: 1467
-  title: Cisco Networks Add-on
-  appid: TA-cisco_ios
-  version: 2.7.9
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/add-on-for-cisco-network-data_279.tgz
+  title: Cisco Enterprise Networking Add-on for Splunk
+  appid: TA-cisco-enterprise-networking-add-on-for-splunk
+  version: 4.0.35
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-enterprise-networking-add-on-for-splunk_4035.tgz
 - uid: 8024
   title: TA-ollama
   appid: ta-ollama

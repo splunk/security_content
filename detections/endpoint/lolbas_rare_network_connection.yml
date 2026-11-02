@@ -1,0 +1,144 @@
+name: LOLBAS Rare Network Connection
+id: d09b66cc-269b-4675-81b5-a3dabe4f5ac2
+version: 1
+creation_date: '2026-08-24'
+modification_date: '2026-08-24'
+author: Steven Dick, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    The following analytic identifies public network connections initiated by Living Off the Land Binaries and Scripts (LOLBAS) that rarely require direct outbound network access.
+    It leverages the Network Traffic data model and focuses on native Windows binaries where any public destination should be investigated and explicitly approved.
+    This activity may indicate proxy execution, process injection, payload download, command-and-control, or other abuse of trusted binaries to evade security controls.
+    Keep in mind that some of these binaries, such as Netsh.exe, Gpscript.exe, Wmic.exe, etc., will occasionally communicate with public network resources to perform their intended function.
+    Exclude said processes from the detection if they are too noisy for your environment.
+    Join this detection with the Process Execution events to provide context and avoid false positives.
+data_source:
+    - Sysmon EventID 3
+search: |
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Network_Traffic.All_Traffic where
+
+    All_Traffic.app IN (
+        "*\\at.exe",
+        "*\\atbroker.exe",
+        "*\\certoc.exe",
+        "*\\diskshadow.exe",
+        "*\\dnscmd.exe",
+        "*\\extexport.exe",
+        "*\\forfiles.exe",
+        "*\\gpscript.exe",
+        "*\\infdefaultinstall.exe",
+        "*\\installutil.exe",
+        "*\\makecab.exe",
+        "*\\mavinject.exe",
+        "*\\microsoft.workflow.compiler.exe",
+        "*\\msconfig.exe",
+        "*\\netsh.exe",
+        "*\\notepad.exe",
+        "*\\odbcconf.exe",
+        "*\\offlinescannershell.exe",
+        "*\\pcalua.exe",
+        "*\\pcwrun.exe",
+        "*\\pnputil.exe",
+        "*\\rasautou.exe",
+        "*\\regasm.exe",
+        "*\\register-cimprovider.exe",
+        "*\\regsvcs.exe",
+        "*\\regsvr32.exe",
+        "*\\runonce.exe",
+        "*\\runscripthelper.exe",
+        "*\\schtasks.exe",
+        "*\\scriptrunner.exe",
+        "*\\stordiag.exe",
+        "*\\ttdinject.exe",
+        "*\\tttracer.exe",
+        "*\\verclsid.exe",
+        "*\\wab.exe",
+        "*\\wmic.exe",
+        "*\\xwizard.exe"
+        )
+
+    NOT All_Traffic.dest_ip IN (
+            "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16",
+            "100.64.0.0/10", "127.0.0.0/8", "169.254.0.0/16",
+            "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+            "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32",
+            "192.0.0.171/32", "192.0.2.0/24", "192.31.196.0/24",
+            "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4",
+            "192.175.48.0/24", "198.18.0.0/15", "198.51.100.0/24",
+            "203.0.113.0/24", "240.0.0.0/4"
+        )
+
+    by All_Traffic.action All_Traffic.app All_Traffic.dest
+       All_Traffic.dest_ip All_Traffic.dest_port
+       All_Traffic.direction All_Traffic.dvc All_Traffic.protocol
+       All_Traffic.protocol_version All_Traffic.src
+       All_Traffic.src_ip All_Traffic.src_port
+       All_Traffic.transport All_Traffic.user
+       All_Traffic.vendor_product
+
+    | `drop_dm_object_name(All_Traffic)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `lolbas_rare_network_connection_filter`
+how_to_implement: |-
+    To successfully implement this detection you must ingest events into the Network Traffic data model that contain the source, destination, destination port, and communicating process name in the app field. Sysmon EventID 3 is a common source for this data when normalized into the Network Traffic data model.
+known_false_positives: |-
+    Limited legitimate administrative automation and scripts may cause false positives.
+    Any recurring use of these binaries for public network access should be reviewed, approved, and filtered with the analytic filter macro.
+    Notepad.exe can now communicate with Microsoft's service "apsaiservices.microsoft.com" over port 443 to provide AI services. Apply filtering if this behavior is known in your environment.
+    PowerShell, PowerShell ISE, PowerShell 7 (pwsh.exe), and cmd.exe are intentionally excluded from this analytic because they are too noisy.
+references:
+    - https://lolbas-project.github.io/#
+    - https://www.sans.org/presentations/lolbin-detection-methods-seven-common-attacks-revealed/
+drilldown_searches:
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: A rare public network connection from LOLBAS process [$app$] was observed on [$src$] to [$dest_ip$] over port [$dest_port$].
+threat_objects:
+    - field: app
+      type: process_name
+    - field: dest_ip
+      type: ip_address
+analytic_story:
+    - Fake CAPTCHA Campaigns
+    - Living Off The Land
+    - Malicious Inno Setup Loader
+    - Water Gamayun
+    - APT37 Rustonotto and FadeStealer
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Hellcat Ransomware
+    - NetSupport RMM Tool Abuse
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+    - T1567
+    - T1218
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

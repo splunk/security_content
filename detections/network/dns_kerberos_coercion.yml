@@ -1,8 +1,8 @@
 name: DNS Kerberos Coercion
 id: 8551252d-b5b6-4b6e-8a82-51460aeb29a3
-version: 5
+version: 6
 creation_date: '2025-11-18'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -42,6 +42,9 @@ finding:
         field: src
         type: system
         score: 50
+threat_objects:
+    - field: query
+      type: dns_query
 analytic_story:
     - Compromised Windows Host
     - Suspicious DNS Traffic

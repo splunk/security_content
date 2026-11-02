@@ -16,7 +16,7 @@ sourcetype: osquery:results
 supported_TA:
     - name: TA-osquery
       url: https://splunkbase.splunk.com/app/8574
-      version: 1.0.4
+      version: 1.0.5
 fields:
     - _time
     - calendarTime

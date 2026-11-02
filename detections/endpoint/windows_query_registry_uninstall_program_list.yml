@@ -1,8 +1,8 @@
 name: Windows Query Registry UnInstall Program List
 id: 535fd4fc-7151-4062-9d7e-e896bea77bf6
-version: 10
+version: 11
 creation_date: '2023-05-02'
-modification_date: '2026-05-13'
+modification_date: '2026-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -33,6 +33,7 @@ analytic_story:
     - StealC Stealer
     - RedLine Stealer
     - Meduza Stealer
+    - Vidar Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1012

@@ -1,13 +1,14 @@
 name: Log4Shell JNDI Payload Injection with Outbound Connection
 id: 69afee44-5c91-11ec-bf1f-497c9a704a72
-version: 9
+version: 10
 creation_date: '2021-12-13'
-modification_date: '2026-05-13'
+modification_date: '2026-09-08'
 author: Jose Hernandez
 status: production
 type: Anomaly
 description: The following analytic detects Log4Shell JNDI payload injections via outbound connections. It identifies suspicious LDAP lookup functions in web logs, such as `${jndi:ldap://PAYLOAD_INJECTED}`, and correlates them with network traffic to known malicious IP addresses. This detection leverages the Web and Network_Traffic data models in Splunk. Monitoring this activity is crucial as it targets vulnerabilities in Java web applications using log4j, potentially leading to remote code execution. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code, and compromise sensitive data within the affected environment.
-data_source: []
+data_source:
+    - Splunk Stream IP
 search: |-
     | from datamodel Web.Web
     | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)" | join affected_host type=inner [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic by All_Traffic.dest | `drop_dm_object_name(All_Traffic)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename dest AS affected_host]
@@ -37,6 +38,11 @@ intermediate_findings:
           type: system
           score: 20
           message: CVE-2021-44228 Log4Shell triggered for host $dest$
+threat_objects:
+    - field: http_user_agent
+      type: http_user_agent
+    - field: url
+      type: url
 analytic_story:
     - Log4Shell CVE-2021-44228
     - CISA AA22-320A

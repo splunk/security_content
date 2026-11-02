@@ -1,0 +1,93 @@
+name: MacOS AppleScript Shell Execution and Compilation
+id: ceee1f2b-4b40-4721-b91e-40d1134e9dc4
+version: 1
+creation_date: '2026-09-03'
+modification_date: '2026-09-03'
+author: Radka Viskova, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects the use of macOS AppleScript utilities to execute shell commands or compile AppleScript containing shell-command logic.
+    The analytic identifies `osascript` invocations using AppleScript's `do shell script` command, which executes shell commands on the host.
+    It also identifies `osacompile` invocations referencing `do shell script`. `osacompile` compiles AppleScript into a compiled script but does not execute it directly.
+    Adversaries may abuse these utilities to execute shell commands, stage AppleScript payloads, or prepare scripts for later execution. Matches involving `osacompile` should be interpreted as script compilation or staging rather than confirmed shell-command execution.
+data_source:
+    - Osquery Results
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process_name IN ("osascript", "osacompile")
+    Processes.process="*do *"
+    Processes.process="* shell *"
+    Processes.process="* script*"
+
+    BY Processes.action Processes.dest Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+
+    | eval activity_type=case(
+            process_name="osascript", "AppleScript Shell Command Execution",
+            process_name="osacompile", "AppleScript Compilation or Staging"
+        )
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+
+    | table firstTime lastTime dest user activity_type parent_process process parent_process_name parent_process_exec parent_process_guid parent_process_id parent_process_path process_exec process_guid process_hash process_id process_integrity_level process_name process_path action user_id vendor_product
+
+    | `macos_applescript_shell_execution_and_compilation_filter`
+how_to_implement: |-
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the TA-OSquery (https://splunkbase.splunk.com/app/8574) must be deployed in order to have the osquery data populate the data models.
+known_false_positives: |-
+    Legitimate administrative scripts or automation tools using Applescript.
+references:
+    - https://attack.mitre.org/tactics/TA0002/
+    - https://attack.mitre.org/techniques/T1059/002/
+    - https://www.loobins.io/binaries/osascript/
+    - https://redcanary.com/threat-detection-report/techniques/applescript/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: AppleScript shell execution or compilation via [$process_name$] with commandline [$process$] was observed on [$dest$].
+threat_objects:
+    - field: process
+      type: process
+analytic_story:
+    - MacOS Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.002/osascript_do_shell_script/osascript_do_shell_script.log
+          source: osquery
+          sourcetype: osquery:results
+      test_type: unit

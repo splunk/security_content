@@ -1,0 +1,49 @@
+name: Cisco SD-WAN Multiple SSH key Authentication from Same Source
+id: 23e15133-d825-4e1d-b885-b8fe3909e947
+version: 1
+creation_date: '2026-06-09'
+modification_date: '2026-06-09'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: |-
+    This hunting analytic identifies multiple distinct SSH publickey fingerprints used to authenticate the same user from the same source IP against a Cisco Catalyst SD-WAN control component.
+    After legitimate vManage key rotation or reboot, a new key may appear but the old key should no longer be used; continued use of more than one key from the same source may indicate unauthorized key injection or persistence related to CVE-2026-20127 (cisco-sa-sdwan-rpa-EHchtZk).
+    Validate flagged keys and source IPs against known System IPs in SD-WAN Manager and investigate unexpected combinations.
+data_source:
+    - Cisco SD-WAN Auth Log
+search: |-
+    `cisco_sd_wan_syslog`
+    "Accepted publickey"
+    | rex field=_raw "^(?<event_timestamp>\S+)\s+(?<dest>\S+)\s+<auth\.info>\s+sshd\[\d+\]:\s+Accepted publickey for (?<user>\S+) from (?<src>\S+) port (?<src_port>\d+) ssh2:\s+(?<key_type>\S+)\s+(?<ssh_key>\S+)"
+    | stats dc(ssh_key) as distinct_keys
+            values(ssh_key) as ssh_keys
+      count by dest user src
+    | where distinct_keys > 1
+    | `cisco_sd_wan_multiple_ssh_key_authentication_from_same_source_filter`
+how_to_implement: |
+    This detection requires Cisco SD-WAN auth logs from the /var/log/auth.log file to be ingested into Splunk.
+known_false_positives: |
+    No false positives have been identified at this time.
+references:
+    - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
+analytic_story:
+    - Cisco Catalyst SD-WAN Analytics
+asset_type: Network
+cve:
+    - CVE-2026-20127
+mitre_attack_id:
+    - T1595
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/CVE-2026-20127/auth_dummy_key.log
+          source: /var/log/auth.log
+          sourcetype: cisco:sdwan:syslog
+      test_type: unit

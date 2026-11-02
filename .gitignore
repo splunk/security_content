@@ -13,6 +13,7 @@ dist/ContentPack-*.appinspect_api_results.html
 dist/ContentPack-*.appinspect_api_results.json
 atomic-red-team/
 external_repos/
+schemas/
 
 # IDE
 .vscode/

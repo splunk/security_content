@@ -1,0 +1,91 @@
+name: Splunk Secure Application Alerts for Runtime Security
+id: 37365336-e8af-42b1-b9d5-a5183d7b7e73
+version: 1
+creation_date: '2026-06-12'
+modification_date: '2026-06-12'
+author: Ryan Long, Bhavin Patel, Bryan Pluta, Splunk
+status: experimental
+type: Anomaly
+description: |
+    The following analytic leverages alerts from Splunk Secure Application, which identifies and monitors exploit attempts targeting business applications. Attacks observed include exploiting vulnerabilities in web applications, such as injection attacks (SQL, API abuse), deserialization vulnerabilities, remote code execution, LOG4J, and zero-day attacks. These events are typically aimed at gaining unauthorized access, exfiltrating sensitive data, or disrupting application functionality.
+
+    Splunk Secure Application provides real-time detection of these threats by analyzing application-layer events and correlating attack behavior with known vulnerability signatures. This detection methodology helps the Security Operations Center (SOC) by:
+
+    * Identifying active exploitation attempts in real-time, allowing for quicker incident response.
+    * Categorizing attack severity to prioritize remediation efforts based on risk level.
+    * Providing visibility into attacker tactics, including source IP, attack techniques, and affected applications.
+    * Generating risk-based scoring and contextual alerts to enhance decision-making within SOC workflows.
+    * Helping analysts determine whether an attack was merely an attempt or if it successfully exploited a vulnerability.
+
+    By leveraging this information, SOC teams can proactively mitigate security threats, patch vulnerable applications, and enforce security controls to prevent further exploitation.
+data_source: []
+search: |-
+    `secureapp_attack`
+    | rename attackEvents{}.* AS *, detailJson.* AS *, vulnerabilityInfo.* AS *
+    | fields - tag::eventtype, eventtype, host, id, index, linecount, punct, source, sourcetype, splunk_server, tag, SourceType, app, clientAddressType, "attackEvents{}.* status"
+    | eval socketOut=mvjoin(socketOut," AND ")
+    | eval risk_score=kennaScore
+    | fillnull risk_score value="0"
+    `secureapp_es_field_mappings`
+    | dedup gid
+    | eval severity=case(
+        risk_score>=75 OR signature="LOG4J", "critical",
+        risk_score>50 AND risk_score<75, "high",
+        risk_score=0 AND attackOutcome="EXPLOITED", "high",
+        risk_score<=50 AND attackOutcome!="OBSERVED", "medium",
+        risk_score=0 AND attackOutcome="ATTEMPTED", "medium",
+        risk_score=0, "low",
+        risk_score=0 AND attackOutcome="OBSERVED", "low"
+    )
+    | eval rule_description=case(
+        attacktypecount>1, mvjoin(mvappend("Multiple different attack types have been seen against the application", mvdedup(app), "This includes", mvdedup(signature), "attacks. Review the", mvdedup(dest_nt_host), "server for signs of exploitation"), " "),
+        (signature="API" OR signature="LOG4J" OR signature="SSRF"), "An attempt to exploit a ".signature." vulnerability was made from a ".src_category." IP address ".src_ip.". The server ".dest_nt_host." hosting application ".app." was accessed, and data may have been exfiltrated to ".ip.".",
+        (signature="SQL"), "IP address ".src_ip." has attempted a SQL injection via ".src_category.". The server ".dest_nt_host." hosting application ".app." may have executed this SQL statement and should be reviewed.",
+        (signature="DESEREAL"), "The application ".app." deserializes untrusted data without sufficiently verifying that the resulting data will be valid. Data which is untrusted cannot be trusted to be well-formed. Malformed data or unexpected data could be used to abuse application logic, deny service, or execute arbitrary code, when deserialized.",
+        (signature="RCE"),  "An attacker tried to perform Remote Code Execution by running the command ".command." in the ".file_path." directory. The server ".dest_nt_host." hosting application ".app."  ".action." this command."
+    )
+    | `splunk_secure_application_alerts_for_runtime_security_filter`
+how_to_implement: |
+    Create the secureapp_attack sourcetype in Splunk Enterprise Security. Configure Splunk Enterprise Security to receive alerts for Observability Cloud via HEC. Configure Secure Application Alerts in Observability Cloud to send alerts to Enterprise Security. Full details can be found in the referenced lantern article.
+known_false_positives: |
+    No known false positives for this detection. If alerts are noisy, tune this detection with the `_filter` macro or configure the originating tool.
+references:
+    - https://lantern.splunk.com/@go/page/10379
+    - https://help.splunk.com/en/splunk-observability-cloud/monitor-application-security/set-up-secure-application/step-1-set-up-notifications-for-vulnerabilities
+drilldown_searches:
+    - name: View the detection results for - "$app$"
+      search: '%original_detection_search% | search app = "$app$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest_ip$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest_ip
+          type: system
+          score: 20
+          message: $rule_description$
+threat_objects:
+    - field: src_ip
+      type: ip_address
+analytic_story:
+    - Critical Alerts
+asset_type: Web Application
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: threat
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/secure_app_alerts_runtime_security.log
+          sourcetype: secureapp_attack
+          source: not_applicable
+      description: |
+        MANUAL TEST - We are dynamically creating the risk_score field based on the severity of the alert in the SPL, which supersedes the risk score set in the detection. Set as manual test to avoid integration and unit test failures due to empty fields in observables.
+      test_type: experimental

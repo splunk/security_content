@@ -1,8 +1,8 @@
 name: Powershell Fileless Script Contains Base64 Encoded Content
 id: 8acbc04c-c882-11eb-b060-acde48001122
-version: 20
+version: 22
 creation_date: '2021-06-09'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -52,6 +52,8 @@ analytic_story:
     - MuddyWater
     - Axios Supply Chain Post Compromise
     - VIP Keylogger
+    - Salat Stealer
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1027

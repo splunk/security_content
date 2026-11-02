@@ -1,8 +1,8 @@
 name: Headless Browser Usage
 id: 869ba261-c272-47d7-affe-5c0aa85c93d6
-version: 10
+version: 11
 creation_date: '2023-09-11'
-modification_date: '2026-05-13'
+modification_date: '2026-06-25'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -48,6 +48,7 @@ threat_objects:
 analytic_story:
     - Browser Hijacking
     - Forest Blizzard
+    - Phantom Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1497

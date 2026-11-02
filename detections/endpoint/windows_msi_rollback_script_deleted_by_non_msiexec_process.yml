@@ -1,8 +1,8 @@
 name: Windows MSI Rollback Script Deleted By Non-Msiexec Process
 id: 6ec7cbda-9547-4f6b-8a00-d1fb4b52c1e9
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-07-20'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -13,9 +13,10 @@ description: |-
     The folder is protected with a strong DACL specifically to prevent tampering by low-privileged users — because whatever is in these files will be executed by the SYSTEM-level Installer service during rollback.
 data_source:
     - Sysmon EventID 23
+    - Sysmon EventID 26
 search: |-
     `sysmon`
-    EventID=23
+    EventCode IN (23, 26)
     TargetFilename="*:\\Config.Msi\\*"
     TargetFilename="*.rbs"
     NOT ProcessName="msiexec.exe"

@@ -1,0 +1,61 @@
+name: Windows Event Log WMI Activity 5861
+id: dad572ee-2271-4a1c-b118-ae6c5494a7c1
+version: 1
+creation_date: '2026-10-05'
+modification_date: '2026-10-05'
+author: Nasreddine Bencherchali, Splunk
+description: Logs the creation of a permanent WMI event subscription when an event filter is bound to an event consumer, including consumer and filter details.
+mitre_components:
+    - WMI Creation
+    - Application Log Content
+    - OS API Execution
+source: XmlWinEventLog:Microsoft-Windows-WMI-Activity/Operational
+sourcetype: XmlWinEventLog
+separator: EventID
+separator_value: '5861'
+supported_TA: []
+fields:
+    - _time
+    - Channel
+    - Computer
+    - EventCode
+    - System_Props_Xml
+    - UserData_Xml
+    - EventID
+    - EventRecordID
+    - Guid
+    - Keywords
+    - Level
+    - Opcode
+    - ProcessID
+    - SystemTime
+    - Task
+    - TaskCategory
+    - ThreadID
+    - UserID
+    - Version
+    - source
+    - sourcetype
+    - user_id
+    - vendor_product
+output_fields:
+    - dest
+example_log: |-
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-WMI-Activity' Guid='{1418ef04-b0b4-4623-bf7e-d74ab47bbdaa}'/><EventID>5861</EventID><Version>0</Version><Level>0</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x4000000000000000</Keywords><TimeCreated SystemTime='2026-10-05T09:37:13.4994636Z'/><EventRecordID>24669</EventRecordID><Correlation ActivityID='{3d558c65-3010-0000-25c1-7b3d1030dd01}'/><Execution ProcessID='2448' ThreadID='7872'/><Channel>Microsoft-Windows-WMI-Activity/Operational</Channel><Computer>EC2AMAZ-1QDNI6F</Computer><Security UserID='S-1-5-18'/></System><UserData><Operation_ESStoConsumerBinding xmlns='http://manifests.microsoft.com/win/2006/windows/WMI'><Namespace>//./root/subscription</Namespace><ESS>AtomicRedTeam_filter</ESS><CONSUMER>CommandLineEventConsumer="AtomicRedTeam_consumer"</CONSUMER><PossibleCause>Binding EventFilter: 
+    instance of __EventFilter
+    {
+    	CreatorSID = {1, 5, 0, 0, 0, 0, 0, 5, 21, 0, 0, 0, 95, 211, 181, 28, 123, 4, 131, 205, 168, 40, 205, 106, 244, 1, 0, 0};
+    	EventNamespace = "root\\subscription";
+    	Name = "AtomicRedTeam_filter";
+    	Query = "SELECT * FROM __InstanceCreationEvent Within 3 Where TargetInstance Isa \"Win32_Process\" And Targetinstance.Name = \"notepad.exe\" ";
+    	QueryLanguage = "WQL";
+    };
+    Perm. Consumer: 
+    instance of CommandLineEventConsumer
+    {
+    	CommandLineTemplate = "cmd.exe";
+    	CreatorSID = {1, 5, 0, 0, 0, 0, 0, 5, 21, 0, 0, 0, 95, 211, 181, 28, 123, 4, 131, 205, 168, 40, 205, 106, 244, 1, 0, 0};
+    	Name = "AtomicRedTeam_consumer";
+    	RunInteractively = FALSE;
+    };
+    </PossibleCause></Operation_ESStoConsumerBinding></UserData></Event>
