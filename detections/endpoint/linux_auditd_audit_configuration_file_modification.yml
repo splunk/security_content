@@ -6,27 +6,34 @@ modification_date: '2026-11-02'
 author: vahid malekmohammadi
 status: production
 type: Anomaly
-description: The following analytic detects modification of the Linux audit (auditd) configuration under /etc/audit/ - rules files (/etc/audit/rules.d/*.rules, /etc/audit/audit.rules), the daemon config (/etc/audit/auditd.conf), audit dispatcher plugins (/etc/audit/plugins.d/) - or /etc/libaudit.conf, using Linux Auditd. Adversaries tamper with these files to weaken or disable logging so their activity is not recorded; unlike stopping the auditd service (which raises a DAEMON_END event), editing the on-disk config leaves the running daemon up and only takes effect on the next reload or reboot, making it a stealthier defense-evasion and anti-forensics technique. The analytic correlates the auditd PATH record for an audit config file (nametype CREATE for an editor rewrite, NORMAL for an in-place write, DELETE for removal) with the SYSCALL record from the same event to surface the editing process (comm/exe) and the user. Because package upgrades and the augenrules compile step legitimately write these files, this is modeled as an anomaly and must be tuned with the filter macro.
+description: The following analytic detects modification of the Linux audit (auditd) configuration under /etc/audit/ - rules files (/etc/audit/rules.d/*.rules, /etc/audit/audit.rules), the daemon config (/etc/audit/auditd.conf), audit dispatcher plugins (/etc/audit/plugins.d/) - or /etc/libaudit.conf, using Linux Auditd. Adversaries tamper with these files to weaken or disable logging so their activity is not recorded; unlike stopping the auditd service (which raises a DAEMON_END event), editing the on-disk config leaves the running daemon up and only takes effect on the next reload or reboot, making it a stealthier defense-evasion and anti-forensics technique. The analytic correlates the auditd PATH record for an audit config file with the CWD and SYSCALL records from the same audit event, reconstructing the absolute path when the file was opened by a relative name (for example after a chdir into /etc/audit), requiring a successful modifying syscall, and surfacing the editing process (comm/exe) and user. Because package upgrades and the augenrules compile step legitimately write these files, this is modeled as an anomaly and must be tuned with the filter macro.
 data_source:
     - Linux Auditd Path
+    - Linux Auditd Cwd
     - Linux Auditd Syscall
 search: |-
     `linux_auditd`
     (
-      (type=PATH name IN ("/etc/audit/*", "/etc/libaudit.conf") nametype IN ("CREATE","NORMAL","DELETE"))
-      OR
-      (type=SYSCALL syscall IN ("rename","renameat","renameat2","open","openat","openat2","write","truncate","ftruncate","unlinkat","unlink","linkat","symlinkat"))
+      (type=PATH nametype IN ("NORMAL","CREATE","DELETE"))
+      OR type=CWD
+      OR type=SYSCALL
     )
     | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
-    | stats values(name) as names values(nametype) as nametype values(comm) as process_name values(exe) as process values(syscall) as syscall values(auid) as auid values(uid) as uid min(_time) as firstTime max(_time) as lastTime BY audit_id host
-    | eval audit_config_file=mvfilter((match(names, "^/etc/audit/.+") OR match(names, "^/etc/libaudit\.conf$")) AND NOT match(names, "/$"))
-    | where mvcount(audit_config_file) > 0 AND isnotnull(process_name)
+    | stats values(name) as names values(nametype) as nametype values(cwd) as cwd_list values(comm) as process_name values(exe) as process values(success) as success values(auid) as auid values(uid) as uid values(_time) as event_times BY audit_id host
+    | eval current_working_directory=coalesce(mvindex(cwd_list,0),"N/A")
+    | eval candidate_paths=mvmap(names, if(match(names,"^/"), names, current_working_directory."/".names))
+    | eval matched_paths=mvfilter((match(candidate_paths,"^/etc/audit/.+") OR match(candidate_paths,"^/etc/libaudit\.conf$")) AND NOT match(candidate_paths,"/$"))
+    | eval match_count=mvcount(matched_paths)
+    | eval reconstructed_path=mvindex(matched_paths,0)
+    | eval e_time=mvindex(event_times,0)
+    | where match_count>0 AND success="yes" AND isnotnull(process_name)
     | rename host as dest
+    | stats count min(e_time) as firstTime max(e_time) as lastTime values(nametype) as nametype values(process_name) as process_name values(process) as process values(auid) as auid values(uid) as uid BY reconstructed_path current_working_directory dest audit_id
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | table firstTime lastTime dest process_name process syscall nametype audit_config_file auid uid audit_id
+    | table firstTime lastTime dest reconstructed_path current_working_directory process_name process nametype auid uid audit_id
     | `linux_auditd_audit_configuration_file_modification_filter`
-how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, EXECVE and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). The host's auditd rules must generate PATH records for writes under /etc/audit/ - the common way is a watch such as "-w /etc/audit/ -p wa -k auditconfig" and "-w /etc/libaudit.conf -p wa -k auditconfig" (shipped by most hardened rulesets, e.g. the Neo23x0 auditd baseline). Confirm field names against a real event, as auditd extraction can vary by deployment - the file is in the PATH record "name" field and the editing process is in the companion SYSCALL record "comm"/"exe", joined here on the audit event id.
+how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, CWD and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). Make sure the type=CWD record is captured in your auditd configuration, as it is used here to reconstruct the absolute path when an audit config file is opened by a relative name (for example after a chdir into /etc/audit). The host's auditd rules must generate PATH records for writes under /etc/audit/ - the common way is a watch such as "-w /etc/audit/ -p wa -k auditconfig" and "-w /etc/libaudit.conf -p wa -k auditconfig" (shipped by most hardened rulesets, e.g. the Neo23x0 auditd baseline). The analytic requires a successful (success=yes) modifying syscall correlated to the PATH record, so read-only access and denied/failed write attempts are not reported as modifications. Confirm field names against a real event, as auditd extraction can vary by deployment.
 known_false_positives: The augenrules compile step rewrites /etc/audit/audit.rules (process augenrules) and package installation or upgrade of auditd (dpkg, apt, ucf) writes these files legitimately, as does configuration-management tooling (Ansible, Puppet, Chef, Salt). Update the filter macro to allowlist those processes or the service accounts that run them - for example exclude process_name=augenrules writing /etc/audit/audit.rules, and the package-manager binaries for your environment.
 references:
     - https://attack.mitre.org/techniques/T1562/001/
@@ -47,7 +54,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 64
-          message: Audit configuration file [$audit_config_file$] was modified by process [$process_name$] on host - [$dest$], a possible attempt to weaken or disable auditing.
+          message: Audit configuration file [$reconstructed_path$] was modified by process [$process_name$] on host - [$dest$], a possible attempt to weaken or disable auditing.
 analytic_story:
     - Linux Living Off The Land
     - Compromised Linux Host
