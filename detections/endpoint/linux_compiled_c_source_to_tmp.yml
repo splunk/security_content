@@ -53,11 +53,11 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Compiler compiled source to /tmp on [$dest$] by [$user$]
+          message: Compiler [$process_name$] compiled source to /tmp on [$dest$] by [$user$]
         - field: user
           type: user
           score: 20
-          message: Compiler compiled source to /tmp on [$dest$] by [$user$]
+          message: Compiler [$process_name$] compiled source to /tmp on [$dest$] by [$user$]
 threat_objects:
     - field: process_name
       type: process_name
