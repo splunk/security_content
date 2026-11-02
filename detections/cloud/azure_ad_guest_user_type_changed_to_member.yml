@@ -77,6 +77,7 @@ analytic_story:
 asset_type: Azure Active Directory
 mitre_attack_id:
     - T1098
+    - T1078.004
     - T1586.003
 product:
     - Splunk Enterprise
