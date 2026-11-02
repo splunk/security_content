@@ -1,0 +1,89 @@
+name: Large HTTP POST Request Failure or Missing Response - Suricata
+id: e2cda18b-ec22-4028-ba77-26e88a6c865a
+version: 1
+creation_date: '2026-10-26'
+modification_date: '2026-10-28'
+author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects HTTP POST requests with a declared body size of at least one megabyte that receive an HTTP 500 response or have no response status recorded.
+    Large failed or unanswered uploads can indicate attempts to trigger resource exhaustion or exploit vulnerable request handling, including behavior associated with PHP2Shell, but require investigation with related web and application logs.
+data_source:
+    - Suricata
+search: |-
+    `suricata`
+    event_type=http
+    http_method=POST
+
+    | spath input=_raw path=http.status output=response_status
+    | spath input=_raw path=http.request_headers{}.name output=request_header_names
+    | spath input=_raw path=http.request_headers{}.value output=request_header_values
+
+    | eval request_header=mvzip(request_header_names, request_header_values, "|||")
+
+    | mvexpand request_header
+
+    | rex field=request_header "(?i)^Content-Length\\|\\|\\|(?<request_bytes>\\d+)$"
+
+    | eval request_bytes=tonumber(request_bytes),
+           response_status=tonumber(response_status),
+           status_code=if(isnull(response_status), "missing", tostring(response_status))
+
+    | where request_bytes>=1000000 AND (response_status=500 OR isnull(response_status))
+
+    | eval src=coalesce(src, src_ip), dest=coalesce(dest, dest_ip), uri=coalesce(url, 'http.url')
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  max(request_bytes) as request_bytes
+                  values(status_code) as status_code
+                  values(http_user_agent) as http_user_agent
+      by src dest dest_port uri http_method
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `large_http_post_request_failure_or_missing_response___suricata_filter`
+how_to_implement: |-
+    Configure Suricata EVE JSON HTTP logging with `extended: yes` and `dump-all-headers: both` under the EVE
+    `http` type, then ingest the JSON with the Splunk TA for Suricata. Set the `suricata` macro to the TA's
+    sourcetype (commonly `sourcetype=suricata`). The search requires `event_type=http`, `http_method`, and
+    `http.request_headers` name/value pairs so it can read `Content-Length`; `http.status` may be absent for
+    requests without a response. Verify that the TA extracts the nested EVE fields used by this search.
+known_false_positives: |-
+    Large legitimate uploads can fail because of application limits, timeouts, storage constraints, transient server errors, or network interruptions that prevent a response from being recorded.
+    Review the request URI, declared upload size, server logs, and client behavior before classifying the activity as malicious.
+references:
+    - https://www.php2shell.com/
+    - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
+    - https://docs.suricata.io/en/latest/output/eve/eve-json-output.html
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: A large HTTP POST request from [$src$] to [$dest$] received HTTP 500 or had no response status recorded.
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - PHP2Shell
+asset_type: Web Application
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/suricata.log
+          source: not_applicable
+          sourcetype: suricata
+      test_type: unit

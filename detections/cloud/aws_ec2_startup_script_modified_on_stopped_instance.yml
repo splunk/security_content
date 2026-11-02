@@ -1,0 +1,93 @@
+name: AWS EC2 Startup Script Modified on Stopped Instance
+id: 84578867-02bf-475e-9815-6e8e0d798253
+version: 1
+creation_date: '2026-10-07'
+modification_date: '2026-10-07'
+author: Maria Jose Erquiaga
+status: production
+type: TTP
+description: |-
+    A successful EC2 StopInstances request was followed within one hour by a successful ModifyInstanceAttribute request targeting userData on the same instance, by the same IAM principal.
+    This may indicate an attempt to change instance startup behavior or establish persistence.
+    These CloudTrail events do not confirm that the modified user-data script executed.
+data_source:
+    - AWS CloudTrail
+search: |-
+    `cloudtrail`
+    eventSource="ec2.amazonaws.com"
+    eventName IN ("StopInstances", "ModifyInstanceAttribute")
+
+    | eval user_arn='userIdentity.arn'
+
+    | eval instance_id=case(
+        eventName="StopInstances", 'requestParameters.instancesSet.items{}.instanceId',
+        eventName="ModifyInstanceAttribute", 'requestParameters.instanceId'
+      )
+
+    | mvexpand instance_id
+
+    | where isnotnull(eventID) AND isnotnull(instance_id) AND isnotnull(user_arn)
+        AND (isnull(errorCode) OR errorCode="" OR lower(errorCode)="success")
+
+    | where eventName="StopInstances"
+        OR (eventName="ModifyInstanceAttribute" AND 'requestParameters.attribute'="userData")
+
+    | dedup eventID instance_id
+
+    | eval event_epoch=coalesce(strptime(eventTime, "%Y-%m-%dT%H:%M:%SZ"), _time)
+
+    | sort 0 user_arn instance_id awsRegion event_epoch
+
+    | streamstats current=f
+        last(eval(if(eventName="StopInstances", event_epoch, null()))) AS stop_epoch
+        last(eval(if(eventName="StopInstances", eventID, null()))) AS stop_event_id
+        BY user_arn instance_id awsRegion
+
+    | where eventName="ModifyInstanceAttribute" AND isnotnull(stop_epoch)
+
+    | eval elapsed_seconds=event_epoch-stop_epoch
+
+    | where elapsed_seconds>0 AND elapsed_seconds<=3600
+
+    | eval stop_time_utc=strftime(stop_epoch, "%Y-%m-%dT%H:%M:%SZ")
+
+    | eval modification_time_utc=strftime(event_epoch, "%Y-%m-%dT%H:%M:%SZ")
+
+    | rename eventID AS modification_event_id
+
+    | table user_arn instance_id awsRegion stop_time_utc modification_time_utc
+            elapsed_seconds stop_event_id modification_event_id
+
+    | `aws_ec2_startup_script_modified_on_stopped_instance_filter`
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
+known_false_positives: |-
+    Authorized administrators and infrastructure automation may stop instances and update their user data.
+    Review the IAM principal, instance, change window, and approved automation before escalating.
+references:
+    - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
+    - https://stratus-red-team.cloud/attack-techniques/AWS/aws.execution.ec2-user-data/
+finding:
+    title: The IAM principal [$user_arn$] modified user data on stopped EC2 instance [$instance_id$]
+    entity:
+        field: user_arn
+        type: user
+        score: 50
+threat_objects: []
+analytic_story:
+    - Suspicious Cloud User Activities
+asset_type: AWS Account
+mitre_attack_id:
+    - T1578.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1578.005/aws_ec2_startup_script_modification/aws_ec2_startup_script_modification.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail
+      test_type: unit
