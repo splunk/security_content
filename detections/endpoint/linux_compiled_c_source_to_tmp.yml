@@ -33,8 +33,10 @@ search: |-
         "*.cpp*",
         "*.cxx*"
     )
-    process="* /tmp/*"
+
     User!="root"
+
+    | regex process="(?:^|\\s)-o\\s*(?:\\x22|\\x27)?/tmp/"
 
     | fillnull
 
