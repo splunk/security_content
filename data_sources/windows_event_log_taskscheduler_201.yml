@@ -1,8 +1,8 @@
 name: Windows Event Log TaskScheduler 201
 id: 4c09ae64-01cd-4b65-8221-20f803b0d86e
-version: 3
+version: 4
 creation_date: '2025-02-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Splunk
 description: Data source object for Windows Event Log TaskScheduler 201
 source: XmlWinEventLog:Security
@@ -14,6 +14,52 @@ supported_TA:
       version: 11.0.3
 fields:
     - _time
+    - ActionName
+    - ActivityID
+    - Channel
+    - Computer
+    - dvc
+    - dvc_nt_host
+    - EnginePID
+    - event_id
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
+    - eventtype
+    - Guid
+    - host
+    - id
+    - index
+    - Keywords
+    - Level
+    - linecount
+    - Name
+    - Opcode
+    - ProcessID
+    - punct
+    - RecordNumber
+    - severity
+    - severity_id
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - System_Props_Xml
+    - SystemTime
+    - tag
+    - tag::eventtype
+    - Task
+    - TaskCategory
+    - TaskInstanceId
+    - TaskName
+    - ThreadID
+    - timestamp
+    - user_id
+    - UserID
+    - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: ''
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-TaskScheduler' Guid='{DE7B24EA-73C8-4A09-985D-5BDADCFA9017}'/><EventID>201</EventID><Version>1</Version><Level>4</Level><Task>201</Task><Opcode>1</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2024-03-04T03:53:45.544123200Z'/><EventRecordID>4325</EventRecordID><Correlation ActivityID='{2EE32989-FAF3-4BA3-9FB9-DB0080598F68}'/><Execution ProcessID='989' ThreadID='4525'/><Channel>Microsoft-Windows-TaskScheduler/Operational</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData Name='ActionStart'><Data Name='TaskName'>\OneLinerTestTask3</Data><Data Name='ActionName'>notepad.exe</Data><Data Name='TaskInstanceId'>{2EE32989-FAF3-4BA3-9FB9-DB0080598F68}</Data><Data Name='EnginePID'>537</Data></EventData></Event>

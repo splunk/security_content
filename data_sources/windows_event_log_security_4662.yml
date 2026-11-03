@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4662
 id: f3c2cd64-0b5f-4013-8201-35dc03828ec6
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a user accessed an object within the Active Directory, such as creating, modifying, or deleting it
 mitre_components:
@@ -20,65 +20,53 @@ fields:
     - _time
     - AccessList
     - AccessMask
+    - action
     - ActivityID
     - AdditionalInfo
+    - AdditionalInfo2
+    - app
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - Computer
+    - dest
+    - dest_nt_domain
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
+    - event_time
     - EventCode
     - EventData_Xml
     - EventID
     - EventRecordID
+    - eventtype
     - Guid
     - HandleId
+    - host
+    - id
+    - index
     - Keywords
     - Level
+    - linecount
     - Logon_ID
     - Name
+    - name
+    - object_file_name
+    - object_file_path
     - ObjectName
     - ObjectServer
     - ObjectType
     - Opcode
     - OperationType
     - ProcessID
-    - Properties
-    - RecordNumber
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - Version
-    - action
-    - app
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - host
-    - id
-    - index
-    - linecount
-    - name
-    - object_file_name
-    - object_file_path
     - product
+    - Properties
     - punct
+    - RecordNumber
     - session_id
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
@@ -88,14 +76,33 @@ fields:
     - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
     - tag::action
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4662</EventID><Version>0</Version><Level>0</Level><Task>14080</Task><Opcode>0</Opcode><Keywords>0x8010000000000000</Keywords><TimeCreated SystemTime='2023-02-02T22:41:45.751175400Z'/><EventRecordID>21623198276</EventRecordID><Correlation ActivityID='{7BAD94BA-268A-0000-BB94-AD7B8A26D901}'/><Execution ProcessID='848' ThreadID='7136'/><Channel>Security</Channel><Computer>attack_range_dc</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>attack_range\attacker</Data><Data Name='SubjectUserName'>attacker</Data><Data Name='SubjectDomainName'>attack_range</Data><Data Name='SubjectLogonId'>0x632426dc0</Data><Data Name='ObjectServer'>DS</Data><Data Name='ObjectType'>group</Data><Data Name='ObjectName'>CN=Incoming Forest Trust Builders,CN=Users,DC=Attack_Range</Data><Data Name='OperationType'>Object Access</Data><Data Name='HandleId'>0x0</Data><Data Name='AccessList'>%%7688
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4662</EventID><Version>0</Version><Level>0</Level><Task>14080</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2024-01-05T06:17:11.064481600Z'/><EventRecordID>15110554</EventRecordID><Correlation ActivityID='{C46FD4F7-3F7F-0000-01D5-6FC47F3FDA01}'/><Execution ProcessID='612' ThreadID='4968'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>S-1-5-21-390003789-444691441-1275789787-1008</Data><Data Name='SubjectUserName'>AR-WIN-DC$</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x335045</Data><Data Name='ObjectServer'>DS</Data><Data Name='ObjectType'>%{bf967a86-0de6-11d0-a285-00aa003049e2}</Data><Data Name='ObjectName'>%{94d92973-5ce1-4126-87d3-e2efaa3ceaec}</Data><Data Name='OperationType'>Object Access</Data><Data Name='HandleId'>0x0</Data><Data Name='AccessList'>%%7684
+                    </Data><Data Name='AccessMask'>0x10</Data><Data Name='Properties'>%%7684
+            {59ba2f42-79a2-11d0-9020-00c04fc2d3cf}
+                {bf967a00-0de6-11d0-a285-00aa003049e2}
+            {e48d0154-bcf8-11d1-8702-00c04fb96050}
+                {26d97369-6070-11d1-a9c6-0000f80367c1}
+            {4c164200-20c0-11d0-a768-00aa006e0529}
+                {bf967a68-0de6-11d0-a285-00aa003049e2}
+        {bf967a86-0de6-11d0-a285-00aa003049e2}
+    </Data><Data Name='AdditionalInfo'>-</Data><Data Name='AdditionalInfo2'></Data></EventData></Event>
