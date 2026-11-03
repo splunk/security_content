@@ -13,7 +13,7 @@ description: |
     creates a TAP for a compromised account can sign in from any location without any additional factor.
     If confirmed malicious, this activity provides an attacker with an unchallenged authentication path into the affected account.
 data_source:
-    - Azure Active Directory Update user
+    - Azure Active Directory
 search: |-
     `azure_monitor_aad`
     category=AuditLogs

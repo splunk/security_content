@@ -8,7 +8,8 @@ status: production
 type: TTP
 description: |-
     The following analytic detects when an Azure AD guest user account has its UserType property changed from Guest to Member.
-    It leverages Azure Active Directory AuditLogs for the "Update user" operation and filters on the UserType modifiedProperty.
+    It leverages Azure Active Directory AuditLogs for the "Update user" operation and compares the UserType modifiedProperty old and new values.
+    A legacy account whose UserType was null is not a guest promotion and does not match.
     Guest accounts carry inherent restrictions on tenant resource access; elevating to Member removes those restrictions.
     If confirmed malicious, this activity indicates an attacker is expanding the capabilities of a compromised or attacker-controlled guest account to gain broader access to tenant resources.
 data_source:
@@ -18,6 +19,7 @@ search: |-
     category=AuditLogs
     operationName="Update user"
     properties.targetResources{}.modifiedProperties{}.displayName="UserType"
+    properties.targetResources{}.modifiedProperties{}.oldValue=*Guest*
     properties.targetResources{}.modifiedProperties{}.newValue=*Member*
 
     | rename properties.* as *
@@ -30,16 +32,17 @@ search: |-
     | rename userAgent as user_agent
 
     | eval index_number = mvfind('targetResources{}.modifiedProperties{}.displayName', "UserType")
+    | eval oldUserType = mvindex('targetResources{}.modifiedProperties{}.oldValue', index_number)
     | eval newUserType = mvindex('targetResources{}.modifiedProperties{}.newValue', index_number)
 
-    | search newUserType="*Member*"
+    | search oldUserType="*Guest*" newUserType="*Member*"
 
     | fillnull
 
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
       BY dest src vendor_account vendor_product user_agent
-         actor targetUser newUserType signature
+         actor targetUser oldUserType newUserType signature
 
     | rename actor as user
 
