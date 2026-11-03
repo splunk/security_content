@@ -1,8 +1,8 @@
 name: Detect Use of cmd exe to Launch Script Interpreters
 id: b89919ed-fe5f-492c-b139-95dbb162039e
-version: 16
+version: 17
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-11-03'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
