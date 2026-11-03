@@ -61,16 +61,17 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    - title: Guest account [$targetUser$] was promoted to Member by [$user$]
-      entity:
+    title: Guest account [$targetUser$] was promoted to Member by [$user$]
+    entity:
         field: user
         type: user
         score: 50
-    - title: Guest account [$targetUser$] was promoted to Member by [$user$]
-      entity:
-        field: targetUser
-        type: user
-        score: 50
+intermediate_findings:
+    entities:
+        - field: targetUser
+          type: user
+          score: 50
+          message: Guest account [$targetUser$] was promoted to Member by [$user$]
 analytic_story:
     - Azure Active Directory Persistence
     - Azure Active Directory Privilege Escalation
