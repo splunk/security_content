@@ -1,8 +1,8 @@
 name: AWS CloudTrail DeleteRuleGroup
 id: 21c9b538-fa11-4bdf-9138-0dfe06b4d730
-version: 2
+version: 3
 creation_date: '2025-02-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Splunk
 description: Data source object for AWS CloudTrail DeleteRuleGroup
 source: aws_cloudtrail
@@ -14,4 +14,92 @@ supported_TA:
       version: 8.2.2
 fields:
     - _time
-example_log: ''
+    - apiVersion
+    - app
+    - aws_account_id
+    - awsRegion
+    - change_type
+    - command
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc
+    - errorCode
+    - errorMessage
+    - eventCategory
+    - eventID
+    - eventName
+    - eventSource
+    - eventTime
+    - eventType
+    - eventtype
+    - eventVersion
+    - host
+    - index
+    - linecount
+    - managementEvent
+    - msg
+    - object_category
+    - product
+    - punct
+    - readOnly
+    - reason
+    - recipientAccountId
+    - region
+    - requestID
+    - requestParameters.changeToken
+    - requestParameters.detectorId
+    - requestParameters.ipSetId
+    - requestParameters.logGroupName
+    - requestParameters.logStreamName
+    - requestParameters.ruleId
+    - requestParameters.webACLId
+    - responseElements
+    - responseElements.__type
+    - responseElements.changeToken
+    - responseElements.message
+    - result
+    - result_id
+    - signature
+    - source
+    - sourceIPAddress
+    - sourcetype
+    - splunk_server
+    - src
+    - src_ip
+    - src_user
+    - start_time
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - tlsDetails.cipherSuite
+    - tlsDetails.clientProvidedHostHeader
+    - tlsDetails.tlsVersion
+    - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
+    - userAgent
+    - userIdentity.accessKeyId
+    - userIdentity.accountId
+    - userIdentity.arn
+    - userIdentity.principalId
+    - userIdentity.type
+    - userIdentity.userName
+    - userName
+    - vendor
+    - vendor_account
+    - vendor_product
+    - vendor_region
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKQ3U2PDY", "userName": "bhavin_cli"}, "eventTime": "2022-07-26T23:14:57Z", "eventSource": "guardduty.amazonaws.com", "eventName": "DeleteIPSet", "awsRegion": "us-west-2", "sourceIPAddress": "142.254.89.27", "userAgent": "aws-cli/2.0.62 Python/3.9.2 Darwin/21.5.0 source/x86_64 command/guardduty.delete-ip-set", "errorCode": "BadRequestException", "requestParameters": {"detectorId": "11111", "ipSetId": "1111"}, "responseElements": {"message": "The request is rejected because the parameter detectorId has an invalid value.", "__type": "InvalidInputException"}, "requestID": "70d36916-4ce7-4b6e-9226-9da47d58d554", "eventID": "884dc529-d98f-4529-bfa1-8cdd6c06d02f", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management"}

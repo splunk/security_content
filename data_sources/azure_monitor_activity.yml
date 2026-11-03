@@ -1,8 +1,8 @@
 name: Azure Monitor Activity
 id: 1997a515-a61a-4f78-ada9-54af34c764f2
-version: 2
+version: 3
 creation_date: '2025-01-13'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Splunk
 description: Data source object for Azure Monitor Activity.  The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.  To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
 source: Azure AD
@@ -13,13 +13,11 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/3110
       version: 6.3.3
 fields:
-    - column
-    - action
+    - _time
     - category
     - change_type
     - command
     - correlationId
-    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -28,20 +26,11 @@ fields:
     - date_wday
     - date_year
     - date_zone
-    - dest
     - dvc
-    - eventtype
     - host
     - identity
-    - image_id
     - index
-    - instance_type
     - linecount
-    - object
-    - object_attrs
-    - object_category
-    - object_id
-    - object_path
     - operationName
     - properties.ActivityDate
     - properties.ActivityResultStatus
@@ -66,34 +55,21 @@ fields:
     - properties.Targets{}.ModifiedProperties{}.Old
     - properties.Targets{}.Name
     - punct
-    - resourceId
     - resource_provider
-    - response_body
     - result
+    - result_id
     - resultDescription
     - resultType
-    - result_id
     - source
     - sourcetype
     - splunk_server
-    - splunk_server_group
-    - src
     - status
-    - tag
-    - tag::action
-    - tag::eventtype
-    - tag::object_category
     - tenantId
     - time
     - timeendpos
     - timestartpos
-    - user
-    - user_name
     - user_type
     - vendor_account
-    - vendor_product
-    - vendor_region
-    - _time
 output_fields:
     - action
     - dest
@@ -101,4 +77,5 @@ output_fields:
     - src
     - vendor_account
     - vendor_product
-example_log: '{"time": "2024-04-29T13:30:28.8622000Z", "tenantId": "26db52ee-c1b5-4c96-a0d4-129e25dc0388", "category": "AuditLogs", "operationName": "createDeviceHealthScript DeviceHealthScript", "properties": {"ActivityDate": "4/29/2024 1:30:28 PM", "ActivityResultStatus": 1, "ActivityType": 0, "Actor": {"ActorType": 1, "Application": "5926fc8e-304e-4f59-8bed-58ca97cc39a4", "ApplicationName": "Microsoft Intune portal extension", "IsDelegatedAdmin": false, "Name": null, "ObjectId": "cf2ef473-7d3b-4f14-961c-2e470e9a70f2", "PartnerTenantId": "00000000-0000-0000-0000-000000000000", "UserPermissions": ["*"], "UPN": "brian.cove@frothlydev.onmicrosoft.com"}, "AdditionalDetails": "", "AuditEventId": "3e7e790e-f15a-4c2c-a91a-516483bb4e37", "Category": 3, "RelationId": null, "TargetDisplayNames": ["<null>"], "TargetObjectIds": ["b16fcad4-b9f5-46fe-9bf0-841cd9be7bc9"], "Targets": [{"ModifiedProperties": [{"Name": "DeviceManagementAPIVersion", "Old": null, "New": "5024-02-13"}], "Name": null}]}, "resultType": "Success", "resultDescription": "None", "correlationId": "949ac544-b4e5-4576-a117-915c47c0ee00", "identity": "brian.cove@frothlydev.onmicrosoft.com"}'
+example_log: |
+    {"time": "2026-03-29T00:17:39.9903000Z", "tenantId": "32c6bdec-b3a3-4cec-a0ca-1df92bb99b5b", "category": "AuditLogs", "operationName": "wipe ManagedDevice", "properties": {"ActivityDate": "3/29/2026 12:17:39 AM", "ActivityResultStatus": 1, "ActivityType": 3, "Actor": {"ActorType": 1, "Application": "5926fc8e-304e-4f59-8bed-58ca97cc39a4", "ApplicationName": "Microsoft Intune portal extension", "IsDelegatedAdmin": false, "Name": null, "ObjectId": "f575e540-cc95-4422-8b09-0b275d214c68", "PartnerTenantId": "00000000-0000-0000-0000-000000000000", "UserPermissions": ["*"], "UPN": "bob@contoso.com"}, "AdditionalDetails": "", "AuditEventId": "1f252c59-e344-4844-8a15-1feda5e87466", "Category": 4, "RelationId": null, "TargetDisplayNames": ["wipe"], "TargetObjectIds": ["7a2db475-9dfd-4c42-9b46-464f9f8f8025"], "Targets": [{"ModifiedProperties": [{"Name": "keepEnrollmentData", "Old": null, "New": "False"}, {"Name": "AzureADDeviceId", "Old": null, "New": "4b652e2d-8015-4e7c-8263-f6ae89eda0d2"}, {"Name": "DeviceManagementAPIVersion", "Old": null, "New": "5025-10-23"}], "Name": "wipe"}]}, "resultType": "Success", "resultDescription": "None", "correlationId": "5b275c2d-4de1-447e-83eb-f132acf027f8", "identity": "bob@contoso.com"}

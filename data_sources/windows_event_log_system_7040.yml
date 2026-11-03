@@ -1,8 +1,8 @@
 name: Windows Event Log System 7040
 id: 91738e9e-d112-41c9-b91b-e5868d8993d9
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs changes to the start type of a Windows service, including details about the service name, old start type, and new start type.
 mitre_components:
@@ -22,63 +22,58 @@ fields:
     - _time
     - Channel
     - Computer
+    - dest
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
     - EventCode
     - EventData_Xml
     - EventRecordID
     - EventSourceName
-    - Guid
-    - Keywords
-    - Level
-    - Name
-    - Opcode
-    - ProcessID
-    - Qualifiers
-    - RecordNumber
-    - ServiceName
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - UserID
-    - Version
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
     - eventtype
+    - Guid
     - host
     - id
     - index
+    - Keywords
+    - Level
     - linecount
+    - Name
+    - Opcode
     - param1
     - param2
     - param3
     - param4
+    - ProcessID
     - product
     - punct
+    - Qualifiers
+    - RecordNumber
     - service
     - service_name
+    - ServiceName
+    - severity
+    - severity_id
     - signature_id
     - source
     - sourcetype
     - splunk_server
     - start_mode
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - user_id
+    - UserID
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service Control Manager'/><EventID Qualifiers='16384'>7040</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated SystemTime='2024-03-05T08:53:41.173068700Z'/><EventRecordID>168231</EventRecordID><Correlation/><Execution ProcessID='592' ThreadID='3404'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security UserID='S-1-5-21-3344543075-1022232225-2459664213-500'/></System><EventData><Data Name='param1'>Print Spooler</Data><Data Name='param2'>demand start</Data><Data Name='param3'>disabled</Data><Data Name='param4'>Spooler</Data></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service Control Manager'/><EventID Qualifiers='16384'>7040</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated SystemTime='2023-04-21T12:24:45.482428400Z'/><EventRecordID>147896</EventRecordID><Correlation/><Execution ProcessID='628' ThreadID='6516'/><Channel>System</Channel><Computer>win-host-ctus-attack-range-328</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='param1'>Update Orchestrator Service for Windows Update</Data><Data Name='param2'>demand start</Data><Data Name='param3'>disabled</Data><Data Name='param4'>UsoSvc</Data></EventData></Event>
