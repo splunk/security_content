@@ -1,8 +1,8 @@
 name: AWS CloudTrail ReplaceNetworkAclEntry
 id: db0c240e-3754-40e4-86ef-cde018ee9f65
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a network ACL entry is replaced within the AWS CloudTrail.
 mitre_components:
@@ -20,18 +20,11 @@ fields:
     - _time
     - action
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - dest
     - direction
     - dvc
     - errorCode
@@ -41,14 +34,17 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
     - managementEvent
     - msg
+    - object
+    - object_attrs
     - object_category
+    - object_id
     - product
     - protocol
     - protocol_code
@@ -78,9 +74,13 @@ fields:
     - status
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
-    - user
+    - timestamp
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
@@ -95,13 +95,6 @@ fields:
     - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
@@ -114,4 +107,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAIJIESMXKGCJRCTPR6:pbareiss@splunk.local", "arn": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLF3F7BXZK", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAIJIESMXKGCJRCTPR6", "arn": "arn:aws:iam::111111111111:role/okta_adm_role", "accountId": "111111111111", "userName": "okta_adm_role"}, "webIdFederationData": {}, "attributes": {"mfaAuthenticated": "false", "creationDate": "2021-01-12T08:36:15Z"}}}, "eventTime": "2021-01-12T08:49:49Z", "eventSource": "ec2.amazonaws.com", "eventName": "ReplaceNetworkAclEntry", "awsRegion": "eu-central-1", "sourceIPAddress": "95.90.199.65", "userAgent": "console.ec2.amazonaws.com", "requestParameters": {"networkAclId": "acl-078ccebebcbabe175", "ruleNumber": 20, "egress": false, "ruleAction": "allow", "icmpTypeCode": {}, "portRange": {}, "aclProtocol": "-1", "cidrBlock": "0.0.0.0/0"}, "responseElements": {"requestId": "97b40da9-9291-4a92-8e9e-892b6887ffc9", "_return": true}, "requestID": "97b40da9-9291-4a92-8e9e-892b6887ffc9", "eventID": "46fe04b8-d007-4933-8bb8-c8b65c1121fa", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAIJIESMXKGCJRCTPR6:pbareiss@splunk.local", "arn": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLF3F7BXZK", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAIJIESMXKGCJRCTPR6", "arn": "arn:aws:iam::111111111111:role/okta_adm_role", "accountId": "111111111111", "userName": "okta_adm_role"}, "webIdFederationData": {}, "attributes": {"mfaAuthenticated": "false", "creationDate": "2021-01-12T08:36:15Z"}}}, "eventTime": "2021-01-12T08:49:49Z", "eventSource": "ec2.amazonaws.com", "eventName": "ReplaceNetworkAclEntry", "awsRegion": "eu-central-1", "sourceIPAddress": "95.90.199.65", "userAgent": "console.ec2.amazonaws.com", "requestParameters": {"networkAclId": "acl-078ccebebcbabe175", "ruleNumber": 20, "egress": false, "ruleAction": "allow", "icmpTypeCode": {}, "portRange": {}, "aclProtocol": "-1", "cidrBlock": "0.0.0.0/0"}, "responseElements": {"requestId": "97b40da9-9291-4a92-8e9e-892b6887ffc9", "_return": true}, "requestID": "97b40da9-9291-4a92-8e9e-892b6887ffc9", "eventID": "46fe04b8-d007-4933-8bb8-c8b65c1121fa", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}
