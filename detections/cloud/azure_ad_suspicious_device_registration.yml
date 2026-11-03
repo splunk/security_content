@@ -6,47 +6,50 @@ modification_date: '2026-10-12'
 author: Jake Enea, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
-description: >-
-    The following analytic detects suspicious Azure Active Directory device registrations by monitoring
-    "Register device" audit events for device names matching specific DESKTOP patterns or the user agent
-    "Dsreg/10.0 (Windows 10.0.19041.928)". This user agent may indicate device registration activity through
-    ROADtools, an offensive security framework targeting EntraID deployments. Device registration can support
-    persistence or provide a device identity that can be used to access internal resources. If confirmed
-    malicious, an attacker could use the registered device to maintain access or facilitate further compromise
-    of the environment.
+description: |-
+    The following analytic detects suspicious Azure Active Directory device registrations by monitoring "Register device" audit events for device names matching specific DESKTOP patterns or the user agent "Dsreg/10.0 (Windows 10.0.19041.928)".
+    This user agent may indicate device registration activity through ROADtools, an offensive security framework targeting EntraID deployments.
+    Device registration can support persistence or provide a device identity that can be used to access internal resources.
+    If confirmed malicious, an attacker could use the registered device to maintain access or facilitate further compromise of the environment.
 data_source:
     - Azure Active Directory
 search: >-
     `azure_monitor_aad`
     operationName="Register device"
     (
-      properties.targetResources{}.displayName IN (
-        "DESKTOP-*",
-        "LAPTOP-*",
-        "WIN-*",
-        "*-PC",
-        "EC2AMAZ-*",
-        "MININT-*",
-        "MSEDGEWIN10"
-      )
-      OR properties.userAgent="Dsreg/*"
+        properties.targetResources{}.displayName IN (
+            "*-PC",
+            "DESKTOP-*",
+            "EC2AMAZ-*",
+            "LAPTOP-*",
+            "MININT-*",
+            "MSEDGEWIN10",
+            "WIN-*"
+        )
+        OR
+        properties.userAgent="Dsreg/*"
     )
 
     | rename properties.targetResources{}.displayName as dvc, properties.userAgent as user_agent
+
     | fillnull
-    | stats count min(_time) as firstTime max(_time) as lastTime
-        values(result) as result
-        by tenantId user src dvc signature vendor_account vendor_product
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(result) as result
+
+      by tenantId user src dvc signature vendor_account vendor_product
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `azure_ad_suspicious_device_registration_filter`
-how_to_implement: |
+how_to_implement: |-
     You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase
     (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory
     events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad
     sourcetype leveraging the AuditLog log category.
-known_false_positives: Users may register devices with names that match the suspicious patterns. Filter as needed.
+known_false_positives: |-
+    Users may register devices with names that match the suspicious patterns. Filter as needed.
 references:
     - https://www.wiz.io/blog/detecting-entra-device-registration-abuse
     - https://github.com/dirkjanm/ROADtools
