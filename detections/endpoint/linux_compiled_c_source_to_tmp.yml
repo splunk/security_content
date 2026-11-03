@@ -14,27 +14,35 @@ description: |-
 data_source:
     - Sysmon for Linux EventID 1
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-        FROM datamodel=Endpoint.Processes
-        WHERE (
-            Processes.process_name=*gcc* OR
-            Processes.process_name=*clang* OR
-            Processes.process_name=cc OR
-            Processes.process_name=cc1 OR
-            Processes.process_name=cc1plus OR
-            Processes.process_name=*g++* OR
-            Processes.process_name=tcc
-            )
-        Processes.process IN ("*.c *","*.c","*.cpp*","*.cxx*","*.cc*","*.c++")
-        Processes.process=*/tmp/*
-        Processes.user!=root
-        BY Processes.process_name Processes.process Processes.user Processes.dest
-    | `drop_dm_object_name(Processes)`
+    `sysmon`
+    EventID=1
+    (
+        process_name=*gcc* OR
+        process_name=*clang* OR
+        process_name=cc OR
+        process_name=cc1 OR
+        process_name=cc1plus OR
+        process_name=*g++* OR
+        process_name=tcc
+    )
+    process IN ("*.c *","*.c","*.cpp*","*.cxx*","*.cc*","*.c++")
+    process=*/tmp/*
+    User!=root
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      BY process_name process User dest
+    | rename User as user
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_compiled_c_source_to_tmp_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
-known_false_positives: Developers compiling C code that outputs to /tmp. Filter by user to exclude known developer accounts. CTF or security research environments may produce this pattern legitimately.
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting Sysmon for Linux EventID 1
+    (process creation) logs with the process name, command line, user, and host fields extracted.
+    You can use the Add-on for Linux Sysmon from Splunkbase. The search relies on the `sysmon`
+    macro, which must match your Sysmon for Linux data.
+known_false_positives: |-
+    Developers compiling C code that outputs to /tmp. Filter by user to exclude known developer
+    accounts. CTF or security research environments may produce this pattern legitimately.
 references:
     - https://www.cve.org/CVERecord?id=CVE-2026-74580
     - https://attack.mitre.org/techniques/T1068/
