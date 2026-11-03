@@ -1,0 +1,63 @@
+name: Linux Auditd Audit Rules Removed
+id: a4d7f6b1-2c93-4e85-bf10-6a2d9c3e7f84
+version: 1
+creation_date: '2026-11-02'
+modification_date: '2026-11-02'
+author: vahid malekmohammadi
+status: production
+type: Anomaly
+description: The following analytic detects a burst of Linux audit (auditd) rules being removed at runtime without being re-added in the same window, using the native CONFIG_CHANGE op=remove_rule events. Adversaries flush the audit ruleset - for example with "auditctl -D" or the AUDIT_DEL netlink operation - to blind the audit subsystem while the auditd daemon keeps running, so no DAEMON_END event is raised and standard service-stop detections stay silent. The kernel emits a CONFIG_CHANGE record for every rule removed; legitimate reloads (augenrules --load, auditctl -R, auditd service restart, boot) remove the old rules and immediately re-add them in the same window, so this analytic fires only when rules are removed with no corresponding add_rule activity, which indicates a flush rather than a reload. If confirmed, this is a high-severity defense-evasion / anti-forensics action that undermines the integrity of all host auditing.
+data_source:
+    - Linux Auditd Config Change
+search: |-
+    `linux_auditd` type=CONFIG_CHANGE op IN ("remove_rule", "add_rule")
+    | bin _time span=1m
+    | stats count(eval(op=="remove_rule")) as rules_removed count(eval(op=="add_rule")) as rules_added values(key) as removed_keys min(_time) as firstTime max(_time) as lastTime BY _time host auid ses subj
+    | where rules_removed>=5 AND rules_added=0
+    | rename host as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table firstTime lastTime dest auid ses subj rules_removed rules_added removed_keys
+    | `linux_auditd_audit_rules_removed_filter`
+how_to_implement: To implement this detection, ingest auditd data using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833) and normalize the field names to the Splunk Common Information Model (CIM). No custom audit rule is required - the kernel audit subsystem emits a CONFIG_CHANGE record for every rule add or removal on its own. Confirm field names against a real event, as auditd extraction can vary by deployment - the operation is in the "op" field (remove_rule / add_rule) and the removed rule key is in the "key" field. The rules_removed threshold (default 5) separates a full/partial flush from an administrator removing a single rule during tuning; adjust it to your environment, and keep the rules_added=0 condition which is what distinguishes a malicious flush from a legitimate reload that re-adds the rules.
+known_false_positives: Legitimate rule reloads - augenrules --load, auditctl -R, an auditd service restart, or system boot - remove the existing rules and re-add them in the same window; these are excluded by the rules_added=0 condition. System shutdown may flush rules in system context (auid set to the unset/-1 value); update the filter macro to exclude that context. An administrator manually removing several rules during tuning can also trigger this; allowlist their account or session in the filter macro if needed.
+references:
+    - https://attack.mitre.org/techniques/T1562/001/
+    - https://attack.mitre.org/techniques/T1070/
+    - https://man7.org/linux/man-pages/man8/auditctl.8.html
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 72
+          message: $rules_removed$ audit rules were removed at runtime with no reload by auid [$auid$] on host - [$dest$], a possible attempt to disable auditing.
+analytic_story:
+    - Compromised Linux Host
+    - Linux Living Off The Land
+asset_type: Endpoint
+mitre_attack_id:
+    - T1562.001
+    - T1070
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/linux_auditd_rules_removed/linux_auditd_rules_removed.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
