@@ -1,8 +1,8 @@
 name: O365 ModifyFolderPermissions
 id: 0a8c1080-68c2-46d7-8324-2e7d97bb6e2f
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs modifications to folder permissions in Microsoft 365, including updates to access levels, user assignments, and sharing settings.
 mitre_components:
@@ -20,44 +20,20 @@ supported_TA:
       version: 6.1.1
 fields:
     - _time
-    - AppId
-    - ClientIP
-    - ClientIPAddress
-    - ClientInfoString
-    - CreationTime
-    - ExternalAccess
-    - Id
-    - InternalLogonType
-    - Item.Id
-    - Item.ParentFolder.Id
-    - Item.ParentFolder.MemberRights
-    - Item.ParentFolder.MemberSid
-    - Item.ParentFolder.MemberUpn
-    - Item.ParentFolder.Name
-    - Item.ParentFolder.Path
-    - LogonType
-    - LogonUserSid
-    - MailboxGuid
-    - MailboxOwnerSid
-    - MailboxOwnerUPN
-    - Operation
-    - OrganizationId
-    - OrganizationName
-    - OriginatingServer
-    - RecordType
-    - ResultStatus
-    - SessionId
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
     - action
     - app
+    - AppId
     - authentication_service
     - change_type
     - client_info_str
+    - ClientInfoString
+    - ClientIP
+    - ClientIPAddress
+    - ClientProcessName
+    - ClientRequestId
+    - ClientVersion
     - command
+    - CreationTime
     - dataset_name
     - date_hour
     - date_mday
@@ -71,16 +47,38 @@ fields:
     - dest_name
     - dvc
     - eventtype
+    - ExternalAccess
     - host
+    - Id
     - index
+    - InternalLogonType
+    - Item.Id
+    - Item.ParentFolder.Id
+    - Item.ParentFolder.MemberRights
+    - Item.ParentFolder.MemberSid
+    - Item.ParentFolder.MemberUpn
+    - Item.ParentFolder.Name
+    - Item.ParentFolder.Path
     - linecount
+    - LogonType
+    - LogonUserSid
+    - MailboxGuid
+    - MailboxOwnerSid
+    - MailboxOwnerUPN
     - object
     - object_attrs
     - object_category
     - object_id
+    - Operation
+    - OrganizationId
+    - OrganizationName
+    - OriginatingServer
     - punct
     - record_type
+    - RecordType
     - result
+    - ResultStatus
+    - SessionId
     - signature
     - source
     - sourcetype
@@ -97,12 +95,18 @@ fields:
     - user_agent
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"CreationTime": "2023-09-07T18:19:07", "Id": "ff065c17-e638-4013-20ab-08dbafceeca1", "Operation": "ModifyFolderPermissions", "OrganizationId": "e17879dd-24ec-44a6-be92-9dcbf6969220", "RecordType": 2, "ResultStatus": "Succeeded", "UserKey": "10032002CC029AE9", "UserType": 0, "Version": 1, "Workload": "Exchange", "ClientIP": "22.23.21.25", "UserId": "user1@contoso.onmicrosoft.com", "AppId": "00000002-0000-0ff1-ce00-000000000000", "ClientIPAddress": "22.23.21.25", "ClientInfoString": "Client=OWA;Action=ViaProxy", "ExternalAccess": false, "InternalLogonType": 0, "LogonType": 0, "LogonUserSid": "S-1-5-21-1148582062-3132321681-773847816-45339891", "MailboxGuid": "8e942cc1-73d8-4483-9def-7d9579d615a7", "MailboxOwnerSid": "S-1-5-21-1148582062-3132321681-773847816-45339891", "MailboxOwnerUPN": "user1@contoso.onmicrosoft.com", "OrganizationName": "contoso.onmicrosoft.com", "OriginatingServer": "BYAPR18MB2728 (15.20.4200.000)\r\n", "SessionId": "d2a5a3ba-992b-431a-9b52-8c76210d17d9", "Item": {"Id": "LgAAAABKe+NY5HVjRYWDqaJ5IKKFAQBQ11dzmT6LS6bQbkNDtISsAAAAAAEMAAAB", "ParentFolder": {"Id": "LgAAAABKe+NY5HVjRYWDqaJ5IKKFAQBQ11dzmT6LS6bQbkNDtISsAAAAAAEMAAAB", "MemberRights": "FreeBusySimple", "MemberSid": "S-1-1-0", "MemberUpn": "Everyone", "Name": "Inbox", "Path": "\\Inbox"}}}'
+example_log: |
+    {"CreationTime": "2024-03-29T17:57:58", "Id": "ddf699c8-3af5-40b6-ec3c-08dc5019c477", "Operation": "ModifyFolderPermissions", "OrganizationId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "RecordType": 2, "ResultStatus": "Succeeded", "UserKey": "100320030DF47B14", "UserType": 0, "Version": 1, "Workload": "Exchange", "ClientIP": "120.1.121.43", "UserId": "user15@splunkresearch.com", "AppId": "00b41c95-dab0-4487-9791-b9d2c32c80f2", "ClientIPAddress": "120.1.121.43", "ClientInfoString": "Client=WebServices;python-requests/2.25.1;", "ExternalAccess": false, "InternalLogonType": 0, "LogonType": 0, "LogonUserSid": "S-1-5-21-1148582062-3132321681-773847816-49307764", "MailboxGuid": "7cfcc8fc-0d4a-4e1c-9592-dbb3de1e3859", "MailboxOwnerSid": "S-1-5-21-1148582062-3132321681-773847816-49307764", "MailboxOwnerUPN": "user15@splunkresearch.com", "OrganizationName": "splunkresearch.com", "OriginatingServer": "MN2PR18MB3053 (15.20.4200.000)\r\n", "SessionId": "8cdbf96a-3133-4d0d-a68e-7d7a883b8f8f", "Item": {"Id": "LgAAAAC0AxwgOj/BRq9Bs1bhMPw/AQDh+UNSDzeHSLWfq+fr83BDAAAAAAEMAAAB", "ParentFolder": {"Id": "LgAAAAC0AxwgOj/BRq9Bs1bhMPw/AQDh+UNSDzeHSLWfq+fr83BDAAAAAAEMAAAB", "MemberRights": "FreeBusySimple", "MemberSid": "S-1-1-0", "MemberUpn": "Everyone", "Name": "Inbox", "Path": "\\Inbox"}}}

@@ -1,8 +1,8 @@
 name: Sysmon EventID 26
 id: 77f946e0-4afb-4789-8d9e-c29c1658f501
-version: 3
+version: 4
 creation_date: '2025-02-21'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Bhavin Patel, Splunk
 description: Data source object for Sysmon EventID 26
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
@@ -15,6 +15,87 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
+    - Archived
+    - Channel
+    - Computer
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dest
+    - dvc
+    - dvc_nt_host
+    - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
+    - eventtype
+    - file_hash
+    - file_modify_time
+    - file_name
+    - file_path
+    - Guid
+    - Hashes
+    - host
+    - id
+    - Image
+    - IMPHASH
+    - index
+    - IsExecutable
+    - Keywords
+    - Level
+    - linecount
+    - MD5
+    - Name
+    - object_category
+    - Opcode
+    - process_exec
+    - process_guid
+    - process_id
+    - process_name
+    - process_path
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
+    - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
+    - severity
+    - severity_id
+    - SHA256
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - System_Props_Xml
+    - SystemTime
+    - tag
+    - tag::eventtype
+    - tag::object_category
+    - TargetFilename
+    - Task
+    - ThreadID
+    - TimeCreated
+    - timeendpos
+    - timestartpos
+    - User
+    - user
+    - user_id
+    - UserID
+    - UtcTime
+    - vendor_product
+    - Version
 output_fields:
     - action
     - dest
@@ -33,4 +114,5 @@ output_fields:
     - user
     - user_id
     - vendor_product
-example_log: ''
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>26</EventID><Version>5</Version><Level>4</Level><Task>26</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2024-03-04T21:03:20.661608800Z'/><EventRecordID>588783</EventRecordID><Correlation/><Execution ProcessID='2508' ThreadID='4412'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>AttackBox-Win10</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2024-03-04 21:03:20.655</Data><Data Name='ProcessGuid'>{51A89197-370C-65E6-0406-000000001D00}</Data><Data Name='ProcessId'>3060</Data><Data Name='User'>NT AUTHORITY\SYSTEM</Data><Data Name='Image'>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Data><Data Name='TargetFilename'>C:\ProgramData\Microsoft\Windows Defender\Scans\mpcache-9FF3EC34E84FD35BDE98CACAA518B4B841899F76.bin</Data><Data Name='Hashes'>SHA1=F380C5BD99DC001980E90532BB0D80F9E220F4F7,MD5=72C05088B7BA2B90C58F5C556AF8BB98,SHA256=4FD3AAAD9E295024245162BDB89211A1AC8C5BD3C8F70938295CE3118DAF7A9B,IMPHASH=00000000000000000000000000000000</Data><Data Name='IsExecutable'>false</Data></EventData></Event>

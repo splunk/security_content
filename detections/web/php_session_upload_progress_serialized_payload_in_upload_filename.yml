@@ -1,0 +1,88 @@
+name: PHP Session Upload Progress Serialized Payload in Upload Filename
+id: 47b3ff26-c4cc-4413-9bf3-f44dbac36785
+version: 1
+creation_date: '2026-10-22'
+modification_date: '2026-10-28'
+author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects multipart POST requests containing the "PHP_SESSION_UPLOAD_PROGRESS" form field and a serialized PHP structure in an uploaded filename.
+    This combination may indicate an attempt to exploit PHP session upload-progress handling and can be associated with PHP2Shell activity.
+data_source:
+    - Zeek HTTP
+search: |-
+    `zeek_http`
+    method="POST"
+    request_headers="*"
+
+    | eval src=coalesce(src, src_ip, 'id.orig_h'),
+           dest=coalesce(dest, dest_ip, 'id.resp_h'),
+           dest_port=coalesce(dest_port, 'id.resp_p')
+
+    | eval has_upload_progress_field=if(match(request_headers, "(?im)\s*form-data;\\s*name=\\\"PHP_SESSION_UPLOAD_PROGRESS\\\""), 1, 0)
+
+    | rex max_match=0 field=request_headers "(?im)\s*form-data;(?<part_disposition>[^\\r\\n]*)"
+
+    | eval serialized_filename_headers=mvfilter(match(part_disposition, "(?i)\\bfilename\\s*=.*(?:\\|?O:\\d+:|C:\\d+:|a:\\d+:\\{|s:\\d+:|E:\\d+:|R:\\d+;|i:-?\\d+;|d:(?:[-+]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][-+]?\\d+)?|INF|NAN);|b:[01];|N;)"))
+
+    | where has_upload_progress_field=1 AND mvcount(serialized_filename_headers)>0
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(method) as method
+                  values(status_code) as status_code
+                  values(user_agent) as user_agent
+                  values(serialized_filename_headers) as serialized_filename_headers
+
+      by src dest dest_port uri
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `php_session_upload_progress_serialized_payload_in_upload_filename_filter`
+how_to_implement: |-
+    Ingest Zeek `http.log` with the TA for Zeek (https://splunkbase.splunk.com/app/5466), then set the
+    `zeek_http` macro to select that data (the search expects sourcetype `zeek:http` by default). Standard
+    Zeek HTTP logs do not include full multipart request headers. Enable a Zeek HTTP header logging script or
+    package that captures client header names and values, and map them into `request_headers`. Each POST
+    record must include the `Content-Disposition` lines so the search can see
+    `name="PHP_SESSION_UPLOAD_PROGRESS"` and an upload `filename` containing a serialized PHP token.
+known_false_positives: |-
+    Applications may upload files with names containing serialized-looking text as part of testing or unusual workflows. Review the complete request headers, source, destination, and application context before determining intent.
+references:
+    - https://www.php2shell.com/
+    - https://github.com/php/php-src/commit/3584a98bda0f2c0d367255b046798b0d3a221a19
+    - https://docs.zeek.org/en/master/logs/http.html
+    - https://docs.zeek.org/en/master/scripts/policy/protocols/http/header-names.zeek.html
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 40
+          message: A multipart POST request from [$src$] to [$dest$] included PHP_SESSION_UPLOAD_PROGRESS and a serialized PHP structure in an upload filename.
+threat_objects:
+    - field: src
+      type: ip_address
+    - field: serialized_filename_headers
+      type: file_name
+analytic_story:
+    - PHP2Shell
+asset_type: Web Application
+cve:
+    - CVE-2026-109618
+    - CVE-2026-109619
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/php_upload_progress.log
+          source: http.log
+          sourcetype: zeek:http
+      test_type: unit
