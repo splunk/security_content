@@ -37,6 +37,7 @@ search: >-
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
                   values(result) as result
+                  values(user_agent) as user_agent
 
       by tenantId user src dvc signature vendor_account vendor_product
 

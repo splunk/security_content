@@ -37,7 +37,7 @@ search: |-
 
     | search oldUserType="*Guest*" newUserType="*Member*"
 
-    | fillnull
+    | fillnull value="unknown" dest src vendor_account vendor_product user_agent actor targetUser oldUserType newUserType signature
 
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
