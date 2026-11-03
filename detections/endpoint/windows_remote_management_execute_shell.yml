@@ -1,35 +1,82 @@
 name: Windows Remote Management Execute Shell
 id: 28b80028-851d-4b8d-88a5-375ba115418a
-version: 8
+version: 9
 creation_date: '2023-04-12'
-modification_date: '2026-05-13'
-author: Teoderick Contreras, Splunk
+modification_date: '2026-10-29'
+author: Drew Church, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the execution of winrshost.exe initiating CMD or PowerShell processes as part of a potential payload execution. winrshost.exe is associated with Windows Remote Management (WinRM) and is typically used for remote execution. By monitoring for this behavior, the detection identifies instances where winrshost.exe is leveraged to run potentially malicious commands or payloads via CMD or PowerShell. This behavior may indicate exploitation of remote management tools for unauthorized access or lateral movement within a compromised environment, signaling a potential security incident.
+description: |-
+    This analytic detects selected processes spawned directly by Windows Remote Management Host processes winrshost.exe and wsmprovhost.exe.
+    The selected children include shells, scripting hosts, and administrative, discovery, and file-transfer utilities. This target-side process relationship can indicate remote execution, but it can also result from authorized WinRM administration.
+    Investigate the account, target host, available command line, and surrounding remote-logon activity to determine context.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
 search: |-
-    | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.parent_process_name="winrshost.exe"
-        AND
-        Processes.process_name IN ("cmd.exe","*powershell*", "pwsh.exe")
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.parent_process_name IN (
+        "winrshost.exe",
+        "wsmprovhost.exe"
+    )
+    `windows_shells`
+    NOT (
+            Processes.process_name="powershell.exe"
+            Processes.process="*-Version 5.1 -s -NoLogo -NoProfile"
+        )
+    NOT (
+            Processes.process_name="cmd.exe"
+            (
+                (
+                    Processes.process="*powershell -NoLogo -NonInteractive -NoProfile*"
+                    Processes.process IN (
+                        "*Get-CimInstance MSFT_NetAdapter -Namespace *",
+                        "*Get-Command exsetup *",
+                        "*Get-Disk | ForEach-Object*",
+                        "*HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall*",
+                        "*HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Class\\*",
+                        "*HKLM:\\SYSTEM\\CurrentControlSet\\Services\\*",
+                        "*New-Object Management.Automation.Host.Size*"
+                    )
+                )
+                OR
+                Processes.process="* /c net start Veeam*"
+            )
+        )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_remote_management_execute_shell_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: administrator or power user can execute command shell or script remotely using WINRM.
+how_to_implement: |
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents
+    are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement
+    this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally,
+    you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk
+    Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node
+    of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and
+    speed up the data modeling process.
+known_false_positives: |-
+    Authorized administrators and management software may launch these processes through WinRM. Shell and discovery activity may be routine; evaluate expected accounts, hosts, and workflows before tuning.
 references:
     - https://strontic.github.io/xcyclopedia/library/winrshost.exe-6790044CEB4BA5BE6AA8161460D990FD.html
+    - https://strontic.github.io/xcyclopedia/library/wsmprovhost.exe-620CBF4C26A1E8871F1767C5F00F96E1.html
+    - https://github.com/SigmaHQ/sigma/blob/9b7fb0c0f3af2e53ed483e29e0d0f88ccf1c08ca/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml
+    - https://www.zerodayinitiative.com/blog/2021/5/17/cve-2021-31166-a-wormable-code-execution-bug-in-httpsys
+    - https://github.com/0vercl0k/CVE-2021-31166/blob/main/cve-2021-31166.py
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -44,12 +91,25 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: a winrm remote proces [$parent_process_name$] execute [$process_name$] shell on [$dest$].
+          message: Windows Remote Management process [$parent_process_name$] spawned [$process_name$] with CommandLine [$process$] on [$dest$].
+threat_objects:
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process
 analytic_story:
+    - CISA AA23-347A
     - Crypto Stealer
+    - Living Off The Land
+    - Microsoft WSUS CVE-2025-59287
+    - Rhysida Ransomware
+    - Unusual Processes
 asset_type: Endpoint
+cve:
+    - CVE-2021-31166
 mitre_attack_id:
     - T1021.006
+    - T1059
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
@@ -60,6 +120,18 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/wirm_execute_shell/winrshost_pwh.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: WinRM Spawned Process Security 4688 Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/winrm_spawned_processes/winrm_spawned_processes_security.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: WinRM Spawned Process Sysmon Event ID 1 Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/winrm_spawned_processes/winrm_spawned_processes_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
