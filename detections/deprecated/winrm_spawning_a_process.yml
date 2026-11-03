@@ -60,7 +60,7 @@ product:
 category: endpoint
 security_domain: endpoint
 deprecation_info:
-    reason: Detection deprecated because its parent and child process selection is covered by the expanded Windows Remote Management Execute Shell detection.
+    reason: Detection deprecated because its parent and child process selection is covered by the expanded Windows Remote Management Execute Shell detection. The non shell processes were not transferred to the new detection due to scope considerations, and the fact that this detection was experimental, so any claims made by it were not validated via testing.
     removed_in_version: 6.12.0
     replacement_content:
         - Windows Remote Management Execute Shell
