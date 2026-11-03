@@ -6,29 +6,46 @@ modification_date: '2026-10-29'
 author: Drew Church, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: >-
-    This analytic detects selected processes spawned directly by Windows Remote
-    Management Host processes winrshost.exe and wsmprovhost.exe. The selected
-    children include shells, scripting hosts, and administrative, discovery,
-    and file-transfer utilities. This target-side process relationship can
-    indicate remote execution, but it can also result from authorized WinRM
-    administration. Investigate the account, target host, available command
-    line, and surrounding remote-logon activity to determine context.
+description: |-
+    This analytic detects selected processes spawned directly by Windows Remote Management Host processes winrshost.exe and wsmprovhost.exe.
+    The selected children include shells, scripting hosts, and administrative, discovery, and file-transfer utilities. This target-side process relationship can indicate remote execution, but it can also result from authorized WinRM administration.
+    Investigate the account, target host, available command line, and surrounding remote-logon activity to determine context.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
 search: |-
-    | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.parent_process_name IN ("winrshost.exe","wsmprovhost.exe")
-        AND
-        `windows_shells`
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.parent_process_name IN (
+        "winrshost.exe",
+        "wsmprovhost.exe"
+    )
+    `windows_shells`
+    NOT (
+            Processes.process_name="powershell.exe"
+            Processes.process="*-Version 5.1 -s -NoLogo -NoProfile"
+        )
+    NOT (
+            Processes.process_name="cmd.exe"
+            Processes.process="*powershell -NoLogo -NonInteractive -NoProfile*"
+            Processes.process IN (
+                "*New-Object Management.Automation.Host.Size*",
+                "*HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Class\\*"
+            )
+        )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -41,13 +58,14 @@ how_to_implement: |
     Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node
     of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and
     speed up the data modeling process.
-known_false_positives: >-
-    Authorized administrators and management software may launch these
-    processes through WinRM. Shell and discovery activity may be routine;
-    evaluate expected accounts, hosts, and workflows before tuning.
+known_false_positives: |-
+    Authorized administrators and management software may launch these processes through WinRM. Shell and discovery activity may be routine; evaluate expected accounts, hosts, and workflows before tuning.
 references:
     - https://strontic.github.io/xcyclopedia/library/winrshost.exe-6790044CEB4BA5BE6AA8161460D990FD.html
     - https://strontic.github.io/xcyclopedia/library/wsmprovhost.exe-620CBF4C26A1E8871F1767C5F00F96E1.html
+    - https://github.com/SigmaHQ/sigma/blob/9b7fb0c0f3af2e53ed483e29e0d0f88ccf1c08ca/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml
+    - https://www.zerodayinitiative.com/blog/2021/5/17/cve-2021-31166-a-wormable-code-execution-bug-in-httpsys
+    - https://github.com/0vercl0k/CVE-2021-31166/blob/main/cve-2021-31166.py
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -62,11 +80,22 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: Windows Remote Management process [$parent_process_name$] spawned [$process_name$] on [$dest$].
+          message: Windows Remote Management process [$parent_process_name$] spawned [$process_name$] with CommandLine [$process$] on [$dest$].
+threat_objects:
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process
 analytic_story:
+    - CISA AA23-347A
     - Crypto Stealer
     - Living Off The Land
+    - Microsoft WSUS CVE-2025-59287
+    - Rhysida Ransomware
+    - Unusual Processes
 asset_type: Endpoint
+cve:
+    - CVE-2021-31166
 mitre_attack_id:
     - T1021.006
     - T1059
