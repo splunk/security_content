@@ -130,6 +130,7 @@ analytic_story:
     - Living Off The Land
     - Suspicious Rundll32 Activity
     - Gh0st RAT
+    - Browser Cache Smuggling
 asset_type: Endpoint
 mitre_attack_id:
     - T1218.011

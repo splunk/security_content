@@ -43,6 +43,7 @@ threat_objects:
 analytic_story:
     - Lumma Stealer
     - Fake CAPTCHA Campaigns
+    - Browser Cache Smuggling
 asset_type: Endpoint
 atomic_guid:
     - de323a93-2f18-4bd5-ba60-d6fca6aeff76

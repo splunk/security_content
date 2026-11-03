@@ -74,6 +74,7 @@ threat_objects:
 analytic_story:
     - Scattered Lapsus$ Hunters
     - Fake CAPTCHA Campaigns
+    - Browser Cache Smuggling
     - Cisco Network Visibility Module Analytics
     - Interlock Ransomware
     - NetSupport RMM Tool Abuse

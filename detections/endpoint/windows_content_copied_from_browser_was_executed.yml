@@ -77,6 +77,7 @@ threat_objects:
       type: process_hash
 analytic_story:
     - Fake CAPTCHA Campaigns
+    - Browser Cache Smuggling
 asset_type: Endpoint
 mitre_attack_id:
     - T1202

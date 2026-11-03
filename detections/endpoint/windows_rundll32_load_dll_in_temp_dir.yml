@@ -34,6 +34,7 @@ threat_objects:
       type: parent_process_name
 analytic_story:
     - Interlock Rat
+    - Browser Cache Smuggling
 asset_type: Endpoint
 mitre_attack_id:
     - T1218.011

@@ -30,6 +30,7 @@ intermediate_findings:
           message: a non chrome browser process $ProcessName$ accessing $ObjectName$
 analytic_story:
     - StealC Stealer
+    - Browser Cache Smuggling
     - CISA AA23-347A
     - Phemedrone Stealer
     - DarkGate Malware

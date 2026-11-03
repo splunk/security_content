@@ -1,8 +1,8 @@
 name: Vbscript Execution Using Wscript App
 id: 35159940-228f-11ec-8a49-acde48001122
-version: 14
+version: 15
 creation_date: '2021-09-14'
-modification_date: '2026-10-09'
+modification_date: '2026-11-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -17,6 +17,7 @@ search: |-
             Processes.parent_process = "*//e:vbscript*"
         )
         OR (Processes.process_name = "wscript.exe" AND Processes.process = "*//e:vbscript*")
+        OR (Processes.process_name = "wscript.exe" AND Processes.process = "*.vbs*")
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -58,6 +59,7 @@ analytic_story:
     - FIN7
     - Remcos
     - AsyncRAT
+    - Browser Cache Smuggling
 asset_type: Endpoint
 mitre_attack_id:
     - T1059.005
