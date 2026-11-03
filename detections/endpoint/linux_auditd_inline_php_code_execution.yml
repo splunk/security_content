@@ -19,7 +19,7 @@ data_source:
 search: |-
     `linux_auditd`
     type=EXECVE
-    php
+    "*php*"
 
     | eval process_name=lower(replace(coalesce(a0, ""), "^.*/", ""))
     | eval process=coalesce(execve_command, _raw)
