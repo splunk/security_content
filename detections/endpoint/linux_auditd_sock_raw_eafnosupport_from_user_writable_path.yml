@@ -7,26 +7,39 @@ author: Raven Tait, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects a process executing from a user-writable directory calling socket() with SOCK_RAW (a1=3)
-    and receiving EAFNOSUPPORT (exit=-97, errno 97). This is the kernel trigger for vhost-vsock class privilege escalation exploits.
-    When socket() is called with an unregistered address family and SOCK_RAW, the kernel calls request_module() to attempt to
-    load a matching protocol module. In vulnerable kernels, this triggers a stale IOTLB metadata cache access path that allows
-    an unprivileged user to write an arbitrary value to modprobe_path. The specific address family number varies by kernel and
-    exploit variant (AF 41, 42, or any unregistered AF).
+    The following analytic detects a process executing from a user-writable directory calling socket() with SOCK_RAW (a1=3) and receiving EAFNOSUPPORT (exit=-97, errno 97).
+    This is the kernel trigger for vhost-vsock class privilege escalation exploits.
+    When socket() is called with an unregistered address family and SOCK_RAW, the kernel calls request_module() to attempt to load a matching protocol module.
+    In vulnerable kernels, this triggers a stale IOTLB metadata cache access path that allows an unprivileged user to write an arbitrary value to modprobe_path.
+    The specific address family number varies by kernel and exploit variant (AF 41, 42, or any unregistered AF).
 data_source:
     - Linux Auditd Syscall
 search: |-
-    `linux_auditd` type=SYSCALL key=sock_raw_eafnosupport
-        success=no exit="-97"
-        a1=3
-        exe IN ("/home/*", "/tmp/*", "/dev/shm/*", "/var/tmp/*", "/run/user/*")
+    `linux_auditd`
+    type=SYSCALL
+    key=sock_raw_eafnosupport
+    success=no
+    exit="-97"
+    a1=3
+    exe IN (
+        "/dev/shm/*",
+        "/home/*",
+        "/run/user/*",
+        "/tmp/*",
+        "/var/tmp/*"
+    )
+
     | rename host as dest
-    | stats count min(_time) as firstTime max(_time) as lastTime
-        values(exe) as process_path
-        values(a0) as address_family
-        values(pid) as pid
-        values(ppid) as ppid
-        BY auid uid dest ses
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(exe) as process_path
+                  values(a0) as address_family
+                  values(pid) as pid
+                  values(ppid) as ppid
+
+      BY auid uid dest ses
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_auditd_sock_raw_eafnosupport_from_user_writable_path_filter`
@@ -37,7 +50,8 @@ how_to_implement: |-
         -a always,exit -F arch=b32 -S socket -F a1=3 -F success=0 -F auid>=1000 -F auid!=unset -k sock_raw_eafnosupport
 
     These logs should be ingested and processed using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833).
-known_false_positives: Legitimate processes almost never open a SOCK_RAW socket with an unregistered address family. The EAFNOSUPPORT error on a raw socket from a non-system path has no benign use case outside of socket fuzzing or explicit error-handling tests
+known_false_positives: |-
+    Legitimate processes almost never open a SOCK_RAW socket with an unregistered address family. The EAFNOSUPPORT error on a raw socket from a non-system path has no benign use case outside of socket fuzzing or explicit error-handling tests
 references:
     - https://www.cve.org/CVERecord?id=CVE-2026-74580
     - https://github.com/Neo23x0/auditd
@@ -52,7 +66,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Possible kernel exploit trigger via failed SOCK_RAW socket on $dest$
+    title: Possible kernel exploit trigger via failed SOCK_RAW socket on [$dest$]
     entity:
         field: dest
         type: system
