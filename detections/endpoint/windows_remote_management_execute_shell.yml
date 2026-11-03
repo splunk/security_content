@@ -31,10 +31,21 @@ search: |-
         )
     NOT (
             Processes.process_name="cmd.exe"
-            Processes.process="*powershell -NoLogo -NonInteractive -NoProfile*"
-            Processes.process IN (
-                "*New-Object Management.Automation.Host.Size*",
-                "*HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Class\\*"
+            (
+                (
+                    Processes.process="*powershell -NoLogo -NonInteractive -NoProfile*"
+                    Processes.process IN (
+                        "*Get-CimInstance MSFT_NetAdapter -Namespace *",
+                        "*Get-Command exsetup *",
+                        "*Get-Disk | ForEach-Object*",
+                        "*HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall*",
+                        "*HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Class\\*",
+                        "*HKLM:\\SYSTEM\\CurrentControlSet\\Services\\*",
+                        "*New-Object Management.Automation.Host.Size*"
+                    )
+                )
+                OR
+                Processes.process="* /c net start Veeam*"
             )
         )
 
