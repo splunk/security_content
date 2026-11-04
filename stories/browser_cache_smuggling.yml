@@ -1,0 +1,22 @@
+name: Browser Cache Smuggling
+id: e5905ec4-8937-48d3-bfb0-39033ca0930a
+version: 1
+creation_date: '2026-11-02'
+modification_date: '2026-11-02'
+author: Raven Tait, Splunk
+status: production
+description: |-
+    Browser cache smuggling abuses browser cache behavior to stage script or executable content as ordinary web resources, then accesses or extracts that cached content outside the browser. Non-browser reads of browser cache directories can reveal the handoff from web delivery to local staging and execution.
+narrative: |-
+    Browser cache smuggling places payload content in a browser cache while presenting it as a static resource, such as an image. A later command or script searches the browser's cache files, extracts or copies the payload to a user-writable location, and may launch it with a script host or binary loader. Firefox stores cache entries individually, while Chromium-based browsers use cache data files. Detection can focus on non-browser processes accessing these cache locations and correlate that access with new files and subsequent execution. Cache access auditing requires file-system auditing on the relevant user profile directories.
+references:
+    - https://sensepost.com/blog/2023/browsers-cache-smuggling/
+    - https://x.com/MsftSecIntel/status/2106197481960706155
+category:
+    - Malware
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

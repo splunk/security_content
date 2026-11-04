@@ -1,0 +1,83 @@
+name: Windows Non Browser Process Access Browser Cache Dir
+id: 44037eba-9673-41ef-9fc6-3bec3de43d1f
+version: 1
+creation_date: '2026-11-02'
+modification_date: '2026-11-02'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects non-browser processes accessing files in local browser cache directories using Windows Security EventCode 4663. A script or utility reading Firefox, Chrome, Edge, Brave, or Chromium cache entries may be extracting web-delivered content for staging or execution.
+data_source:
+    - Windows Event Log Security 4663
+search: |-
+    `wineventlog_security`
+    EventCode=4663
+    ObjectType="File"
+    ObjectName IN (
+        "*\\Mozilla\\Firefox\\Profiles\\*\\cache2\\entries\\*",
+        "*\\Google\\Chrome\\User Data\\*\\Cache\\Cache_Data\\*",
+        "*\\Microsoft\\Edge\\User Data\\*\\Cache\\Cache_Data\\*",
+        "*\\BraveSoftware\\Brave-Browser\\User Data\\*\\Cache\\Cache_Data\\*",
+        "*\\Chromium\\User Data\\*\\Cache\\Cache_Data\\*"
+    )
+    NOT (ProcessName IN (
+        "*\\firefox.exe", "*\\chrome.exe", "*\\msedge.exe", "*\\brave.exe", "*\\chromium.exe"
+    ))
+    | eval cache_path=lower(ObjectName)
+    | eval cache_family=case(
+        like(cache_path, "%\\mozilla\\firefox\\profiles\\%\\cache2\\entries\\%"), "Firefox",
+        like(cache_path, "%\\google\\chrome\\user data\\%\\cache\\cache_data\\%"), "Chrome",
+        like(cache_path, "%\\microsoft\\edge\\user data\\%\\cache\\cache_data\\%"), "Edge",
+        like(cache_path, "%\\bravesoftware\\brave-browser\\user data\\%\\cache\\cache_data\\%"), "Brave",
+        like(cache_path, "%\\chromium\\user data\\%\\cache\\cache_data\\%"), "Chromium"
+      )
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        values(cache_family) as cache_family values(AccessMask) as AccessMask
+        by ObjectName ObjectType ProcessName EventCode dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_non_browser_process_access_browser_cache_dir_filter`
+how_to_implement: |-
+    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure.". Configure System Access Control List (SACL) on each monitored directory.
+known_false_positives: |-
+    Endpoint security products, backup utilities, forensic tools, and browser cleanup utilities may access cache files. Review the process path, user, access mask, and nearby process or file events; tune known maintenance tools as needed.
+references:
+    - https://sensepost.com/blog/2023/browsers-cache-smuggling/
+    - https://x.com/MsftSecIntel/status/2106197481960706155
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Non-browser process [$ProcessName$] accessed the [$cache_family$] browser cache path [$ObjectName$] on [$dest$].
+threat_objects:
+    - field: ProcessName
+      type: process
+analytic_story:
+    - Browser Cache Smuggling
+asset_type: Endpoint
+mitre_attack_id:
+    - T1005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1005/cache_smuggling/windows-security.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+      test_type: unit
