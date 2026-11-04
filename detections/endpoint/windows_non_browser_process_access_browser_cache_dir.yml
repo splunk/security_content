@@ -39,7 +39,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `windows_non_browser_process_access_browser_cache_dir_filter`
 how_to_implement: |-
-    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure.". Configure System Access Control List (SACL) on each monitored directory.
 known_false_positives: |-
     Endpoint security products, backup utilities, forensic tools, and browser cleanup utilities may access cache files. Review the process path, user, access mask, and nearby process or file events; tune known maintenance tools as needed.
 references:
