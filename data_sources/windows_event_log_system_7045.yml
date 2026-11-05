@@ -1,8 +1,8 @@
 name: Windows Event Log System 7045
 id: 614dedc8-8a14-4393-ba9b-6f093cbcd293
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the successful installation of a new Windows service, including details about the service name, executable path, and service type.
 mitre_components:
@@ -23,62 +23,59 @@ fields:
     - AccountName
     - Channel
     - Computer
+    - dest
+    - dvc
+    - dvc_nt_host
     - Error_Code
+    - event_id
     - EventCode
     - EventData_Xml
     - EventRecordID
     - EventSourceName
+    - eventtype
     - Guid
+    - host
+    - id
     - ImagePath
+    - index
     - Keywords
     - Level
+    - linecount
     - Name
     - Opcode
     - ProcessID
-    - Qualifiers
-    - RecordNumber
-    - ServiceName
-    - ServiceType
-    - StartType
-    - SystemTime
-    - System_Props_Xml
-    - Task
-    - ThreadID
-    - UserID
-    - Version
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
-    - dest
-    - dvc
-    - dvc_nt_host
-    - event_id
-    - eventtype
-    - host
-    - id
-    - index
-    - linecount
     - product
     - punct
+    - Qualifiers
+    - RecordNumber
     - service
     - service_name
+    - service_path
+    - ServiceName
+    - ServiceType
+    - severity
+    - severity_id
     - signature_id
     - source
     - sourcetype
     - splunk_server
     - start_mode
+    - StartType
+    - status
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
     - user_id
+    - UserID
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service Control Manager'/><EventID Qualifiers='16384'>7045</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated SystemTime='2024-03-04T10:11:25.483986000Z'/><EventRecordID>168145</EventRecordID><Correlation/><Execution ProcessID='592' ThreadID='1712'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security UserID='S-1-5-21-3344543075-1022232225-2459664213-500'/></System><EventData><Data Name='ServiceName'>KrbSCM</Data><Data Name='ImagePath'>powershell.exe -WindowStyle Hiddenestno'
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service Control Manager'/><EventID Qualifiers='16384'>7045</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated SystemTime='2024-03-04T04:37:35.115181300Z'/><EventRecordID>168100</EventRecordID><Correlation/><Execution ProcessID='592' ThreadID='688'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security UserID='S-1-5-21-3344543075-1022232225-2459664213-500'/></System><EventData><Data Name='ServiceName'>WinCheckDRVs</Data><Data Name='ImagePath'>C:\Temp\mockService.exe</Data><Data Name='ServiceType'>user mode service</Data><Data Name='StartType'>auto start</Data><Data Name='AccountName'>LocalSystem</Data></EventData></Event>

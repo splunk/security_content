@@ -1,8 +1,8 @@
 name: Linux Auditd Path
 id: 3d86125c-0496-4a5a-aae3-0d355a4f3d7d
-version: 3
+version: 4
 creation_date: '2024-08-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Teoderick Contreras, Splunk
 description: Logs file system access events on a Linux system, including details about file paths, permissions, and associated processes.
 mitre_components:
@@ -21,22 +21,42 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/833
       version: 10.3.4
 fields:
-    - msg
-    - type
-    - item
-    - name
-    - inode
-    - dev
-    - mode
-    - ouid
-    - ogid
-    - rdev
-    - nametype
-    - cap_fp
-    - cap_fi
+    - _time
     - cap_fe
-    - cap_fver
+    - cap_fi
+    - cap_fp
     - cap_frootid
-    - OUID
-    - OGID
-example_log: 'type=PATH msg=audit(1723043687.149:14898): item=1 name="/etc/ssh/ssh_config~" inode=1292 dev=103:01 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0 OUID="root" OGID="root"'
+    - cap_fver
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - dev
+    - eventtype
+    - host
+    - index
+    - inode
+    - item
+    - linecount
+    - mode
+    - msg
+    - name
+    - nametype
+    - ogid
+    - ouid
+    - punct
+    - rdev
+    - source
+    - sourcetype
+    - splunk_server
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - type
+example_log: |
+    type=PATH msg=audit(11/24/2025 14:48:16.990:118) : item=0 name=/etc/sudoers.d inode=1007 dev=103:01 mode=dir,750 ouid=root ogid=root rdev=00:00 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_fver=0 cap_frootid=0
