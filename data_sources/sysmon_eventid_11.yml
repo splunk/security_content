@@ -1,8 +1,8 @@
 name: Sysmon EventID 11
 id: f3db9179-f4f5-416d-bc03-39f4d4ff699e
-version: 4
+version: 5
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the creation of a new file, including details about the file path, hash information, and associated process metadata.
 mitre_components:
@@ -22,38 +22,10 @@ supported_TA:
       version: 5.0.1
 fields:
     - _time
+    - action
     - Channel
     - Computer
     - CreationUtcTime
-    - EventChannel
-    - EventCode
-    - EventData_Xml
-    - EventDescription
-    - EventID
-    - EventRecordID
-    - Guid
-    - Image
-    - Keywords
-    - Level
-    - Name
-    - Opcode
-    - ProcessGuid
-    - ProcessID
-    - ProcessId
-    - RecordID
-    - RecordNumber
-    - RuleName
-    - SecurityID
-    - SystemTime
-    - System_Props_Xml
-    - TargetFilename
-    - Task
-    - ThreadID
-    - TimeCreated
-    - UserID
-    - UtcTime
-    - Version
-    - action
     - date_hour
     - date_mday
     - date_minute
@@ -63,35 +35,69 @@ fields:
     - date_year
     - date_zone
     - dest
+    - dvc
     - dvc_nt_host
     - event_id
+    - EventChannel
+    - EventCode
+    - EventData_Xml
+    - EventDescription
+    - EventID
+    - EventRecordID
     - eventtype
     - file_create_time
     - file_name
     - file_path
+    - Guid
     - host
     - id
+    - Image
     - index
+    - Keywords
+    - Level
     - linecount
+    - Name
     - object_category
+    - Opcode
     - process_exec
     - process_guid
     - process_id
     - process_name
     - process_path
+    - ProcessGuid
+    - ProcessID
+    - ProcessId
     - punct
+    - RecordID
+    - RecordNumber
+    - RuleName
+    - SecurityID
+    - severity
+    - severity_id
     - signature
     - signature_id
     - source
     - sourcetype
     - splunk_server
+    - System_Props_Xml
+    - SystemTime
     - tag
     - tag::eventtype
     - tag::object_category
+    - TargetFilename
+    - Task
+    - TaskCategory
+    - ThreadID
+    - TimeCreated
     - timeendpos
     - timestartpos
+    - User
+    - user
     - user_id
+    - UserID
+    - UtcTime
     - vendor_product
+    - Version
 output_fields:
     - action
     - dest
@@ -110,4 +116,5 @@ field_mappings:
           ProcessId: Filesystem.process_id
           TargetFilename: Filesystem.file_path
           TargetFilename|endswith: Filesystem.file_name
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>11</EventID><Version>2</Version><Level>4</Level><Task>11</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2023-02-08T13:01:11.065939500Z'/><EventRecordID>7712490</EventRecordID><Correlation/><Execution ProcessID='2940' ThreadID='3376'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-mhaag-attack-range-84.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>Downloads</Data><Data Name='UtcTime'>2023-02-08 13:01:11.053</Data><Data Name='ProcessGuid'>{0F9A6540-A70E-63E2-3091-00000000BD02}</Data><Data Name='ProcessId'>9332</Data><Data Name='Image'>C:\Users\Administrator\Downloads\mimikatz_trunk\x64\mimikatz.exe</Data><Data Name='TargetFilename'>C:\Users\Administrator\Downloads\mimikatz_trunk\x64\CURRENT_USER_My_4_atomic@art2.local.pfx</Data><Data Name='CreationUtcTime'>2023-02-08 13:01:11.053</Data></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>11</EventID><Version>2</Version><Level>4</Level><Task>11</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2026-08-14T16:03:29.5862997Z'/><EventRecordID>12805</EventRecordID><Correlation/><Execution ProcessID='3376' ThreadID='4340'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>EC2AMAZ-FKEOM7G</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>DLL</Data><Data Name='UtcTime'>2026-08-14 16:03:29.585</Data><Data Name='ProcessGuid'>{1b43529b-244c-6a7f-eb03-000000000000}</Data><Data Name='ProcessId'>4</Data><Data Name='Image'>System</Data><Data Name='TargetFilename'>C:\Windows\System32\phoneinfo.dll</Data><Data Name='CreationUtcTime'>2026-08-14 16:03:29.585</Data><Data Name='User'>NT AUTHORITY\SYSTEM</Data></EventData></Event>

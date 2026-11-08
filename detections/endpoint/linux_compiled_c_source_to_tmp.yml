@@ -1,0 +1,108 @@
+name: Linux Compiled C Source To Tmp
+id: e873b93d-7f7e-4376-99f0-edb7856ce199
+version: 1
+creation_date: '2026-10-19'
+modification_date: '2026-10-19'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects a C/C++ compiler compiling a C source file with the output binary written to /tmp, executed as a non-root user.
+    This is a compile-after-delivery privilege escalation pattern. Kernel exploit PoCs and local privilege escalation tools commonly drop a C source file
+    use compilers at runtime to produce a platform-specific binary in /tmp. This avoids architecture mismatches and allows the exploit to adapt to the running
+    kernel's symbol offsets.
+data_source:
+    - Sysmon for Linux EventID 1
+search: |-
+    `sysmon`
+    EventID=1
+    process_name IN (
+        "*clang*",
+        "*g++*",
+        "*gcc*",
+        "cc",
+        "cc1",
+        "cc1plus",
+        "tcc"
+    )
+    process IN (
+        "*.c *",
+        "*.c",
+        "*.c++",
+        "*.cc*",
+        "*.cpp*",
+        "*.cxx*"
+    )
+
+    User!="root"
+
+    | regex process="(?i)(?:^|\s)(?:-o|--output)(?:\s+|\=)[\x22\x27]?(?:\/tmp|\/var\/tmp|\/dev\/shm)(?:\/[^\/\\\s\x00\x22\x27\>\<\|\:\&]+){0,}\/[^\/\\\s\x00\x22\x27\>\<\|\:\&\.]+(?:\s|\x22|\;|\x27|$)"
+
+    | fillnull
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+
+      BY process_name process User dest
+
+    | rename User as user
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_compiled_c_source_to_tmp_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting Sysmon for Linux EventID 1 (process creation) logs with the process name, command line, user, and host fields extracted.
+    You can use the Add-on for Linux Sysmon from Splunkbase. The search relies on the `sysmon` macro, which must match your Sysmon for Linux data.
+known_false_positives: |-
+    Developers compiling C code that outputs to /tmp. Filter by user to exclude known developer accounts.
+references:
+    - https://www.cve.org/CVERecord?id=CVE-2026-74580
+    - https://attack.mitre.org/techniques/T1068/
+    - https://attack.mitre.org/techniques/T1027/004/
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Compiler [$process_name$] compiled source to /tmp on [$dest$] by [$user$]
+        - field: user
+          type: user
+          score: 20
+          message: Compiler [$process_name$] compiled source to /tmp on [$dest$] by [$user$]
+threat_objects:
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process
+analytic_story:
+    - Linux Privilege Escalation
+    - Linux Living Off The Land
+    - Compromised Linux Host
+asset_type: Endpoint
+cve:
+    - CVE-2026-74580
+mitre_attack_id:
+    - T1068
+    - T1027.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/vghost/sysmon.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux
+      test_type: unit
