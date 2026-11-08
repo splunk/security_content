@@ -1,8 +1,8 @@
 name: O365 Consent to application.
 id: 0a15a464-ef51-4614-9a07-a216eb9817db
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs user or administrator consent to an application's permissions in Microsoft 365, including details about the application, granted permissions, and the consenting user or process.
 mitre_components:
@@ -23,34 +23,12 @@ fields:
     - ActorContextId
     - Actor{}.ID
     - Actor{}.Type
-    - AzureActiveDirectoryEventType
-    - CreationTime
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - ModifiedProperties{}.Name
-    - ModifiedProperties{}.NewValue
-    - ModifiedProperties{}.OldValue
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - ResultStatus
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
     - additionalDetails
     - app
     - authentication_service
+    - AzureActiveDirectoryEventType
     - command
+    - CreationTime
     - date_hour
     - date_mday
     - date_minute
@@ -64,17 +42,37 @@ fields:
     - dvc
     - event_type
     - extendedAuditEventCategory
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
     - linecount
+    - ModifiedProperties{}.Name
+    - ModifiedProperties{}.NewValue
+    - ModifiedProperties{}.OldValue
     - object
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
     - signature
     - source
     - sourcetype
     - splunk_server
     - status
+    - SupportTicketId
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
     - timeendpos
     - timestartpos
     - user
@@ -82,12 +80,18 @@ fields:
     - user_agent_change
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"CreationTime": "2023-09-05T21:05:31", "Id": "5822e126-1fbc-4269-9ad6-4c1879cdbcf3", "Operation": "Consent to application.", "OrganizationId": "9c00a473-1b2c-4bc2-9215-84df3f57aee5", "RecordType": 8, "ResultStatus": "Success", "UserKey": "1003BFFD98415B4E@contoso.onmicrosoft.com", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory", "ObjectId": "95106c0e-3519-450e-8e38-7f326d873454", "UserId": "attacker@contoso.onmicrosoft.com", "AzureActiveDirectoryEventType": 1, "ExtendedProperties": [{"Name": "additionalDetails", "Value": "{\"User-Agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36\",\"AppId\":\"95106c0e-3519-450e-8e38-7f326d873454\"}"}, {"Name": "extendedAuditEventCategory", "Value": "ServicePrincipal"}], "ModifiedProperties": [{"Name": "ConsentContext.IsAdminConsent", "NewValue": "True", "OldValue": ""}, {"Name": "ConsentContext.IsAppOnly", "NewValue": "False", "OldValue": ""}, {"Name": "ConsentContext.OnBehalfOfAll", "NewValue": "True", "OldValue": ""}, {"Name": "ConsentContext.Tags", "NewValue": "", "OldValue": ""}, {"Name": "ConsentAction.Permissions", "NewValue": "[] => [[Id: r2KtIS6Zn0q2wWeqbIputLSZcc5Sj_NGtUtP2B3pYeI, ClientId: 21ad62af-992e-4a9f-b6c1-67aa6c8a6eb4, PrincipalId: , ResourceId: ce7199b4-8f52-46f3-b54b-4fd81de961e2, ConsentType: AllPrincipals, Scope: User.Read, CreatedDateTime: , LastModifiedDateTime ]]; ", "OldValue": ""}, {"Name": "TargetId.ServicePrincipalNames", "NewValue": "95106c0e-3519-450e-8e38-7f326d873454", "OldValue": ""}], "Actor": [{"ID": "attacker@contoso.onmicrosoft.com", "Type": 5}, {"ID": "1003BFFD98415B4E", "Type": 3}, {"ID": "18ed3507-a475-4ccb-b669-d66bc9f2a36e", "Type": 2}, {"ID": "User_e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "User", "Type": 2}], "ActorContextId": "9c00a473-1b2c-4bc2-9215-84df3f57aee5", "InterSystemsId": "e0fb6206-12db-4fdf-bf52-699b254124d3", "IntraSystemId": "897d35e6-e2dc-455e-ba65-e6d58adae01f", "SupportTicketId": "", "Target": [{"ID": "ServicePrincipal_21ad62af-992e-4a9f-b6c1-67aa6c8a6eb4", "Type": 2}, {"ID": "21ad62af-992e-4a9f-b6c1-67aa6c8a6eb4", "Type": 2}, {"ID": "ServicePrincipal", "Type": 2}, {"ID": "TestApp2", "Type": 1}, {"ID": "95106c0e-3519-450e-8e38-7f326d873454", "Type": 2}, {"ID": "95106c0e-3519-450e-8e38-7f326d873454", "Type": 4}], "TargetContextId": "9c00a473-1b2c-4bc2-9215-84df3f57aee5"}'
+example_log: |
+    {"CreationTime": "2023-10-18T20:28:48", "Id": "38aa106b-a4a5-4c47-93a1-e8d35c149f37", "Operation": "Consent to application.", "OrganizationId": "29b345e7-26bd-432b-9470-7d6b5f59113e", "RecordType": 8, "ResultStatus": "Success", "UserKey": "10032002CC029AE9@contoso.onmicrosoft.com", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory", "ObjectId": "7693eab0-dc8b-48ad-9721-cebaf79c828a", "UserId": "victim@contoso.onmicrosoft.com", "AzureActiveDirectoryEventType": 1, "ExtendedProperties": [{"Name": "additionalDetails", "Value": "{\"User-Agent\":\"EvoSTS\",\"AppId\":\"7693eab0-dc8b-48ad-9721-cebaf79c828a\"}"}, {"Name": "extendedAuditEventCategory", "Value": "ServicePrincipal"}], "ModifiedProperties": [{"Name": "ConsentContext.IsAdminConsent", "NewValue": "False", "OldValue": ""}, {"Name": "ConsentContext.IsAppOnly", "NewValue": "False", "OldValue": ""}, {"Name": "ConsentContext.OnBehalfOfAll", "NewValue": "False", "OldValue": ""}, {"Name": "ConsentContext.Tags", "NewValue": "WindowsAzureActiveDirectoryIntegratedApp", "OldValue": ""}, {"Name": "ConsentAction.Permissions", "NewValue": "[] => [[Id: AAAAAAAAAAAAAAAAAAAAALSZcc5Sj_NGtUtP2B3pYeI2veRXIpdKSpcpcgPY4Aty, ClientId: 00000000-0000-0000-0000-000000000000, PrincipalId: 57e4bd36-9722-4a4a-9729-7203d8e00b72, ResourceId: ce7199b4-8f52-46f3-b54b-4fd81de961e2, ConsentType: Principal, Scope: Files.Read Files.Read.All Files.Read.Selected Files.ReadWrite Files.ReadWrite.All Files.ReadWrite.AppFolder Files.ReadWrite.Selected User.Read, CreatedDateTime: , LastModifiedDateTime ]]; ", "OldValue": ""}, {"Name": "TargetId.ServicePrincipalNames", "NewValue": "7693eab0-dc8b-48ad-9721-cebaf79c828a", "OldValue": ""}], "Actor": [{"ID": "victim@contoso.onmicrosoft.com", "Type": 5}, {"ID": "10032002CC029AE9", "Type": 3}, {"ID": "User_57e4bd36-9722-4a4a-9729-7203d8e00b72", "Type": 2}, {"ID": "57e4bd36-9722-4a4a-9729-7203d8e00b72", "Type": 2}, {"ID": "User", "Type": 2}], "ActorContextId": "29b345e7-26bd-432b-9470-7d6b5f59113e", "InterSystemsId": "4ccb846d-e346-4bd7-ab5e-eb3c3dbd8cd9", "IntraSystemId": "69d3c4db-4723-49d2-981d-38238c3d95ec", "SupportTicketId": "", "Target": [{"ID": "ServicePrincipal_49f7c1e3-ef0f-469f-b813-3913d41d653c", "Type": 2}, {"ID": "49f7c1e3-ef0f-469f-b813-3913d41d653c", "Type": 2}, {"ID": "ServicePrincipal", "Type": 2}, {"ID": "Bad App", "Type": 1}, {"ID": "7693eab0-dc8b-48ad-9721-cebaf79c828a", "Type": 2}, {"ID": "7693eab0-dc8b-48ad-9721-cebaf79c828a", "Type": 4}], "TargetContextId": "29b345e7-26bd-432b-9470-7d6b5f59113e"}

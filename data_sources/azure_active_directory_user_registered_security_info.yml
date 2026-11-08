@@ -1,8 +1,8 @@
 name: Azure Active Directory User registered security info
 id: b63240de-8a01-4ba8-8987-89d18d4b375d
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a user registers or updates their security information in Azure Active Directory.
 mitre_components:
@@ -18,10 +18,13 @@ supported_TA:
       version: 6.3.3
 fields:
     - _time
-    - Level
+    - action
     - callerIpAddress
     - category
+    - change_type
+    - command
     - correlationId
+    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -30,12 +33,24 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - dest
+    - dest_type
     - durationMs
+    - dvc
+    - eventtype
     - host
+    - id
     - index
+    - Level
     - linecount
+    - object
+    - object_attrs
+    - object_attrs_from_resultReason
+    - object_category
+    - object_id
     - operationName
     - operationVersion
+    - path_from_resourceId
     - properties.activityDateTime
     - properties.activityDisplayName
     - properties.category
@@ -56,19 +71,36 @@ fields:
     - properties.userAgent
     - punct
     - resourceId
+    - result
+    - result_id
     - resultDescription
     - resultSignature
+    - signature
     - source
     - sourcetype
     - splunk_server
+    - src
+    - src_ip
+    - src_user
+    - src_user_name
+    - src_user_type
+    - status
+    - tag
+    - tag::eventtype
     - tenantId
     - time
     - timeendpos
     - timestartpos
+    - user
+    - user_name
+    - user_type
+    - vendor_account
+    - vendor_product
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"time": "2023-01-30T21:11:30.8690619Z", "resourceId": "/tenants/91da745f-8abb-4a7d-ba94-5667c6f9e01a/providers/Microsoft.aadiam", "operationName": "User registered security info", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "91da745f-8abb-4a7d-ba94-5667c6f9e01a", "resultSignature": "None", "resultDescription": "User registered App Password", "durationMs": 0, "callerIpAddress": "72.1.2.43", "correlationId": "14279c94-7ebc-409f-be4e-7861f13c8a79", "Level": 4, "properties": {"id": "IAMUX_14279c94-7ebc-409f-be4e-7861f13c8a79_K2ATV_323947358", "category": "UserManagement", "correlationId": "14279c94-7ebc-409f-be4e-7861f13c8a79", "result": "success", "resultReason": "User registered App Password", "activityDisplayName": "User registered security info", "activityDateTime": "2023-01-30T21:11:30.8690619+00:00", "loggedByService": "Authentication Methods", "operationType": "Add", "userAgent": null, "initiatedBy": {"user": {"id": "40b61050-e814-4ae5-8ffe-66b6f0c53998", "displayName": null, "userPrincipalName": "User30@splunkresearch.com", "ipAddress": "72.1.2.43", "roles": []}}, "targetResources": [{"id": "40b61050-e814-4ae5-8ffe-66b6f0c53998", "displayName": "User30", "type": "User", "userPrincipalName": "User30@splunkresearch.com", "modifiedProperties": [], "administrativeUnits": []}], "additionalDetails": []}}'
+example_log: |
+    {"time": "2023-01-30T21:11:30.8690619Z", "resourceId": "/tenants/91da745f-8abb-4a7d-ba94-5667c6f9e01a/providers/Microsoft.aadiam", "operationName": "User registered security info", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "91da745f-8abb-4a7d-ba94-5667c6f9e01a", "resultSignature": "None", "resultDescription": "User registered App Password", "durationMs": 0, "callerIpAddress": "72.1.2.43", "correlationId": "14279c94-7ebc-409f-be4e-7861f13c8a79", "Level": 4, "properties": {"id": "IAMUX_14279c94-7ebc-409f-be4e-7861f13c8a79_K2ATV_323947358", "category": "UserManagement", "correlationId": "14279c94-7ebc-409f-be4e-7861f13c8a79", "result": "success", "resultReason": "User registered App Password", "activityDisplayName": "User registered security info", "activityDateTime": "2023-01-30T21:11:30.8690619+00:00", "loggedByService": "Authentication Methods", "operationType": "Add", "userAgent": null, "initiatedBy": {"user": {"id": "40b61050-e814-4ae5-8ffe-66b6f0c53998", "displayName": null, "userPrincipalName": "User30@splunkresearch.com", "ipAddress": "72.1.2.43", "roles": []}}, "targetResources": [{"id": "40b61050-e814-4ae5-8ffe-66b6f0c53998", "displayName": "User30", "type": "User", "userPrincipalName": "User30@splunkresearch.com", "modifiedProperties": [], "administrativeUnits": []}], "additionalDetails": []}}

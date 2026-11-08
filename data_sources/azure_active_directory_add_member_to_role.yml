@@ -1,8 +1,8 @@
 name: Azure Active Directory Add member to role
 id: 1660d196-127f-4678-81b2-472d51711b07
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the addition of a member to a directory role in Azure Active Directory, including details about the role, the member added, and the user or process performing the action.
 mitre_components:
@@ -20,10 +20,16 @@ supported_TA:
       version: 6.3.3
 fields:
     - _time
-    - Level
+    - action
+    - additional_details
+    - additional_details_name
+    - additional_details_value
     - callerIpAddress
     - category
+    - change_type
+    - command
     - correlationId
+    - dataset_name
     - date_hour
     - date_mday
     - date_minute
@@ -32,14 +38,27 @@ fields:
     - date_wday
     - date_year
     - date_zone
+    - dest
+    - dest_type
     - durationMs
+    - dvc
+    - eventtype
     - host
+    - id
     - index
+    - Level
     - linecount
+    - object
+    - object_attrs
+    - object_category
+    - object_id
     - operationName
     - operationVersion
+    - path_from_resourceId
     - properties.activityDateTime
     - properties.activityDisplayName
+    - properties.additionalDetails{}.key
+    - properties.additionalDetails{}.value
     - properties.category
     - properties.correlationId
     - properties.id
@@ -61,18 +80,34 @@ fields:
     - properties.userAgent
     - punct
     - resourceId
+    - result
+    - result_id
     - resultSignature
+    - signature
     - source
     - sourcetype
     - splunk_server
+    - src
+    - src_ip
+    - src_user_type
+    - status
+    - tag
+    - tag::eventtype
     - tenantId
     - time
     - timeendpos
     - timestartpos
+    - user
+    - user_agent
+    - user_name
+    - user_type
+    - vendor_account
+    - vendor_product
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"time": "2023-04-28T16:39:51.9312625Z", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/Microsoft.aadiam", "operationName": "Add member to role", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "52.177.250.168", "correlationId": "b425f2d7-2245-4952-b599-61dff8054f2b", "Level": 4, "properties": {"id": "Directory_b425f2d7-2245-4952-b599-61dff8054f2b_FLAW0_72812697", "category": "RoleManagement", "correlationId": "b425f2d7-2245-4952-b599-61dff8054f2b", "result": "success", "resultReason": "", "activityDisplayName": "Add member to role", "activityDateTime": "2023-04-28T16:39:51.9312625+00:00", "loggedByService": "Core Directory", "operationType": "Assign", "userAgent": null, "initiatedBy": {"user": {"id": "3bd47e42-37c9-442f-a2b4-f04de61ef0ce", "displayName": null, "userPrincipalName": "strt_admin@splunkresearch.com", "ipAddress": "52.177.250.168", "roles": []}}, "targetResources": [{"id": "0d664d57-a3ee-4049-8642-280a5c7243ef", "displayName": null, "type": "User", "userPrincipalName": "User1@splunkresearch.com", "modifiedProperties": [{"displayName": "Role.ObjectID", "oldValue": null, "newValue": "\"38bf5baf-7ec7-4bc2-8920-6d4044da12c2\""}, {"displayName": "Role.DisplayName", "oldValue": null, "newValue": "\"Privileged Role Administrator\""}, {"displayName": "Role.TemplateId", "oldValue": null, "newValue": "\"9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3\""}, {"displayName": "Role.WellKnownObjectName", "oldValue": null, "newValue": "\"ApplicationAdministrators\""}], "administrativeUnits": []}, {"id": "38bf5baf-7ec7-4bc2-8920-6d4044da12c2", "displayName": null, "type": "Role", "modifiedProperties": [], "administrativeUnits": []}], "additionalDetails": []}}'
+example_log: |
+    {"time": "2023-06-27T22:29:52.2296810Z", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/Microsoft.aadiam", "operationName": "Add member to role", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "2601:646:a000:200:944:c9d7:a3bb:de44", "correlationId": "59208262-ea89-4d82-a16b-00b81c111a38", "Level": 4, "properties": {"id": "Directory_59208262-ea89-4d82-a16b-00b81c111a38_R63ZQ_355377136", "category": "RoleManagement", "correlationId": "59208262-ea89-4d82-a16b-00b81c111a38", "result": "success", "resultReason": "", "activityDisplayName": "Add member to role", "activityDateTime": "2023-06-27T22:29:52.229681+00:00", "loggedByService": "Core Directory", "operationType": "Assign", "userAgent": null, "initiatedBy": {"user": {"id": "728989f4-eb3d-45c2-8741-2f2af4e485ce", "displayName": null, "userPrincipalName": "dummyr@splunkresearch.com", "ipAddress": "2601:646:a000:200:944:c9d7:a3bb:de44", "roles": []}}, "targetResources": [{"id": "99c677b8-a4ae-478c-9ccc-57043a2843a5", "displayName": null, "type": "User", "userPrincipalName": "Ava.Brown@splunkresearch.com", "modifiedProperties": [{"displayName": "Role.ObjectID", "oldValue": null, "newValue": "\"38bf5baf-7ec7-4bc2-8920-6d4044da12c2\""}, {"displayName": "Role.DisplayName", "oldValue": null, "newValue": "\"Application Administrator\""}, {"displayName": "Role.TemplateId", "oldValue": null, "newValue": "\"9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3\""}, {"displayName": "Role.WellKnownObjectName", "oldValue": null, "newValue": "\"UserAccountAdmins\""}], "administrativeUnits": []}, {"id": "38bf5baf-7ec7-4bc2-8920-6d4044da12c2", "displayName": null, "type": "Role", "modifiedProperties": [], "administrativeUnits": []}], "additionalDetails": []}}

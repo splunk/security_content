@@ -1,8 +1,8 @@
 name: AWS CloudTrail ModifySnapshotAttribute
 id: 7e5aa947-3a0d-4ee5-b800-0c10b555da05
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs an event when modifications are made to the attributes of a snapshot in AWS CloudTrail.
 mitre_components:
@@ -18,8 +18,8 @@ supported_TA:
 fields:
     - _time
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
     - date_hour
@@ -33,12 +33,14 @@ fields:
     - dest
     - dvc
     - errorCode
+    - errorMessage
     - eventCategory
     - eventID
     - eventName
     - eventSource
     - eventTime
     - eventType
+    - eventtype
     - eventVersion
     - host
     - index
@@ -49,14 +51,20 @@ fields:
     - product
     - punct
     - readOnly
+    - reason
     - recipientAccountId
     - region
     - requestID
     - requestParameters.attributeType
+    - requestParameters.createVolumePermission.add.items{}.group
     - requestParameters.createVolumePermission.add.items{}.userId
+    - requestParameters.createVolumePermission.remove.items{}.group
     - requestParameters.snapshotId
+    - responseElements
     - responseElements._return
     - responseElements.requestId
+    - result
+    - result_id
     - signature
     - source
     - sourceIPAddress
@@ -64,28 +72,37 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
+    - tag
+    - tag::eventtype
     - timeendpos
     - timestartpos
     - tlsDetails.cipherSuite
     - tlsDetails.clientProvidedHostHeader
     - tlsDetails.tlsVersion
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
     - userIdentity.arn
     - userIdentity.principalId
+    - userIdentity.sessionContext.attributes.creationDate
+    - userIdentity.sessionContext.attributes.mfaAuthenticated
+    - userIdentity.sessionContext.sessionIssuer.accountId
+    - userIdentity.sessionContext.sessionIssuer.arn
+    - userIdentity.sessionContext.sessionIssuer.principalId
+    - userIdentity.sessionContext.sessionIssuer.type
+    - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
@@ -98,4 +115,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLCNEAQXWZV", "arn": "arn:aws:iam::111111111111:user/bhavin_console", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLF5EAXXXX", "userName": "bhavin_console"}, "eventTime": "2023-03-20T22:31:36Z", "eventSource": "ec2.amazonaws.com", "eventName": "ModifySnapshotAttribute", "awsRegion": "us-west-2", "sourceIPAddress": "72.135.1.1", "userAgent": "stratus-red-team_46665bb8-dc15-4aba-a5ad-a362772b3f0d", "requestParameters": {"snapshotId": "snap-02effb3bb62786b18", "createVolumePermission": {"add": {"items": [{"userId": "012345678912"}]}}, "attributeType": "CREATE_VOLUME_PERMISSION"}, "responseElements": {"requestId": "f58433e6-a7f4-4e63-9cba-7ecc60ab74b2", "_return": true}, "requestID": "f58433e6-a7f4-4e63-9cba-7ecc60ab74b2", "eventID": "62e027d3-7191-48f4-b5fe-4b66c58b3008", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "ec2.us-west-2.amazonaws.com"}}'
+example_log: |
+    {"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLCNEAQXWZV", "arn": "arn:aws:iam::111111111111:user/bhavin_console", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLF5EAXXXX", "userName": "bhavin_console"}, "eventTime": "2023-03-20T22:31:36Z", "eventSource": "ec2.amazonaws.com", "eventName": "ModifySnapshotAttribute", "awsRegion": "us-west-2", "sourceIPAddress": "72.135.1.1", "userAgent": "stratus-red-team_46665bb8-dc15-4aba-a5ad-a362772b3f0d", "requestParameters": {"snapshotId": "snap-02effb3bb62786b18", "createVolumePermission": {"add": {"items": [{"userId": "012345678912"}]}}, "attributeType": "CREATE_VOLUME_PERMISSION"}, "responseElements": {"requestId": "f58433e6-a7f4-4e63-9cba-7ecc60ab74b2", "_return": true}, "requestID": "f58433e6-a7f4-4e63-9cba-7ecc60ab74b2", "eventID": "62e027d3-7191-48f4-b5fe-4b66c58b3008", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "ec2.us-west-2.amazonaws.com"}}

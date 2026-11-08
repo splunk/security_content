@@ -1,8 +1,8 @@
 name: Linux Auditd Daemon Abort
 id: cc8b3bb0-0fae-4236-9c61-fe2d7138bd63
-version: 3
+version: 4
 creation_date: '2024-08-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Teoderick Contreras, Splunk
 description: Logs the execution of processes on a Linux system, including details about the auditd daemon status.
 mitre_components:
@@ -21,10 +21,35 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/833
       version: 10.3.4
 fields:
-    - type
+    - _time
+    - auid
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - eventtype
+    - host
+    - index
+    - linecount
+    - msg
     - op
-    - res
     - pid
+    - punct
+    - res
+    - ses
+    - source
+    - sourcetype
+    - splunk_server
+    - subj
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - type
     - uid
 output_fields:
     - op
@@ -32,4 +57,5 @@ output_fields:
     - pid
     - uid
     - dest
-example_log: 'type=DAEMON_ABORT msg=audit(06/05/2025 11:03:38.453:6845) : op=set-pid auid=unset pid=61314 uid=root ses=unset subj=unconfined  res=failed'
+example_log: |
+    type=DAEMON_ABORT msg=audit(06/05/2025 11:03:38.950:6845) : op=set-pid auid=unset pid=61323 uid=root ses=unset subj=unconfined  res=failed
