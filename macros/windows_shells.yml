@@ -1,8 +1,8 @@
 name: windows_shells
 id: 6fbc8114-67d2-4ac3-8490-84c1658f251b
-version: 1
+version: 3
 creation_date: '2020-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-10-28'
 author: Splunk Threat Research Team
-description: customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environment.
-definition: (Processes.process_name IN ("cmd.exe", "powershell.exe", "powershell_ise.exe", "pwsh.exe", "sh.exe", "bash.exe", "wscript.exe","cscript.exe", "wt.exe", "WindowsTerminal.exe", "mshta.exe"))
+description: Windows shell process names and PE internal names used to identify renamed shell binaries.
+definition: (Processes.process_name IN ("bash.exe", "cmd.exe", "powershell.exe", "powershell_ise.exe", "pwsh.exe", "sh.exe", "WindowsTerminal.exe", "wt.exe") OR Processes.original_file_name IN ("Cmd.Exe", "PowerShell.EXE", "pwsh.dll", "PowerShell_ISE.EXE"))

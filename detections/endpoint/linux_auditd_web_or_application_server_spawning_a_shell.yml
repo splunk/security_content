@@ -1,0 +1,115 @@
+name: Linux Auditd Web or Application Server Spawning a Shell
+id: 59a644b2-51eb-4995-9fc5-b0ff08926d73
+version: 1
+creation_date: '2026-10-29'
+modification_date: '2026-10-29'
+author: Raven Tait, Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |
+    The following analytic detects instances where Java, web server, or application server processes attempts to spawn
+    a Linux shell, which may indicate exploitation attempts. This detection leverages Endpoint Detection and Response
+    (EDR) telemetry, focusing on process names and parent-child process relationships. This activity may indicate a
+    compromised service leading to unauthorized shell access. If confirmed malicious, attackers could execute commands,
+    escalate privileges, or maintain persistent access.
+data_source:
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd`
+    type=SYSCALL
+    comm IN (
+        "apache*",
+        "bash",
+        "caddy",
+        "csh",
+        "dash",
+        "eshell",
+        "fish",
+        "httpd",
+        "ion",
+        "java",
+        "ksh",
+        "lighttpd",
+        "nginx",
+        "php*",
+        "rbash",
+        "sh",
+        "tcsh",
+        "tomcat*",
+        "zsh"
+    )
+
+    | eval web_process=if(match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$"),exe,null())
+    | eval shell_process=if(match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$"),exe,null())
+
+    | eval web_process_name=if(match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$"),comm,null())
+    | eval shell_process_name=if(match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$"),comm,null())
+
+    | eval web_pid=if(match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$"),pid,null())
+    | eval shell_ppid=if(match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$"),ppid,null())
+    | eval shell_pid=if(match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$"),pid,null())
+    | eval parent_pid=coalesce(web_pid, shell_ppid)
+
+    | stats count min(_time) as firstTime last(_time) as lastTime
+        values(web_process_name) as parent_process_name
+        values(web_process) as parent_process
+        values(shell_pid) as pid
+        values(shell_process_name) as process_name
+        values(shell_process) as process
+        by host parent_pid
+
+    | rename host as dest
+
+    | where isnotnull(parent_process) AND isnotnull(process)
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_auditd_web_or_application_server_spawning_a_shell_filter`
+how_to_implement: |-
+    To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and
+    PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should
+    be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is
+    essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match
+    the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources
+    and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of Linux endpoints
+    where auditd is deployed. Importantly, auditd must also be configured with syscall rules that target the web server
+    executable (for example, `-a always,exit -F arch=b64 -F exe=/usr/sbin/apache2 -S execve -S execveat -k apache_syscall`,
+    repeated for arch=b32). Web server workers typically run as a service account with auid=unset, so human-session rules
+    in a base ruleset do not cover them, and without such rules the web server's syscalls will not be captured and this
+    detection will not fire. Adjust the exe path for your web server (e.g., nginx, httpd, or java).
+known_false_positives: |-
+    Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic
+    based on asset type.
+references:
+    - https://www.php2shell.com/
+    - https://attack.mitre.org/techniques/T1190/
+    - https://hunt.io/blog/php2shell-honeypot-shells-root-palo-alto-firewalls
+    - https://github.com/0x4D31/honeypot-data/blob/main/reports/php2shell/2026-10-24-confirmed-rce.md
+finding:
+    title: A Linux web or application server process [$parent_process_name$] spawned shell [$process_name$] on endpoint [$dest$].
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - PHP2Shell
+asset_type: Endpoint
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/audit.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
