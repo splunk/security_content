@@ -1,8 +1,8 @@
 name: Linux Auditd Daemon Start
 id: f1b97407-ddf0-41a5-8685-ada05aae3555
-version: 3
+version: 4
 creation_date: '2024-08-08'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Teoderick Contreras, Splunk
 description: Logs the execution of processes on a Linux system, including details about the auditd daemon status.
 mitre_components:
@@ -21,15 +21,44 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/833
       version: 10.3.4
 fields:
-    - type
-    - op
-    - res
+    - _time
     - auid
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - eventtype
+    - format
+    - host
+    - index
+    - kernel
+    - linecount
+    - msg
+    - op
     - pid
+    - punct
+    - res
+    - ses
+    - source
+    - sourcetype
+    - splunk_server
+    - subj
+    - tag
+    - tag::eventtype
+    - timeendpos
+    - timestartpos
+    - type
+    - uid
+    - ver
 output_fields:
     - op
     - res
     - pid
     - uid
     - dest
-example_log: 'type=DAEMON_START msg=audit(06/05/2025 11:03:38.949:6844) : op=start ver=3.0.7 format=enriched kernel=6.8.0-1029-aws auid=unset pid=61323 uid=root ses=unset subj=unconfined  res=success'
+example_log: |
+    type=DAEMON_START msg=audit(06/05/2025 11:03:38.949:6844) : op=start ver=3.0.7 format=enriched kernel=6.8.0-1029-aws auid=unset pid=61323 uid=root ses=unset subj=unconfined  res=success

@@ -2,7 +2,7 @@ name: Windows Process Outbound Connection To Social Media Domain
 id: d6dc231e-8595-499b-889e-cf6a055df4d4
 version: 1
 creation_date: '2026-10-06'
-modification_date: '2026-10-06'
+modification_date: '2026-10-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -80,7 +80,7 @@ drilldown_searches:
       latest_offset: "0"
 intermediate_findings:
     entities:
-        - field: dest
+        - field: src
           type: system
           score: 20
           message: A python process located in [$process_path$] with the name [$process_name$] and GUID [$process_guid$] and ID [$process_id$] was observed accessing a social media domain [$dest$]
