@@ -1,6 +1,6 @@
 name: Serialized PHP Token in Upload Filename - Suricata
 id: f5abaeab-eabd-4b8a-bc62-ec3d3722e4fe
-version: 1
+version: 2
 creation_date: '2026-10-23'
 modification_date: '2026-10-28'
 author: Raven Tait, Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
@@ -13,7 +13,7 @@ data_source:
     - Suricata
 search: |-
     `suricata` http_method=POST fileinfo.filename=*
-    | rex field=fileinfo.filename max_match=0 "(?i)(?<serialization_token>\|?O:\d+:|C:\d+:|a:\d+:\{|[sS]:\d+:|E:\d+:|[rR]:\d+;|i:-?\d+;|d:(?:[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?|INF|NAN);|b:[01];|N;)"
+    | rex field=fileinfo.filename max_match=0 "(?i)(?<serialization_token>[|]?O:\d+:|C:\d+:|a:\d+:\{|[sS]:\d+:|E:\d+:|[rR]:\d+;|i:-?\d+;|d:(?:[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?|INF|NAN);|b:[01];|N;)"
     | where isnotnull(serialization_token)
     | rename dest_ip as dest
     | rename src_ip as src

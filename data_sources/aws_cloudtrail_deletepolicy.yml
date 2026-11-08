@@ -1,8 +1,8 @@
 name: AWS CloudTrail DeletePolicy
 id: d190d23a-2c59-4a0e-9c55-a53ebef28ee5
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the deletion of an IAM policy in AWS, including details about the policy name and its associated roles or users.
 mitre_components:
@@ -20,18 +20,11 @@ fields:
     - _time
     - action
     - app
-    - awsRegion
     - aws_account_id
+    - awsRegion
     - change_type
     - command
-    - date_hour
-    - date_mday
-    - date_minute
-    - date_month
-    - date_second
-    - date_wday
-    - date_year
-    - date_zone
+    - desc
     - dest
     - dvc
     - errorCode
@@ -42,8 +35,8 @@ fields:
     - eventSource
     - eventTime
     - eventType
-    - eventVersion
     - eventtype
+    - eventVersion
     - host
     - index
     - linecount
@@ -57,6 +50,7 @@ fields:
     - recipientAccountId
     - region
     - requestID
+    - requestParameters
     - requestParameters.policyArn
     - responseElements
     - result
@@ -68,28 +62,34 @@ fields:
     - splunk_server
     - src
     - src_ip
+    - src_user
     - start_time
     - status
     - tag
     - tag::eventtype
-    - timeendpos
-    - timestartpos
+    - timestamp
     - user
+    - user_access_key
+    - user_agent
+    - user_arn
+    - user_group_id
+    - user_name
+    - user_type
     - userAgent
     - userIdentity.accessKeyId
     - userIdentity.accountId
     - userIdentity.arn
     - userIdentity.principalId
+    - userIdentity.sessionContext.attributes.creationDate
+    - userIdentity.sessionContext.attributes.mfaAuthenticated
+    - userIdentity.sessionContext.sessionIssuer.accountId
+    - userIdentity.sessionContext.sessionIssuer.arn
+    - userIdentity.sessionContext.sessionIssuer.principalId
+    - userIdentity.sessionContext.sessionIssuer.type
+    - userIdentity.sessionContext.sessionIssuer.userName
     - userIdentity.type
     - userIdentity.userName
     - userName
-    - user_access_key
-    - user_agent
-    - user_arn
-    - user_group_id
-    - user_id
-    - user_name
-    - user_type
     - vendor
     - vendor_account
     - vendor_product
@@ -102,4 +102,5 @@ output_fields:
     - vendor_account
     - vendor_region
     - vendor_product
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::151521547504:user/bhavin_cli", "accountId": "151521547504", "accessKeyId": "AKIAYTOGP2RLLAA6NJUM", "userName": "bhavin_cli"}, "eventTime": "2021-04-02T18:01:00Z", "eventSource": "iam.amazonaws.com", "eventName": "DeletePolicy", "awsRegion": "us-east-1", "sourceIPAddress": "61.25.42.212", "userAgent": "aws-cli/2.0.62 Python/3.9.2 Darwin/19.6.0 source/x86_64 command/iam.delete-policy", "errorCode": "NoSuchEntityException", "errorMessage": "Policy arn:aws:iam::151521547504:policy/AtomicRedTeam was not found.", "requestParameters": {"policyArn": "arn:aws:iam::151521547504:policy/AtomicRedTeam"}, "responseElements": null, "requestID": "90cbe52f-e744-4bba-9f5c-1843c9ca1855", "eventID": "abd071bf-0a38-4fab-af4a-5eee55f0935e", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "151521547504"}'
+example_log: |
+    {"eventVersion": "1.05", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::151521547504:user/bhavin_cli", "accountId": "151521547504", "accessKeyId": "AKIAYTOGP2RLG53UIYWY", "userName": "bhavin_cli"}, "eventTime": "2020-08-05T20:29:10Z", "eventSource": "iam.amazonaws.com", "eventName": "DeletePolicy", "awsRegion": "us-east-1", "sourceIPAddress": "61.25.42.212", "userAgent": "aws-sdk-go/1.32.12 (go1.13.7; darwin; amd64) APN/1.0 HashiCorp/1.0 Terraform/0.12.12 (+https://www.terraform.io)", "requestParameters": {"policyArn": "arn:aws:iam::151521547504:policy/default/codecommit-policy-default"}, "responseElements": null, "requestID": "588a73f2-b3d9-4a4c-af35-d7f308282ef2", "eventID": "9c172c7c-6da8-463b-a576-61c67c19fee3", "eventType": "AwsApiCall", "recipientAccountId": "151521547504"}

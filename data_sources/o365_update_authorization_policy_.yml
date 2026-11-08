@@ -1,8 +1,8 @@
 name: O365 Update authorization policy.
 id: d40e6a20-4d64-404c-8351-2caae8228d34
-version: 3
+version: 4
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs changes to authorization policies in Microsoft 365, including updates to access controls, permissions, and security settings.
 mitre_components:
@@ -23,34 +23,12 @@ fields:
     - ActorContextId
     - Actor{}.ID
     - Actor{}.Type
-    - AzureActiveDirectoryEventType
-    - CreationTime
-    - ExtendedProperties{}.Name
-    - ExtendedProperties{}.Value
-    - Id
-    - InterSystemsId
-    - IntraSystemId
-    - ModifiedProperties{}.Name
-    - ModifiedProperties{}.NewValue
-    - ModifiedProperties{}.OldValue
-    - ObjectId
-    - Operation
-    - OrganizationId
-    - RecordType
-    - ResultStatus
-    - SupportTicketId
-    - TargetContextId
-    - Target{}.ID
-    - Target{}.Type
-    - UserId
-    - UserKey
-    - UserType
-    - Version
-    - Workload
     - additionalDetails
     - app
     - authentication_service
+    - AzureActiveDirectoryEventType
     - command
+    - CreationTime
     - date_hour
     - date_mday
     - date_minute
@@ -64,17 +42,38 @@ fields:
     - dvc
     - event_type
     - extendedAuditEventCategory
+    - ExtendedProperties{}.Name
+    - ExtendedProperties{}.Value
     - host
+    - Id
     - index
+    - InterSystemsId
+    - IntraSystemId
     - linecount
+    - ModifiedProperties{}.Name
+    - ModifiedProperties{}.NewValue
+    - ModifiedProperties{}.OldValue
+    - obj_id
     - object
+    - object_id
+    - ObjectId
+    - Operation
+    - OrganizationId
     - punct
     - record_type
+    - RecordType
+    - result
+    - ResultStatus
     - signature
     - source
     - sourcetype
     - splunk_server
     - status
+    - SupportTicketId
+    - TargetContextId
+    - Target{}.ID
+    - Target{}.Type
+    - tenant_id
     - timeendpos
     - timestartpos
     - user
@@ -82,12 +81,18 @@ fields:
     - user_agent_change
     - user_id
     - user_type
+    - UserId
+    - UserKey
+    - UserType
     - vendor_account
     - vendor_product
+    - Version
+    - Workload
 output_fields:
     - dest
     - user
     - src
     - vendor_account
     - vendor_product
-example_log: '{"CreationTime": "2023-10-26T19:22:20", "Id": "83774e72-313f-4d1f-8609-7d0c7bb3b4ff", "Operation": "Update authorization policy.", "OrganizationId": "a417c578-c7ee-480d-a225-d48057e74df5", "RecordType": 8, "ResultStatus": "Success", "UserKey": "1003BFFD98415B4E@splunkresearch.onmicrosoft.com", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory", "ObjectId": "AuthorizationPolicy_24484114-1daa-4700-aaf7-44ee5cbe5678", "UserId": "user30@splunkresearch.onmicrosoft.com", "AzureActiveDirectoryEventType": 1, "ExtendedProperties": [{"Name": "additionalDetails", "Value": "{\"User-Agent\":\"Swagger-Codegen/1.0.0.0/csharp/msal\"}"}, {"Name": "extendedAuditEventCategory", "Value": "AuthorizationPolicy"}], "ModifiedProperties": [{"Name": "AllowUserConsentForRiskyApps", "NewValue": "[\r\n  true\r\n]", "OldValue": "[\r\n  false\r\n]"}, {"Name": "PermissionGrantPolicyIdsAssignedToDefaultUserRole", "NewValue": "[\r\n  \"microsoft-user-default-legacy\"\r\n]", "OldValue": "[\r\n  \"ManagePermissionGrantsForSelf.microsoft-user-default-legacy\"\r\n]"}, {"Name": "Included Updated Properties", "NewValue": "AllowUserConsentForRiskyApps, PermissionGrantPolicyIdsAssignedToDefaultUserRole", "OldValue": ""}], "Actor": [{"ID": "user30@splunkresearch.onmicrosoft.com", "Type": 5}, {"ID": "1003BFFD98415B4E", "Type": 3}, {"ID": "User_e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "User", "Type": 2}], "ActorContextId": "a417c578-c7ee-480d-a225-d48057e74df5", "InterSystemsId": "cc46d719-4c0f-4b78-8795-b0d6ca5b2065", "IntraSystemId": "92a0d051-2d0d-4608-9d09-6fca619764a2", "SupportTicketId": "", "Target": [{"ID": "AuthorizationPolicy_24484114-1daa-4700-aaf7-44ee5cbe5678", "Type": 2}, {"ID": "24484114-1daa-4700-aaf7-44ee5cbe5678", "Type": 2}, {"ID": "Other", "Type": 2}, {"ID": "Authorization Policy", "Type": 1}], "TargetContextId": "a417c578-c7ee-480d-a225-d48057e74df5"}'
+example_log: |
+    {"CreationTime": "2023-10-26T19:22:20", "Id": "83774e72-313f-4d1f-8609-7d0c7bb3b4ff", "Operation": "Update authorization policy.", "OrganizationId": "a417c578-c7ee-480d-a225-d48057e74df5", "RecordType": 8, "ResultStatus": "Success", "UserKey": "1003BFFD98415B4E@splunkresearch.onmicrosoft.com", "UserType": 0, "Version": 1, "Workload": "AzureActiveDirectory", "ObjectId": "AuthorizationPolicy_24484114-1daa-4700-aaf7-44ee5cbe5678", "UserId": "user30@splunkresearch.onmicrosoft.com", "AzureActiveDirectoryEventType": 1, "ExtendedProperties": [{"Name": "additionalDetails", "Value": "{\"User-Agent\":\"Swagger-Codegen/1.0.0.0/csharp/msal\"}"}, {"Name": "extendedAuditEventCategory", "Value": "AuthorizationPolicy"}], "ModifiedProperties": [{"Name": "AllowUserConsentForRiskyApps", "NewValue": "[\r\n  true\r\n]", "OldValue": "[\r\n  false\r\n]"}, {"Name": "PermissionGrantPolicyIdsAssignedToDefaultUserRole", "NewValue": "[\r\n  \"microsoft-user-default-legacy\"\r\n]", "OldValue": "[\r\n  \"ManagePermissionGrantsForSelf.microsoft-user-default-legacy\"\r\n]"}, {"Name": "Included Updated Properties", "NewValue": "AllowUserConsentForRiskyApps, PermissionGrantPolicyIdsAssignedToDefaultUserRole", "OldValue": ""}], "Actor": [{"ID": "user30@splunkresearch.onmicrosoft.com", "Type": 5}, {"ID": "1003BFFD98415B4E", "Type": 3}, {"ID": "User_e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "e4c722ac-3b83-478d-8f52-c388885dc30f", "Type": 2}, {"ID": "User", "Type": 2}], "ActorContextId": "a417c578-c7ee-480d-a225-d48057e74df5", "InterSystemsId": "cc46d719-4c0f-4b78-8795-b0d6ca5b2065", "IntraSystemId": "92a0d051-2d0d-4608-9d09-6fca619764a2", "SupportTicketId": "", "Target": [{"ID": "AuthorizationPolicy_24484114-1daa-4700-aaf7-44ee5cbe5678", "Type": 2}, {"ID": "24484114-1daa-4700-aaf7-44ee5cbe5678", "Type": 2}, {"ID": "Other", "Type": 2}, {"ID": "Authorization Policy", "Type": 1}], "TargetContextId": "a417c578-c7ee-480d-a225-d48057e74df5"}
