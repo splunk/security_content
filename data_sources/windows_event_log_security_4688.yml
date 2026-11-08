@@ -1,8 +1,8 @@
 name: Windows Event Log Security 4688
 id: d195eb26-a81c-45ed-aeb3-25792e8a985a
-version: 5
+version: 6
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: Logs the creation of a new process
 mitre_components:
@@ -18,82 +18,99 @@ supported_TA:
       url: https://splunkbase.splunk.com/app/742
       version: 11.0.3
 fields:
+    - _time
+    - action
+    - app
     - Caller_Domain
     - Caller_User_Name
     - Channel
     - CommandLine
     - Computer
-    - Error_Code
-    - EventCode
-    - EventID
-    - EventRecordID
-    - Guid
-    - Keywords
-    - Level
-    - Logon_ID
-    - MandatoryLabel
-    - Name
-    - NewProcessId
-    - NewProcessName
-    - Opcode
-    - ParentProcessName
-    - ProcessID
-    - Process_Command_Line
-    - RecordNumber
-    - SubjectDomainName
-    - SubjectLogonId
-    - SubjectUserName
-    - SubjectUserSid
-    - SystemTime
-    - TargetDomainName
-    - TargetLogonId
-    - TargetUserName
-    - TargetUserSid
-    - Target_Domain
-    - Target_User_Name
-    - Task
-    - ThreadID
-    - TokenElevationType
-    - Token_Elevation_Type
-    - Token_Elevation_Type_id
-    - Version
-    - action
-    - app
     - dest
     - dvc
     - dvc_nt_host
+    - Error_Code
     - event_id
+    - event_time
+    - EventCode
+    - EventData_Xml
+    - EventID
+    - EventRecordID
     - eventtype
+    - Guid
+    - host
     - id
+    - index
+    - Keywords
+    - Level
+    - linecount
+    - Logon_ID
+    - MandatoryLabel
+    - Name
     - name
     - new_process
     - new_process_id
     - new_process_name
+    - NewProcessId
+    - NewProcessName
+    - Opcode
     - parent_process
     - parent_process_id
     - parent_process_name
     - parent_process_path
+    - ParentProcessName
     - process
+    - Process_Command_Line
     - process_command_line_arguments
     - process_command_line_process
     - process_exec
     - process_id
     - process_name
     - process_path
+    - ProcessID
+    - ProcessId
     - product
+    - punct
+    - RecordNumber
     - session_id
+    - severity
+    - severity_id
     - signature
     - signature_id
+    - source
+    - sourcetype
+    - splunk_server
     - src_nt_domain
     - src_user
     - status
     - subject
+    - SubjectDomainName
+    - SubjectLogonId
+    - SubjectUserName
+    - SubjectUserSid
+    - System_Props_Xml
+    - SystemTime
     - ta_windows_action
     - tag
+    - tag::eventtype
+    - Target_Domain
+    - Target_User_Name
+    - TargetDomainName
+    - TargetLogonId
+    - TargetUserName
+    - TargetUserSid
+    - Task
+    - TaskCategory
+    - ThreadID
+    - timestamp
+    - Token_Elevation_Type
+    - Token_Elevation_Type_id
+    - TokenElevationType
     - user
     - user_group
     - vendor
     - vendor_product
+    - Version
 output_fields:
     - action
     - dest
@@ -149,4 +166,5 @@ convert_to_log_source:
           ProcessId: ParentProcessId
           ParentProcessName: ParentImage
           Computer: Computer
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4688</EventID><Version>2</Version><Level>0</Level><Task>13312</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2024-04-23T08:48:30.449376800Z'/><EventRecordID>432820</EventRecordID><Correlation/><Execution ProcessID='4' ThreadID='276'/><Channel>Security</Channel><Computer>ar-win-1</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>NT AUTHORITY\SYSTEM</Data><Data Name='SubjectUserName'>AR-WIN-1$</Data><Data Name='SubjectDomainName'>WORKGROUP</Data><Data Name='SubjectLogonId'>0x3e7</Data><Data Name='NewProcessId'>0xf84</Data><Data Name='NewProcessName'>C:\Program Files\SplunkUniversalForwarder\bin\splunk-powershell.exe</Data><Data Name='TokenElevationType'>%%1936</Data><Data Name='ProcessId'>0xb2c</Data><Data Name='CommandLine'>"C:\Program Files\SplunkUniversalForwarder\bin\splunk-powershell.exe" --ps2</Data><Data Name='TargetUserSid'>NULL SID</Data><Data Name='TargetUserName'>-</Data><Data Name='TargetDomainName'>-</Data><Data Name='TargetLogonId'>0x0</Data><Data Name='ParentProcessName'>C:\Program Files\SplunkUniversalForwarder\bin\splunkd.exe</Data><Data Name='MandatoryLabel'>Mandatory Label\System Mandatory Level</Data></EventData></Event>
+example_log: |
+    <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name="Microsoft-Windows-Security-Auditing" Guid="54849625-5478-4994-A5BA-3E3B0328C30D">    </Provider>    <EventID>4688</EventID>    <Version>2</Version>    <Level>0</Level>    <Task>13312</Task>    <Opcode>0</Opcode>    <Keywords>0x8020000000000000</Keywords>    <TimeCreated SystemTime='2023-03-16 23:25:55.218867 UTC'>    </TimeCreated>    <EventRecordID>386101</EventRecordID>    <Correlation>    </Correlation>    <Execution ProcessID="4" ThreadID="252">    </Execution>    <Channel>Security</Channel>    <Computer>SLABS-DC.snapattack.labs</Computer>    <Security>    </Security></System><EventData><Data Name='SubjectUserSid'>S-1-5-21-552886593-836758079-2829650512-1009</Data>    <Data Name='SubjectUserName'>user</Data>    <Data Name='SubjectDomainName'>SNAPATTACK</Data>    <Data Name='SubjectLogonId'>0x44214</Data>    <Data Name='NewProcessId'>0x858</Data>    <Data Name='NewProcessName'>C:\Windows\System32\net1.exe</Data>    <Data Name='TokenElevationType'>%%1937</Data>    <Data Name='ProcessId'>0x1b88</Data>    <Data Name='CommandLine'>C:\Windows\system32\net1  user guest /active:yes</Data>    <Data Name='TargetUserSid'>S-1-0-0</Data>    <Data Name='TargetUserName'>-</Data>    <Data Name='TargetDomainName'>-</Data>    <Data Name='TargetLogonId'>0x0</Data>    <Data Name='ParentProcessName'>C:\Windows\System32\net.exe</Data>    <Data Name='MandatoryLabel'>S-1-16-12288</Data></EventData></Event>
