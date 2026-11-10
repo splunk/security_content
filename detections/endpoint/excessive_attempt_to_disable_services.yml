@@ -37,7 +37,7 @@ drilldown_searches:
     - name: View risk events for the last 7 days for - "$dest$"
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
-      latest_offset: "0"
+      latest_offset: '0'
 intermediate_findings:
     entities:
         - field: dest
@@ -61,8 +61,8 @@ category: endpoint
 security_domain: endpoint
 tests:
     - name: True Positive Test
+      test_type: unit
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
-      test_type: unit
