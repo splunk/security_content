@@ -23,7 +23,7 @@ search: |-
 
     | sort 0 _time
 
-    | streamstats current=f window=1 last(exe) as previous_exe last(_time) as previous_time last(ppid) as previous_ppid by host pid
+    | streamstats current=f window=1 global=f last(exe) as previous_exe last(_time) as previous_time last(ppid) as previous_ppid by host pid
 
     | eval transition_seconds=round(_time - previous_time, 3)
 

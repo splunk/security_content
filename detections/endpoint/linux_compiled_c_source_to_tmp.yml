@@ -33,8 +33,10 @@ search: |-
         "*.cpp*",
         "*.cxx*"
     )
-    process="* /tmp/*"
+
     User!="root"
+
+    | regex process="(?i)(?:^|\s)(?:-o|--output)(?:\s+|\=)[\x22\x27]?(?:\/tmp|\/var\/tmp|\/dev\/shm)(?:\/[^\/\\\s\x00\x22\x27\>\<\|\:\&]+){0,}\/[^\/\\\s\x00\x22\x27\>\<\|\:\&\.]+(?:\s|\x22|\;|\x27|$)"
 
     | fillnull
 
