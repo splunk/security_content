@@ -7,16 +7,17 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic detects successful auditd execve events that launch a Linux shell under accounts that
-    commonly do not log in. An interactive shell for these accounts may indicate password-bypass abuse or
-    unauthorized access.
+    The following analytic detects successful auditd execve events that launch an interactive Linux shell, identified by
+    a TTY, under accounts that commonly do not log in. An interactive shell for these accounts may indicate
+    password-bypass abuse or unauthorized access.
 data_source:
     - Linux Auditd Syscall
 search: |-
     `linux_auditd` type=SYSCALL comm IN ("ash", "bash", "csh", "dash", "fish", "ksh", "mksh", "rbash", "sh", "tcsh", "yash", "zsh") success=yes
+    | where isnotnull(tty) AND tty!="(none)"
     | rex field=_raw "\\bUID=[[:punct:]]?(?<audit_user>[[:alnum:]_.-]+)"
     | eval audit_user=lower(coalesce(audit_user, user))
-    | where in(audit_user, "root", "daemon", "bin", "sys", "sync", "shutdown", "halt", "games", "man", "lp", "mail", "news", "uucp", "operator", "www-data", "backup", "list", "irc", "gnats", "nobody", "_apt", "systemd-network", "systemd-resolve", "messagebus", "uuidd", "sshd", "ntp", "ftp", "chrony", "postfix", "redis", "mysql", "mariadb", "postgres", "alpine", "guest")
+    | where in(audit_user, "daemon", "bin", "sys", "sync", "shutdown", "halt", "games", "man", "lp", "mail", "news", "uucp", "operator", "www-data", "backup", "list", "irc", "gnats", "nobody", "_apt", "systemd-network", "systemd-resolve", "messagebus", "uuidd", "sshd", "ntp", "ftp", "chrony", "postfix", "redis", "mysql", "mariadb", "postgres", "alpine", "guest")
     | rename host as dest
     | stats count min(_time) as firstTime max(_time) as lastTime values(audit_user) as user values(uid) as uid values(euid) as euid values(comm) as shell values(exe) as executable values(tty) as tty by dest
     | `security_content_ctime(firstTime)`
