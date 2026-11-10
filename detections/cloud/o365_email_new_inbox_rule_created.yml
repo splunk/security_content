@@ -1,8 +1,8 @@
 name: O365 Email New Inbox Rule Created
 id: 449f525a-7b42-47be-96a7-d9724e336c19
-version: 6
+version: 7
 creation_date: '2025-01-23'
-modification_date: '2026-05-13'
+modification_date: '2026-11-10'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -21,6 +21,7 @@ how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and in
 known_false_positives: Users may create email rules for legitimate purposes. Filter as needed.
 references:
     - https://attack.mitre.org/techniques/T1114/
+    - https://attack.mitre.org/techniques/T1137/005/
     - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
     - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
 drilldown_searches:
@@ -49,6 +50,7 @@ analytic_story:
     - Office 365 Collection Techniques
 asset_type: O365 Tenant
 mitre_attack_id:
+    - T1137.005
     - T1114.003
     - T1564.008
 product:
