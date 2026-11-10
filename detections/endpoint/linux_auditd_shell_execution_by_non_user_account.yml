@@ -1,0 +1,67 @@
+name: Linux Auditd Shell Execution by Non-User Account
+id: 543a973e-83cf-4d37-9562-9e16c99d3969
+version: 1
+creation_date: '2026-11-10'
+modification_date: '2026-11-10'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects successful auditd execve events that launch a Linux shell under accounts that
+    commonly do not log in. An interactive shell for these accounts may indicate password-bypass abuse or
+    unauthorized access.
+data_source:
+    - Linux Auditd Syscall
+search: |-
+    `linux_auditd` type=SYSCALL comm IN ("ash", "bash", "csh", "dash", "fish", "ksh", "mksh", "rbash", "sh", "tcsh", "yash", "zsh") success=yes
+    | rex field=_raw "\\bUID=[[:punct:]]?(?<audit_user>[[:alnum:]_.-]+)"
+    | eval audit_user=lower(coalesce(audit_user, user))
+    | where in(audit_user, "root", "daemon", "bin", "sys", "sync", "shutdown", "halt", "games", "man", "lp", "mail", "news", "uucp", "operator", "www-data", "backup", "list", "irc", "gnats", "nobody", "_apt", "systemd-network", "systemd-resolve", "messagebus", "uuidd", "sshd", "ntp", "ftp", "chrony", "postfix", "redis", "mysql", "mariadb", "postgres", "alpine", "guest")
+    | rename host as dest
+    | stats count min(_time) as firstTime max(_time) as lastTime values(audit_user) as user values(uid) as uid values(euid) as euid values(comm) as shell values(exe) as executable values(tty) as tty by dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_auditd_shell_execution_by_non_user_account_filter`
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: |-
+    System administrators and automation may run shells under service accounts or accounts that are not locked on a
+    particular image. Review the account's shadow state and the process context before escalating.
+references:
+    - https://sshhole.com
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Shell [$shell$] executed as non-user account [$user$] on [$dest$].
+analytic_story:
+    - Linux Privilege Escalation
+    - SSHHole
+asset_type: Endpoint
+cve:
+    - CVE-2026-123158
+mitre_attack_id:
+    - T1078.003
+    - T1059.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/sshhole/audit.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit

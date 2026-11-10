@@ -1,0 +1,23 @@
+name: SSHHole
+id: 3f4a7d41-a1a3-4175-8784-350daa8369e5
+version: 1
+creation_date: '2026-11-10'
+modification_date: '2026-11-10'
+author: Raven Tait, Splunk
+status: production
+description: |-
+    This analytic story covers SSH password-bypass activity and related post-authentication behavior associated with SSHhole CVE. Its detections identify suspicious SSH authentication against common non-user accounts, subsequent doas execution as root, and Linux shell execution recorded by auditd.
+narrative: |-
+    SSHHole demonstrates an SSH password-bypass path that can allow access through accounts that commonly do not accept interactive logins. The detections in this story look for a failed SSH password attempt followed by a successful login for a common non-user account, an accepted SSH login followed by a doas command run as root, and auditd shell execution under a common non-user account.
+references:
+    - https://github.com/leonjza/sshhole-lab
+    - https://sshhole.com/
+cve:
+    - CVE-2026-123158
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection
