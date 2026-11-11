@@ -1,0 +1,123 @@
+name: Windows BITS Upload Activity
+id: dd9f870b-a5c7-462e-bf0c-7022e818e9b5
+version: 1
+creation_date: '2026-11-10'
+modification_date: '2026-11-10'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects explicit BITS upload configuration through BITSAdmin /Create or /Transfer with /Upload or /Upload-Reply, or PowerShell Start-BitsTransfer with -TransferType Upload or UploadReply.
+    Adversaries can abuse BITS to send collected files to remote infrastructure.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.process="*upload*"
+    (
+        `process_bitsadmin`
+        OR
+        (
+            `process_powershell`
+            Processes.process="*Start-BitsTransfer*"
+        )
+    )
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+
+    | where
+        (
+            (
+                lower(process_name)="bitsadmin.exe"
+                OR
+                lower(original_file_name)="bitsadmin.exe"
+            )
+            AND match(process, "(?i)(?:^|\s)/(?:create|transfer)\s")
+            AND match(process, "(?i)(?:^|\s)/upload(?:-reply)?(?![\w-])")
+        )
+        OR
+        (
+            (
+                lower(process_name) IN ("powershell.exe", "pwsh.exe", "powershell_ise.exe")
+                OR
+                lower(original_file_name) IN ("powershell.exe", "pwsh.dll", "powershell_ise.exe")
+            )
+            AND match(process, "(?i)\bStart-BitsTransfer\b")
+            AND match(process, "(?i)-TransferType\s+Upload(?:Reply)?\b")
+        )
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_bits_upload_activity_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
+    These agents are designed to provide security-related telemetry from the endpoints where the agent is installed.
+    To implement this search, you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions.
+    These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product.
+    The logs must also be mapped to the `Processes` node of the `Endpoint` data model.
+    Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Administrative support bundles, diagnostics, file publishing and authorized tests may explicitly upload files
+    using BITS. Verify the job purpose and destination before tuning the filter macro. An upload command alone
+    does not establish exfiltration.
+references:
+    - https://securelist.com/chafer-used-remexi-malware/89538/
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-create
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-transfer
+    - https://learn.microsoft.com/en-us/powershell/module/bitstransfer/start-bitstransfer
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: An instance of [$parent_process_name$] spawning [$process_name$] was identified on endpoint [$dest$] by user [$user$] attempting to configure a BITS upload with command line [$process$].
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - BITS Jobs
+    - Living Off The Land
+asset_type: Endpoint
+mitre_attack_id:
+    - T1197
+    - T1048
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

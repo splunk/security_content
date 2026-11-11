@@ -1,36 +1,79 @@
 name: PowerShell Start-BitsTransfer
 id: 39e2605a-90d8-11eb-899e-acde48001122
-version: 12
+version: 13
 creation_date: '2021-03-30'
-modification_date: '2026-10-09'
-author: Michael Haag, Splunk
+modification_date: '2026-11-10'
+author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the PowerShell command `Start-BitsTransfer`, which can be used for file transfers, including potential data exfiltration. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line arguments. This activity is significant because `Start-BitsTransfer` can be abused by adversaries to upload sensitive files to remote locations, posing a risk of data loss. If confirmed malicious, this could lead to unauthorized data exfiltration, compromising sensitive information and potentially leading to further exploitation of the network.
+description: |-
+    The following analytic detects PowerShell command lines containing a Start-BitsTransfer invocation, an HTTP or HTTPS URL, and additional suspicious context such as a literal IP URL host, a file-sharing or hosted-content domain, an executable or script in a staging destination, or a chained execution command.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE `process_powershell` Processes.process=*start-bitstransfer*
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    `process_powershell`
+    Processes.process="*Start-BitsTransfer*"
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
+
+    | where match(process, "(?i)(?:^|[\\s;|&({\"\\x27])(?:BitsTransfer\\\\)?Start-BitsTransfer\\s+(?:-[A-Za-z]+\\s+|[\"\\x27]?https?://)")
+        AND NOT match(process, "(?i)-TransferType\\s+[\"\\x27]?Upload(?:Reply)?(?:[\"\\x27\\s;]|$)")
+
+    | rex max_match=0 field=process "(?i)https?://(?:[^/\\s@]+@)?(?<bits_remote_host>\\[[0-9a-f:]+\\]|[^/:\\s\"\\x27]+)"
+
+    | eval bits_direct_ip=if(mvfind(bits_remote_host, "(?i)^(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$|^\\[[0-9a-f]*:[0-9a-f:]+\\]$")>=0, 1, 0),
+           bits_file_hosting=if(mvfind(bits_remote_host, "(?i)(^|\\.)(?:github\\.com|githubusercontent\\.com|discordapp\\.com|discordapp\\.net|dropboxusercontent\\.com|gofile\\.io|mega\\.nz|mediafire\\.com|pastebin\\.com|paste\\.ee|transfer\\.sh|temp\\.sh|anonfiles\\.com|storage\\.googleapis\\.com|trycloudflare\\.com|workers\\.dev|pages\\.dev|onrender\\.com|supabase\\.co|ddns\\.net|ngrok-free\\.app)$")>=0, 1, 0)
+
+    | rex field=process "(?i)-Destination\\s+(?:\"(?<bits_destination_double>[^\"]+)\"|'(?<bits_destination_single>[^']+)'|(?<bits_destination_bare>[^\\s;|]+))"
+
+    | rex max_match=0 field=process "(?i)https?://[^\\s\"']+[\"']?\\s+(?<bits_positional_path>\"[^\"]+\"|'[^']+'|\\S+)"
+
+    | eval bits_local_path=coalesce(bits_destination_double, bits_destination_single, bits_destination_bare, bits_positional_path)
+
+    | where isnotnull(bits_remote_host)
+            AND
+            (
+                bits_direct_ip=1
+                OR
+                bits_file_hosting=1
+                OR
+                mvcount(mvfilter(match(bits_local_path, "(?i)(?:\\\\(?:AppData\\\\(?:Local|Roaming)|Users\\\\Public|ProgramData|PerfLogs|Temp|Windows\\\\(?:Temp|Tasks|debug)|\\$Recycle\\.Bin|inetpub\\\\wwwroot)\\\\|\\\\Start Menu\\\\Programs\\\\Startup\\\\|%(?:temp|tmp|appdata|localappdata|programdata|public)%\\\\)"
+            )
+            AND
+            match(bits_local_path, "(?i)\\.(?:exe|dll|com|pif|scr|cpl|msi|msp|ps1|psm1|bat|cmd|vbs|vbe|js|jse|wsf|wsh|sct|hta|chm|xll|aspx?|ashx|asmx|jsp|jspx|war)[\"\\x27]?$")))>0
+            OR
+            match(process, "(?i)[;|]\\s*(?:Start-Process|Invoke-Item|Invoke-Expression|iex|&)(?:\\s|\\()"))
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `powershell_start_bitstransfer_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Limited false positives. It is possible administrators will utilize Start-BitsTransfer for administrative tasks, otherwise filter based parent process or command-line arguments.
+known_false_positives: |-
+    Administration, CI jobs and authorized testing can use literal IPs, public hosting, temporary destinations or
+    chained execution. Review the script and its ancestry before tuning the filter macro. Invocation and URL
+    checks reduce literal code-search matches but cannot distinguish all quoted examples from executed PowerShell
+    code.
 references:
     - https://isc.sans.edu/diary/Investigating+Microsoft+BITS+Activity/23281
     - https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
     - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1197/T1197.yaml#L27
+    - https://learn.microsoft.com/en-us/powershell/module/bitstransfer/start-bitstransfer
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -41,7 +84,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: A suspicious process $process_name$ with commandline $process$ that are related to bittransfer functionality in host $dest$
+    title: An instance of [$parent_process_name$] spawning [$process_name$] was identified on endpoint [$dest$] by user [$user$] attempting a suspicious Start-BitsTransfer operation with command line [$process$].
     entity:
         field: user
         type: user
@@ -51,7 +94,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 50
-          message: A suspicious process $process_name$ with commandline $process$ that are related to bittransfer functionality in host $dest$
+          message: An instance of [$parent_process_name$] spawning [$process_name$] was identified on endpoint [$dest$] by user [$user$] attempting a suspicious Start-BitsTransfer operation with command line [$process$].
 analytic_story:
     - BITS Jobs
     - Gozi Malware
@@ -60,6 +103,7 @@ atomic_guid:
     - f63b8bc4-07e5-4112-acba-56f646f3f0bc
 mitre_attack_id:
     - T1197
+    - T1105
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
