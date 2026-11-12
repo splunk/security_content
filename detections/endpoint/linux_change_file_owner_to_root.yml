@@ -1,8 +1,8 @@
 name: Linux Change File Owner To Root
 id: c1400ea2-6257-11ec-ad49-acde48001122
-version: 11
+version: 12
 creation_date: '2022-01-05'
-modification_date: '2026-05-13'
+modification_date: '2026-11-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,17 @@ search: |-
             OR
             Processes.process = "*chown *"
         )
-        AND Processes.process = "* root *"
+        AND (
+            Processes.process = "* root *"
+            OR
+            Processes.process = "* root:*"
+            OR
+            Processes.process = "* root.*"
+            OR
+            Processes.process = "* 0 *"
+            OR
+            Processes.process = "* 0:*"
+        )
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
