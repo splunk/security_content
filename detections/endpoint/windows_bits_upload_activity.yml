@@ -58,7 +58,7 @@ search: |-
                 lower(original_file_name) IN ("powershell.exe", "pwsh.dll", "powershell_ise.exe")
             )
             AND match(process, "(?i)\bStart-BitsTransfer\b")
-            AND match(process, "(?i)-TransferType\s+Upload(?:Reply)?\b")
+            AND match(process, "(?i)-TransferType\\s+[\"\\x27]?Upload(?:Reply)?(?:[\"\\x27\\s;]|$)")
         )
 
     | `security_content_ctime(firstTime)`
