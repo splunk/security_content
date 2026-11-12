@@ -1,0 +1,120 @@
+name: Windows CMD Evasive Patterns Through Native Commands
+id: e4202c26-f5d1-4c72-91f7-e551338be9a4
+version: 1
+creation_date: '2026-11-12'
+modification_date: '2026-11-12'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: Anomaly
+description: |
+    The following analytic detects cmd.exe being used to evade defenses with nothing but
+    built-in commands, a pattern frequently seen in ClickFix-style social engineering and
+    malware loader activity. Adversaries abuse native cmd.exe features such as call
+    combined with variable assignment to assemble commands piece by piece, hiding the
+    real payload from static inspection and string-based detections. They also chain
+    native utilities such as timeout and del to erase the dropped executable shortly
+    after it has run, which removes evidence and complicates forensic analysis. Because
+    these techniques need no additional tooling, they let attackers blend into routine
+    command shell activity. If confirmed malicious, this could indicate a staged loader
+    concealing its intent or cleaning up after execution.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes
+    WHERE
+      Processes.process_name = "cmd.exe"
+      (Processes.process = "*call *" OR Processes.process = "*timeout *")
+      NOT Processes.user IN ("SYSTEM", "*\\SYSTEM")
+
+    by Processes.action Processes.dest Processes.original_file_name
+      Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+      Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+      Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+      Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+      Processes.user Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | eval process_lower=lower(process)
+    | eval call_set_obfuscation=if(
+        like(process_lower, "%call %")
+        AND match(process, "(?i)set\\s+[\\w\\-\\_]+\\s?\\="), 1, 0)
+    | eval timeout_self_deletion=if(
+        like(process_lower, "%timeout %")
+        AND like(process_lower, "%del %")
+        AND (like(process_lower, "% /f%") OR like(process_lower, "% /q%"))
+        AND like(process_lower, "% exit%"), 1, 0)
+
+    | where call_set_obfuscation=1 OR timeout_self_deletion=1
+    | fields - process_lower
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_cmd_evasive_patterns_through_native_commands_filter`
+how_to_implement: |
+    The detection is based on data that originates from Endpoint Detection
+    and Response (EDR) agents. These agents are designed to provide security-related
+    telemetry from the endpoints where the agent is installed. To implement this search,
+    you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions. These logs must
+    be processed using the appropriate Splunk Technology Add-ons that are specific to
+    the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+    data model. Use the Splunk Common Information Model (CIM) to normalize the field
+    names and speed up the data modeling process.
+known_false_positives: |
+    Legitimate batch scripts and installers may use call with variable assignment, or may
+    delete themselves after a delay using timeout and del. Filter by parent process, user or
+    script path as needed.
+references:
+    - https://attack.mitre.org/techniques/T1027/010/
+    - https://attack.mitre.org/techniques/T1070/004/
+    - https://attack.mitre.org/techniques/T1059/003/
+    - https://www.huntress.com/blog/clickfix-castleloader-backgroundfix
+    - https://www.esentire.com/blog/amatera-stealer-4-0-2-beta-whats-new-in-this-variant
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 30
+          message: Evasive cmd.exe command line [$process$] was executed by [$parent_process_name$] on endpoint [$dest$] by user [$user$].
+        - field: user
+          type: user
+          score: 30
+          message: Evasive cmd.exe command line [$process$] was executed by [$parent_process_name$] on endpoint [$dest$] by user [$user$].
+threat_objects:
+    - field: process
+      type: process
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - Fake CAPTCHA Campaigns
+    - Deobfuscate-Decode Files or Information
+asset_type: Endpoint
+mitre_attack_id:
+    - T1027.010
+    - T1070.004
+    - T1059.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.010/windows_cmd_evasive_commands/windows_cmd_evasive_commands.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
