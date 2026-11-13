@@ -1,4 +1,4 @@
-name: testing/integration
+name: integration
 on:
   pull_request:
     types: [opened, reopened, synchronize]
@@ -11,7 +11,7 @@ on:
 permissions:
   contents: read
 jobs:
-  integration:
+  test:
     uses: ./.github/workflows/_testing.yml
     with:
       test-types: detection.integration
