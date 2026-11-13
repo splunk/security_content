@@ -12,7 +12,7 @@ data_source:
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
     WHERE (
-            Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" AND
+            Registry.registry_path = "*\\Microsoft\\Windows Defender*" AND
             Registry.registry_value_name IN ("DisableAntiSpyware","DisableAntiVirus") AND
             Registry.registry_value_data IN (1, 0x00000001)
           )
