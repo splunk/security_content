@@ -53,7 +53,7 @@ search: |-
                 OR
                 bits_file_hosting=1
                 OR
-                mvcount(mvfilter(match(bits_local_path, "(?i)(?:\\\\(?:AppData\\\\(?:Local|Roaming)|Users\\\\Public|ProgramData|PerfLogs|Temp|Windows\\\\(?:Temp|Tasks|debug)|\\$Recycle\\.Bin|inetpub\\\\wwwroot)\\\\|\\\\Start Menu\\\\Programs\\\\Startup\\\\|%(?:temp|tmp|appdata|localappdata|programdata|public)%\\\\)"
+                mvcount(mvfilter(match(bits_local_path, "(?i)(?:\\\\(?:AppData\\\\(?:Local|Roaming)|Users\\\\Public|ProgramData|PerfLogs|Temp|Windows\\\\(?:Temp|Tasks|debug)|\\$Recycle\\.Bin|inetpub\\\\wwwroot)\\\\|\\\\Start Menu\\\\Programs\\\\Startup\\\\|%(?:temp|tmp|appdata|localappdata|programdata|public)%\\\\|\\$env:(?:temp|tmp|appdata|localappdata|programdata|public)\\\\)"
             )
             AND
             match(bits_local_path, "(?i)\\.(?:exe|dll|com|pif|scr|cpl|msi|msp|ps1|psm1|bat|cmd|vbs|vbe|js|jse|wsf|wsh|sct|hta|chm|xll|aspx?|ashx|asmx|jsp|jspx|war)[\"\\x27]?$")))>0
