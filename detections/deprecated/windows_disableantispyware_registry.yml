@@ -10,8 +10,7 @@ description: The following analytic detects the modification of the Windows Regi
 data_source:
     - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_value_name="DisableAntiSpyware" AND Registry.registry_value_data="0x00000001" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_disableantispyware_registry_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. This detection is deprecated in favor of Disable Defender AntiVirus Registry. Before disabling the legacy search, review the replacement's Windows Defender policy path restriction, which does not cover non-policy DisableAntiSpyware matches, and migrate applicable tuning from `windows_disableantispyware_registry_filter` to `disable_defender_antivirus_registry_filter`.
-known_false_positives: It is unusual to turn this feature off a Windows system since it is a default security control, although it is not rare for some policies to disable it. Although no false positives have been identified, use the provided filter macro to tune the search.
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node.
 references:
     - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
     - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1685/T1685.yaml#L1004
@@ -60,7 +59,7 @@ tests:
           sourcetype: XmlWinEventLog
       test_type: unit
 deprecation_info:
-    reason: Detection deprecated due to overlapping DisableAntiSpyware coverage under Windows Defender policy keys in Disable Defender AntiVirus Registry. The replacement also covers DisableAntiVirus and decimal one, but does not cover this detection's non-policy DisableAntiSpyware matches.
+    reason: Detection deprecated due to overlapping DisableAntiSpyware coverage under Windows Defender policy keys in Disable Defender AntiVirus Registry.
     removed_in_version: 6.12.0
     replacement_content:
         - Disable Defender AntiVirus Registry
