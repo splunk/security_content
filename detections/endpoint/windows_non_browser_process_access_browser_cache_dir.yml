@@ -31,7 +31,7 @@ search: |-
             "*\\chromium.exe"
         )
     )
-    
+
     | eval cache_path=lower(ObjectName)
     | eval cache_family=case(
         like(cache_path, "%\\mozilla\\firefox\\profiles\\%\\cache2\\entries\\%"), "Firefox",
@@ -40,11 +40,11 @@ search: |-
         like(cache_path, "%\\bravesoftware\\brave-browser\\user data\\%\\cache\\cache_data\\%"), "Brave",
         like(cache_path, "%\\chromium\\user data\\%\\cache\\cache_data\\%"), "Chromium"
       )
-    
+
     | stats count min(_time) as firstTime max(_time) as lastTime
         values(cache_family) as cache_family values(AccessMask) as AccessMask
         by ObjectName ObjectType ProcessName EventCode dest
-    
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_non_browser_process_access_browser_cache_dir_filter`

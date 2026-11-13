@@ -27,7 +27,7 @@ search: |-
         like(script_block, "%bravesoftware%brave-browser%user data%") AND like(script_block, "%cache_data%"), "Brave",
         like(script_block, "%chromium%user data%") AND like(script_block, "%cache_data%"), "Chromium"
       )
-    
+
     | where isnotnull(cache_family)
         AND (
           like(script_block, "%get-childitem%")
@@ -40,14 +40,14 @@ search: |-
           OR like(script_block, "%copy-item%")
           OR like(script_block, "%writeallbytes%")
         )
-    
+
     | eval dest=coalesce(dest, Computer, dvc, host)
     | eval user=coalesce(user, UserID, User)
     | stats count min(_time) as firstTime max(_time) as lastTime
         values(cache_family) as cache_family values(ScriptBlockText) as ScriptBlockText
         values(Path) as Path values(Guid) as Guid
         by dest user ScriptBlockId ProcessID signature signature_id
-    
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_powershell_script_block_browser_cache_access_filter`
