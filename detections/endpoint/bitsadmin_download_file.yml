@@ -7,11 +7,12 @@ author: Michael Haag, Sittikorn S, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects BITSAdmin /Transfer or /AddFile commands containing an HTTP or HTTPS URL and a suspicious transfer characteristic such as a literal IPv4 or bracketed IPv6 URL host, a file-sharing or hosted-content domain, an executable or script destination in a commonly abused staging directory, or a renamed BITSAdmin executable identified by its original file name.
-    Explicit /Upload and /Upload-Reply commands are excluded.
-    /AddFile can belong to either a download or upload job, confirm the job type before assigning direction.
-    Investigate process ancestry, the remote resource, destination artifacts and later execution.
-    A matching command is an attempted transfer, not proof of a completed download or malicious intent.
+    The following analytic detects BITSAdmin /Transfer or /AddFile commands containing an HTTP or HTTPS URL and a suspicious transfer characteristic
+    such as a literal IPv4 or bracketed IPv6 URL host, a file-sharing or hosted-content domain, an executable or script destination in a commonly
+    abused staging directory, or a renamed BITSAdmin executable identified by its original file name. Explicit /Upload and /Upload-Reply commands are
+    excluded. /AddFile can belong to either a download or upload job, confirm the job type before assigning direction. Investigate process ancestry,
+    the remote resource, destination artifacts and later execution. A matching command is an attempted transfer, not proof of a completed download
+    or malicious intent.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -44,11 +45,10 @@ search: |-
             NOT match(process, "(?i)(?:^|\\s)/upload(?:-reply)?(?:\\s|$)")
 
     | rex max_match=0 field=process "(?i)https?://(?:[^/\\s@]+@)?(?<bits_remote_host>\\[[0-9a-f:]+\\]|[^/:\\s\"\\x27]+)"
-
-    | eval bits_direct_ip=if(mvfind(bits_remote_host, "(?i)^(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$|^\\[[0-9a-f]*:[0-9a-f:]+\\]$")>=0, 1, 0),
-           bits_file_hosting=if(mvfind(bits_remote_host, "(?i)(^|\\.)(?:github\\.com|githubusercontent\\.com|discordapp\\.com|discordapp\\.net|dropboxusercontent\\.com|gofile\\.io|mega\\.nz|mediafire\\.com|pastebin\\.com|paste\\.ee|transfer\\.sh|temp\\.sh|anonfiles\\.com|storage\\.googleapis\\.com|trycloudflare\\.com|workers\\.dev|pages\\.dev|onrender\\.com|supabase\\.co|ddns\\.net|ngrok-free\\.app)$")>=0, 1, 0)
-
     | rex max_match=0 field=process "(?i)https?://[^\\s\"]+\"?\\s+(?<bits_local_path>\"[^\"]+\"|\\S+)"
+
+    | eval bits_direct_ip=if(mvfind(bits_remote_host, "(?i)^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$|^\\[[0-9a-f]*:[0-9a-f:]+\\]$")>=0, 1, 0),
+           bits_file_hosting=if(mvfind(bits_remote_host, "(?i)(^|\\.)(?:github\\.com|githubusercontent\\.com|discordapp\\.com|discordapp\\.net|dropboxusercontent\\.com|gofile\\.io|mega\\.nz|mediafire\\.com|pastebin\\.com|paste\\.ee|transfer\\.sh|temp\\.sh|anonfiles\\.com|storage\\.googleapis\\.com|trycloudflare\\.com|workers\\.dev|pages\\.dev|onrender\\.com|supabase\\.co|ddns\\.net|ngrok-free\\.app)$")>=0, 1, 0)
 
     | where isnotnull(bits_remote_host)
             AND
@@ -59,16 +59,24 @@ search: |-
                 OR
                 (lower(process_name)!="bitsadmin.exe" AND lower(original_file_name)="bitsadmin.exe")
                 OR
-                mvcount(mvfilter(match(bits_local_path, "(?i)(?:\\\\(?:AppData\\\\(?:Local|Roaming)|Users\\\\Public|ProgramData|PerfLogs|Temp|Windows\\\\(?:Temp|Tasks|debug)|\\$Recycle\\.Bin|inetpub\\\\wwwroot)\\\\|\\\\Start Menu\\\\Programs\\\\Startup\\\\|%(?:temp|tmp|appdata|localappdata|programdata|public)%\\\\)"
+                mvcount(
+                    mvfilter(
+                        match(bits_local_path, "(?i)(?:\\\\(?:AppData\\\\(?:Local|Roaming)|Users\\\\Public|ProgramData|PerfLogs|Temp|Windows\\\\(?:Temp|Tasks|debug)|\\$Recycle\\.Bin|inetpub\\\\wwwroot)\\\\|\\\\Start Menu\\\\Programs\\\\Startup\\\\|%(?:temp|tmp|appdata|localappdata|programdata|public)%\\\\)")
+                        AND
+                        match(bits_local_path, "(?i)\\.(?:exe|dll|com|pif|scr|cpl|msi|msp|ps1|psm1|bat|cmd|vbs|vbe|js|jse|wsf|wsh|sct|hta|chm|xll|aspx?|ashx|asmx|jsp|jspx|war)\"?$")
+                    )
+                )>0
             )
-            AND
-            match(bits_local_path, "(?i)\\.(?:exe|dll|com|pif|scr|cpl|msi|msp|ps1|psm1|bat|cmd|vbs|vbe|js|jse|wsf|wsh|sct|hta|chm|xll|aspx?|ashx|asmx|jsp|jspx|war)\"?$")))>0)
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `bitsadmin_download_file_filter`
 how_to_implement: |-
-    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related
+    telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name,
+    and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology
+    Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common
+    Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |-
     Software deployment, package installation and authorized tests can transfer content from literal IPs or public
     hosting and stage executable files.
