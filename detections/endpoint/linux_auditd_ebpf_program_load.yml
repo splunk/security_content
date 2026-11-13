@@ -1,7 +1,8 @@
 name: Linux Auditd eBPF Program Load
 id: b469bd55-6398-4be5-ba23-c077f673d5f3
 version: 1
-date: '2026-10-31'
+creation_date: '2026-10-31'
+modification_date: '2026-11-02'
 author: vahid malekmohammadi
 status: production
 type: Anomaly
@@ -60,3 +61,4 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.003/linux_auditd_ebpf/linux_auditd_ebpf.log
           source: auditd
           sourcetype: auditd
+      test_type: unit
