@@ -47,10 +47,8 @@ jobs:
         - name: Install contentctl-ng
           shell: bash
           run: |
-            # TEMPORARY: hardcoded because this step runs on the base branch checkout, whose requirements.txt
-            # still pins contentctl-ng 1.1.1 (no `test plan`/`test run`). Revert to `pip install -r requirements.txt` before merging.
-            echo "- Build Tool Version - contentctl-ng==1.2.0 (hardcoded)"
-            pip install contentctl-ng==1.2.0
+            echo "- Build Tool Version - $(cat requirements.txt)"
+            pip install -r requirements.txt
 
         # Check out GitHub's merge commit for the PR (the PR merged into its target branch), even if the PR
         # lives in a fork. This tests the content as it will look after merge, not the PR head, which may be
