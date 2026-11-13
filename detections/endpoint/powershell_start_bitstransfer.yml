@@ -7,7 +7,9 @@ author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |-
-    The following analytic detects PowerShell command lines containing a Start-BitsTransfer invocation, an HTTP or HTTPS URL, and additional suspicious context such as a literal IP URL host, a file-sharing or hosted-content domain, an executable or script in a staging destination, or a chained execution command.
+    The following analytic detects PowerShell command lines initiating a BITS transfer with and additional
+    behavioral indicator such as literal IP URL host, file-sharing or hosted-content domain, executable
+    or script in a staging destination, or a chained execution command.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -36,15 +38,12 @@ search: |-
         AND NOT match(process, "(?i)-TransferType\\s+[\"\\x27]?Upload(?:Reply)?(?:[\"\\x27\\s;]|$)")
 
     | rex max_match=0 field=process "(?i)https?://(?:[^/\\s@]+@)?(?<bits_remote_host>\\[[0-9a-f:]+\\]|[^/:\\s\"\\x27]+)"
-
-    | eval bits_direct_ip=if(mvfind(bits_remote_host, "(?i)^(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$|^\\[[0-9a-f]*:[0-9a-f:]+\\]$")>=0, 1, 0),
-           bits_file_hosting=if(mvfind(bits_remote_host, "(?i)(^|\\.)(?:github\\.com|githubusercontent\\.com|discordapp\\.com|discordapp\\.net|dropboxusercontent\\.com|gofile\\.io|mega\\.nz|mediafire\\.com|pastebin\\.com|paste\\.ee|transfer\\.sh|temp\\.sh|anonfiles\\.com|storage\\.googleapis\\.com|trycloudflare\\.com|workers\\.dev|pages\\.dev|onrender\\.com|supabase\\.co|ddns\\.net|ngrok-free\\.app)$")>=0, 1, 0)
-
+    | rex max_match=0 field=process "(?i)https?://[^\\s\"']+[\"']?\\s+(?<bits_positional_path>\"[^\"]+\"|'[^']+'|\\S+)"
     | rex field=process "(?i)-Destination\\s+(?:\"(?<bits_destination_double>[^\"]+)\"|'(?<bits_destination_single>[^']+)'|(?<bits_destination_bare>[^\\s;|]+))"
 
-    | rex max_match=0 field=process "(?i)https?://[^\\s\"']+[\"']?\\s+(?<bits_positional_path>\"[^\"]+\"|'[^']+'|\\S+)"
-
-    | eval bits_local_path=coalesce(bits_destination_double, bits_destination_single, bits_destination_bare, bits_positional_path)
+    | eval bits_direct_ip=if(mvfind(bits_remote_host, "(?i)^(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$|^\\[[0-9a-f]*:[0-9a-f:]+\\]$")>=0, 1, 0),
+           bits_file_hosting=if(mvfind(bits_remote_host, "(?i)(^|\\.)(?:github\\.com|githubusercontent\\.com|discordapp\\.com|discordapp\\.net|dropboxusercontent\\.com|gofile\\.io|mega\\.nz|mediafire\\.com|pastebin\\.com|paste\\.ee|transfer\\.sh|temp\\.sh|anonfiles\\.com|storage\\.googleapis\\.com|trycloudflare\\.com|workers\\.dev|pages\\.dev|onrender\\.com|supabase\\.co|ddns\\.net|ngrok-free\\.app)$")>=0, 1, 0),
+           bits_local_path=coalesce(bits_destination_double, bits_destination_single, bits_destination_bare, bits_positional_path)
 
     | where isnotnull(bits_remote_host)
             AND
@@ -53,17 +52,27 @@ search: |-
                 OR
                 bits_file_hosting=1
                 OR
-                mvcount(mvfilter(match(bits_local_path, "(?i)(?:\\\\(?:AppData\\\\(?:Local|Roaming)|Users\\\\Public|ProgramData|PerfLogs|Temp|Windows\\\\(?:Temp|Tasks|debug)|\\$Recycle\\.Bin|inetpub\\\\wwwroot)\\\\|\\\\Start Menu\\\\Programs\\\\Startup\\\\|%(?:temp|tmp|appdata|localappdata|programdata|public)%\\\\|\\$env:(?:temp|tmp|appdata|localappdata|programdata|public)\\\\)"
+                mvcount(
+                    mvfilter(
+                        match(bits_local_path, "(?i)(?:\\\\(?:AppData\\\\(?:Local|Roaming)|Users\\\\Public|ProgramData|PerfLogs|Temp|Windows\\\\(?:Temp|Tasks|debug)|\\$Recycle\\.Bin|inetpub\\\\wwwroot)\\\\|\\\\Start Menu\\\\Programs\\\\Startup\\\\|%(?:temp|tmp|appdata|localappdata|programdata|public)%\\\\|\\$env:(?:temp|tmp|appdata|localappdata|programdata|public)\\\\)")
+                        AND
+                        match(bits_local_path, "(?i)\\.(?:exe|dll|com|pif|scr|cpl|msi|msp|ps1|psm1|bat|cmd|vbs|vbe|js|jse|wsf|wsh|sct|hta|chm|xll|aspx?|ashx|asmx|jsp|jspx|war)[\"\\x27]?$")
+                    )
+                )>0
+                OR
+                match(process, "(?i)[;|]\\s*(?:Start-Process|Invoke-Item|Invoke-Expression|iex|&)(?:\\s|\\()")
             )
-            AND
-            match(bits_local_path, "(?i)\\.(?:exe|dll|com|pif|scr|cpl|msi|msp|ps1|psm1|bat|cmd|vbs|vbe|js|jse|wsf|wsh|sct|hta|chm|xll|aspx?|ashx|asmx|jsp|jspx|war)[\"\\x27]?$")))>0
-            OR
-            match(process, "(?i)[;|]\\s*(?:Start-Process|Invoke-Item|Invoke-Expression|iex|&)(?:\\s|\\()"))
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `powershell_start_bitstransfer_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are
+    designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this
+    search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must
+    ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons
+    that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data
+    model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |-
     Administration, CI jobs and authorized testing can use literal IPs, public hosting, temporary destinations or
     chained execution. Review the script and its ancestry before tuning the filter macro. Invocation and URL
