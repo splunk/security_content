@@ -1,7 +1,7 @@
 name: Linux Auditd PAM Configuration File Modification
-id: 9e2b7c41-3f6a-4d58-b0e2-7a4c5d1f8b60
+id: 3c9a6e74-5b2d-4e71-8f0a-1d7c2b9e4a63
 version: 1
-creation_date: '2026-11-02'
+creation_date: '2026-10-31'
 modification_date: '2026-11-02'
 author: vahid malekmohammadi
 status: production
@@ -34,12 +34,12 @@ search: |-
     | table firstTime lastTime dest reconstructed_path current_working_directory process_name process nametype auid uid audit_id
     | `linux_auditd_pam_configuration_file_modification_filter`
 how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, PATH, CWD and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). Make sure the type=CWD record is captured in your auditd configuration, as it is used here to reconstruct the absolute path when a PAM file is opened by a relative name (for example after a chdir into /etc/pam.d). The host's auditd rules should generate PATH records for writes under these directories - the common way is a watch such as "-w /etc/pam.d/ -p wa -k pam" and "-w /etc/security/ -p wa -k pam" (shipped by most hardened rulesets, e.g. the Neo23x0 auditd baseline). The analytic requires a successful (success=yes) modifying syscall correlated to the PATH record, so denied/failed write attempts are not reported as modifications. Confirm field names against a real event, as auditd extraction can vary by deployment.
-known_false_positives: Package installation or upgrade of PAM-related packages (dpkg, apt, rpm) and the pam-auth-update / authselect tooling legitimately rewrite files under /etc/pam.d and /etc/security, as does configuration-management tooling (Ansible, Puppet, Chef, Salt). Update the filter macro to allowlist those processes or the service accounts that run them - for example exclude pam-auth-update and the package-manager binaries for your environment.
+known_false_positives: Package installation and upgrades (apt, dpkg, dpkg-reconfigure, rpm), pam-auth-update, authselect, ucf, and configuration-management tooling (Ansible, Puppet, Chef, Salt) legitimately modify PAM configuration files. Update the filter macro to allowlist the expected maintenance processes (for example process_name in dpkg, pam-auth-update, ucf, frontend) or the service accounts that run them for your environment.
 references:
     - https://attack.mitre.org/techniques/T1556/003/
+    - https://attack.mitre.org/techniques/T1556/
     - https://github.com/zephrax/linux-pam-backdoor
-    - https://man7.org/linux/man-pages/man8/pam.8.html
-    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+    - https://www.group-ib.com/blog/pam-backdoor/
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
@@ -53,15 +53,17 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 72
+          score: 64
           message: PAM configuration file [$reconstructed_path$] was modified by process [$process_name$] on host - [$dest$], a possible authentication backdoor.
 analytic_story:
     - Linux Living Off The Land
     - Compromised Linux Host
     - Linux Persistence Techniques
+    - Linux Privilege Escalation
 asset_type: Endpoint
 mitre_attack_id:
     - T1556.003
+    - T1556
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
