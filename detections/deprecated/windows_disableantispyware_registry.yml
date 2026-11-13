@@ -1,10 +1,10 @@
 name: Windows DisableAntiSpyware Registry
 id: 23150a40-9301-4195-b802-5bb4f43067fb
-version: 13
+version: 14
 creation_date: '2020-11-06'
-modification_date: '2026-10-09'
+modification_date: '2026-11-04'
 author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
-status: production
+status: deprecated
 type: TTP
 description: The following analytic detects the modification of the Windows Registry key "DisableAntiSpyware" being set to disable. This detection leverages data from the Endpoint.Registry datamodel, specifically looking for the registry value name "DisableAntiSpyware" with a value of "0x00000001". This activity is significant as it is commonly associated with Ryuk ransomware infections, indicating potential malicious intent to disable Windows Defender. If confirmed malicious, this action could allow attackers to disable critical security defenses, facilitating further malicious activities such as data encryption, exfiltration, or additional system compromise.
 data_source:
@@ -59,3 +59,8 @@ tests:
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
+deprecation_info:
+    reason: Detection deprecated due to overlapping DisableAntiSpyware coverage under Windows Defender policy keys in Disable Defender AntiVirus Registry.
+    removed_in_version: 6.12.0
+    replacement_content:
+        - Disable Defender AntiVirus Registry
