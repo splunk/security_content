@@ -1,8 +1,8 @@
 name: Non Firefox Process Access Firefox Profile Dir
 id: e6fc13b0-1609-11ec-b533-acde48001122
-version: 21
+version: 22
 creation_date: '2021-09-15'
-modification_date: '2026-08-14'
+modification_date: '2026-10-06'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -54,6 +54,7 @@ analytic_story:
     - Salat Stealer
     - Phantom Stealer
     - Vidar Stealer
+    - Braodo Stealer
 asset_type: Endpoint
 mitre_attack_id:
     - T1555.003

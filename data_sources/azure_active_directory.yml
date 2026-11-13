@@ -1,13 +1,136 @@
 name: Azure Active Directory
 id: 51ca21e5-bda2-4652-bb29-27c7bc18a81c
-version: 2
+version: 3
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-10-14'
 author: Patrick Bareiss, Splunk
 description: All Azure Active Directory events
 source: Azure AD
 sourcetype: azure:monitor:aad
 separator: operationName
+fields:
+    - _time
+    - action
+    - additional_details
+    - additional_details_name
+    - additional_details_value
+    - app
+    - authentication_service
+    - callerIpAddress
+    - category
+    - change_type
+    - command
+    - correlationId
+    - dataset_name
+    - date_hour
+    - date_mday
+    - date_minute
+    - date_month
+    - date_second
+    - date_wday
+    - date_year
+    - date_zone
+    - description
+    - dest
+    - dest_type
+    - durationMs
+    - dvc
+    - eventtype
+    - host
+    - id
+    - identity
+    - index
+    - Level
+    - linecount
+    - location
+    - object
+    - object_attrs
+    - object_category
+    - object_id
+    - operationName
+    - operationVersion
+    - path_from_resourceId
+    - properties.activity
+    - properties.activityDateTime
+    - properties.activityDisplayName
+    - properties.additionalDetails{}.key
+    - properties.additionalDetails{}.value
+    - properties.additionalInfo
+    - properties.category
+    - properties.correlationId
+    - properties.crossTenantAccessType
+    - properties.detectedDateTime
+    - properties.detectionTimingType
+    - properties.homeTenantId
+    - properties.id
+    - properties.initiatedBy.user.displayName
+    - properties.initiatedBy.user.id
+    - properties.initiatedBy.user.ipAddress
+    - properties.initiatedBy.user.userPrincipalName
+    - properties.ipAddress
+    - properties.lastUpdatedDateTime
+    - properties.location.city
+    - properties.location.countryOrRegion
+    - properties.location.geoCoordinates.altitude
+    - properties.location.geoCoordinates.latitude
+    - properties.location.geoCoordinates.longitude
+    - properties.location.state
+    - properties.loggedByService
+    - properties.operationType
+    - properties.requestId
+    - properties.resourceTenantId
+    - properties.result
+    - properties.resultReason
+    - properties.riskDetail
+    - properties.riskEventType
+    - properties.riskLevel
+    - properties.riskState
+    - properties.riskType
+    - properties.source
+    - properties.targetResources{}.displayName
+    - properties.targetResources{}.id
+    - properties.targetResources{}.modifiedProperties{}.displayName
+    - properties.targetResources{}.modifiedProperties{}.newValue
+    - properties.targetResources{}.modifiedProperties{}.oldValue
+    - properties.targetResources{}.type
+    - properties.tokenIssuerType
+    - properties.userAgent
+    - properties.userDisplayName
+    - properties.userId
+    - properties.userPrincipalName
+    - properties.userType
+    - punct
+    - resourceId
+    - result
+    - result_id
+    - resultSignature
+    - severity
+    - signature
+    - signature_id
+    - source
+    - sourcetype
+    - splunk_server
+    - src
+    - src_ip
+    - src_user
+    - src_user_name
+    - src_user_type
+    - status
+    - tag
+    - tag::eventtype
+    - tenantId
+    - time
+    - timeendpos
+    - timestartpos
+    - type
+    - user
+    - user_agent
+    - user_id
+    - user_name
+    - user_type
+    - vendor_account
+    - vendor_product
+    - vendor_region
 supported_TA:
     - name: Splunk Add-on for Microsoft Cloud Services
       url: https://splunkbase.splunk.com/app/3110
@@ -18,3 +141,5 @@ output_fields:
     - src
     - vendor_account
     - vendor_product
+example_log: |
+    {"time": "8/2/2023 1:08:44 PM", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/microsoft.aadiam", "operationName": "User Risk Detection", "operationVersion": "1.0", "category": "UserRiskEvents", "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "72.43.122.40", "correlationId": "efa2cb19d58a7a6a1424c692ca5202552ab1d0025d0e933e442193fc945a6bc6", "identity": "ava.brown", "Level": 4, "location": "us", "properties": {"id": "efa2cb19d58a7a6a1424c692ca5202552ab1d0025d0e933e442193fc945a6bc6", "requestId": "14066cab-a7bf-4e12-ba3d-17a026373700", "correlationId": "20afe6ab-d103-42c9-a810-97c25b61b279", "riskType": "maliciousIPAddress", "riskEventType": "maliciousIPAddress", "riskState": "atRisk", "riskLevel": "high", "riskDetail": "none", "source": "IdentityProtection", "detectionTimingType": "offline", "activity": "signin", "ipAddress": "72.43.122.40", "location": {"city": "New York", "state": "New York", "countryOrRegion": "US", "geoCoordinates": {"altitude": 0.0, "latitude": 0, "longitude": -0}}, "activityDateTime": "2023-08-01T19:55:29.638Z", "detectedDateTime": "2023-08-02T9:12:15.353Z", "lastUpdatedDateTime": "2023-08-02T13:08:44.445Z", "userId": "bd4a5efd-ffd5-4e27-9d7d-96e9094a74ec", "userDisplayName": "Ava.Brown", "userPrincipalName": "Ava.Brown@splunkresearch.com", "additionalInfo": "[{\"Key\":\"userAgent\",\"Value\":\"Mozilla/5.0 (Macintosh; Darwin 22.4.0 Darwin Kernel Version 22.4.0: Mon Mar  6 21:00:17 PST 2023; root:xnu-8796.101.5~3/RELEASE_X86_64; en-US) PowerShell/7.3.4\"}]", "tokenIssuerType": "AzureAD", "resourceTenantId": null, "homeTenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "userType": "member", "crossTenantAccessType": "none"}}

@@ -1,0 +1,73 @@
+name: Cisco AI Defense Allowed Sensitive Response
+id: 6e4cd833-ea98-4c16-a7e7-e1909fad3fb2
+version: 1
+creation_date: '2026-10-15'
+modification_date: '2026-10-15'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    Detects Cisco AI Defense response events that were allowed and matched a privacy guardrail for personally identifiable information or payment card data.
+    These events may indicate that sensitive information was returned to an AI application user and should be reviewed promptly.
+data_source:
+    - Cisco AI Defense Alerts
+search: |-
+    `cisco_ai_defense`
+    event_action="allow"
+    event_message_type="response"
+
+    | eval guardrail_ruleset_type=mvjoin('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', ", "),
+
+           guardrail_entity_name=mvjoin('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name', ", "),
+
+           application_name=if(isnotnull('genai_application.application_name') AND len(trim('genai_application.application_name'))>0, 'genai_application.application_name', "unknown"),
+
+           connection_name=if(isnotnull('connection.connection_name') AND len(trim('connection.connection_name'))>0, 'connection.connection_name', "unknown"),
+
+           policy_name='policy.policy_name'
+
+    | where mvfind('event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type', "(?i)\\bPII\\b|personally identifiable information|\\bPCI\\b|payment card industry")>=0
+
+    | table _time event_date event_id event_message_type event_action resource_type
+            application_id application_name connection_id connection_name model.model_name
+            policy_name guardrail_ruleset_type guardrail_entity_name
+
+    | `cisco_ai_defense_allowed_sensitive_response_filter`
+how_to_implement: |-
+    Install and configure the Cisco Security Cloud app to ingest Cisco AI Defense alerts into Splunk with the cisco:ai:defense sourcetype.
+    Confirm that extraction is enabled for the required fields as shown in the detection search.
+    Configure the "cisco_ai_defense" macro to match the index, source, and sourcetype used in your environment.
+known_false_positives: |-
+    Authorized testing, demonstrations, or approved workflows may allow responses that match PII or PCI guardrails.
+    Review the application owner, policy, response context, and whether the data was expected to be disclosed.
+drilldown_searches:
+    - name: View the detection results for - "$application_name$"
+      search: '%original_detection_search% | search application_name="$application_name$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+finding:
+    title: Cisco AI Defense allowed response [$event_id$] for application [$application_name$] matched privacy guardrail(s) [$guardrail_ruleset_type$] and entity [$guardrail_entity_name$].
+    entity:
+        field: application_name
+        type: other
+        score: 50
+threat_objects: []
+analytic_story:
+    - Abuse of GenAI Systems and Applications
+    - Data Protection
+    - Critical Alerts
+asset_type: Web Application
+mitre_attack_id: []
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/cisco_ai_defense_alerts/cisco_ai_defense_alerts.json
+          source: not_applicable
+          sourcetype: cisco:ai:defense
+      test_type: unit
