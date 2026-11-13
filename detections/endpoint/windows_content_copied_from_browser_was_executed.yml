@@ -1,8 +1,8 @@
 name: Windows Content Copied from Browser was Executed
 id: 5d1fdbcb-5ed9-4190-85c8-7f9026450a0b
-version: 1
+version: 2
 creation_date: '2026-09-07'
-modification_date: '2026-09-07'
+modification_date: '2026-11-03'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -77,6 +77,7 @@ threat_objects:
       type: process_hash
 analytic_story:
     - Fake CAPTCHA Campaigns
+    - Browser Cache Smuggling
 asset_type: Endpoint
 mitre_attack_id:
     - T1202
