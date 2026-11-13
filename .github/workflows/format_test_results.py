@@ -1,65 +1,75 @@
 """
-A simple script formatting test_results/summary.yml to display on github actions
+A simple script formatting the newest testing_artifacts/test_results_<timestamp>.yml
+written by `contentctl-ng test run` to display on github actions
 """
 
-import yaml
-import re
-import os
 import sys
+from pathlib import Path
+
+import yaml
+
+RESULTS_DIR = Path("testing_artifacts")
+STATUS_ICONS = {"pass": "🟢", "fail": "🔴", "error": "🔴", "skip": "🔵"}
+
+
+def latest_results_file() -> Path | None:
+    # Timestamps are YYYYmmdd_HHMMSS, so lexical order is chronological. The JUnit
+    # files are named test_results_junit_*.xml and never match this glob.
+    candidates = sorted(RESULTS_DIR.glob("test_results_*.yml"))
+    return candidates[-1] if candidates else None
+
 
 def main():
+    results_file = latest_results_file()
+    if results_file is None:
+        print(f"Error: no test_results_*.yml found in {RESULTS_DIR.resolve()}.")
+        sys.exit(1)
 
-    # Define the path to the YAML file
-    # yaml_file_path = 'summary.yml'
-    yaml_file_path = '/home/runner/work/security_content/security_content/test_results/summary.yml'
-   
-    # Check if the YAML file exists
-    if not os.path.exists(yaml_file_path):
-        print(f"Error: The file {yaml_file_path} does not exist.")
-        exit(1)  # Exit with an error code
-
-    # Load the YAML file
-    with open(yaml_file_path, 'r') as file:
+    with open(results_file, "r") as file:
         data = yaml.safe_load(file)
-    
-    # Extract total_fail value and debug print it
-    total_fail = data['summary']['total_fail']
-    total_detections = data['summary']['total_detections']
-    print("**Download the job artifacts of this run and view complete summary in test_results/summary.yml for troubleshooting failures.**\n")
-    print(" 📝 **Experimental or manual_test detections are not tested** 📝 **\n") 
-    print(f"Extracted total_fail: [{total_fail}]\n")
-    
-    # Print all unit test details first
-    print(" 🏗️⚒️ **Unit Test Details:**\n")
-    print(f"{'Name':<80} | {'Status':<6} | {'Test Type':<10} | {'Exception':<50}")
-    print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
-    for detection in data['tested_detections']:
-        for test in detection['tests']:
-            if test['test_type'].strip() == "unit":  # Check if the test type is "unit"
-                name = (detection.get('name') or 'N/A').strip()
-                status = 'PASS' if test.get('success') else 'FAIL'
-                test_type = (test.get('test_type') or 'N/A').strip()
-                exception = (test.get('exception') or 'N/A')  # Get exception if exists, else 'N/A'
-                if status == 'FAIL':
-                    print(f"{name:<80} | 🔴 {status:<6}  | {test_type:<10} | {exception:<50}")
-                else:
-                    print(f"{name:<80} | 🟢  {status:<6} | {test_type:<10} | {'-':<50}")
 
-    # Check if total_fail is a valid integer and greater than or equal to one
-    print("\n")  # Print a newline for separation
+    totals = data["totals"]
+    print(
+        f"**Download the job artifacts of this run and view the complete results in {results_file.name} for troubleshooting failures.**\n"
+    )
+    print(" 📝 **Experimental or manual_test detections are not tested** 📝 **\n")
+    print(
+        f"Total tests: {totals['total_tests']} | passed: {totals['passed']} | failed: {totals['failed']} | "
+        f"errored: {totals['errored']} | skipped: {totals['skipped']} | not run: {totals['not_run']}\n"
+    )
+
+    print(" 🏗️⚒️ **Test Details:**\n")
+    print(f"{'Name':<80} | {'Status':<7} | {'Test Type':<22} | {'Message':<50}")
+    print(f"{'----':<80} | {'------':<7} | {'---------':<22} | {'-------':<50}")
+    for job in data["jobs"]:
+        for test in job["tests"]:
+            result = test.get("result")
+            if result is None:
+                status, message = "not run", ""
+                icon = "🔴"
+            else:
+                status = result["status"]
+                message = (result.get("message") or "").replace("\n", " ")
+                icon = STATUS_ICONS.get(status, "🔴")
+            name = (job.get("content_name") or "N/A").strip()
+            print(
+                f"{name:<80} | {icon} {status.upper():<7} | {test['strategy_name']:<22} | {message or '-':<50}"
+            )
+
+    print("\n")
     print("**Overall Status**")
     print("-------------------------------")
-    # Continue with additional prints or other logic
-    if int(total_fail) >=1:
-        # Print the message in bold
-        print("🔴 - **CI Failure: There are failed tests.**\n\n")
-        sys.exit(1)
-    if int(total_fail) < 1:
-        print("🟢 - **CI Success: No failed tests.**\n\n")
-        sys.exit(0)
-    if int(total_detections) < 1:
+    if totals["total_tests"] < 1:
         print("🔵 - **CI Success: No detections to test**\n\n")
         sys.exit(0)
-        
+    if not totals["success"]:
+        print("🔴 - **CI Failure: There are failed tests.**\n\n")
+        for identity in totals["attention"]:
+            print(f"- {identity}")
+        sys.exit(1)
+    print("🟢 - **CI Success: No failed tests.**\n\n")
+    sys.exit(0)
+
+
 if __name__ == "__main__":
     main()

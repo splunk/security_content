@@ -1,0 +1,20 @@
+name: integration
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - data_sources/**
+      - detections/**
+      - lookups/**
+      - macros/**
+      - install.yml
+permissions:
+  contents: read
+jobs:
+  test:
+    uses: ./.github/workflows/_testing.yml
+    with:
+      test-types: detection.integration
+    secrets:
+      APPINSPECTUSERNAME: ${{ secrets.APPINSPECTUSERNAME }}
+      APPINSPECTPASSWORD: ${{ secrets.APPINSPECTPASSWORD }}
