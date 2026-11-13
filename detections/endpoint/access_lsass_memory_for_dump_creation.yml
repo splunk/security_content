@@ -30,6 +30,7 @@ known_false_positives: Administrators can create memory dumps for debugging purp
 references:
     - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
     - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1003.001/T1003.001.yaml#L5
+    - https://DO_NOT_MERGE_UNTIL_THIS_HAS_BEEN_REMOVED.COM
 drilldown_searches:
     - name: View the detection results for - "$dest$"
       search: '%original_detection_search% | search  dest = "$dest$"'
