@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
        
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v6.3.0
         with:
           python-version: '3.11'
           architecture: 'x64'
@@ -31,7 +31,7 @@ jobs:
           cp response_templates/merged_response_templates/* dist/api/response_templates/
 
       - name: store_artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: response-templates
           path: |
