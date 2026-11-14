@@ -1,0 +1,78 @@
+name: Linux Non-User Privilege Escalation via Doas
+id: 8f7bfeb6-05f8-4ff9-b582-4e19fc0d52c6
+version: 1
+creation_date: '2026-11-10'
+modification_date: '2026-11-10'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects an accepted SSH password login of a non-user account followed by a doas command run as root by the same
+    account on the same Linux endpoint within ten minutes. The sequence can indicate an attacker using a compromised
+    or bypassed SSH account to gain root access.
+data_source:
+    - Linux Messages Syslog
+search: |-
+    `linux_syslog` ("Accepted password for" OR "as root from")
+    | rex field=_raw "^[A-Za-z]{3} +[0-9]+ +[0-9:]+ +(?<syslog_dest>[^ ]+)"
+    | rex field=_raw "Accepted password for (?:invalid user )?(?<ssh_user>[^ ]+) from (?<src_ip>[^ ]+) port (?<src_port>[0-9]+) ssh2"
+    | rex field=_raw "(?<doas_user>[^ ]+) ran command (?<command>.+) as root from (?<working_directory>.*)$"
+    | eval dest=coalesce(dest, syslog_dest, host), user=lower(coalesce(ssh_user, doas_user))
+    | eval ssh_login=if(match(_raw, "Accepted password for"), 1, 0), doas_root_command=if(match(_raw, "ran command .* as root from"), 1, 0)
+    | where ssh_login=1 OR doas_root_command=1
+    | where isnotnull(user)
+    | where in(user, "daemon", "bin", "sys", "sync", "shutdown", "halt", "games", "man", "lp", "mail", "news", "uucp", "operator", "www-data", "backup", "list", "irc", "gnats", "nobody", "_apt", "systemd-network", "systemd-resolve", "messagebus", "uuidd", "sshd", "ntp", "ftp", "chrony", "postfix", "redis", "mysql", "mariadb", "postgres", "alpine", "guest")
+    | eval event_priority=if(ssh_login=1, 0, 1)
+    | sort 0 _time event_priority
+    | streamstats time_window=10m max(eval(if(ssh_login=1, _time, null()))) as ssh_login_time values(eval(if(ssh_login=1, src_ip, null()))) as src_ips values(eval(if(ssh_login=1, src_port, null()))) as src_ports by dest user
+    | where doas_root_command=1 AND isnotnull(ssh_login_time)
+    | eval doas_time=_time, elapsed_seconds=doas_time-ssh_login_time
+    | stats values(src_ips) as src_ips values(src_ports) as src_ports values(command) as command values(working_directory) as working_directory by dest user ssh_login_time doas_time elapsed_seconds
+    | eval ssh_logins=1
+    | `security_content_ctime(ssh_login_time)`
+    | `security_content_ctime(doas_time)`
+    | table ssh_login_time doas_time elapsed_seconds dest user src_ips src_ports command working_directory ssh_logins
+    | `linux_non_user_privilege_escalation_via_doas_filter`
+how_to_implement: To successfully implement this search, you need to have relevant kernel logs ingested with the Splunk Add-On for Unix and Linux (https://splunkbase.splunk.com/app/833).
+known_false_positives: |-
+    Administrators may legitimately use SSH and doas during the same ten-minute period. Tune the search for authorized
+    privileged accounts and expected management sources.
+references:
+    - https://sshhole.com/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Non-user account [$user$] logged in via ssh and ran a doas root command on [$dest$].
+analytic_story:
+    - Linux Privilege Escalation
+    - SSHHole
+asset_type: Endpoint
+cve:
+    - CVE-2026-123158
+mitre_attack_id:
+    - T1078.003
+    - T1548.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/sshhole/syslog.log
+          source: /var/log/messages
+          sourcetype: linux_messages_syslog
+      test_type: unit
