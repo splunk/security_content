@@ -1,0 +1,101 @@
+name: Windows Cmd Command Line With Encoded Character Sequences
+id: 155020ba-3fd8-4109-a83d-091aeb966dba
+version: 1
+creation_date: '2026-11-12'
+modification_date: '2026-11-12'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |
+    The following analytic detects cmd.exe command lines that contain long sequences of
+    encoded characters, such as decimal values (12;70;18;...), hexadecimal values
+    (0x41,0x42,...), HTML entities, or Unicode and octal escapes, with at least twelve
+    consecutive items. This activity is significant because loaders, including ClickFix
+    payloads that retrieve commands through finger, hide their next stage as an index
+    list that cmd.exe decodes at runtime using delayed variable expansion before launching
+    PowerShell. If confirmed malicious, this could lead to execution of a hidden payload,
+    such as a download cradle with an AMSI bypass.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes
+    WHERE
+      Processes.process_name = "cmd.exe"
+      NOT Processes.process = "*nmap*"
+      NOT Processes.process = "* tsx *"
+    by Processes.action Processes.dest Processes.original_file_name
+      Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+      Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+      Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+      Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+      Processes.user Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | regex process="(?i)(?:\\d{1,3}[;\\s,]){12,}|(?:0x[A-Fa-f0-9]{2}[;\\s,]?){12,}|(?:&#x?[A-Za-z0-9]{2,3}[;\\s,]?){12,}|(?:\\\\u[A-Fa-f0-9]{4}[;\\s,]?){12,}|(?:\\\\u\\{[A-Fa-f0-9]+\\}[;\\s,]?){12,}|(?:\\\\\\d{3}[;\\s,]?){12,}"
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_cmd_command_line_with_encoded_character_sequences_filter`
+how_to_implement: |
+    The detection is based on data that originates from Endpoint Detection
+    and Response (EDR) agents. These agents are designed to provide security-related
+    telemetry from the endpoints where the agent is installed. To implement this search,
+    you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions. These logs must
+    be processed using the appropriate Splunk Technology Add-ons that are specific to
+    the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+    data model. Use the Splunk Common Information Model (CIM) to normalize the field
+    names and speed up the data modeling process.
+known_false_positives: |
+    Scripts that legitimately pass long lists of numbers, byte values or escaped characters to
+    cmd.exe (for example network scanners, build tooling or data processing batch files) may
+    be returned. Filter by parent process or command line as needed.
+references:
+    - https://attack.mitre.org/techniques/T1027/010/
+    - https://attack.mitre.org/techniques/T1140/
+    - https://attack.mitre.org/techniques/T1059/003/
+    - https://www.proofpoint.com/us/blog/threat-insight/security-brief-clickfix-social-engineering-technique-floods-threat-landscape
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Encoded command line [$process$] was executed by [$parent_process_name$] on endpoint [$dest$] by user [$user$].
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process
+      type: process
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - Fake CAPTCHA Campaigns
+    - Deobfuscate-Decode Files or Information
+asset_type: Endpoint
+mitre_attack_id:
+    - T1027.010
+    - T1140
+    - T1059.003
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.010/windows_cmd_encoded_chars/windows_cmd_encoded_chars.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

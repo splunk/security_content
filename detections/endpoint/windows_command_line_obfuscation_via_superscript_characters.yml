@@ -1,0 +1,99 @@
+name: Windows Command Line Obfuscation Via Superscript Characters
+id: 62b43310-8a83-4ff1-bcff-efb45ae8cc0d
+version: 1
+creation_date: '2026-11-12'
+modification_date: '2026-11-12'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |
+    The following analytic detects Windows system binaries executed with command line
+    arguments that contain superscript or modifier letter characters (for example the
+    Unicode characters used in "/ᵖᵃckᵃge") in place of regular ASCII letters.
+    Windows command line parsers such as msiexec.exe normalize these look-alike characters,
+    so the argument still works while evading string-based detections. This technique has
+    been observed in ClickFix-style campaigns where victims paste a command into the Run
+    dialog that silently installs a remote MSI package with msiexec.exe.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes
+    WHERE Processes.process_path = "*:\\Windows\\*"
+      by Processes.action Processes.dest Processes.original_file_name
+      Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+      Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+      Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+      Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+      Processes.user Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | regex process="(?:\\-\\-|/)(?:[a-zA-Z0-9]+)?[\\x{1D00}-\\x{1D7F}\\x{02B0}-\\x{02FF}\\x{1D80}-\\x{1DBF}\\x{2070}-\\x{209F}\\x{FF00}-\\x{FFEF}]+(?:[a-zA-Z0-9]+)?"
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_command_line_obfuscation_via_superscript_characters_filter`
+how_to_implement: |
+    The detection is based on data that originates from Endpoint Detection
+    and Response (EDR) agents. These agents are designed to provide security-related
+    telemetry from the endpoints where the agent is installed. To implement this search,
+    you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions, and the command line
+    must retain its original Unicode characters. These logs must be processed using the
+    appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs
+    must also be mapped to the `Processes` node of the `Endpoint` data model. Use the
+    Splunk Common Information Model (CIM) to normalize the field names and speed up the
+    data modeling process.
+known_false_positives: |
+    Legitimate use of superscript or modifier characters in arguments to Windows
+    binaries is very rare. Locales or applications that pass fullwidth characters
+    (for example East Asian input methods) in command line switches may generate
+    false positives. Filter by process or parent process as needed.
+references:
+    - https://attack.mitre.org/techniques/T1027/010/
+    - https://attack.mitre.org/techniques/T1218/
+    - https://www.huntress.com/blog/the-evolving-tradecraft-of-clickfix
+    - https://app.any.run/tasks/a2ac674c-0b4c-42c9-b669-03f4699c8b96/
+    - https://claudio-a.me/posts/netsupportrat/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Superscript characters found in the command line of [$process_name$] on endpoint [$dest$] by user [$user$].
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process
+      type: process
+    - field: parent_process_name
+      type: parent_process_name
+analytic_story:
+    - Windows System Binary Proxy Execution MSIExec
+    - Fake CAPTCHA Campaigns
+asset_type: Endpoint
+mitre_attack_id:
+    - T1027.010
+    - T1218
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.010/windows_superscript_obfuscation/windows_superscript_obfuscation.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit

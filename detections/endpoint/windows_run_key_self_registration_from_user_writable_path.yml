@@ -1,0 +1,105 @@
+name: Windows Run Key Self Registration From User Writable Path
+id: d45cc449-f293-4b09-9f7c-611a01e159f4
+version: 1
+creation_date: '2026-11-12'
+modification_date: '2026-11-12'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |
+    The following analytic detects a binary located in a user-writable directory
+    (C:\Users, C:\ProgramData or C:\PerfLogs) that registers itself for persistence by
+    writing its own path into a CurrentVersion Run registry key. This activity is significant
+    because malware delivered through ClickFix-style remote MSI installations (such as
+    NodeJS based loaders or DeElevate64.exe) commonly drops its payload into the user
+    profile and then adds itself to the Run key to survive reboots. If confirmed malicious,
+    this could allow an attacker to maintain persistent access to the endpoint every time
+    the user logs in.
+data_source:
+    - Sysmon EventID 13
+search: |
+    `sysmon` EventCode=13
+    registry_path = "*\\Microsoft\\Windows\\CurrentVersion\\Run*"
+    process_path IN ("*:\\Users\\*", "*:\\ProgramData\\*", "*:\\PerfLogs\\*")
+    NOT process_name IN (
+        "OneDrive.Sync.Service.exe",
+        "RingCentralForTeams.exe",
+        "Balto.exe",
+        "QSHelper.exe",
+        "Microsoft.SharePoint.exe",
+        "opera.exe",
+        "IWDesktop.exe",
+        "Amazon WorkDocs Companion.exe",
+        "GoToForTeams.exe",
+        "OfficeAtHandForTeams.exe",
+        "Print to Fax.exe",
+        "UniKeyNT.exe",
+        "JTTray.exe"
+    )
+    | where lower(process_path)=lower(registry_value_data)
+
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by dest user process_guid process_id process_name process_path
+           registry_path registry_value_name registry_value_data
+           vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_run_key_self_registration_from_user_writable_path_filter`
+how_to_implement: |
+    This search requires Sysmon logs with a Sysmon configuration that includes
+    EventID 13 (Registry value set) for the CurrentVersion Run keys. If you are using
+    Sysmon, you must have at least version 2.0 of the official Sysmon TA. This search
+    uses an input macro named `sysmon`. We strongly recommend that you specify your
+    environment-specific configurations (index, source, sourcetype, etc.) for Windows
+    Sysmon logs. Replace the macro definition with configurations for your Splunk
+    environment. The search also uses a post-filter macro designed to filter out
+    known false positives. Update the process name exclusion list with software in
+    your environment that legitimately registers itself in the Run key.
+known_false_positives: |
+    Per-user installed software (for example collaboration clients, browsers, VPN
+    clients and updaters) commonly installs into the user profile and registers itself
+    in the Run key. Such software will be returned by this analytic and should be
+    added to the process name exclusion list after validation.
+references:
+    - https://attack.mitre.org/techniques/T1547/001/
+    - https://www.huntress.com/blog/the-evolving-tradecraft-of-clickfix
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: $process_name$ on endpoint [$dest$] registered itself in the Run key [$registry_path$] for persistence.
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process_path
+      type: file_path
+    - field: registry_value_name
+      type: registry_value_name
+analytic_story:
+    - Windows Persistence Techniques
+    - Fake CAPTCHA Campaigns
+asset_type: Endpoint
+mitre_attack_id:
+    - T1547.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/windows_self_persistence/windows_self_persistence.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
