@@ -1,0 +1,65 @@
+name: Linux Auditd Audit Rules Removed
+id: a4d7f6b1-2c93-4e85-bf10-6a2d9c3e7f84
+version: 1
+creation_date: '2026-11-02'
+modification_date: '2026-11-02'
+author: vahid malekmohammadi
+status: production
+type: Anomaly
+description: The following analytic detects a burst of Linux audit (auditd) rules being removed at runtime without being re-added, using the native CONFIG_CHANGE op=remove_rule and op=add_rule events. Adversaries flush the audit ruleset - for example with "auditctl -D" or the AUDIT_DEL netlink operation - to blind the audit subsystem while the auditd daemon keeps running, so no DAEMON_END event is raised and standard service-stop detections stay silent. The kernel emits a CONFIG_CHANGE record for every rule removed or added. A legitimate reload (augenrules --load, auditctl -R, auditd restart, boot) removes the existing rules and re-adds the bulk of them, whereas a malicious flush re-adds few or none - even when an attacker adds a token rule to look like a reload. The analytic therefore aggregates removals and re-additions host-wide over a short window and fires only when the re-added count is a small fraction of the removed count. It aggregates per host rather than per session because, on real hosts, a reload's removals and re-additions are frequently attributed to different login sessions (the invoking user's session for removals, the unset/system context for re-additions). If confirmed, this is a high-severity defense-evasion / anti-forensics action that undermines the integrity of all host auditing.
+data_source:
+    - Linux Auditd Config Change
+search: |-
+    `linux_auditd` type=CONFIG_CHANGE op IN ("remove_rule", "add_rule") NOT res IN ("no", "0", "failed")
+    | eval subj=coalesce(subj, "unknown")
+    | eval is_remove=if(op=="remove_rule", 1, 0), is_add=if(op=="add_rule", 1, 0)
+    | bin _time span=5m
+    | stats sum(is_remove) as rules_removed sum(is_add) as rules_added values(eval(if(op=="remove_rule", key, null()))) as removed_keys values(auid) as auid values(ses) as ses values(subj) as subj min(_time) as firstTime max(_time) as lastTime BY _time host
+    | where rules_removed>=5 AND rules_added < (rules_removed * 0.1)
+    | rename host as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table firstTime lastTime dest auid ses subj rules_removed rules_added removed_keys
+    | `linux_auditd_audit_rules_removed_filter`
+how_to_implement: To implement this detection, ingest auditd data using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833) and normalize the field names to the Splunk Common Information Model (CIM). No custom audit rule is required - the kernel audit subsystem emits a CONFIG_CHANGE record for every rule add or removal on its own. Confirm field names against a real event, as auditd extraction can vary by deployment - the operation is in the "op" field (remove_rule / add_rule), the result in "res", and the removed rule key in "key". Only successful operations are counted (failed requests with res=no/0/failed are excluded), and events without a subj value are retained rather than dropped. The analytic aggregates host-wide over a 5-minute window and fires when rules_removed is at least 5 and rules_added is under 10% of rules_removed; the removal threshold separates a flush from an administrator removing a single rule during tuning, and the ratio separates a flush from a reload that re-adds the bulk of what it removed. Both are tunable - raise the ratio if your reloads re-add fewer rules than they remove, or lower it for a stricter definition of a flush.
+known_false_positives: Legitimate rule reloads (augenrules --load, auditctl -R, an auditd service restart, system boot) remove the existing rules and re-add most of them, so they fall under the re-add ratio and are excluded; an unusual reload that re-adds under 10% of what it removed could still trigger this and should be allowlisted. System shutdown may remove rules in system context (auid set to the unset value); update the filter macro to exclude that context if it generates noise. An administrator manually removing many rules during tuning without reloading can also trigger this; allowlist their account or session in the filter macro if needed.
+references:
+    - https://attack.mitre.org/techniques/T1562/001/
+    - https://attack.mitre.org/techniques/T1070/
+    - https://man7.org/linux/man-pages/man8/auditctl.8.html
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 72
+          message: $rules_removed$ audit rules were removed at runtime with only $rules_added$ re-added (auid [$auid$]) on host - [$dest$], a possible attempt to disable auditing.
+analytic_story:
+    - Compromised Linux Host
+    - Linux Living Off The Land
+asset_type: Endpoint
+mitre_attack_id:
+    - T1562.001
+    - T1070
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/linux_auditd_rules_removed/linux_auditd_rules_removed.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
