@@ -1,0 +1,113 @@
+name: Windows Native Messaging Host Registered By User Writable Binary
+id: 26354905-bc7a-402f-ab61-cee72d865edf
+version: 1
+creation_date: '2026-11-16'
+modification_date: '2026-11-16'
+author: Onur Mustafa Erdogan, Splunk
+status: production
+type: TTP
+description: |
+    The following analytic detects a binary running from a user-writable or Windows directory
+    (C:\Users, C:\ProgramData, C:\PerfLogs or C:\Windows) that creates or modifies a Chrome or
+    Edge NativeMessagingHosts registry key. This activity is significant because registering
+    a native messaging host manifest lets a malicious browser extension launch arbitrary local
+    programs, which has been abused for command and control and persistence. If confirmed
+    malicious, an attacker could execute code through the browser each time the extension
+    connects, outside the usual extension sandbox.
+data_source:
+    - Sysmon EventID 13
+search: |
+    `sysmon` EventCode=13
+    (
+        registry_path = "*\\Edge\\NativeMessagingHosts\\*"
+        OR registry_path = "*\\Chrome\\NativeMessagingHosts\\*"
+    )
+    process_path IN (
+        "*:\\Users\\*", "*:\\ProgramData\\*", "*:\\PerfLogs\\*", "*:\\Windows\\*"
+    )
+    NOT process_path IN (
+        "*:\\Windows\\Installer\\*",
+        "*:\\Windows\\System32\\msiexec.exe",
+        "*:\\Windows\\SysWOW64\\msiexec.exe",
+        "*:\\Windows\\System32\\reg.exe",
+        "*:\\Windows\\SysWOW64\\reg.exe"
+    )
+    NOT registry_path IN (
+        "*\\NativeMessagingHosts\\com.soundresearch.contentclassifier",
+        "*\\NativeMessagingHosts\\com.microsoft.onedrive.nucleus.auth.provider",
+        "*\\NativeMessagingHosts\\com.wps.pdfextension",
+        "*\\NativeMessagingHosts\\com.wps.anydocextension",
+        "*\\NativeMessagingHosts\\com.anthropic.claude_browser_extension",
+        "*\\NativeMessagingHosts\\com.anthropic.claude_code_browser_extension"
+    )
+    NOT user IN ("SYSTEM", "*\\SYSTEM")
+
+    | regex process_path!="(?i)[\\\\/]+AppData[\\\\/]+Local[\\\\/]+(?:[^\\\\/]+[\\\\/]+){1,}[^\\\\/]+\\.\\w+$"
+    
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by dest user process_guid process_id process_name process_path
+           registry_path registry_value_name registry_value_data
+           vendor_product
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_native_messaging_host_registered_by_user_writable_binary_filter`
+how_to_implement: |
+    This search requires Sysmon logs with a Sysmon configuration that includes
+    EventID 13 (Registry value set) for the Chrome and Edge NativeMessagingHosts keys.
+    If you are using Sysmon, you must have at least version 2.0 of the official Sysmon
+    TA. This search uses an input macro named `sysmon`. We strongly recommend that you
+    specify your environment-specific configurations (index, source, sourcetype, etc.)
+    for Windows Sysmon logs. Replace the macro definition with configurations for your
+    Splunk environment. The search also uses a post-filter macro designed to filter out
+    known false positives. Update the exclusion lists with native messaging hosts that
+    are legitimately registered in your environment.
+known_false_positives: |
+    Software that registers a native messaging host from the user profile, ProgramData or a
+    Windows subfolder (for example password managers, document tools and collaboration
+    clients) may be returned. Validate the host and add its registry key name or process path
+    to the exclusion list.
+references:
+    - https://attack.mitre.org/techniques/T1176/001/
+    - https://specterops.io/blog/2026/08/13/chromium-extension-c2-persistence/
+    - https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Process [$process_name$] on endpoint [$dest$] registered the native messaging host [$registry_path$] pointing to [$registry_value_data$].
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: process_path
+      type: file_path
+    - field: registry_path
+      type: registry_path
+    - field: registry_value_data
+      type: file_path
+analytic_story:
+    - Browser Hijacking
+asset_type: Endpoint
+mitre_attack_id:
+    - T1176.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1176.001/windows_native_messaging_registry/windows_native_messaging_registry.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
