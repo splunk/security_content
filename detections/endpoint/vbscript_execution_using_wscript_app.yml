@@ -2,13 +2,14 @@ name: Vbscript Execution Using Wscript App
 id: 35159940-228f-11ec-8a49-acde48001122
 version: 15
 creation_date: '2021-09-14'
-modification_date: '2026-11-04'
+modification_date: '2026-11-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic detects the execution of VBScript using the wscript.exe application.
+    The following analytic detects the execution of VBScript using the wscript.exe utility.
     It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry.
+    It excludes scripts launched from common trusted directories, including nested subdirectories under Program Files, Windows System32, and Windows SysWOW64.
 data_source:
     - Sysmon EventID 1
 search: |-
@@ -61,7 +62,8 @@ search: |-
 how_to_implement: |-
     The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, parent process, and process current working directory. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model, including `Processes.process_current_directory`. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |-
-    No false positives have been identified at this time.
+    False positives are expected when running scripts from user controlled directories such as the desktop, documents, or AppData directories, as well as when running scripts inline from non system directories directly.
+    Apply additional path filtering to the detection to reduce false positives.
 references:
     - https://www.joesandbox.com/analysis/369332/0/html
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
@@ -79,11 +81,11 @@ intermediate_findings:
         - field: user
           type: user
           score: 20
-          message: Process name $process_name$ with commandline $process$ to execute vbsscript
+          message: '[$parent_process_path$] executed [$process_path$] with CommandLine [$process$] on [$dest$] by [$user$]'
         - field: dest
           type: system
           score: 20
-          message: Process name $process_name$ with commandline $process$ to execute vbsscript
+          message: '[$parent_process_path$] executed [$process_path$] with CommandLine [$process$] on [$dest$] by [$user$]'
 analytic_story:
     - FIN7
     - Remcos

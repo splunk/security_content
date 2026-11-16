@@ -16,15 +16,15 @@ search: |-
     `powershell`
     EventCode=4104
     ScriptBlockText IN (
-        "*copy-item *",
+        "*Copy-Item *",
         "*gci *",
-        "*get-childitem *",
-        "*get-content *",
-        "*readallbytes *",
-        "*readalltext *",
-        "*readbytes *",
-        "*select-string *",
-        "*writeallbytes *"
+        "*Get-ChildItem *",
+        "*Get-Content *",
+        "*ReadAllBytes*",
+        "*ReadAllText*",
+        "*ReadBytes*",
+        "*Select-String*",
+        "*WriteAllBytes*"
     )
 
     ScriptBlockText IN (
@@ -48,6 +48,9 @@ search: |-
       )
 
     | where isnotnull(cache_family)
+
+    | eval dest=coalesce(dest, Computer, dvc, host)
+    | eval user=coalesce(user, UserID, User)
 
     | stats count min(_time) as firstTime
                   max(_time) as lastTime
