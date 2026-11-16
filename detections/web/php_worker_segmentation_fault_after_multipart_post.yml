@@ -1,8 +1,8 @@
 name: PHP Worker Segmentation Fault After Multipart POST
 id: 0ace6522-ee55-4e5c-bd69-d6f0a8e69e6a
-version: 1
+version: 2
 creation_date: '2026-10-28'
-modification_date: '2026-10-28'
+modification_date: '2026-11-05'
 author: Onur Mustafa Erdogan, Raven Tait, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ search: |-
     | eval dest=coalesce(server,dest,dest_ip)
     | eval uri_query=coalesce(uri_query,"")
     | eval uri_path=coalesce(uri_path,"")
-    | eval uri=coalesce(uri_path.uri_query,uri)
+    | eval uri=coalesce(nullif(uri,""),nullif(uri_path.uri_query,""))
 
     | stats count min(_time) as firstTime last(_time) as lastTime
         dc(source) as dc_source
