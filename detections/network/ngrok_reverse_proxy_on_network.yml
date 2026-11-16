@@ -1,28 +1,96 @@
 name: Ngrok Reverse Proxy on Network
 id: 5790a766-53b8-40d3-a696-3547b978fcf0
-version: 10
+version: 11
 creation_date: '2022-11-16'
-modification_date: '2026-05-13'
-author: Michael Haag, Splunk
+modification_date: '2026-11-13'
+author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects DNS queries to common Ngrok domains, indicating potential use of the Ngrok reverse proxy tool. It leverages the Network Resolution datamodel to identify queries to domains such as "*.ngrok.com" and "*.ngrok.io". While Ngrok usage is not inherently malicious, it has been increasingly adopted by adversaries for covert communication and data exfiltration. If confirmed malicious, this activity could allow attackers to bypass network defenses, establish persistent connections, and exfiltrate sensitive data, posing a significant threat to the network's security.
+description: |-
+    This analytic detects DNS lookups to ngrok-managed endpoint domains, agent gateway domains, and CNAME targets, plus a CISA-reported ngrok-themed domain.
+    Results classify TCP tunnel hostnames, tunnel.us-style agent gateway lookups, and generated-looking endpoint labels, and summarize repeated queries and distinct DNS answers by source and 15-minute interval.
+    Threat actors have used ngrok to expose internal services, including RDP and SMB, maintain persistence, move laterally, and proxy command-and-control traffic.
+    Ngrok is also a legitimate developer and remote-access service, so use the query classification, frequency, endpoint context, and approved usage baseline to prioritize investigation.
 data_source:
     - Sysmon EventID 22
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Resolution
-      WHERE DNS.query IN ("*.ngrok.com","*.ngrok.io", "ngrok.*.tunnel.com", "korgn.*.lennut.com")
-      BY DNS.answer DNS.answer_count DNS.query
-         DNS.query_count DNS.reply_code_id DNS.src
-         DNS.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+            values(DNS.answer) as answer
+            distinct_count(DNS.answer) as distinct_answers
+            values(DNS.answer_count) as answer_count
+            values(DNS.query_count) as query_count
+
+    FROM datamodel=Network_Resolution WHERE
+
+    DNS.query IN (
+        "*.ngrok-agent.com.",
+        "*.ngrok-agent.com",
+        "*.ngrok-cname.com.",
+        "*.ngrok-cname.com",
+        "*.ngrok-free.app.",
+        "*.ngrok-free.app",
+        "*.ngrok-free.dev.",
+        "*.ngrok-free.dev",
+        "*.ngrok-free.pizza.",
+        "*.ngrok-free.pizza",
+        "*.ngrok.app.",
+        "*.ngrok.app",
+        "*.ngrok.com.",
+        "*.ngrok.com",
+        "*.ngrok.dev.",
+        "*.ngrok.dev",
+        "*.ngrok.io.",
+        "*.ngrok.io",
+        "*.ngrok.pizza.",
+        "*.ngrok.pizza",
+        "*.ngrok.pro.",
+        "*.ngrok.pro",
+        "*.tcp.ngrok.io.",
+        "*.tcp.ngrok.io",
+        "korgn.su.lennut.com.",
+        "korgn.su.lennut.com",
+        "tunnel.*.ngrok.com.",
+        "tunnel.*.ngrok.com"
+    )
+
+    BY DNS.src DNS.query DNS.reply_code_id DNS.vendor_product _time span=15m
+
     | `drop_dm_object_name("DNS")`
+
+    | eval query = lower(rtrim(query, "."))
+
+    | eval endpoint_label = mvindex(split(query, "."), 0)
+
+    | eval query_type = case(
+        query = "korgn.su.lennut.com", "CISA-reported ngrok-themed domain",
+        match(query, "(?i)^[^.]+\\.tcp\\.ngrok\\.io$"), "TCP tunnel endpoint",
+        match(query, "(?i)^tunnel\\.[^.]+\\.ngrok\\.com$"), "Ngrok agent gateway",
+        match(endpoint_label, "(?i)^(?:[0-9]{8,}|[a-f0-9]{10,})$"), "Generated-looking endpoint label",
+        true(), "Ngrok-managed domain lookup"
+      )
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `ngrok_reverse_proxy_on_network_filter`
-how_to_implement: The Network Resolution Datamodel will need to have data mapped to it regarding DNS queries. Modify query as needed to use another source.
-known_false_positives: False positives will be present based on organizations that allow the use of Ngrok. Filter or monitor as needed.
+how_to_implement: |-
+    This detection requires DNS query logs. Map your DNS telemetry (for example, from your DNS server, resolver, or network sensor) to the Network Resolution data model so the search can find the events it needs.
+    The search groups matching DNS lookups by source, query, response code, vendor, and 15-minute interval. Ensure the Network Resolution data model includes DNS query names and answers to populate query classification and distinct-answer counts.
+    Modify the query as needed to use another source.
+known_false_positives: |-
+    Ngrok-managed domains and the tunnel gateway are used for legitimate development, testing, and remote-access workflows. Static dev domains and repeated agent gateway lookups can be expected in approved environments. Baseline authorized sources and use, and prioritize TCP tunnel endpoints, generated-looking labels, and the CISA-reported domain.
 references:
+    - https://ngrok.com/docs/gateway/domains
+    - https://ngrok.com/docs/gateway/domains/custom-domains
+    - https://ngrok.com/docs/gateway/agent/cli
+    - https://attack.mitre.org/software/S0508/
     - https://www.cisa.gov/uscert/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf
+    - https://www.cisa.gov/sites/default/files/2024-08/aa24-241a-iran-based-cyber-actors-enabling-ransomware-attacks-on-us-organizations_0.pdf
+    - https://www.trendmicro.com/en_us/research/24/j/earth-simnavaz-cyberattacks.html
+    - https://www.microsoft.com/en-us/security/blog/2023/06/14/cadet-blizzard-emerges-as-a-novel-and-distinct-russian-threat-actor/
+    - https://thedfirreport.com/2024/08/12/threat-actors-toolkit-leveraging-sliver-poshc2-batch-scripts/
+    - https://github.com/benyG/Invoke-Ngrok
+    - https://www.sophos.com/en-us/blog/rapid-response-the-ngrok-incident-guide
 drilldown_searches:
     - name: View the detection results for - "$src$"
       search: '%original_detection_search% | search  src = "$src$"'
@@ -37,7 +105,7 @@ intermediate_findings:
         - field: src
           type: system
           score: 20
-          message: An endpoint, $src$, is beaconing out to the reverse proxy service of Ngrok.
+          message: The endpoint [$src$] queried Ngrok-related domain [$query$] ($query_type$) $count$ time(s) and received $distinct_answers$ distinct DNS answer(s).
 analytic_story:
     - Reverse Network Proxy
     - CISA AA22-320A

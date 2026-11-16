@@ -1,15 +1,15 @@
 name: Windows Potential Cloudflared Tunnel Execution
 id: 2e29b58e-0f5a-42fc-b435-0fdce8862831
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
-author: Raven Tait, Splunk
+modification_date: '2026-11-14'
+author: Raven Tait, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |-
-    This analytic detects command-line arguments associated with the cloudflared client used to create Cloudflare tunnels.
-    Cloudflared is functionally very similar to ngrok, an ingress-as-a-service tool.
-    Cloudflared reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel's controller makes services or private networks accessible.
+    This analytic detects Cloudflare Tunnel client execution by its process name or original executable name, including renamed copies, and by command lines that create token-authenticated or Quick Tunnels.
+    Threat actors have used cloudflared for covert command-and-control and persistent remote access, including renamed binaries and tunnels that expose local services through Cloudflare's edge.
+    The command-line signatures focus on token-backed `tunnel run`, Quick Tunnel commands that publish a loopback service with `--url`, and config-backed `tunnel --config ... run` commands.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
@@ -21,17 +21,12 @@ search: |-
 
     from datamodel=Endpoint.Processes where
 
-    Processes.process="*tunnel*"
-    (
-        (
-            Processes.process="*run*"
-            Processes.process="*token*"
-        )
-        OR
-        (
-            Processes.process="*--url*"
-            Processes.process="*localhost*"
-        )
+    Processes.process_name IN ("cloudflared.exe")
+    OR
+    Processes.original_file_name IN ("cloudflared.exe")
+    OR (
+        Processes.process="*tunnel*"
+        Processes.process IN ("*--token*", "*--url*", "*--config*")
     )
 
     by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
@@ -44,13 +39,50 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
+
+    | eval has_exe_prefix=if(match(process, "(?i)^\\s*(?:\"[^\"]+\\.exe\"|[^\\s]+\\.exe)(?:\\s|$)"), 1, 0)
+
+    | eval is_tunnel_cmd=if(match(process, "(?i)\\btunnel(\\s|$)"), 1, 0)
+
+    | eval has_run=if(match(process, "(?i)\\srun(\\s|$)"), 1, 0)
+
+    | eval has_token=if(match(process, "(?i)\\s--token(-file)?([=\\s]|$)"), 1, 0)
+
+    | eval has_config=if(match(process, "(?i)\\s--config([=\\s]|$)"), 1, 0)
+
+    | eval quick_tunnel_loopback=if(match(process, "(?i)--url(?:=|\\s+)(?:\"?)(?:https?://)?(?:localhost|127\\.0\\.0\\.1|0\\.0\\.0\\.0|\\[::1\\])(?:[:/\\s\"]|$)"), 1, 0)
+
+    | eval token_tunnel_ordered=if(match(process, "(?i)\\btunnel\\b.*\\brun\\s+--token(-file)?([=\\s]|$)"), 1, 0)
+
+    | eval config_tunnel_ordered=if(match(process, "(?i)\\btunnel\\b.*--config(?:=|\\s+)(?:\"[^\"]+\"|[^\\s]+).*\\brun(?:\\s|$)"), 1, 0)
+
+    | eval quick_tunnel_ordered=if(match(process, "(?i)\\btunnel\\b.*--url(?:=|\\s+)(?:\"?)(?:https?://)?(?:localhost|127\\.0\\.0\\.1|0\\.0\\.0\\.0|\\[::1\\])(?:[:/\\s\"]|$)"), 1, 0)
+
+    | eval cloudflared_token_tunnel=if(has_exe_prefix=1 AND is_tunnel_cmd=1 AND has_run=1 AND has_token=1 AND token_tunnel_ordered=1, 1, 0)
+
+    | eval cloudflared_quick_tunnel=if(has_exe_prefix=1 AND is_tunnel_cmd=1 AND quick_tunnel_loopback=1 AND quick_tunnel_ordered=1, 1, 0)
+
+    | eval cloudflared_config_tunnel=if(has_exe_prefix=1 AND is_tunnel_cmd=1 AND has_run=1 AND has_config=1 AND config_tunnel_ordered=1, 1, 0)
+
+    | where process_name IN ("cloudflared.exe") OR original_file_name IN ("cloudflared.exe") OR cloudflared_token_tunnel=1 OR cloudflared_quick_tunnel=1 OR cloudflared_config_tunnel=1
+
     | `windows_potential_cloudflared_tunnel_execution_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Some legitimate use cases include authorized DevOps or IT teams using Cloudflared for secure remote access and network management. Filter alerts based on approved usage and trusted users.
+how_to_implement: |
+    The detection uses endpoint process telemetry mapped to the Processes node of the Endpoint data model.
+    Ingest full command lines, process names, original file names, parent process, user, and destination fields from Linux or Windows EDR or Sysmon data, and normalize them to the Splunk Common Information Model (CIM).
+known_false_positives: |
+    Authorized administrators, DevOps teams, and developers may run cloudflared to publish local services or establish config-backed tunnels. Review the executable location, parent process, user, token handling, destination service, and whether the activity is approved before tuning the detection.
 references:
-    - https://www.guidepointsecurity.com/blog/tunnel-vision-cloudflared-abused-in-the-wild/
+    - https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/
+    - https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/
+    - https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/monitor-tunnels/metrics/
+    - https://developers.cloudflare.com/tunnel/reference/run-parameters/
     - https://github.com/cloudflare/cloudflared
+    - https://web-assets.esetstatic.com/wls/en/papers/white-papers/cyberespionage-gamaredon-way.pdf
     - https://www-bleepingcomputer-com.cdn.ampproject.org/c/s/www.bleepingcomputer.com/news/security/hackers-increasingly-abuse-cloudflare-tunnels-for-stealthy-connections/amp/
+    - https://www.guidepointsecurity.com/blog/tunnel-vision-cloudflared-abused-in-the-wild/
+    - https://www.reconinfosec.com/articles/emergence-of-akira-ransomware-group/
+    - https://www.veracode.com/blog/a-deep-dive-into-powerat-a-newly-discovered-stealer-rat-combo-polluting-pypi/
 drilldown_searches:
     - earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
@@ -64,11 +96,13 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 50
-          message: Potential Cloudflared tunnel execution observed on $dest$ via $process$.
+          score: 20
+          message: Potential Cloudflared tunnel execution observed on [$dest$] with the CommandLine [$process$].
 threat_objects:
     - field: parent_process_name
       type: parent_process_name
+    - field: process_name
+      type: process_name
 analytic_story:
     - Reverse Network Proxy
 asset_type: Endpoint

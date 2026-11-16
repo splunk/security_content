@@ -2,51 +2,58 @@ name: Windows PowerShell Script Block Browser Cache Access
 id: 6962e59a-907f-41fe-8688-9174bce89d31
 version: 1
 creation_date: '2026-11-02'
-modification_date: '2026-11-02'
+modification_date: '2026-11-16'
 author: Raven Tait, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |-
     This analytic detects PowerShell Script Block Logging events that enumerate or read browser cache directories.
-    PowerShell inspecting Firefox, Chrome, Edge, Brave, or Chromium cache files can indicate cache smuggling, where
-    web content disguised as an image is extracted and staged for execution. The analytic looks for browser cache
-    paths together with file enumeration or read operations, rather than relying on cache markers or a specific
-    payload name.
+    PowerShell inspecting Firefox, Chrome, Edge, Brave, or Chromium cache files can indicate cache smuggling, where web content disguised as an image is extracted and staged for execution.
+    The analytic looks for browser cache paths together with file enumeration or read operations, rather than relying on cache markers or a specific payload name.
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
     `powershell`
     EventCode=4104
+    ScriptBlockText IN (
+        "*Copy-Item *",
+        "*gci *",
+        "*Get-ChildItem *",
+        "*Get-Content *",
+        "*ReadAllBytes*",
+        "*ReadAllText*",
+        "*ReadBytes*",
+        "*Select-String*",
+        "*WriteAllBytes*"
+    )
 
-    | eval ScriptBlockText=coalesce(ScriptBlockText, EventData_Xml, Message)
+    ScriptBlockText IN (
+        "*Cache_Data*",
+        "*cache2*entries*"
+    )
+
     | eval script_block=lower(ScriptBlockText)
+
     | eval cache_family=case(
         like(script_block, "%mozilla%firefox%profiles%") AND like(script_block, "%cache2%entries%"), "Firefox",
         like(script_block, "%google%chrome%user data%") AND like(script_block, "%cache_data%"), "Chrome",
         like(script_block, "%microsoft%edge%user data%") AND like(script_block, "%cache_data%"), "Edge",
         like(script_block, "%bravesoftware%brave-browser%user data%") AND like(script_block, "%cache_data%"), "Brave",
-        like(script_block, "%chromium%user data%") AND like(script_block, "%cache_data%"), "Chromium"
+        like(script_block, "%user data%") AND like(script_block, "%cache_data%"), "Chromium"
       )
 
     | where isnotnull(cache_family)
-        AND (
-          like(script_block, "%get-childitem%")
-          OR like(script_block, "%gci %")
-          OR like(script_block, "%readallbytes%")
-          OR like(script_block, "%readalltext%")
-          OR like(script_block, "%readbytes%")
-          OR like(script_block, "%get-content%")
-          OR like(script_block, "%select-string%")
-          OR like(script_block, "%copy-item%")
-          OR like(script_block, "%writeallbytes%")
-        )
 
     | eval dest=coalesce(dest, Computer, dvc, host)
     | eval user=coalesce(user, UserID, User)
-    | stats count min(_time) as firstTime max(_time) as lastTime
-        values(cache_family) as cache_family values(ScriptBlockText) as ScriptBlockText
-        values(Path) as Path values(Guid) as Guid
-        by dest user ScriptBlockId ProcessID signature signature_id
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(cache_family) as cache_family
+                  values(ScriptBlockText) as ScriptBlockText
+                  values(Path) as Path values(Guid) as Guid
+
+      by dest user ScriptBlockId ProcessID signature signature_id
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -70,14 +77,14 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: PowerShell accessed the [$cache_family$] browser cache on [$dest$]
-    entity:
-        field: dest
-        type: system
-        score: 50
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: PowerShell Script with block ID [$ScriptBlockId$] attempted to access or read the [$cache_family$] browser cache on [$dest$]
 threat_objects:
-    - field: signature_id
+    - field: ScriptBlockId
       type: signature
 analytic_story:
     - Browser Cache Smuggling
