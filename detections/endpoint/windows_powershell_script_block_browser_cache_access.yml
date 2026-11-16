@@ -28,12 +28,12 @@ search: |-
     )
 
     ScriptBlockText IN (
-        "*\\Cache_Data\\*",
-        "*\\cache2\\entries\\*"
+        "*\\Cache_Data*",
+        "*\\cache2\\entries*"
     )
 
     ScriptBlockText IN (
-        "*\\Mozilla\\Firefox\\Profiles\\*",
+        "*\\Mozilla\\Firefox\\Profiles*",
         "*\\User Data\\*"
     )
 
@@ -44,7 +44,7 @@ search: |-
         like(script_block, "%google%chrome%user data%") AND like(script_block, "%cache_data%"), "Chrome",
         like(script_block, "%microsoft%edge%user data%") AND like(script_block, "%cache_data%"), "Edge",
         like(script_block, "%bravesoftware%brave-browser%user data%") AND like(script_block, "%cache_data%"), "Brave",
-        like(script_block, "%chromium%user data%") AND like(script_block, "%cache_data%"), "Chromium"
+        like(script_block, "%user data%") AND like(script_block, "%cache_data%"), "Chromium"
       )
 
     | where isnotnull(cache_family)
