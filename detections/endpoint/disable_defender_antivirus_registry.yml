@@ -1,8 +1,8 @@
 name: Disable Defender AntiVirus Registry
 id: aa4f695a-3024-11ec-9987-acde48001122
-version: 19
+version: 20
 creation_date: '2021-10-18'
-modification_date: '2026-06-08'
+modification_date: '2026-11-13'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -12,7 +12,7 @@ data_source:
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
     WHERE (
-            Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" AND
+            Registry.registry_path = "*\\Microsoft\\Windows Defender*" AND
             Registry.registry_value_name IN ("DisableAntiSpyware","DisableAntiVirus") AND
             Registry.registry_value_data IN (1, 0x00000001)
           )
