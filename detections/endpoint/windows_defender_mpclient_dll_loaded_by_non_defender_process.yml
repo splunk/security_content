@@ -1,8 +1,8 @@
 name: Windows Defender MpClient.dll Loaded by Non-Defender Process
 id: 20f72601-2a92-47bc-8776-177671bbe189
-version: 1
+version: 2
 creation_date: '2026-08-19'
-modification_date: '2026-08-19'
+modification_date: '2026-11-16'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -20,7 +20,7 @@ search: |-
 
     Processes.loaded_file="mpclient.dll"
     NOT Processes.user IN ("* SERVICE", "SYSTEM")
-    NOT Processes.process_path="*\MpCmdRun.exe"
+    NOT Processes.process_path="*\\MpCmdRun.exe"
     Processes.process_path IN (
         "*:\\AppData\\Local\\Temp\\*",
         "*:\\Perflogs\\*",
