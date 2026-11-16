@@ -18,49 +18,47 @@ description: |
 data_source:
     - Sysmon EventID 13
 search: |
-    `sysmon` EventCode=13
+    `sysmon`
+    EventCode=13
     registry_path = "*\\Microsoft\\Windows\\CurrentVersion\\Run*"
     process_path IN ("*:\\Users\\*", "*:\\ProgramData\\*", "*:\\PerfLogs\\*")
     NOT process_name IN (
-        "OneDrive.Sync.Service.exe",
-        "RingCentralForTeams.exe",
-        "Balto.exe",
-        "QSHelper.exe",
-        "Microsoft.SharePoint.exe",
-        "opera.exe",
-        "IWDesktop.exe",
-        "Amazon WorkDocs Companion.exe",
-        "GoToForTeams.exe",
-        "OfficeAtHandForTeams.exe",
-        "Print to Fax.exe",
-        "UniKeyNT.exe",
-        "JTTray.exe"
-    )
+            "Amazon WorkDocs Companion.exe",
+            "Balto.exe",
+            "GoToForTeams.exe",
+            "IWDesktop.exe",
+            "JTTray.exe",
+            "Microsoft.SharePoint.exe",
+            "OfficeAtHandForTeams.exe",
+            "OneDrive.Sync.Service.exe",
+            "opera.exe",
+            "Print to Fax.exe",
+            "QSHelper.exe",
+            "RingCentralForTeams.exe",
+            "UniKeyNT.exe"
+        )
+
     | where lower(process_path)=lower(replace(registry_value_data,"[\x22\x27]",""))
 
-    | stats count min(_time) as firstTime max(_time) as lastTime
-        by dest user process_guid process_id process_name process_path
-           registry_path registry_value_name registry_value_data
-           vendor_product
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest user process_guid process_id process_name process_path
+         registry_path registry_value_name registry_value_data
+         vendor_product
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_run_key_self_registration_from_user_writable_path_filter`
 how_to_implement: |
-    This search requires Sysmon logs with a Sysmon configuration that includes
-    EventID 13 (Registry value set) for the CurrentVersion Run keys. If you are using
-    Sysmon, you must have at least version 2.0 of the official Sysmon TA. This search
-    uses an input macro named `sysmon`. We strongly recommend that you specify your
-    environment-specific configurations (index, source, sourcetype, etc.) for Windows
-    Sysmon logs. Replace the macro definition with configurations for your Splunk
-    environment. The search also uses a post-filter macro designed to filter out
-    known false positives. Update the process name exclusion list with software in
-    your environment that legitimately registers itself in the Run key.
+    This search requires Sysmon logs with a Sysmon configuration that includes EventID 13 (Registry value set) for the CurrentVersion Run keys.
+    If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA.
+    This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs.
+    Replace the macro definition with configurations for your Splunk environment.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    Update the process name exclusion list with software in your environment that legitimately registers itself in the Run key.
 known_false_positives: |
-    Per-user installed software (for example collaboration clients, browsers, VPN
-    clients and updaters) commonly installs into the user profile and registers itself
-    in the Run key. Such software will be returned by this analytic and should be
-    added to the process name exclusion list after validation.
+    Per-user installed software (for example collaboration clients, browsers, VPN clients and updaters) commonly installs into the user profile and registers itself in the Run key.
+    Such software will be returned by this analytic and should be added to the process name exclusion list after validation.
 references:
     - https://attack.mitre.org/techniques/T1547/001/
     - https://www.huntress.com/blog/the-evolving-tradecraft-of-clickfix
@@ -74,7 +72,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: Process [$process_name$] on endpoint [$dest$] registered itself in the Run key [$registry_path$] for persistence.
+    title: '[$process_name$] on endpoint [$dest$] registered itself in the Run key [$registry_path$] for persistence.'
     entity:
         field: dest
         type: system
