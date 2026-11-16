@@ -1,8 +1,8 @@
 name: Windows Potential Cloudflared Network Connection
 id: 29798d45-c9c7-4240-a5ef-d7648c016024
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-11-16'
 author: Raven Tait, Splunk
 status: production
 type: Hunting
