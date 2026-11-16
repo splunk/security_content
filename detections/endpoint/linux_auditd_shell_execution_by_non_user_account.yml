@@ -7,10 +7,9 @@ author: Raven Tait, Splunk
 status: production
 type: Anomaly
 description: |-
-    The following analytic detects successful auditd execve events that launch an interactive Linux shell, identified by
-    a TTY, under accounts that commonly do not log in. These are identified by a list of well-known service account
-    names or by a system UID (between 1 and 999). An interactive shell for these accounts may indicate
-    password-bypass abuse or unauthorized access.
+    The following analytic detects successful auditd execve events that launch an interactive Linux shell, identified by a TTY, under accounts that commonly do not log in.
+    These are identified by a list of well-known service account names or by a system UID (between 1 and 999).
+    An interactive shell for these accounts may indicate password-bypass abuse or unauthorized access.
 data_source:
     - Linux Auditd Syscall
 search: |-
@@ -30,35 +29,41 @@ search: |-
         "zsh"
     )
     success=yes
+
     | where isnotnull(tty) AND tty!="(none)"
 
     | rex field=_raw "\\bUID=[[:punct:]]?(?<audit_user>[[:alnum:]_.-]+)"
+
     | eval audit_user=lower(coalesce(audit_user, user))
     | eval uid_num=tonumber(uid)
 
     | where (uid_num>0 AND uid_num<1000) OR in(audit_user, "daemon", "bin", "sys", "sync", "shutdown", "halt", "games", "man", "lp", "mail", "news", "uucp", "operator", "www-data", "backup", "list", "irc", "gnats", "nobody", "_apt", "systemd-network", "systemd-resolve", "messagebus", "uuidd", "sshd", "ntp", "ftp", "chrony", "postfix", "redis", "mysql", "mariadb", "postgres", "alpine", "guest")
 
     | rename host as dest
-    | stats count min(_time) as firstTime max(_time) as lastTime values(audit_user) as user values(uid) as uid values(euid) as euid values(comm) as shell values(exe) as executable values(tty) as tty by dest
+
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(audit_user) as user
+                  values(uid) as uid
+                  values(euid) as euid
+                  values(comm) as shell
+                  values(exe) as executable
+                  values(tty) as tty
+      by dest
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `linux_auditd_shell_execution_by_non_user_account_filter`
 how_to_implement: |-
-    To implement this detection, you should ingest auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE
-    events, which captures command-line executions and process details on Unix/Linux systems. These logs should be
-    ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is
-    essential for correctly parsing and categorizing the data. The next step involves normalizing the field names to
-    match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data
-    sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of
-    Linux endpoints where auditd is deployed.
+    To implement this detection, you should ingest auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems.
+    These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data.
+    The next step involves normalizing the field names to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling.
+    This approach enables effective monitoring and detection of Linux endpoints where auditd is deployed.
 known_false_positives: |-
-    System administrators and automation may run shells under service accounts or accounts that are not locked on a
-    particular image. The search also matches any account with a UID between 1 and 999 (the system account range on
-    most modern distributions), so administrators who use su or sudo to open an interactive shell as a service
-    account such as jenkins or gitlab-runner will trigger it. On legacy systems (for example RHEL/CentOS 6) regular
-    users may start at UID 500, so adjust the threshold if needed. Review the account's shadow state and the process
-    context before escalating.
+    System administrators and automation may run shells under service accounts or accounts that are not locked on a particular image.
+    The search also matches any account with a UID between 1 and 999 (the system account range on most modern distributions), so administrators who use su or sudo to open an interactive shell as a service account such as jenkins or gitlab-runner will trigger it.
+    On legacy systems (for example RHEL/CentOS 6) regular users may start at UID 500, so adjust the threshold if needed.
+    Review the account's shadow state and the process context before escalating.
 references:
     - https://attack.mitre.org/techniques/T1078/003/
     - https://attack.mitre.org/techniques/T1059/004/
