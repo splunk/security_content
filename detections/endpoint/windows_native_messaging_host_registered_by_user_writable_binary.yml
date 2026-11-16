@@ -43,7 +43,7 @@ search: |
     NOT user IN ("SYSTEM", "*\\SYSTEM")
 
     | regex process_path!="(?i)[\\\\/]+AppData[\\\\/]+Local[\\\\/]+(?:[^\\\\/]+[\\\\/]+){1,}[^\\\\/]+\\.\\w+$"
-    
+
     | stats count min(_time) as firstTime max(_time) as lastTime
         by dest user process_guid process_id process_name process_path
            registry_path registry_value_name registry_value_data
