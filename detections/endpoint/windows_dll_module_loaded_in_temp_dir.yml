@@ -1,8 +1,8 @@
 name: Windows DLL Module Loaded in Temp Dir
 id: c2998141-235a-4e31-83cf-46afb5208a87
-version: 5
+version: 6
 creation_date: '2025-08-21'
-modification_date: '2026-05-13'
+modification_date: '2026-11-03'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -19,6 +19,7 @@ analytic_story:
     - SolarWinds WHD RCE Post Exploitation
     - Interlock Rat
     - Lokibot
+    - Browser Cache Smuggling
 asset_type: Endpoint
 mitre_attack_id:
     - T1105
