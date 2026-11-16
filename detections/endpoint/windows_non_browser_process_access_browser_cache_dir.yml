@@ -17,33 +17,71 @@ search: |-
     ObjectType="File"
     ObjectName IN (
         "*\\Mozilla\\Firefox\\Profiles\\*\\cache2\\entries\\*",
-        "*\\Google\\Chrome\\User Data\\*\\Cache\\Cache_Data\\*",
-        "*\\Microsoft\\Edge\\User Data\\*\\Cache\\Cache_Data\\*",
-        "*\\BraveSoftware\\Brave-Browser\\User Data\\*\\Cache\\Cache_Data\\*",
-        "*\\Chromium\\User Data\\*\\Cache\\Cache_Data\\*"
+        "*\\User Data\\*\\Cache\\Cache_Data\\*"
     )
-    NOT (
-        ProcessName IN (
-            "*\\firefox.exe",
-            "*\\chrome.exe",
-            "*\\msedge.exe",
+    NOT ProcessName IN (
+        "*:\\Program Files (x86)\\*",
+        "*:\\Program Files\\*",
+        "*:\\Users\\*\\AppData\\Local\\*",
+    )
+    NOT ProcessName IN (
+            "*\\360se.exe",
+            "*\\arc.exe",
+            "*\\atlas.exe",
+            "*\\avastbrowser.exe",
+            "*\\avgbrowser.exe",
+            "*\\blpbrowser.exe",
             "*\\brave.exe",
-            "*\\chromium.exe"
+            "*\\braveupdate.exe",
+            "*\\browser.exe",
+            "*\\chrome.exe",
+            "*\\chromium.exe",
+            "*\\coccoc.exe",
+            "*\\comet.exe",
+            "*\\dragon.exe",
+            "*\\duckduckgo.exe",
+            "*\\firefox.exe",
+            "*\\ghost.exe",
+            "*\\iexplore.exe",
+            "*\\iridium.exe",
+            "*\\iron.exe",
+            "*\\maxthon.exe",
+            "*\\microsoftedge.exe",
+            "*\\microsoftedgeupdate.exe",
+            "*\\msedge.exe",
+            "*\\msedgewebview2.exe",
+            "*\\opera_autoupdate.exe",
+            "*\\opera.exe",
+            "*\\perplexity.exe",
+            "*\\rave.exe",
+            "*\\safari.exe",
+            "*\\shift.exe",
+            "*\\sidekick.exe",
+            "*\\thorium.exe",
+            "*\\torch.exe",
+            "*\\vivaldi.exe",
+            "*\\waterfox.exe",
+            "*\\wavebrowser.exe",
+            "*\\whale.exe",
+            "*\\zen.exe"
         )
-    )
 
     | eval cache_path=lower(ObjectName)
+
     | eval cache_family=case(
         like(cache_path, "%\\mozilla\\firefox\\profiles\\%\\cache2\\entries\\%"), "Firefox",
         like(cache_path, "%\\google\\chrome\\user data\\%\\cache\\cache_data\\%"), "Chrome",
         like(cache_path, "%\\microsoft\\edge\\user data\\%\\cache\\cache_data\\%"), "Edge",
         like(cache_path, "%\\bravesoftware\\brave-browser\\user data\\%\\cache\\cache_data\\%"), "Brave",
-        like(cache_path, "%\\chromium\\user data\\%\\cache\\cache_data\\%"), "Chromium"
-      )
+        like(cache_path, "%\\user data\\%\\cache\\cache_data\\%"), "Chromium"
+    )
 
-    | stats count min(_time) as firstTime max(_time) as lastTime
-        values(cache_family) as cache_family values(AccessMask) as AccessMask
-        by ObjectName ObjectType ProcessName EventCode dest
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  values(cache_family) as cache_family
+                  values(AccessMask) as AccessMask
+
+      by ObjectName ObjectType ProcessName EventCode dest
 
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -51,7 +89,7 @@ search: |-
 how_to_implement: |-
     To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663.
     For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success"
-    and "Failure.". Configure System Access Control List (SACL) on each monitored directory.
+    and "Failure." and configure a System Access Control List (SACL) on each monitored directory.
 known_false_positives: |-
     Endpoint security products, backup utilities, forensic tools, and browser cleanup utilities may access cache
     files. Review the process path, user, access mask, and nearby process or file events; tune known maintenance

@@ -61,6 +61,6 @@ tests:
       test_type: unit
 deprecation_info:
     reason: Detection deprecated due to overlapping DisableAntiSpyware coverage under Windows Defender policy keys in Disable Defender AntiVirus Registry.
-    removed_in_version: 6.12.0
+    removed_in_version: 6.14.0
     replacement_content:
         - Disable Defender AntiVirus Registry

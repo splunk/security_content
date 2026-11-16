@@ -1,0 +1,227 @@
+name: Ngrok Reverse Proxy Usage
+id: 6cc718a3-57ed-40e2-aa5d-5b329fa148aa
+version: 1
+creation_date: '2026-11-13'
+modification_date: '2026-11-13'
+author: Michael Haag, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic detects ngrok execution on Linux and Windows by process name, regardless of command line, and detects renamed ngrok binaries through combinations of ngrok-specific command-line behavior.
+    The command-line logic correlates authentication setup with TCP tunneling to RDP or SMB ports, identifies configured all-tunnel startup patterns, and recognizes the Invoke-Ngrok wrapper.
+    Threat actors have used ngrok to expose internal services, maintain persistence, move laterally, and proxy command-and-control traffic.
+    Review the collected commands, parent process, user, endpoint, and approved tunnel configuration to determine whether the use is authorized.
+data_source:
+    - CrowdStrike ProcessRollup2
+    - Sysmon EventID 1
+    - Sysmon for Linux EventID 1
+    - Windows Event Log Security 4688
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+            values(Processes.action) as action
+            values(Processes.original_file_name) as original_file_name
+            values(Processes.parent_process) as parent_process
+            values(Processes.parent_process_exec) as parent_process_exec
+            values(Processes.parent_process_guid) as parent_process_guid
+            values(Processes.parent_process_id) as parent_process_id
+            values(Processes.parent_process_name) as parent_process_name
+            values(Processes.parent_process_path) as parent_process_path
+            values(Processes.process) as process
+            values(Processes.process_exec) as process_exec
+            values(Processes.process_guid) as process_guid
+            values(Processes.process_hash) as process_hash
+            values(Processes.process_id) as process_id
+            values(Processes.process_integrity_level) as process_integrity_level
+            values(Processes.process_name) as process_name
+            values(Processes.process_path) as process_path
+            values(Processes.user_id) as user_id
+            values(Processes.vendor_product) as vendor_product
+    FROM datamodel=Endpoint.Processes WHERE
+    (
+        Processes.process_name IN ("ngrok", "ngrok.exe")
+        OR
+        Processes.original_file_name IN ("ngrok", "ngrok.exe")
+        OR
+        Processes.process IN (
+            "*-authtoken*",
+            "*-config*-region*",
+            "*-hostname*-region*",
+            "*-protocol*tcp*",
+            "*-region*-config*",
+            "*-region*-hostname*",
+            "*-region*-subdomain*",
+            "*-subdomain*-region*",
+            "*config add-authtoken*",
+            "*fileserver*",
+            "*Invoke-Ngrok*",
+            "*start*--all*",
+            "*tcp *"
+        )
+    )
+
+    BY Processes.dest Processes.user _time span=15m
+
+    | `drop_dm_object_name(Processes)`
+
+    | eval has_ngrok_process_name = if(
+        mvfind(process_name, "(?i)^ngrok(\\.exe)?$") >= 0,
+        1,
+        0
+      )
+
+    | eval has_ngrok_original_file_name = if(
+        mvfind(original_file_name, "(?i)^ngrok(\\.exe)?$") >= 0,
+        1,
+        0
+      )
+
+    | eval has_auth_setup = if(
+        mvfind(process, "(?i)config\\s+add-authtoken") >= 0
+        OR mvfind(process, "(?i)--authtoken(?:\\s|=)|-auth(?:\\s|=)") >= 0,
+        1,
+        0
+      )
+
+    | eval has_tcp_tunnel = if(
+        mvfind(process, "(?i)\\btcp\\s+(?:3389|445)\\b") >= 0
+        OR mvfind(process, "(?i)-protocol\\s+tcp\\b") >= 0,
+        1,
+        0
+      )
+
+    | eval has_sensitive_port = if(
+        mvfind(process, "(?i)\\btcp\\s+(?:3389|445)\\b") >= 0
+        OR mvfind(process, "(?i)-port\\s+(?:3389|445)\\b") >= 0,
+        1,
+        0
+      )
+
+    | eval has_start_all = if(
+        mvfind(process, "(?i)\\bstart\\b.*--all\\b") >= 0,
+        1,
+        0
+      )
+
+    | eval has_config = if(
+        mvfind(process, "(?i)--?config(?:\\s|=)") >= 0,
+        1,
+        0
+      )
+
+    | eval has_region = if(
+        mvfind(process, "(?i)--?region(?:\\s|=)") >= 0,
+        1,
+        0
+      )
+
+    | eval has_tunnel_command = if(
+        mvfind(process, "(?i)\\b(?:http|tcp|tls|start)\\b") >= 0,
+        1,
+        0
+      )
+
+    | eval has_endpoint_option = if(
+        mvfind(process, "(?i)--?(?:hostname|subdomain|url)(?:\\s|=)") >= 0,
+        1,
+        0
+      )
+
+    | eval has_invoke_ngrok = if(
+        mvfind(process, "(?i)Invoke-Ngrok") >= 0,
+        1,
+        0
+      )
+
+    | eval has_fileserver = if(
+        mvfind(process, "(?i)-fileserver(?:\\s|=)") >= 0,
+        1,
+        0
+      )
+
+    | where
+        has_ngrok_process_name = 1
+        OR has_ngrok_original_file_name = 1
+        OR has_start_all = 1
+        OR (has_auth_setup = 1 AND has_tcp_tunnel = 1 AND has_sensitive_port = 1)
+        OR (has_config = 1 AND has_region = 1 AND has_tunnel_command = 1)
+        OR (has_region = 1 AND has_tunnel_command = 1 AND has_endpoint_option = 1)
+        OR (has_invoke_ngrok = 1 AND has_fileserver = 1)
+        OR (has_fileserver = 1 AND has_auth_setup = 1)
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `ngrok_reverse_proxy_usage_filter`
+how_to_implement: |-
+    The detection uses endpoint process telemetry mapped to the Processes node of the Endpoint data model.
+    Ingest full command lines, process names, original file names, parent process, user, and destination fields from Linux or Windows EDR or Sysmon data, and normalize them to the Splunk Common Information Model (CIM).
+known_false_positives: |-
+    Ngrok is a legitimate development and remote-access utility. Approved developers, IT administrators, and endpoint-management workflows may run ngrok or use similar command-line parameters. Review the process values and documented tunnel use, and tune approved users, hosts, and parent processes as needed.
+references:
+    - https://attack.mitre.org/software/S0508/
+    - https://github.com/benyG/Invoke-Ngrok
+    - https://ngrok.com/docs/gateway/agent/cli
+    - https://orkl.eu/api/v1/doc/index.html
+    - https://thedfirreport.com/2024/08/12/threat-actors-toolkit-leveraging-sliver-poshc2-batch-scripts/
+    - https://www.cisa.gov/sites/default/files/2023-09/aa23-250a-apt-actors-exploit-cve-2022-47966-and-cve-2022-42475.pdf
+    - https://www.cisa.gov/sites/default/files/2024-08/aa24-241a-iran-based-cyber-actors-enabling-ransomware-attacks-on-us-organizations_0.pdf
+    - https://www.cisa.gov/uscert/ncas/alerts/aa22-320a
+    - https://www.huntress.com/blog/abusing-ngrok-hackers-at-the-end-of-the-tunnel
+    - https://www.microsoft.com/en-us/security/blog/2023/06/14/cadet-blizzard-emerges-as-a-novel-and-distinct-russian-threat-actor/
+    - https://www.sophos.com/en-us/blog/rapid-response-the-ngrok-incident-guide
+    - https://www.trendmicro.com/en_us/research/24/j/earth-simnavaz-cyberattacks-uae-gulf-regions.html
+    - https://www.trendmicro.com/en_us/research/24/j/earth-simnavaz-cyberattacks.html
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 20
+          message: Ngrok tunnel or service installation activity was observed on [$dest$] by [$user$] running [$process$].
+        - field: dest
+          type: system
+          score: 20
+          message: Ngrok tunnel or service installation activity was observed on [$dest$] by [$user$] running [$process$].
+threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
+analytic_story:
+    - CISA AA22-320A
+    - CISA AA24-241A
+    - Reverse Network Proxy
+    - Scattered Spider
+asset_type: Endpoint
+mitre_attack_id:
+    - T1572
+    - T1090
+    - T1102
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Windows
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/ngrok/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Linux
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/ngrok/ngrok_linux-sysmon.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux
+      test_type: unit
