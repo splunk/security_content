@@ -25,8 +25,8 @@ search: |-
     OR
     Processes.original_file_name IN ("cloudflared.exe")
     OR (
-        Processes.process="*tunnel *"
-        Processes.process IN ("*--token*", "*--url*", "* --config *")
+        Processes.process="*tunnel*"
+        Processes.process IN ("*--token*", "*--url*", "*--config*")
     )
 
     by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
@@ -40,11 +40,29 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
 
-    | eval cloudflared_token_tunnel=if(match(process, "(?i)^\\s*(?:\"[^\"]+\\.exe\"|[^\\s]+\\.exe)(?:\\s+--no-autoupdate)?(?:\\s+--protocol\\s+[^\\s]+)?\\s+tunnel(?:\\s+--[\\w-]+(?:=(?:\"[^\"]*\"|[^\\s]+))?(?:\\s+(?:\"[^\"]*\"|[^\\s]+))?)*\\s+run\\s+--token(?:-file)?(?:=|\\s)"), 1, 0)
+    | eval has_exe_prefix=if(match(process, "(?i)^\\s*(?:\"[^\"]+\\.exe\"|[^\\s]+\\.exe)(?:\\s|$)"), 1, 0)
 
-    | eval cloudflared_quick_tunnel=if(match(process, "(?i)^\\s*(?:\"[^\"]+\\.exe\"|[^\\s]+\\.exe)(?:\\s+--no-autoupdate)?(?:\\s+--protocol\\s+[^\\s]+)?\\s+tunnel(?:\\s+--[\\w-]+(?:=(?:\"[^\"]*\"|[^\\s]+))?(?:\\s+(?:\"[^\"]*\"|[^\\s]+))?)*\\s+--url(?:=|\\s+)(?:\"?)(?:https?://)?(?:localhost|127\\.0\\.0\\.1|0\\.0\\.0\\.0|\\[::1\\])(?:[:/\\s\"]|$)"), 1, 0)
+    | eval is_tunnel_cmd=if(match(process, "(?i)\\btunnel(\\s|$)"), 1, 0)
 
-    | eval cloudflared_config_tunnel=if(match(process, "(?i)^\\s*(?:\"[^\"]+\\.exe\"|[^\\s]+\\.exe)(?:\\s+--no-autoupdate)?(?:\\s+--protocol\\s+[^\\s]+)?\\s+tunnel(?:\\s+--[\\w-]+(?:=(?:\"[^\"]*\"|[^\\s]+))?(?:\\s+(?:\"[^\"]*\"|[^\\s]+))?)*\\s+--config(?:=|\\s+)(?:\"[^\"]+\"|[^\\s]+)(?:\\s+--[\\w-]+(?:=(?:\"[^\"]*\"|[^\\s]+))?(?:\\s+(?:\"[^\"]*\"|[^\\s]+))?)*\\s+run(?:\\s+[^\\s]+)?(?:\\s|$)"), 1, 0)
+    | eval has_run=if(match(process, "(?i)\\srun(\\s|$)"), 1, 0)
+
+    | eval has_token=if(match(process, "(?i)\\s--token(-file)?([=\\s]|$)"), 1, 0)
+
+    | eval has_config=if(match(process, "(?i)\\s--config([=\\s]|$)"), 1, 0)
+
+    | eval quick_tunnel_loopback=if(match(process, "(?i)--url(?:=|\\s+)(?:\"?)(?:https?://)?(?:localhost|127\\.0\\.0\\.1|0\\.0\\.0\\.0|\\[::1\\])(?:[:/\\s\"]|$)"), 1, 0)
+
+    | eval token_tunnel_ordered=if(match(process, "(?i)\\btunnel\\b.*\\brun\\s+--token(-file)?([=\\s]|$)"), 1, 0)
+
+    | eval config_tunnel_ordered=if(match(process, "(?i)\\btunnel\\b.*--config(?:=|\\s+)(?:\"[^\"]+\"|[^\\s]+).*\\brun(?:\\s|$)"), 1, 0)
+
+    | eval quick_tunnel_ordered=if(match(process, "(?i)\\btunnel\\b.*--url(?:=|\\s+)(?:\"?)(?:https?://)?(?:localhost|127\\.0\\.0\\.1|0\\.0\\.0\\.0|\\[::1\\])(?:[:/\\s\"]|$)"), 1, 0)
+
+    | eval cloudflared_token_tunnel=if(has_exe_prefix=1 AND is_tunnel_cmd=1 AND has_run=1 AND has_token=1 AND token_tunnel_ordered=1, 1, 0)
+
+    | eval cloudflared_quick_tunnel=if(has_exe_prefix=1 AND is_tunnel_cmd=1 AND quick_tunnel_loopback=1 AND quick_tunnel_ordered=1, 1, 0)
+
+    | eval cloudflared_config_tunnel=if(has_exe_prefix=1 AND is_tunnel_cmd=1 AND has_run=1 AND has_config=1 AND config_tunnel_ordered=1, 1, 0)
 
     | where process_name IN ("cloudflared.exe") OR original_file_name IN ("cloudflared.exe") OR cloudflared_token_tunnel=1 OR cloudflared_quick_tunnel=1 OR cloudflared_config_tunnel=1
 
@@ -53,7 +71,7 @@ how_to_implement: |
     The detection uses endpoint process telemetry mapped to the Processes node of the Endpoint data model.
     Ingest full command lines, process names, original file names, parent process, user, and destination fields from Linux or Windows EDR or Sysmon data, and normalize them to the Splunk Common Information Model (CIM).
 known_false_positives: |
-    Authorized administrators, DevOps teams, and developers may run cloudflared to publish local services, oe establish config-backed tunnels. Review the executable location, parent process, user, token handling, destination service, and whether the activity is approved before tuning the detection.
+    Authorized administrators, DevOps teams, and developers may run cloudflared to publish local services or establish config-backed tunnels. Review the executable location, parent process, user, token handling, destination service, and whether the activity is approved before tuning the detection.
 references:
     - https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/
     - https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/

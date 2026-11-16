@@ -25,19 +25,33 @@ search: |-
     FROM datamodel=Network_Resolution WHERE
 
     DNS.query IN (
+        "*.ngrok-agent.com.",
         "*.ngrok-agent.com",
+        "*.ngrok-cname.com.",
         "*.ngrok-cname.com",
+        "*.ngrok-free.app.",
         "*.ngrok-free.app",
+        "*.ngrok-free.dev.",
         "*.ngrok-free.dev",
+        "*.ngrok-free.pizza.",
         "*.ngrok-free.pizza",
+        "*.ngrok.app.",
         "*.ngrok.app",
+        "*.ngrok.com.",
         "*.ngrok.com",
+        "*.ngrok.dev.",
         "*.ngrok.dev",
+        "*.ngrok.io.",
         "*.ngrok.io",
+        "*.ngrok.pizza.",
         "*.ngrok.pizza",
+        "*.ngrok.pro.",
         "*.ngrok.pro",
+        "*.tcp.ngrok.io.",
         "*.tcp.ngrok.io",
+        "korgn.su.lennut.com.",
         "korgn.su.lennut.com",
+        "tunnel.*.ngrok.com.",
         "tunnel.*.ngrok.com"
     )
 
@@ -60,7 +74,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `ngrok_reverse_proxy_on_network_filter`
 how_to_implement: |-
-    The Network Resolution Datamodel will need to have data mapped to it regarding DNS queries.
+    This detection requires DNS query logs. Map your DNS telemetry (for example, from your DNS server, resolver, or network sensor) to the Network Resolution data model so the search can find the events it needs.
     The search groups matching DNS lookups by source, query, response code, vendor, and 15-minute interval. Ensure the Network Resolution data model includes DNS query names and answers to populate query classification and distinct-answer counts.
     Modify the query as needed to use another source.
 known_false_positives: |-
