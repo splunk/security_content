@@ -3,27 +3,41 @@ id: aa4f695a-3024-11ec-9987-acde48001122
 version: 20
 creation_date: '2021-10-18'
 modification_date: '2026-11-13'
-author: Teoderick Contreras, Splunk, Steven Dick
+author: Teoderick Contreras, Rod Soto, Jose Hernandez, Michael Haag, Splunk, Steven Dick
 status: production
-type: TTP
-description: The following analytic detects the modification of Windows Defender registry settings to disable antivirus and antispyware protections. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to registry paths associated with Windows Defender policies. This activity is significant because disabling antivirus protections is a common tactic used by adversaries to evade detection and maintain persistence on compromised systems. If confirmed malicious, this action could allow attackers to execute further malicious activities undetected, leading to potential data breaches, system compromise, and further propagation of malware within the network.
+type: Anomaly
+description: |-
+    The following analytic detects the modification of Windows Defender registry settings to disable antivirus and antispyware protections.
+    It leverages data from the Endpoint.Registry data model, specifically monitoring changes to registry paths associated with Windows Defender policies.
+    This activity is significant because disabling antivirus protections is a common tactic used by adversaries to evade detection and maintain persistence on compromised systems.
+    If confirmed malicious, this action could allow attackers to execute further malicious activities undetected, leading to potential data breaches, system compromise, and further propagation of malware within the network.
 data_source:
     - Sysmon EventID 13
 search: |
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
-    WHERE (
-            Registry.registry_path = "*\\Microsoft\\Windows Defender*" AND
-            Registry.registry_value_name IN ("DisableAntiSpyware","DisableAntiVirus") AND
-            Registry.registry_value_data IN (1, 0x00000001)
-          )
-            by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
-            | `drop_dm_object_name(Registry)`
-            | where isnotnull(registry_value_data)
-            | `security_content_ctime(firstTime)`
-            | `security_content_ctime(lastTime)`
-            | `disable_defender_antivirus_registry_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: admin or user may choose to disable windows defender product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Registry WHERE
+
+    Registry.registry_path = "*\\Microsoft\\Windows Defender*"
+    Registry.registry_value_name IN ("DisableAntiSpyware","DisableAntiVirus")
+    Registry.registry_value_data IN (1, 0x00000001)
+
+    by Registry.action Registry.dest Registry.process_guid Registry.process_id
+       Registry.registry_hive Registry.registry_path Registry.registry_key_name
+       Registry.registry_value_data Registry.registry_value_name
+       Registry.registry_value_type Registry.status
+       Registry.user Registry.vendor_product
+
+    | `drop_dm_object_name(Registry)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `disable_defender_antivirus_registry_filter`
+how_to_implement: |-
+    To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: |-
+    Administrators sometimes disable antivirus protections for testing or troubleshooting purposes. Review the activity in combination with the process information to determine if the activity is authorized.
 references:
     - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 drilldown_searches:
@@ -35,27 +49,31 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
-finding:
-    title: Modified/added/deleted registry entry $registry_path$ on $dest$
-    entity:
-        field: user
-        type: user
-        score: 50
 intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 50
-          message: Modified/added/deleted registry entry $registry_path$ on $dest$
+          score: 20
+          message: Windows Defender [$registry_value_name$] value was set to disable on [$dest$] by [$user$]
+threat_objects: []
 analytic_story:
-    - SolarWinds WHD RCE Post Exploitation
-    - Windows Registry Abuse
-    - CISA AA24-241A
-    - IcedID
+    - Azorult
     - Black Basta Ransomware
     - Cactus Ransomware
+    - CISA AA22-264A
+    - CISA AA23-347A
+    - CISA AA24-241A
+    - IcedID
+    - RedLine Stealer
+    - Ryuk Ransomware
     - Salat Stealer
+    - SolarWinds WHD RCE Post Exploitation
+    - Windows Defense Evasion Tactics
+    - Windows Registry Abuse
 asset_type: Endpoint
+atomic_guid:
+    - 1f6743da-6ecc-4a93-b03f-dc357e4b313f
+    - a72cfef8-d252-48b3-b292-635d332625c3
 mitre_attack_id:
     - T1685
 product:
@@ -65,9 +83,15 @@ product:
 category: endpoint
 security_domain: endpoint
 tests:
-    - name: True Positive Test
+    - name: True Positive Test - IcedID
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Atomic Red Team
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
       test_type: unit
