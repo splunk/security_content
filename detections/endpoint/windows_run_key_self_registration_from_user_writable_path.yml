@@ -36,7 +36,7 @@ search: |
         "UniKeyNT.exe",
         "JTTray.exe"
     )
-    | where lower(process_path)=lower(registry_value_data)
+    | where lower(process_path)=lower(replace(registry_value_data,"[\x22\x27]",""))
 
     | stats count min(_time) as firstTime max(_time) as lastTime
         by dest user process_guid process_id process_name process_path

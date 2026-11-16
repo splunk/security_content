@@ -7,14 +7,14 @@ author: Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
 description: |
-    The following analytic detects cmd.exe command lines that contain long sequences of
-    encoded characters, such as decimal values (12;70;18;...), hexadecimal values
-    (0x41,0x42,...), HTML entities, or Unicode and octal escapes, with at least twelve
-    consecutive items. This activity is significant because loaders, including ClickFix
-    payloads that retrieve commands through finger, hide their next stage as an index
-    list that cmd.exe decodes at runtime using delayed variable expansion before launching
-    PowerShell. If confirmed malicious, this could lead to execution of a hidden payload,
-    such as a download cradle with an AMSI bypass.
+    The following analytic detects cmd.exe command lines that contain long sequences
+    of encoded characters, such as decimal values (12;70;18;...), hexadecimal values
+    (0x41,0x42,...), HTML entities, or Unicode and octal escapes. This activity is
+    significant because loaders, including ClickFix payloads that retrieve commands
+    through finger, hide their next stage as an index list that cmd.exe decodes at
+    runtime using delayed variable expansion before launching PowerShell. If confirmed
+    malicious, this could lead to execution of a hidden payload, such as a download
+    cradle with an AMSI bypass.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
