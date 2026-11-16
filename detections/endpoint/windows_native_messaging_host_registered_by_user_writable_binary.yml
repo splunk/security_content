@@ -32,12 +32,12 @@ search: |
         "*:\\Windows\\SysWOW64\\reg.exe"
     )
     NOT registry_path IN (
-        "*\\NativeMessagingHosts\\com.anthropic.claude_browser_extension",
-        "*\\NativeMessagingHosts\\com.anthropic.claude_code_browser_extension",
-        "*\\NativeMessagingHosts\\com.microsoft.onedrive.nucleus.auth.provider",
-        "*\\NativeMessagingHosts\\com.soundresearch.contentclassifier",
-        "*\\NativeMessagingHosts\\com.wps.anydocextension",
-        "*\\NativeMessagingHosts\\com.wps.pdfextension"
+        "*\\NativeMessagingHosts\\com.anthropic.claude_browser_extension\\*",
+        "*\\NativeMessagingHosts\\com.anthropic.claude_code_browser_extension\\*",
+        "*\\NativeMessagingHosts\\com.microsoft.onedrive.nucleus.auth.provider\\*",
+        "*\\NativeMessagingHosts\\com.soundresearch.contentclassifier\\*",
+        "*\\NativeMessagingHosts\\com.wps.anydocextension\\*",
+        "*\\NativeMessagingHosts\\com.wps.pdfextension\\*"
     )
     NOT user IN ("SYSTEM", "*\\SYSTEM")
 
