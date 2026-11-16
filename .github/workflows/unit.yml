@@ -1,0 +1,20 @@
+name: unit
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - data_sources/**
+      - detections/**
+      - lookups/**
+      - macros/**
+      - install.yml
+permissions:
+  contents: read
+jobs:
+  test:
+    uses: ./.github/workflows/_testing.yml
+    with:
+      test-types: detection.unit
+    secrets:
+      APPINSPECTUSERNAME: ${{ secrets.APPINSPECTUSERNAME }}
+      APPINSPECTPASSWORD: ${{ secrets.APPINSPECTPASSWORD }}
