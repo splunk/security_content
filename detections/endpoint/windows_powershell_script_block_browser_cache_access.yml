@@ -2,7 +2,7 @@ name: Windows PowerShell Script Block Browser Cache Access
 id: 6962e59a-907f-41fe-8688-9174bce89d31
 version: 1
 creation_date: '2026-11-02'
-modification_date: '2026-11-02'
+modification_date: '2026-11-16'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -28,13 +28,8 @@ search: |-
     )
 
     ScriptBlockText IN (
-        "*\\Cache_Data*",
-        "*\\cache2\\entries*"
-    )
-
-    ScriptBlockText IN (
-        "*\\Mozilla\\Firefox\\Profiles*",
-        "*\\User Data\\*"
+        "*Cache_Data*",
+        "*cache2*entries*"
     )
 
     | eval script_block=lower(ScriptBlockText)
