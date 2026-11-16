@@ -40,7 +40,7 @@ search: |
     | eval process_lower=lower(process)
     | eval call_set_obfuscation=if(
         like(process_lower, "%call %")
-        AND match(process, "(?i)set\\s+[\\w\\-\\_]+\\s?\\="), 1, 0)
+        AND match(process, "(?i)set\\s+[\\x22\\x27]?[\\w\\-\\_]+\\s?\\="), 1, 0)
     | eval timeout_self_deletion=if(
         like(process_lower, "%timeout %")
         AND like(process_lower, "%del %")
