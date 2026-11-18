@@ -12,27 +12,18 @@ data_source:
     - Java HotSpot Exceptions
     - Java HotSpot JIT
 search: |
+    (`java_hotspot_jit` OR `java_hotspot_exceptions`)
     (
-        `java_hotspot_exceptions`
-        jvm_message IN (
-            "*Input byte array has wrong*",
-            "*IllegalArgumentException*",
-            "*Base64$Decoder*",
-            "*java/util/Base64*"
-        )
+        "*Input byte array has wrong*"
+        OR "*IllegalArgumentException*"
+        OR "*Base64$Decoder*"
+        OR "*java/util/Base64*"
+        OR "*OSR invalidation of lower level*"
     )
-    OR
-    (
-        `java_hotspot_jit`
-        jvm_message IN (
-            "*Base64$Decoder*",
-            "*java/util/Base64*",
-            "*OSR invalidation of lower level*"
-        )
-    )
-    | eval event_time=_time,
-           process_id=tostring(coalesce(jvm_pid,process_id))
-
+    | rex field=_raw "^\[(?<jvm_event_time_raw>[^\]]+)\]\[(?<jvm_pid_raw>\d+)\]\[(?<jvm_level_raw>[^\]]+)\]\[(?<jvm_tags_raw>[^\]]+)\]\s*(?<jvm_message_raw>.*)"
+    | eval process_id=coalesce(jvm_pid_raw,jvm_pid,process_id),
+        jvm_message=coalesce(jvm_message_raw,jvm_message),
+        event_time=_time
     | where isnotnull(process_id)
 
     | rex mode=sed field=jvm_message "s/0x[0-9A-Fa-f]{8,16}/0xXXXXXXXXXXXXXXXX/g"
@@ -40,14 +31,14 @@ search: |
     | rex mode=sed field=jvm_message "s/^\d+\s+/XXXX /g"
 
     | eval has_argument=if(match(jvm_message,"(?i)Input byte array has wrong|IllegalArgumentException"),1,0),
-           has_decoder=if(match(jvm_message,"Base64[$]Decoder|java/util/Base64"),1,0)
+        has_decoder=if(match(jvm_message,"Base64[$]Decoder|java/util/Base64"),1,0)
 
     | eval reason=case(
-          match(jvm_message,"(?i)Input byte array has wrong"),"Tailing byte exception",
-          match(jvm_message,"(?i)OSR invalidation of lower level"),"JIT activity",
-          has_decoder==1,"Base64 decoder reference",
-          has_argument==1,"Argument exception"
-      )
+        match(jvm_message,"(?i)Input byte array has wrong"),"Tailing byte exception",
+        match(jvm_message,"(?i)OSR invalidation of lower level"),"JIT activity",
+        has_decoder==1,"Base64 decoder reference",
+        has_argument==1,"Argument exception"
+    )
 
     | bin _time span=1m
 

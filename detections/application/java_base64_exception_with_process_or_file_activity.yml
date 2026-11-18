@@ -15,11 +15,11 @@ data_source:
 search: |
     (
         `java_hotspot_exceptions`
-        jvm_message IN (
+        (
             "*Input byte array has wrong*",
-            "*IllegalArgumentException*",
-            "*Base64$Decoder*",
-            "*java/util/Base64*"
+            OR "*IllegalArgumentException*"
+            OR "*Base64$Decoder*"
+            OR "*java/util/Base64*"
         )
     )
     OR
@@ -36,12 +36,14 @@ search: |
         )
     )
     | eval event_time=_time,
+           jvm_message=coalesce(jvm_message_raw,jvm_message),
            observed_host=coalesce(host,Computer,dest),
            process_id=case(
-               isnotnull(jvm_pid),tostring(jvm_pid),
-               EventID==1,tostring(ParentProcessId),
-               EventID==11,tostring(ProcessId)
-           )
+                isnotnull(jvm_pid_raw),tostring(jvm_pid_raw),
+                isnotnull(jvm_pid),tostring(jvm_pid),
+                EventID==1,tostring(ParentProcessId),
+                EventID==11,tostring(ProcessId)
+            )
     | where isnotnull(observed_host) AND isnotnull(process_id)
     | rex mode=sed field=jvm_message "s/0x[0-9A-Fa-f]{8,16}/0xXXXXXXXXXXXXXXXX/g"
     | rex mode=sed field=jvm_message "s/\s+bci\s+\d+\s+/ bci XXX /g"

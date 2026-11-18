@@ -47,11 +47,11 @@ search: |
     OR
     (
         `java_hotspot_exceptions`
-        jvm_message IN (
+        (
             "*Input byte array has wrong*",
-            "*IllegalArgumentException*",
-            "*Base64$Decoder*",
-            "*java/util/Base64*"
+            OR "*IllegalArgumentException*"
+            OR "*Base64$Decoder*"
+            OR "*java/util/Base64*"
         )
     )
     OR
@@ -69,6 +69,12 @@ search: |
             )
         )
     )
+
+    | rex field=_raw "^\[(?<jvm_event_time_raw>[^\]]+)\]\[(?<jvm_pid_raw>\d+)\]\[(?<jvm_level_raw>[^\]]+)\]\[(?<jvm_tags_raw>[^\]]+)\]\s*(?<jvm_message_raw>.*)"
+
+    | eval jvm_pid=coalesce(jvm_pid_raw,jvm_pid),
+           jvm_message=coalesce(jvm_message_raw,jvm_message),
+
 
     | eval event_time=_time,
            is_network=if(isnotnull('id.resp_h'),1,0)
