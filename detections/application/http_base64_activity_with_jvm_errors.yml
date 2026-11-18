@@ -99,9 +99,9 @@ search: |
     | where is_network=0 OR len(request_value)>=65
 
     | eval malformed_b64=if(
-          is_network=1,
-          match(request_value,"(?<![A-Za-z0-9+/_-])(?:(?:[A-Za-z0-9+/]{64})+(?:[A-Za-z0-9+/]{0,2}=|[A-Za-z0-9+/]?==)|(?:[A-Za-z0-9_-]{64})+(?:[A-Za-z0-9_-]{0,2}=|[A-Za-z0-9_-]?==))(?![A-Za-z0-9+/_=-])"),
-          0
+          is_network=1
+          AND match(request_value,"(?<![A-Za-z0-9+/_-])(?:(?:[A-Za-z0-9+/]{64})+(?:[A-Za-z0-9+/]{0,2}=|[A-Za-z0-9+/]?==)|(?:[A-Za-z0-9_-]{64})+(?:[A-Za-z0-9_-]{0,2}=|[A-Za-z0-9_-]?==))(?![A-Za-z0-9+/_=-])"),
+          1,0
       ),
       scripted_b64=if(
           is_network=1 AND isnotnull(body)
@@ -195,7 +195,7 @@ search: |
       ),
       bucket=if(
           event_kind="request",
-          mvappend(bucket-1,bucket,bucket+1,bucket+2),
+          mvappend(tostring(bucket-1),tostring(bucket),tostring(bucket+1),tostring(bucket+2)),
           bucket
       )
 
