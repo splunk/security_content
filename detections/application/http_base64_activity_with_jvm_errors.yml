@@ -73,7 +73,7 @@ search: |
     | rex field=_raw "^\[(?<jvm_event_time_raw>[^\]]+)\]\[(?<jvm_pid_raw>\d+)\]\[(?<jvm_level_raw>[^\]]+)\]\[(?<jvm_tags_raw>[^\]]+)\]\s*(?<jvm_message_raw>.*)"
 
     | eval jvm_pid=coalesce(jvm_pid_raw,jvm_pid),
-           jvm_message=coalesce(jvm_message_raw,jvm_message),
+           jvm_message=coalesce(jvm_message_raw,jvm_message)
 
 
     | eval event_time=_time,
