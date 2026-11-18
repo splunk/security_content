@@ -1,0 +1,45 @@
+name: Sysmon for Linux EventID 5
+id: 90e933ac-a4f8-451a-9bd5-16fd61c40910
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Logs process termination on Linux, including the image and PID of the process that exited.
+mitre_components:
+    - Process Termination
+    - Process Metadata
+source: Syslog:Linux-Sysmon/Operational
+sourcetype: sysmon:linux
+separator: EventID
+separator_value: '5'
+supported_TA:
+    - name: Splunk Add-on for Sysmon for Linux
+      url: https://splunkbase.splunk.com/app/6652
+      version: 1.0.0
+fields:
+    - _time
+    - Computer
+    - EventID
+    - Image
+    - ProcessGuid
+    - ProcessId
+    - RuleName
+    - UtcTime
+    - User
+    - dest
+    - host
+    - index
+    - process_guid
+    - process_id
+    - process_name
+    - process_path
+    - source
+    - sourcetype
+output_fields:
+    - dest
+    - process_guid
+    - process_id
+    - process_name
+    - process_path
+    - user
+example_log: <Event><System><Provider Name="Linux-Sysmon"/><EventID>5</EventID><Channel>Linux-Sysmon/Operational</Channel><Computer>ar-linux</Computer></System><EventData><Data Name="RuleName">-</Data><Data Name="UtcTime">2026-11-17 20:48:00.000</Data><Data Name="ProcessGuid">{ec23eae3-3a27-62f2-085e-16549b550000}</Data><Data Name="ProcessId">10181</Data><Data Name="Image">/usr/bin/java</Data><Data Name="User">ubuntu</Data></EventData></Event>

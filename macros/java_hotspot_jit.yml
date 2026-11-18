@@ -1,0 +1,8 @@
+name: java_hotspot_jit
+id: 13d446a8-70ff-40d9-851c-450a5731ab8b
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Customer specific Splunk configuration for Java JVM hotspot JIT. Update the sourcetype to match your environment.
+definition: sourcetype="java:hotspot:jit"

@@ -1,0 +1,26 @@
+name: Java HotSpot Fatal Error
+id: 1052f27b-1818-4dd7-98c0-a73eeeee7873
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Data source object for Java HotSpot fatal error logs. This data source uses a custom sourcetype.
+mitre_components:
+    - Application Log Content
+    - Process Termination
+source: hs_err_pid*.log
+sourcetype: java:hotspot:fatal
+supported_TA: []
+fields:
+    - _time
+    - host
+    - source
+    - sourcetype
+    - jvm_pid
+    - _raw
+output_fields:
+    - jvm_pid
+    - source
+    - _raw
+example_log: |-
+    A fatal error has been detected by the Java Runtime Environment: SIGSEGV

@@ -1,0 +1,29 @@
+name: Java HotSpot JIT
+id: 2b9c9f97-1e72-4be6-9e3e-0f8681bb86ad
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Data source object for Java HotSpot JIT logs. This data source uses a custom sourcetype.
+mitre_components:
+    - Application Log Content
+    - Process Metadata
+source: exceptions.log
+sourcetype: java:hotspot:jit
+supported_TA: []
+fields:
+    - _time
+    - host
+    - source
+    - sourcetype
+    - jvm_event_time
+    - jvm_pid
+    - jvm_level
+    - jvm_tags
+    - jvm_message
+output_fields:
+    - jvm_pid
+    - jvm_tags
+    - jvm_message
+example_log: |-
+    [2026-11-17T20:47:52.225+0000][10181][debug][jit,compilation] java.util.Base64$Decoder::decode0

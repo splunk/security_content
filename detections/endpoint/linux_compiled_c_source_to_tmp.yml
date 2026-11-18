@@ -1,8 +1,8 @@
 name: Linux Compiled C Source To Tmp
 id: e873b93d-7f7e-4376-99f0-edb7856ce199
-version: 1
+version: 2
 creation_date: '2026-10-19'
-modification_date: '2026-10-19'
+modification_date: '2026-11-17'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ description: |-
 data_source:
     - Sysmon for Linux EventID 1
 search: |-
-    `sysmon`
+    `sysmon_linux`
     EventID=1
     process_name IN (
         "*clang*",

@@ -1,0 +1,294 @@
+name: HTTP Base64 Activity With JVM Errors
+id: 26f87d5e-671f-402c-9cb7-7e57816ef22e
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-18'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+status: experimental
+type: Anomaly
+description: |
+    The analytic associates each Zeek request containing a malformed Base64 value or a scripted decoder trigger with a nearby Base64-related HotSpot argument exception on the same server and Java PID.
+    Sysmon child process, file creation, or process termination events from that PID add context and can raise confidence.
+data_source:
+    - Zeek HTTP
+    - Zeek HTTP Request Headers
+    - Zeek HTTP POST Body
+    - Java HotSpot Exceptions
+    - Sysmon for Linux EventID 1
+    - Sysmon for Linux EventID 5
+    - Sysmon for Linux EventID 11
+search: |
+    (
+        `zeek_http_request_headers`
+        header_name IN (
+            "AUTHORIZATION",
+            "HTTP2-SETTINGS",
+            "CONTENT-TYPE",
+            "CONTENT-DISPOSITION",
+            "PRIORITY",
+            "X-CONSOLEANNOTATOR",
+            "X-CONNECT-AUTHORIZATION",
+            "X-CSRF-TOKEN"
+        )
+        header_value="*=*"
+        truncated=false
+    )
+    OR
+    (
+        `zeek_http_post_body`
+        body="*=*"
+        truncated=false
+    )
+    OR
+    (
+        `zeek_http_uri`
+        uri IN ("*=*","*%3D*","*%3d*")
+    )
+    OR
+    (
+        `java_hotspot_exceptions`
+        jvm_message IN (
+            "*Input byte array has wrong*",
+            "*IllegalArgumentException*",
+            "*Base64$Decoder*",
+            "*java/util/Base64*"
+        )
+    )
+    OR
+    (
+        `sysmon_linux`
+        (
+            (EventID=1 ParentImage="*/java")
+            OR
+            (EventID=5 Image="*/java")
+            OR
+            (
+                EventID=11
+                Image="*/java"
+                NOT TargetFilename IN ("*/_state/*","*/indices/*")
+            )
+        )
+    )
+
+    | eval event_time=_time,
+           is_network=if(isnotnull('id.resp_h'),1,0)
+
+    | eval observed_target=if(is_network=1,'id.resp_h',coalesce(dest,host,dest_ip))
+
+    | eval request_value=case(
+          isnotnull(header_name),header_value,
+          isnotnull(body),body,
+          is_network=1,urldecode(uri)
+      ),
+      carrier=case(
+          isnotnull(header_name),header_name,
+          isnotnull(body),"POST body",
+          is_network=1,"URI"
+      )
+
+    | where is_network=0 OR len(request_value)>=65
+
+    | eval malformed_b64=if(
+          is_network=1,
+          match(request_value,"(?<![A-Za-z0-9+/_-])(?:(?:[A-Za-z0-9+/]{64})+(?:[A-Za-z0-9+/]{0,2}=|[A-Za-z0-9+/]?==)|(?:[A-Za-z0-9_-]{64})+(?:[A-Za-z0-9_-]{0,2}=|[A-Za-z0-9_-]?==))(?![A-Za-z0-9+/_=-])"),
+          0
+      ),
+      scripted_b64=if(
+          is_network=1 AND isnotnull(body)
+          AND like(body,"%Base64.getDecoder()%")
+          AND like(body,"%new byte[65]%")
+          AND like(body,"%[64] = (byte)61%"),
+          1,0
+      )
+
+    | eval event_kind=case(
+          is_network=1 AND (malformed_b64=1 OR scripted_b64=1),"request",
+          isnotnull(jvm_pid) AND like(jvm_tags,"%exceptions%"),"jvm",
+          EventID=1 OR EventID=5 OR EventID=11,"sysmon"
+      )
+
+    | eval java_pid=case(
+          event_kind="request","network",
+          event_kind="jvm",tostring(jvm_pid),
+          EventID=1,tostring(ParentProcessId),
+          EventID=5 OR EventID=11,tostring(ProcessId)
+      ),
+      request_uid=if(event_kind="request",uid,"-")
+
+    | where isnotnull(event_kind)
+            AND isnotnull(observed_target)
+            AND isnotnull(java_pid)
+            AND isnotnull(request_uid)
+
+    | eval argument_error=if(event_kind="jvm"
+          AND match(jvm_message,"(?i)IllegalArgumentException|Input byte array has wrong"),1,0),
+      decoder_evidence=if(event_kind="jvm"
+          AND match(jvm_message,"Base64[$]Decoder|java/util/Base64|Input byte array has wrong"),1,0),
+      shell_child=if(EventID=1
+          AND match(Image,"/(ash|bash|csh|dash|eshell|fish|ion|ksh|mksh|rbash|sh|tcsh|zsh)$"),1,0),
+      child_process=if(EventID=1,1,0),
+      file_created=if(EventID=11,1,0),
+      java_terminated=if(EventID=5,1,0),
+      suspicious_file=if(EventID=11
+          AND match(TargetFilename,"(?i)(?:[.](?:jsp|sh|so)$|/(?:tmp|var/tmp|dev/shm|webapps)/)"),1,0)
+
+    | eval request_marker=case(
+          event_kind="request" AND scripted_b64=1,"scripted_decoder_trigger",
+          event_kind="request" AND malformed_b64=1,"malformed_base64_request"
+      ),
+      src_ip=if(event_kind="request",'id.orig_h',null()),
+      request_uri=if(event_kind="request",uri,null()),
+      http_method=if(event_kind="request",method,null()),
+      child_image=if(EventID=1,Image,null()),
+      created_file=if(EventID=11,TargetFilename,null())
+
+    | bin _time span=1s
+
+    | stats min(event_time) AS first_seen
+            max(event_time) AS last_seen
+            max(argument_error) AS argument_error
+            max(decoder_evidence) AS decoder_evidence
+            max(shell_child) AS shell_child
+            max(child_process) AS child_process
+            max(file_created) AS file_created
+            max(java_terminated) AS java_terminated
+            max(suspicious_file) AS suspicious_file
+            values(src_ip) AS src_ips
+            values(request_uri) AS uris
+            values(http_method) AS methods
+            values(carrier) AS carriers
+            values(request_marker) AS request_markers
+            values(child_image) AS child_images
+            values(created_file) AS created_files
+            BY _time observed_target java_pid request_uid event_kind
+
+    | rename observed_target AS dest
+
+    | `get_asset(dest)`
+
+    | eval target=coalesce(dest_asset_id,dest),
+           bucket=floor(first_seen/15)
+
+    | eval request_json=if(
+          event_kind="request",
+          json_object(
+              "uid",request_uid,
+              "time",first_seen,
+              "src",mvindex(src_ips,0),
+              "dest",dest,
+              "uri",mvindex(uris,0),
+              "method",mvindex(methods,0),
+              "carrier",mvjoin(carriers,","),
+              "marker",mvjoin(request_markers,",")
+          ),
+          null()
+      ),
+      bucket=if(
+          event_kind="request",
+          mvappend(bucket-1,bucket,bucket+1,bucket+2),
+          bucket
+      )
+
+    | mvexpand bucket
+
+    | eventstats values(request_json) AS candidate_requests BY target bucket
+
+    | where event_kind!="request" AND isnotnull(candidate_requests)
+
+    | mvexpand candidate_requests
+
+    | eval request_uid=spath(candidate_requests,"uid"),
+           request_time=tonumber(spath(candidate_requests,"time")),
+           src=spath(candidate_requests,"src"),
+           request_dest=spath(candidate_requests,"dest"),
+           uri=spath(candidate_requests,"uri"),
+           method=spath(candidate_requests,"method"),
+           carrier=spath(candidate_requests,"carrier"),
+           request_marker=spath(candidate_requests,"marker")
+
+    | where (event_kind="jvm"
+             AND last_seen>=request_time-3
+             AND first_seen<=request_time+15)
+            OR
+            (event_kind="sysmon"
+             AND last_seen>=request_time-3
+             AND first_seen<=request_time+30)
+
+    | stats min(request_time) AS request_time
+            min(eval(if(argument_error=1,first_seen,null()))) AS exception_time
+            max(last_seen) AS last_seen
+            max(argument_error) AS argument_error
+            max(decoder_evidence) AS decoder_evidence
+            max(shell_child) AS shell_child
+            max(child_process) AS child_process
+            max(file_created) AS file_created
+            max(java_terminated) AS java_terminated
+            max(suspicious_file) AS suspicious_file
+            values(src) AS src
+            values(request_dest) AS dest_ips
+            values(uri) AS uri
+            values(method) AS method
+            values(carrier) AS carrier
+            values(request_marker) AS request_markers
+            values(child_images) AS child_images
+            values(created_files) AS created_files
+            BY target request_uid java_pid
+
+    | where argument_error=1 AND decoder_evidence=1
+
+    | eval dest=mvindex(dest_ips,0),
+           exception_delay=round(exception_time-request_time,3),
+           confidence=case(
+               shell_child>0 OR suspicious_file>0,"high",
+               child_process>0 OR file_created>0 OR java_terminated>0,"medium",
+               true(),"low"
+           ),
+           asset_id=target,
+           firstTime=request_time,
+           lastTime=last_seen
+
+    | fields - argument_error decoder_evidence shell_child child_process file_created java_terminated suspicious_file dest_ips
+
+    | sort 0 - firstTime
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `http_base64_activity_with_jvm_errors_filter`
+how_to_implement: |
+    Configure zeek_http_uri, zeek_http_request_headers, zeek_http_post_body, and java_hotspot_exceptions for the indexes and sourcetypes in your environment. Configure sysmon_linux if you collect that optional source.
+    Install the TA for Zeek for standard HTTP logs. To collect the optional header and POST-body streams, install the custom scripts from https://gist.github.com/nasbench/8581572459af92b7c30599f1068c791f (request headers) and https://gist.github.com/nasbench/4cd18a938056cbfbc8a9832edb26f4c4 (POST bodies), following the corresponding data source instructions. These scripts are not included with ESCU or the TA for Zeek. Ensure uid, uri, id.orig_h, id.resp_h, header_name, header_value, body, and truncated are extracted as applicable. The sensor must see request plaintext.
+
+    Enable HotSpot exception logging with time, pid, level, and tags decorators, for example:
+      -Xlog:exceptions=debug:file=/var/log/java/exceptions-%p.log:utctime,pid,level,tags
+    Forward the file as java:hotspot:exceptions and extract jvm_pid, jvm_tags, and jvm_message. Exception logging can be high volume; rotate the file and verify its timestamps.
+
+    Optionally ingest Sysmon for Linux EventID 1, 5, and 11 with ParentImage, ParentProcessId, Image, ProcessId, and TargetFilename. Process creation joins on ParentProcessId; file creation and process termination join on ProcessId.
+
+    Configure Enterprise Security Assets and Identities so the Zeek destination IP and the JVM or Sysmon hostname resolve to the same dest_asset_id through `get_asset(dest)`. Synchronize the sensor and server clocks. The search permits JVM events from 3 seconds before to 15 seconds after each request marker, and optional Sysmon events up to 30 seconds after it. Tune these windows to measured collection delays.
+known_false_positives: |
+    One JVM can handle concurrent requests, so an exception may fall within 15 seconds of more than one malformed request. HotSpot logs do not carry the Zeek uid, and this search establishes time proximity rather than causation.
+    Ordinary Java child processes and file writes can coincide with the request. Review the URI, Zeek uid, exception delay, Java PID, child image, and created path.
+    Clock skew, PID reuse, and incorrect host/IP mapping can misassociate events. Sysmon evidence is supporting context and is not required for a result.
+references:
+    - https://calif.io/java4shell/
+    - https://openjdk.org/groups/vulnerability/advisories/2026-11-17
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: 'HTTP Base64 marker in request [$request_uid$] from [$src$] to [$dest$] aligned with a Base64-related argument exception in Java PID [$java_pid$] at a [$exception_delay$]-second offset. Confidence: [$confidence$]'
+threat_objects: []
+analytic_story:
+    - Java4Shell - CVE-2026-114938
+asset_type: Endpoint
+cve:
+    - CVE-2026-114938
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
