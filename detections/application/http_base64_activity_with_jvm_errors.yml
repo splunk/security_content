@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-11-17'
 modification_date: '2026-11-18'
 author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
-status: experimental
+status: production
 type: Anomaly
 description: |
     The analytic associates each Zeek request containing a malformed Base64 value or a scripted decoder trigger with a nearby Base64-related HotSpot argument exception on the same server and Java PID.
@@ -48,10 +48,13 @@ search: |
     (
         `java_hotspot_exceptions`
         (
-            "*Input byte array has wrong*",
-            OR "*IllegalArgumentException*"
-            OR "*Base64$Decoder*"
-            OR "*java/util/Base64*"
+            "*Input byte array has wrong*"
+            OR
+            "*IllegalArgumentException*"
+            OR
+            "*Base64$Decoder*"
+            OR
+            "*java/util/Base64*"
         )
     )
     OR
@@ -73,6 +76,7 @@ search: |
     | rex field=_raw "^\[(?<jvm_event_time_raw>[^\]]+)\]\[(?<jvm_pid_raw>\d+)\]\[(?<jvm_level_raw>[^\]]+)\]\[(?<jvm_tags_raw>[^\]]+)\]\s*(?<jvm_message_raw>.*)"
 
     | eval jvm_pid=coalesce(jvm_pid_raw,jvm_pid),
+           jvm_tags=coalesce(jvm_tags_raw,jvm_tags),
            jvm_message=coalesce(jvm_message_raw,jvm_message)
 
 
@@ -264,9 +268,11 @@ how_to_implement: |
     Configure zeek_http_uri, zeek_http_request_headers, zeek_http_post_body, and java_hotspot_exceptions for the indexes and sourcetypes in your environment. Configure sysmon_linux if you collect that optional source.
     Install the TA for Zeek for standard HTTP logs. To collect the optional header and POST-body streams, install the custom scripts from https://gist.github.com/nasbench/8581572459af92b7c30599f1068c791f (request headers) and https://gist.github.com/nasbench/4cd18a938056cbfbc8a9832edb26f4c4 (POST bodies), following the corresponding data source instructions. These scripts are not included with ESCU or the TA for Zeek. Ensure uid, uri, id.orig_h, id.resp_h, header_name, header_value, body, and truncated are extracted as applicable. The sensor must see request plaintext.
 
-    Enable HotSpot exception logging with time, pid, level, and tags decorators, for example:
-      -Xlog:exceptions=debug:file=/var/log/java/exceptions-%p.log:utctime,pid,level,tags
-    Forward the file as java:hotspot:exceptions and extract jvm_pid, jvm_tags, and jvm_message. Exception logging can be high volume; rotate the file and verify its timestamps.
+    HotSpot exception diagnostics are not written to a standard file by default. Tomcat normally writes JULI logs under CATALINA_BASE/logs (and, on Unix with its startup scripts, console output to catalina.out); Spring Boot writes application logs to the console by default; and Elasticsearch application logs use /var/log/elasticsearch for Debian/RPM packages, ES_HOME/logs for tar/zip installs, or container stdout. Elasticsearch enables GC logs by default, but these are separate from the exception stream required here.
+    Add this JVM startup option with a writable path chosen for the deployment:
+      -Xlog:exceptions=debug:file=/var/log/myapp/exceptions-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m
+    For Tomcat scripts, place it in CATALINA_OPTS via CATALINA_BASE/bin/setenv.sh or setenv.bat; for a Windows Tomcat service, configure its Java options. For Spring Boot, add it to the Java service or container launch command. For Elasticsearch, add a .options file in config/jvm.options.d or /etc/elasticsearch/jvm.options.d, according to the installation method, and preserve existing JVM logging settings. Spring Boot logging.file.name and Tomcat logging.properties control application or container logs, not HotSpot unified logging.
+    Forward the configured file and rotations as java:hotspot:exceptions. On the Splunk parsing tier, configure single-line event breaking and timestamps for utctime. Search-time extraction in props.conf is optional: use EXTRACT-jvm_unified (or a shared REPORT transform) for reusable jvm_pid, jvm_tags, and jvm_message fields, or leave those fields unconfigured and let this search parse the decorated _raw line with `rex`. The search coalesces raw and pre-extracted values, including jvm_tags, before correlating the Java PID. The Java HotSpot Exceptions data source gives the input and optional extraction pattern. Verify the raw format, host identity, file permissions, and retention before enabling the search. Exception logging can be high volume, and an exception event is not guaranteed during exploitation.
 
     Optionally ingest Sysmon for Linux EventID 1, 5, and 11 with ParentImage, ParentProcessId, Image, ProcessId, and TargetFilename. Process creation joins on ParentProcessId; file creation and process termination join on ProcessId.
 
@@ -313,4 +319,5 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_sysmon.log
           sourcetype: sysmon:linux
           source: Syslog:Linux-Sysmon/Operational
-      test_type: unit
+      description: MANUAL TEST - This detection uses the A&I get_asset macro from Enterprise Security to resolve dest.
+      test_type: experimental

@@ -2,13 +2,27 @@ name: Java HotSpot Exceptions
 id: ed7674d5-562b-4df8-a3d1-e1f38b973686
 version: 1
 creation_date: '2026-11-17'
-modification_date: '2026-11-17'
+modification_date: '2026-11-18'
 author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
-description: Data source object for Java HotSpot exception logs. This data source uses a custom sourcetype.
+description: |
+    Custom HotSpot unified exception diagnostics, separate from application and container logs. A stock JDK does not create an exceptions.log file; its default unified logging sends warning and error messages to stdout. Tomcat writes JULI logs under ${catalina.base}/logs, Spring Boot writes application logs to the console by default, and Elasticsearch uses its configured log directory. None of those application logs supplies this HotSpot stream by default.
+
+    Add a JVM startup option such as `-Xlog:exceptions=debug:file=/var/log/myapp/exceptions-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m`. Replace the directory with one writable by the Java service account; `%p` makes the filename process-specific. For Tomcat started by its scripts, set CATALINA_OPTS in CATALINA_BASE/bin/setenv.sh or setenv.bat; for a Windows Tomcat service, set its Java options in the service configuration. For Spring Boot, add the option to the `java` command or service/container JVM arguments, not `logging.file.name`, which configures application logging. For Elasticsearch, add a .options file under config/jvm.options.d (tar/zip or Docker) or /etc/elasticsearch/jvm.options.d (Debian/RPM). Preserve the product's existing JVM logging settings.
+
+    Forward the configured file and its rotations with a file monitor such as `[monitor:///var/log/myapp/exceptions-*.log*]`, and assign the custom sourcetype java:hotspot:exceptions. On the Splunk parsing tier, use SHOULD_LINEMERGE=false, TIME_PREFIX=^\[, TIME_FORMAT=%Y-%m-%dT%H:%M:%S.%3N%z, and MAX_TIMESTAMP_LOOKAHEAD=32. Search-time field extraction is optional for the associated detections: they can parse the decorated raw lines with SPL `rex` and use `coalesce` to accept either raw or extracted fields. If you want reusable jvm_pid, jvm_tags, and jvm_message fields outside these detections, set KV_MODE=none on the search head and use the extraction below (or a shared REPORT transform):
+
+      EXTRACT-jvm_unified = ^\[(?<jvm_event_time>[^\]]+)\]\[(?<jvm_pid>\d+)\]\[(?<jvm_level>[^\]]+)\]\[(?<jvm_tags>[^\]]+)\]\s*(?<jvm_message>.*)$
+
+    Confirm that the raw events retain the `[utctime][pid][level][tags] message` format and that the host matches endpoint telemetry. When props.conf extraction is configured, verify the fields as well. Exception logging can be high volume; size the rotation and retention accordingly. Some continuation lines lack the decorators and will not match either single-line extraction.
+
+    JVM option reference: https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html
+    Tomcat logging: https://tomcat.apache.org/tomcat-11.0-doc/logging.html
+    Spring Boot logging: https://docs.spring.io/spring-boot/reference/features/logging.html
+    Elasticsearch JVM settings: https://www.elastic.co/docs/reference/elasticsearch/jvm-settings
 mitre_components:
     - Application Log Content
     - Process Metadata
-source: exceptions.log
+source: exceptions-*.log
 sourcetype: java:hotspot:exceptions
 supported_TA: []
 fields:

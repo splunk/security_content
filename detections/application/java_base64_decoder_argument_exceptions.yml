@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-11-18'
 modification_date: '2026-11-18'
 author: Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
-status: experimental
+status: production
 type: Anomaly
 description: |
     The analytic finds Java Base64 decoder references and argument exceptions on the same JVM process within one minute. JIT messages add context when present. These logs indicate decoder activity and errors, but do not prove that a native overwrite or code execution occurred.
@@ -20,10 +20,13 @@ search: |
         OR "*java/util/Base64*"
         OR "*OSR invalidation of lower level*"
     )
+
     | rex field=_raw "^\[(?<jvm_event_time_raw>[^\]]+)\]\[(?<jvm_pid_raw>\d+)\]\[(?<jvm_level_raw>[^\]]+)\]\[(?<jvm_tags_raw>[^\]]+)\]\s*(?<jvm_message_raw>.*)"
+
     | eval process_id=coalesce(jvm_pid_raw,jvm_pid,process_id),
         jvm_message=coalesce(jvm_message_raw,jvm_message),
         event_time=_time
+
     | where isnotnull(process_id)
 
     | rex mode=sed field=jvm_message "s/0x[0-9A-Fa-f]{8,16}/0xXXXXXXXXXXXXXXXX/g"
@@ -65,7 +68,9 @@ search: |
     | `security_content_ctime(lastTime)`
     | `java_base64_decoder_argument_exceptions_filter`
 how_to_implement: |
-    Configure java_hotspot_exceptions and java_hotspot_jit to select the indexes and sourcetypes used for HotSpot unified logs. Enable exception and JIT logging with time and pid decorators, forward the files, and extract jvm_pid and jvm_message from each event. Keep the same host value for all logs from one JVM. The JIT source is useful context but an exception source alone can satisfy both required terms if its events contain the decoder reference.
+    Configure java_hotspot_exceptions and java_hotspot_jit for the indexes and sourcetypes in your environment. A stock HotSpot JVM does not create exception or JIT log files; its default unified logging sends warning and error messages to stdout. Tomcat JULI logs under CATALINA_BASE/logs, Spring Boot's default console logs, and Elasticsearch application logs are separate from these JVM diagnostics.
+    Add `-Xlog:exceptions=debug:file=/var/log/myapp/exceptions-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m` to the Java startup options. To collect JIT context, also add `-Xlog:jit+compilation=debug:file=/var/log/myapp/jit-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m`. Use a writable directory and monitor both files and rotations. Tomcat scripts accept CATALINA_OPTS in setenv.sh or setenv.bat; a Windows Tomcat service uses its Java options; Spring Boot uses the Java service or container launch command; and Elasticsearch uses jvm.options.d under its config directory or /etc/elasticsearch/jvm.options.d for Debian/RPM packages. The Java HotSpot Exceptions and Java HotSpot JIT data source descriptions give the Splunk input and field-extraction settings.
+    Search-time extraction in props.conf is optional. Configure EXTRACT-jvm_unified or a shared REPORT transform if you want reusable jvm_pid and jvm_message fields; otherwise this search parses the decorated _raw lines with `rex` and coalesces the raw fields with any pre-extracted values. Keep the same host value for all logs from one JVM and verify the raw format or extracted fields with representative events. The JIT source adds context; an exception source alone can satisfy both required terms if its events contain the decoder reference. Neither log proves that the intrinsic overwrite occurred.
 known_false_positives: |
     Applications that routinely decode malformed Base64 can produce these events. The decoder and exception may come from separate requests within the same minute; review the surrounding application and network events.
 references:

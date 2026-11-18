@@ -2,9 +2,15 @@ name: Java HotSpot Fatal Error
 id: 1052f27b-1818-4dd7-98c0-a73eeeee7873
 version: 1
 creation_date: '2026-11-17'
-modification_date: '2026-11-17'
+modification_date: '2026-11-18'
 author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
-description: Data source object for Java HotSpot fatal error logs. This data source uses a custom sourcetype.
+description: |
+    HotSpot fatal error reports are created only after a fatal JVM error. Without -XX:ErrorFile, the JDK tries to write hs_err_pid<pid>.log in the process working directory and falls back to the operating-system temporary directory if needed. On Linux this fallback is /tmp; on Windows it follows TMP or TEMP. Tomcat and Spring Boot do not supply one universal working directory, so inspect the service configuration. Elasticsearch sets its own JVM fatal-error path in its logging directory: /var/log/elasticsearch for Debian/RPM packages or the installation's logs directory for tar/zip distributions.
+
+    To make collection predictable, set a writable absolute path such as `-XX:ErrorFile=/var/log/myapp/hs_err_pid%p.log` in the JVM startup options. For Tomcat scripts use CATALINA_OPTS in setenv.sh or setenv.bat; for a Windows Tomcat service use its Java options. For Spring Boot set the Java service/container arguments. For Elasticsearch inspect its existing -XX:ErrorFile setting in jvm.options before changing it. Monitor the chosen path as java:hotspot:fatal. Extract jvm_pid from the hs_err_pid filename if needed; these reports do not share the unified-log `[time][pid][level][tags]` format or guarantee a jvm_message field. A fatal report is not a required result of exploitation.
+
+    JDK fatal-error location: https://docs.oracle.com/en/java/javase/24/troubleshoot/location-fatal-error-log.html
+    Elasticsearch JVM settings: https://www.elastic.co/docs/reference/elasticsearch/jvm-settings
 mitre_components:
     - Application Log Content
     - Process Termination

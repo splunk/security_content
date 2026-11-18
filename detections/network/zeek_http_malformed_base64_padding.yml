@@ -4,7 +4,7 @@ version: 1
 creation_date: '2026-11-18'
 modification_date: '2026-11-18'
 author: Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
-status: experimental
+status: production
 type: Anomaly
 description: |
     The analytic hunts for an HTTP header, POST body, or URI containing at least one 64-character Base64 block followed by a short padded fragment. This malformed shape can reach a vulnerable Java Base64 decoder, but its presence in traffic alone does not prove that the server decoded it.
@@ -85,3 +85,10 @@ product:
     - Splunk Cloud
 category: network
 security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_zeek_body.log
+          sourcetype: zeek:http_post_body:json
+          source: http_post_body.log
+      test_type: unit
