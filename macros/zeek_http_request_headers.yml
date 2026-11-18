@@ -1,0 +1,8 @@
+name: zeek_http_request_headers
+id: e4afffd9-b84d-46aa-ae9a-6bdee7d915da
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Customer specific Splunk configuration for Zeek HTTP request header logs. Update the sourcetype to match your environment.
+definition: sourcetype="zeek:http_request_header:json"

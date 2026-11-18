@@ -1,0 +1,37 @@
+name: Java HotSpot JIT
+id: 2b9c9f97-1e72-4be6-9e3e-0f8681bb86ad
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-18'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: |
+    Custom HotSpot JIT compilation diagnostics, separate from Tomcat, Spring Boot, and Elasticsearch application logs. A stock JDK does not create a jit.log file or emit JIT compilation details at its default warning/error unified logging level. The file path is chosen by the JVM startup configuration, regardless of the application framework.
+
+    Add a JVM startup option such as `-Xlog:jit+compilation=debug:file=/var/log/myapp/jit-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m`. Create a directory writable by the Java service account and preserve existing JVM options. For Tomcat started by its scripts, set CATALINA_OPTS in CATALINA_BASE/bin/setenv.sh or setenv.bat; for a Windows Tomcat service, use its Java options. For Spring Boot, add the option to the `java` command or service/container JVM arguments. For Elasticsearch, use config/jvm.options.d for tar/zip or Docker and /etc/elasticsearch/jvm.options.d for Debian/RPM.
+
+    Forward the configured file and rotations with a file monitor such as `[monitor:///var/log/myapp/jit-*.log*]`, and assign the custom sourcetype java:hotspot:jit. On the Splunk parsing tier, use SHOULD_LINEMERGE=false, TIME_PREFIX=^\[, TIME_FORMAT=%Y-%m-%dT%H:%M:%S.%3N%z, and MAX_TIMESTAMP_LOOKAHEAD=32. The associated detection can parse `[utctime][pid][level][tags] message` directly from _raw with SPL `rex`, so props.conf search-time field extraction is optional. If you want reusable fields outside the detection, set KV_MODE=none on the search head and extract jvm_pid, jvm_tags, and jvm_message with the same EXTRACT regex or REPORT transform described in Java HotSpot Exceptions. Verify the raw format, optional fields, and host naming before using the detection. A JIT message shows compilation activity, not that a particular intrinsic executed.
+
+    JVM option reference: https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html
+    Elasticsearch JVM settings: https://www.elastic.co/docs/reference/elasticsearch/jvm-settings
+mitre_components:
+    - Application Log Content
+    - Process Metadata
+source: jit-*.log
+sourcetype: java:hotspot:jit
+supported_TA: []
+fields:
+    - _time
+    - host
+    - source
+    - sourcetype
+    - jvm_event_time
+    - jvm_pid
+    - jvm_level
+    - jvm_tags
+    - jvm_message
+output_fields:
+    - jvm_pid
+    - jvm_tags
+    - jvm_message
+example_log: |-
+    [2026-11-17T20:47:52.225+0000][10181][debug][jit,compilation] java.util.Base64$Decoder::decode0
