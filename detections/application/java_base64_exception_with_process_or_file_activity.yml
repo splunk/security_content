@@ -56,7 +56,7 @@ search: |
     | rex mode=sed field=jvm_message "s/^\d+\s+/XXXX /g"
 
     | eval has_argument=if(match(jvm_message,"(?i)Input byte array has wrong|IllegalArgumentException"),1,0),
-           has_decoder=if(match(jvm_message,"Base64[$]Decoder|java/util/Base64"),1,0),
+           has_decoder=if(match(jvm_message,"Base64[$]Decoder|java/util/Base64|Input byte array has wrong 4-byte ending unit"),1,0),
            has_activity=if(EventID==1 OR EventID==11,1,0)
 
     | eval activity=case(
@@ -99,7 +99,7 @@ search: |
     | `java_base64_exception_with_process_or_file_activity_filter`
 how_to_implement: |
     Configure java_hotspot_exceptions and sysmon_linux for the indexes and sourcetypes in your environment. HotSpot exception diagnostics have no default file location. Tomcat's CATALINA_BASE/logs, Spring Boot's default console output, and Elasticsearch's application log directory do not supply this JVM stream. Add `-Xlog:exceptions=debug:file=/var/log/myapp/exceptions-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m` to the Java startup options, using a writable path. Set it through Tomcat CATALINA_OPTS or Windows service Java options, the Spring Boot Java service/container command, or Elasticsearch jvm.options.d. Forward the chosen file and rotations as java:hotspot:exceptions. Configure single-line event breaking and utctime parsing on the Splunk parsing tier. Search-time extraction in props.conf is optional: use EXTRACT-jvm_unified or a shared REPORT transform for reusable jvm_pid and jvm_message fields, or let this search extract them from decorated _raw lines with `rex`. The search coalesces raw and pre-extracted values before joining to Sysmon. The Java HotSpot Exceptions data source provides the optional extraction pattern.
-    Install Sysmon for Linux and ingest EventID 1 and 11 with ParentImage, ParentProcessId, Image, ProcessId, TargetFilename, and CommandLine. Normalize the host field so JVM and Sysmon events from the same machine use the same value. The search joins a process creation on ParentProcessId and a file creation on ProcessId; both must identify the Java PID. Verify that exception log volume and rotation are acceptable before deploying this correlation.
+    The exact HotSpot message `Input byte array has wrong 4-byte ending unit` is treated as Base64 decoder evidence because decoder references on separate continuation lines may lack the PID decorator and cannot be joined reliably with single-line event breaking. Install Sysmon for Linux and ingest EventID 1 and 11 with ParentImage, ParentProcessId, Image, ProcessId, TargetFilename, and CommandLine. Normalize the host field so JVM and Sysmon events from the same machine use the same value. The search joins a process creation on ParentProcessId and a file creation on ProcessId; both must identify the Java PID. Verify that exception log volume and rotation are acceptable before deploying this correlation.
 known_false_positives: |
     Java applications may decode malformed inputs while independently creating files or child processes. One-minute bins can also miss events at a minute boundary or associate unrelated activity on a busy JVM. Review the process command line, file path, and nearby request logs.
 references:
