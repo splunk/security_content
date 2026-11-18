@@ -1,0 +1,33 @@
+name: Linux Auditd Config Change
+id: 7b1e3c92-5a4d-4f61-9c08-2d3e4f5a6b7c
+version: 1
+creation_date: '2026-11-02'
+modification_date: '2026-11-02'
+author: vahid malekmohammadi
+description: Logs Linux audit (auditd) configuration-change events (CONFIG_CHANGE), such as audit rules being added (op=add_rule) or removed (op=remove_rule) at runtime via auditctl or the AUDIT netlink interface, and changes to the audit enabled/failure state.
+mitre_components:
+    - Application Log Content
+source: auditd
+sourcetype: auditd
+separator: type
+separator_value: CONFIG_CHANGE
+configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules
+supported_TA:
+    - name: Splunk Add-on for Unix and Linux
+      url: https://splunkbase.splunk.com/app/833
+      version: 10.3.4
+fields:
+    - type
+    - op
+    - key
+    - list
+    - auid
+    - ses
+    - res
+output_fields:
+    - op
+    - key
+    - list
+    - auid
+    - dest
+example_log: 'type=CONFIG_CHANGE msg=audit(11/02/2026 10:26:19.940:2082051) : auid=root ses=1066 subj=unconfined op=remove_rule key=rootcmd list=exit res=yes'
