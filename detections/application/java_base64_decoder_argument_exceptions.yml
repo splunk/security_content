@@ -90,3 +90,13 @@ product:
     - Splunk Cloud
 category: application
 security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_exception.log
+          sourcetype: java:hotspot:exceptions
+          source: exceptions.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_jit.log
+          sourcetype: java:hotspot:jit
+          source: jit.log
+      test_type: unit
