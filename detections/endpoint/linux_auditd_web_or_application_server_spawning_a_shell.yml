@@ -1,8 +1,8 @@
 name: Linux Auditd Web or Application Server Spawning a Shell
 id: 59a644b2-51eb-4995-9fc5-b0ff08926d73
-version: 1
+version: 2
 creation_date: '2026-10-29'
-modification_date: '2026-10-29'
+modification_date: '2026-11-18'
 author: Raven Tait, Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
 status: production
 type: TTP
@@ -97,6 +97,7 @@ threat_objects:
       type: process_name
 analytic_story:
     - PHP2Shell
+    - Java4Shell - CVE-2026-114938
 asset_type: Endpoint
 mitre_attack_id:
     - T1190

@@ -1,8 +1,8 @@
 name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
-version: 14
+version: 15
 creation_date: '2023-04-12'
-modification_date: '2026-10-28'
+modification_date: '2026-11-18'
 author: Steven Dick, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -150,6 +150,7 @@ analytic_story:
     - Flax Typhoon
     - GhostRedirector IIS Module and Rungan Backdoor
     - HAFNIUM Group
+    - Java4Shell - CVE-2026-114938
     - Medusa Ransomware
     - Microsoft SharePoint Vulnerabilities
     - Microsoft WSUS CVE-2025-59287

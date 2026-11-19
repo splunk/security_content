@@ -1,8 +1,8 @@
 name: HTTP POST Request with Encoded Payload
 id: 0590881d-7b81-48dd-9674-1f23f7db5d40
-version: 1
+version: 2
 creation_date: '2026-10-12'
-modification_date: '2026-10-19'
+modification_date: '2026-11-18'
 author: Raven Tait, Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -85,6 +85,7 @@ threat_objects:
 analytic_story:
     - Command And Control
     - Data Exfiltration
+    - Java4Shell - CVE-2026-114938
 asset_type: Network
 mitre_attack_id:
     - T1071.001
