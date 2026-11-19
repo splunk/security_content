@@ -1,0 +1,8 @@
+name: zeek_http_post_body
+id: 2b3d4ea4-87c5-47bc-be91-f6d22b04b720
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Customer specific Splunk configuration for Zeek HTTP post body logs. Update the sourcetype to match your environment.
+definition: sourcetype="zeek:http_post_body:json"

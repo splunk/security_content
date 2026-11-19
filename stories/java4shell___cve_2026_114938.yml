@@ -1,0 +1,24 @@
+name: Java4Shell - CVE-2026-114938
+id: c47bc409-53a8-4dae-ab1a-312c82a0a078
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-18'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+status: production
+description: |
+    CVE-2026-114938 is an out-of-bounds write in the x86-64 HotSpot Base64 decoder intrinsic. This story brings together HTTP requests carrying a malformed Base64 value or a scripted decoder trigger, Java decoder and exception telemetry, and optional process or file activity from the same JVM. These signals help investigate possible exploitation but do not independently establish that the native overwrite or code execution occurred.
+narrative: |
+    The affected path requires an x86-64 HotSpot JVM that compiles the Base64 decoder with the intrinsic enabled on a CPU supporting AVX-512 VBMI/BW and BMI2. After at least one complete 64-byte Base64 block, a malformed final fragment of one to three bytes with trailing padding can make the intrinsic compute a negative output count. The resulting masked store writes beyond the Java result array. A later IllegalArgumentException may occur after the overwrite, but an application does not need to log that exception.
+    A remote request is relevant only when attacker-controlled data reaches a Java Base64 decoder. The entry point varies by application: an HTTP header, URI, request body, or server-side script can supply the value. A script may construct the malformed bytes inside the JVM, leaving no literal Base64 token in the network request. TLS encryption and incomplete HTTP capture can also hide the request content from Zeek.
+    The network analytic identifies a candidate malformed value without proving that the server decoded it. The JVM analytic groups Base64 decoder references and argument exceptions by host and Java PID; JIT messages can show compilation activity but do not identify the overwrite. The combined analytic associates a candidate HTTP request with nearby JVM evidence on the destination host and uses the Java PID to add Sysmon process or file events when available. Shared hosts and busy JVMs require review of the request, process, and timing before attribution.
+    Code execution can remain entirely inside the Java process. A child shell, newly created file, fatal JVM error, or garbage collection anomaly is not a required result. Conversely, a Java child process or file created near a decoder exception can be unrelated. Investigate those events as supporting behavior, not as a prerequisite for this vulnerability.
+references:
+    - https://calif.io/java4shell/
+    - https://openjdk.org/groups/vulnerability/advisories/2026-11-17
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Application Security
