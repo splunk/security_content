@@ -2,7 +2,7 @@ name: Linux Auditd Service Crash and Restart Burst
 id: 528a6791-3772-46de-9b7e-2f98c9ca6a8f
 version: 2
 creation_date: '2026-10-28'
-modification_date: '2026-10-28'
+modification_date: '2026-11-20'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
