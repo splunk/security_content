@@ -1,8 +1,8 @@
 name: HTTP Base64 Activity With JVM Errors
 id: 26f87d5e-671f-402c-9cb7-7e57816ef22e
-version: 1
+version: 2
 creation_date: '2026-11-17'
-modification_date: '2026-11-18'
+modification_date: '2026-11-19'
 author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -123,7 +123,7 @@ search: |
           EventID=1,tostring(ParentProcessId),
           EventID=5 OR EventID=11,tostring(ProcessId)
       ),
-      request_uid=if(event_kind="request",uid,"-")
+      request_uid=if(event_kind="request",uid."@".printf("%.6f",event_time),"-")
 
     | where isnotnull(event_kind)
             AND isnotnull(observed_target)

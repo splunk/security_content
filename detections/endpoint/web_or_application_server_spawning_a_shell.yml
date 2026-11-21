@@ -153,6 +153,7 @@ analytic_story:
     - GhostRedirector IIS Module and Rungan Backdoor
     - HAFNIUM Group
     - Hermetic Wiper
+    - Java4Shell - CVE-2026-114938
     - Log4Shell CVE-2021-44228
     - Microsoft SharePoint Vulnerabilities
     - Microsoft WSUS CVE-2025-59287

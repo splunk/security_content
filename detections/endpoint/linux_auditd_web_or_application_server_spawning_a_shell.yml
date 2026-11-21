@@ -98,6 +98,7 @@ threat_objects:
 analytic_story:
     - PHP2Shell
     - NGINX2Root
+    - Java4Shell - CVE-2026-114938
 asset_type: Endpoint
 cve:
     - CVE-2026-109618
