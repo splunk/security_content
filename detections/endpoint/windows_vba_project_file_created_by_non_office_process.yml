@@ -1,0 +1,29 @@
+name: Windows VBA Project File Created by Non-Office Process
+id: 839ded49-b2b9-4c07-ba86-e9a82494280a
+version: 1
+creation_date: '2026-11-10'
+modification_date: '2026-11-10'
+author: ali-vrd
+status: experimental
+type: TTP
+description: The following analytic detects the creation of a vbaProject.bin file by a process other than a Microsoft Office application. The vbaProject.bin file stores the VBA macro project inside an Office document, containing both the VBA source code and the compiled p-code. Attackers use tools such as EvilClippy to perform VBA stomping, which requires writing or manipulating a standalone vbaProject.bin file while constructing the malicious document. A legitimate vbaProject.bin on the filesystem is written by the Office host process itself (WINWORD.EXE, EXCEL.EXE, POWERPNT.EXE and others) or produced by archive utilities extracting document contents. Creation by any other process, including script interpreters and unknown binaries, may indicate macro stomping or malicious document staging. This detection leverages the Filesystem node of the Endpoint data model.
+data_source:
+    - Sysmon EventID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name="vbaProject.bin" NOT (Filesystem.process_name IN ("WINWORD.EXE","EXCEL.EXE","POWERPNT.EXE","MSACCESS.EXE","OUTLOOK.EXE","MSPUB.EXE","WINPROJ.EXE","ONENOTE.EXE","EQNEDT32.EXE","7z.exe","7zFM.exe","7za.exe","rar.exe","unrar.exe","WinRAR.exe","Bandizip.exe")) by Filesystem.action Filesystem.dest Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.process_name Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_vba_project_file_created_by_non_office_process_filter`'
+how_to_implement: You must be ingesting data that records file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, EventCode 11 (FileCreate) must be enabled, and you will need a Splunk Universal Forwarder on each endpoint from which to collect data.
+known_false_positives: Archive utilities extracting Office document contents, or Office applications not included in the filter list, may create vbaProject.bin files legitimately. Rare legitimate tooling that rebuilds Office documents may also trigger this analytic.
+references:
+    - https://attack.mitre.org/techniques/T1564/007/
+    - https://github.com/outflanknl/EvilClippy
+    - https://www.outflank.nl/blog/2019/05/05/evil-clippy-ms-office-malleable-c2-profiles-and-evading-cobalt-strike-beacon-scans/
+analytic_story:
+    - Spearphishing Attachments
+asset_type: Endpoint
+mitre_attack_id:
+    - T1564.007
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint

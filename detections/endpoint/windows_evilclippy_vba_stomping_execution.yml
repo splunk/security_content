@@ -1,0 +1,31 @@
+name: Windows EvilClippy VBA Stomping Execution
+id: e3ce6f81-8f72-4477-8126-16e6fe5fcd85
+version: 1
+creation_date: '2026-11-10'
+modification_date: '2026-11-10'
+author: ali-vrd
+status: experimental
+type: TTP
+description: The following analytic detects the execution of EvilClippy, an open-source tool used to perform VBA stomping against Microsoft Office documents. EvilClippy manipulates the vbaProject.bin stream so that the VBA source code is removed or replaced while the compiled p-code remains, allowing malicious macros to execute while evading static analysis, antivirus inspection, and even the VBA editor. This detection leverages the Endpoint data model, identifying processes where the process name or original file name is EvilClippy.exe. Legitimate administrative use of this tool is highly uncommon, so any observed execution is a strong indicator of malicious macro development or malicious document staging.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="EvilClippy.exe" OR Processes.original_file_name="EvilClippy.exe") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process_name Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_evilclippy_vba_stomping_execution_filter`'
+how_to_implement: The detection is based on process creation telemetry such as Sysmon EventID 1, Windows Security Event 4688, or EDR agents. You must ingest logs that contain the process GUID, process name, and original file name, and the logs must be mapped to the Processes node of the Endpoint data model. Use the Splunk Common Information Model (CIM) to normalize field names and speed up the data modeling process.
+known_false_positives: This detection may trigger if a legitimate binary has been renamed to EvilClippy.exe for testing or training purposes. Filter or tune as needed.
+references:
+    - https://attack.mitre.org/techniques/T1564/007/
+    - https://github.com/outflanknl/EvilClippy
+    - https://www.outflank.nl/blog/2019/05/05/evil-clippy-ms-office-malleable-c2-profiles-and-evading-cobalt-strike-beacon-scans/
+analytic_story:
+    - Spearphishing Attachments
+asset_type: Endpoint
+mitre_attack_id:
+    - T1564.007
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
