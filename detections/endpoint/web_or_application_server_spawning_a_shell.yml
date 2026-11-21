@@ -1,8 +1,8 @@
 name: Web or Application Server Spawning a Shell
 id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
-version: 8
+version: 9
 creation_date: '2021-12-13'
-modification_date: '2026-10-28'
+modification_date: '2026-11-20'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -153,9 +153,11 @@ analytic_story:
     - GhostRedirector IIS Module and Rungan Backdoor
     - HAFNIUM Group
     - Hermetic Wiper
+    - Java4Shell - CVE-2026-114938
     - Log4Shell CVE-2021-44228
     - Microsoft SharePoint Vulnerabilities
     - Microsoft WSUS CVE-2025-59287
+    - NGINX2Root
     - PHP-CGI RCE Attack on Japanese Organizations
     - PHP2Shell
     - ProxyNotShell
@@ -168,6 +170,8 @@ asset_type: Endpoint
 cve:
     - CVE-2026-109618
     - CVE-2026-109619
+    - CVE-2026-123007
+    - CVE-2026-123633
 mitre_attack_id:
     - T1190
     - T1133

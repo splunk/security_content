@@ -1,0 +1,35 @@
+name: NGINX2Root
+id: a689b3c3-754d-4acb-8482-377ff1eb934b
+version: 1
+creation_date: '2026-11-20'
+modification_date: '2026-11-20'
+author: Raven Tait, Splunk
+status: production
+description: |-
+    This analytic story covers exploitation attempts and post-exploitation activity associated with NGINX HTTP/2 remote code execution vulnerabilities CVE-2026-123007 and CVE-2026-123633.
+    It's endpoint detections identify web server processes spawning shells and repeated NGINX worker crashes. 
+narrative: |-
+    On November 18, 2026, F5 and nginx.org disclosed ten vulnerabilities in nginx. Five of them, detailed by the Xint research team and published under the name nginx2root, are memory corruption flaws that an unauthenticated attacker can use to crash an nginx worker or, per Xint's research, run commands on the server. 
+    
+    Xint also found a Linux kernel bug that turns that foothold into root on the host, including from inside a Docker container. 
+
+    The detections in this story identify suspicious Linux process activity that may be associated with exploitation and post-exploitation behavior.
+
+    Review relevant web, application, and endpoint telemetry together. Validate affected software versions and how the application processes untrusted data, and investigate unusual process activity in the context of the host and application. Tune detections for expected application behavior and legitimate large requests.
+references:
+    - https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities
+    - https://nginx2root.com/
+    - https://nginx.org/en/security_advisories.html
+cve:
+    - CVE-2026-123007
+    - CVE-2026-123633
+    - CVE-2026-123634
+    - CVE-2026-121810
+    - CVE-2026-113425
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection
