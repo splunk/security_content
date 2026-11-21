@@ -1,6 +1,6 @@
 name: Linux Auditd Web or Application Server Spawning a Shell
 id: 59a644b2-51eb-4995-9fc5-b0ff08926d73
-version: 2
+version: 3
 creation_date: '2026-10-29'
 modification_date: '2026-11-20'
 author: Raven Tait, Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
