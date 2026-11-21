@@ -99,5 +99,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_sd_wan/vsyslog/vsyslog.log
           source: /var/log/vsyslog
-          sourcetype: cisco:sdwan:syslog
+          sourcetype: cisco:sdwan:custom
       test_type: unit
