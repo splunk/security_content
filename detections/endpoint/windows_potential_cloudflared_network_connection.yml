@@ -1,15 +1,16 @@
 name: Windows Potential Cloudflared Network Connection
 id: 29798d45-c9c7-4240-a5ef-d7648c016024
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-11-16'
 author: Raven Tait, Splunk
 status: production
 type: Hunting
 description: |-
-    This analytic detects network connection events possibly associated with the Cloudflared tool, a tool used to create tunnels via Cloudflare.
+    This hunting analytic detects network connection events possibly associated with the Cloudflared tool, a tool used to create tunnels via Cloudflare.
     Cloudflared is functionally very similar to ngrok, an ingress-as-a-service tool.
     It reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel's controller makes services or private networks accessible.
+    Promote this analytic to an anomaly generating risk or intermediate findings if you do not allow cloudflared to be used in your environment.
 data_source:
     - Sysmon EventID 3
 search: |-
@@ -32,8 +33,11 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_potential_cloudflared_network_connection_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Some legitimate use cases include authorized tunneling for remote access or service exposure in enterprise environments. Filter alerts for approved Cloudflared deployments to reduce false positives.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    Some legitimate use cases include authorized tunneling for remote access or service exposure in enterprise environments. Review the network traffic to determine if the connection is authorized.
+    Filter alerts for approved Cloudflared deployments to reduce false positives.
 references:
     - https://www-bleepingcomputer-com.cdn.ampproject.org/c/s/www.bleepingcomputer.com/news/security/hackers-increasingly-abuse-cloudflare-tunnels-for-stealthy-connections/amp/
     - https://github.com/cloudflare/cloudflared

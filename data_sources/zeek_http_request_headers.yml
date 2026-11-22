@@ -1,0 +1,64 @@
+name: Zeek HTTP Request Headers
+id: 8b70371a-f613-48d2-80af-48d5be32e745
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-18'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: |
+    Custom HTTP/1.1 request-header log. The TA for Zeek does not produce or parse this stream.
+    The Zeek logger writes one JSON record per selected header to http_request_headers.log.
+    
+    Capture Authorization, HTTP2-Settings, Content-Type, Content-Disposition, Priority, X-ConsoleAnnotator, X-Connect-Authorization, and X-CSRF-Token.
+    
+    Limit each header value to 8 KiB and include uid, the connection tuple, header_name, header_value, value_bytes, logged_bytes, and truncated.
+
+    Download the custom http-request-headers.zeek script from https://gist.github.com/nasbench/8581572459af92b7c30599f1068c791f and place it in /opt/zeek/share/zeek/site/. This script is not included with ESCU or the TA for Zeek. Add `redef LogAscii::use_json = T;` and `@load ./http-request-headers` to /opt/zeek/share/zeek/site/local.zeek, then run `sudo /opt/zeek/bin/zeekctl deploy`. The sensor must see HTTP request plaintext.
+
+    On the Zeek forwarder, add this inputs.conf stanza (replace zeek with your index):
+
+      [monitor:///opt/zeek/logs/current/http_request_headers.log]
+      disabled = 0
+      index = zeek
+      sourcetype = zeek:http_request_header:json
+
+    Add this props.conf stanza on the parsing tier for line handling and on the search head for JSON extraction:
+
+      [zeek:http_request_header:json]
+      SHOULD_LINEMERGE = false
+      TRUNCATE = 32768
+      KV_MODE = json
+
+    Restart or reload the affected components and configure the zeek_http_request_headers macro to select the indexed events.
+    Confirm that uid, id.orig_h, id.resp_h, header_name, header_value, and truncated are extracted, and use only truncated=false events for complete values.
+mitre_components:
+    - Network Traffic Content
+    - Application Log Content
+source: http_request_headers.log
+sourcetype: zeek:http_request_header:json # Custom sourcetype
+configuration: https://gist.github.com/nasbench/8581572459af92b7c30599f1068c791f
+supported_TA: []
+fields:
+    - ts
+    - uid
+    - id.orig_h
+    - id.orig_p
+    - id.resp_h
+    - id.resp_p
+    - method
+    - uri
+    - host
+    - header_name
+    - header_value
+    - value_bytes
+    - logged_bytes
+    - truncated
+output_fields:
+    - uid
+    - id.orig_h
+    - id.resp_h
+    - uri
+    - header_name
+    - header_value
+    - truncated
+example_log: |-
+    {"ts":1794948473.225,"uid":"Cexample123","id.orig_h":"10.0.2.1","id.resp_h":"10.0.2.13","method":"GET","uri":"/","header_name":"AUTHORIZATION","header_value":"Basic YYYY","value_bytes":10,"logged_bytes":10,"truncated":false}

@@ -1,0 +1,121 @@
+name: testing/_reusable
+on:
+  workflow_call:
+    inputs:
+      test-types:
+        description: Comma-separated contentctl-ng test types (e.g. detection.unit,detection.integration)
+        required: true
+        type: string
+    secrets:
+      APPINSPECTUSERNAME:
+        required: true
+      APPINSPECTPASSWORD:
+        required: true
+jobs:
+  run:
+    runs-on: large-ubuntu-22.04-32core
+    if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
+    permissions:
+      contents: read
+    steps:
+        #For fork PRs, always check out security_content and the PR target in security content!
+        - name: Check out the repository code
+          uses: actions/checkout@v7
+          with:
+            repository: 'splunk/security_content' #this should be the TARGET repo of the PR. we hardcode it for now
+            ref: ${{ github.base_ref }}
+
+        # The head branch name is chosen by the PR author (including fork PRs), so it is passed
+        # through env instead of being interpolated into the script, to prevent shell injection.
+        - name: Print out information abour PR target
+          env:
+            PR_HEAD_REF: ${{ github.head_ref }}
+          run: |
+            echo "The PR target branch is: ${{ github.base_ref }}"
+            echo "The PR head branch is: $PR_HEAD_REF"
+            echo "My current branch is"
+            git branch --show-current
+            git rev-parse HEAD
+
+
+        - name: Set up Python
+          uses: actions/setup-python@v6
+          with:
+            python-version: 3.14
+            architecture: x64
+
+        - name: Install contentctl-ng
+          shell: bash
+          run: |
+            echo "- Build Tool Version - $(cat requirements.txt)"
+            pip install -r requirements.txt
+
+        # Check out GitHub's merge commit for the PR (the PR merged into its target branch), even if the PR
+        # lives in a fork. This tests the content as it will look after merge, not the PR head, which may be
+        # behind the target branch.
+        # Instructions for pulling a PR were taken from:
+        # https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally
+        - name: Check out the PR merge commit to calculate changed files for testing
+          env:
+            PR_HEAD_REF: ${{ github.head_ref }}
+          run: |
+
+            echo "Current Branch (Head Ref): $PR_HEAD_REF"
+            echo "Target Branch (Base Ref): ${{ github.base_ref }}"
+            git pull > /dev/null 2>&1
+            #We checkout into a new branch - new_branch_for_testing to avoid name collisions with develop incase the forked PR is from develop
+            git fetch origin pull/${{ github.event.pull_request.number }}/merge:new_branch_for_testing
+            #We must specifically get the PR's target branch from security_content, not the one that resides in the fork PR's forked repo
+            git switch new_branch_for_testing
+            echo "Testing merge commit $(git rev-parse HEAD) (target branch commit $(git rev-parse HEAD^1) + PR head $(git rev-parse HEAD^2))"
+
+        - name: Run a contentctl-ng build command to create a package that will be tested.
+          run: |
+            contentctl-ng build
+
+        # Writes testing_artifacts/test_plan_<timestamp>.yml. This step does not connect to Splunk,
+        # so it runs before the slow provisioning step to fail fast on planning errors.
+        # Diffs against the merge commit's first parent (the target branch commit the PR was merged onto),
+        # so only content changed by this PR is selected, however far the PR branch is behind its target.
+        - name: Create a test plan for content changed by this PR
+          run: |
+            PR_BASE_SHA=$(git rev-parse HEAD^1)
+            echo "Planning tests for content changed relative to target branch commit $PR_BASE_SHA"
+            contentctl-ng test plan --test-type ${{ inputs.test-types }} --mode CHANGED --git-ref "$PR_BASE_SHA"
+            echo "contentctl-ng test plan - COMPLETED"
+
+        # --provision starts the local Splunk container and waits until it is healthy before installing apps.
+        - name: Run a contentctl-ng install to provision and configure the testing environment
+          env:
+            APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
+            APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"
+          run : |
+            contentctl-ng install --provision --splunkbase-username "$APPINSPECTUSERNAME" --splunkbase-password "$APPINSPECTPASSWORD"
+
+        # With no --plan-input, this runs the most recent plan in testing_artifacts/.
+        # Writes testing_artifacts/test_results_<timestamp>.yml and test_results_junit_<timestamp>.xml,
+        # and exits non-zero if any test fails, errors, or does not run.
+        - name: Run the test plan
+          run: |
+            contentctl-ng test run --post-test-behavior NEVER_PAUSE
+            echo "contentctl-ng test run - COMPLETED"
+
+        # Store the plan, results (YAML and JUnit XML), contentctl-ng logs, and built package to job artifact test_summary_results.zip
+        - name: store_artifacts
+          if: always()
+          uses: actions/upload-artifact@v7
+          with:
+            name: test_summary_results
+            path: |
+              testing_artifacts/
+              contentctl_ng_*.log
+              dist/*.tar.gz
+            if-no-files-found: warn
+
+        # Run a simple custom script created to pretty print results in a markdown friendly format in Github Actions Summary
+        - name: Check the testing_artifacts test results for pass/fail.
+          if: always()
+          run: |
+            echo "This job will fail if there are failures in testing"
+            python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
+            echo "Testing is completed. See details in the job summary UI "

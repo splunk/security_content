@@ -1,0 +1,107 @@
+name: Java Base64 Decoder Argument Exceptions
+id: 7b56e29e-c7c9-4b22-8fce-f22bf0f1db67
+version: 1
+creation_date: '2026-11-18'
+modification_date: '2026-11-18'
+author: Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    The analytic finds Java Base64 decoder references and argument exceptions on the same JVM process within one minute. JIT messages add context when present. These logs indicate decoder activity and errors, but do not prove that a native overwrite or code execution occurred.
+data_source:
+    - Java HotSpot Exceptions
+    - Java HotSpot JIT
+search: |
+    (`java_hotspot_jit` OR `java_hotspot_exceptions`)
+    (
+        "*Input byte array has wrong*"
+        OR "*IllegalArgumentException*"
+        OR "*Base64$Decoder*"
+        OR "*java/util/Base64*"
+        OR "*OSR invalidation of lower level*"
+    )
+
+    | rex field=_raw "^\[(?<jvm_event_time_raw>[^\]]+)\]\[(?<jvm_pid_raw>\d+)\]\[(?<jvm_level_raw>[^\]]+)\]\[(?<jvm_tags_raw>[^\]]+)\]\s*(?<jvm_message_raw>.*)"
+
+    | eval process_id=coalesce(jvm_pid_raw,jvm_pid,process_id),
+        jvm_message=coalesce(jvm_message_raw,jvm_message),
+        event_time=_time
+
+    | where isnotnull(process_id)
+
+    | rex mode=sed field=jvm_message "s/0x[0-9A-Fa-f]{8,16}/0xXXXXXXXXXXXXXXXX/g"
+    | rex mode=sed field=jvm_message "s/\s+bci\s+\d+\s+/ bci XXX /g"
+    | rex mode=sed field=jvm_message "s/^\d+\s+/XXXX /g"
+
+    | eval has_argument=if(match(jvm_message,"(?i)Input byte array has wrong|IllegalArgumentException"),1,0),
+        has_decoder=if(match(jvm_message,"Base64[$]Decoder|java/util/Base64|Input byte array has wrong 4-byte ending unit"),1,0)
+
+    | eval reason=case(
+        match(jvm_message,"(?i)Input byte array has wrong"),"Tailing byte exception",
+        match(jvm_message,"(?i)OSR invalidation of lower level"),"JIT activity",
+        has_decoder==1,"Base64 decoder reference",
+        has_argument==1,"Argument exception"
+    )
+
+    | bin _time span=1m
+
+    | stats count
+            min(event_time) AS firstTime
+            max(event_time) AS lastTime
+            max(has_argument) AS has_argument
+            max(has_decoder) AS has_decoder
+            values(sourcetype) AS sourcetype
+            dc(sourcetype) AS dc_sourcetype
+            values(source) AS source
+            dc(source) AS dc_source
+            values(reason) AS reason
+            values(jvm_message) AS jvm_message
+            BY _time host process_id
+
+    | where has_argument==1 AND has_decoder==1
+
+    | rename host AS dest
+
+    | fields - has_argument has_decoder
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `java_base64_decoder_argument_exceptions_filter`
+how_to_implement: |
+    Configure java_hotspot_exceptions and java_hotspot_jit for the indexes and sourcetypes in your environment. A stock HotSpot JVM does not create exception or JIT log files; its default unified logging sends warning and error messages to stdout. Tomcat JULI logs under CATALINA_BASE/logs, Spring Boot's default console logs, and Elasticsearch application logs are separate from these JVM diagnostics.
+    Add `-Xlog:exceptions=debug:file=/var/log/myapp/exceptions-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m` to the Java startup options. To collect JIT context, also add `-Xlog:jit+compilation=debug:file=/var/log/myapp/jit-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m`. Use a writable directory and monitor both files and rotations. Tomcat scripts accept CATALINA_OPTS in setenv.sh or setenv.bat; a Windows Tomcat service uses its Java options; Spring Boot uses the Java service or container launch command; and Elasticsearch uses jvm.options.d under its config directory or /etc/elasticsearch/jvm.options.d for Debian/RPM packages. The Java HotSpot Exceptions and Java HotSpot JIT data source descriptions give the Splunk input and field-extraction settings.
+    Search-time extraction in props.conf is optional. Configure EXTRACT-jvm_unified or a shared REPORT transform if you want reusable jvm_pid and jvm_message fields; otherwise this search parses the decorated _raw lines with `rex` and coalesces the raw fields with any pre-extracted values. Keep the same host value for all logs from one JVM and verify the raw format or extracted fields with representative events. The JIT source adds context; an exception source alone can satisfy both required terms when it contains the exact Base64 decoder message `Input byte array has wrong 4-byte ending unit`. Decoder references on separate continuation lines may lack the PID decorator and cannot be joined reliably with single-line event breaking. Neither log proves that the intrinsic overwrite occurred.
+known_false_positives: |
+    Applications that routinely decode malformed Base64 can produce these events. The decoder and exception may come from separate requests within the same minute; review the surrounding application and network events.
+references:
+    - https://calif.io/java4shell/
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Java Base64 decoder argument exceptions observed on $dest$ in PID $process_id$.
+threat_objects: []
+analytic_story:
+    - Java4Shell - CVE-2026-114938
+asset_type: Endpoint
+cve:
+    - CVE-2026-114938
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_exception.log
+          sourcetype: java:hotspot:exceptions
+          source: exceptions.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_jit.log
+          sourcetype: java:hotspot:jit
+          source: jit.log
+      test_type: unit

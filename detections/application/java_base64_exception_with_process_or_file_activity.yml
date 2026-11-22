@@ -1,0 +1,135 @@
+name: Java Base64 Exception With Process or File Activity
+id: 33e08fbd-82b6-4344-a379-1f188562d4ac
+version: 1
+creation_date: '2026-11-18'
+modification_date: '2026-11-18'
+author: Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    The analytic finds Base64-related Java argument exceptions near a process spawned by Java or a file created by Java on the same host and JVM PID.
+data_source:
+    - Java HotSpot Exceptions
+    - Sysmon for Linux EventID 1
+    - Sysmon for Linux EventID 11
+search: |
+    (
+        `java_hotspot_exceptions`
+        (
+            "*Input byte array has wrong*"
+            OR
+            "*IllegalArgumentException*"
+            OR
+            "*Base64$Decoder*"
+            OR
+            "*java/util/Base64*"
+        )
+    )
+    OR
+    (
+        `sysmon_linux`
+        (
+            (EventID=1 ParentImage="*/java")
+            OR
+            (
+                EventID=11
+                Image="*/java"
+                NOT TargetFilename IN ("*/_state/*","*/indices/*")
+            )
+        )
+    )
+    | rex field=_raw "^\[(?<jvm_event_time_raw>[^\]]+)\]\[(?<jvm_pid_raw>\d+)\]\[(?<jvm_level_raw>[^\]]+)\]\[(?<jvm_tags_raw>[^\]]+)\]\s*(?<jvm_message_raw>.*)"
+
+    | eval event_time=_time,
+           jvm_message=coalesce(jvm_message_raw,jvm_message),
+           observed_host=coalesce(host,Computer,dest),
+           process_id=case(
+                isnotnull(jvm_pid_raw),tostring(jvm_pid_raw),
+                isnotnull(jvm_pid),tostring(jvm_pid),
+                EventID==1,tostring(ParentProcessId),
+                EventID==11,tostring(ProcessId)
+            )
+    | where isnotnull(observed_host) AND isnotnull(process_id)
+
+    | rex mode=sed field=jvm_message "s/0x[0-9A-Fa-f]{8,16}/0xXXXXXXXXXXXXXXXX/g"
+    | rex mode=sed field=jvm_message "s/\s+bci\s+\d+\s+/ bci XXX /g"
+    | rex mode=sed field=jvm_message "s/^\d+\s+/XXXX /g"
+
+    | eval has_argument=if(match(jvm_message,"(?i)Input byte array has wrong|IllegalArgumentException"),1,0),
+           has_decoder=if(match(jvm_message,"Base64[$]Decoder|java/util/Base64|Input byte array has wrong 4-byte ending unit"),1,0),
+           has_activity=if(EventID==1 OR EventID==11,1,0)
+
+    | eval activity=case(
+          EventID==1,"Java spawned a process",
+          EventID==11,"Java created a file"
+      ),
+      process_name=if(EventID==1,Image,null()),
+      process=if(EventID==1,CommandLine,null()),
+      file_path=if(EventID==11,TargetFilename,null()),
+      file_name=if(EventID==11,mvindex(split(TargetFilename,"/"),-1),null())
+
+    | bin _time span=1m
+
+    | stats count
+            min(event_time) AS firstTime
+            max(event_time) AS lastTime
+            max(has_argument) AS has_argument
+            max(has_decoder) AS has_decoder
+            max(has_activity) AS has_activity
+            values(sourcetype) AS sourcetype
+            dc(sourcetype) AS dc_sourcetype
+            values(activity) AS activity
+            values(jvm_message) AS jvm_message
+            values(process_name) AS process_name
+            values(process) AS process
+            values(file_name) AS file_name
+            values(file_path) AS file_path
+            BY _time observed_host process_id
+
+    | where has_argument==1 AND has_decoder==1 AND has_activity==1
+
+    | rename observed_host AS dest
+
+    | eval reason="Java Base64 exception observed with ".mvjoin(activity," and ")
+
+    | fields - has_argument has_decoder has_activity activity
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `java_base64_exception_with_process_or_file_activity_filter`
+how_to_implement: |
+    Configure java_hotspot_exceptions and sysmon_linux for the indexes and sourcetypes in your environment. HotSpot exception diagnostics have no default file location. Tomcat's CATALINA_BASE/logs, Spring Boot's default console output, and Elasticsearch's application log directory do not supply this JVM stream. Add `-Xlog:exceptions=debug:file=/var/log/myapp/exceptions-%p.log:utctime,pid,level,tags:filecount=8,filesize=16m` to the Java startup options, using a writable path. Set it through Tomcat CATALINA_OPTS or Windows service Java options, the Spring Boot Java service/container command, or Elasticsearch jvm.options.d. Forward the chosen file and rotations as java:hotspot:exceptions. Configure single-line event breaking and utctime parsing on the Splunk parsing tier. Search-time extraction in props.conf is optional: use EXTRACT-jvm_unified or a shared REPORT transform for reusable jvm_pid and jvm_message fields, or let this search extract them from decorated _raw lines with `rex`. The search coalesces raw and pre-extracted values before joining to Sysmon. The Java HotSpot Exceptions data source provides the optional extraction pattern.
+    The exact HotSpot message `Input byte array has wrong 4-byte ending unit` is treated as Base64 decoder evidence because decoder references on separate continuation lines may lack the PID decorator and cannot be joined reliably with single-line event breaking. Install Sysmon for Linux and ingest EventID 1 and 11 with ParentImage, ParentProcessId, Image, ProcessId, TargetFilename, and CommandLine. Normalize the host field so JVM and Sysmon events from the same machine use the same value. The search joins a process creation on ParentProcessId and a file creation on ProcessId; both must identify the Java PID. Verify that exception log volume and rotation are acceptable before deploying this correlation.
+known_false_positives: |
+    Java applications may decode malformed inputs while independently creating files or child processes. One-minute bins can also miss events at a minute boundary or associate unrelated activity on a busy JVM. Review the process command line, file path, and nearby request logs.
+references:
+    - https://calif.io/java4shell/
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 30
+          message: Java Base64 argument exceptions and process or file activity observed on $dest$ in PID $process_id$.
+analytic_story:
+    - Java4Shell - CVE-2026-114938
+asset_type: Endpoint
+cve:
+    - CVE-2026-114938
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: application
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_exception.log
+          sourcetype: java:hotspot:exceptions
+          source: exceptions.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_sysmon.log
+          sourcetype: sysmon:linux
+          source: Syslog:Linux-Sysmon/Operational
+      test_type: unit

@@ -1,0 +1,94 @@
+name: Zeek HTTP Malformed Base64 Padding
+id: 012f4434-be93-44cd-9677-4d3d1be41d59
+version: 1
+creation_date: '2026-11-18'
+modification_date: '2026-11-18'
+author: Onur Mustafa Erdogan, Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    The analytic hunts for an HTTP header, POST body, or URI containing at least one 64-character Base64 block followed by a short padded fragment. This malformed shape can reach a vulnerable Java Base64 decoder, but its presence in traffic alone does not prove that the server decoded it.
+data_source:
+    - Zeek HTTP
+    - Zeek HTTP Request Headers
+    - Zeek HTTP POST Body
+search: |
+    (
+        `zeek_http_request_headers`
+        header_value="*=*"
+        truncated=false
+    )
+    OR
+    (
+        `zeek_http_post_body`
+        body="*=*"
+        truncated=false
+    )
+    OR
+    (
+        `zeek_http_uri`
+        uri IN ("*=*","*%3D*","*%3d*")
+    )
+    | eval request_value=case(
+          isnotnull(header_value),header_value,
+          isnotnull(body),body,
+          isnotnull(uri),urldecode(uri)
+      ),
+      carrier=case(
+          isnotnull(header_value),header_name,
+          isnotnull(body),"POST body",
+          isnotnull(uri),"URI"
+      ),
+      dest_port=coalesce(dest_port,'id.resp_p'),
+      dest=coalesce(dest,dest_ip,'id.resp_h'),
+      src=coalesce(src,src_ip,'id.orig_h')
+
+    | rex field=request_value "(?<![A-Za-z0-9+/_-])(?<malformed_base64>(?:(?:[A-Za-z0-9+/]{64})+(?:[A-Za-z0-9+/]{0,2}=|[A-Za-z0-9+/]?==)|(?:[A-Za-z0-9_-]{64})+(?:[A-Za-z0-9_-]{0,2}=|[A-Za-z0-9_-]?==)))(?![A-Za-z0-9+/_=-])"
+
+    | where isnotnull(malformed_base64)
+
+    | stats count
+            min(_time) AS firstTime
+            max(_time) AS lastTime
+            values(carrier) AS carrier
+            values(uid) AS zeek_uid
+            values(uri) AS uri
+            values(body) AS body
+            BY src dest dest_port method malformed_base64
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `zeek_http_malformed_base64_padding_filter`
+how_to_implement: |
+    Install the TA for Zeek to parse standard HTTP logs. Configure zeek_http_uri for their index and sourcetype, and confirm that uri, method, uid, id.orig_h, id.resp_h, and id.resp_p are extracted.
+    To collect the optional request-header and POST-body streams, install the custom scripts from https://gist.github.com/nasbench/8581572459af92b7c30599f1068c791f (request headers) and https://gist.github.com/nasbench/4cd18a938056cbfbc8a9832edb26f4c4 (POST bodies), following the corresponding data source instructions. These scripts are not included with ESCU or the TA for Zeek. Configure zeek_http_request_headers and zeek_http_post_body to select their JSON events, and confirm that header_name, header_value, body, and truncated are extracted as applicable.
+    The sensor must see HTTP request plaintext. Capture enough of each header or body for the Base64 value to be complete, and use only truncated=false custom events.
+known_false_positives: |
+    Legitimate but malformed Base64, binary structured fields, or unrelated encoded values can match. Confirm that the application actually decodes the field before treating this as an exploit attempt. Scripts that construct the trigger after receiving the request may not put a literal Base64 value on the wire.
+references:
+    - https://calif.io/java4shell/
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Malformed Base64 padding was observed in [$carrier$] on HTTP traffic from $src$ to [$dest$:$dest_port$] [$method$; $count$ events].
+analytic_story:
+    - Java4Shell - CVE-2026-114938
+asset_type: Network
+cve:
+    - CVE-2026-114938
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: network
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/java4shell/java4shell_zeek_body.log
+          sourcetype: zeek:http_post_body:json
+          source: http_post_body.log
+      test_type: unit
