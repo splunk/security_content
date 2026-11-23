@@ -7,7 +7,7 @@ author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |
-    This analytic identifies a Linux or Windows shell started by a web or application server process, including Java, PHP, Ruby workers running Puma, and Python workers, as well as Ghostscript image-rendering processes.
+    This analytic identifies a Linux or Windows shell started by a web or application server process, including Java, PHP, Ruby workers running Puma workers, as well as Ghostscript image-rendering processes.
     It uses process creation telemetry and the parent-child relationship to identify unexpected command execution from a service.
     A shell launched by a rendering worker may follow activity in an upload or preview workflow; a matching process event is a behavioral signal and does not identify a specific vulnerability.
     Review the parent service, child command line, and nearby application activity to determine whether the action was authorized.
@@ -75,12 +75,6 @@ search: |
     )
 
     NOT Processes.parent_process_name IN ("phpstorm*")
-
-    NOT (
-        Processes.parent_process_name="python3"
-        Processes.process_name="sh"
-        Processes.process_current_directory="/opt/microsoft/mdatp/sbin"
-    )
 
     NOT (
         Processes.parent_process_name="w3wp.exe"
