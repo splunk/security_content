@@ -174,10 +174,10 @@ search: |-
 
     | where shell_exec=1
         AND shell_command=1
-        AND match(
+        AND isnotnull(mvfind(
             working_directory,
             "(?i)^(/app|/dev/shm|/home/[^/]+/[^/]+|/opt/[^/]+|/srv/http|/srv/www|/usr/share/nginx/html|/var/lib/tomcat[^/]+/webapps|/var/www)(/.*)?$"
-        )
+        ))
 
     | where NOT (
         (
@@ -202,8 +202,8 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `linux_auditd_shell_from_web_or_application_directory_filter`
 how_to_implement: |-
-    Install and enable auditd on Linux web servers and load the Neo23x0 audit.rules ruleset, including the process_creation execve and execveat rules.
-    Forward /var/log/audit/audit.log with the Splunk Universal Forwarder and install Splunk Add-on for Unix and Linux.
+    Install and enable auditd on Linux web servers and load the Neo23x0 audit.rules (https://github.com/Neo23x0/auditd/blob/master/audit.rules) ruleset, including the process_creation execve and execveat rules.
+    Forward /var/log/audit/audit.log with the Splunk Universal Forwarder and install Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833).
     Configure the existing linux_auditd macro in Splunk for the local index and sourcetype.
     Confirm that SYSCALL, EXECVE, and CWD records from one audit event are retained with the same msg identifier and that key, success, exe, pid, ppid, a1, cwd, and SYSCALL are extracted.
     Update the web-directory expression for actual application paths and tune approved maintenance commands. Correlate this finding with HTTP activity, application logs, and service ownership.

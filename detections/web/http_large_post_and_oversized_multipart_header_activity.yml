@@ -61,7 +61,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `http_large_post_and_oversized_multipart_header_activity_filter`
 how_to_implement: |
-    Install the TA for Zeek to parse standard http.log events. Configure zeek_http_uri for their index and sourcetype, and confirm that uid, method, uri, request_body_len, id.orig_h, id.resp_h, and id.resp_p are extracted.
+    Install the TA for Zeek (https://splunkbase.splunk.com/app/5466) to parse standard http.log events. Configure zeek_http_uri for their index and sourcetype, and confirm that uid, method, uri, request_body_len, id.orig_h, id.resp_h, and id.resp_p are extracted.
     For the optional request-header branch, install the custom script from https://gist.github.com/nasbench/8581572459af92b7c30599f1068c791f and follow the Zeek HTTP Request Headers data source instructions. This script is not included with ESCU or the TA for Zeek. Forward its JSON log, set KV_MODE=json on the search head, and configure zeek_http_request_headers for its index and sourcetype. Confirm that header_name, value_bytes, truncated, and uid are extracted.
     The sensor must see plaintext HTTP requests. Tune the 50 KiB body, 1 KiB header, and event-count thresholds to normal upload traffic. Review web-worker crashes and process activity before treating a match as exploitation.
 known_false_positives: |-
@@ -74,7 +74,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 20
-          message: 'Unusual large POST or multipart header activity from [$src$] to [$dest$] (Evidence: [$evidence$]).'
+          message: 'Observed $evidence$ from [$src$] to [$dest$].'
 analytic_story:
     - Ruby2Shell - CVE-2026-132825
 asset_type: Web Server

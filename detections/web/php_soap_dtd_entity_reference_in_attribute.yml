@@ -19,7 +19,7 @@ search: |
     | eval normalized_body=replace(body,"(?i)\\\\x(?:00|ff|fe)","")
 
     | where match(normalized_body,"(?is)<!DOCTYPE.{0,2048}<!ENTITY")
-        AND match(normalized_body,"(?is)<[^>]+\\s+[A-Za-z_:][A-Za-z0-9_.:-]*\\s*=\\s*[\"'][^\"']*&[A-Za-z_][A-Za-z0-9_.:-]*;")
+        AND match(normalized_body,"(?is)<[^>]+\s[A-Za-z_:][A-Za-z0-9_.:-]*\s*=\s*[\"'][^\"']*&(?!(?:amp|lt|gt|quot|apos);)(?:[A-Za-z_][A-Za-z0-9_.:-]*);")
 
     | eval src=coalesce(src,'id.orig_h'),
            dest=coalesce(dest,'id.resp_h'),

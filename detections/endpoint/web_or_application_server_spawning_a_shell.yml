@@ -1,6 +1,6 @@
 name: Web or Application Server Spawning a Shell
 id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
-version: 9
+version: 10
 creation_date: '2021-12-13'
 modification_date: '2026-11-23'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
@@ -147,7 +147,7 @@ search: |
 
     | where (
         NOT match(parent_process_name, "(?i)ruby")
-        OR match(coalesce(parent_process,""), "(?i)(rails|puma|rack)")
+        OR match(coalesce(parent_process,""), "(?i)\b(rails|rack|rackup|puma|passenger|unicorn|thin|webrick|falcon|sidekiq|sinatra|hanami|agoo|iodine)\b")
     )
 
     | where NOT (

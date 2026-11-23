@@ -1,6 +1,6 @@
 name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
-version: 15
+version: 16
 creation_date: '2023-04-12'
 modification_date: '2026-11-23'
 author: Steven Dick, Nasreddine Bencherchali, Splunk
@@ -43,8 +43,6 @@ search: |-
         "nginx*.exe",
         "openresty.exe",
         "php*.exe",
-        "python.exe",
-        "python3.exe",
         "roadrunner.exe",
         "ruby.exe",
         "rubyw.exe",
@@ -99,7 +97,7 @@ search: |-
 
     NOT (
         Processes.parent_process_path IN (
-            "*:\\Program Files\\Datacard\\AppContainer\\bin\\*"
+            "*:\\Program Files\\Datacard\\AppContainer\\bin\\*",
             "*:\\Program Files\\AeroScout\\MobileView\\services*"
         )
         Processes.parent_process_name = "tomcat*.exe"
@@ -128,7 +126,7 @@ search: |-
 
     | where (
         NOT match(parent_process_name, "(?i)ruby")
-        OR match(coalesce(parent_process,""), "(?i)(rails|puma|rack)")
+        OR match(coalesce(parent_process,""), "(?i)\b(rails|rack|rackup|puma|passenger|unicorn|thin|webrick|falcon|sidekiq|sinatra|hanami|agoo|iodine)\b")
     )
 
     | where NOT (
