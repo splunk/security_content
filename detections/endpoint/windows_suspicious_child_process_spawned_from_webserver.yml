@@ -2,7 +2,7 @@ name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
 version: 15
 creation_date: '2023-04-12'
-modification_date: '2026-11-18'
+modification_date: '2026-11-23'
 author: Steven Dick, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -28,6 +28,10 @@ search: |-
         "caddy.exe",
         "coldfusion.exe",
         "frankenphp.exe",
+        "gswin32.exe",
+        "gswin32c.exe",
+        "gswin64.exe",
+        "gswin64c.exe",
         "http*.exe",
         "iisexpress.exe",
         "java.exe",
@@ -40,6 +44,8 @@ search: |-
         "openresty.exe",
         "php*.exe",
         "roadrunner.exe",
+        "ruby.exe",
+        "rubyw.exe",
         "tomcat*.exe",
         "traefik.exe",
         "UMWorkerProcess.exe",
@@ -50,15 +56,53 @@ search: |-
     NOT Processes.parent_process_name IN ("phpstorm*")
 
     Processes.process_name IN (
-        "adfind.exe", "arp.exe", "at.exe", "bitsadmin.exe", "certreq.exe", "certutil.exe", "cmdkey.exe",
+        "adfind.exe", "arp.exe", "at.exe", "bitsadmin.exe", "certreq.exe", "certutil.exe", "cmd.exe", "cmdkey.exe",
         "cscript.exe", "curl.exe", "dnscmd.exe", "dsget.exe", "dsquery.exe", "find.exe", "findstr.exe",
-        "fsutil.exe", "getmac.exe", "hostname.exe", "ipconfig.exe", "klist.exe", "mshta.exe",
+        "fsutil.exe", "getmac.exe", "gswin32.exe", "gswin32c.exe", "gswin64.exe", "gswin64c.exe", "hostname.exe", "ipconfig.exe", "klist.exe", "mshta.exe",
         "nbtstat.exe", "net.exe", "net1.exe", "netdom.exe", "netsh.exe", "netstat.exe", "nltest.exe",
-        "nslookup.exe", "ntdsutil.exe", "pathping.exe", "perl.exe", "ping.exe", "python.exe",
+        "nslookup.exe", "ntdsutil.exe", "pathping.exe", "perl.exe", "ping.exe", "powershell.exe", "pwsh.exe", "python.exe", "python3.exe",
         "qprocess.exe", "query.exe", "quser.exe", "qwinsta.exe", "reg.exe", "regsvr32.exe", "route.exe",
         "rundll32.exe", "sc.exe", "schtasks.exe", "scrcons.exe", "setspn.exe", "systeminfo.exe",
         "tasklist.exe", "tracert.exe", "vssadmin.exe", "wevtutil.exe", "wget.exe", "whoami.exe",
         "wmic.exe", "wscript.exe", "wusa.exe"
+    )
+
+    NOT (
+        Processes.parent_process_name="javaw.exe"
+        Processes.parent_process_path = "C:\\ViewPowerPro\\openJDK\\bin\\javaw.exe"
+        Processes.parent_process = "*viewpowerpro.lax*"
+        Processes.parent_process = "*com.zerog.lax.*"
+        Processes.process_name = "sc.exe"
+    )
+
+    NOT (
+        Processes.parent_process_name="javaw.exe"
+        Processes.parent_process_path = "*:\\Program Files\\ArcGIS\\Portal\\framework\\runtime\\jre\\bin\\*"
+        Processes.process_current_directory = "*:\\Program Files\\ArcGIS\\Portal\\framework\\etc\\*"
+        Processes.process_name = "cmd.exe"
+        Processes.process = "*whoami*"
+    )
+
+    NOT (
+        Processes.parent_process_name="w3wp.exe"
+        Processes.parent_process_path="C:\\Windows\\System32\\inetsrv\\w3wp.exe"
+        Processes.parent_process="*mobileframe server (64-bit)*"
+        Processes.process_name="cmd.exe"
+        Processes.process IN (
+            "*/c ren *",
+            "*eemsp_test*",
+            "*getworkorderpart_*"
+        )
+    )
+
+    NOT (
+        Processes.parent_process_path IN (
+            "*:\\Program Files\\Datacard\\AppContainer\\bin\\*",
+            "*:\\Program Files\\AeroScout\\MobileView\\services*"
+        )
+        Processes.parent_process_name = "tomcat*.exe"
+        Processes.process_name  IN ("sc.exe", "reg.exe")
+        Processes.process IN ("*qc *", "*query*")
     )
 
     BY Processes.action Processes.dest Processes.original_file_name
@@ -66,7 +110,7 @@ search: |-
        Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
        Processes.process Processes.process_exec Processes.process_guid
        Processes.process_hash Processes.process_id Processes.process_integrity_level
-       Processes.process_name Processes.process_path Processes.user
+       Processes.process_current_directory Processes.process_name Processes.process_path Processes.user
        Processes.user_id Processes.vendor_product
 
     | `drop_dm_object_name("Processes")`
@@ -80,6 +124,11 @@ search: |-
         OR match(parent_process, "(?i)(org\.keycloak|org\.apereo\.cas|org\.elasticsearch\.bootstrap\.Elasticsearch|com\.atlassian\.jira\.startup\.Launcher|BitbucketServerLauncher|com\.google\.gerrit\.pgm\.Daemon|-Dsolr\.solr\.home=|jenkins\.war)")
     )
 
+    | where (
+        NOT match(parent_process_name, "(?i)ruby")
+        OR match(coalesce(parent_process,""), "(?i)\b(rails|rack|rackup|puma|passenger|unicorn|thin|webrick|falcon|sidekiq|sinatra|hanami|agoo|iodine)\b")
+    )
+
     | where NOT (
         process_name="tasklist.exe"
         AND match(
@@ -88,27 +137,15 @@ search: |-
         )
     )
 
-    | where NOT (
-        (
-            match(parent_process_path, "(?i)^C:\\\\Program Files\\\\Datacard\\\\AppContainer\\\\bin\\\\tomcat.*\.exe$")
-            AND process_name="reg.exe"
-            AND match(
-                process,
-                "(?i)^reg query \"HKEY_LOCAL_MACHINE\\\\(SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Print\\\\Printers|SYSTEM\\\\CurrentControlSet\\\\Control\\\\Print\\\\Monitors)"
-            )
-        )
-        OR
-        (
-            match(parent_process_path, "(?i)^E:\\\\Program Files\\\\AeroScout\\\\MobileView\\\\services\\\\.*\\\\tomcat9\.exe$")
-            AND process_name="sc.exe"
-            AND match(process, "(?i)^sc qc (mv_[a-z-]+|mobileviewhttpserver)( [0-9]+)?$")
-        )
-    )
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_suspicious_child_process_spawned_from_webserver_filter`
 how_to_implement: |-
-    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
+    These agents are designed to provide security-related telemetry from the endpoints where the agent is installed.
+    To implement this search, you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product.
+    The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |-
     Legitimate OS functions called by vendor applications, baseline the environment and filter before enabling. Recommend throttle by dest/process_name
 references:
@@ -129,11 +166,11 @@ intermediate_findings:
         - field: user
           type: user
           score: 20
-          message: Webshell Exploit Behavior - [$parent_process_name$] spawned [$process_name$] on [$dest$].
+          message: Potential Webshell Exploit Behavior - [$parent_process_name$] spawned [$process_name$] on [$dest$].
         - field: dest
           type: system
           score: 20
-          message: Webshell Exploit Behavior - [$parent_process_name$] spawned [$process_name$] on [$dest$].
+          message: Potential Webshell Exploit Behavior - [$parent_process_name$] spawned [$process_name$] on [$dest$].
 threat_objects:
     - field: parent_process_name
       type: parent_process_name
@@ -155,14 +192,18 @@ analytic_story:
     - Microsoft SharePoint Vulnerabilities
     - Microsoft WSUS CVE-2025-59287
     - PHP2Shell
+    - PHP November 2026 Critical Vulnerabilities
     - ProxyNotShell
     - ProxyShell
+    - Ruby2Shell - CVE-2026-132825
     - SysAid On-Prem Software CVE-2023-47246 Vulnerability
     - WS FTP Server Critical Vulnerabilities
 asset_type: Endpoint
 cve:
     - CVE-2026-109618
     - CVE-2026-109619
+    - CVE-2026-115560
+    - CVE-2026-132825
 mitre_attack_id:
     - T1505.003
 product:

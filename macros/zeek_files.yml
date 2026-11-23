@@ -1,0 +1,8 @@
+name: zeek_files
+id: 3f92e54f-4c67-4da5-a3f5-d47031725e6d
+version: 1
+creation_date: '2026-11-23'
+modification_date: '2026-11-23'
+author: Nasreddine Bencherchali, Splunk
+description: Customer specific Splunk configuration for Zeek files.log. Update the sourcetype and index to match your environment.
+definition: sourcetype="bro:files:json"

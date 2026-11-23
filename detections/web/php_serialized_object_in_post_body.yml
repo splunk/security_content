@@ -1,0 +1,69 @@
+name: PHP Serialized Object in POST Body
+id: babaebe1-79c9-479b-aa57-e54b486c8755
+version: 1
+creation_date: '2026-11-20'
+modification_date: '2026-11-22'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic finds a PHP serialized object marker in an HTTP POST body.
+    Such input can reach unsafe deserialization paths, including session upload progress when applications share session storage but use different serializers.
+    Review the target's session settings and subsequent process activity.
+data_source:
+    - Zeek HTTP POST Body
+search: |
+    `zeek_http_post_body`
+    method="POST"
+    truncated=false
+    body="*|O:*"
+
+    | where match(body,"\\|O:[0-9]+:")
+
+    | eval src=coalesce(src,'id.orig_h'),
+           dest=coalesce(dest,'id.resp_h'),
+           dest_port=coalesce(dest_port,'id.resp_p')
+
+    | stats min(_time) as firstTime
+            max(_time) as lastTime
+            values(uri) as url
+            max(body_bytes) as body_bytes
+            by uid src dest dest_port
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `php_serialized_object_in_post_body_filter`
+how_to_implement: |
+    Install the custom Zeek HTTP POST Body script from https://gist.github.com/nasbench/4cd18a938056cbfbc8a9832edb26f4c4 and forward http_post_body.log. This script is not included with ESCU or the TA for Zeek. Set KV_MODE=json for the custom sourcetype on the search head and configure zeek_http_post_body for its index and sourcetype. Confirm that body, truncated, uid, method, uri, body_bytes, id.orig_h, id.resp_h, and id.resp_p are extracted.
+    The sensor must see plaintext HTTP traffic. Capture enough of each POST body to include the serialized object marker. Review the captured data policy because bodies may contain sensitive values. Confirm whether the target uses session upload progress and whether applications sharing a session store use different serializers. Check nearby process events before treating a match as command execution.
+known_false_positives: |-
+    Authorized security testing and applications that legitimately transfer serialized PHP objects can match. Confirm that the target deserializes the input before escalating.
+references:
+    - https://www.php.net/ChangeLog-8.php#8.3.37
+    - https://github.com/php/php-src/security/advisories/GHSA-658j-r8rw-q6mx
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 10
+          message: Serialized PHP object marker sent from [$src$] to [$dest$].
+analytic_story:
+    - PHP November 2026 Critical Vulnerabilities
+asset_type: Web Server
+cve:
+    - CVE-2026-115560
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php_cve_2026_115560/upload_attack.log
+          sourcetype: zeek:http_post_body:json
+          source: not_applicable
+      test_type: unit
