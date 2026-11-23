@@ -6,7 +6,9 @@ modification_date: '2026-11-02'
 author: vahid malekmohammadi
 status: production
 type: Anomaly
-description: The following analytic detects a process loading an eBPF program via the bpf() syscall (BPF_PROG_LOAD) on a Linux host, using Linux Auditd. eBPF lets a privileged process attach probes to kernel and userland functions; adversaries abuse it to hook authentication routines and steal credentials - for example pamspy attaches a uprobe to pam_get_authtok in libpam to capture plaintext passwords during sshd, sudo and su authentication - and to build stealthy rootkits and backdoors. The Linux kernel emits a native AUDIT_BPF (type=BPF) record together with a SYSCALL record (syscall=bpf, a0=BPF_PROG_LOAD) for every program load, so no dedicated audit syscall rule is required to observe it. Because container runtimes (runc, containerd), CNIs (Cilium) and eBPF-based security or observability agents legitimately load eBPF programs, this is modeled as an anomaly and must be tuned with the filter macro to allow those. If confirmed malicious, eBPF abuse enables in-memory credential theft and defense evasion that sidesteps ptrace-based detection.
+description: |-
+  The following analytic detects a process loading an eBPF program via the bpf() syscall (BPF_PROG_LOAD) from a user-controlled or world-writable directory (/home, /root, /tmp, /var/tmp, /dev/shm, /run/user) on a Linux host, using Linux Auditd.
+  eBPF lets a privileged process attach probes to kernel and userland functions; adversaries abuse it to hook authentication routines and steal credentials - for example pamspy attaches a uprobe to pam_get_authtok in libpam to capture plaintext passwords during sshd, sudo and su authentication - and to build stealthy rootkits and backdoors.
 data_source:
     - Linux Auditd Syscall
 search: |-
@@ -19,8 +21,11 @@ search: |-
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
       | `linux_auditd_ebpf_program_load_filter`
-how_to_implement: To implement this detection, ingest auditd SYSCALL and PROCTITLE events using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833) and normalize field names to the Splunk CIM. No custom audit rule is required for program loads - the kernel emits a native type=BPF record plus a companion type=SYSCALL (syscall=bpf) record for every BPF_PROG_LOAD as long as auditd is running. Confirm field names against a real event, as auditd extraction can vary by deployment - the interpreted syscall name is in the uppercase SYSCALL field and a0 holds the bpf command, either numeric (5) or symbolic (BPF_PROG_LOAD), both handled here. A success=yes guard ensures verifier failures and EPERM attempts (which still emit a SYSCALL record) are not reported as successful program loads. Critically, tune the filter macro for your environment first, because container runtimes and eBPF agents load eBPF programs constantly and will dominate results until allowlisted.
-known_false_positives: Container runtimes (runc, containerd, dockerd, crio, conmon, kubelet), CNIs such as Cilium (cilium-agent), and eBPF security or observability agents (Falcon, Tetragon, sysdig, bpftrace, pyroscope), as well as systemd, legitimately load eBPF programs. Update the filter macro to allowlist the eBPF loaders expected for your host roles.
+how_to_implement: |-
+  To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of Linux endpoints where auditd is deployed
+known_false_positives: |-
+  Developers and security engineers building or testing eBPF tooling (bpftrace, bcc, libbpf-based programs, custom or research builds) from home directories, /tmp or build output folders, eBPF test and CI jobs that execute from temporary workspaces, and administrators running unpackaged eBPF agents or troubleshooting tools from /root or /home can load eBPF programs from these paths.
+  Update the filter macro to allowlist the specific executables, accounts (uid/auid) or hosts that legitimately run eBPF tooling from these locations.
 references:
     - https://attack.mitre.org/techniques/T1556/003/
     - https://attack.mitre.org/techniques/T1003/
@@ -43,12 +48,14 @@ intermediate_findings:
           score: 56
           message: Process [$comm$] (pid $pid$) loaded an eBPF program (BPF_PROG_LOAD) on host - [$dest$].
 analytic_story:
-    - Linux Living Off The Land
+    - Linux Rootkit
+    - Linux Post-Exploitation
     - Compromised Linux Host
 asset_type: Endpoint
 mitre_attack_id:
     - T1556.003
     - T1003
+    - T1014
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
