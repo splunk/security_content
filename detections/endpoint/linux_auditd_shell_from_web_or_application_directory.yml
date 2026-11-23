@@ -2,7 +2,7 @@ name: Linux Auditd Shell from Web or Application Directory
 id: 36b10ca8-5493-4e78-adc0-9866bf43287c
 version: 1
 creation_date: '2026-11-19'
-modification_date: '2026-11-19'
+modification_date: '2026-11-23'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -181,18 +181,18 @@ search: |-
 
     | where NOT (
         (
-            mvfind(working_directory,"(?i)^/opt/nessus_agent/.+$")>=0
+            isnotnull(mvfind(working_directory,"(?i)^/opt/nessus_agent/.+$"))
             AND (
-                mvfind(shell_path,"(?i)(^|/)(sh|dash)$")>=0
-                OR mvfind(shell_argv0,"(?i)^/bin/sh$")>=0
+                isnotnull(mvfind(shell_path,"(?i)(^|/)(sh|dash)$"))
+                OR isnotnull(mvfind(shell_argv0,"(?i)^/bin/sh$"))
             )
         )
         OR
         (
-            mvfind(working_directory,"(?i)^/home/[^/]+/jenkins$")>=0
+            isnotnull(mvfind(working_directory,"(?i)^/home/[^/]+/jenkins$"))
             AND (
-                mvfind(shell_path,"(?i)(^|/)(bash|rbash)$")>=0
-                OR mvfind(shell_argv0,"(?i)^/(bin|usr/bin)/bash$")>=0
+                isnotnull(mvfind(shell_path,"(?i)(^|/)(bash|rbash)$"))
+                OR isnotnull(mvfind(shell_argv0,"(?i)^/(bin|usr/bin)/bash$"))
             )
         )
     )
@@ -241,6 +241,6 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ruby_sharp_s_heap_overflow/audit.log
-          sourcetype: linux:audit
+          sourcetype: auditd
           source: /var/log/audit/audit.log
       test_type: unit
