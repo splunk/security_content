@@ -75,58 +75,61 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 10
-          message: A registry activity in $registry_path$ related to persistence in host $dest$
+          score: 20
+          message: A registry entry [$registry_path$] in a location commonly used for persistence was modified on [$dest$] by [$user$] with the value [$registry_value_data$].
+threat_objects:
+    - field: registry_value_data
+      type: registry_value_text
 analytic_story:
-    - Warzone RAT
-    - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-    - Sneaky Active Directory Persistence Tricks
-    - Windows Registry Abuse
-    - Chaos Ransomware
-    - DarkGate Malware
-    - Remcos
-    - Quasar RAT
-    - Braodo Stealer
-    - Qakbot
-    - Snake Keylogger
-    - China-Nexus Threat Activity
-    - IcedID
-    - CISA AA23-347A
-    - Ransomware
-    - XWorm
-    - Azorult
-    - Salt Typhoon
-    - Cactus Ransomware
-    - BlackSuit Ransomware
-    - BlackByte Ransomware
-    - SystemBC
-    - NjRAT
-    - DHS Report TA18-074A
-    - Derusbi
+    - 0bj3ctivity Stealer
     - Amadey
+    - APT37 Rustonotto and FadeStealer
+    - AsyncRAT
+    - Axios Supply Chain Post Compromise
+    - Azorult
+    - BlackByte Ransomware
+    - BlackSuit Ransomware
+    - Braodo Stealer
+    - Cactus Ransomware
+    - Castle RAT
+    - Chaos Ransomware
+    - China-Nexus Threat Activity
+    - CISA AA23-347A
+    - DarkCrystal RAT
+    - DarkGate Malware
+    - Derusbi
+    - DHS Report TA18-074A
+    - Emotet Malware DHS Report TA18-201A
+    - Gh0st RAT
+    - IcedID
+    - Interlock Ransomware
+    - Lokibot
+    - MoonPeak
+    - MuddyWater
+    - NetSupport RMM Tool Abuse
+    - NjRAT
+    - Phantom Stealer
+    - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+    - Qakbot
+    - Quasar RAT
+    - Ransomware
+    - RedLine Stealer
+    - Remcos
+    - Salat Stealer
+    - Salt Typhoon
+    - Snake Keylogger
+    - SnappyBee
+    - Sneaky Active Directory Persistence Tricks
+    - Starland RAT Campaign
     - Suspicious MSHTA Activity
     - Suspicious Windows Registry Activities
-    - Emotet Malware DHS Report TA18-201A
-    - WinDealer RAT
-    - AsyncRAT
-    - RedLine Stealer
-    - SnappyBee
-    - Windows Persistence Techniques
-    - MoonPeak
-    - Interlock Ransomware
-    - 0bj3ctivity Stealer
-    - APT37 Rustonotto and FadeStealer
-    - NetSupport RMM Tool Abuse
-    - DarkCrystal RAT
-    - Lokibot
+    - SystemBC
     - ValleyRAT
-    - Castle RAT
-    - MuddyWater
-    - Gh0st RAT
-    - Axios Supply Chain Post Compromise
-    - Salat Stealer
-    - Phantom Stealer
-    - Starland RAT Campaign
+    - Warzone RAT
+    - WinDealer RAT
+    - Windows Persistence Techniques
+    - Windows Registry Abuse
+    - XWorm
 asset_type: Endpoint
 atomic_guid:
     - e55be3fd-3521-4610-9d1a-e210e42dcf05
