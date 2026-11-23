@@ -6,7 +6,10 @@ modification_date: '2026-10-31'
 author: vahid malekmohammadi
 status: production
 type: Anomaly
-description: The following analytic detects a burst of host enumeration activity consistent with an automated privilege-escalation or reconnaissance script (for example LinEnum, LinPEAS, linux-smart-enumeration or linuxprivchecker) rather than an operator running a single discovery command. Using Linux Auditd Execve events, it bins executions into short time windows per host and fires only when a single window contains a high volume of process executions, a high number of distinct binaries, and a high number of distinct discovery/recon utilities (whoami, id, uname, hostname, find, getcap, crontab, sudo, ss, dpkg and similar). Individual discovery commands are expected on any Linux host, so counting them one at a time produces noise; the value of this analytic is that it keys on the rapid fan-out of many different discovery tools together, which is the signature of an enumeration script and maps to multiple ATT&CK discovery techniques at once. If confirmed, this typically indicates an attacker profiling a foothold immediately before privilege escalation or lateral movement.
+description: |-
+    The following analytic detects a burst of host enumeration activity consistent with an automated privilege-escalation or reconnaissance script (for example LinEnum, LinPEAS, linux-smart-enumeration or linuxprivchecker) rather than an operator running a single discovery command.
+    Using Linux Auditd EXECVE events, it keeps only executions whose binary (a0) is one of a scoped set of discovery utilities, bins them into short time windows per host, and fires only when a single window contains a high number of DISTINCT discovery binaries.
+    If confirmed, this typically indicates an attacker profiling a foothold immediately before privilege escalation or lateral movement.
 data_source:
     - Linux Auditd Execve
 search: |-
@@ -23,8 +26,14 @@ search: |-
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
       | `linux_auditd_enumeration_script_activity_filter`
-how_to_implement: To implement this detection, ingest auditd data consisting of SYSCALL, TYPE, EXECVE and PROCTITLE events, which capture command-line executions on Unix/Linux systems, using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), and normalize the field names to the Splunk Common Information Model (CIM). This analytic requires execve auditing to be enabled broadly enough to observe ordinary user command execution (not only privileged or specific-euid executions), because it relies on seeing the full fan-out of discovery utilities a script runs. The window carries the account(s) (auid, uid), the executing binaries (process) and the parent pids seen in the burst, so the filter macro can allowlist a specific service account or parent process rather than suppressing the entire host. The thresholds (exec_count, distinct_commands and distinct_recon_commands) are starting points tuned against LinEnum/LinPEAS-style runs and should be adjusted to the normal command volume of the host roles in your environment; busy automation or CI hosts may need higher thresholds or an allowlist in the filter macro.
-known_false_positives: Configuration-management runs (Ansible, Puppet, Chef, Salt), monitoring agents, backup jobs, provisioning scripts and administrator one-liners that iterate over many commands can produce a similar burst of diverse executions and may trigger this analytic. Update the filter macro to allowlist the service accounts (auid/uid), parent processes (parent_pids) or hosts that legitimately run large automated command sequences.
+how_to_implement: |-
+    To implement this detection, ingest auditd EXECVE events, which capture command-line executions on Unix/Linux systems, using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833).
+    These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data.
+    The next step involves normalizing the field names to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling.
+    This approach enables effective monitoring and detection of Linux endpoints where auditd is deployed.
+known_false_positives: |-
+    Configuration-management runs (Ansible fact gathering, Puppet, Chef, Salt), monitoring agents, backup jobs, provisioning scripts, login and MOTD scripts, and administrator one-liners that run many different discovery commands in a short time can produce a similar burst and may trigger this analytic.
+    Update the filter macro to allowlist hosts that legitimately run large automated command sequences.
 references:
     - https://attack.mitre.org/techniques/T1082/
     - https://attack.mitre.org/techniques/T1083/
@@ -46,7 +55,7 @@ intermediate_findings:
         - field: dest
           type: system
           score: 42
-          message: A burst of enumeration activity ($exec_count$ executions, $distinct_recon_commands$ distinct recon tools) by account [$auid$] was observed on host - [$dest$], consistent with an automated enumeration script.
+          message: A burst of enumeration activity ($exec_count$ executions, $distinct_recon_commands$ distinct recon tools) was observed on host - [$dest$].
 analytic_story:
     - Linux Living Off The Land
     - Compromised Linux Host
