@@ -1,0 +1,71 @@
+name: PHP SOAP DTD Entity Reference in Attribute
+id: ce608a93-17e8-408d-9d5a-56e9b0f1acb8
+version: 1
+creation_date: '2026-11-20'
+modification_date: '2026-11-22'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic finds SOAP requests containing a DTD declaration and an entity reference inside an XML attribute value.
+data_source:
+    - Zeek HTTP POST Body
+search: |
+    `zeek_http_post_body`
+    method="POST"
+    truncated=false
+    body IN ("*DOCTYPE*", "*\\x00*")
+
+    | eval normalized_body=replace(body,"(?i)\\\\x(?:00|ff|fe)","")
+
+    | where match(normalized_body,"(?is)<!DOCTYPE.{0,2048}<!ENTITY")
+        AND match(normalized_body,"(?is)<[^>]+\\s+[A-Za-z_:][A-Za-z0-9_.:-]*\\s*=\\s*[\"'][^\"']*&[A-Za-z_][A-Za-z0-9_.:-]*;")
+
+    | eval src=coalesce(src,'id.orig_h'),
+           dest=coalesce(dest,'id.resp_h'),
+           dest_port=coalesce(dest_port,'id.resp_p')
+
+    | stats min(_time) as firstTime
+            max(_time) as lastTime
+            values(uri) as url
+            max(body_bytes) as body_bytes
+            by uid src dest dest_port
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `php_soap_dtd_entity_reference_in_attribute_filter`
+how_to_implement: |
+    Install the custom Zeek HTTP POST Body script from https://gist.github.com/nasbench/4cd18a938056cbfbc8a9832edb26f4c4 and forward http_post_body.log. This script is not included with ESCU or the TA for Zeek.
+    Set KV_MODE=json for the custom sourcetype on the search head and configure zeek_http_post_body for its index and sourcetype. Confirm that body, truncated, uid, method, and the connection IP and port fields are extracted.
+    The sensor must see plaintext HTTP traffic. Capture enough of each body to include the DTD and referencing attribute, and use only truncated=false events.
+known_false_positives: |-
+    SOAP integrations that intentionally permit DTDs and entity references in attributes can match. Review the endpoint and expected XML schema before alerting.
+references:
+    - https://www.php.net/ChangeLog-8.php#8.3.37
+    - https://github.com/php/php-src/security/advisories/GHSA-4646-p932-gw34
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 25
+          message: SOAP DTD entity reference in an attribute sent from [$src$] to [$dest$].
+analytic_story:
+    - PHP November 2026 SOAP Vulnerabilities
+asset_type: Web Server
+cve:
+    - CVE-2026-129506
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php_cve_2026_129506/soap_dtd_attack.log
+          sourcetype: zeek:http_post_body:json
+          source: not_applicable
+      test_type: unit

@@ -1,0 +1,100 @@
+name: HTTP Large POST and Oversized Multipart Header Activity
+id: 2ca624d9-dff5-468d-8d03-4f79719d5183
+version: 1
+creation_date: '2026-11-19'
+modification_date: '2026-11-22'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic finds a burst of large POST requests or oversized multipart Content-Disposition headers on one HTTP connection. These patterns can indicate attempts to manipulate a web application's memory layout, but large legitimate uploads can look similar.
+    Review the target application and nearby worker crashes or child processes before escalating.
+data_source:
+    - Bro http
+    - Zeek HTTP Request Headers
+search: |-
+    (
+        `zeek_http_uri`
+        method="POST"
+        request_body_len>=50000
+    )
+    OR
+    (
+        `zeek_http_request_headers`
+        method="POST"
+        header_name="CONTENT-DISPOSITION"
+        truncated=false
+        value_bytes>=1000
+    )
+
+    | eval src=coalesce(src,src_ip,'id.orig_h'),
+           dest=coalesce(dest,dest_ip,'id.resp_h'),
+           dest_port=coalesce(dest_port,'id.resp_p'),
+           large_post=if(isnotnull(request_body_len),1,0),
+           oversized_header=if(isnotnull(value_bytes),1,0)
+
+    | where isnotnull(uid) AND isnotnull(src) AND isnotnull(dest)
+
+    | stats min(_time) as firstTime
+            max(_time) as lastTime
+            sum(large_post) as large_post_count
+            sum(oversized_header) as oversized_header_count
+            max(request_body_len) as max_request_body_bytes
+            max(value_bytes) as max_header_bytes
+            values(uri) as url
+            by uid src dest dest_port
+
+    | where lastTime-firstTime<=300
+            AND (
+                (large_post_count>=1 AND oversized_header_count>=3)
+                OR large_post_count>=3
+                OR oversized_header_count>=6
+            )
+
+    | eval evidence=case(
+                            large_post_count>=1 AND oversized_header_count>=3,"large POST and oversized multipart headers",
+                            large_post_count>=3,"repeated large POST requests",
+                            1=1,"repeated oversized multipart headers"
+                        )
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `http_large_post_and_oversized_multipart_header_activity_filter`
+how_to_implement: |
+    Install the TA for Zeek to parse standard http.log events. Configure zeek_http_uri for their index and sourcetype, and confirm that uid, method, uri, request_body_len, id.orig_h, id.resp_h, and id.resp_p are extracted.
+    For the optional request-header branch, install the custom script from https://gist.github.com/nasbench/8581572459af92b7c30599f1068c791f and follow the Zeek HTTP Request Headers data source instructions. This script is not included with ESCU or the TA for Zeek. Forward its JSON log, set KV_MODE=json on the search head, and configure zeek_http_request_headers for its index and sourcetype. Confirm that header_name, value_bytes, truncated, and uid are extracted.
+    The sensor must see plaintext HTTP requests. Tune the 50 KiB body, 1 KiB header, and event-count thresholds to normal upload traffic. Review web-worker crashes and process activity before treating a match as exploitation.
+known_false_positives: |-
+    Applications with large uploads or generated multipart headers may match. Review the evidence field, client, target service, and nearby process activity before escalation.
+references:
+    - https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/
+    - https://verialabs.com/ruby2shell/
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: 'Unusual large POST or multipart header activity from [$src$] to [$dest$] (Evidence: [$evidence$]).'
+analytic_story:
+    - Ruby2Shell - CVE-2026-132825
+asset_type: Web Server
+cve:
+    - CVE-2026-132825
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ruby_sharp_s_heap_overflow/http.log
+          sourcetype: bro:http:json
+          source: not_applicable
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ruby_sharp_s_heap_overflow/request_headers.log
+          sourcetype: zeek:http_request_header:json
+          source: not_applicable
+      test_type: unit

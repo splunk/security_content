@@ -1,0 +1,79 @@
+name: PHP SOAP Malformed Array Dimensions
+id: 8bc81088-bd59-41a6-871e-7f6abca3c3d7
+version: 1
+creation_date: '2026-11-20'
+modification_date: '2026-11-22'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic looks for a SOAP arraySize value that is empty, contains only spaces, or is not a valid numeric dimension list or asterisk. Such requests may be probing the SOAP parser.
+    Review the target's SOAP configuration and nearby process activity.
+data_source:
+    - Zeek HTTP POST Body
+search: |
+    `zeek_http_post_body`
+    method="POST"
+    truncated=false
+    body="*arraySize*"
+
+    | where match(body,"(?i)<[^>]*Envelope")
+
+    | rex field=body "(?i)(?:[A-Za-z_][A-Za-z0-9_.-]*:)?arraySize\s*=\s*\"(?<array_dimensions>[^\"]*)\""
+
+    | eval normalized_dimensions=replace(array_dimensions,"(?i)&#x(?:20|9);|&#(?:32|9);","")
+    | eval normalized_dimensions=trim(normalized_dimensions)
+
+    | where isnotnull(array_dimensions)
+        AND (
+            normalized_dimensions=""
+            OR NOT match(normalized_dimensions,"^(?:\*|[0-9]+(?:\s+[0-9]+)*)$")
+        )
+
+    | eval src=coalesce(src,'id.orig_h'),
+           dest=coalesce(dest,'id.resp_h'),
+           dest_port=coalesce(dest_port,'id.resp_p')
+
+    | stats min(_time) as firstTime
+            max(_time) as lastTime
+            values(uri) as url
+            values(array_dimensions) as array_dimensions
+            by uid src dest dest_port
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `php_soap_malformed_array_dimensions_filter`
+how_to_implement: |
+    Install the custom Zeek HTTP POST Body script from https://gist.github.com/nasbench/4cd18a938056cbfbc8a9832edb26f4c4 and forward http_post_body.log. This script is not included with ESCU or the TA for Zeek. Set KV_MODE=json for the custom sourcetype on the search head and configure zeek_http_post_body for its index and sourcetype. Confirm that body, truncated, uid, method, and the connection IP and port fields are extracted.
+    The sensor must see plaintext HTTP traffic. Capture enough of each body to include the SOAP arraySize value, and use only truncated=false events.
+known_false_positives: |-
+    Non-PHP SOAP services or custom parsers may accept values outside the numeric dimension form. Confirm the target service and expected SOAP schema.
+references:
+    - https://www.php.net/ChangeLog-8.php#8.3.37
+    - https://github.com/php/php-src/security/advisories/GHSA-q23r-hr55-xmpg
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 10
+          message: Malformed SOAP array dimensions sent from [$src$] to [$dest$].
+analytic_story:
+    - PHP November 2026 SOAP Vulnerabilities
+asset_type: Web Server
+cve:
+    - CVE-2026-15353
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php_cve_2026_15353/soap_array_attack.log
+          sourcetype: zeek:http_post_body:json
+          source: not_applicable
+      test_type: unit

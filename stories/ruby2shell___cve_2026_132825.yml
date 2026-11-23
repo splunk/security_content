@@ -1,0 +1,31 @@
+name: Ruby2Shell - CVE-2026-132825
+id: 897383e5-cd10-45c0-8360-6510361994a7
+version: 1
+creation_date: '2026-11-23'
+modification_date: '2026-11-23'
+author: Nasreddine Bencherchali, Splunk
+status: production
+description: |-
+    This analytic story covers Ruby2Shell, a one-byte heap overflow in Ruby string case conversion tracked as CVE-2026-132825 and GHSA-34m4-m9fh-gqp5, and process activity that may follow code execution in an affected Ruby web application.
+narrative: |-
+    CVE-2026-132825 is a one-byte heap overflow in Ruby string case conversion for legacy single-byte encodings. Converting repeated sharp S characters can expand the output past the allocated buffer.
+
+    Rails and classic-style Sinatra can reach the affected operation while handling untrusted requests. Other Ruby applications depend on how they convert input. UTF-8 follows a different path. Successful exploitation may execute code inside the Ruby worker or start a child process, but a matching request does not establish either outcome.
+
+    HTTP Large POST and Oversized Multipart Header Activity identifies traffic patterns that may accompany heap manipulation, including repeated large bodies or long multipart headers. Ruby Repeated Legacy Sharp S Bytes in POST Body provides a narrower signal for the case-conversion input when bounded, plaintext body capture is available. Review the Ruby version, framework, request handling, client, and nearby worker failures before assigning this CVE.
+
+    Web or Application Server Spawning a Shell, Windows Suspicious Child Process Spawned From WebServer, and Linux Auditd Shell from Web or Application Directory cover child execution after a web-worker compromise.
+
+    Child execution is a strong investigative pivot, not a required result of the overflow. Upgrade Ruby to 3.3.14, 3.4.13, or 4.0.10, and update applications that bundle an affected runtime.
+references:
+    - https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/
+    - https://github.com/ruby/ruby/security/advisories/GHSA-34m4-m9fh-gqp5
+    - https://verialabs.com/ruby2shell/
+    - https://aws.amazon.com/security/security-bulletins/2026-193-aws/
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection
