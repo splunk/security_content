@@ -2,7 +2,7 @@ name: PHP SOAP Malformed Array Dimensions
 id: 8bc81088-bd59-41a6-871e-7f6abca3c3d7
 version: 1
 creation_date: '2026-11-20'
-modification_date: '2026-11-22'
+modification_date: '2026-11-23'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -19,7 +19,7 @@ search: |
 
     | where match(body,"(?i)<[^>]*Envelope")
 
-    | rex field=body "(?i)(?:[A-Za-z_][A-Za-z0-9_.-]*:)?arraySize\s*=\s*\"(?<array_dimensions>[^\"]*)\""
+    | rex field=body "(?is)(?:[A-Za-z_][A-Za-z0-9_.-]*:)?arraySize\s*=\s*(?<array_quote>[\"'])(?<array_dimensions>.*?)\k<array_quote>"
 
     | eval normalized_dimensions=replace(array_dimensions,"(?i)&#x(?:20|9);|&#(?:32|9);","")
     | eval normalized_dimensions=trim(normalized_dimensions)
