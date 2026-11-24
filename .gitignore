@@ -2,6 +2,7 @@
 apps/
 dist/
 test_results/
+testing_artifacts/
 detections/*/.yml.example
 stories/*.yml.example
 tests/*/*.yml.example

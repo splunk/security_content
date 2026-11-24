@@ -1,0 +1,8 @@
+name: java_hotspot_fatal
+id: e7b20438-7304-4a18-9511-ed53d987bb7f
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Customer specific Splunk configuration for Java JVM fatal error logs. Update the sourcetype to match your environment.
+definition: sourcetype="java:hotspot:fatal"

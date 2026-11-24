@@ -1,0 +1,38 @@
+name: PHP November 2026 Critical Vulnerabilities
+id: 3417dfb3-8304-4dff-8873-1ebf8fe74586
+version: 1
+creation_date: '2026-11-23'
+modification_date: '2026-11-23'
+author: Nasreddine Bencherchali, Splunk
+status: production
+description: |-
+    This analytic story brings together HTTP and endpoint signals that can help investigate exploitation of critical PHP vulnerabilities addressed in the November 2026 security releases. Its detections focus on serialized objects in POST bodies and unexpected process creation by web or application servers. Review the affected PHP version, application configuration, and surrounding activity before attributing a match to a specific vulnerability.
+narrative: |-
+    The November 2026 PHP security releases address several distinct paths to code execution or memory corruption.
+
+    CVE-2026-129289 can leave unread request-body bytes on a reused PHP-FPM connection, allowing a forged FastCGI request to bypass the front end when backend connection reuse and the affected input handling are present.
+
+    CVE-2026-115560 involves session upload progress written with one serialization format and read from the same session store with another. If the reader has a suitable object gadget, attacker-controlled session data can reach PHP deserialization.
+
+    The remaining issues involve partially overwritten session files, interrupted session shutdown, timezone-cache handling, and PHP 8.5 engine state.
+
+    The PHP Serialized Object in POST Body analytic identifies a possible deserialization input for CVE-2026-115560. A match does not establish that session upload progress was enabled, that serializers differed, or that the application read the object.
+
+    Review effective session settings across applications and FPM pools that share storage, then check application errors, session activity, and subsequent process creation.
+
+    HTTP telemetry alone cannot reliably identify a forged backend FastCGI request or the memory errors in the other CVEs. Investigate unusual worker exits, PHP and web-server errors, unexpected script execution, and file changes as supporting evidence.
+
+    Verify the PHP branch and deployed configuration before assigning a specific CVE to an event. Upgrade to a fixed security release and review persistent backend connections and shared session storage where those features are used.
+references:
+    - https://www.php.net/releases/8_3_37.php
+    - https://www.php.net/ChangeLog-8.php#8.3.37
+    - https://github.com/php/php-src/security/advisories/GHSA-qc49-hpvq-g2w6
+    - https://github.com/php/php-src/security/advisories/GHSA-658j-r8rw-q6mx
+    - https://www.upwind.io/blog/php-critical-vulnerabilities-affected-versions-and-mitigations
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

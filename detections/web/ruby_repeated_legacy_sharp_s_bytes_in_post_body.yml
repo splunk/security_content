@@ -1,0 +1,69 @@
+name: Ruby Repeated Legacy Sharp S Bytes in POST Body
+id: 10c3a0e9-a5e6-4fa3-bc75-1d46b0def3c8
+version: 1
+creation_date: '2026-11-23'
+modification_date: '2026-11-23'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic finds a run of at least 21 escaped single-byte sharp S characters in an HTTP POST body.
+    Case conversion of this input in affected Ruby versions can overflow a heap buffer.
+    Review the target's Ruby version, request handling, and nearby worker or process activity.
+data_source:
+    - Zeek HTTP POST Body
+search: |-
+    `zeek_http_post_body`
+    method="POST"
+    body="*xdf*"
+    body_bytes>=21
+
+    | where match(body,"([\\\\]xdf){21,}")
+
+    | eval src=coalesce(src,'id.orig_h'),
+           dest=coalesce(dest,'id.resp_h'),
+           dest_port=coalesce(dest_port,'id.resp_p')
+
+    | stats min(_time) as firstTime
+            max(_time) as lastTime
+            values(uri) as url
+            max(body_bytes) as body_bytes
+            by uid src dest dest_port
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `ruby_repeated_legacy_sharp_s_bytes_in_post_body_filter`
+how_to_implement: |
+    Install the custom Zeek HTTP POST Body script described in the Zeek HTTP POST Body data source and forward http_post_body.log. This script is not included with ESCU or the TA for Zeek. Set KV_MODE=json for its sourcetype and configure the zeek_http_post_body macro for the correct index and sourcetype. Confirm that the parsed body field retains escaped non-UTF-8 bytes as \xdf, and that method, body_bytes, uid, uri, id.orig_h, id.resp_h, and id.resp_p are extracted.
+    The sensor must see plaintext HTTP. Limit captured bodies and review their retention policy because they may contain sensitive values. Investigate matches on servers running affected Ruby versions, especially if the request is followed by a worker crash or shell execution. Tune the 21-byte threshold if legitimate legacy-encoded content is common.
+known_false_positives: |
+    Applications that accept long runs of legacy-encoded sharp S characters can match without being vulnerable. Confirm the Ruby version and whether the input reaches case conversion.
+references:
+    - https://github.com/ruby/ruby/security/advisories/GHSA-34m4-m9fh-gqp5
+    - https://verialabs.com/ruby2shell/
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 25
+          message: Repeated legacy sharp S bytes were sent from $src$ to $dest$ in an HTTP POST body.
+analytic_story:
+    - Ruby2Shell - CVE-2026-132825
+asset_type: Web Server
+cve:
+    - CVE-2026-132825
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ruby_sharp_s_heap_overflow/http_post_body.log
+          source: not_applicable
+          sourcetype: zeek:http_post_body:json
+      test_type: unit

@@ -1,0 +1,82 @@
+name: PostScript or EPS Upload with Image or PDF Extension
+id: 43f962e4-a826-4612-ac99-8976b511eb85
+version: 1
+creation_date: '2026-11-22'
+modification_date: '2026-11-23'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic identifies files uploaded over HTTP where Zeek reports PostScript content but the filename uses a common image or PDF extension. This content and filename mismatch can precede server-side document rendering. It does not establish exploitation; review nearby renderer and process activity.
+data_source:
+    - Bro files
+search: |-
+    `zeek_files`
+    is_orig=true
+    mime_type IN (
+        "application/eps",
+        "application/postscript",
+        "application/x-eps",
+        "image/x-eps"
+    )
+    filename IN (
+        "*.gif",
+        "*.jpeg",
+        "*.jpg",
+        "*.pdf",
+        "*.png",
+        "*.webp"
+    )
+
+    | eval src=coalesce(src,src_ip,'id.orig_h'),
+           dest=coalesce(dest,dest_ip,'id.resp_h'),
+           dest_port=coalesce(dest_port,'id.resp_p')
+
+    | where isnotnull(uid) AND isnotnull(src) AND isnotnull(dest)
+
+    | stats min(_time) as firstTime
+            max(_time) as lastTime
+            values(filename) as filename
+            values(mime_type) as mime_type
+            values(fuid) as fuid
+      by uid src dest dest_port
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `postscript_or_eps_upload_with_image_or_pdf_extension_filter`
+how_to_implement: |-
+    Install the TA for Zeek and ingest files.log from sensors that analyze HTTP uploads. Configure the zeek_files macro for the local index and sourcetype. Confirm that filename, mime_type, is_orig, fuid, uid, id.orig_h, id.resp_h, and id.resp_p are extracted. The sensor must see plaintext HTTP and have file analysis enabled. Tune extensions and MIME types for the file types accepted by your applications.
+known_false_positives: |-
+    A legitimate PostScript or EPS document can be uploaded with a PDF or image filename for conversion, preview, or compatibility. Review the application workflow, file metadata, and nearby renderer and process activity before escalation.
+references:
+    - https://pwn.ai/upload2shell/research.html
+    - https://docs.zeek.org/en/master/logs/files.html
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: 'PostScript file content uploaded as an image or PDF from [$src$] to [$dest$] (file: [$filename$]).'
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story:
+    - Upload2Shell - CVE-2026-125396
+asset_type: Web Server
+cve:
+    - CVE-2026-125396
+mitre_attack_id:
+    - T1190
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: web
+security_domain: network
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/upload2shell_behavior/files.log
+          source: not_applicable
+          sourcetype: bro:files:json
+      test_type: unit

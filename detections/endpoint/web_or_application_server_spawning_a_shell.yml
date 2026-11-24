@@ -1,15 +1,16 @@
 name: Web or Application Server Spawning a Shell
 id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
-version: 8
+version: 9
 creation_date: '2021-12-13'
-modification_date: '2026-10-28'
+modification_date: '2026-11-23'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |
-    The following analytic detects instances where Java, web server, or application server processes spawn a Linux shell, which may indicate exploitation attempts.
-    This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names and parent-child process relationships.
-    This activity may indicate a compromised service leading to unauthorized shell access. If confirmed malicious, attackers could execute commands, escalate privileges, or maintain persistent access.
+    This analytic identifies a Linux or Windows shell started by a web or application server process, including Java, PHP, Ruby workers running Puma workers, as well as Ghostscript image-rendering processes.
+    It uses process creation telemetry and the parent-child relationship to identify unexpected command execution from a service.
+    A shell launched by a rendering worker may follow activity in an upload or preview workflow; a matching process event is a behavioral signal and does not identify a specific vulnerability.
+    Review the parent service, child command line, and nearby application activity to determine whether the action was authorized.
 data_source:
     - Sysmon for Linux EventID 1
     - Sysmon EventID 1
@@ -28,7 +29,10 @@ search: |
             "java",
             "lighttpd",
             "nginx",
+            "gs",
+            "ghostscript",
             "php*",
+            "ruby*",
             "tomcat*"
         )
         `linux_shells`
@@ -41,6 +45,10 @@ search: |
             "caddy.exe",
             "coldfusion.exe",
             "frankenphp.exe",
+            "gswin32.exe",
+            "gswin32c.exe",
+            "gswin64.exe",
+            "gswin64c.exe",
             "http*.exe",
             "iisexpress.exe",
             "java.exe",
@@ -54,6 +62,8 @@ search: |
             "openresty.exe",
             "php*.exe",
             "roadrunner.exe",
+            "ruby.exe",
+            "rubyw.exe",
             "tomcat*.exe",
             "traefik.exe",
             "UMWorkerProcess.exe",
@@ -63,21 +73,75 @@ search: |
         )
         `windows_shells`
     )
+
     NOT Processes.parent_process_name IN ("phpstorm*")
+
+    NOT (
+        Processes.parent_process_name="w3wp.exe"
+        Processes.parent_process_path="C:\\Windows\\System32\\inetsrv\\w3wp.exe"
+        Processes.parent_process="*mobileframe server (64-bit)*"
+        Processes.process_name="cmd.exe"
+        Processes.process IN (
+            "*/c ren *",
+            "*eemsp_test*",
+            "*getworkorderpart_*"
+        )
+    )
+
+    NOT (
+        Processes.process_current_directory = "/opt/nessus_agent/*"
+        Processes.process_path = "/bin/sh"
+    )
+
+    NOT (
+        Processes.process_current_directory = "/home/*/jenkins/*"
+        Processes.process_path IN ("/bin/sh", "/bin/bash", "/usr/bin/bash")
+    )
+
+    NOT (
+        Processes.parent_process_path = "*\\ArcGis\\Portal\\framework\\runtime\\jre\\bin\\*"
+        Processes.parent_process_name = "javaw.exe"
+        Processes.process_name = "cmd.exe"
+        Processes.process = "*whoami*"
+    )
+
+    NOT (
+        Processes.parent_process_path = "C:\\Program Files\\CCSI\\Instance_*"
+        Processes.parent_process_name = "httpd.exe"
+        Processes.process_name = "cmd.exe"
+        Processes.process = "* /s /c *"
+        Processes.process IN (
+            "*ObixHMAC.exe*",
+            "*TraceGen.exe*",
+            "*UAAnalyzer.exe*"
+        )
+    )
 
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
        Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
        Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-       Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+       Processes.process_name Processes.process_path Processes.process_current_directory Processes.user Processes.user_id Processes.vendor_product
 
     | `drop_dm_object_name(Processes)`
 
+    | where NOT (
+        parent_process_name="ruby"
+        AND match(parent_process_path, "(?i)^/home/[^/]+/[.]rvm/rubies/ruby-[^/]+/bin/ruby$")
+        AND match(parent_process, "(?i)/rspec tests/")
+        AND match(process_current_directory, "(?i)^/home/[^/]+/jenkins/workspace/.+$")
+        AND process="sh"
+    )
     | where (
         NOT match(parent_process_name, "(?i)^javaw?(\.exe)?$")
         OR match(parent_process, "(?i)(org\.apache\.catalina\.startup\.Bootstrap|-Dcatalina\.base=|org\.eclipse\.jetty\.start\.Main|-Djetty\.home=|org\.jboss\.modules\.Main|-Djboss\.home\.dir=|weblogic\.Server|-Dweblogic\.Name=|weblogic-launcher\.jar|com\.ibm\.ws\.runtime\.WsServer|com\.ibm\.ws\.kernel\.boot\.cmdline\.Bootstrap|com\.sun\.enterprise\.glassfish\.bootstrap\.ASMain|com\.caucho\.server\.resin\.Resin)")
         OR match(parent_process, "(?i)(org\.springframework\.boot\.loader\.|quarkus-run\.jar|io\.quarkus\.runner\.GeneratedMain|io\.micronaut\.runtime\.Micronaut|io\.dropwizard\.cli\.ServerCommand|play\.core\.server\.ProdServerStart|io\.helidon\.microprofile\.server\.Main|io\.helidon\.webserver|io\.vertx\.core\.Launcher)")
         OR match(parent_process, "(?i)(org\.keycloak|org\.apereo\.cas|org\.elasticsearch\.bootstrap\.Elasticsearch|com\.atlassian\.jira\.startup\.Launcher|BitbucketServerLauncher|com\.google\.gerrit\.pgm\.Daemon|-Dsolr\.solr\.home=|jenkins\.war)")
+    )
+
+    | where (
+        NOT match(parent_process_name, "(?i)ruby")
+        OR match(coalesce(parent_process,""), "(?i)\b(rails|rack|rackup|puma|passenger|unicorn|thin|webrick|falcon|sidekiq|sinatra|hanami|agoo|iodine)\b")
     )
 
     | where NOT (
@@ -88,34 +152,15 @@ search: |
         )
     )
 
-    | where NOT (
-        (
-            match(parent_process_path, "(?i).*\\\\ArcGIS\\\\Portal\\\\framework\\\\runtime\\\\jre\\\\bin\\\\javaw\.exe$")
-            AND process_name="cmd.exe"
-            AND match(process, "(?i)^cmd\.exe /c \" whoami \"$")
-        )
-        OR
-        (
-            match(parent_process_path, "(?i)^C:\\\\Program Files\\\\CCSI\\\\Instance_[0-9]+\\\\Apache\\\\bin\\\\httpd\.exe$")
-            AND process_name="cmd.exe"
-            AND match(process, "(?i)^cmd\.exe /s /c \"\"C:\\\\Program Files\\\\CCSI\\\\Instance_[0-9]+\\\\(ObixHMAC|TraceGen|UAAnalyzer)\.exe\"")
-            AND NOT match(process, "[&|<>]")
-        )
-    )
-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `web_or_application_server_spawning_a_shell_filter`
 how_to_implement: |
-    The detection is based on data that originates from Endpoint Detection
-    and Response (EDR) agents. These agents are designed to provide security-related
-    telemetry from the endpoints where the agent is installed. To implement this search,
-    you must ingest logs that contain the process GUID, process name, and parent process.
-    Additionally, you must ingest complete command-line executions. These logs must
-    be processed using the appropriate Splunk Technology Add-ons that are specific to
-    the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-    data model. Use the Splunk Common Information Model (CIM) to normalize the field
-    names and speed up the data modeling process.
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
+    These agents are designed to provide security-related telemetry from the endpoints where the agent is installed.
+    To implement this search, you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product.
+    The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |
     Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on asset type.
 references:
@@ -131,7 +176,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: An instance of [$parent_process_name$] spawning [$process_name$] was identified on endpoint [$dest$], potentially indicative of exploitation.
+    title: An instance of [$parent_process_name$] spawning [$process_name$] with CommandLine [$process$] was identified on endpoint [$dest$], potentially indicative of exploitation.
     entity:
         field: dest
         type: system
@@ -153,13 +198,18 @@ analytic_story:
     - GhostRedirector IIS Module and Rungan Backdoor
     - HAFNIUM Group
     - Hermetic Wiper
+    - Java4Shell - CVE-2026-114938
     - Log4Shell CVE-2021-44228
     - Microsoft SharePoint Vulnerabilities
     - Microsoft WSUS CVE-2025-59287
+    - NGINX2Root
     - PHP-CGI RCE Attack on Japanese Organizations
     - PHP2Shell
+    - PHP November 2026 Critical Vulnerabilities
     - ProxyNotShell
     - ProxyShell
+    - Ruby2Shell - CVE-2026-132825
+    - Upload2Shell - CVE-2026-125396
     - SAP NetWeaver Exploitation
     - Spring4Shell CVE-2022-22965
     - SysAid On-Prem Software CVE-2023-47246 Vulnerability
@@ -168,6 +218,10 @@ asset_type: Endpoint
 cve:
     - CVE-2026-109618
     - CVE-2026-109619
+    - CVE-2026-115560
+    - CVE-2026-123007
+    - CVE-2026-123633
+    - CVE-2026-132825
 mitre_attack_id:
     - T1190
     - T1133
@@ -178,9 +232,15 @@ product:
 category: endpoint
 security_domain: endpoint
 tests:
-    - name: True Positive Test
+    - name: True Positive Test - Linux
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java_spawn_shell_nix.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit
+    - name: True Positive Test - Windows
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php_cve_2026_115560/web_server_spawning_shell_windows.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
       test_type: unit
