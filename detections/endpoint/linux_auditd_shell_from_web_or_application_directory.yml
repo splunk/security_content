@@ -1,0 +1,246 @@
+name: Linux Auditd Shell from Web or Application Directory
+id: 36b10ca8-5493-4e78-adc0-9866bf43287c
+version: 1
+creation_date: '2026-11-19'
+modification_date: '2026-11-23'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic looks for a shell started with the "-c" argument for command line execution while its working directory is a web application directory.
+    It joins auditd SYSCALL, EXECVE, and CWD records from the same event.
+    A match may show that a web application ran a command, check the parent process and command before treating it as suspicious.
+data_source:
+    - Linux Auditd Syscall
+    - Linux Auditd Execve
+    - Linux Auditd Cwd
+search: |-
+    `linux_auditd`
+    (
+        (
+            type=SYSCALL
+            key="process_creation"
+            success="yes"
+            exe IN (
+                "*/ash",
+                "*/bash",
+                "*/busybox",
+                "*/csh",
+                "*/dash",
+                "*/fish",
+                "*/ion",
+                "*/ksh",
+                "*/mksh",
+                "*/sh",
+                "*/tcsh",
+                "*/zsh"
+            )
+        )
+        OR
+        (
+            type=EXECVE
+            a0 IN (
+                "ash", "*/ash",
+                "bash", "*/bash",
+                "csh", "*/csh",
+                "dash", "*/dash",
+                "fish", "*/fish",
+                "ion", "*/ion",
+                "ksh", "*/ksh",
+                "mksh", "*/mksh",
+                "sh", "*/sh",
+                "tcsh", "*/tcsh",
+                "zsh", "*/zsh",
+                "busybox", "*/busybox"
+            )
+        )
+        OR
+        (
+            type=CWD
+            cwd IN (
+                "/app",
+                "/app/*",
+                "/dev/shm",
+                "/dev/shm/*",
+                "/home/*/*",
+                "/home/*/*/*",
+                "/opt/*",
+                "/srv/http",
+                "/srv/http/*",
+                "/srv/www",
+                "/srv/www/*",
+                "/usr/share/nginx/html",
+                "/usr/share/nginx/html/*",
+                "/var/lib/tomcat*/webapps",
+                "/var/lib/tomcat*/webapps/*",
+                "/var/www",
+                "/var/www/*"
+            )
+        )
+    )
+
+    | rex field=msg "audit\\((?<audit_event_id>[^)]+)\\)"
+
+    | eval shell_exec=if(
+        type="SYSCALL"
+        AND key="process_creation"
+        AND success="yes"
+        AND match(
+            lower(exe),
+            "(^|/)(ash|bash|busybox|csh|dash|fish|ion|ksh|mksh|sh|tcsh|zsh)$"
+        ),
+        1,
+        0
+    )
+
+    | eval argv0=if(type="EXECVE",lower(a0),null())
+    | eval argv1=if(type="EXECVE",a1,null())
+
+    | eval shell_argv=if(
+        type="EXECVE"
+        AND (
+            match(
+                argv0,
+                "(^|/)(ash|bash|csh|dash|fish|ion|ksh|mksh|sh|tcsh|zsh)$"
+            )
+            OR (
+                match(argv0,"(^|/)busybox$")
+                AND match(lower(argv1),"^(ash|sh)$")
+            )
+        ),
+        1,
+        0
+    )
+
+    | eval exec_args=if(
+        type="EXECVE",
+        mvappend(a1,a2,a3,a4,a5,a6,a7,a8),
+        null()
+    )
+
+    | eval c_option_index=if(
+        shell_argv=1,
+        mvfind(exec_args,"(?i)^-[a-z]*c[a-z]*$"),
+        null()
+    )
+
+    | eval fish_command_index=if(
+        shell_argv=1 AND match(argv0,"(^|/)fish$"),
+        mvfind(exec_args,"(?i)^--command(?:=.*)?$"),
+        null()
+    )
+
+    | eval shell_command=if(
+        shell_argv=1
+        AND (
+            c_option_index>=0
+            OR fish_command_index>=0
+        ),
+        1,
+        0
+    )
+
+    | eval command_arg=case(
+        c_option_index>=0,
+            mvindex(exec_args,c_option_index+1),
+
+        fish_command_index>=0
+            AND match(mvindex(exec_args,fish_command_index),"(?i)^--command="),
+            replace(mvindex(exec_args,fish_command_index),"(?i)^--command=",""),
+
+        fish_command_index>=0,
+            mvindex(exec_args,fish_command_index+1)
+    )
+
+    | eval working_directory=if(type="CWD",cwd,null())
+    | eval shell_path=if(type="SYSCALL",exe,null())
+    | eval shell_pid=if(type="SYSCALL",pid,null())
+    | eval parent_pid=if(type="SYSCALL",ppid,null())
+    | eval syscall_name=if(type="SYSCALL",SYSCALL,null())
+    | eval shell_argv0=if(type="EXECVE",a0,null())
+
+    | stats min(_time) as firstTime
+            max(_time) as lastTime
+            max(shell_exec) as shell_exec
+            max(shell_command) as shell_command
+            values(working_directory) as working_directory
+            values(shell_path) as shell_path
+            values(shell_argv0) as shell_argv0
+            values(shell_pid) as pid
+            values(parent_pid) as ppid
+            values(syscall_name) as syscall_name
+            values(command_arg) as command_arg
+        by host audit_event_id
+
+    | where shell_exec=1
+        AND shell_command=1
+        AND isnotnull(mvfind(
+            working_directory,
+            "(?i)^(/app|/dev/shm|/home/[^/]+/[^/]+|/opt/[^/]+|/srv/http|/srv/www|/usr/share/nginx/html|/var/lib/tomcat[^/]+/webapps|/var/www)(/.*)?$"
+        ))
+
+    | where NOT (
+        (
+            isnotnull(mvfind(working_directory,"(?i)^/opt/nessus_agent/.+$"))
+            AND (
+                isnotnull(mvfind(shell_path,"(?i)(^|/)(sh|dash)$"))
+                OR isnotnull(mvfind(shell_argv0,"(?i)^/bin/sh$"))
+            )
+        )
+        OR
+        (
+            isnotnull(mvfind(working_directory,"(?i)^/home/[^/]+/jenkins$"))
+            AND (
+                isnotnull(mvfind(shell_path,"(?i)(^|/)(bash|rbash)$"))
+                OR isnotnull(mvfind(shell_argv0,"(?i)^/(bin|usr/bin)/bash$"))
+            )
+        )
+    )
+
+    | rename host as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_auditd_shell_from_web_or_application_directory_filter`
+how_to_implement: |-
+    Install and enable auditd on Linux web servers and load the Neo23x0 audit.rules (https://github.com/Neo23x0/auditd/blob/master/audit.rules) ruleset, including the process_creation execve and execveat rules.
+    Forward /var/log/audit/audit.log with the Splunk Universal Forwarder and install Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833).
+    Configure the existing linux_auditd macro in Splunk for the local index and sourcetype.
+    Confirm that SYSCALL, EXECVE, and CWD records from one audit event are retained with the same msg identifier and that key, success, exe, pid, ppid, a1, cwd, and SYSCALL are extracted.
+    Update the web-directory expression for actual application paths and tune approved maintenance commands. Correlate this finding with HTTP activity, application logs, and service ownership.
+known_false_positives: |-
+    Deployments, build steps, application jobs, and administrative scripts may run shells from a web application directory. Review the command argument, parent PID, service ownership, and nearby HTTP traffic. Hex-encoded EXECVE arguments may need decoding during investigation.
+references:
+    - https://github.com/Neo23x0/auditd/blob/master/audit.rules
+    - https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/
+    - https://verialabs.com/ruby2shell/
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 20
+          message: Shell [$shell_path$] ran a command string while working in [$working_directory$] on [$dest$].
+threat_objects:
+    - field: shell_path
+      type: process_name
+    - field: command_arg
+      type: process
+analytic_story:
+    - Ruby2Shell - CVE-2026-132825
+asset_type: Endpoint
+cve:
+    - CVE-2026-132825
+mitre_attack_id:
+    - T1059.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/ruby_sharp_s_heap_overflow/audit.log
+          sourcetype: auditd
+          source: /var/log/audit/audit.log
+      test_type: unit
