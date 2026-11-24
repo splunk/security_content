@@ -1,0 +1,8 @@
+name: java_hotspot_exceptions
+id: f63f6cef-3a3c-47d3-b7d8-21f4a93fd5fe
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Customer specific Splunk configuration for Java JVM HotSpot unified exception. Update the sourcetype to match your environment.
+definition: sourcetype="java:hotspot:exceptions"

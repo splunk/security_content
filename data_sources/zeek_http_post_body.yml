@@ -1,0 +1,60 @@
+name: Zeek HTTP POST Body
+id: 6e1fbb4c-d568-43b4-910d-3a3fdef03ae0
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-18'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: |
+    Custom HTTP/1.1 POST-body log. The TA for Zeek does not produce or parse this stream.
+    
+    The Zeek logger writes one JSON record per completed POST request to http_post_body.log. Include uid, the connection tuple, method, uri, body, body_bytes, logged_bytes, and truncated. Limit the captured body to 64 KiB.
+
+    Download the custom http-post-body.zeek script from https://gist.github.com/nasbench/4cd18a938056cbfbc8a9832edb26f4c4 and place it in /opt/zeek/share/zeek/site/. This script is not included with ESCU or the TA for Zeek. Add `redef LogAscii::use_json = T;` and `@load ./http-post-body` to
+    /opt/zeek/share/zeek/site/local.zeek, then run `sudo /opt/zeek/bin/zeekctl deploy`. The sensor must see HTTP request plaintext.
+
+    On the Zeek forwarder, add this inputs.conf stanza (replace zeek with your index):
+
+      [monitor:///opt/zeek/logs/current/http_post_body.log]
+      disabled = 0
+      index = zeek
+      sourcetype = zeek:http_post_body:json
+
+    Add this props.conf stanza on the parsing tier for line handling and on the search head for JSON extraction:
+
+      [zeek:http_post_body:json]
+      SHOULD_LINEMERGE = false
+      TRUNCATE = 524288
+      KV_MODE = json
+
+    Restart or reload the affected components and configure the zeek_http_post_body macro to select the indexed events.
+    Confirm that uid, id.orig_h, id.resp_h, uri, body, and truncated are extracted, and use only truncated=false events for complete bodies.
+mitre_components:
+    - Network Traffic Content
+    - Application Log Content
+source: http_post_body.log
+sourcetype: zeek:http_post_body:json # Custom sourcetype
+configuration: https://gist.github.com/nasbench/4cd18a938056cbfbc8a9832edb26f4c4
+supported_TA: []
+fields:
+    - ts
+    - uid
+    - id.orig_h
+    - id.orig_p
+    - id.resp_h
+    - id.resp_p
+    - method
+    - uri
+    - host
+    - body
+    - body_bytes
+    - logged_bytes
+    - truncated
+output_fields:
+    - uid
+    - id.orig_h
+    - id.resp_h
+    - uri
+    - body
+    - truncated
+example_log: |-
+    {"ts":1794948473.225,"uid":"Cexample123","id.orig_h":"10.0.2.1","id.resp_h":"10.0.2.13","method":"POST","uri":"/test","body":"{}","body_bytes":2,"logged_bytes":2,"truncated":false}

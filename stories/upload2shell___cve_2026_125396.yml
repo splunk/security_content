@@ -1,0 +1,27 @@
+name: Upload2Shell - CVE-2026-125396
+id: 6f49ddee-e89f-4b65-9dc7-2d2665e5a3bc
+version: 1
+creation_date: '2026-11-23'
+modification_date: '2026-11-23'
+author: Nasreddine Bencherchali, Splunk
+status: production
+description: |-
+    This analytic story covers upload-to-shell behavior in image rendering workflows, including Ghostscript activity described in research for CVE-2026-125396.
+narrative: |-
+    CVE-2026-125396 is a use-after-free in Ghostscript's Type 1 font loader. A crafted document that reaches an affected Ghostscript renderer can corrupt native state and cross the -dSAFER boundary.
+
+    Ghostscript may sit behind image conversion, document preview, email attachment, or print workflows, so the application receiving the file may never invoke Ghostscript directly. A trusted-looking image or PDF extension does not establish the file's actual content type.
+
+    HTTP Upload Activity to Web Application uses Zeek files.log to find an HTTP upload whose detected PostScript or EPS MIME type conflicts with an image or PDF filename. This is an early routing clue, not evidence that Ghostscript opened the file. Confirm the upload path, file identifier, MIME classification, and whether the application sent the file to a renderer. Legitimate conversion workflows can produce the same mismatch.
+
+    Endpoint analytics can add evidence when a web worker starts Ghostscript or when the renderer or application starts a shell. A server can also process a crafted file without creating a child shell, so process telemetry should be evaluated with the application's normal rendering behavior. Prioritize exposed upload and preview features, inventory the Ghostscript package used by each application or container, and apply Ghostscript 10.08.0 or a distribution backport of the Type 1 loader fix.
+references:
+    - https://pwn.ai/upload2shell/research.html
+    - https://pwn.ai/upload2shell
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection

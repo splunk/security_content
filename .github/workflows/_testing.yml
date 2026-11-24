@@ -47,10 +47,8 @@ jobs:
         - name: Install contentctl-ng
           shell: bash
           run: |
-            # These workflows are only compatible with this exact contentctl-ng version, so it is
-            # pinned here instead of using requirements.txt (which is used by the older workflows).
-            echo "- Build Tool Version - contentctl-ng==1.2.0"
-            pip install contentctl-ng==1.2.0
+            echo "- Build Tool Version - $(cat requirements.txt)"
+            pip install -r requirements.txt
 
         # Check out GitHub's merge commit for the PR (the PR merged into its target branch), even if the PR
         # lives in a fork. This tests the content as it will look after merge, not the PR head, which may be

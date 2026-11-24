@@ -1,0 +1,32 @@
+name: PHP November 2026 SOAP Vulnerabilities
+id: 70a37832-1d57-4dab-9411-66ec0e47485d
+version: 1
+creation_date: '2026-11-23'
+modification_date: '2026-11-23'
+author: Nasreddine Bencherchali, Splunk
+status: production
+description: |-
+    This analytic story covers the two Medium-severity PHP SOAP issues fixed in the November 2026 releases: DTD entity-reference use-after-free (CVE-2026-129506) and information disclosure through malformed array dimensions (CVE-2026-15353).
+narrative: |-
+    PHP's SOAP extension processes XML before an application can use the decoded values.
+
+    CVE-2026-129506 is a use-after-free involving a document type definition and an entity reference in an attribute value. A crafted request to an exposed SOAP endpoint can crash the worker; the advisory does not confirm code execution.
+
+    CVE-2026-15353 concerns an encoded SOAP array with an empty or invalid arraySize. The parser can use uninitialized memory as an array key, and a small amount of data may be exposed if the application returns the decoded array. A SoapClient can also encounter the array issue in a response from an untrusted service.
+
+    The two network analytics look for the request structures that reach these parser paths: a DTD with an attribute entity reference and an invalid array dimension. They are anomalies because the request alone does not prove that a vulnerable SOAP extension processed it, that a worker crashed, or that data was returned.
+
+    Review the SOAP endpoint, PHP version, XML handling, response, and nearby worker errors. A DTD may also appear in WSDL or schema content, and response-side SoapClient exposure requires telemetry beyond inbound HTTP requests.
+
+    Prioritize externally reachable SOAP services and applications that consume untrusted SOAP responses or WSDL documents. Restrict unneeded endpoints, validate accepted XML where possible, and upgrade to a fixed PHP release for the deployed branch.
+references:
+    - https://github.com/php/php-src/security/advisories/GHSA-4646-p932-gw34
+    - https://github.com/php/php-src/security/advisories/GHSA-q23r-hr55-xmpg
+    - https://www.php.net/ChangeLog-8.php#8.3.37
+category:
+    - Adversary Tactics
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+usecase: Advanced Threat Detection
