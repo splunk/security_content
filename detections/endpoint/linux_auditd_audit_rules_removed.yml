@@ -2,11 +2,14 @@ name: Linux Auditd Audit Rules Removed
 id: a4d7f6b1-2c93-4e85-bf10-6a2d9c3e7f84
 version: 1
 creation_date: '2026-11-02'
-modification_date: '2026-11-02'
+modification_date: '2026-11-24'
 author: vahid malekmohammadi
 status: production
 type: Anomaly
-description: The following analytic detects a burst of Linux audit (auditd) rules being removed at runtime without being re-added, using the native CONFIG_CHANGE op=remove_rule and op=add_rule events. Adversaries flush the audit ruleset - for example with "auditctl -D" or the AUDIT_DEL netlink operation - to blind the audit subsystem while the auditd daemon keeps running, so no DAEMON_END event is raised and standard service-stop detections stay silent. The kernel emits a CONFIG_CHANGE record for every rule removed or added. A legitimate reload (augenrules --load, auditctl -R, auditd restart, boot) removes the existing rules and re-adds the bulk of them, whereas a malicious flush re-adds few or none - even when an attacker adds a token rule to look like a reload. The analytic therefore aggregates removals and re-additions host-wide over a short window and fires only when the re-added count is a small fraction of the removed count. It aggregates per host rather than per session because, on real hosts, a reload's removals and re-additions are frequently attributed to different login sessions (the invoking user's session for removals, the unset/system context for re-additions). If confirmed, this is a high-severity defense-evasion / anti-forensics action that undermines the integrity of all host auditing.
+description: |-
+    The following analytic detects Linux audit (auditd) rules being removed at runtime, using the native CONFIG_CHANGE op=remove_rule events together with any op=add_rule events that follow.
+    Adversaries flush or trim the audit ruleset - for example with "auditctl -D" or the AUDIT_DEL netlink operation - to blind the audit subsystem while the auditd daemon keeps running, so no DAEMON_END event is raised and service-stop detections stay silent. The kernel emits one CONFIG_CHANGE record for every rule removed or added.
+    If confirmed malicious, this is a high-severity defense-evasion action that undermines the integrity of all host auditing.
 data_source:
     - Linux Auditd Config Change
 search: |-
@@ -21,11 +24,15 @@ search: |-
     | `security_content_ctime(lastTime)`
     | table firstTime lastTime dest auid ses subj rules_removed rules_added removed_keys
     | `linux_auditd_audit_rules_removed_filter`
-how_to_implement: To implement this detection, ingest auditd data using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833) and normalize the field names to the Splunk Common Information Model (CIM). No custom audit rule is required - the kernel audit subsystem emits a CONFIG_CHANGE record for every rule add or removal on its own. Confirm field names against a real event, as auditd extraction can vary by deployment - the operation is in the "op" field (remove_rule / add_rule), the result in "res", and the removed rule key in "key". Only successful operations are counted (failed requests with res=no/0/failed are excluded), and events without a subj value are retained rather than dropped. The analytic aggregates host-wide over a 5-minute window and fires when rules_removed is at least 5 and rules_added is under 10% of rules_removed; the removal threshold separates a flush from an administrator removing a single rule during tuning, and the ratio separates a flush from a reload that re-adds the bulk of what it removed. Both are tunable - raise the ratio if your reloads re-add fewer rules than they remove, or lower it for a stricter definition of a flush.
-known_false_positives: Legitimate rule reloads (augenrules --load, auditctl -R, an auditd service restart, system boot) remove the existing rules and re-add most of them, so they fall under the re-add ratio and are excluded; an unusual reload that re-adds under 10% of what it removed could still trigger this and should be allowlisted. System shutdown may remove rules in system context (auid set to the unset value); update the filter macro to exclude that context if it generates noise. An administrator manually removing many rules during tuning without reloading can also trigger this; allowlist their account or session in the filter macro if needed.
+how_to_implement: |-
+    To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems.
+    These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling.
+    This approach enables effective monitoring and detection of linux endpoints where auditd is deployed. No custom audit rule is required, as the kernel emits a CONFIG_CHANGE record for every audit rule added or removed. Event volume is negligible.
+known_false_positives: |-
+    Legitimate rule reloads (augenrules --load, auditctl -R, an auditd service restart, system boot) remove the existing rules and re-add them, so they will also be reported.
+    An administrator tuning or reducing the ruleset, or a service stop that runs a stop-rules file beginning with -D (distribution dependent, verify on your hosts), can also trigger this. Allowlist the administrative account, session or maintenance window in the filter macro if needed.
 references:
-    - https://attack.mitre.org/techniques/T1562/001/
-    - https://attack.mitre.org/techniques/T1070/
+    - https://attack.mitre.org/techniques/T1685/004/
     - https://man7.org/linux/man-pages/man8/auditctl.8.html
     - https://github.com/Neo23x0/auditd/blob/master/audit.rules
 drilldown_searches:
@@ -41,15 +48,14 @@ intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 72
-          message: $rules_removed$ audit rules were removed at runtime with only $rules_added$ re-added (auid [$auid$]) on host - [$dest$], a possible attempt to disable auditing.
+          score: 20
+          message: $rules_removed$ audit rules were removed at runtime and $rules_added$ were added on host - [$dest$].
 analytic_story:
     - Compromised Linux Host
-    - Linux Living Off The Land
+    - Security Solution Tampering
 asset_type: Endpoint
 mitre_attack_id:
-    - T1562.001
-    - T1070
+    - T1685.004
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
