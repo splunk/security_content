@@ -1,0 +1,155 @@
+name: AWS Identity Verification Followed by IAM Discovery
+id: 767e7949-e24f-4f04-9a81-715718a293df
+version: 1
+creation_date: '2026-11-25'
+modification_date: '2026-11-25'
+author: Maria Jose Erquiaga, Splunk
+status: production
+type: TTP
+description: |-
+    The following analytic detects a successful AWS STS GetCallerIdentity call
+    followed by ListAccessKeys, ListAttachedUserPolicies, ListRoles, or ListUsers
+    from the same caller ARN within five minutes. It returns one finding per
+    matching identity-check session and summarizes the subsequent IAM discovery.
+    This behavior may indicate identity verification and enumeration following
+    credential compromise, but it is also performed by legitimate applications
+    and administrative tools. Correlation uses the caller ARN and does not
+    require the same access-key ID or source address.
+data_source:
+    - AWS CloudTrail
+search: |-
+    `cloudtrail`
+    (
+        (eventSource="sts.amazonaws.com" eventName="GetCallerIdentity")
+        OR
+        (
+            eventSource="iam.amazonaws.com"
+            eventName IN (
+                "ListAccessKeys",
+                "ListAttachedUserPolicies",
+                "ListRoles",
+                "ListUsers"
+            )
+        )
+    )
+    | spath input=_raw path=userIdentity.arn output=user_arn
+    | spath input=_raw path=eventTime output=ct_time
+    | spath input=_raw path=errorCode output=ct_error
+    | eval
+        src=coalesce(src, sourceIPAddress),
+        event_time=coalesce(
+            strptime(ct_time, "%Y-%m-%dT%H:%M:%SZ"),
+            _time
+        )
+    | where isnotnull(user_arn)
+    | dedup eventID keepempty=true
+    | eval is_identity_check=if(
+        eventName="GetCallerIdentity"
+        AND (isnull(ct_error) OR ct_error=""),
+        1,
+        0
+    )
+    | eval identity_time=if(is_identity_check=1, event_time, null())
+    | sort 0 event_time
+    | streamstats current=t
+        max(identity_time) AS session_start
+        BY user_arn
+    | eval elapsed_seconds=event_time-session_start
+    | where elapsed_seconds>=0 AND elapsed_seconds<=300
+    | eval
+        additional_api=if(
+            eventName!="GetCallerIdentity" AND elapsed_seconds>0,
+            eventName,
+            null()
+        ),
+        discovery_time=if(isnotnull(additional_api), event_time, null()),
+        discovery_source=if(isnotnull(additional_api), src, null())
+    | eventstats
+        count(additional_api) AS discovery_calls
+        dc(additional_api) AS distinct_discovery_apis
+        values(additional_api) AS additional_apis
+        values(discovery_source) AS discovery_src
+        min(discovery_time) AS first_discovery_time
+        max(discovery_time) AS last_discovery_time
+        BY user_arn session_start
+    | where is_identity_check=1 AND discovery_calls>0
+    | sort 0 - session_start
+    | eval
+        user=user_arn,
+        firstTime=session_start,
+        lastTime=last_discovery_time,
+        identity_check_at=strftime(session_start, "%Y-%m-%dT%H:%M:%SZ"),
+        first_discovery_at=strftime(first_discovery_time, "%Y-%m-%dT%H:%M:%SZ"),
+        last_discovery_at=strftime(last_discovery_time, "%Y-%m-%dT%H:%M:%SZ"),
+        sequence_duration_seconds=last_discovery_time-session_start
+    | table
+        firstTime
+        lastTime
+        identity_check_at
+        eventName
+        user
+        user_arn
+        src
+        first_discovery_at
+        last_discovery_at
+        additional_apis
+        discovery_src
+        distinct_discovery_apis
+        discovery_calls
+        sequence_duration_seconds
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `aws_identity_verification_followed_by_iam_discovery_filter`
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
+known_false_positives: |-
+    Applications, inventory tools, security scanners, deployment pipelines,
+    and administrators may verify their identity before enumerating IAM
+    resources. Legitimate application activity produced matches during
+    initial research. Review the caller ARN, source addresses, and normal
+    discovery behavior before escalating.
+    Same-ARN correlation may group activity performed with different
+    credentials. Same-timestamp discovery is excluded because its order
+    cannot be confirmed. Each successful identity check starts a new session.
+references:
+    - https://attack.mitre.org/techniques/T1087/004/
+    - https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html
+    - https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html
+    - https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRoles.html
+    - https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html
+    - https://docs.aws.amazon.com/STS/latest/APIReference/API_GetCallerIdentity.html
+    - https://medium.com/@adan.alvarez/i-gave-14-llms-aws-keys-heres-what-they-wanted-to-do-next-48585761a11b
+drilldown_searches:
+    - name: View IAM discovery finding for - "$user_arn$"
+      search: '%original_detection_search% | search user_arn="$user_arn$" identity_check_at="$identity_check_at$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: AWS identity [$user$] verified its identity and performed [$discovery_calls$] IAM discovery calls
+    entity:
+        field: user
+        type: user
+        score: 20
+threat_objects:
+    - field: src
+      type: ip_address
+analytic_story: Compromised User Account
+asset_type: AWS Account
+mitre_attack_id:
+    - T1087.004
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: cloud
+security_domain: threat
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/aws_iam_discovery_sequence/aws_iam_discovery_sequence.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail
+      test_type: unit
