@@ -6,18 +6,75 @@ modification_date: '2026-11-10'
 author: ali-vrd
 status: experimental
 type: TTP
-description: The following analytic detects the execution of EvilClippy, an open-source tool used to perform VBA stomping against Microsoft Office documents. EvilClippy manipulates the vbaProject.bin stream so that the VBA source code is removed or replaced while the compiled p-code remains, allowing malicious macros to execute while evading static analysis, antivirus inspection, and even the VBA editor. This detection leverages the Endpoint data model, identifying processes where the process name or original file name is EvilClippy.exe. Legitimate administrative use of this tool is highly uncommon, so any observed execution is a strong indicator of malicious macro development or malicious document staging.
+description: |-
+    The following analytic detects the execution of EvilClippy, an open-source tool used to perform VBA stomping against
+    Microsoft Office documents. EvilClippy manipulates the vbaProject.bin stream so that the VBA source code is removed or
+    replaced while the compiled p-code remains, allowing malicious macros to execute while evading static analysis,
+    antivirus inspection, and even the VBA editor. This detection leverages the Endpoint data model, identifying processes
+    where the process name or original file name is EvilClippy.exe. Legitimate administrative use of this tool is highly
+    uncommon, so any observed execution is a strong indicator of malicious macro development or malicious document staging.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="EvilClippy.exe" OR Processes.original_file_name="EvilClippy.exe") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process_name Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_evilclippy_vba_stomping_execution_filter`'
-how_to_implement: The detection is based on process creation telemetry such as Sysmon EventID 1, Windows Security Event 4688, or EDR agents. You must ingest logs that contain the process GUID, process name, and original file name, and the logs must be mapped to the Processes node of the Endpoint data model. Use the Splunk Common Information Model (CIM) to normalize field names and speed up the data modeling process.
-known_false_positives: This detection may trigger if a legitimate binary has been renamed to EvilClippy.exe for testing or training purposes. Filter or tune as needed.
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    
+    FROM datamodel=Endpoint.Processes
+    
+    WHERE
+        (Processes.process_name="EvilClippy.exe" OR Processes.original_file_name="EvilClippy.exe")
+    
+    BY Processes.action Processes.dest Processes.original_file_name Processes.parent_process_name Processes.parent_process_exec
+      Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_path Processes.process Processes.process_exec
+      Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
+      Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_evilclippy_vba_stomping_execution_filter`
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are
+    designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this
+    search, you must ingest logs that contain the process GUID, process name, original file name, and parent process.
+    Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate
+    Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of
+    the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the
+    data modeling process.
+known_false_positives: |-
+    This detection may trigger if a legitimate binary has been renamed to EvilClippy.exe for testing or training purposes.
+    Filter or tune as needed.
 references:
     - https://attack.mitre.org/techniques/T1564/007/
     - https://github.com/outflanknl/EvilClippy
     - https://www.outflank.nl/blog/2019/05/05/evil-clippy-ms-office-malleable-c2-profiles-and-evading-cobalt-strike-beacon-scans/
+drilldown_searches:
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: EvilClippy VBA stomping tool [$process_name$] executed on [$dest$] by user [$user$]
+    entity:
+        field: dest
+        type: system
+        score: 60
+intermediate_findings:
+    entities:
+        - field: user
+          type: user
+          score: 60
+          message: EvilClippy VBA stomping tool [$process_name$] executed on [$dest$] by user [$user$].
+threat_objects:
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process
 analytic_story:
     - Spearphishing Attachments
 asset_type: Endpoint
