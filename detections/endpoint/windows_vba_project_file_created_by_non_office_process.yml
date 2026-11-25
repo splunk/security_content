@@ -19,35 +19,44 @@ data_source:
     - Sysmon EventID 11
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-    
+
     FROM datamodel=Endpoint.Filesystem
-    
+
     WHERE
         Filesystem.file_name="vbaProject.bin"
         NOT (
                 Filesystem.process_name IN (
-                    "WINWORD.EXE",
-                    "EXCEL.EXE",
-                    "POWERPNT.EXE",
-                    "MSACCESS.EXE",
-                    "OUTLOOK.EXE",
-                    "MSPUB.EXE",
-                    "WINPROJ.EXE",
-                    "ONENOTE.EXE",
-                    "EQNEDT32.EXE",
                     "7z.exe",
-                    "7zFM.exe",
                     "7za.exe",
+                    "7zfm.exe",
+                    "7zg.exe",
+                    "bandizip.exe",
+                    "bsdtar.exe",
+                    "eqnedt32.exe",
+                    "excel.exe",
+                    "msaccess.exe",
+                    "mspub.exe",
+                    "nanazip.exe",
+                    "onenote.exe",
+                    "outlook.exe",
+                    "pea.exe",
+                    "peazip.exe",
+                    "powerpnt.exe",
                     "rar.exe",
+                    "tar.exe",
                     "unrar.exe",
-                    "WinRAR.exe",
-                    "Bandizip.exe"
+                    "visio.exe",
+                    "winproj.exe",
+                    "winrar.exe",
+                    "winword.exe",
+                    "winzip32.exe",
+                    "winzip64.exe"
                 )
             )
         BY Filesystem.action Filesystem.dest Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
           Filesystem.file_name Filesystem.file_path Filesystem.file_size Filesystem.process_guid Filesystem.process_id
           Filesystem.process_name Filesystem.user Filesystem.vendor_product
-        
+
         | `drop_dm_object_name(Filesystem)`
         | `security_content_ctime(firstTime)`
         | `security_content_ctime(lastTime)`
