@@ -137,7 +137,7 @@ finding:
 threat_objects:
     - field: src
       type: ip_address
-analytic_story: 
+analytic_story:
     - Compromised User Account
 asset_type: AWS Account
 mitre_attack_id:
