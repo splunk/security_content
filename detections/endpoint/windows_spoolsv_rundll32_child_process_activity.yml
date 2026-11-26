@@ -1,0 +1,99 @@
+name: Windows Spoolsv Rundll32 Child Process Activity
+id: 4217a8b3-d096-4e9a-bec4-2ad7de0171fb
+version: 1
+creation_date: '2026-11-25'
+modification_date: '2026-11-26'
+author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Radka Viskova, Splunk
+status: production
+type: Anomaly
+description: This analytic detects rundll32.exe process creation events where spoolsv.exe is the parent process. It excludes observed Canon inkjet printer-helper command lines that load a cnmsm*.dll from the Windows spool driver directory using the StatusMonitorEntryPoint or CnmDxPEntryPoint export. This behavior can also result from legitimate printer drivers or other software and does not by itself confirm malicious activity. Review the command line, related process activity, and loaded modules to assess the event.
+data_source:
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly`
+
+    count
+    min(_time) as firstTime
+    max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes
+    WHERE Processes.parent_process_name=spoolsv.exe `process_rundll32`
+
+    BY Processes.action
+       Processes.dest
+       Processes.original_file_name
+       Processes.parent_process
+       Processes.parent_process_exec
+       Processes.parent_process_guid
+       Processes.parent_process_id
+       Processes.parent_process_name
+       Processes.parent_process_path
+       Processes.process
+       Processes.process_exec
+       Processes.process_guid
+       Processes.process_hash
+       Processes.process_id
+       Processes.process_integrity_level
+       Processes.process_name
+       Processes.process_path
+       Processes.user
+       Processes.user_id
+       Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+
+    | where NOT match(
+    coalesce(process, ""),
+    "(?i)^\"?rundll32(?:\\.exe)?\"?\\s+\"?C:\\\\Windows\\\\System32\\\\spool\\\\drivers\\\\x64\\\\3\\\\cnmsm[a-z0-9]+\\.dll\"?,\\s*(?:StatusMonitorEntryPoint|CnmDxPEntryPoint)(?:\\s|$)"
+    )
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_spoolsv_rundll32_child_process_activity_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate printer drivers and other software may cause spoolsv.exe to spawn rundll32.exe. The search excludes the observed Canon printer-helper patterns. Add further exclusions only for activity validated as benign.
+references:
+    - https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
+    - https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675
+    - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 5
+          message: $parent_process_name$ spawned $process_name$ on endpoint $dest$. Review the command line and related process activity.
+threat_objects:
+    - field: process_name
+      type: process_name
+analytic_story:
+    - PrintNightmare CVE-2021-34527
+    - Compromised Windows Host
+    - Black Basta Ransomware
+cve:
+    - CVE-2021-34527
+mitre_attack_id:
+    - T1547.012
+asset_type: Endpoint
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+      test_type: unit
