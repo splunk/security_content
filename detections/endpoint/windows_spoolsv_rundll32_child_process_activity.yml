@@ -79,11 +79,11 @@ analytic_story:
     - PrintNightmare CVE-2021-34527
     - Compromised Windows Host
     - Black Basta Ransomware
+asset_type: Endpoint
 cve:
     - CVE-2021-34527
 mitre_attack_id:
     - T1547.012
-asset_type: Endpoint
 product:
     - Splunk Enterprise
     - Splunk Enterprise Security
