@@ -32,20 +32,18 @@ search: |-
             )
         )
     )
-    | spath input=_raw path=userIdentity.arn output=user_arn
-    | spath input=_raw path=eventTime output=ct_time
-    | spath input=_raw path=errorCode output=ct_error
     | eval
-        src=coalesce(src, sourceIPAddress),
-        event_time=coalesce(
-            strptime(ct_time, "%Y-%m-%dT%H:%M:%SZ"),
-            _time
-        )
+        user_arn='userIdentity.arn',
+        src=coalesce(src, sourceIPAddress)
     | where isnotnull(user_arn)
     | dedup eventID keepempty=true
     | eval is_identity_check=if(
         eventName="GetCallerIdentity"
-        AND (isnull(ct_error) OR ct_error=""),
+        AND (
+            isnull(errorCode)
+            OR errorCode=""
+            OR lower(errorCode)="success"
+        ),
         1,
         0
     )
@@ -78,9 +76,9 @@ search: |-
         user=user_arn,
         firstTime=session_start,
         lastTime=last_discovery_time,
-        identity_check_at=strftime(session_start, "%Y-%m-%dT%H:%M:%SZ"),
-        first_discovery_at=strftime(first_discovery_time, "%Y-%m-%dT%H:%M:%SZ"),
-        last_discovery_at=strftime(last_discovery_time, "%Y-%m-%dT%H:%M:%SZ"),
+        identity_check_at=session_start,
+        first_discovery_at=first_discovery_time,
+        last_discovery_at=last_discovery_time,
         sequence_duration_seconds=last_discovery_time-session_start
     | table
         firstTime
@@ -99,6 +97,9 @@ search: |-
         sequence_duration_seconds
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
+    | `security_content_ctime(identity_check_at)`
+    | `security_content_ctime(first_discovery_at)`
+    | `security_content_ctime(last_discovery_at)`
     | `aws_identity_verification_followed_by_iam_discovery_filter`
 how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
 known_false_positives: |-
