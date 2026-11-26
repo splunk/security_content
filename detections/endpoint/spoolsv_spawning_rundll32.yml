@@ -13,7 +13,7 @@ data_source:
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
-    
+
     count
     min(_time) as firstTime
     max(_time) as lastTime
@@ -44,7 +44,7 @@ search: |-
        Processes.vendor_product
 
     | `drop_dm_object_name(Processes)`
-    
+
     | eval command_line_normalized=lower(trim(replace(trim(process), "^\"(.*)\"$", "\1")))
     | eval process_path_normalized=lower(trim(replace(trim(process_path), "^\"(.*)\"$", "\1")))
     | eval process_name_normalized=lower(trim(process_name))
