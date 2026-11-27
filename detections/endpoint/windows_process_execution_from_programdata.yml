@@ -1,8 +1,8 @@
 name: Windows Process Execution From ProgramData
 id: 237016fa-d8e6-47b4-80f9-70c4d42c72c0
-version: 10
+version: 11
 creation_date: '2021-05-07'
-modification_date: '2026-06-08'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -20,6 +20,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` count values(Processes.process_name)
     as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
@@ -66,4 +67,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.005/process_in_programdata/exec_programdata.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.005/process_in_programdata/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

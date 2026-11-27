@@ -1,8 +1,8 @@
 name: Batch File Write to System32
 id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
-version: 15
+version: 16
 creation_date: '2020-04-29'
-modification_date: '2026-07-02'
+modification_date: '2026-11-26'
 author: Steven Dick, Michael Haag, Rico Valdez, Splunk
 status: production
 type: Anomaly
@@ -12,6 +12,7 @@ description: |-
     If confirmed malicious, this could allow an attacker to execute arbitrary commands with elevated privileges, potentially compromising the entire system.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -85,4 +86,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

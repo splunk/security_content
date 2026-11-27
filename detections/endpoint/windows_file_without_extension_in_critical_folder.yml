@@ -1,8 +1,8 @@
 name: Windows File Without Extension In Critical Folder
 id: 0dbcac64-963c-11ec-bf04-acde48001122
-version: 13
+version: 14
 creation_date: '2022-02-25'
-modification_date: '2026-07-27'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ description: |-
     If confirmed malicious, this activity can result in severe system compromise, including the deployment of malicious drivers, boot-sector or filesystem destruction, and ultimately system inoperability and irreversible data loss.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |
     | tstats `security_content_summariesonly`
       count FROM datamodel=Endpoint.Filesystem where
@@ -87,4 +88,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

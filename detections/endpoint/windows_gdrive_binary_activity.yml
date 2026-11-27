@@ -1,8 +1,8 @@
 name: Windows Gdrive Binary Activity
 id: 9e7bd7c8-1c08-496e-9ffe-fd84ceb322e7
-version: 5
+version: 6
 creation_date: '2022-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
@@ -66,4 +67,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/gdrive/gdrive_windows.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/gdrive/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

@@ -1,8 +1,8 @@
 name: Detect RClone Command-Line Usage
 id: 32e0baea-b3f1-11eb-a2ce-acde48001122
-version: 19
+version: 20
 creation_date: '2021-05-13'
-modification_date: '2026-07-14'
+modification_date: '2026-11-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -12,6 +12,7 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
     as lastTime from datamodel=Endpoint.Processes where
@@ -103,4 +104,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

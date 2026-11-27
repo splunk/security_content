@@ -1,8 +1,8 @@
 name: Windows System Discovery Using Qwinsta
 id: 2e765c1b-144a-49f0-93d0-1df4287cca04
-version: 8
+version: 9
 creation_date: '2022-10-21'
-modification_date: '2026-05-13'
+modification_date: '2026-11-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name = "qwinsta.exe"
@@ -49,4 +50,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/qakbot_discovery_cmdline/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/qakbot_discovery_cmdline/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

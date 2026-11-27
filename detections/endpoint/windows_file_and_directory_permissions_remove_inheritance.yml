@@ -1,8 +1,8 @@
 name: Windows File and Directory Permissions Remove Inheritance
 id: 9b62da2c-e442-474f-83ca-fac4dabab1b3
-version: 7
+version: 8
 creation_date: '2023-04-12'
-modification_date: '2026-05-13'
+modification_date: '2026-11-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -10,6 +10,7 @@ description: The following analytic detects the removal of permission inheritanc
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name IN( "icacls.exe", "cacls.exe", "xcacls.exe")
@@ -65,4 +66,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/icacls_inheritance/icacls_process_1.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/icacls_inheritance/cisco_evm_windows_file_and_directory_permissions_remove_inheritance.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

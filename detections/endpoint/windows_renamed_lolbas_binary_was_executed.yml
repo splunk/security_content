@@ -1,8 +1,8 @@
 name: Windows Renamed LOLBAS Binary was Executed
 id: 10c3850e-810d-41b4-a197-2f14d7883579
-version: 1
+version: 2
 creation_date: '2026-09-23'
-modification_date: '2026-09-23'
+modification_date: '2026-11-26'
 author: Steven Dick, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ description: |-
 data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) AS firstTime
@@ -105,4 +106,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/renamed_lolbas_binary/renamed_lolbas_binary.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/renamed_lolbas_binary/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

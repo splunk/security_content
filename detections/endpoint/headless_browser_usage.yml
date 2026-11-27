@@ -1,8 +1,8 @@
 name: Headless Browser Usage
 id: 869ba261-c272-47d7-affe-5c0aa85c93d6
-version: 11
+version: 12
 creation_date: '2023-09-11'
-modification_date: '2026-06-25'
+modification_date: '2026-11-26'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("Chrome.exe","Brave.exe", "Opera.exe", "Vivaldi.exe", "msedge.exe") (Processes.process="*--headless*" AND Processes.process="*--disable-gpu*")
 
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `headless_browser_usage_filter`'
@@ -68,4 +69,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497/headless_browser/headless_chrome.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/headlessbrowser/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

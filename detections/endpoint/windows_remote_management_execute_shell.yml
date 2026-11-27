@@ -1,8 +1,8 @@
 name: Windows Remote Management Execute Shell
 id: 28b80028-851d-4b8d-88a5-375ba115418a
-version: 9
+version: 10
 creation_date: '2023-04-12'
-modification_date: '2026-10-29'
+modification_date: '2026-11-26'
 author: Drew Church, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ description: |-
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -134,4 +135,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/winrm_spawned_processes/winrm_spawned_processes_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/wirm_execute_shell/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

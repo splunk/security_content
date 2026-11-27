@@ -1,8 +1,8 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 16
+version: 17
 creation_date: '2019-10-16'
-modification_date: '2026-07-02'
+modification_date: '2026-11-26'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
@@ -16,6 +16,7 @@ description: |
     Also this analytic leverages a sub-search to enhance performance. sub-searches have limitations on the amount of data they can return. Keep this in mind if you have an extensive list of ransomware note file names.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |
     | tstats `security_content_summariesonly`
       count
@@ -82,4 +83,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

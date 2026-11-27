@@ -1,8 +1,8 @@
 name: Windows Proxy Execution of .NET Utilities via Scripts
 id: eb59cf01-1874-4d16-b7e4-54a6eb9b3118
-version: 3
+version: 4
 creation_date: '2026-04-29'
-modification_date: '2026-10-09'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -11,6 +11,7 @@ description: |-
     That pattern is consistent with adversaries using trusted .NET binaries as a proxy to run code while hiding execution behind script parents in low-trust folders, behavior associated with techniques such as signed binary proxy execution.
 data_source:
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -105,4 +106,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/vip_aspnet_process/vip_aspnet_process.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/vip_aspnet_process/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

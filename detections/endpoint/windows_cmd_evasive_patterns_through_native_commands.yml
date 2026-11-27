@@ -1,8 +1,8 @@
 name: Windows CMD Evasive Patterns Through Native Commands
 id: e4202c26-f5d1-4c72-91f7-e551338be9a4
-version: 1
+version: 2
 creation_date: '2026-11-12'
-modification_date: '2026-11-12'
+modification_date: '2026-11-26'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -16,6 +16,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -121,4 +122,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.010/windows_cmd_evasive_commands/windows_cmd_evasive_commands.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.010/windows_cmd_evasive_commands/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

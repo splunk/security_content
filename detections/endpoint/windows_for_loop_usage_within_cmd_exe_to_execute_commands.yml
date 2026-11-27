@@ -1,8 +1,8 @@
 name: Windows For Loop Usage Within Cmd.exe To Execute Commands
 id: a4ce9079-fc8f-4749-982a-13197c8cf977
-version: 2
+version: 3
 creation_date: '2026-09-16'
-modification_date: '2026-10-09'
+modification_date: '2026-11-25'
 author: Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -11,6 +11,7 @@ description: |-
     Adversaries and malicious scripts leverage this pattern to programmatically process command output for discovery, data extraction, or execution purposes while evading simpler detection logic.
 data_source:
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -95,4 +96,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/cmd_for_loop/cmd_for_loop.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/cmd_for_loop/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

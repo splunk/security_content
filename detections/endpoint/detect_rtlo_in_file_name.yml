@@ -1,8 +1,8 @@
 name: Detect RTLO In File Name
 id: 468b7e11-d362-43b8-b6ec-7a2d3b246678
-version: 13
+version: 14
 creation_date: '2023-05-01'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -16,6 +16,7 @@ description: |
     to the execution of harmful files and potential system compromise.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -92,4 +93,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.002/outlook_attachment/rtlo_events.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.002/outlook_attachment/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

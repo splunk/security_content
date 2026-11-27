@@ -1,8 +1,8 @@
 name: Excessive Usage Of SC Service Utility
 id: cb6b339e-d4c6-11eb-a026-acde48001122
-version: 12
+version: 13
 creation_date: '2021-06-24'
-modification_date: '2026-11-12'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ description: |-
     If confirmed malicious, this activity could allow attackers to manipulate critical services, leading to system compromise or disruption of security defenses.
 data_source:
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) AS firstTime
@@ -102,4 +103,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/cisco_evm_excessive_usage_of_sc_service_utility.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

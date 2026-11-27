@@ -1,8 +1,8 @@
 name: Detect MSHTA Url in Command Line
 id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
-version: 21
+version: 22
 creation_date: '2020-04-29'
-modification_date: '2026-10-02'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -12,6 +12,7 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_mshta` (Processes.process="*http://*"
@@ -96,4 +97,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

@@ -1,8 +1,8 @@
 name: Attacker Tools On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-16a110145893
-version: 20
+version: 21
 creation_date: '2021-07-12'
-modification_date: '2026-09-22'
+modification_date: '2026-11-25'
 author: Bhavin Patel, Splunk, sventec, Github Community
 status: production
 type: TTP
@@ -15,6 +15,7 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -104,4 +105,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

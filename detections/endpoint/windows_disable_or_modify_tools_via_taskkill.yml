@@ -1,8 +1,8 @@
 name: Windows Disable or Modify Tools Via Taskkill
 id: a43ae66f-c410-4b3d-8741-9ce1ad17ddb0
-version: 15
+version: 16
 creation_date: '2023-09-19'
-modification_date: '2026-06-25'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name = "taskkill.exe" Processes.process IN ("* /f*", "* /t*") Processes.process IN ("* /im*", "* /pid*")
@@ -68,4 +69,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/taskkill/taskkill_im.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/taskkill/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

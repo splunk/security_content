@@ -1,8 +1,8 @@
 name: Windows Service Stop By Deletion
 id: 196ff536-58d9-4d1b-9686-b176b04e430b
-version: 10
+version: 11
 creation_date: '2022-06-22'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
@@ -55,4 +56,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/cisco_evm_windows_service_stop_by_deletion.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

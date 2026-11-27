@@ -1,14 +1,15 @@
 name: Process Writing DynamicWrapperX
 id: b0a078e4-2601-11ec-9aec-acde48001122
-version: 9
+version: 10
 creation_date: '2021-10-05'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
 description: The following analytic detects a process writing the dynwrapx.dll file to disk and registering it in the registry. It leverages data from the Endpoint datamodel, specifically monitoring process and filesystem events. This activity is significant because DynamicWrapperX is an ActiveX component often used in scripts to call Windows API functions, and its presence in non-standard locations is highly suspicious. If confirmed malicious, this could allow an attacker to execute arbitrary code, escalate privileges, or maintain persistence within the environment. Immediate investigation of parallel processes and registry modifications is recommended.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |-
     | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
       WHERE Filesystem.file_name="dynwrapx.dll"
@@ -47,4 +48,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

@@ -1,8 +1,8 @@
 name: Windows CAB File on Disk
 id: 622f08d0-69ef-42c2-8139-66088bc25acd
-version: 12
+version: 13
 creation_date: '2023-11-16'
-modification_date: '2026-08-24'
+modification_date: '2026-11-25'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ description: |-
     Analysts should review the file path and associated artifacts for further investigation.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |-
     | tstats `security_content_summariesonly`
       count values(Filesystem.file_path) as file_path
@@ -101,4 +102,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/autoit/cab_files.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/autoit/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

@@ -1,8 +1,8 @@
 name: Windows System Remote Discovery With Query
 id: 94859172-a521-474f-97ac-4cf4b09634a3
-version: 8
+version: 9
 creation_date: '2025-01-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Steven Dick
 status: production
 type: Hunting
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
@@ -52,4 +53,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/query_remote_usage/query_remote_usage.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/query_remote_usage/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

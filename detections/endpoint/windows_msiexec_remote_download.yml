@@ -1,8 +1,8 @@
 name: Windows MSIExec Remote Download
 id: 6aa49ff2-3c92-4586-83e0-d83eb693dfda
-version: 17
+version: 18
 creation_date: '2022-06-17'
-modification_date: '2026-10-02'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -19,6 +19,7 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
     as lastTime from datamodel=Endpoint.Processes where
@@ -102,4 +103,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/cisco_evm_windows_msiexec_remote_download.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

@@ -1,8 +1,8 @@
 name: Suspicious MSBuild Spawn
 id: a115fba6-5514-11eb-ae93-0242ac130002
-version: 14
+version: 15
 creation_date: '2021-01-15'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.parent_process_name=wmiprvse.exe
@@ -72,4 +73,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/cisco_evm_suspicious_msbuild_spawn.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

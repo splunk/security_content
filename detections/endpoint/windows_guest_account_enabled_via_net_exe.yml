@@ -1,8 +1,8 @@
 name: Windows Guest Account Enabled Via Net.EXE
 id: 4f8cd681-7583-47a0-9f38-6337b7adf48a
-version: 2
+version: 3
 creation_date: '2021-09-02'
-modification_date: '2026-10-02'
+modification_date: '2026-11-26'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -77,4 +78,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.001/snapattack/snapattack.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.001/snapattack/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

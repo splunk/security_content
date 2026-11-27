@@ -1,8 +1,8 @@
 name: Suspicious Curl Network Connection
 id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
-version: 12
+version: 13
 creation_date: '2021-02-25'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -12,6 +12,7 @@ data_source:
     - Sysmon for Linux EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
     as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("curl", "curl.exe")
@@ -61,3 +62,10 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/suspicious_curl_network_connection/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
+      test_type: unit

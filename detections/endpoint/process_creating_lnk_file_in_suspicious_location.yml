@@ -1,8 +1,8 @@
 name: Process Creating LNK file in Suspicious Location
 id: 5d814af1-1041-47b5-a9ac-d754e82e9a26
-version: 17
+version: 18
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-11-25'
 author: Jose Hernandez, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ description: |
     If confirmed malicious, this could allow an attacker to maintain persistence, execute arbitrary code, or further compromise the system.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -110,4 +111,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/lnk_file_temp_folder/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/lnk_file_temp_folder/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

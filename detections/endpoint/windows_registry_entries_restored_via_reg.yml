@@ -1,8 +1,8 @@
 name: Windows Registry Entries Restored Via Reg
 id: a17af481-e2ad-494c-9da6-afb4d243a019
-version: 5
+version: 6
 creation_date: '2022-12-13'
-modification_date: '2026-05-13'
+modification_date: '2026-11-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_reg`
@@ -51,4 +52,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/cisco_evm_windows_registry_entries_restored_via_reg.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

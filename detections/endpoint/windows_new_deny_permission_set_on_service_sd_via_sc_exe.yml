@@ -1,8 +1,8 @@
 name: Windows New Deny Permission Set On Service SD Via Sc.EXE
 id: d0f6a5e5-dbfd-46e1-8bd5-2e2905947c33
-version: 11
+version: 12
 creation_date: '2024-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -111,4 +112,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564/sc_sdset_tampering/sc_sdset_tampering_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564/sc_sdset_tampering/cisco_evm_windows_new_deny_permission_set_on_service_sd_via_sc_exe.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

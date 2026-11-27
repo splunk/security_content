@@ -1,8 +1,8 @@
 name: Windows FFmpeg Audio and Video Device Discovery
 id: 6394c389-3863-4677-bcbd-07d1519b34d2
-version: 1
+version: 2
 creation_date: '2026-05-20'
-modification_date: '2026-05-20'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
@@ -79,4 +80,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1125/salat_stealer_ffmpeg/ffmpeg_event.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1125/salat_stealer_ffmpeg/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

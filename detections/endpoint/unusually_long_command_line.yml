@@ -1,8 +1,8 @@
 name: Unusually Long Command Line
 id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-version: 14
+version: 15
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       BY Processes.action Processes.dest Processes.original_file_name
@@ -57,3 +58,10 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/unusually_long_command_line/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
+      test_type: unit

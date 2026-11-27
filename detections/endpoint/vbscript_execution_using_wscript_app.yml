@@ -1,8 +1,8 @@
 name: Vbscript Execution Using Wscript App
 id: 35159940-228f-11ec-8a49-acde48001122
-version: 15
+version: 16
 creation_date: '2021-09-14'
-modification_date: '2026-11-16'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -12,6 +12,7 @@ description: |-
     It excludes scripts launched from common trusted directories, including nested subdirectories under Program Files, Windows System32, and Windows SysWOW64.
 data_source:
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime max(_time) as lastTime
@@ -106,4 +107,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/cisco_evm_vbscript_execution_using_wscript_app.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

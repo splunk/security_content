@@ -1,14 +1,15 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 32
+version: 33
 creation_date: '2021-05-07'
-modification_date: '2026-10-06'
+modification_date: '2026-11-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic identifies the creation of executables or scripts in suspicious file paths on Windows systems. It leverages the Endpoint.Filesystem dataset to detect files with specific extensions (e.g., .exe, .dll, .ps1) created in uncommon directories (e.g., \windows\fonts\, \users\public\). This activity can be significant as adversaries often use these paths to evade detection and maintain persistence. If confirmed malicious, this behavior could allow attackers to execute unauthorized code, escalate privileges, or persist within the environment, posing a significant security threat.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -157,4 +158,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/executables_suspicious_file_path/exec_susp_path2.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/executables_suspicious_file_path/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

@@ -1,8 +1,8 @@
 name: Windows Time Based Evasion
 id: 34502357-deb1-499a-8261-ffe144abf561
-version: 15
+version: 16
 creation_date: '2023-09-19'
-modification_date: '2026-10-09'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -13,6 +13,7 @@ description: |-
     If confirmed malicious, this activity could indicate an active infection attempting to evade detection, potentially leading to further compromise and persistence within the environment.
 data_source:
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -89,4 +90,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/njrat_ping_delay_before_delete/ping_0.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/njrat_ping_delay_before_delete/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

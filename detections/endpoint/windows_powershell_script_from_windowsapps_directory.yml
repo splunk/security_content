@@ -1,8 +1,8 @@
 name: Windows PowerShell Script From WindowsApps Directory
 id: 8c3d1f2e-7b4a-45e3-9d8f-6a2e4c9b1234
-version: 4
+version: 5
 creation_date: '2025-08-18'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -15,6 +15,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -90,4 +91,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/msix_powershell/windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/msix_powershell/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

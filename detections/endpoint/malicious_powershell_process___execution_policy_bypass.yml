@@ -1,8 +1,8 @@
 name: Malicious PowerShell Process - Execution Policy Bypass
 id: 9be56c82-b1cc-4318-87eb-d138afaaca39
-version: 21
+version: 22
 creation_date: '2020-04-29'
-modification_date: '2026-07-20'
+modification_date: '2026-11-26'
 author: Rico Valdez, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` values(Processes.process_id) as process_id, values(Processes.parent_process_id) as parent_process_id values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_powershell` (Processes.process="* -ex*"
@@ -75,4 +76,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/encoded_powershell/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/encoded_powershell/cisco_evm_malicious_powershell_process___execution_policy_bypass.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

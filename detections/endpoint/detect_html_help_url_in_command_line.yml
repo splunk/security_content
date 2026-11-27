@@ -1,8 +1,8 @@
 name: Detect HTML Help URL in Command Line
 id: 8c5835b9-39d9-438b-817c-95f14c69a31e
-version: 17
+version: 18
 creation_date: '2021-02-11'
-modification_date: '2026-10-02'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -12,6 +12,7 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_hh` Processes.process=*http*
@@ -91,4 +92,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/cisco_evm_detect_html_help_url_in_command_line.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

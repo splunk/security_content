@@ -1,8 +1,8 @@
 name: Windows Dir Piped to Findstr Activity
 id: 43cd7a59-3d52-4969-a01a-d677630b1426
-version: 1
+version: 2
 creation_date: '2026-07-30'
-modification_date: '2026-07-30'
+modification_date: '2026-11-26'
 author: Raven Tait, Splunk
 status: production
 type: Hunting
@@ -15,6 +15,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
        count min(_time) as firstTime
@@ -61,3 +62,9 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/windows_dir_piped_to_findstr_activity/snapattack_windows.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/windows_dir_piped_to_findstr_activity/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
+      test_type: unit

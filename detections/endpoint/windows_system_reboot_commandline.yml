@@ -1,8 +1,8 @@
 name: Windows System Reboot CommandLine
 id: 97fc2b60-c8eb-4711-93f7-d26fade3686f
-version: 13
+version: 14
 creation_date: '2022-07-27'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
@@ -59,4 +60,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/reboot_logoff_commandline/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/reboot_logoff_commandline/cisco_evm_windows_system_reboot_commandline.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

@@ -1,8 +1,8 @@
 name: Windows Cmdline Tool Execution From Non-Shell Process
 id: 2afa393f-b88d-41b7-9793-623c93a2dfde
-version: 14
+version: 15
 creation_date: '2021-09-14'
-modification_date: '2026-10-12'
+modification_date: '2026-11-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -122,4 +123,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

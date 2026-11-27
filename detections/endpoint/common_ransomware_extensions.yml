@@ -1,8 +1,8 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
-version: 23
+version: 24
 creation_date: '2019-10-16'
-modification_date: '2026-09-22'
+modification_date: '2026-11-26'
 author: David Dorsey, Michael Haag, Nasreddine Bencherchali, Splunk, Steven Dick
 status: production
 type: TTP
@@ -12,6 +12,7 @@ description: |-
     If confirmed malicious, this activity could result in the encryption of critical data, rendering it inaccessible and causing significant damage to the organization's data integrity and availability.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -136,4 +137,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/ransom-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/cisco_evm_common_ransomware_extensions.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

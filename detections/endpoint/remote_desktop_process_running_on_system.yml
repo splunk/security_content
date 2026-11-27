@@ -1,8 +1,8 @@
 name: Remote Desktop Process Running On System
 id: f5939373-8054-40ad-8c64-cec478a22a4a
-version: 14
+version: 15
 creation_date: '2019-10-16'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: David Dorsey, Splunk
 status: experimental
 type: Hunting
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process=*mstsc.exe
@@ -43,3 +44,10 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.001/remote_desktop_process_running_on_system/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
+      test_type: unit

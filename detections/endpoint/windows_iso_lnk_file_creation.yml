@@ -1,14 +1,15 @@
 name: Windows ISO LNK File Creation
 id: d7c2c09b-9569-4a9e-a8b6-6a39a99c1d32
-version: 10
+version: 11
 creation_date: '2022-03-30'
-modification_date: '2026-05-13'
+modification_date: '2026-11-25'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Hunting
 description: The following analytic detects the creation of .iso.lnk files in the %USER%\AppData\Local\Temp\<random folder name>\ path, indicating that an ISO file has been mounted and accessed. This detection leverages the Endpoint.Filesystem data model, specifically monitoring file creation events in the Windows Recent folder. This activity is significant as it may indicate the delivery and execution of potentially malicious payloads via ISO files. If confirmed malicious, this could lead to unauthorized code execution, data exfiltration, or further system compromise.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\Microsoft\\Windows\\Recent\\*") Filesystem.file_name IN ("*.iso.lnk", "*.img.lnk", "*.vhd.lnk", "*vhdx.lnk") by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iso_lnk_file_creation_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: False positives may be high depending on the environment and consistent use of ISOs mounting. Restrict to servers, or filter out based on commonly used ISO names. Filter as needed.
@@ -45,4 +46,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.001/atomic_red_team/iso_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.001/atomic_red_team/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

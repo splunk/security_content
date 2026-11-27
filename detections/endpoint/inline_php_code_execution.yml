@@ -1,8 +1,8 @@
 name: Inline PHP Code Execution
 id: 312567b0-4e9b-4f3a-b842-a3ba17a89975
-version: 2
+version: 3
 creation_date: '2026-10-22'
-modification_date: '2026-10-28'
+modification_date: '2026-11-26'
 author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -16,6 +16,7 @@ data_source:
     - Sysmon EventID 1
     - Sysmon for Linux EventID 1
     - Windows Event Log Security 4688
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -133,4 +134,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/inline_php_exec_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php2shell/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

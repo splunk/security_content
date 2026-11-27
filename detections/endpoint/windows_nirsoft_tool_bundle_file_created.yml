@@ -1,8 +1,8 @@
 name: Windows NirSoft Tool Bundle File Created
 id: a2c8e8f8-18d6-4ad4-acf4-f58903bebe41
-version: 6
+version: 7
 creation_date: '2025-10-24'
-modification_date: '2026-10-01'
+modification_date: '2026-11-26'
 author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ description: |
     Security teams should investigate any instances of these files being created, especially if they are found in unexpected locations or on systems that should not be using such tools.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |
     | tstats `security_content_summariesonly`
       count values(Filesystem.file_path) as file_path
@@ -91,4 +92,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/nirsoft_tooling/nirsoft_file_bundle_created_new.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/nirsoft_tooling/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

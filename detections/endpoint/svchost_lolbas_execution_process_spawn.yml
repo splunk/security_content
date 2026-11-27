@@ -1,8 +1,8 @@
 name: Svchost LOLBAS Execution Process Spawn
 id: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
-version: 16
+version: 17
 creation_date: '2021-11-23'
-modification_date: '2026-10-09'
+modification_date: '2026-11-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -11,6 +11,7 @@ description: |-
     If confirmed malicious, this behavior could allow attackers to execute arbitrary commands, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
 data_source:
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -105,4 +106,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/svchost_lolbas_execution_process_spawn/windows-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/svchost_lolbas_execution_process_spawn/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

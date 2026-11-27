@@ -1,8 +1,8 @@
 name: System User Discovery With Whoami
 id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
-version: 12
+version: 13
 creation_date: '2021-08-24'
-modification_date: '2026-08-30'
+modification_date: '2026-11-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
@@ -57,4 +58,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/cisco_evm_system_user_discovery_with_whoami.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

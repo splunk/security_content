@@ -1,14 +1,15 @@
 name: Windows System File on Disk
 id: 993ce99d-9cdd-42c7-a2cf-733d5954e5a6
-version: 9
+version: 10
 creation_date: '2022-05-16'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
 description: The following analytic detects the creation of new .sys files on disk. It leverages the Endpoint.Filesystem data model to identify and log instances where .sys files are written to the filesystem. This activity is significant because .sys files are often used as kernel mode drivers, and their unauthorized creation can indicate malicious activity such as rootkit installation. If confirmed malicious, this could allow an attacker to gain kernel-level access, leading to full system compromise, persistent control, and the ability to bypass security mechanisms.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
       WHERE Filesystem.file_name="*.sys*"
@@ -44,4 +45,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/sysmon_sys_filemod.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

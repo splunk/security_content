@@ -1,8 +1,8 @@
 name: Windows New Service Security Descriptor Set Via Sc.EXE
 id: cde00c31-042a-4307-bf70-25e471da56e9
-version: 10
+version: 11
 creation_date: '2022-06-17'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -16,6 +16,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -90,4 +91,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564/sc_sdset_tampering/sc_sdset_tampering_sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564/sc_sdset_tampering/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

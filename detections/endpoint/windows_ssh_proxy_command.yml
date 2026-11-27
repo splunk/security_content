@@ -1,8 +1,8 @@
 name: Windows SSH Proxy Command
 id: ac520039-21f1-4567-b528-5b7133dba76f
-version: 7
+version: 8
 creation_date: '2025-03-24'
-modification_date: '2026-10-09'
+modification_date: '2026-11-26'
 author: Michael Haag, AJ King, Nasreddine Bencherchali, Splunk, Jesse Hunter, Splunk Community Contributor
 status: production
 type: Anomaly
@@ -12,6 +12,7 @@ description: |
     This technique can be used by attackers to execute arbitrary commands through SSH proxy configurations, potentially enabling command & control activities or remote code execution. The detection focuses on commonly abused Windows scripting engines and web requests that may indicate malicious activity when spawned through SSH proxy commands.
 data_source:
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -105,4 +106,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/ssh_proxy_command/sshproxycommand_windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/ssh_proxy_command/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

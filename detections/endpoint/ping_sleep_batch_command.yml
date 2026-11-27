@@ -1,8 +1,8 @@
 name: Ping Sleep Batch Command
 id: ce058d6c-79f2-11ec-b476-acde48001122
-version: 18
+version: 19
 creation_date: '2022-01-20'
-modification_date: '2026-10-09'
+modification_date: '2026-11-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ description: |-
     Because ping is commonly used for legitimate network troubleshooting, findings should be reviewed in the context of the complete command line, parent process, user, and commands executed before or after the delay.
 data_source:
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -129,4 +130,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/ping_sleep/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/ping_sleep/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

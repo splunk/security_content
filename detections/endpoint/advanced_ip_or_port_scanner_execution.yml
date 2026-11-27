@@ -1,8 +1,8 @@
 name: Advanced IP or Port Scanner Execution
 id: 9a4e50c7-5b62-4d52-93b4-f2b61332e9a5
-version: 4
+version: 5
 creation_date: '2025-10-24'
-modification_date: '2026-05-13'
+modification_date: '2026-11-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -95,4 +96,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/advanced_ip_port_scanner/advanced_ip_port_scanner.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/advanced_ip_port_scanner/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

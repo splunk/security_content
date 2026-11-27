@@ -1,8 +1,8 @@
 name: Windows Curl Upload to Remote Destination
 id: 42f8f1a2-4228-11ec-aade-acde48001122
-version: 18
+version: 19
 creation_date: '2021-11-10'
-modification_date: '2026-10-09'
+modification_date: '2026-11-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -16,6 +16,7 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -110,4 +111,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
           source: not_applicable
           sourcetype: cisco:nvm:flowdata:v2
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

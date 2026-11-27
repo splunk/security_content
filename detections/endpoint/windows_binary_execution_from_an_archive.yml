@@ -1,8 +1,8 @@
 name: Windows Binary Execution from an Archive
 id: 1516a16f-391e-457f-b9a3-a81dfdf218a6
-version: 2
+version: 3
 creation_date: '2026-05-05'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Raven Tait, Nasreddine Bencherchali, Splunk
 status: experimental
 type: Anomaly
@@ -13,6 +13,7 @@ description: |-
 data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -88,3 +89,10 @@ product:
     - Splunk Cloud
 category: endpoint
 security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/windows_binary_execution_from_an_archive/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
+      test_type: unit

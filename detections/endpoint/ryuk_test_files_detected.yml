@@ -1,14 +1,15 @@
 name: Ryuk Test Files Detected
 id: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
-version: 9
+version: 10
 creation_date: '2020-11-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-26'
 author: Rod Soto, Jose Hernandez, Splunk
 status: production
 type: TTP
 description: The following analytic identifies the presence of files containing the keyword "Ryuk" in any folder on the C drive, indicative of Ryuk ransomware activity. It leverages the Endpoint Filesystem data model to detect file paths matching this pattern. This activity is significant as Ryuk ransomware is known for its destructive impact, encrypting critical files and demanding ransom. If confirmed malicious, this could lead to significant data loss, operational disruption, and financial damage due to ransom payments and recovery efforts. Immediate investigation and response are crucial to mitigate potential damage.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem WHERE "Filesystem.file_path"=C:\\*Ryuk* by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ryuk_test_files_detected_filter`'
 how_to_implement: You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint Filesystem data-model object. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 known_false_positives: If there are files with this keywoord as file names it might trigger false possitives, please make use of our filters to tune out potential FPs.
@@ -51,4 +52,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

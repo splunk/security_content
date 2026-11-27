@@ -1,8 +1,8 @@
 name: Windows EventLog Recon Activity Using Log Query Utilities
 id: dc167f8b-3f9d-4460-9c98-8b6e703fd628
-version: 7
+version: 8
 creation_date: '2025-04-24'
-modification_date: '2026-05-13'
+modification_date: '2026-11-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -12,6 +12,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` values(Processes.process) as process
       min(_time) as firstTime max(_time) as lastTime
@@ -122,4 +123,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1654/eventlog_enumeration/eventlog_enumeration.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1654/eventlog_enumeration/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

@@ -1,8 +1,8 @@
 name: Windows Unusual File Creation in Confluence Directory
 id: aa9d80d9-ed47-44da-aceb-2909ca4dc19e
-version: 3
+version: 4
 creation_date: '2021-09-02'
-modification_date: '2026-09-08'
+modification_date: '2026-11-26'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -12,6 +12,7 @@ description: |-
     This won't catch adversaries who modify the output location outside the Confluence directory when exploiting.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -87,4 +88,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/snapattack/snapattack.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/snapattack/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit
