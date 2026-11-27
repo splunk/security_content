@@ -1,31 +1,75 @@
 name: ASL AWS Create Policy Version to allow all resources
 id: 22cc7a62-3884-48c4-82da-592b8199b72f
-version: 9
+version: 10
 creation_date: '2021-02-22'
-modification_date: '2026-05-13'
+modification_date: '2026-11-23'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation of a new AWS IAM policy version that allows access to all resources. It detects this activity by analyzing AWS CloudTrail logs for the CreatePolicyVersion event with a policy document that grants broad permissions. This behavior is significant because it violates the principle of least privilege, potentially exposing the environment to misuse or abuse. If confirmed malicious, an attacker could gain extensive access to AWS resources, leading to unauthorized actions, data exfiltration, or further compromise of the AWS environment.
+description: >-
+    The following analytic identifies successful AWS IAM CreatePolicy events
+    containing an Allow statement specifying all actions and all resources.
+    It analyzes Amazon Security Lake CloudTrail events and checks
+    Effect="Allow", Action="*", and Resource="*" within the same policy
+    statement. This behavior is significant because it may violate the
+    principle of least privilege, potentially exposing the environment to
+    misuse or abuse. Policy creation alone does not establish that the policy
+    was attached or that the caller gained its permissions.
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    `amazon_security_lake` api.operation=CreatePolicy
-      | spath input=api.request.data
-      | spath input=policyDocument
-      | regex Statement{}.Action="\*"
-      | regex Statement{}.Resource="\*"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY actor.user.uid api.operation api.service.name
-           http_request.user_agent src_endpoint.ip actor.user.account.uid
-           cloud.provider cloud.region api.request.data
-      | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `asl_aws_create_policy_version_to_allow_all_resources_filter`
+    `amazon_security_lake` api.operation=CreatePolicy api.service.name=iam.amazonaws.com status=Success
+    | spath input=api.request.data output=policy_document path=policyDocument
+    | spath input=policy_document output=matching_statement path=Statement{}
+    | mvexpand matching_statement
+    | spath input=matching_statement output=statement_effect path=Effect
+    | where statement_effect="Allow"
+    | spath input=matching_statement output=statement_action path=Action
+    | spath input=matching_statement output=statement_resource path=Resource
+    | spath input=matching_statement output=action_array_values path=Action{}
+    | spath input=matching_statement output=resource_array_values path=Resource{}
+    | eval action_values=coalesce(action_array_values, statement_action),
+        resource_values=coalesce(resource_array_values, statement_resource)
+    | where isnotnull(mvfind(action_values, "^\*$"))
+        AND isnotnull(mvfind(resource_values, "^\*$"))
+    | spath input=api.response.data output=policy_arn path=policy.arn
+    | spath input=api.response.data output=default_version_id path=policy.defaultVersionId
+    | rename actor.user.uid as user
+        api.operation as action
+        api.service.name as dest
+        http_request.user_agent as user_agent
+        src_endpoint.ip as src
+        actor.user.account.uid as vendor_account
+        cloud.provider as vendor_product
+        cloud.region as vendor_region
+        metadata.uid as event_id
+    | eval event_key=coalesce(event_id, sha256(_raw))
+    | stats count AS matching_row_count
+        min(_time) AS firstTime
+        max(_time) AS lastTime
+        values(event_id) AS event_id
+        values(user) AS user
+        values(action) AS action
+        values(dest) AS dest
+        values(user_agent) AS user_agent
+        values(src) AS src
+        values(vendor_account) AS vendor_account
+        values(vendor_product) AS vendor_product
+        values(vendor_region) AS vendor_region
+        values(status) AS status
+        values(policy_arn) AS policy_arn
+        values(default_version_id) AS default_version_id
+        values(matching_statement) AS matching_statement
+      BY event_key
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `asl_aws_create_policy_version_to_allow_all_resources_filter`
+    | fields - event_key
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
-known_false_positives: While this search has no known false positives, it is possible that an AWS admin has legitimately created a policy to allow a user to access all resources. That said, AWS strongly advises against granting full control to all AWS resources and you must verify this activity.
+known_false_positives: >-
+    Administrators may legitimately create policies containing wildcard Allow
+    statements. Matching policies may be unattached or constrained by conditions
+    and other authorization controls.
 references:
     - https://bishopfox.com/blog/privilege-escalation-in-aws
     - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
@@ -35,11 +79,11 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      search: '| from datamodel:"Risk.All_Risk" | search normalized_risk_object IN ("$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: "0"
 finding:
-    title: User $user$ created a policy version that allows them to access any resource in their account
+    title: User $user$ created policy $policy_arn$ with an Allow statement specifying all actions and all resources.
     entity:
         field: user
         type: user
