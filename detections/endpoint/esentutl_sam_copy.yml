@@ -1,8 +1,8 @@
 name: Esentutl SAM Copy
 id: d372f928-ce4f-11eb-a762-acde48001122
-version: 10
+version: 11
 creation_date: '2021-08-18'
-modification_date: '2026-10-02'
+modification_date: '2026-11-27'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
     as lastTime from datamodel=Endpoint.Processes where
@@ -52,4 +53,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/cisco_evm_esentutl_sam_copy.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

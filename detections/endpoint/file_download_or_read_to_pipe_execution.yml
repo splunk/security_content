@@ -1,8 +1,8 @@
 name: File Download or Read to Pipe Execution
 id: 26f86252-1549-45e1-a212-eb26840e86bc
-version: 6
+version: 7
 creation_date: '2025-10-24'
-modification_date: '2026-09-01'
+modification_date: '2026-11-27'
 author: Michael Haag, Nasreddine Bencherchali, Splunk, DipsyTipsy
 status: production
 type: TTP
@@ -16,6 +16,7 @@ data_source:
     - Sysmon for Linux EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
     as lastTime
@@ -148,4 +149,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/download_to_pipe_exec/download_to_pipe_exec_linux.log
           source: Syslog:Linux-Sysmon/Operational
           sourcetype: sysmon:linux
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/download_to_pipe_exec/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

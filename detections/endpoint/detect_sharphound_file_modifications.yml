@@ -1,14 +1,15 @@
 name: Detect SharpHound File Modifications
 id: 42b4b438-beed-11eb-ba1d-acde48001122
-version: 13
+version: 14
 creation_date: '2021-06-03'
-modification_date: '2026-10-02'
+modification_date: '2026-11-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 description: The following analytic detects the creation of files typically associated with SharpHound, a reconnaissance tool used for gathering domain and trust data. It leverages file modification events from the Endpoint.Filesystem data model, focusing on default file naming patterns like `*_BloodHound.zip` and various JSON files. This activity is significant as it indicates potential domain enumeration, which is a precursor to more targeted attacks. If confirmed malicious, an attacker could gain detailed insights into the domain structure, facilitating lateral movement and privilege escalation.
 data_source:
     - Sysmon EventID 11
+    - Cisco Endpoint Visibility Module File Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
       WHERE Filesystem.file_name IN ("*bloodhound.zip", "*_computers.json", "*_gpos.json", "*_domains.json", "*_users.json", "*_groups.json", "*_ous.json", "*_containers.json")
@@ -76,4 +77,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/cisco_evm_detect_sharphound_file_modifications.log
+          source: not_applicable
+          sourcetype: cisco:evm:file_activity
       test_type: unit

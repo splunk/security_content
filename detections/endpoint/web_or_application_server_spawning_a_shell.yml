@@ -1,8 +1,8 @@
 name: Web or Application Server Spawning a Shell
 id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
-version: 9
+version: 10
 creation_date: '2021-12-13'
-modification_date: '2026-11-23'
+modification_date: '2026-11-28'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -14,6 +14,7 @@ description: |
 data_source:
     - Sysmon for Linux EventID 1
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -243,4 +244,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php_cve_2026_115560/web_server_spawning_shell_windows.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/php_cve_2026_115560/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

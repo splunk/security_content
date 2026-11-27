@@ -1,8 +1,8 @@
 name: Windows Potential Cloudflared Tunnel Execution
 id: 2e29b58e-0f5a-42fc-b435-0fdce8862831
-version: 3
+version: 4
 creation_date: '2026-05-05'
-modification_date: '2026-11-14'
+modification_date: '2026-11-28'
 author: Raven Tait, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -120,4 +121,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/snapattack/snapattack.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/snapattack/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

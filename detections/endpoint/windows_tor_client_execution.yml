@@ -1,8 +1,8 @@
 name: Windows TOR Client Execution
 id: f164bc6f-ecbe-45e0-aaa6-f5c4d8c84b9a
-version: 4
+version: 5
 creation_date: '2026-02-02'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Vignesh Subramanian, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ data_source:
     - CrowdStrike ProcessRollup2
     - Sysmon EventID 1
     - Windows Event Log Security 4688
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
       from datamodel=Endpoint.Processes where
@@ -100,4 +101,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1090.003/windows_tor_client_execution/windows-sysmon.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1090.003/windows_tor_client_execution/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

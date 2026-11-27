@@ -1,8 +1,8 @@
 name: Headless Browser Mockbin or Mocky Request
 id: 94fc85a1-e55b-4265-95e1-4b66730e05c0
-version: 12
+version: 13
 creation_date: '2023-09-11'
-modification_date: '2026-05-13'
+modification_date: '2026-11-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
@@ -77,4 +78,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/headlessbrowser/headless_mockbin.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/headlessbrowser/cisco_evm_headless_browser_mockbin_or_mocky_request.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

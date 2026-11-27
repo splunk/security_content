@@ -1,8 +1,8 @@
 name: BITS Job Persistence
 id: e97a5ffe-90bf-11eb-928a-acde48001122
-version: 14
+version: 15
 creation_date: '2021-03-30'
-modification_date: '2026-11-10'
+modification_date: '2026-11-27'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -108,4 +109,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
           source: crowdstrike
           sourcetype: crowdstrike:events:sensor
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/cisco_evm_bits_job_persistence.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

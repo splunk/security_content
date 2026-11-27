@@ -1,8 +1,8 @@
 name: Windows AppCertDLL Modification Via Command Line
 id: 3ba73a2b-3396-47e4-bdef-c80e6a7895c0
-version: 2
+version: 3
 creation_date: '2021-05-07'
-modification_date: '2026-07-27'
+modification_date: '2026-11-27'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -14,6 +14,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -82,4 +83,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.009/snapattack/snapattack.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.009/snapattack/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

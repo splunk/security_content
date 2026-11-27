@@ -1,8 +1,8 @@
 name: Windows Disable Windows Event Logging Disable HTTP Logging
 id: 23fb6787-255f-4d5b-9a66-9fd7504032b5
-version: 15
+version: 16
 creation_date: '2022-06-17'
-modification_date: '2026-10-02'
+modification_date: '2026-11-28'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -11,6 +11,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE NOT (Processes.parent_process_name  IN ("msiexec.exe", "iissetup.exe")) Processes.process_name=appcmd.exe Processes.process IN ("*httplogging*","*dontlog:true*")
@@ -80,4 +81,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/disable_http_logging_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/cisco_evm_windows_disable_windows_event_logging_disable_http_logging.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit
