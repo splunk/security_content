@@ -1,17 +1,65 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 35
+version: 36
 creation_date: '2020-04-29'
-modification_date: '2026-10-09'
+modification_date: '2026-11-23'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
-type: TTP
-description: The following analytic identifies modifications to registry keys commonly used for persistence mechanisms. It leverages data from endpoint detection sources like Sysmon or Carbon Black, focusing on specific registry paths known to initiate applications or services during system startup. This activity is significant as unauthorized changes to these keys can indicate attempts to maintain persistence or execute malicious actions upon system boot. If confirmed malicious, this could allow attackers to achieve persistent access, execute arbitrary code, or maintain control over compromised systems, posing a severe threat to system integrity and security.
+type: Anomaly
+description: |-
+    The following analytic identifies modifications to registry keys commonly used for persistence mechanisms. It leverages data from endpoint detection sources like Sysmon or Carbon Black, focusing on specific registry paths known to initiate applications or services during system startup.
+    This activity is significant as unauthorized changes to these keys can indicate attempts to maintain persistence or execute malicious actions upon system boot.
+    If confirmed malicious, this could allow attackers to achieve persistent access, execute arbitrary code, or maintain control over compromised systems, posing a severe threat to system integrity and security.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce OR Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\\*" OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\*" OR Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run* OR Registry.registry_path=*\\currentversion\\runservices* OR Registry.registry_path=*\\SOFTWARE\\Microsoft\\Netsh\\* OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Common Startup" OR Registry.registry_path= *\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SharedTaskScheduler OR Registry.registry_path= *\\Classes\\htmlfile\\shell\\open\\command OR (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*" AND Registry.registry_key_name=Debugger) OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa" AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa\\OSConfig" AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\*") OR (Registry.registry_path="*currentVersion\\Windows" AND Registry.registry_key_name="Load") OR (Registry.registry_path="*\\CurrentVersion" AND Registry.registry_key_name="Svchost") OR (Registry.registry_path="*\\CurrentControlSet\Control\Session Manager"AND Registry.registry_key_name="BootExecute") OR (Registry.registry_path="*\\Software\\Run" AND Registry.registry_key_name="auto_update")) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `registry_keys_used_for_persistence_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
-known_false_positives: There are many legitimate applications that must execute on system startup and will use these registry keys to accomplish that task.
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Registry where
+
+    Registry.action = "modified"
+
+    Registry.registry_path IN (
+        "*\\Classes\\htmlfile\\shell\\open\\command",
+        "*\\CurrentControlSet\\Control\\Lsa\\OSConfig\\Security Packages",
+        "*\\CurrentControlSet\\Control\\Lsa\\Security Packages",
+        "*\\CurrentControlSet\\Control\\Session Manager\\BootExecute",
+        "*\\CurrentVersion\\Explorer\\SharedTaskScheduler",
+        "*\\CurrentVersion\\Explorer\\Shell Folders\\*",
+        "*\\CurrentVersion\\Explorer\\StartupApproved\\Run",
+        "*\\CurrentVersion\\Explorer\\User Shell Folders\\*",
+        "*\\CurrentVersion\\Image File Execution Options\\*\\Debugger",
+        "*\\CurrentVersion\\policies\\explorer\\run*",
+        "*\\CurrentVersion\\Run*",
+        "*\\CurrentVersion\\RunOnce",
+        "*\\CurrentVersion\\RunServices*",
+        "*\\CurrentVersion\\SilentProcessExit\\*",
+        "*\\CurrentVersion\\Svchost\\*",
+        "*\\CurrentVersion\\Windows\\Appinit_Dlls*",
+        "*\\CurrentVersion\\Windows\\Load",
+        "*\\CurrentVersion\\Winlogon\\Notify*",
+        "*\\CurrentVersion\\Winlogon\\Shell*",
+        "*\\CurrentVersion\\Winlogon\\Userinit*",
+        "*\\CurrentVersion\\Winlogon\\VmApplet*",
+        "*\\SOFTWARE\\Microsoft\\Netsh\\*"
+    )
+
+    by Registry.action Registry.dest Registry.process_guid Registry.process_id
+       Registry.registry_hive Registry.registry_path Registry.registry_key_name
+       Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
+       Registry.status Registry.user Registry.vendor_product
+
+    | `drop_dm_object_name(Registry)`
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `registry_keys_used_for_persistence_filter`
+how_to_implement: |-
+    To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
+known_false_positives: |-
+    There are many legitimate applications that must execute on system startup and will use these registry keys to accomplish that task.
 references:
     - https://github.com/redcanaryco/atomic-red-team/blob/388942adbd9641f4dfdcf079d7efe9a75ec0ac43/atomics/T1547.001/T1547.001.yaml#L5
 drilldown_searches:
@@ -23,68 +71,65 @@ drilldown_searches:
       search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       earliest_offset: 7d
       latest_offset: '0'
-finding:
-    title: A registry activity in $registry_path$ related to persistence in host $dest$
-    entity:
-        field: user
-        type: user
-        score: 50
 intermediate_findings:
     entities:
         - field: dest
           type: system
-          score: 50
-          message: A registry activity in $registry_path$ related to persistence in host $dest$
+          score: 20
+          message: A registry entry [$registry_path$] in a location commonly used for persistence was modified on [$dest$] by [$user$] with the value [$registry_value_data$].
+threat_objects:
+    - field: registry_value_data
+      type: registry_value_text
 analytic_story:
-    - Warzone RAT
-    - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-    - Sneaky Active Directory Persistence Tricks
-    - Windows Registry Abuse
-    - Chaos Ransomware
-    - DarkGate Malware
-    - Remcos
-    - Quasar RAT
-    - Braodo Stealer
-    - Qakbot
-    - Snake Keylogger
-    - China-Nexus Threat Activity
-    - IcedID
-    - CISA AA23-347A
-    - Ransomware
-    - XWorm
-    - Azorult
-    - Salt Typhoon
-    - Cactus Ransomware
-    - BlackSuit Ransomware
-    - BlackByte Ransomware
-    - SystemBC
-    - NjRAT
-    - DHS Report TA18-074A
-    - Derusbi
+    - 0bj3ctivity Stealer
     - Amadey
+    - APT37 Rustonotto and FadeStealer
+    - AsyncRAT
+    - Axios Supply Chain Post Compromise
+    - Azorult
+    - BlackByte Ransomware
+    - BlackSuit Ransomware
+    - Braodo Stealer
+    - Cactus Ransomware
+    - Castle RAT
+    - Chaos Ransomware
+    - China-Nexus Threat Activity
+    - CISA AA23-347A
+    - DarkCrystal RAT
+    - DarkGate Malware
+    - Derusbi
+    - DHS Report TA18-074A
+    - Emotet Malware DHS Report TA18-201A
+    - Gh0st RAT
+    - IcedID
+    - Interlock Ransomware
+    - Lokibot
+    - MoonPeak
+    - MuddyWater
+    - NetSupport RMM Tool Abuse
+    - NjRAT
+    - Phantom Stealer
+    - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+    - Qakbot
+    - Quasar RAT
+    - Ransomware
+    - RedLine Stealer
+    - Remcos
+    - Salat Stealer
+    - Salt Typhoon
+    - Snake Keylogger
+    - SnappyBee
+    - Sneaky Active Directory Persistence Tricks
+    - Starland RAT Campaign
     - Suspicious MSHTA Activity
     - Suspicious Windows Registry Activities
-    - Emotet Malware DHS Report TA18-201A
-    - WinDealer RAT
-    - AsyncRAT
-    - RedLine Stealer
-    - SnappyBee
-    - Windows Persistence Techniques
-    - MoonPeak
-    - Interlock Ransomware
-    - 0bj3ctivity Stealer
-    - APT37 Rustonotto and FadeStealer
-    - NetSupport RMM Tool Abuse
-    - DarkCrystal RAT
-    - Lokibot
+    - SystemBC
     - ValleyRAT
-    - Castle RAT
-    - MuddyWater
-    - Gh0st RAT
-    - Axios Supply Chain Post Compromise
-    - Salat Stealer
-    - Phantom Stealer
-    - Starland RAT Campaign
+    - Warzone RAT
+    - WinDealer RAT
+    - Windows Persistence Techniques
+    - Windows Registry Abuse
+    - XWorm
 asset_type: Endpoint
 atomic_guid:
     - e55be3fd-3521-4610-9d1a-e210e42dcf05
