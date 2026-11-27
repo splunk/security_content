@@ -1,0 +1,92 @@
+name: Cisco Secure Endpoint Behavioral Protection Threat Detection
+id: 6d4b07cb-dc88-48c6-99d2-6a95416000c4
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+description: |-
+    Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Enable Behavioral Protection in the endpoint policy, install the Cisco Security Cloud TA for Splunk, and configure its Secure Endpoint input with an API client, the correct regional API endpoint, the desired computer groups, and a destination index.
+source: not_applicable
+sourcetype: cisco:se
+supported_TA:
+    - name: Cisco Security Cloud
+      url: https://splunkbase.splunk.com/app/7404
+      version: 4.2.0
+fields:
+    - EndpointDataType
+    - bp_data.audit
+    - bp_data.details.actions{}
+    - bp_data.details.eng_ver
+    - bp_data.details.matched_activity.events{}.etw_account:create.target_user
+    - bp_data.details.matched_activity.events{}.etw_logon:success.src_ip
+    - bp_data.details.matched_activity.events{}.etw_logon:success.target_domain
+    - bp_data.details.matched_activity.events{}.etw_logon:success.target_user
+    - bp_data.details.matched_activity.events{}.etw_service:create.exec
+    - bp_data.details.matched_activity.events{}.etw_service:create.name
+    - bp_data.details.matched_activity.events{}.etw_service:create.path
+    - bp_data.details.matched_activity.events{}.etw_task:create.exec
+    - bp_data.details.matched_activity.events{}.etw_task:create.name
+    - bp_data.details.matched_activity.events{}.etw_task:create.path
+    - bp_data.details.matched_activity.events{}.file:create.name
+    - bp_data.details.matched_activity.events{}.file:create.path
+    - bp_data.details.matched_activity.events{}.file:create.user.name
+    - bp_data.details.matched_activity.events{}.file:move.name
+    - bp_data.details.matched_activity.events{}.file:move.old_name
+    - bp_data.details.matched_activity.events{}.file:move.path
+    - bp_data.details.matched_activity.events{}.file:move.user.name
+    - bp_data.details.matched_activity.events{}.file:read.cmd_line
+    - bp_data.details.matched_activity.events{}.file:read.guid
+    - bp_data.details.matched_activity.events{}.file:read.name
+    - bp_data.details.matched_activity.events{}.file:read.path
+    - bp_data.details.matched_activity.events{}.file:read.user.name
+    - bp_data.details.matched_activity.events{}.library:load.name
+    - bp_data.details.matched_activity.events{}.library:load.path
+    - bp_data.details.matched_activity.events{}.process:start.cmd_line
+    - bp_data.details.matched_activity.events{}.process:start.args{}
+    - bp_data.details.matched_activity.events{}.process:start.app.name
+    - bp_data.details.matched_activity.events{}.process:start.guid
+    - bp_data.details.matched_activity.events{}.process:start.parent_guid
+    - bp_data.details.matched_activity.events{}.process:start.parent_puid
+    - bp_data.details.matched_activity.events{}.process:start.parent_app.name
+    - bp_data.details.matched_activity.events{}.process:start.user.name
+    - bp_data.details.matched_activity.events{}.process:start.user.domain
+    - bp_data.details.matched_activity.events{}.registry:set.data_txt
+    - bp_data.details.matched_activity.events{}.registry:set.key
+    - bp_data.details.matched_activity.events{}.registry:set.puid
+    - bp_data.details.matched_activity.events{}.registry:set.value
+    - bp_data.details.matched_activity.events{}.registry:set.user.name
+    - bp_data.details.matched_activity.events{}.registry:set.user.domain
+    - bp_data.details.matched_activity.events{}.script:execution.cmd_line
+    - bp_data.details.matched_activity.events{}.script:execution.guid
+    - bp_data.details.matched_activity.events{}.script:execution.user.name
+    - bp_data.details.matched_activity.highlighted_fields{}
+    - bp_data.details.sig_id
+    - bp_data.details.sig_rev
+    - bp_data.details.sig_set_version
+    - bp_data.engine
+    - bp_data.name
+    - bp_data.remediated
+    - bp_data.severity
+    - bp_data.silent
+    - computer.connector_guid
+    - computer.hostname
+    - computer.network_addresses{}.ip
+    - connector_guid
+    - date
+    - detection
+    - event_type
+    - event_type_id
+    - group_guids{}
+    - id
+    - severity
+    - tactics{}
+    - techniques{}
+    - timestamp
+    - timestamp_nanoseconds
+output_fields: []
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/cisco-secure-cloud-app/user-guide/cisco-security-cloud-user-guide/m_configure_cisco_products_in_cisco_security_cloud.html
+example_log: |-
+    {"id": 7712671149376667676, "timestamp": 1795746188, "timestamp_nanoseconds": 561000000, "date": "2026-11-27T02:23:08+00:00", "event_type": "Threat Detection", "event_type_id": 553648222, "detection": "Hidden Local Account Created", "connector_guid": "6c20bdd9-6251-4ecc-a276-fa49dc581d08", "group_guids": ["28d5610e-b252-489e-8a22-6dc674fb07fe"], "severity": "Low", "computer": {"connector_guid": "6c20bdd9-6251-4ecc-a276-fa49dc581d08", "hostname": "EC2AMAZ-637FDSD.attackrange.local", "external_ip": "63.185.244.6", "active": true, "network_addresses": [{"ip": "10.0.2.12", "mac": "06:ff:e3:4f:c0:7b"}], "links": {"computer": "https://api.eu.amp.cisco.com/v1/computers/6c20bdd9-6251-4ecc-a276-fa49dc581d08", "trajectory": "https://api.eu.amp.cisco.com/v1/computers/6c20bdd9-6251-4ecc-a276-fa49dc581d08/trajectory", "group": "https://api.eu.amp.cisco.com/v1/groups/28d5610e-b252-489e-8a22-6dc674fb07fe"}}, "tactics": ["TA0003", "TA0005"], "techniques": ["T1136.001", "T1564"], "bp_data": {"audit": true, "details": {"actions": [], "eng_epoch": 19, "eng_ver": "6.0.0.34903", "matched_activity": {"events": [{"etw_account:create": {"delegate_to": [], "display_name": "<value not set>", "expires": "<never>", "group_id": 513, "home_dir": "<value not set>", "home_drive": "", "logon_hours": "All", "password_set": "<never>", "privileges": [], "profile_path": "<value not set>", "sam_name": "APDEBackup$", "script_path": "<value not set>", "subj_domain": "ATTACKRANGE", "subj_logon_id": 999, "subj_user": "EC2AMAZ-637FDSD$", "subj_user_sid": "532d312d352d3138", "target_domain": "EC2AMAZ-637FDSD", "target_user": "APDEBackup$", "target_user_sid": "532d312d352d32312d333030363937373331332d323139323632343831352d323139303239323938312d31303034", "ts": 1795746188231461300, "uac_flags": [], "upn": "", "workstations": []}}], "highlighted_fields": ["[0].app.path", "[0].cmd_line", "[0].target_user"], "limited": false, "matched": 1}, "schema": "endpoint", "schema_epoch": 18, "sig_id": 20240715220357, "sig_rev": 5, "sig_set_version": 156113}, "detection": "apde:20240715220357", "device": {"agent_list": [{"name": "Secure Endpoint", "uid": "6c20bdd9-6251-4ecc-a276-fa49dc581d08", "uid_alt": "5423f97e-ed99-4946-9519-11a3dff252cb", "vendor_name": "Cisco"}, {"name": "Secure Client", "uid": "b9ae3e7f-65fc-4cc6-80a3-1f8bc01b0d82", "uid_alt": "e90dbfaf-69d4-4f20-bc85-11f582d76e70", "vendor_name": "Cisco"}], "hostname": "EC2AMAZ-637FDSD.attackrange.local", "hw_info": {"bios_manufacturer": "Amazon EC2", "bios_ver": "AMAZON - 1", "cpu_bits": 64, "cpu_type": "Intel64 Family 6 Model 106 Stepping 6", "serial_number": "ec239155-47dc-7d0b-ba12-4d22bd9cd6e2", "uuid": "ec239155-47dc-7d0b-ba12-4d22bd9cd6e2", "vendor_name": "Amazon EC2"}, "network_interfaces": [{"ip": "10.0.2.12", "mac": "06:ff:e3:4f:c0:7b", "name": "Ethernet 2", "type_id": 1}], "os": {"build": "20348.5870", "edition": "ServerDatacenter", "name": "Windows", "type_id": 100, "version": "Windows Server"}, "os_machine_uuid": "06b549d7-62b5-412a-9553-2906b89eafbe", "type_id": 2}, "end_ts": 1795746188, "engine": "apde", "id": "7EDb6ccDfd", "name": "Hidden Local Account Created", "remediated": false, "severity": "low", "silent": false, "start_ts": 1795746188, "tactics": ["TA0003", "TA0005"], "techniques": ["T1136.001", "T1564"], "type": "activity", "sts": 1795746188, "normalized": {"observables": {"all": ["hidden local account created"]}, "severity_id": 2, "name": "hidden local account created"}}, "EndpointDataType": "events", "groups": [{"guid": "28d5610e-b252-489e-8a22-6dc674fb07fe", "name": "NasRangeGrp"}]}

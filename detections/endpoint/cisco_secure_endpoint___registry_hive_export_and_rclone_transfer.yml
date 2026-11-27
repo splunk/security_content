@@ -1,0 +1,151 @@
+name: Cisco Secure EP - Registry Hive Export and Rclone Transfer
+id: a3fac16e-b07c-4e55-b67d-3a885df2fbb4
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects a Windows registry hive export followed by an rclone copy of the exact exported file by correlating two Cisco Secure Endpoint Behavioral Protection alerts on the same endpoint.
+    This sequence can indicate collection and transfer of host configuration data or other sensitive registry content to a remote destination.
+    Review the exported hive, rclone remote, destination access logs, and whether the transfer completed; a SOFTWARE hive export alone does not establish credential theft.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20211119002713","20240715190623")
+
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.args{} output=process_args
+
+    | spath path=bp_data.details.matched_activity.events{1}.file:create.path output=created_path
+
+    | spath path=bp_data.details.matched_activity.events{1}.file:create.name output=created_name
+
+    | eval stage=if(sig_id="20211119002713","export","transfer"),
+           export_file=case(stage="export",lower(created_path."\\".created_name),
+                            stage="transfer",lower(mvindex(process_args,2))),
+           hive_key=if(stage="export",mvindex(process_args,2),null()),
+           remote_target=if(stage="transfer",mvindex(process_args,3),null()),
+           event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(export_file)
+            AND isnotnull(event_time)
+            AND (stage="export" OR isnotnull(remote_target))
+
+    | stats min(eval(if(stage="export",event_time,null()))) as export_time
+            min(eval(if(stage="transfer",event_time,null()))) as transfer_time
+            values(eval(if(stage="export",hive_key,null()))) as hive_key
+            values(eval(if(stage="transfer",remote_target,null()))) as remote_target
+            values(eval(if(stage="export",process_command,null()))) as export_command
+            values(eval(if(stage="transfer",process_command,null()))) as transfer_command
+            values(dest) as dest
+            values(user) as user
+      by endpoint_guid export_file
+
+    | where isnotnull(export_time)
+            AND isnotnull(transfer_time)
+            AND transfer_time>=export_time
+            AND transfer_time-export_time<=900
+
+    | eval firstTime=export_time,
+           lastTime=transfer_time,
+           user=coalesce(user,"unknown")
+
+    | table dest user endpoint_guid hive_key export_file remote_target
+            export_command transfer_command firstTime lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___registry_hive_export_and_rclone_transfer_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    Approved backup or migration software may export a registry hive and copy it with
+    rclone. Verify the hive, destination, transfer outcome, operator, and change record.
+    The rclone alert reports process start and does not alone prove receipt.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1012/
+    - https://attack.mitre.org/techniques/T1048/
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Registry hive exported then copied with rclone on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: export_file
+      type: file_path
+    - field: export_command
+      type: command
+    - field: transfer_command
+      type: command
+analytic_story:
+    - Compromised Windows Host
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1012
+    - T1048
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/registry_hive_export_and_rclone_transfer/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

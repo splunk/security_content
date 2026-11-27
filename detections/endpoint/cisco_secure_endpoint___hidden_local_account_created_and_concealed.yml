@@ -1,0 +1,151 @@
+name: Cisco Secure EP - Hidden Local Account Creation
+id: d649d2ed-34d0-4eda-85e7-c8bb306599e6
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects a local account created with a dollar suffix and hidden from the logon list by correlating Cisco Secure Endpoint Behavioral Protection account-creation and Winlogon UserList alerts for the same user.
+    Creating and concealing an account can indicate an attacker preparing persistent access to the endpoint.
+    Verify the account owner and any subsequent logons.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20240715220357","20220615133344")
+
+    | spath path=bp_data.details.matched_activity.events{0}.etw_account:create.target_user output=created_user
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.value output=registry_user
+
+    | rex field=process_command "(?i)\s/v\s+(?<hidden_user>\S+)\s+/t\s+REG_DWORD"
+
+    | rex field=process_command "(?i)\buser\s+(?<created_user_first>\S+\$)\s+\S+\s+/ADD(?:\s|$)"
+
+    | rex field=process_command "(?i)\buser\s+\S+\s+(?<created_user_second>\S+\$)\s+/ADD(?:\s|$)"
+
+    | eval account=lower(coalesce(created_user,registry_user,created_user_first,created_user_second,hidden_user))
+
+    | eval stage=case(sig_id="20240715220357","created",
+               sig_id="20220615133344","hidden")
+
+    | eval event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(account)
+            AND isnotnull(event_time)
+
+    | sort 0 endpoint_guid account event_time
+
+    | streamstats max(eval(if(stage="created",event_time,null()))) as create_time
+      by endpoint_guid account
+
+    | where stage="hidden"
+            AND isnotnull(create_time)
+            AND event_time>=create_time
+            AND event_time-create_time<=600
+
+    | eval firstTime=create_time,
+           lastTime=event_time,
+           hide_command=process_command
+
+    | dedup endpoint_guid account create_time
+
+    | eval user=coalesce(user,"unknown")
+
+    | table dest user endpoint_guid account hide_command firstTime lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___hidden_local_account_created_and_concealed_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    Endpoint management software may intentionally create service accounts with a trailing dollar
+    sign and hide them from the logon UI. Review the creator process, account owner, and documented
+    provisioning workflow before escalating.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1136/001/
+    - https://attack.mitre.org/techniques/T1564/002/
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.002/T1564.002.md
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Local account $account$ created and hidden on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: account
+      type: user
+    - field: hide_command
+      type: command
+analytic_story:
+    - Compromised Windows Host
+    - Windows Persistence Techniques
+asset_type: Endpoint
+atomic_guid:
+    - 173126b7-afe4-45eb-8680-fa9f6400431c
+mitre_attack_id:
+    - T1136.001
+    - T1564.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/hidden_local_account_creation_and_concealment/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

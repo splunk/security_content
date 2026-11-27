@@ -1,0 +1,8 @@
+name: cisco_secure_endpoint
+id: 2c8a76c4-4d4c-4b58-aa7d-7f4e02b10e9b
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+description: Select Cisco Secure Endpoint events collected by the Cisco Security Cloud TA. The macro intentionally contains no index constraint so deployments can use their own index configuration.
+definition: sourcetype="cisco:se"

@@ -1,0 +1,36 @@
+name: Cisco Secure Endpoint Cloud IOC
+id: b978aba7-af1c-4d6f-9258-658a32276846
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+description: |-
+    Cisco Secure Endpoint Cloud IOC alerts identify endpoint activity matched by cloud-hosted OpenIOC content. Enable Cloud IOC event collection in the Cisco Security Cloud TA for Splunk, configure its Secure Endpoint input with an API client and the correct regional API endpoint, and select a destination index. Preserve the original JSON so searches can inspect the IOC name, command line, file, and endpoint fields.
+source: not_applicable
+sourcetype: cisco:se
+supported_TA:
+    - name: Cisco Security Cloud
+      url: https://splunkbase.splunk.com/app/7404
+      version: 4.2.0
+fields:
+    - cloud_ioc.description
+    - cloud_ioc.short_description
+    - command_line.arguments
+    - computer.connector_guid
+    - computer.hostname
+    - connector_guid
+    - event_type
+    - file.file_name
+    - file.file_path
+    - file.identity.sha256
+    - id
+    - severity
+    - start_timestamp
+    - timestamp
+    - timestamp_nanoseconds
+output_fields: []
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/cisco-secure-cloud-app/user-guide/cisco-security-cloud-user-guide/m_configure_cisco_products_in_cisco_security_cloud.html
+example_log: |-
+    {"id":6098970475107177214,"timestamp":1795806842,"timestamp_nanoseconds":845000000,"date":"2026-11-27T19:14:02+00:00","event_type":"Cloud IOC","event_type_id":1107296274,"connector_guid":"6c20bdd9-6251-4ecc-a276-fa49dc581d08","group_guids":["28d5610e-b252-489e-8a22-6dc674fb07fe"],"severity":"Critical","start_timestamp":1795806842,"start_date":"2026-11-27T19:14:02+00:00","computer":{"connector_guid":"6c20bdd9-6251-4ecc-a276-fa49dc581d08","hostname":"EC2AMAZ-637FDSD.attackrange.local","external_ip":"63.185.244.6","active":true,"network_addresses":[{"ip":"10.0.2.12","mac":"06:ff:e3:4f:c0:7b"}],"links":{"computer":"https://api.eu.amp.cisco.com/v1/computers/6c20bdd9-6251-4ecc-a276-fa49dc581d08","trajectory":"https://api.eu.amp.cisco.com/v1/computers/6c20bdd9-6251-4ecc-a276-fa49dc581d08/trajectory","group":"https://api.eu.amp.cisco.com/v1/groups/28d5610e-b252-489e-8a22-6dc674fb07fe"}},"cloud_ioc":{"description":"BadRabbit is a ransomware that propagates via drive-by-attacks, brute forcing, and exploitation over SMB. A command similar to one used by BadRabbit was seen.","short_description":"W32.BadRabbit.ioc"},"file":{"disposition":"Unknown","file_name":"schtasks.exe","file_path":"file:///C%3A/Windows/system32/schtasks.exe","identity":{"sha256":"0b4910d54dc87a845ed4bf2295152074d9fef7713386fa4ebf365db648111278"},"parent":{"disposition":"Unknown","identity":{"sha256":"38f4384643b3fa0de714d2367b712c2e0fa1c89e2cfd131ae6b831ad962b1033"}}},"command_line":{"arguments":"C:\\Windows\\system32\\schtasks.exe /Create /SC ONSTART /TN rhaegal /TR C:\\Windows\\dispci.exe /RU SYSTEM /F"},"tactics":["TA0002","TA0003","TA0004"],"techniques":["T1053"],"EndpointDataType":"events","groups":[{"guid":"28d5610e-b252-489e-8a22-6dc674fb07fe","name":"NasRangeGrp"}]}

@@ -1,0 +1,191 @@
+name: Cisco Secure EP - Registry Payload Dual Persistence and Execution
+id: 86845dd4-2fb5-4d37-8095-96d054f5099a
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects a registry-resident PowerShell payload referenced by a Run value and scheduled task, then executed by Task Scheduler, by correlating Cisco Secure Endpoint Behavioral Protection alerts for the same HKCU or HKLM key. An earlier download for that key is included when observed from the same writer process.
+    Two persistence paths leading to observed execution can indicate an attacker maintaining a fileless payload.
+    Inspect the registry payload and task action.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20200719101800","20201208164752","20220408163700","20170104055521")
+
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.data_txt output=run_data
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.value output=run_value
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.puid output=setter_puid
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.parent_puid output=parent_puid
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.app.name output=process_name
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.parent_app.name output=parent_name
+
+    | rex field=run_data "(?i)(?<run_payload_key>HK(?:CU|LM):[^)\s]+)"
+
+    | rex field=process_command "(?i)(?<command_payload_key>HK(?:CU|LM):[^)\s]+)"
+
+    | rex field=process_command "(?i)/TN\s+(?<task_name>\S+)"
+
+    | rex field=process_command "(?i)DownloadString\('(?<download_url>https?://[^']+)'\)"
+
+    | eval payload_key=lower(coalesce(run_payload_key,command_payload_key)),
+       stage=case(sig_id="20200719101800","download",
+           sig_id="20201208164752","run",
+               sig_id="20220408163700","task",
+               sig_id="20170104055521" AND lower(process_name)="powershell.exe" AND lower(parent_name) IN ("svchost.exe","taskeng.exe","taskhostw.exe"),"execute")
+
+    | eval event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(payload_key)
+            AND isnotnull(stage)
+            AND isnotnull(event_time)
+
+    | stats min(eval(if(stage="download",event_time,null()))) as download_time
+        min(eval(if(stage="run",event_time,null()))) as run_time
+            min(eval(if(stage="task",event_time,null()))) as task_time
+            min(eval(if(stage="execute",event_time,null()))) as execute_time
+        values(eval(if(stage="download",parent_puid,null()))) as download_writer
+        values(eval(if(stage="run",setter_puid,null()))) as run_writer
+            values(eval(if(stage="task",parent_puid,null()))) as task_writer
+        values(eval(if(stage="download",download_url,null()))) as download_url
+        values(eval(if(stage="download",process_command,null()))) as download_command
+        values(eval(if(stage="run",run_value,null()))) as run_value
+            values(eval(if(stage="task",task_name,null()))) as task_name
+            values(eval(if(stage="run",run_data,null()))) as run_command
+            values(eval(if(stage="task",process_command,null()))) as task_command
+            values(eval(if(stage="execute",process_command,null()))) as execution_command
+            values(dest) as dest
+            values(user) as user
+      by endpoint_guid payload_key
+
+    | where isnotnull(run_time)
+            AND isnotnull(task_time)
+            AND isnotnull(execute_time)
+            AND mvindex(run_writer,0)=mvindex(task_writer,0)
+            AND run_time<=task_time
+            AND task_time<=execute_time
+            AND execute_time-run_time<=300
+
+    | eval download_time=if(isnotnull(download_time) AND download_time<=run_time AND execute_time-download_time<=300 AND mvindex(download_writer,0)=mvindex(run_writer,0),download_time,null())
+
+    | eval download_url=if(isnotnull(download_time),download_url,null()),
+           download_command=if(isnotnull(download_time),download_command,null()),
+           firstTime=coalesce(download_time,run_time),
+           lastTime=execute_time
+
+    | eval user=coalesce(user,"unknown")
+
+    | table dest user endpoint_guid payload_key run_value
+            task_name download_url download_command run_command task_command
+            execution_command firstTime
+            lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___registry_payload_run_task_and_execution_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    An approved application could store a script in the registry and invoke it through both a Run
+    value and scheduled task. Review the stored payload, task registration and action, account,
+    parent processes, and deployment change record. The Run alert does not prove a logon execution.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1547/001/
+    - https://attack.mitre.org/techniques/T1053/005/
+    - https://attack.mitre.org/techniques/T1112/
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://attack.mitre.org/techniques/T1105/
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Registry payload set in Run and task, then executed on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: payload_key
+      type: registry_path
+    - field: run_value
+      type: registry_value_name
+    - field: download_url
+      type: url
+    - field: execution_command
+      type: command
+analytic_story:
+    - Compromised Windows Host
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1547.001
+    - T1053.005
+    - T1112
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/registry_payload_run_task_execution/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit
+    - name: True Positive Test - Cisco Secure Endpoint BP With Download
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/downloaded_registry_payload_run_task_execution/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

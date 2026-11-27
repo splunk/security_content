@@ -1,0 +1,173 @@
+name: Cisco Secure EP - Encoded Script Decoded and Executed
+id: 6cceef1d-a64d-4608-ad82-6979c30e1d75
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects an encoded PowerShell script downloaded, decoded with certutil, and executed hidden by correlating three Cisco Secure Endpoint Behavioral Protection alerts for linked file paths.
+    Staging encoded content before execution can obscure a payload and complicate review of its source.
+    Inspect both encoded and decoded files and the execution command.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20200719101800","20200716100139","20201202215412")
+
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.parent_guid output=parent_guid
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.args{} output=process_args
+
+    | eval stage=case(sig_id="20200719101800","download",
+               sig_id="20200716100139","decode",
+               sig_id="20201202215412","execute")
+
+    | rex field=process_command "(?i)WriteAllText\('(?<download_file>[A-Za-z]:[^']+)'"
+
+    | rex field=process_command "(?i)ReadAllText\('(?<executed_file>[A-Za-z]:[^']+\.ps1)'"
+
+    | eval download_file=lower(download_file),
+           executed_file=lower(executed_file)
+
+    | eval encoded_input=if(stage="decode",lower(mvindex(process_args,2)),null()),
+           decoded_output=if(stage="decode",lower(mvindex(process_args,3)),null())
+
+    | eval event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(parent_guid)
+            AND isnotnull(event_time)
+
+    | sort 0 endpoint_guid parent_guid event_time
+
+    | streamstats last(eval(if(stage="download",download_file,null()))) as prior_download_file
+                  last(eval(if(stage="download",process_command,null()))) as prior_download_command
+                  max(eval(if(stage="download",event_time,null()))) as download_time
+      by endpoint_guid parent_guid
+
+    | eval valid_decode=if(stage="decode" AND encoded_input=prior_download_file AND isnotnull(decoded_output) AND event_time>=download_time AND event_time-download_time<=300,1,0)
+
+    | streamstats last(eval(if(valid_decode=1,decoded_output,null()))) as prior_decoded_file
+                  last(eval(if(valid_decode=1,encoded_input,null()))) as prior_encoded_file
+                  last(eval(if(valid_decode=1,prior_download_command,null()))) as download_command
+                  last(eval(if(valid_decode=1,process_command,null()))) as decode_command
+                  max(eval(if(valid_decode=1,event_time,null()))) as decode_time
+                  max(eval(if(valid_decode=1,download_time,null()))) as first_event_time
+      by endpoint_guid parent_guid
+
+    | where stage="execute"
+            AND executed_file=prior_decoded_file
+            AND isnotnull(decode_time)
+            AND event_time>=decode_time
+            AND event_time-decode_time<=300
+            AND event_time-first_event_time<=300
+
+    | eval encoded_file=prior_encoded_file,
+           decoded_file=prior_decoded_file,
+           execution_command=process_command,
+           firstTime=first_event_time,
+           lastTime=event_time
+
+    | dedup endpoint_guid parent_guid encoded_file decoded_file firstTime
+
+    | eval user=coalesce(user,"unknown")
+
+    | table dest user endpoint_guid parent_guid encoded_file
+            decoded_file download_command decode_command execution_command firstTime
+            lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___encoded_script_download_decoded_and_executed_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    An approved deployment workflow may download encoded scripts, decode them with certutil, and
+    execute them from Temp. Review the source URL, decoded script, account, parent process, and
+    deployment change record.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1105/
+    - https://attack.mitre.org/techniques/T1140/
+    - https://attack.mitre.org/techniques/T1059/001/
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Encoded script downloaded, decoded, and executed on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: decoded_file
+      type: file_path
+    - field: encoded_file
+      type: file_path
+    - field: execution_command
+      type: command
+analytic_story:
+    - Compromised Windows Host
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1105
+    - T1140
+    - T1059.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/encoded_script_download_decode_execute/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

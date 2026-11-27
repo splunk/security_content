@@ -1,0 +1,141 @@
+name: Cisco Secure EP - Scheduled Remote MSHTA Payload Executed
+id: 74d16b98-1d41-4b5a-a126-4591d3524c52
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects a scheduled task configured to launch a remote URL with mshta and a subsequent mshta execution by correlating two Cisco Secure Endpoint Behavioral Protection alerts on the same endpoint and exact URL.
+    This sequence can indicate that an attacker used Task Scheduler to execute script content hosted on a remote service, combining persistence or delayed execution with a trusted Windows binary.
+    Review the task action, remote content, network destination, and whether the task remains registered.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20220810202512","20210616150648")
+
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+
+    | rex field=process_command "(?i)(?<remote_url>https?://[A-Za-z0-9._~:/?#@!$&()*+,;=%-]+)"
+
+    | eval stage=if(sig_id="20220810202512","task","execution"),
+           remote_url=lower(remote_url),
+           event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(remote_url)
+            AND isnotnull(event_time)
+
+    | stats min(eval(if(stage="task",event_time,null()))) as task_time
+            min(eval(if(stage="execution",event_time,null()))) as execution_time
+            values(eval(if(stage="task",process_command,null()))) as task_command
+            values(eval(if(stage="execution",process_command,null()))) as execution_command
+            values(dest) as dest
+            values(user) as user
+      by endpoint_guid remote_url
+
+    | where isnotnull(task_time)
+            AND isnotnull(execution_time)
+            AND execution_time>=task_time
+            AND execution_time-task_time<=300
+
+    | eval firstTime=task_time,
+           lastTime=execution_time,
+           user=coalesce(user,"unknown")
+
+    | table dest user endpoint_guid remote_url task_command execution_command
+            firstTime lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___scheduled_remote_mshta_payload_executed_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    Approved administration may schedule remote content hosted by an internal service. Verify the
+    URL, content, task owner, and change record. The alerts establish task creation
+    and mshta process start; they do not alone prove that the remote script completed.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1053/005/
+    - https://attack.mitre.org/techniques/T1218/005/
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Scheduled remote MSHTA payload launched on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: remote_url
+      type: url
+    - field: task_command
+      type: command
+    - field: execution_command
+      type: command
+analytic_story:
+    - Compromised Windows Host
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1053.005
+    - T1218.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/scheduled_remote_hta_executed/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

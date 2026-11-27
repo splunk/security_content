@@ -1,0 +1,151 @@
+name: Cisco Secure EP - NTDS Shadow Export Followed by Rclone Copy
+id: bcf73913-f69a-47b8-9170-b4e9e2682de7
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects a VSS shadow copy and NTDS database export followed by an rclone copy command referencing that exact ntds.dit file, by correlating two Cisco Secure Endpoint Behavioral Protection alerts on the same endpoint.
+    The sequence can indicate Active Directory database staging and off-host transfer, which could expose directory credentials and secrets. The rclone alert records a copy command; it does not by itself prove transfer completion.
+    Verify the exported file, transfer destination and completion, account authorization, and any related directory access.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20251021123145","20240715190623")
+
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.args{} output=process_args
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.user.domain output=actor_domain
+    | spath path=bp_data.details.matched_activity.events{1}.file:create.path output=export_dir
+    | spath path=bp_data.details.matched_activity.events{1}.file:create.name output=export_name
+
+    | eval stage=if(sig_id="20251021123145","export","transfer"),
+           actor=lower(user),
+           actor_domain=lower(actor_domain),
+           event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000,
+           export_file_candidate=if(stage="export",export_dir.urldecode("%5C").export_name,null()),
+           export_time_candidate=if(stage="export",event_time,null()),
+           vss_command_candidate=if(stage="export",process_command,null()),
+           transfer_source=if(stage="transfer",lower(mvindex(process_args,2)),null()),
+           transfer_destination=if(stage="transfer",mvindex(process_args,3),null())
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(actor)
+            AND isnotnull(actor_domain)
+            AND isnotnull(event_time)
+
+    | sort 0 endpoint_guid actor_domain actor event_time
+
+    | streamstats last(export_time_candidate) as export_time
+            last(export_file_candidate) as export_file
+            last(vss_command_candidate) as vss_command
+      by endpoint_guid actor_domain actor
+
+    | where stage="transfer"
+            AND isnotnull(export_time)
+            AND isnotnull(export_file)
+            AND transfer_source=lower(export_file)
+            AND event_time>=export_time
+            AND event_time-export_time<=600
+
+    | eval user=actor_domain.urldecode("%5C").actor,
+           firstTime=export_time,
+           lastTime=event_time
+
+    | table dest user endpoint_guid export_file vss_command
+            process_command transfer_destination firstTime lastTime
+    | rename process_command as transfer_command
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___ntds_shadow_export_followed_by_rclone_copy_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    Approved domain controller media creation or backup can export NTDS and copy the file to an administrative repository. Confirm the transfer destination, operator, change record, and storage controls.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc788055(v=ws.11)
+    - https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/simplified-administration-appendix
+    - https://attack.mitre.org/techniques/T1003/003/
+    - https://attack.mitre.org/techniques/T1048/
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: NTDS export followed by rclone copy on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: export_file
+      type: file_path
+    - field: transfer_command
+      type: command
+    - field: transfer_destination
+      type: file_path
+analytic_story:
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1003.003
+    - T1048
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/ntds_shadow_export_rclone_copy/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

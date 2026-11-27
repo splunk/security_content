@@ -1,0 +1,158 @@
+name: Cisco Secure EP - Run Key and Task Reference Same Executable
+id: 5d9eb9a0-52e7-4634-9a69-1d46a671d62a
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects one executable targeted by both a Run value and scheduled task by correlating Cisco Secure Endpoint Behavioral Protection registry and task alerts for the same file path.
+    Redundant persistence mechanisms can indicate an attacker trying to keep an executable active after restart or logon.
+    Review the executable, task schedule, and software deployment context.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20201208164752","20220713143144")
+
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.data_txt output=run_data
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.key output=run_key
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.value output=run_value
+    | spath path=bp_data.details.matched_activity.events{0}.file:create.path output=file_dir
+    | spath path=bp_data.details.matched_activity.events{0}.file:create.name output=file_name
+    | spath path=bp_data.details.matched_activity.events{1}.etw_task:create.name output=task_name
+
+    | rex field=run_data "^\W*(?<run_file>[A-Za-z]:.*?\.exe)"
+
+    | eval file_ref=lower(case(sig_id="20201208164752",run_file,sig_id="20220713143144",file_dir.urldecode("%5C").file_name))
+
+    | eval stage=case(sig_id="20201208164752","run_key",
+               sig_id="20220713143144","task")
+
+    | eval event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(file_ref)
+            AND isnotnull(event_time)
+
+    | sort 0 endpoint_guid file_ref event_time
+
+    | streamstats max(eval(if(stage="run_key",event_time,null()))) as run_time
+                  last(eval(if(stage="run_key",run_key,null()))) as previous_run_key
+                  last(eval(if(stage="run_key",run_value,null()))) as previous_run_value
+      by endpoint_guid file_ref
+
+    | where stage="task"
+            AND isnotnull(run_time)
+            AND event_time>=run_time
+            AND event_time-run_time<=300
+
+    | eval firstTime=run_time,
+           lastTime=event_time,
+           run_key=previous_run_key,
+           run_value=previous_run_value
+
+    | dedup endpoint_guid file_ref run_time
+
+    | eval user=coalesce(user,"unknown")
+
+    | table dest user endpoint_guid file_ref run_key
+            run_value task_name firstTime lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___run_key_and_scheduled_task_reference_same_executable_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    Legitimate software installers or updaters may create both a Run value and a scheduled task for
+    the same executable. A long command line can be benign. Review file signature, task schedule,
+    parent process, and software deployment context before escalating.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1547/001/
+    - https://attack.mitre.org/techniques/T1053/005/
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.001/T1547.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Run key and task reference the same executable on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: run_key
+      type: registry_path
+    - field: run_value
+      type: registry_value_name
+    - field: file_ref
+      type: file_path
+analytic_story:
+    - Windows Persistence Techniques
+    - Compromised Windows Host
+asset_type: Endpoint
+atomic_guid:
+    - e55be3fd-3521-4610-9d1a-e210e42dcf05
+    - 42f53695-ad4a-4546-abb6-7d837f644a71
+mitre_attack_id:
+    - T1547.001
+    - T1053.005
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/dual_persistence_same_executable/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

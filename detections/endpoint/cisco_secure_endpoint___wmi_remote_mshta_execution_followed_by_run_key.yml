@@ -1,0 +1,156 @@
+name: Cisco Secure EP - WMI Remote MSHTA Execution and Run Key
+id: 167ad3d9-e255-41cf-bef1-3ed3685d815c
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects WMI launching mshta with a remote URL and a Run value later referencing the same URL by correlating Cisco Secure Endpoint Behavioral Protection alerts.
+    Remote script execution followed by logon persistence can indicate a continuing endpoint compromise.
+    Review the remote content and Run value; the alert does not prove later logon execution.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20190409192004","20210616150648","20220810091525")
+
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.data_txt output=run_data
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.key output=run_key
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.value output=run_value
+
+    | eval stage=case(sig_id="20190409192004","wmi",
+               sig_id="20210616150648","mshta",
+               sig_id="20220810091525","persist")
+
+    | rex field=process_command "(?i)mshta(?:\.exe)?\s+['\"]?(?<process_url>https?://[^\s'\"]+)"
+
+    | rex field=run_data "(?i)mshta(?:\.exe)?\s+['\"]?(?<run_url>https?://[^\s'\"]+)"
+
+    | eval remote_url=coalesce(process_url,run_url),
+           event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(remote_url)
+            AND isnotnull(event_time)
+
+    | stats min(eval(if(stage="wmi",event_time,null()))) as wmi_time
+            min(eval(if(stage="mshta",event_time,null()))) as mshta_time
+            min(eval(if(stage="persist",event_time,null()))) as run_time
+        values(eval(if(stage="wmi",process_command,null()))) as wmi_command
+            values(eval(if(stage="mshta",process_command,null()))) as mshta_command
+            values(eval(if(stage="persist",run_key,null()))) as run_key
+            values(eval(if(stage="persist",run_value,null()))) as run_value
+            values(dest) as dest
+            values(user) as user
+      by endpoint_guid remote_url
+
+    | where isnotnull(wmi_time)
+            AND isnotnull(mshta_time)
+            AND isnotnull(run_time)
+            AND wmi_time<=mshta_time
+            AND mshta_time<=run_time
+            AND run_time-wmi_time<=300
+
+    | eval firstTime=wmi_time,
+           lastTime=run_time
+
+    | eval user=coalesce(user,"unknown")
+
+    | table dest user endpoint_guid remote_url run_key
+            run_value wmi_command mshta_command firstTime lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___wmi_remote_mshta_execution_followed_by_run_key_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    An approved application may launch remote content through mshta and WMI and register it for logon.
+    Inspect the content and URL, WMI process result, Run key scope, account, and change record.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1047/
+    - https://attack.mitre.org/techniques/T1218/005/
+    - https://attack.mitre.org/techniques/T1547/001/
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: WMI-launched remote MSHTA payload added to Run on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: run_key
+      type: registry_path
+    - field: run_value
+      type: registry_value_name
+    - field: remote_url
+      type: url
+analytic_story:
+    - Compromised Windows Host
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1047
+    - T1218.005
+    - T1547.001
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/wmi_remote_hta_run_key/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

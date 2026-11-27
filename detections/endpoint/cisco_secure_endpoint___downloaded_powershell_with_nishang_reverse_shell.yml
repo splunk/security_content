@@ -1,0 +1,152 @@
+name: Cisco Secure EP - Downloaded PowerShell With Nishang Reverse Shell
+id: ae464966-9548-4544-a9dd-b8bcb478107a
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects a PowerShell process that downloads script content and then triggers a Nishang reverse-shell alert, by correlating two Cisco Secure Endpoint Behavioral Protection alerts on the same endpoint and process GUID.
+    The linked delivery and reverse-shell behavior can indicate an attacker establishing script-based command and control. Review the downloaded content, destination, and network session; the alerts do not prove that a remote operator received a shell.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20200719101800","20250306001111")
+
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.guid output=start_guid
+
+    | spath path=bp_data.details.matched_activity.events{0}.script:execution.guid output=script_guid
+
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=start_command
+
+    | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+
+    | spath path=bp_data.details.matched_activity.events{0}.script:execution.user.name output=script_user
+
+    | eval stage=if(sig_id="20200719101800","download","shell"),
+           process_guid=coalesce(start_guid,script_guid),
+           process_command=coalesce(start_command,script_command),
+           user=coalesce(user,script_user),
+           event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | rex field=process_command "(?i)(?<payload_url>https?://[A-Za-z0-9._~:/?#@!$&()*+,;=%-]+)"
+
+    | eval payload_url=lower(payload_url)
+
+    | where isnotnull(endpoint_guid)
+            AND isnotnull(process_guid)
+            AND isnotnull(event_time)
+
+    | stats min(eval(if(stage="download",event_time,null()))) as download_time
+            min(eval(if(stage="shell",event_time,null()))) as shell_time
+            values(eval(if(stage="download",payload_url,null()))) as payload_url
+            values(eval(if(stage="download",process_command,null()))) as download_command
+            values(eval(if(stage="shell",process_command,null()))) as shell_command
+            values(dest) as dest
+            values(user) as user
+      by endpoint_guid process_guid
+
+    | where isnotnull(download_time)
+            AND isnotnull(shell_time)
+            AND isnotnull(payload_url)
+            AND shell_time>=download_time
+            AND shell_time-download_time<=120
+
+    | eval firstTime=download_time,
+           lastTime=shell_time,
+           user=coalesce(user,"unknown")
+
+    | table dest user endpoint_guid process_guid payload_url
+            download_command shell_command firstTime lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___downloaded_powershell_with_nishang_reverse_shell_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    An approved test harness could download a PowerShell script that resembles a reverse shell.
+    Verify the script contents, URL, network session, operator, and change record. The process
+    and script alerts do not prove a completed callback.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://attack.mitre.org/techniques/T1095/
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Downloaded PowerShell triggered Nishang shell on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: payload_url
+      type: url
+    - field: shell_command
+      type: command
+analytic_story:
+    - Compromised Windows Host
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1059.001
+    - T1095
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/downloaded_powershell_with_nishang_reverse_shell/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

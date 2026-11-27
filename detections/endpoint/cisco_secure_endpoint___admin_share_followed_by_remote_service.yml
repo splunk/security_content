@@ -1,0 +1,161 @@
+name: Cisco Secure EP - Admin Share Followed by Remote Service
+id: 16f67d9c-faba-4d1f-ab37-f0df100a4701
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |-
+    This analytic detects a remote service created on a Windows endpoint shortly after another endpoint connects to its ADMIN$ share, by correlating two Cisco Secure Endpoint Behavioral Protection alerts across the source and target hosts.
+    The target alert records a successful network logon from the source IP and a service creation under the same account, making the sequence a stronger indication of lateral movement than either alert alone.
+    Verify the share connection, service image and start result, account authorization, and any related remote execution activity.
+data_source:
+    - Cisco Secure Endpoint Behavioral Protection Threat Detection
+search: |-
+    `cisco_secure_endpoint`
+    event_type="Threat Detection"
+
+    | `cisco_secure_endpoint_extract_bp_fields`
+
+    | where sig_id IN ("20240802132220","20221213105043")
+
+    | spath path=computer.network_addresses{0}.ip output=endpoint_ip
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.args{} output=share_args
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=share_command
+    | spath path=bp_data.details.matched_activity.events{0}.etw_logon:success.src_ip output=logon_src_ip
+    | spath path=bp_data.details.matched_activity.events{0}.etw_logon:success.target_user output=logon_user
+    | spath path=bp_data.details.matched_activity.events{0}.etw_logon:success.target_domain output=logon_domain
+    | spath path=bp_data.details.matched_activity.events{1}.etw_service:create.exec output=service_exec
+    | spath path=bp_data.details.matched_activity.events{1}.etw_service:create.name output=service_name
+    | spath path=bp_data.details.matched_activity.events{1}.etw_service:create.path output=service_path
+
+    | eval stage=if(sig_id="20240802132220","share","service"),
+           share_path=mvindex(share_args,2),
+           account_arg=mvindex(share_args,3),
+           share_parts=split(share_path,urldecode("%5C")),
+           account_parts=split(replace(account_arg,"(?i)^/user:",""),urldecode("%5C")),
+           event_time=tonumber(timestamp)+tonumber(timestamp_nanoseconds)/1000000000
+
+    | eval source_ip=if(stage="share",endpoint_ip,logon_src_ip),
+           remote_domain=lower(if(stage="share",mvindex(account_parts,0),logon_domain)),
+           remote_user=lower(if(stage="share",mvindex(account_parts,1),logon_user)),
+           target_key=if(stage="share",lower(mvindex(share_parts,2)),
+                mvappend(lower(endpoint_ip),lower(dest),lower(mvindex(split(dest,"."),0)))),
+           share_time_candidate=if(stage="share",event_time,null()),
+           source_guid_candidate=if(stage="share",endpoint_guid,null()),
+           source_host_candidate=if(stage="share",dest,null()),
+           share_command_candidate=if(stage="share",share_command,null())
+
+    | where isnotnull(event_time)
+            AND isnotnull(source_ip)
+            AND isnotnull(target_key)
+            AND isnotnull(remote_domain)
+            AND isnotnull(remote_user)
+            AND (stage="service" OR lower(mvindex(share_parts,3))="admin$")
+
+    | mvexpand target_key
+    | sort 0 source_ip target_key remote_domain remote_user event_time
+
+    | streamstats last(share_time_candidate) as share_time
+            last(source_guid_candidate) as source_endpoint_guid
+            last(source_host_candidate) as src
+            last(share_command_candidate) as share_command
+      by source_ip target_key remote_domain remote_user
+
+    | where stage="service"
+            AND isnotnull(share_time)
+            AND event_time>=share_time
+            AND event_time-share_time<=30
+            AND source_endpoint_guid!=endpoint_guid
+
+    | eval service_binary=service_path.urldecode("%5C").service_exec,
+           user=remote_domain.urldecode("%5C").remote_user,
+           firstTime=share_time,
+           lastTime=event_time
+
+    | table dest src user endpoint_guid source_endpoint_guid source_ip
+            target_key share_command service_name service_binary firstTime lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_endpoint___admin_share_followed_by_remote_service_filter`
+how_to_implement: |-
+    This search requires Cisco Secure Endpoint Behavioral Protection Threat Detection alerts, which include event_type="Threat Detection".
+    This search uses an input macro named `cisco_secure_endpoint`.
+    We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Cisco Secure Endpoint Behavioral Protection Threat Detection alerts.
+    Replace the macro definition with configurations for your Splunk environment.
+    The `cisco_secure_endpoint_extract_bp_fields` macro extracts the common signature, endpoint, and actor fields used by this search.
+    The search also uses a post-filter macro designed to filter out known false positives.
+    The logs are to be ingested using the Cisco Security Cloud App for Splunk (https://splunkbase.splunk.com/app/7404).
+known_false_positives: >-
+    Approved remote administration can connect to ADMIN$ and create a service. Review the source host, account, service image, deployment change, and whether the service actually started.
+references:
+    - https://docs.amp.cisco.com/en/SecureEndpoint/Secure%20Endpoint%20User%20Guide.pdf
+    - https://attack.mitre.org/techniques/T1021/002/
+    - https://attack.mitre.org/techniques/T1569/002/
+drilldown_searches:
+    - name: View BP Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Threat Detection"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=bp_data.details.sig_id output=sig_id
+        | spath path=bp_data.remediated output=remediated
+        | spath path=bp_data.details.matched_activity.events{0}.process:start.cmd_line output=process_command
+        | spath path=bp_data.details.matched_activity.events{0}.script:execution.cmd_line output=script_command
+        | eval observed_command=coalesce(process_command,script_command)
+        | table _time detection severity sig_id remediated observed_command _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View Cloud IOC Activity for - $dest$
+      search: |-
+        `cisco_secure_endpoint` event_type="Cloud IOC"
+        | spath path=computer.connector_guid output=endpoint_guid
+        | search endpoint_guid="$endpoint_guid$"
+        | spath path=cloud_ioc.short_description output=ioc_name
+        | spath path=cloud_ioc.description output=ioc_description
+        | spath path=command_line.arguments output=process_command
+        | spath path=file.file_name output=file_name
+        | spath path=file.file_path output=file_path
+        | spath path=file.identity.sha256 output=file_sha256
+        | eval activity_time=strftime(tonumber(coalesce(start_timestamp,timestamp)),"%Y-%m-%d %H:%M:%S")
+        | table _time activity_time ioc_name severity process_command file_name file_path file_sha256 ioc_description _raw
+        | sort - _time
+      earliest_offset: 7d
+      latest_offset: "0"
+    - name: View risk events for the last 7 days for - "$user$"
+      search: |-
+        | from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Admin share from $src$ led to remote service on $dest$
+    entity:
+        field: dest
+        type: system
+        score: 50
+threat_objects:
+    - field: share_command
+      type: command
+    - field: service_binary
+      type: file_path
+analytic_story:
+    - Windows Post-Exploitation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1021.002
+    - T1569.002
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test - Cisco Secure Endpoint BP
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_endpoint/behavioral_protection/admin_share_remote_service/cisco_se.log
+          source: not_applicable
+          sourcetype: cisco:se
+      test_type: unit

@@ -1,0 +1,17 @@
+name: cisco_secure_endpoint_extract_bp_fields
+id: b9cbbe65-97f7-49fc-9d1b-e2eaec93025b
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+description: Extract the common Cisco Secure Endpoint Behavioral Protection signature, endpoint, and actor fields from cisco:se Threat Detection events.
+definition: |-
+    spath path=bp_data.engine output=bp_engine
+    | search bp_engine=apde
+    | spath path=bp_data.details.sig_id output=sig_id
+    | spath path=computer.connector_guid output=endpoint_guid
+    | spath path=computer.hostname output=dest
+    | spath path=bp_data.details.matched_activity.events{0}.process:start.user.name output=user
+    | spath path=bp_data.details.matched_activity.events{0}.registry:set.user.name output=registry_user
+    | spath path=bp_data.details.matched_activity.events{0}.file:create.user.name output=file_user
+    | eval user=coalesce(user,registry_user,file_user)
