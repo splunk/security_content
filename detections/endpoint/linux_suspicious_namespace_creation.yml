@@ -1,8 +1,8 @@
 name: Linux Suspicious Namespace Creation
 id: 039dbee4-39d8-4ad0-a43a-df4db3a41990
-version: 1
+version: 2
 creation_date: '2026-05-12'
-modification_date: '2026-05-12'
+modification_date: '2026-11-18'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ search: |
     | table host, unshare_time, comm, syscall, unshare_pid, unshare_ppid,
             trigger_uid, trigger_auid, trigger_exe, ns_flags
     | join type=inner host unshare_ppid [
-        search `sysmon` EventID=1 User=root
+        search `sysmon_linux` EventID=1 User=root
         | where match(Image, "/(su|sudo|pkexec|passwd|chsh|newgrp|doas|run0|sg|dash|sh|bash|zsh|fish|ksh|csh|tcsh|ash|mksh|busybox|tmux|screen|node|python[^/]*|perl[^/]*|ruby[^/]*|php[^/]*|lua[^/]*)$")
         | eval root_spawn_time=_time, root_pid=ProcessId,
               root_exe=Image, root_cmdline=CommandLine, root_parent=ParentProcessId

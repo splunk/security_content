@@ -1,0 +1,8 @@
+name: sysmon_linux
+id: 49c1ca77-3424-4699-aa09-d77c2087866e
+version: 1
+creation_date: '2026-11-17'
+modification_date: '2026-11-17'
+author: Nasreddine Bencherchali, Onur Mustafa Erdogan, Splunk
+description: Customer specific Splunk source configuration for Sysmon for Linux events.
+definition: (sourcetype="sysmon:linux" OR source=Syslog:Linux-Sysmon/Operational)

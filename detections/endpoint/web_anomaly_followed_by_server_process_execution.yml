@@ -1,0 +1,136 @@
+name: Web Anomaly Followed by Server Process Execution
+id: 5e0cf472-be5c-4908-9ab2-b3cc91840e2e
+version: 1
+creation_date: '2026-11-22'
+modification_date: '2026-11-22'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Correlation
+description: |
+    This analytic finds a suspicious web request followed by shell or process execution on the same server within 15 minutes.
+    It combines a web signal with an endpoint signal. Investigate the request, the child process, and whether the application normally launches that process.
+data_source: []
+search: |
+    | tstats `security_content_summariesonly`
+        min(_time) as firstTime
+        max(_time) as lastTime
+    from datamodel=Risk.All_Risk where
+
+    All_Risk.risk_object_type="system"
+
+    source IN (
+        "*PHP Serialized Object in POST Body*",
+        "*PHP SOAP DTD Entity Reference in Attribute*",
+        "*PHP SOAP Malformed Array Dimensions*",
+        "*HTTP Large POST and Oversized Multipart Header Activity*",
+        "*Ruby Repeated Legacy Sharp S Bytes in POST Body*",
+        "*PostScript or EPS Upload with Image or PDF Extension*",
+        "*Large HTTP POST Request Resulting in Server Error*",
+        "*Zeek HTTP Malformed Base64 Padding*",
+        "*Windows Suspicious Child Process Spawned From WebServer*",
+        "*Web or Application Server Spawning a Shell*",
+        "*Linux Auditd Shell from Web or Application Directory*",
+        "*Inline PHP Code Execution*"
+    )
+
+    by All_Risk.normalized_risk_object source _time span=1s
+
+    | `drop_dm_object_name(All_Risk)`
+
+    | where isnotnull(normalized_risk_object)
+
+    | lookup asset_lookup_by_str asset as normalized_risk_object OUTPUT ip as asset_ip
+
+    | eval normalized_risk_object=coalesce(asset_ip,normalized_risk_object)
+
+    | fields - asset_ip
+
+    | eval web_request=if(in(source,
+          "ESCU - PHP Serialized Object in POST Body - Rule",
+          "ESCU - PHP SOAP DTD Entity Reference in Attribute - Rule",
+          "ESCU - PHP SOAP Malformed Array Dimensions - Rule",
+          "ESCU - HTTP Large POST and Oversized Multipart Header Activity - Rule",
+          "ESCU - Ruby Repeated Legacy Sharp S Bytes in POST Body - Rule",
+          "ESCU - Large HTTP POST Request Resulting in Server Error - Rule",
+          "ESCU - Zeek HTTP Malformed Base64 Padding - Rule",
+          "ESCU - PostScript or EPS Upload with Image or PDF Extension - Rule"),1,0),
+           web_time=if(web_request=1,firstTime,null()),
+           web_source=if(web_request=1,source,null())
+
+    | sort 0 normalized_risk_object firstTime -web_request
+
+    | streamstats max(web_time) as preceding_web_time
+                  last(web_source) as web_analytic
+                  by normalized_risk_object
+
+    | where web_request=0
+        AND isnotnull(preceding_web_time)
+        AND firstTime>=preceding_web_time
+        AND firstTime-preceding_web_time<=900
+
+    | eval endpoint_analytic=source,
+           time_delta_seconds=firstTime-preceding_web_time,
+           risk_object=normalized_risk_object,
+           lastTime=firstTime,
+           firstTime=preceding_web_time
+
+    | fields risk_object web_analytic endpoint_analytic time_delta_seconds firstTime lastTime
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `web_anomaly_followed_by_server_process_execution_filter`
+how_to_implement: |
+    Enable at least one web analytic and one endpoint analytic named in the search, and configure them to write system risk events to Enterprise Security. Finding-only endpoint analytics need a risk action enabled before this Risk data model search can consume them.
+    Configure ES asset identification with each web server's IP and hostname. The search uses the ES asset lookup to join web destination IPs and endpoint hostnames on the server IP. Without that mapping, the two signals cannot join.
+    Run this search every 5 minutes over a lookback of at least 20 minutes, and throttle findings by risk_object for 15 minutes to avoid repeats from overlapping windows.
+    Tune the 900-second interval and the source list for the applications and log sources in your environment.
+known_false_positives: |
+    Large uploads, malformed requests, and legitimate application maintenance can occur close together. Review the request path, process command line, service account, and application schedule before escalating.
+references:
+    - https://attack.mitre.org/techniques/T1190/
+    - https://attack.mitre.org/techniques/T1059/
+drilldown_searches:
+    - name: View the detection results for - "$risk_object$"
+      search: '%original_detection_search% | search  risk_object = "$risk_object$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$risk_object$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+finding:
+    title: Web anomaly followed by server process execution on [$risk_object$]
+    entity:
+        field: risk_object
+        type: system
+        score: 50
+analytic_story:
+    - Java4Shell - CVE-2026-114938
+    - PHP November 2026 Critical Vulnerabilities
+    - PHP November 2026 SOAP Vulnerabilities
+    - PHP2Shell
+    - Ruby2Shell - CVE-2026-132825
+    - Upload2Shell - CVE-2026-125396
+asset_type: Web Server
+mitre_attack_id:
+    - T1190
+    - T1059
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/web_anomaly_server_execution_risk/web_risk.log
+          source: not_applicable
+          sourcetype: stash
+          index: risk
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/web_anomaly_server_execution_risk/endpoint_risk.log
+          source: not_applicable
+          sourcetype: stash
+          index: risk
+      description: MANUAL TEST - This detection uses the A&I asset_lookup_by_str lookup from Enterprise Security.
+      test_type: experimental

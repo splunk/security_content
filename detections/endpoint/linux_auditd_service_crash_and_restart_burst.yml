@@ -1,8 +1,8 @@
 name: Linux Auditd Service Crash and Restart Burst
 id: 528a6791-3772-46de-9b7e-2f98c9ca6a8f
-version: 1
+version: 2
 creation_date: '2026-10-28'
-modification_date: '2026-10-28'
+modification_date: '2026-11-20'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -74,9 +74,11 @@ analytic_story:
     - Node2Shell
     - PHP2Shell
     - Compromised Linux Host
+    - NGINX2Root
 asset_type: Endpoint
 cve:
     - CVE-2026-111497
+    - CVE-2026-123007
 mitre_attack_id:
     - T1499.004
 product:
