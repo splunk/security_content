@@ -1,8 +1,8 @@
 name: Potential System Network Configuration Discovery Activity
 id: 3f0b95e3-3195-46ac-bea3-84fb59e7fac5
-version: 9
+version: 10
 creation_date: '2020-04-29'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ search: |
               "dsquery.exe",
               "hostname.exe",
               "ipconfig.exe",
-              "nbstat.exe",
+              "nbtstat.exe",
               "net.exe",
               "net1.exe",
               "nltest.exe",
