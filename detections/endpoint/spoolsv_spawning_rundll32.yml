@@ -46,8 +46,14 @@ search: |-
     | `drop_dm_object_name(Processes)`
 
     | eval command_line_normalized=lower(trim(replace(trim(process), "^\"(.*)\"$", "\1")))
+    | eval command_line_normalized=replace(command_line_normalized, "\\.exe$", "")
+
     | eval process_path_normalized=lower(trim(replace(trim(process_path), "^\"(.*)\"$", "\1")))
+    | eval process_path_normalized=replace(process_path_normalized, "\\.exe$", "")
+
     | eval process_name_normalized=lower(trim(process_name))
+    | eval process_name_normalized=replace(process_name_normalized, "\\.exe$", "")
+
     | where isnotnull(process)
         AND trim(process)!=""
         AND lower(trim(process))!="unknown"
