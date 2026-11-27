@@ -34,7 +34,8 @@ search: |-
     )
     | eval
         user_arn='userIdentity.arn',
-        src=coalesce(src, sourceIPAddress)
+        src=coalesce(src, sourceIPAddress),
+        event_time=_time
     | where isnotnull(user_arn)
     | dedup eventID keepempty=true
     | eval is_identity_check=if(
