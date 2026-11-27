@@ -2,9 +2,9 @@ name: Detect Large ICMP Traffic
 id: 9cd6d066-94d5-4ccd-a8b9-28c03ca91be8
 version: 9
 creation_date: '2020-01-19'
-modification_date: '2026-10-02'
+modification_date: '2026-11-19'
 author: Rico Valdez, Dean Luxton, Bhavin Patel, Splunk
-status: deprecated
+status: removed
 type: TTP
 description: |
     The following analytic identifies ICMP traffic to external IP addresses with total bytes (sum of bytes in and bytes out) greater than 1,000 bytes.
