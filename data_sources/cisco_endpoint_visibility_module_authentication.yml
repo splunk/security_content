@@ -1,0 +1,142 @@
+name: Cisco Endpoint Visibility Module Authentication
+id: 4833c91b-2f86-4e58-9039-00489111248a
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+description: |-
+    Data source object for Authentication events from Cisco Endpoint Visibility Module.
+    Install and enable Cisco Secure Client Endpoint Visibility Module on the endpoint.
+    Configure EVM customer policy with "splunk_url" set to the HTTPS Splunk HTTP Event Collector endpoint and "splunk_auth_header" set to Splunk <HEC token>; enable a HEC token for the destination index.
+source: not_applicable
+sourcetype: cisco:evm:authentication
+supported_TA:
+    - name: Cisco Security Cloud
+      url: https://splunkbase.splunk.com/app/7404
+      version: 4.1.2
+fields:
+    - action_id
+    - activity_id
+    - actor.process.ancestry{}.cmd_line
+    - actor.process.ancestry{}.cpid
+    - actor.process.ancestry{}.created_time
+    - actor.process.ancestry{}.path
+    - actor.process.ancestry{}.pid
+    - actor.process.ancestry{}.uid
+    - actor.process.cmd_line
+    - actor.process.cpid
+    - actor.process.created_time
+    - actor.process.environment_variables{}.name
+    - actor.process.environment_variables{}.value
+    - actor.process.file.created_time
+    - actor.process.file.drive_type_id
+    - actor.process.file.ext
+    - actor.process.file.hashes{}.algorithm_id
+    - actor.process.file.hashes{}.value
+    - actor.process.file.imported_symbols{}
+    - actor.process.file.internal_name
+    - actor.process.file.is_readonly
+    - actor.process.file.mime_type
+    - actor.process.file.modified_time
+    - actor.process.file.name
+    - actor.process.file.parent_folder
+    - actor.process.file.path
+    - actor.process.file.signatures{}.algorithm_id
+    - actor.process.file.signatures{}.certificate.created_time
+    - actor.process.file.signatures{}.certificate.expiration_time
+    - actor.process.file.signatures{}.certificate.fingerprints{}.algorithm_id
+    - actor.process.file.signatures{}.certificate.fingerprints{}.value
+    - actor.process.file.signatures{}.certificate.is_self_signed
+    - actor.process.file.signatures{}.certificate.issuer
+    - actor.process.file.signatures{}.certificate.serial_number
+    - actor.process.file.signatures{}.certificate.subject
+    - actor.process.file.signatures{}.certificate.version
+    - actor.process.file.signatures{}.created_time
+    - actor.process.file.signatures{}.digest.algorithm_id
+    - actor.process.file.signatures{}.digest.value
+    - actor.process.file.signatures{}.state_id
+    - actor.process.file.size
+    - actor.process.file.type_id
+    - actor.process.file.version
+    - actor.process.file.volume
+    - actor.process.hosted_services{}.cmd_line
+    - actor.process.hosted_services{}.name
+    - actor.process.hosted_services{}.service_category_id
+    - actor.process.hosted_services{}.service_start_name
+    - actor.process.hosted_services{}.service_start_type_id
+    - actor.process.hosted_services{}.service_type_id
+    - actor.process.integrity_id
+    - actor.process.name
+    - actor.process.pid
+    - actor.process.ptid
+    - actor.process.session.uid
+    - actor.process.uid
+    - actor.process.user.domain
+    - actor.process.user.name
+    - actor.process.user.type_id
+    - actor.process.user.uid
+    - actor.process.working_directory
+    - attacks{}.sub_technique.uid
+    - attacks{}.tactic.uid
+    - attacks{}.technique.uid
+    - attacks{}.version
+    - category_uid
+    - class_uid
+    - device.agent_list{}.name
+    - device.agent_list{}.type_id
+    - device.agent_list{}.uid
+    - device.agent_list{}.uid_alt
+    - device.agent_list{}.vendor_name
+    - device.hostname
+    - device.hw_info.cpu_architecture_id
+    - device.hw_info.cpu_bits
+    - device.hw_info.cpu_type
+    - device.network_interfaces{}.ip
+    - device.network_interfaces{}.mac
+    - device.network_interfaces{}.type_id
+    - device.os.build
+    - device.os.country
+    - device.os.cpu_bits
+    - device.os.lang
+    - device.os.name
+    - device.os.type_id
+    - device.os.version
+    - device.os_machine_uuid
+    - device.type_id
+    - device.uid
+    - device.uid_alt
+    - disposition_id
+    - logon_type_id
+    - message
+    - metadata.extensions{}.name
+    - metadata.extensions{}.uid
+    - metadata.extensions{}.version
+    - metadata.product.feature.name
+    - metadata.product.name
+    - metadata.product.uid
+    - metadata.product.vendor_name
+    - metadata.product.version
+    - metadata.profiles{}
+    - metadata.tenant_uid
+    - metadata.uid
+    - metadata.version
+    - service.name
+    - session.uid
+    - severity_id
+    - src_endpoint.ip
+    - src_endpoint.port
+    - status_detail
+    - status_id
+    - time
+    - time_dt
+    - type_uid
+    - user.domain
+    - user.name
+    - user.type_id
+    - user.uid
+output_fields: []
+references:
+    - https://help.splunk.com/en/data-management/onboard-data-to-splunk-cloud-platform/other-ways-to-onboard-data/10.8/cisco-source-type-benefit/integrated-enterprise-value-for-cisco-data
+    - https://docs.xdr.security.cisco.com/Content/Help-Resources/evm-resources.htm
+example_log: |-
+    {"class_uid":3002,"time":1795739024470,"time_dt":"2026-11-27T00:23:44.4701972Z","action_id":3,"activity_id":2,"actor":{"process":{"ancestry":[{"cmd_line":"wininit.exe","cpid":"c3081fd1-d750-82af-a6a5-e6805ce93a8d","created_time":1795724612794,"path":"C:\\Windows\\System32\\wininit.exe","pid":488,"uid":"c3081fd1-d750-82af-a6a5-e6805ce93a8d"}],"cmd_line":"C:\\Windows\\system32\\lsass.exe","cpid":"1e906c7b-c5a6-83ab-8396-91f5588f8604","created_time":1795724613179,"environment_variables":[{"name":"ComSpec","value":"C:\\Windows\\system32\\cmd.exe"},{"name":"Path","value":"C:\\Windows\\System32"},{"name":"PATHEXT","value":".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC"},{"name":"PSModulePath","value":"C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules"},{"name":"TEMP","value":"C:\\Windows\\TEMP"},{"name":"TMP","value":"C:\\Windows\\TEMP"}],"file":{"created_time":1794390954968,"drive_type_id":2,"ext":"exe","hashes":[{"algorithm_id":3,"value":"c72437ab0d441c3d820a55b4a2a1fc55298338563c620df6d58d5a009ea709e6"},{"algorithm_id":18,"value":"3924d1606f44d90586a3ec75785c2730"}],"imported_symbols":["NtSetInformationThread","NtAllocateVirtualMemory","RtlAddMandatoryAce","NtSetSecurityObject","RtlCreateAcl","RtlAddAccessAllowedAce"],"internal_name":"lsass.exe","is_readonly":false,"mime_type":"application/vnd.microsoft.portable-executable","modified_time":1794390954983,"name":"lsass.exe","parent_folder":"C:\\Windows\\System32","path":"C:\\Windows\\System32\\lsass.exe","signatures":[{"algorithm_id":4,"certificate":{"created_time":1786038579000,"expiration_time":1817488179000,"fingerprints":[{"algorithm_id":2,"value":"ee61dd2ded9446f536e539ec92a31425a491a561"},{"algorithm_id":3,"value":"fa496eeaee97e92462ecbc7e1d99109835c6188d16ab100b9fb417854ee11c73"}],"is_self_signed":false,"issuer":"C=US, O=Microsoft Corporation, CN=Microsoft Windows Production PCA 2026 RSA2048-SHA256","serial_number":"330000002e3c5e38e5d120851d00000000002e","subject":"C=US, S=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows Publisher","version":"3"},"created_time":1794018048903,"digest":{"algorithm_id":3,"value":"9db06e73fb0c80d12c49665b6a46d2076cbeb603fb247cfa55092e94fbb30d7b"},"state_id":1},{"algorithm_id":4,"certificate":{"created_time":1781808018000,"expiration_time":1813257618000,"fingerprints":[{"algorithm_id":2,"value":"cdcc1456d261bc0eb00975f46dffb2e24592edad"},{"algorithm_id":3,"value":"c7d725d260648bf5798fc2930b08ba02907d49b15b157095dee76ddb8f318e88"}],"is_self_signed":false,"issuer":"C=US, O=Microsoft Corporation, CN=Windows Production PCA 2023","serial_number":"3300000149b9e7cbbbe295626e000000000149","subject":"C=US, S=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows Publisher","version":"3"},"created_time":1794018049823,"digest":{"algorithm_id":3,"value":"9db06e73fb0c80d12c49665b6a46d2076cbeb603fb247cfa55092e94fbb30d7b"},"state_id":1},{"algorithm_id":4,"certificate":{"created_time":1786038560000,"expiration_time":1817488160000,"fingerprints":[{"algorithm_id":2,"value":"667bba1e1f478221aa65de4f75187a751b03a453"},{"algorithm_id":3,"value":"e984867eeb6c36df23ac5d84af2c0cf8553d7e6bd5af63f8ccb02de97841f07a"}],"is_self_signed":false,"issuer":"C=US, O=Microsoft Corporation, CN=Microsoft Windows Production PCA 2026 RSA2048-SHA256","serial_number":"3300000017d4dfd9e3950be7ef000000000017","subject":"C=US, S=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows","version":"3"},"created_time":1794193111505,"digest":{"algorithm_id":3,"value":"9db06e73fb0c80d12c49665b6a46d2076cbeb603fb247cfa55092e94fbb30d7b"},"state_id":1},{"algorithm_id":4,"certificate":{"created_time":1786038559000,"expiration_time":1817488159000,"fingerprints":[{"algorithm_id":2,"value":"ad714d3c4b2b794a95441375c954130e9109ef4c"},{"algorithm_id":3,"value":"d06ec42eadb861493242595674730d1a93bce619e745df855bb550b979869ed4"}],"is_self_signed":false,"issuer":"C=US, O=Microsoft Corporation, CN=Microsoft Windows Production PCA 2026 RSA2048-SHA256","serial_number":"3300000016a129a0c18702f44f000000000016","subject":"C=US, S=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows","version":"3"},"created_time":1794193260675,"digest":{"algorithm_id":3,"value":"9db06e73fb0c80d12c49665b6a46d2076cbeb603fb247cfa55092e94fbb30d7b"},"state_id":1}],"size":95192,"type_id":1,"version":"10.0.20348.5866","volume":"501ce97d1ce95f0a"},"hosted_services":[{"cmd_line":"C:\\Windows\\System32\\lsass.exe","name":"EFS","service_category_id":2,"service_start_name":"LocalSystem","service_start_type_id":3,"service_type_id":4},{"cmd_line":"C:\\Windows\\System32\\lsass.exe","name":"Kdc","service_category_id":2,"service_start_name":"LocalSystem","service_start_type_id":3,"service_type_id":4},{"cmd_line":"C:\\Windows\\system32\\lsass.exe","name":"KeyIso","service_category_id":2,"service_start_name":"LocalSystem","service_start_type_id":4,"service_type_id":4},{"cmd_line":"C:\\Windows\\system32\\lsass.exe","name":"Netlogon","service_category_id":2,"service_start_name":"LocalSystem","service_start_type_id":3,"service_type_id":4},{"cmd_line":"C:\\Windows\\System32\\lsass.exe","name":"NTDS","service_category_id":2,"service_start_name":"LocalSystem","service_start_type_id":3,"service_type_id":4},{"cmd_line":"C:\\Windows\\system32\\lsass.exe","name":"SamSs","service_category_id":2,"service_start_name":"LocalSystem","service_start_type_id":3,"service_type_id":4}],"integrity_id":5,"name":"lsass.exe","pid":632,"ptid":352,"session":{"uid":"0x00000000000003e7"},"uid":"1e906c7b-c5a6-83ab-8396-91f5588f8604","user":{"domain":"NT AUTHORITY","name":"SYSTEM","type_id":3,"uid":"S-1-5-18"},"working_directory":"C:\\Windows\\system32\\"}},"category_uid":3,"device":{"agent_list":[{"name":"Cisco Secure Client","type_id":8,"uid":"d621e7e4-8883-4d3b-9b01-d9db91c6b377","uid_alt":"4835f181-4717-4bb6-85d1-42b62f65fba5","vendor_name":"Cisco"}],"hostname":"EVMDC01.attackrange.local","hw_info":{"cpu_architecture_id":1,"cpu_bits":64,"cpu_type":"Intel64 Family 6 Model 85 Stepping 7"},"network_interfaces":[{"ip":"fe80::b96c:e6d5:a11f:2fac","mac":"06:ff:d6:d5:8c:09","type_id":1},{"ip":"10.0.2.15","mac":"06:ff:d6:d5:8c:09","type_id":1}],"os":{"build":"20348.5870","country":"US","cpu_bits":64,"lang":"en","name":"Windows","type_id":100,"version":"Windows Server 21H2"},"os_machine_uuid":"7a02a4f4-c59a-4163-b7c7-ce9159c4685d","type_id":1,"uid":"d621e7e4-8883-4d3b-9b01-d9db91c6b377","uid_alt":"4aff3b6fa6075675feb135c5094edbec33c9a373"},"disposition_id":17,"logon_type_id":3,"message":"User session 0x00000000004f49ad for 'NT AUTHORITY\\SYSTEM' logged off.","metadata":{"extensions":[{"name":"win","uid":"2","version":"1.9.0"}],"product":{"feature":{"name":"evm_win"},"name":"Cisco Endpoint Visibility Module","uid":"14","vendor_name":"Cisco","version":"1.10.0.378"},"profiles":["ai_operation","datetime","host","security_control"],"tenant_uid":"4835f181-4717-4bb6-85d1-42b62f65fba5","uid":"18ee841e-8f59-407a-bc1e-ad5de0baf962","version":"1.9.0"},"service":{"name":"Unknown"},"session":{"uid":"0x00000000004f49ad"},"severity_id":1,"status_detail":"LOGOFF_OTHER","status_id":1,"type_uid":300202,"user":{"domain":"NT AUTHORITY","name":"SYSTEM","type_id":3,"uid":"S-1-5-18"}}

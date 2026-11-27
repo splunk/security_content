@@ -1,0 +1,172 @@
+name: Cisco Endpoint Visibility Module Evidence Info
+id: ead3baca-86f4-4958-9c79-2c93af167654
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+description: |-
+    Data source object for Evidence Info events from Cisco Endpoint Visibility Module.
+    Install and enable Cisco Secure Client Endpoint Visibility Module on the endpoint.
+    Configure EVM customer policy with "splunk_url" set to the HTTPS Splunk HTTP Event Collector endpoint and "splunk_auth_header" set to Splunk <HEC token>; enable a HEC token for the destination index.
+source: not_applicable
+sourcetype: cisco:evm:evidence_info
+fields:
+    - action_id
+    - activity_id
+    - category_uid
+    - class_uid
+    - device.agent_list{}.name
+    - device.agent_list{}.type_id
+    - device.agent_list{}.uid
+    - device.agent_list{}.uid_alt
+    - device.agent_list{}.vendor_name
+    - device.hostname
+    - device.hw_info.cpu_architecture_id
+    - device.hw_info.cpu_bits
+    - device.hw_info.cpu_type
+    - device.network_interfaces{}.ip
+    - device.network_interfaces{}.mac
+    - device.network_interfaces{}.type_id
+    - device.os.build
+    - device.os.country
+    - device.os.cpu_bits
+    - device.os.lang
+    - device.os.name
+    - device.os.type_id
+    - device.os.version
+    - device.os_machine_uuid
+    - device.type_id
+    - device.uid
+    - device.uid_alt
+    - disposition_id
+    - message
+    - metadata.extensions{}.name
+    - metadata.extensions{}.uid
+    - metadata.extensions{}.version
+    - metadata.product.feature.name
+    - metadata.product.name
+    - metadata.product.uid
+    - metadata.product.vendor_name
+    - metadata.product.version
+    - metadata.profiles{}
+    - metadata.tenant_uid
+    - metadata.uid
+    - metadata.version
+    - query_evidence.process.ancestry{}.cmd_line
+    - query_evidence.process.ancestry{}.cpid
+    - query_evidence.process.ancestry{}.created_time
+    - query_evidence.process.ancestry{}.path
+    - query_evidence.process.ancestry{}.pid
+    - query_evidence.process.ancestry{}.uid
+    - query_evidence.process.cmd_line
+    - query_evidence.process.cpid
+    - query_evidence.process.created_time
+    - query_evidence.process.environment_variables{}.name
+    - query_evidence.process.environment_variables{}.value
+    - query_evidence.process.file.created_time
+    - query_evidence.process.file.drive_type_id
+    - query_evidence.process.file.ext
+    - query_evidence.process.file.hashes{}.algorithm_id
+    - query_evidence.process.file.hashes{}.value
+    - query_evidence.process.file.imported_symbols{}
+    - query_evidence.process.file.internal_name
+    - query_evidence.process.file.is_readonly
+    - query_evidence.process.file.mime_type
+    - query_evidence.process.file.modified_time
+    - query_evidence.process.file.name
+    - query_evidence.process.file.parent_folder
+    - query_evidence.process.file.path
+    - query_evidence.process.file.signatures{}.algorithm_id
+    - query_evidence.process.file.signatures{}.certificate.created_time
+    - query_evidence.process.file.signatures{}.certificate.expiration_time
+    - query_evidence.process.file.signatures{}.certificate.fingerprints{}.algorithm_id
+    - query_evidence.process.file.signatures{}.certificate.fingerprints{}.value
+    - query_evidence.process.file.signatures{}.certificate.is_self_signed
+    - query_evidence.process.file.signatures{}.certificate.issuer
+    - query_evidence.process.file.signatures{}.certificate.serial_number
+    - query_evidence.process.file.signatures{}.certificate.subject
+    - query_evidence.process.file.signatures{}.certificate.version
+    - query_evidence.process.file.signatures{}.created_time
+    - query_evidence.process.file.signatures{}.digest.algorithm_id
+    - query_evidence.process.file.signatures{}.digest.value
+    - query_evidence.process.file.signatures{}.state_id
+    - query_evidence.process.file.size
+    - query_evidence.process.file.type_id
+    - query_evidence.process.file.version
+    - query_evidence.process.file.volume
+    - query_evidence.process.hosted_services{}.cmd_line
+    - query_evidence.process.hosted_services{}.name
+    - query_evidence.process.hosted_services{}.service_category_id
+    - query_evidence.process.hosted_services{}.service_start_name
+    - query_evidence.process.hosted_services{}.service_start_type_id
+    - query_evidence.process.hosted_services{}.service_type_id
+    - query_evidence.process.integrity_id
+    - query_evidence.process.name
+    - query_evidence.process.parent_process.cmd_line
+    - query_evidence.process.parent_process.cpid
+    - query_evidence.process.parent_process.created_time
+    - query_evidence.process.parent_process.environment_variables{}.name
+    - query_evidence.process.parent_process.environment_variables{}.value
+    - query_evidence.process.parent_process.file.created_time
+    - query_evidence.process.parent_process.file.drive_type_id
+    - query_evidence.process.parent_process.file.ext
+    - query_evidence.process.parent_process.file.hashes{}.algorithm_id
+    - query_evidence.process.parent_process.file.hashes{}.value
+    - query_evidence.process.parent_process.file.imported_symbols{}
+    - query_evidence.process.parent_process.file.internal_name
+    - query_evidence.process.parent_process.file.is_readonly
+    - query_evidence.process.parent_process.file.mime_type
+    - query_evidence.process.parent_process.file.modified_time
+    - query_evidence.process.parent_process.file.name
+    - query_evidence.process.parent_process.file.parent_folder
+    - query_evidence.process.parent_process.file.path
+    - query_evidence.process.parent_process.file.signatures{}.algorithm_id
+    - query_evidence.process.parent_process.file.signatures{}.certificate.created_time
+    - query_evidence.process.parent_process.file.signatures{}.certificate.expiration_time
+    - query_evidence.process.parent_process.file.signatures{}.certificate.fingerprints{}.algorithm_id
+    - query_evidence.process.parent_process.file.signatures{}.certificate.fingerprints{}.value
+    - query_evidence.process.parent_process.file.signatures{}.certificate.is_self_signed
+    - query_evidence.process.parent_process.file.signatures{}.certificate.issuer
+    - query_evidence.process.parent_process.file.signatures{}.certificate.serial_number
+    - query_evidence.process.parent_process.file.signatures{}.certificate.subject
+    - query_evidence.process.parent_process.file.signatures{}.certificate.version
+    - query_evidence.process.parent_process.file.signatures{}.created_time
+    - query_evidence.process.parent_process.file.signatures{}.digest.algorithm_id
+    - query_evidence.process.parent_process.file.signatures{}.digest.value
+    - query_evidence.process.parent_process.file.signatures{}.state_id
+    - query_evidence.process.parent_process.file.size
+    - query_evidence.process.parent_process.file.type_id
+    - query_evidence.process.parent_process.file.version
+    - query_evidence.process.parent_process.file.volume
+    - query_evidence.process.parent_process.integrity_id
+    - query_evidence.process.parent_process.name
+    - query_evidence.process.parent_process.pid
+    - query_evidence.process.parent_process.session.uid
+    - query_evidence.process.parent_process.uid
+    - query_evidence.process.parent_process.user.domain
+    - query_evidence.process.parent_process.user.name
+    - query_evidence.process.parent_process.user.type_id
+    - query_evidence.process.parent_process.user.uid
+    - query_evidence.process.parent_process.working_directory
+    - query_evidence.process.pid
+    - query_evidence.process.session.uid
+    - query_evidence.process.uid
+    - query_evidence.process.user.domain
+    - query_evidence.process.user.name
+    - query_evidence.process.user.type_id
+    - query_evidence.process.user.uid
+    - query_evidence.process.working_directory
+    - query_evidence.query_type_id
+    - query_result_id
+    - raw_data
+    - severity_id
+    - status_id
+    - time
+    - time_dt
+    - type_uid
+output_fields: []
+references:
+    - https://help.splunk.com/en/data-management/onboard-data-to-splunk-cloud-platform/other-ways-to-onboard-data/10.8/cisco-source-type-benefit/integrated-enterprise-value-for-cisco-data
+    - https://docs.xdr.security.cisco.com/Content/Help-Resources/evm-resources.htm
+example_log: |
+    {"class_uid":5040,"time":1795703991905,"time_dt":"2026-11-26T14:39:51.9059944Z","raw_data":"{\"flame_features\":[0.98535156,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0029296875,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0029296875,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00024414062,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.005859375,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.6666667,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.32356772,0.00016276042,0.00016276042,0.0021158855,0.00016276042,0.0,0.00016276042,0.0021158855,0.00016276042,0.00016276042,0.00016276042,0.00016276042,0.0,0.00016276042,0.00016276042,0.00390625,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,13.868613,13.628418,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.99560547,0.0,0.0,0.0,0.036474165,0.0,0.0,0.0,0.0,0.0,0.0,0.0030395137,0.0,0.0,0.0030395137,0.0,0.0030395137,0.0,0.0030395137,0.0,0.0,0.0030395137,0.0,0.07294833,0.021276595,0.0,0.0,0.0,0.036474165,0.0030395137,0.0,0.0030395137,0.0,0.036474165,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0030395137,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0030395137,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0030395137,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0030395137,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0030395137,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.7598784,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3565.0,257.0,2609.0,2291.0,2208.0,1627.0,928.0,4095.0,4094.0,4093.0,4092.0,4091.0,4090.0,4089.0,4088.0,4087.0,4086.0,4085.0,4084.0,4083.0,4082.0,4081.0,4080.0,4079.0,4078.0,4077.0,4076.0,4075.0,4074.0,4073.0,4072.0,4071.0,4070.0,4069.0,4068.0,4067.0,4066.0,4065.0,4064.0,4063.0,4062.0,4061.0,4060.0,4059.0,4058.0,4057.0,4056.0,4055.0,4054.0,4053.0,4052.0,4051.0,4050.0,4049.0,4048.0,4047.0,4046.0,4045.0,4044.0,4043.0,4042.0,4041.0,4040.0,4039.0],\"hashes\":[{\"algorithm_id\":3,\"value\":\"d447b341e4f89a4681934a8c2b9b82613325c81f5870850d75097d3b1b29594b\"}],\"memory_anomaly_addresses\":[\"0x00007ff4f4400000\"],\"memory_anomaly_rules\":[{\"memory_region_matches\":[{\"base_address\":\"0x00007ff4f4400000\",\"has_executable_pages\":true,\"size\":4096,\"virtual_address_space_matches\":[{\"base_address\":\"0x00007ff4f4400000\",\"size\":4096,\"virtual_address_space_allocation_protection\":64,\"virtual_address_space_page_type\":131072,\"virtual_address_space_protection\":64,\"virtual_address_space_state\":4096}]}],\"message\":\"Executable memory equal to 4KB found: 0x7ff4f4400000 - 0x1000 - PAGE_EXECUTE_READWRITE\",\"name\":\"MemoryExecutableSpace4Kb\",\"virtual_address_space_matches\":[{\"base_address\":\"0x00007ff4f4400000\",\"size\":4096,\"virtual_address_space_allocation_protection\":64,\"virtual_address_space_page_type\":131072,\"virtual_address_space_protection\":64,\"virtual_address_space_state\":4096}]}],\"type_id\":4,\"version\":\"1\"}","action_id":3,"activity_id":1,"category_uid":5,"device":{"agent_list":[{"name":"Cisco Secure Client","type_id":8,"uid":"b9ae3e7f-65fc-4cc6-80a3-1f8bc01b0d82","uid_alt":"e90dbfaf-69d4-4f20-bc85-11f582d76e70","vendor_name":"Cisco"}],"hostname":"EC2AMAZ-637FDSD","hw_info":{"cpu_architecture_id":1,"cpu_bits":64,"cpu_type":"Intel64 Family 6 Model 106 Stepping 6"},"network_interfaces":[{"ip":"fe80::a7a7:3a5d:41dc:8bd7","mac":"06:ff:e3:4f:c0:7b","type_id":1},{"ip":"10.0.2.12","mac":"06:ff:e3:4f:c0:7b","type_id":1}],"os":{"build":"20348.5870","country":"US","cpu_bits":64,"lang":"en","name":"Windows","type_id":100,"version":"Windows Server 21H2"},"os_machine_uuid":"06b549d7-62b5-412a-9553-2906b89eafbe","type_id":1,"uid":"b9ae3e7f-65fc-4cc6-80a3-1f8bc01b0d82","uid_alt":"717d9a433619281da400f35621c2848eb61e2655"},"disposition_id":17,"message":"Memory inspection report 12 of 15 for process 3140 (LocalDocumentCheck.exe).","metadata":{"extensions":[{"name":"win","uid":"2","version":"1.9.0"}],"product":{"feature":{"name":"evm_win"},"name":"Cisco Endpoint Visibility Module","uid":"14","vendor_name":"Cisco","version":"1.10.0.2"},"profiles":["ai_operation","datetime","host","security_control"],"tenant_uid":"e90dbfaf-69d4-4f20-bc85-11f582d76e70","uid":"f523efb4-c08a-4209-943e-c2c70b625450","version":"1.9.0"},"query_evidence":{"process":{"ancestry":[{"cmd_line":"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -InputFormat None -Noninteractive -NoProfile -ExecutionPolicy unrestricted -f C:\\ProgramData\\Amazon\\SSM\\InstanceData\\i-0bee81a9f05b8317e\\document\\orchestration\\225a9bd3-0a13-4a6f-99b3-6f44b4b87c02\\awsrunPowerShellScript\\0.awsrunPowerShellScript\\_script.ps1","cpid":"daa19ee7-5a74-8d92-aa1e-b186dab555b1","created_time":1795703990080,"path":"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe","pid":2164,"uid":"daa19ee7-5a74-8d92-aa1e-b186dab555b1"},{"cmd_line":"\"C:\\Program Files\\Amazon\\SSM\\ssm-document-worker.exe\" 225a9bd3-0a13-4a6f-99b3-6f44b4b87c02","cpid":"40e73442-85d8-8ce0-8196-ecd62baa88bb","created_time":1795703989979,"path":"C:\\Program Files\\Amazon\\SSM\\ssm-document-worker.exe","pid":3192,"uid":"40e73442-85d8-8ce0-8196-ecd62baa88bb"},{"cmd_line":"\"C:\\Program Files\\Amazon\\SSM\\ssm-agent-worker.exe\"","cpid":"4750fd1d-9361-887d-b916-611c018826fe","created_time":1795128012889,"path":"C:\\Program Files\\Amazon\\SSM\\ssm-agent-worker.exe","pid":3980,"uid":"4750fd1d-9361-887d-b916-611c018826fe"},{"cmd_line":"\"C:\\Program Files\\Amazon\\SSM\\amazon-ssm-agent.exe\"","cpid":"9c01b558-f634-86e3-a056-5392be63bc8c","created_time":1795128011062,"path":"C:\\Program Files\\Amazon\\SSM\\amazon-ssm-agent.exe","pid":2640,"uid":"9c01b558-f634-86e3-a056-5392be63bc8c"},{"cmd_line":"C:\\Windows\\system32\\services.exe","cpid":"2e13a865-e3a6-87de-9564-d1366666814b","created_time":1795128009796,"path":"C:\\Windows\\System32\\services.exe","pid":648,"uid":"2e13a865-e3a6-87de-9564-d1366666814b"},{"cmd_line":"wininit.exe","cpid":"5268f2fa-1ab2-852a-a6db-f42816ee233d","created_time":1795128009695,"path":"C:\\Windows\\System32\\wininit.exe","pid":504,"uid":"5268f2fa-1ab2-852a-a6db-f42816ee233d"}],"cmd_line":"\"C:\\Windows\\Temp\\EscuEvmLoopbackPreviewdeebd55dd301\\LocalDocumentCheck.exe\" ","cpid":"76b4e264-5767-82af-bb22-85cf6f18b917","created_time":1795703991116,"environment_variables":[{"name":"APPDATA","value":"C:\\Windows\\system32\\config\\systemprofile\\AppData\\Roaming"},{"name":"ComSpec","value":"C:\\Windows\\system32\\cmd.exe"},{"name":"LOCALAPPDATA","value":"C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local"},{"name":"Path","value":"C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Amazon\\cfn-bootstrap\\;c:\\Program Files\\ansible\\sysmon;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps"},{"name":"PATHEXT","value":".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL"},{"name":"PSExecutionPolicyPreference","value":"Unrestricted"},{"name":"PSModulePath","value":"C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules"},{"name":"TEMP","value":"C:\\Windows\\TEMP"},{"name":"TMP","value":"C:\\Windows\\TEMP"}],"file":{"created_time":1795703991079,"drive_type_id":2,"ext":"exe","hashes":[{"algorithm_id":3,"value":"2b4a13080a4f91bca75f67af4af76152ad9c9f980693b9af3fb5507ffb8a8cb0"},{"algorithm_id":18,"value":"f34d5f2d4577ed6d9ceec516c1f5a744"}],"internal_name":"LocalDocumentCheck.exe","is_readonly":false,"mime_type":"application/vnd.microsoft.portable-executable","modified_time":1795703991079,"name":"LocalDocumentCheck.exe","parent_folder":"C:\\Windows\\Temp\\EscuEvmLoopbackPreviewdeebd55dd301","path":"C:\\Windows\\Temp\\EscuEvmLoopbackPreviewdeebd55dd301\\LocalDocumentCheck.exe","size":4608,"type_id":1,"version":"0.0.0.0","volume":"501ce97d1ce95f0a"},"integrity_id":5,"name":"LocalDocumentCheck.exe","parent_process":{"cmd_line":"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -InputFormat None -Noninteractive -NoProfile -ExecutionPolicy unrestricted -f C:\\ProgramData\\Amazon\\SSM\\InstanceData\\i-0bee81a9f05b8317e\\document\\orchestration\\225a9bd3-0a13-4a6f-99b3-6f44b4b87c02\\awsrunPowerShellScript\\0.awsrunPowerShellScript\\_script.ps1","cpid":"daa19ee7-5a74-8d92-aa1e-b186dab555b1","created_time":1795703990080,"environment_variables":[{"name":"APPDATA","value":"C:\\Windows\\system32\\config\\systemprofile\\AppData\\Roaming"},{"name":"ComSpec","value":"C:\\Windows\\system32\\cmd.exe"},{"name":"LOCALAPPDATA","value":"C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local"},{"name":"Path","value":"C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Amazon\\cfn-bootstrap\\;c:\\Program Files\\ansible\\sysmon;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps"},{"name":"PATHEXT","value":".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC"},{"name":"PSModulePath","value":"C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules"},{"name":"TEMP","value":"C:\\Windows\\TEMP"},{"name":"TMP","value":"C:\\Windows\\TEMP"}],"file":{"created_time":1731553253888,"drive_type_id":2,"ext":"exe","hashes":[{"algorithm_id":3,"value":"38f4384643b3fa0de714d2367b712c2e0fa1c89e2cfd131ae6b831ad962b1033"},{"algorithm_id":18,"value":"afacf6dc9041114b198160aab4d0ae77"}],"imported_symbols":["GetVersionExW","FindFirstFileW","CreateToolhelp32Snapshot","Process32NextW","Process32FirstW","CoCreateInstance"],"internal_name":"PowerShell.EXE","is_readonly":false,"mime_type":"application/vnd.microsoft.portable-executable","modified_time":1731553253888,"name":"powershell.exe","parent_folder":"C:\\Windows\\System32\\WindowsPowerShell\\v1.0","path":"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe","signatures":[{"algorithm_id":4,"certificate":{"created_time":1786038559000,"expiration_time":1817488159000,"fingerprints":[{"algorithm_id":2,"value":"ad714d3c4b2b794a95441375c954130e9109ef4c"},{"algorithm_id":3,"value":"d06ec42eadb861493242595674730d1a93bce619e745df855bb550b979869ed4"}],"is_self_signed":false,"issuer":"C=US, O=Microsoft Corporation, CN=Microsoft Windows Production PCA 2026 RSA2048-SHA256","serial_number":"3300000016a129a0c18702f44f000000000016","subject":"C=US, S=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows","version":"3"},"created_time":1794047752049,"digest":{"algorithm_id":3,"value":"6bfb57599f63e164d7f48ecf008d7ba1a86cc35b169b46631564d3e4f32aba5f"},"state_id":1},{"algorithm_id":4,"certificate":{"created_time":1786038560000,"expiration_time":1817488160000,"fingerprints":[{"algorithm_id":2,"value":"667bba1e1f478221aa65de4f75187a751b03a453"},{"algorithm_id":3,"value":"e984867eeb6c36df23ac5d84af2c0cf8553d7e6bd5af63f8ccb02de97841f07a"}],"is_self_signed":false,"issuer":"C=US, O=Microsoft Corporation, CN=Microsoft Windows Production PCA 2026 RSA2048-SHA256","serial_number":"3300000017d4dfd9e3950be7ef000000000017","subject":"C=US, S=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows","version":"3"},"created_time":1794047824707,"digest":{"algorithm_id":3,"value":"6bfb57599f63e164d7f48ecf008d7ba1a86cc35b169b46631564d3e4f32aba5f"},"state_id":1}],"size":450560,"type_id":1,"version":"10.0.20348.2849","volume":"501ce97d1ce95f0a"},"integrity_id":5,"name":"powershell.exe","pid":2164,"session":{"uid":"0x00000000000003e7"},"uid":"daa19ee7-5a74-8d92-aa1e-b186dab555b1","user":{"domain":"NT AUTHORITY","name":"SYSTEM","type_id":3,"uid":"S-1-5-18"},"working_directory":"C:\\Windows\\system32\\"},"pid":3140,"session":{"uid":"0x00000000000003e7"},"uid":"76b4e264-5767-82af-bb22-85cf6f18b917","user":{"domain":"NT AUTHORITY","name":"SYSTEM","type_id":3,"uid":"S-1-5-18"},"working_directory":"C:\\Windows\\Temp\\EscuEvmLoopbackPreviewdeebd55dd301\\"},"query_type_id":10},"query_result_id":1,"severity_id":1,"status_id":1,"type_uid":504001}

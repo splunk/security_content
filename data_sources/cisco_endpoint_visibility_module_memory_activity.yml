@@ -1,0 +1,179 @@
+name: Cisco Endpoint Visibility Module Memory Activity
+id: 9f5f1d67-a4f8-4cec-aac8-298eb4d66da8
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+description: |-
+    Data source object for Memory Activity events from Cisco Endpoint Visibility Module.
+    Install and enable Cisco Secure Client Endpoint Visibility Module on the endpoint.
+    Configure EVM customer policy with "splunk_url" set to the HTTPS Splunk HTTP Event Collector endpoint and "splunk_auth_header" set to Splunk <HEC token>; enable a HEC token for the destination index.
+source: not_applicable
+sourcetype: cisco:evm:memory_activity
+fields:
+    - action_id
+    - activity_id
+    - actor.process.ancestry{}.cmd_line
+    - actor.process.ancestry{}.cpid
+    - actor.process.ancestry{}.created_time
+    - actor.process.ancestry{}.path
+    - actor.process.ancestry{}.pid
+    - actor.process.ancestry{}.uid
+    - actor.process.cmd_line
+    - actor.process.cpid
+    - actor.process.created_time
+    - actor.process.environment_variables{}.name
+    - actor.process.environment_variables{}.value
+    - actor.process.file.created_time
+    - actor.process.file.drive_type_id
+    - actor.process.file.ext
+    - actor.process.file.hashes{}.algorithm_id
+    - actor.process.file.hashes{}.value
+    - actor.process.file.imported_symbols{}
+    - actor.process.file.internal_name
+    - actor.process.file.is_readonly
+    - actor.process.file.mime_type
+    - actor.process.file.modified_time
+    - actor.process.file.name
+    - actor.process.file.parent_folder
+    - actor.process.file.path
+    - actor.process.file.size
+    - actor.process.file.type_id
+    - actor.process.file.version
+    - actor.process.file.volume
+    - actor.process.integrity_id
+    - actor.process.name
+    - actor.process.pid
+    - actor.process.ptid
+    - actor.process.session.uid
+    - actor.process.uid
+    - actor.process.user.domain
+    - actor.process.user.name
+    - actor.process.user.type_id
+    - actor.process.user.uid
+    - actor.process.working_directory
+    - actual_permissions
+    - base_address
+    - category_uid
+    - class_uid
+    - device.agent_list{}.name
+    - device.agent_list{}.type_id
+    - device.agent_list{}.uid
+    - device.agent_list{}.uid_alt
+    - device.agent_list{}.vendor_name
+    - device.hostname
+    - device.hw_info.cpu_architecture_id
+    - device.hw_info.cpu_bits
+    - device.hw_info.cpu_type
+    - device.network_interfaces{}.ip
+    - device.network_interfaces{}.mac
+    - device.network_interfaces{}.type_id
+    - device.os.build
+    - device.os.country
+    - device.os.cpu_bits
+    - device.os.lang
+    - device.os.name
+    - device.os.type_id
+    - device.os.version
+    - device.os_machine_uuid
+    - device.type_id
+    - device.uid
+    - device.uid_alt
+    - disposition_id
+    - message
+    - metadata.extensions{}.name
+    - metadata.extensions{}.uid
+    - metadata.extensions{}.version
+    - metadata.product.feature.name
+    - metadata.product.name
+    - metadata.product.uid
+    - metadata.product.vendor_name
+    - metadata.product.version
+    - metadata.profiles{}
+    - metadata.tenant_uid
+    - metadata.uid
+    - metadata.version
+    - process.ancestry{}.cmd_line
+    - process.ancestry{}.cpid
+    - process.ancestry{}.created_time
+    - process.ancestry{}.path
+    - process.ancestry{}.pid
+    - process.ancestry{}.uid
+    - process.cmd_line
+    - process.cpid
+    - process.created_time
+    - process.environment_variables{}.name
+    - process.environment_variables{}.value
+    - process.file.created_time
+    - process.file.drive_type_id
+    - process.file.ext
+    - process.file.hashes{}.algorithm_id
+    - process.file.hashes{}.value
+    - process.file.imported_symbols{}
+    - process.file.internal_name
+    - process.file.is_readonly
+    - process.file.mime_type
+    - process.file.modified_time
+    - process.file.name
+    - process.file.parent_folder
+    - process.file.path
+    - process.file.size
+    - process.file.type_id
+    - process.file.version
+    - process.file.volume
+    - process.integrity_id
+    - process.name
+    - process.parent_process.cmd_line
+    - process.parent_process.cpid
+    - process.parent_process.created_time
+    - process.parent_process.environment_variables{}.name
+    - process.parent_process.environment_variables{}.value
+    - process.parent_process.file.created_time
+    - process.parent_process.file.drive_type_id
+    - process.parent_process.file.ext
+    - process.parent_process.file.hashes{}.algorithm_id
+    - process.parent_process.file.hashes{}.value
+    - process.parent_process.file.imported_symbols{}
+    - process.parent_process.file.internal_name
+    - process.parent_process.file.is_readonly
+    - process.parent_process.file.mime_type
+    - process.parent_process.file.modified_time
+    - process.parent_process.file.name
+    - process.parent_process.file.parent_folder
+    - process.parent_process.file.path
+    - process.parent_process.file.size
+    - process.parent_process.file.type_id
+    - process.parent_process.file.version
+    - process.parent_process.file.volume
+    - process.parent_process.integrity_id
+    - process.parent_process.name
+    - process.parent_process.pid
+    - process.parent_process.session.uid
+    - process.parent_process.uid
+    - process.parent_process.user.domain
+    - process.parent_process.user.name
+    - process.parent_process.user.type_id
+    - process.parent_process.user.uid
+    - process.parent_process.working_directory
+    - process.pid
+    - process.session.uid
+    - process.terminated_time
+    - process.uid
+    - process.user.domain
+    - process.user.name
+    - process.user.type_id
+    - process.user.uid
+    - process.working_directory
+    - requested_permissions
+    - severity_id
+    - size
+    - status_id
+    - time
+    - time_dt
+    - type_uid
+output_fields: []
+references:
+    - https://help.splunk.com/en/data-management/onboard-data-to-splunk-cloud-platform/other-ways-to-onboard-data/10.8/cisco-source-type-benefit/integrated-enterprise-value-for-cisco-data
+    - https://docs.xdr.security.cisco.com/Content/Help-Resources/evm-resources.htm
+example_log: |
+    {"class_uid":1004,"time":1795693475588,"time_dt":"2026-11-26T11:44:35.5883877Z","action_id":3,"activity_id":8,"actor":{"process":{"ancestry":[{"cmd_line":"C:\\Windows\\system32\\svchost.exe -k netsvcs -p -s Schedule","cpid":"8102acd4-36a4-8986-922e-3fde2ea22720","created_time":1795128010729,"path":"C:\\Windows\\System32\\svchost.exe","pid":1504,"uid":"8102acd4-36a4-8986-922e-3fde2ea22720"},{"cmd_line":"C:\\Windows\\system32\\services.exe","cpid":"2e13a865-e3a6-87de-9564-d1366666814b","created_time":1795128009796,"path":"C:\\Windows\\System32\\services.exe","pid":648,"uid":"2e13a865-e3a6-87de-9564-d1366666814b"},{"cmd_line":"wininit.exe","cpid":"5268f2fa-1ab2-852a-a6db-f42816ee233d","created_time":1795128009695,"path":"C:\\Windows\\System32\\wininit.exe","pid":504,"uid":"5268f2fa-1ab2-852a-a6db-f42816ee233d"}],"cmd_line":"\"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\chrome.exe\" --headless --disable-gpu --no-first-run --disable-background-networking --window-size=160,100 --user-data-dir=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\test-profile --load-extension=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\preview-extension --screenshot=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\extension-preview.png chrome-extension://jkpfoajlifjionnjcdgpjokjpkgeojaj/preview.html","cpid":"3c4a49c7-7856-8751-b9cc-899b73648ded","created_time":1795693472396,"environment_variables":[{"name":"APPDATA","value":"C:\\Users\\Administrator\\AppData\\Roaming"},{"name":"ComSpec","value":"C:\\Windows\\system32\\cmd.exe"},{"name":"HOMEDRIVE","value":"C:"},{"name":"HOMEPATH","value":"\\Users\\Administrator"},{"name":"LOCALAPPDATA","value":"C:\\Users\\Administrator\\AppData\\Local"},{"name":"Path","value":"C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Amazon\\cfn-bootstrap\\;c:\\Program Files\\ansible\\sysmon;C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"},{"name":"PATHEXT","value":".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC"},{"name":"PSModulePath","value":"C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules"},{"name":"TEMP","value":"C:\\Users\\ADMINI~1\\AppData\\Local\\Temp"},{"name":"TMP","value":"C:\\Users\\ADMINI~1\\AppData\\Local\\Temp"}],"file":{"created_time":1795693469000,"drive_type_id":2,"ext":"exe","hashes":[{"algorithm_id":3,"value":"bd953b9f1a09345577cfd4039ede666ad5a2c47d86e5a5bf8ce6c3eb108bf1d9"},{"algorithm_id":18,"value":"e4707239d521f0a61df88b631f1a0505"}],"imported_symbols":["CreateProcessW","CreateRemoteThread","FindFirstFileW","GetNativeSystemInfo","GetThreadContext","GetTimeZoneInformation","GetVersionExW","ReadProcessMemory","ResumeThread","SuspendThread","VirtualAllocEx","AddConditionalAce","AddMandatoryAce","AdjustTokenPrivileges","CreateProcessAsUserW","DuplicateTokenEx","InitializeAcl","SetNamedSecurityInfoW","SetSecurityInfo","SetTokenInformation","MiniDumpWriteDump","FindWindowExW","WinHttpConnect","WinHttpOpenRequest","WinHttpSendRequest"],"internal_name":"chrome.exe","is_readonly":false,"mime_type":"application/vnd.microsoft.portable-executable","modified_time":1795294006000,"name":"chrome.exe","parent_folder":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64","path":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\chrome.exe","size":4669952,"type_id":1,"version":"158.0.8127.88","volume":"501ce97d1ce95f0a"},"integrity_id":4,"name":"chrome.exe","pid":5376,"ptid":6552,"session":{"uid":"0x00000000001a1b70"},"uid":"3c4a49c7-7856-8751-b9cc-899b73648ded","user":{"domain":"EC2AMAZ-637FDSD","name":"Administrator","type_id":2,"uid":"S-1-5-21-3006977313-2192624815-2190292981-500"},"working_directory":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\"}},"base_address":"0x00007ff79bb6acd8","category_uid":1,"device":{"agent_list":[{"name":"Cisco Secure Client","type_id":8,"uid":"b9ae3e7f-65fc-4cc6-80a3-1f8bc01b0d82","uid_alt":"e90dbfaf-69d4-4f20-bc85-11f582d76e70","vendor_name":"Cisco"}],"hostname":"EC2AMAZ-637FDSD","hw_info":{"cpu_architecture_id":1,"cpu_bits":64,"cpu_type":"Intel64 Family 6 Model 106 Stepping 6"},"network_interfaces":[{"ip":"fe80::a7a7:3a5d:41dc:8bd7","mac":"06:ff:e3:4f:c0:7b","type_id":1},{"ip":"10.0.2.12","mac":"06:ff:e3:4f:c0:7b","type_id":1}],"os":{"build":"20348.5870","country":"US","cpu_bits":64,"lang":"en","name":"Windows","type_id":100,"version":"Windows Server 21H2"},"os_machine_uuid":"06b549d7-62b5-412a-9553-2906b89eafbe","type_id":1,"uid":"b9ae3e7f-65fc-4cc6-80a3-1f8bc01b0d82","uid_alt":"717d9a433619281da400f35621c2848eb61e2655"},"disposition_id":17,"message":"Process 5376 (chrome.exe) wrote 8 bytes at 0x7ff79bb6acd8 in process 2432 (chrome.exe).","metadata":{"extensions":[{"name":"win","uid":"2","version":"1.9.0"}],"product":{"feature":{"name":"evm_win"},"name":"Cisco Endpoint Visibility Module","uid":"14","vendor_name":"Cisco","version":"1.10.0.2"},"profiles":["ai_operation","datetime","host","security_control"],"tenant_uid":"e90dbfaf-69d4-4f20-bc85-11f582d76e70","uid":"45061787-2044-42c1-b4bb-a51f323d4caa","version":"1.9.0"},"process":{"ancestry":[{"cmd_line":"\"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\chrome.exe\" --headless --disable-gpu --no-first-run --disable-background-networking --window-size=160,100 --user-data-dir=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\test-profile --load-extension=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\preview-extension --screenshot=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\extension-preview.png chrome-extension://jkpfoajlifjionnjcdgpjokjpkgeojaj/preview.html","cpid":"3c4a49c7-7856-8751-b9cc-899b73648ded","created_time":1795693472396,"path":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\chrome.exe","pid":5376,"uid":"3c4a49c7-7856-8751-b9cc-899b73648ded"},{"cmd_line":"C:\\Windows\\system32\\svchost.exe -k netsvcs -p -s Schedule","cpid":"8102acd4-36a4-8986-922e-3fde2ea22720","created_time":1795128010729,"path":"C:\\Windows\\System32\\svchost.exe","pid":1504,"uid":"8102acd4-36a4-8986-922e-3fde2ea22720"},{"cmd_line":"C:\\Windows\\system32\\services.exe","cpid":"2e13a865-e3a6-87de-9564-d1366666814b","created_time":1795128009796,"path":"C:\\Windows\\System32\\services.exe","pid":648,"uid":"2e13a865-e3a6-87de-9564-d1366666814b"},{"cmd_line":"wininit.exe","cpid":"5268f2fa-1ab2-852a-a6db-f42816ee233d","created_time":1795128009695,"path":"C:\\Windows\\System32\\wininit.exe","pid":504,"uid":"5268f2fa-1ab2-852a-a6db-f42816ee233d"}],"cmd_line":"\"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\chrome.exe\" --type=renderer --gpu-client-id=11 --noerrdialogs --user-data-dir=\"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\test-profile\" --no-pre-read-main-dll --disable-gpu-compositing --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --renderer-client-id=11 --gpu-channel-request-start-time-ticks=565486320393 --launch-time-ticks=565486323142 --field-trial-handle=1996,i,17818889390481696357,15913417883778942641,262144 --disable-features=PaintHolding --variations-seed-version --pseudonymization-salt-handle=2016,i,2283105929349739593,13416395049798050849,4 --trace-process-track-uuid=3190708996619331833 --mojo-platform-channel-handle=4504 /prefetch:1","cpid":"fc5f8025-51d6-813f-91bb-0f3fbc0effc9","created_time":1795693475585,"environment_variables":[{"name":"LOCALAPPDATA","value":"C:\\Users\\Administrator\\AppData\\Local"},{"name":"Path","value":"C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Amazon\\cfn-bootstrap\\;c:\\Program Files\\ansible\\sysmon;C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"},{"name":"TEMP","value":"C:\\Users\\ADMINI~1\\AppData\\Local\\Temp"},{"name":"TMP","value":"C:\\Users\\ADMINI~1\\AppData\\Local\\Temp"}],"file":{"created_time":1795693469000,"drive_type_id":2,"ext":"exe","hashes":[{"algorithm_id":3,"value":"bd953b9f1a09345577cfd4039ede666ad5a2c47d86e5a5bf8ce6c3eb108bf1d9"},{"algorithm_id":18,"value":"e4707239d521f0a61df88b631f1a0505"}],"imported_symbols":["CreateProcessW","CreateRemoteThread","FindFirstFileW","GetNativeSystemInfo","GetThreadContext","GetTimeZoneInformation","GetVersionExW","ReadProcessMemory","ResumeThread","SuspendThread","VirtualAllocEx","AddConditionalAce","AddMandatoryAce","AdjustTokenPrivileges","CreateProcessAsUserW","DuplicateTokenEx","InitializeAcl","SetNamedSecurityInfoW","SetSecurityInfo","SetTokenInformation","MiniDumpWriteDump","FindWindowExW","WinHttpConnect","WinHttpOpenRequest","WinHttpSendRequest"],"internal_name":"chrome.exe","is_readonly":false,"mime_type":"application/vnd.microsoft.portable-executable","modified_time":1795294006000,"name":"chrome.exe","parent_folder":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64","path":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\chrome.exe","size":4669952,"type_id":1,"version":"158.0.8127.88","volume":"501ce97d1ce95f0a"},"integrity_id":2,"name":"chrome.exe","parent_process":{"cmd_line":"\"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\chrome.exe\" --headless --disable-gpu --no-first-run --disable-background-networking --window-size=160,100 --user-data-dir=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\test-profile --load-extension=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\preview-extension --screenshot=C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\extension-preview.png chrome-extension://jkpfoajlifjionnjcdgpjokjpkgeojaj/preview.html","cpid":"3c4a49c7-7856-8751-b9cc-899b73648ded","created_time":1795693472396,"environment_variables":[{"name":"APPDATA","value":"C:\\Users\\Administrator\\AppData\\Roaming"},{"name":"ComSpec","value":"C:\\Windows\\system32\\cmd.exe"},{"name":"HOMEDRIVE","value":"C:"},{"name":"HOMEPATH","value":"\\Users\\Administrator"},{"name":"LOCALAPPDATA","value":"C:\\Users\\Administrator\\AppData\\Local"},{"name":"Path","value":"C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Amazon\\cfn-bootstrap\\;c:\\Program Files\\ansible\\sysmon;C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"},{"name":"PATHEXT","value":".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC"},{"name":"PSModulePath","value":"C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules"},{"name":"TEMP","value":"C:\\Users\\ADMINI~1\\AppData\\Local\\Temp"},{"name":"TMP","value":"C:\\Users\\ADMINI~1\\AppData\\Local\\Temp"}],"file":{"created_time":1795693469000,"drive_type_id":2,"ext":"exe","hashes":[{"algorithm_id":3,"value":"bd953b9f1a09345577cfd4039ede666ad5a2c47d86e5a5bf8ce6c3eb108bf1d9"},{"algorithm_id":18,"value":"e4707239d521f0a61df88b631f1a0505"}],"imported_symbols":["CreateProcessW","CreateRemoteThread","FindFirstFileW","GetNativeSystemInfo","GetThreadContext","GetTimeZoneInformation","GetVersionExW","ReadProcessMemory","ResumeThread","SuspendThread","VirtualAllocEx","AddConditionalAce","AddMandatoryAce","AdjustTokenPrivileges","CreateProcessAsUserW","DuplicateTokenEx","InitializeAcl","SetNamedSecurityInfoW","SetSecurityInfo","SetTokenInformation","MiniDumpWriteDump","FindWindowExW","WinHttpConnect","WinHttpOpenRequest","WinHttpSendRequest"],"internal_name":"chrome.exe","is_readonly":false,"mime_type":"application/vnd.microsoft.portable-executable","modified_time":1795294006000,"name":"chrome.exe","parent_folder":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64","path":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\chrome.exe","size":4669952,"type_id":1,"version":"158.0.8127.88","volume":"501ce97d1ce95f0a"},"integrity_id":4,"name":"chrome.exe","pid":5376,"session":{"uid":"0x00000000001a1b70"},"uid":"3c4a49c7-7856-8751-b9cc-899b73648ded","user":{"domain":"EC2AMAZ-637FDSD","name":"Administrator","type_id":2,"uid":"S-1-5-21-3006977313-2192624815-2190292981-500"},"working_directory":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\"},"pid":2432,"session":{"uid":"0x00000000001a1b70"},"terminated_time":1795693475633,"uid":"fc5f8025-51d6-813f-91bb-0f3fbc0effc9","user":{"domain":"EC2AMAZ-637FDSD","name":"Administrator","type_id":1,"uid":"S-1-5-21-3006977313-2192624815-2190292981-500"},"working_directory":"C:\\ProgramData\\EscuEvmChromeExtension494f36cc4182\\chrome-win64\\"},"severity_id":1,"size":8,"status_id":1,"type_uid":100408}

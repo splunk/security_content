@@ -1,0 +1,77 @@
+name: Cisco Endpoint Visibility Module Detection Finding
+id: c51abb6d-1d30-40de-9804-a357386f5b3b
+version: 1
+creation_date: '2026-11-27'
+modification_date: '2026-11-27'
+author: Nasreddine Bencherchali, Splunk
+description: |-
+    Data source object for Detection Finding events from Cisco Endpoint Visibility Module.
+    Install and enable Cisco Secure Client Endpoint Visibility Module on the endpoint.
+    Configure EVM customer policy with "splunk_url" set to the HTTPS Splunk HTTP Event Collector endpoint and "splunk_auth_header" set to Splunk <HEC token>; enable a HEC token for the destination index.
+source: not_applicable
+sourcetype: cisco:evm:detection_finding
+fields:
+    - action_id
+    - activity_id
+    - category_uid
+    - class_uid
+    - device.agent_list{}.name
+    - device.agent_list{}.type_id
+    - device.agent_list{}.uid
+    - device.agent_list{}.uid_alt
+    - device.agent_list{}.vendor_name
+    - device.hostname
+    - device.hw_info.cpu_architecture_id
+    - device.hw_info.cpu_bits
+    - device.hw_info.cpu_type
+    - device.network_interfaces{}.ip
+    - device.network_interfaces{}.mac
+    - device.network_interfaces{}.type_id
+    - device.os.build
+    - device.os.country
+    - device.os.cpu_bits
+    - device.os.lang
+    - device.os.name
+    - device.os.type_id
+    - device.os.version
+    - device.os_machine_uuid
+    - device.type_id
+    - device.uid
+    - device.uid_alt
+    - disposition_id
+    - finding_info.product.name
+    - finding_info.product.vendor_name
+    - finding_info.product.version
+    - finding_info.related_analytics{}.name
+    - finding_info.related_analytics{}.state_id
+    - finding_info.related_analytics{}.type_id
+    - finding_info.related_analytics{}.uid
+    - finding_info.related_analytics{}.version
+    - finding_info.related_events{}.type_uid
+    - finding_info.related_events{}.uid
+    - finding_info.uid
+    - message
+    - metadata.extensions{}.name
+    - metadata.extensions{}.uid
+    - metadata.extensions{}.version
+    - metadata.product.feature.name
+    - metadata.product.name
+    - metadata.product.uid
+    - metadata.product.vendor_name
+    - metadata.product.version
+    - metadata.profiles{}
+    - metadata.tenant_uid
+    - metadata.uid
+    - metadata.version
+    - severity_id
+    - status_detail
+    - status_id
+    - time
+    - time_dt
+    - type_uid
+output_fields: []
+references:
+    - https://help.splunk.com/en/data-management/onboard-data-to-splunk-cloud-platform/other-ways-to-onboard-data/10.8/cisco-source-type-benefit/integrated-enterprise-value-for-cisco-data
+    - https://docs.xdr.security.cisco.com/Content/Help-Resources/evm-resources.htm
+example_log: |
+    {"class_uid":2004,"time":1795736181849,"time_dt":"2026-11-26T23:36:21.8494425Z","action_id":3,"activity_id":1,"category_uid":2,"device":{"agent_list":[{"name":"Cisco Secure Client","type_id":8,"uid":"b9ae3e7f-65fc-4cc6-80a3-1f8bc01b0d82","uid_alt":"e90dbfaf-69d4-4f20-bc85-11f582d76e70","vendor_name":"Cisco"}],"hostname":"EC2AMAZ-637FDSD.attackrange.local","hw_info":{"cpu_architecture_id":1,"cpu_bits":64,"cpu_type":"Intel64 Family 6 Model 106 Stepping 6"},"network_interfaces":[{"ip":"fe80::a7a7:3a5d:41dc:8bd7","mac":"06:ff:e3:4f:c0:7b","type_id":1},{"ip":"10.0.2.12","mac":"06:ff:e3:4f:c0:7b","type_id":1}],"os":{"build":"20348.5870","country":"US","cpu_bits":64,"lang":"en","name":"Windows","type_id":100,"version":"Windows Server 21H2"},"os_machine_uuid":"06b549d7-62b5-412a-9553-2906b89eafbe","type_id":1,"uid":"b9ae3e7f-65fc-4cc6-80a3-1f8bc01b0d82","uid_alt":"717d9a433619281da400f35621c2848eb61e2655"},"disposition_id":17,"finding_info":{"product":{"name":"Cisco MemInspect","vendor_name":"Cisco","version":"1.0.6"},"related_analytics":[{"name":"Rundll32 Process Launch","state_id":1,"type_id":2,"uid":"20251220032950","version":"1"}],"related_events":[{"type_uid":100701,"uid":"a2cf3837-cef5-4da6-ab63-7227ad7b3cc9"}],"uid":"baed72cf-0b0f-47b8-8f05-7e29bb5b418d"},"message":"Memory inspection produced no reports for process 4512 (rundll32.exe).","metadata":{"extensions":[{"name":"win","uid":"2","version":"1.9.0"}],"product":{"feature":{"name":"evm_win"},"name":"Cisco Endpoint Visibility Module","uid":"14","vendor_name":"Cisco","version":"1.10.0.2"},"profiles":["ai_operation","datetime","host","security_control"],"tenant_uid":"e90dbfaf-69d4-4f20-bc85-11f582d76e70","uid":"baed72cf-0b0f-47b8-8f05-7e29bb5b418d","version":"1.9.0"},"severity_id":1,"status_id":1,"type_uid":200401}
