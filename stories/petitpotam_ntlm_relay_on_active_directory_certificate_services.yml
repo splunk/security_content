@@ -1,11 +1,11 @@
 name: PetitPotam NTLM Relay on Active Directory Certificate Services
 id: 97aecafc-0a68-11ec-962f-acde48001122
-version: 2
+version: 3
 creation_date: '2021-09-01'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
-description: PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC Protocol that can allow an unauthenticated account to escalate privileges to domain administrator given the right circumstances.
+description: PetitPotam (CVE-2021-36942,) is a vulnerability identified in Microsofts EFSRPC Protocol that can allow an unauthenticated account to escalate privileges to domain administrator given the right circumstances.
 narrative: In June 2021, security researchers at SpecterOps released a blog post and white paper detailing several potential attack vectors against Active Directory Certificated Services (ADCS). ADCS is a Microsoft product that implements Public Key Infrastrucutre (PKI) functionality and can be used by organizations to provide and manage digital certiticates within Active Directory.\ In July 2021, a security researcher released PetitPotam, a tool that allows attackers to coerce Windows systems into authenticating to arbitrary endpoints.\ Combining PetitPotam with the identified ADCS attack vectors allows attackers to escalate privileges from an unauthenticated anonymous user to full domain admin privileges.
 references:
     - https://us-cert.cisa.gov/ncas/current-activity/2021/07/27/microsoft-releases-guidance-mitigating-petitpotam-ntlm-relay
