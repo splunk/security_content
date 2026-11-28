@@ -6,7 +6,7 @@ modification_date: '2026-06-09'
 author: Teoderick Contreras, Splunk
 description: Data source object for Cisco SD-WAN Auth logs
 source: /var/log/auth.log
-sourcetype: cisco:sdwan:syslog
+sourcetype: cisco:sdwan:custom
 supported_TA: []
 fields:
     - _time

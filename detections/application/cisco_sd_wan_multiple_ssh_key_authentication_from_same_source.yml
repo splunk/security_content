@@ -45,5 +45,5 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/CVE-2026-20127/auth_dummy_key.log
           source: /var/log/auth.log
-          sourcetype: cisco:sdwan:syslog
+          sourcetype: cisco:sdwan:custom
       test_type: unit
