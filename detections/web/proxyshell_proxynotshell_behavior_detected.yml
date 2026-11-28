@@ -1,8 +1,8 @@
 name: ProxyShell ProxyNotShell Behavior Detected
 id: c32fab32-6aaf-492d-bfaf-acbed8e50cdf
-version: 10
+version: 11
 creation_date: '2022-10-09'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Michael Haag, Splunk
 status: production
 type: Correlation
@@ -22,7 +22,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | where source_count >=5
     | `proxyshell_proxynotshell_behavior_detected_filter`
-how_to_implement: To implement this correlation, you will need to enable ProxyShell, ProxyNotShell and Cobalt Strike analytic stories (the anaytics themselves) and ensure proper data is being collected for Web and Endpoint datamodels. Run the correlation rule seperately to validate it is not triggering too much or generating incorrectly. Validate by running ProxyShell POC code and Cobalt Strike behavior.
+how_to_implement: To implement this correlation, you will need to enable ProxyShell, ProxyNotShell and Cobalt Strike analytic stories (the analytics themselves) and ensure proper data is being collected for Web and Endpoint datamodels. Run the correlation rule separately to validate it is not triggering too much or generating incorrectly. Validate by running ProxyShell POC code and Cobalt Strike behavior.
 known_false_positives: False positives will be limited, however tune or modify the query as needed.
 references:
     - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html

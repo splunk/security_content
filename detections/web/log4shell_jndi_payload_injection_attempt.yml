@@ -1,8 +1,8 @@
 name: Log4Shell JNDI Payload Injection Attempt
 id: c184f12e-5c90-11ec-bf1f-497c9a704a72
-version: 10
+version: 11
 creation_date: '2021-12-13'
-modification_date: '2026-09-08'
+modification_date: '2026-11-28'
 author: Jose Hernandez
 status: production
 type: Anomaly
@@ -16,7 +16,7 @@ search: |-
     | stats count by action, category, dest, dest_port, http_content_type, http_method, http_referrer, http_user_agent, site, src, url, url_domain, user
     | `log4shell_jndi_payload_injection_attempt_filter`
 how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
-known_false_positives: If there is a vulnerablility scannner looking for log4shells this will trigger, otherwise likely to have low false positives.
+known_false_positives: If there is a vulnerability scannner looking for log4shells this will trigger, otherwise likely to have low false positives.
 references:
     - https://www.lunasec.io/docs/blog/log4j-zero-day/
 drilldown_searches:
