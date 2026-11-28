@@ -1,8 +1,8 @@
 name: ASL AWS IAM Successful Group Deletion
 id: 1bbe54f1-93d7-4764-8a01-ddaa12ece7ac
-version: 10
+version: 11
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Patrick Bareiss, Splunk
 status: production
 type: Hunting
@@ -21,7 +21,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `asl_aws_iam_successful_group_deletion_filter`
 how_to_implement: You must install the Data Lake Federated Analytics App and ingest the logs into Splunk.
-known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
+known_false_positives: This detection will require tuning to provide high fidelity detection capabilities. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
 references:
     - https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
     - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html

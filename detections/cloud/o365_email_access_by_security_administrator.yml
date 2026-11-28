@@ -1,8 +1,8 @@
 name: O365 Email Access By Security Administrator
 id: c6998a30-fef4-4e89-97ac-3bb0123719b4
-version: 11
+version: 12
 creation_date: '2024-04-07'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Steven Dick
 status: production
 type: TTP
@@ -21,7 +21,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `o365_email_access_by_security_administrator_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. Threat Explorer is a premium feature with o365, logging may not be available with proper license.
-known_false_positives: Legitamate access by security administators for incident response measures.
+known_false_positives: Legitimate access by security administrators for incident response measures.
 references:
     - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/threat-explorer-investigate-delivered-malicious-email?view=o365-worldwide
 drilldown_searches:

@@ -1,8 +1,8 @@
 name: O365 Mailbox Read Access Granted to Application
 id: 27ab61c5-f08a-438a-b4d3-325e666490b3
-version: 10
+version: 11
 creation_date: '2023-12-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -11,7 +11,7 @@ data_source:
     - O365 Update application.
 search: "`o365_management_activity` Operation=\"Update application.\" | eval json_data=mvindex('ModifiedProperties{}.NewValue',0) | eval json_data=replace(json_data,\"^\\[\\s*\",\"\") | eval json_data=replace(json_data,\"\\s*\\]$\",\"\") | spath input=json_data path=RequiredAppPermissions{}.EntitlementId output=EntitlementIds | eval match_found=mvfind(EntitlementIds, \"810c84a8-4a9e-49e6-bf7d-12d183f40d01\") | where isnotnull(match_found) | fillnull | stats count earliest(_time) as firstTime max(_time) as lastTime values(EntitlementIds) as EntitlementIds by signature, user, dest, vendor_account, vendor_product, object, src | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_mailbox_read_access_granted_to_application_filter`"
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: There are legitimate scenarios in wich an Application registrations requires Mailbox read access. Filter as needed.
+known_false_positives: There are legitimate scenarios in which an Application registrations requires Mailbox read access. Filter as needed.
 references:
     - https://attack.mitre.org/techniques/T1098/003/
     - https://attack.mitre.org/techniques/T1114/002/

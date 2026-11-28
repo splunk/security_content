@@ -1,8 +1,8 @@
 name: ASL AWS IAM Assume Role Policy Brute Force
 id: 726959fe-316d-445c-a584-fa187d64e295
-version: 8
+version: 9
 creation_date: '2022-10-04'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -20,7 +20,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `asl_aws_iam_assume_role_policy_brute_force_filter`
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
-known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users.
+known_false_positives: This detection will require tuning to provide high fidelity detection capabilities. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users.
 references:
     - https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities/
     - https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/

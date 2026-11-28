@@ -1,8 +1,8 @@
 name: Cloud Security Groups Modifications by User
 id: cfe7cca7-2746-4bdf-b712-b01ed819b9de
-version: 9
+version: 10
 creation_date: '2024-03-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,7 @@ search: |-
     | eval isOutlier=if(unique_security_groups > 2 and unique_security_groups >= upperBound, 1, 0)
     | where isOutlier=1
     | `cloud_security_groups_modifications_by_user_filter`
-how_to_implement: This search requries the Cloud infrastructure logs such as AWS Cloudtrail, GCP Pubsub Message logs, Azure Audit logs to be ingested into an accelerated Change datamodel. It is also recommended that users can try different combinations of the `bucket` span time and outlier conditions to better suit with their environment.
+how_to_implement: This search requires the Cloud infrastructure logs such as AWS Cloudtrail, GCP Pubsub Message logs, Azure Audit logs to be ingested into an accelerated Change datamodel. It is also recommended that users can try different combinations of the `bucket` span time and outlier conditions to better suit with their environment.
 known_false_positives: It is possible that legitimate user/admin may modify a number of security groups
 references:
     - https://attack.mitre.org/techniques/T1578/005/
