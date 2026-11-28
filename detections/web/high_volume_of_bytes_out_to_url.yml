@@ -1,8 +1,8 @@
 name: High Volume of Bytes Out to Url
 id: c8a6b56d-16dd-4e9c-b4bd-527742ead98d
-version: 10
+version: 11
 creation_date: '2024-03-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,7 @@ search: |-
     | search sum_bytes_out > 1070000000
     | `drop_dm_object_name("Web")`
     | `high_volume_of_bytes_out_to_url_filter`
-how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relavent for traffic into the `Web` datamodel. Please adjust the threshold for the sum of bytes out as per your environment and user behavior.
+how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relevant for traffic into the `Web` datamodel. Please adjust the threshold for the sum of bytes out as per your environment and user behavior.
 known_false_positives: This search may trigger false positives if there is a legitimate reason for a high volume of bytes out to a URL. We recommend to investigate these findings. Consider updating the filter macro to exclude the applications that are relevant to your environment.
 references:
     - https://attack.mitre.org/techniques/T1567/
