@@ -1,0 +1,81 @@
+name: Linux Auditd Enumeration Script Activity
+id: 7d3f1a2c-0b6e-4e8a-9c21-6a4f0d5b7e19
+version: 1
+creation_date: '2026-10-31'
+modification_date: '2026-10-31'
+author: vahid malekmohammadi
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects a burst of host enumeration activity consistent with an automated privilege-escalation or reconnaissance script (for example LinEnum, LinPEAS, linux-smart-enumeration or linuxprivchecker) rather than an operator running a single discovery command.
+    Using Linux Auditd EXECVE events, it keeps only executions whose binary (a0) is one of a scoped set of discovery utilities, bins them into short time windows per host, and fires only when a single window contains a high number of DISTINCT discovery binaries.
+    If confirmed, this typically indicates an attacker profiling a foothold immediately before privilege escalation or lateral movement.
+data_source:
+    - Linux Auditd Execve
+search: |-
+    `linux_auditd` execve_command=*
+      | rename host as dest
+      | rename comm as process_name
+      | rename exe as process
+      | eval base_cmd=lower(mvindex(split(trim(execve_command)," "),0))
+      | eval base_cmd=mvindex(split(base_cmd,"/"),-1)
+      | eval is_recon=if(base_cmd IN ("whoami","id","uname","hostname","hostnamectl","lsb_release","sudo","find","getcap","crontab","ps","netstat","ss","lsof","last","lastlog","w","who","arp","ip","ifconfig","route","mount","lsblk","df","dpkg","dpkg-query","rpm","getent","lsmod","modinfo","dmesg","env","uptime","aa-status","sestatus","capsh"),1,0)
+      | bin _time span=2m
+      | stats count as exec_count dc(base_cmd) as distinct_commands sum(is_recon) as recon_executions dc(eval(if(is_recon=1,base_cmd,null()))) as distinct_recon_commands values(base_cmd) as commands values(auid) as auid values(uid) as uid values(process) as process dc(ppid) as distinct_parents values(ppid) as parent_pids min(_time) as firstTime max(_time) as lastTime BY _time dest
+      | where exec_count>=50 AND distinct_commands>=15 AND distinct_recon_commands>=8
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_enumeration_script_activity_filter`
+how_to_implement: |-
+    To implement this detection, ingest auditd EXECVE events, which capture command-line executions on Unix/Linux systems, using the Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833).
+    These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data.
+    The next step involves normalizing the field names to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling.
+    This approach enables effective monitoring and detection of Linux endpoints where auditd is deployed.
+known_false_positives: |-
+    Configuration-management runs (Ansible fact gathering, Puppet, Chef, Salt), monitoring agents, backup jobs, provisioning scripts, login and MOTD scripts, and administrator one-liners that run many different discovery commands in a short time can produce a similar burst and may trigger this analytic.
+    Update the filter macro to allowlist hosts that legitimately run large automated command sequences.
+references:
+    - https://attack.mitre.org/techniques/T1082/
+    - https://attack.mitre.org/techniques/T1083/
+    - https://attack.mitre.org/techniques/T1057/
+    - https://attack.mitre.org/techniques/T1518/
+    - https://github.com/rebootuser/LinEnum
+    - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: "0"
+intermediate_findings:
+    entities:
+        - field: dest
+          type: system
+          score: 42
+          message: A burst of enumeration activity ($exec_count$ executions, $distinct_recon_commands$ distinct recon tools) was observed on host - [$dest$].
+analytic_story:
+    - Linux Living Off The Land
+    - Compromised Linux Host
+    - Linux Privilege Escalation
+asset_type: Endpoint
+mitre_attack_id:
+    - T1082
+    - T1083
+    - T1057
+    - T1518
+product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+category: endpoint
+security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/linux_auditd_enumeration/linux_auditd_enumeration.log
+          source: auditd
+          sourcetype: auditd
+      test_type: unit
