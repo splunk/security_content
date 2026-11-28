@@ -1,8 +1,8 @@
 name: Suspicious Ticket Granting Ticket Request
 id: d77d349e-6269-11ec-9cfe-acde48001122
-version: 10
+version: 11
 creation_date: '2021-12-21'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -20,7 +20,7 @@ search: |-
       | rename Computer as dest
       | `suspicious_ticket_granting_ticket_request_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: A computer account name change event inmediately followed by a kerberos TGT request with matching fields is unsual. However, legitimate behavior may trigger it. Filter as needed.
+known_false_positives: A computer account name change event immediately followed by a kerberos TGT request with matching fields is unusual. However, legitimate behavior may trigger it. Filter as needed.
 references:
     - https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html
     - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278

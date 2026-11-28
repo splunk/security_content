@@ -1,8 +1,8 @@
 name: Unusual Number of Remote Endpoint Authentication Events
 id: acb5dc74-5324-11ec-a36d-acde48001122
-version: 8
+version: 9
 creation_date: '2021-12-03'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
@@ -21,7 +21,7 @@ search: |-
       | eval isOutlier=if(unique_targets >10 and unique_targets >= upperBound, 1, 0)
       | `unusual_number_of_remote_endpoint_authentication_events_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
-known_false_positives: An single endpoint authenticating to a large number of hosts is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, jump servers and missconfigured systems.
+known_false_positives: An single endpoint authenticating to a large number of hosts is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, jump servers and misconfigured systems.
 references:
     - https://attack.mitre.org/techniques/T1078/
 analytic_story:

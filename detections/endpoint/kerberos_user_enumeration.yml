@@ -1,8 +1,8 @@
 name: Kerberos User Enumeration
 id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
-version: 13
+version: 14
 creation_date: '2022-03-11'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -21,7 +21,7 @@ search: |-
       | search isOutlier=1
       | `kerberos_user_enumeration_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
+known_false_positives: Possible false positive scenarios include but are not limited to vulnerability scanners and misconfigured systems.
 references:
     - https://github.com/ropnop/kerbrute
     - https://attack.mitre.org/techniques/T1589/002/

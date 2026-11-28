@@ -1,8 +1,8 @@
 name: Microsoft Defender Incident Alerts
 id: 13435b55-afd8-46d4-9045-7d5457f430a5
-version: 9
+version: 10
 creation_date: '2024-10-30'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Bryan Pluta, Bhavin Patel, Splunk, lyonheart14, Github Community
 status: production
 type: TTP
@@ -10,7 +10,7 @@ description: The following analytic is to leverage alerts from Microsoft Defende
 data_source:
     - MS365 Defender Incident Alerts
 search: "`ms365_defender_incident_alerts`  (dest=* OR user=*)\n  | eval tmp_entities=json_extract(_raw, \"entities\"), tmp_entitymv=json_array_to_mv(tmp_entities), tmp_filtered_mv=mvfilter(json_extract(tmp_entitymv, \"verdict\") != \"Clean\"), entityType = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, \"entityType\")), filePath = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, \"filePath\")), processCommandLine = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, \"processCommandLine\")), ipAddress = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, \"ipAddress\")), registryKey = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, \"registryKey\")), url = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, \"url\"))\n  | eval tmp_filtered_mv=mvfilter(json_extract(tmp_filtered_mv, \"entityType\") = \"File\"), fileName = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, \"fileName\"))\n  | eval risk_score=case(severity=\"informational\", 5, severity=\"low\", 15, severity=\"medium\", 25, severity=\"high\", 50, true(), 2)\n  | stats count  min(_time) as firstTime max(_time) as lastTime values(fileName) as file_name values(severity) as severity values(processCommandLine) as process values(ipAddress) as ip_address values(registryKey) as registry_key values(url) as url values(mitreTechniques{}) as annotations.mitre_attack.mitre_technique_id values(signature) as signature values(dest) as dest values(user) as user values(risk_score) as risk_score\n    BY id description\n  | `security_content_ctime(firstTime)`\n  | `security_content_ctime(lastTime)`\n  | `microsoft_defender_incident_alerts_filter`"
-how_to_implement: In order to properly run this search, you need to ingest alerts data from Microsoft Defender, specifcally using the Splunk add-on for Microsoft Security. This add-on will collect alerts using the ms365:defender:incident:alerts sourcetype. You will need to define the `ms365_defender_incident_alerts` macro to point to the proper index that contains the ms365:defender:incident:alerts sourcetype.
+how_to_implement: In order to properly run this search, you need to ingest alerts data from Microsoft Defender, specifically using the Splunk add-on for Microsoft Security. This add-on will collect alerts using the ms365:defender:incident:alerts sourcetype. You will need to define the `ms365_defender_incident_alerts` macro to point to the proper index that contains the ms365:defender:incident:alerts sourcetype.
 known_false_positives: False positives may vary based on Microsoft Defender configuration; monitor and filter out the alerts that are not relevant to your environment.
 references:
     - https://learn.microsoft.com/en-us/defender-xdr/api-list-incidents?view=o365-worldwide

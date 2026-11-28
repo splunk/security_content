@@ -1,8 +1,8 @@
 name: Suspicious IcedID Rundll32 Cmdline
 id: bed761f8-ee29-11eb-8bf3-acde48001122
-version: 12
+version: 13
 creation_date: '2021-07-29'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -26,7 +26,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `suspicious_icedid_rundll32_cmdline_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: limitted. this parameter is not commonly used by windows application but can be used by the network operator.
+known_false_positives: limited. this parameter is not commonly used by windows application but can be used by the network operator.
 references:
     - https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
 drilldown_searches:

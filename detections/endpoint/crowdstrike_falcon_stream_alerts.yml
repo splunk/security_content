@@ -1,8 +1,8 @@
 name: CrowdStrike Falcon Stream Alerts
 id: cb6af2b3-29ab-441c-8d8d-679811c8b014
-version: 6
+version: 7
 creation_date: '2025-06-02'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Bryan Pluta, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ search: |
     | rename id as detection_id, FalconHostLink as detection_url
     | table _time source detection_id detection_url title risk_score description Severity severity HostNames dest Tactic Technique user UserName Objective Name DetectDescription gid, display_id, mitre_technique annotations.mitre_attack annotations.drilldown_search file_hash hash signature ip process pid file_name
     | `crowdstrike_falcon_stream_alerts_filter`
-how_to_implement: In order to properly run this search, you need to ingest alerts data from CrowdStrike Event Stream, specifcally using the CrowdStrike Falcon Event Streams Technical Add-On. This add-on will collect alerts using the CrowdStrike:Event:Streams:JSON sourcetype. You will need to define the `crowdstrike_stream` macro to point to the proper index that contains the CrowdStrike:Event:Streams:JSON sourcetype.
+how_to_implement: In order to properly run this search, you need to ingest alerts data from CrowdStrike Event Stream, specifically using the CrowdStrike Falcon Event Streams Technical Add-On. This add-on will collect alerts using the CrowdStrike:Event:Streams:JSON sourcetype. You will need to define the `crowdstrike_stream` macro to point to the proper index that contains the CrowdStrike:Event:Streams:JSON sourcetype.
 known_false_positives: False positives may vary based on Crowdstrike configuration; monitor and filter out the alerts that are not relevant to your environment.
 references:
     - https://www.crowdstrike.com/en-us/resources/guides/crowdstrike-falcon-event-streams-add-on-for-splunk-guide-v3/

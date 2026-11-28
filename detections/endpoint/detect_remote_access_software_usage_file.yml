@@ -1,8 +1,8 @@
 name: Detect Remote Access Software Usage File
 id: 3bf5541a-6a45-4fdc-b01d-59b899fff961
-version: 18
+version: 19
 creation_date: '2024-03-06'
-modification_date: '2026-10-19'
+modification_date: '2026-11-28'
 author: Steven Dick, Onur Mustafa Erdogan, Splunk
 status: production
 type: Anomaly
@@ -13,7 +13,7 @@ description: |
     If confirmed malicious, this could allow attackers to persist in the environment, potentially leading to data exfiltration, further compromise, or complete control over affected systems.
     It is best to update both the remote_access_software_usage_exception.csv lookup and the remote_access_software lookup with any known or approved remote access software to reduce false positives and increase coverage.
     In order to enhance performance, the detection filters for specific file names extensions / names that are used in the remote_access_software lookup.
-    If add additional entries, consider updating the search filters to include those file names / extensions as well, if not alread covered.
+    If add additional entries, consider updating the search filters to include those file names / extensions as well, if not already covered.
 data_source:
     - Sysmon EventID 11
 search: |

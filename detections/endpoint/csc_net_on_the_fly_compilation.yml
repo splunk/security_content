@@ -1,8 +1,8 @@
 name: CSC Net On The Fly Compilation
 id: ea73128a-43ab-11ec-9753-acde48001122
-version: 10
+version: 11
 creation_date: '2021-11-17'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -31,7 +31,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `csc_net_on_the_fly_compilation_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: A network operator or systems administrator may utilize an automated powershell script taht execute .net code that may generate false positive. filter is needed.
+known_false_positives: A network operator or systems administrator may utilize an automated powershell script that execute .net code that may generate false positive. filter is needed.
 references:
     - https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
     - https://tccontre.blogspot.com/2019/06/maicious-macro-that-compile-c-code-as.html
