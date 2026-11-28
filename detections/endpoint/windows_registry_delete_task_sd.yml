@@ -1,8 +1,8 @@
 name: Windows Registry Delete Task SD
 id: ffeb7893-ff06-446f-815b-33ca73224e92
-version: 13
+version: 14
 creation_date: '2022-04-18'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -13,6 +13,7 @@ description: |
     If confirmed malicious, it suggests an attacker with privileged access trying to hide their tracks, potentially compromising system integrity and security.
 data_source:
     - Sysmon EventID 12
+    - Cisco Endpoint Visibility Module Registry Value Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -85,4 +86,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/sd_delete_windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:registry_value_activity
       test_type: unit

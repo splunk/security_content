@@ -1,8 +1,8 @@
 name: Windows DISM Install PowerShell Web Access
 id: fa6142a7-c364-4d11-9954-895dd9efb2d4
-version: 11
+version: 12
 creation_date: '2024-09-03'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -10,6 +10,7 @@ description: The following analytic detects the installation of PowerShell Web A
 data_source:
     - Windows Event Log Security 4688
     - Sysmon EventID 1
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE Processes.process_name=dism.exe (Processes.process="*WindowsPowerShellWebAccess*"
@@ -65,4 +66,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/dism_pswa_4688_windows-security.log
           sourcetype: XmlWinEventLog
           source: XmlWinEventLog:Security
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

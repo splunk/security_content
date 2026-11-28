@@ -1,8 +1,8 @@
 name: Windows Application Whitelisting Bypass Attempt via Rundll32
 id: 1ef5dab0-e1f1-495d-a272-d134583c10b1
-version: 6
+version: 7
 creation_date: '2021-02-05'
-modification_date: '2026-10-02'
+modification_date: '2026-11-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -26,6 +26,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
@@ -119,4 +120,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/cisco_evm_windows_application_whitelisting_bypass_attempt_via_rundll32.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

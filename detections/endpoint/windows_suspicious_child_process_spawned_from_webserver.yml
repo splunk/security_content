@@ -1,8 +1,8 @@
 name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
-version: 15
+version: 16
 creation_date: '2023-04-12'
-modification_date: '2026-11-23'
+modification_date: '2026-11-28'
 author: Steven Dick, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,7 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly`
       count max(_time) as lastTime
@@ -218,4 +219,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/generic_webshell_exploit/generic_webshell_exploit.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/generic_webshell_exploit/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit

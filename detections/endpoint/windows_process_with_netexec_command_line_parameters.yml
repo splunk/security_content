@@ -1,8 +1,8 @@
 name: Windows Process With NetExec Command Line Parameters
 id: adbff89c-c1f2-4a2e-88a4-b5e645856510
-version: 11
+version: 12
 creation_date: '2024-12-27'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Steven Dick, Github Community
 status: production
 type: TTP
@@ -11,6 +11,7 @@ data_source:
     - Windows Event Log Security 4688
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
+    - Cisco Endpoint Visibility Module Process Activity
 search: |-
     | tstats `security_content_summariesonly` count min(_time) AS firstTime, max(_time) AS lastTime FROM datamodel=Endpoint.Processes
       WHERE NOT Processes.os="Linux" Processes.process_name IN ("nxc.exe")
@@ -89,4 +90,10 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/netexec_toolkit_usage/netexec_toolkit_usage.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+      test_type: unit
+    - name: True Positive Test - Cisco EVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/netexec_toolkit_usage/cisco_evm.log
+          source: not_applicable
+          sourcetype: cisco:evm:process_activity
       test_type: unit
