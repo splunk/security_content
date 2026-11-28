@@ -1,8 +1,8 @@
 name: MOVEit Certificate Store Access Failure
 id: d61292d5-46e4-49ea-b23b-8049ea70b525
-version: 6
+version: 7
 creation_date: '2024-07-24'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -16,7 +16,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `moveit_certificate_store_access_failure_filter`
 how_to_implement: The MOVEit logs must be collected in Splunk. Currently, there is no TA available for MOVEit. Modify the analytic as needed to match the log format of your environment.
-known_false_positives: False positives may occur, therefore utilize the analytic as a jump off point to identifiy potential certificate store errors.
+known_false_positives: False positives may occur, therefore utilize the analytic as a jump off point to identify potential certificate store errors.
 references:
     - https://labs.watchtowr.com/auth-bypass-in-un-limited-scenarios-progress-moveit-transfer-cve-2024-5806/
 analytic_story:

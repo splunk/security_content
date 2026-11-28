@@ -1,8 +1,8 @@
 name: Short Lived Windows Accounts
 id: b25f6f62-0782-43c1-b403-083231ffd97d
-version: 14
+version: 15
 creation_date: '2020-04-29'
-modification_date: '2026-10-09'
+modification_date: '2026-11-28'
 author: David Dorsey, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ search: |-
     | search create_result_id = 4720 delete_result_id=4726
     | table firstTime lastTime count user src src_user dest create_result_id delete_result_id
     | `short_lived_windows_accounts_filter`
-how_to_implement: 'This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/. We also recommend adjsuting the maxspan and _time parameter to better fit your environment.'
+how_to_implement: 'This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/. We also recommend adjusting the maxspan and _time parameter to better fit your environment.'
 known_false_positives: It is possible that an administrator created and deleted an account in a short time period.  Verifying activity with an administrator is advised.
 references:
     - https://www.youtube.com/watch?v=D4Cd-KK4ctk

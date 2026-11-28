@@ -1,8 +1,8 @@
 name: MacOS Network Share Discovery
 id: a5f5fe52-8e50-4fb0-ad1b-780be6c0d857
-version: 3
+version: 4
 creation_date: '2026-04-14'
-modification_date: '2026-10-02'
+modification_date: '2026-11-28'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -34,7 +34,7 @@ how_to_implement: |-
     This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
     Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
 known_false_positives: |-
-    Administrators may utilize these tools occasionaly for troubleshooting.
+    Administrators may utilize these tools occasionally for troubleshooting.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
     - https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/man8/showmount.8.html

@@ -1,8 +1,8 @@
 name: Microsoft Defender ATP Alerts
 id: 38f034ed-1598-46c8-95e8-14edf05fdf5d
-version: 8
+version: 9
 creation_date: '2024-10-30'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Bryan Pluta, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -10,7 +10,7 @@ description: The following analytic is to leverage alerts from Microsoft Defende
 data_source:
     - MS Defender ATP Alerts
 search: "`ms_defender_atp_alerts` (dest=* OR user=*)\n  | eval tmp_evidence=json_extract(_raw, \"evidence\"), tmp_evidencemv=json_array_to_mv(tmp_evidence), entityType = mvmap(tmp_evidencemv, spath(tmp_evidencemv, \"entityType\")), filePath = mvmap(tmp_evidencemv, spath(tmp_evidencemv, \"filePath\")), processCommandLine = mvmap(tmp_evidencemv, spath(tmp_evidencemv, \"processCommandLine\")), ipAddress = mvmap(tmp_evidencemv, spath(tmp_evidencemv, \"ipAddress\")), registryKey = mvmap(tmp_evidencemv, spath(tmp_evidencemv, \"registryKey\")), url = mvmap(tmp_evidencemv, spath(tmp_evidencemv, \"url\")), fileName = mvmap(tmp_evidencemv, spath(tmp_evidencemv, \"fileName\"))\n  | eval tmp_evidencemv=mvfilter(json_extract(tmp_evidencemv, \"entityType\") = \"File\"), fileName = mvmap(tmp_evidencemv, spath(tmp_evidencemv, \"fileName\"))\n  | eval risk_score=case(severity=\"informational\", 5, severity=\"low\", 15, severity=\"medium\", 25, severity=\"high\", 50 , true(), 2)\n  | eval processCommandLine=if(processCommandLine=\"null\", \"\", processCommandLine), ipAddress=if(ipAddress=\"null\", \"\", ipAddress), registryKey=if(registryKey=\"null\", \"\", registryKey), url=if(url=\"null\", \"\", url)\n  | stats count min(_time) as firstTime max(_time) as lastTime values(fileName) as file_name values(severity) as severity values(processCommandLine) as process values(ipAddress) as ip_address values(registryKey) as registry_key values(url) as url values(mitreTechniques{}) as annotations.mitre_attack.mitre_technique_id values(signature) as signature values(user) as user values(risk_score) as risk_score\n    BY id description src\n  | `security_content_ctime(firstTime)`\n  | `security_content_ctime(lastTime)`\n  | `microsoft_defender_atp_alerts_filter`"
-how_to_implement: In order to properly run this search, you need to ingest alerts data from Microsoft Defender, specifcally using the Splunk add-on for Microsoft Security. This add-on will collect alerts using the ms:defender:atp:alerts sourcetype. You will need to define the `ms_defender_atp_alerts` macro to point to the proper index that contains the ms:defender:atp:alerts sourcetype.
+how_to_implement: In order to properly run this search, you need to ingest alerts data from Microsoft Defender, specifically using the Splunk add-on for Microsoft Security. This add-on will collect alerts using the ms:defender:atp:alerts sourcetype. You will need to define the `ms_defender_atp_alerts` macro to point to the proper index that contains the ms:defender:atp:alerts sourcetype.
 known_false_positives: False positives may vary based on Microsfot Defender configuration; monitor and filter out the alerts that are not relevant to your environment.
 references:
     - https://learn.microsoft.com/en-us/defender-xdr/api-list-incidents?view=o365-worldwide

@@ -1,13 +1,13 @@
 name: WMI Permanent Event Subscription
 id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
-version: 11
+version: 12
 creation_date: '2020-04-29'
-modification_date: '2026-10-09'
+modification_date: '2026-11-28'
 author: Rico Valdez, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |-
-    Detects permanent WMI event subscriptions that are containing `CommandLineEventConsumer` or `ActiveScriptEventConsumer`. Due to their command execution capabilties, given WMI consumers are often leveraged by adversaries for both execution and persistence purposes.
+    Detects permanent WMI event subscriptions that are containing `CommandLineEventConsumer` or `ActiveScriptEventConsumer`. Due to their command execution capabilities, given WMI consumers are often leveraged by adversaries for both execution and persistence purposes.
 data_source:
     - Windows Event Log WMI Activity 5861
 search: |-
