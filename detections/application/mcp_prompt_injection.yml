@@ -1,8 +1,8 @@
 name: MCP Prompt Injection
 id: 49779398-b738-4d64-bb3f-ead6eb97fe53
-version: 5
+version: 6
 creation_date: '2026-02-17'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Rod Soto
 status: production
 type: TTP
@@ -20,7 +20,7 @@ search: |
     | `security_content_ctime(lastTime)`
     | table dest firstTime lastTime count source method target_path sql_query injection_payload
     | `mcp_prompt_injection_filter`
-how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk configured to ingest JSON-RPC formatted logs from MCP-enabled AI assistants and agents into the appropiate index with sourcetype mcp:jsonrpc. Ensure the TA parses multivalue fields including params.content_preview, params.result_preview, params.path, and params.query to capture tool inputs and outputs where injection payloads may appear. The macro mcp_prompt_injection_filter should be created to allow environment-specific tuning and whitelisting of known benign patterns.
+how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk configured to ingest JSON-RPC formatted logs from MCP-enabled AI assistants and agents into the appropriate index with sourcetype mcp:jsonrpc. Ensure the TA parses multivalue fields including params.content_preview, params.result_preview, params.path, and params.query to capture tool inputs and outputs where injection payloads may appear. The macro mcp_prompt_injection_filter should be created to allow environment-specific tuning and whitelisting of known benign patterns.
 known_false_positives: Known false positives include security research and testing activities where red teams or developers intentionally test prompt injection defenses, as well as educational content where documentation, tutorials, or training materials discussing prompt injection techniques are legitimately processed by the AI assistant. Additionally, security tool development involving code reviews or development of prompt injection detection mechanisms may contain these patterns, and quoted references in conversations where users discuss or report prompt injection attempts they encountered elsewhere could trigger this detection.
 references:
     - https://splunkbase.splunk.com/app/8377
