@@ -1,8 +1,8 @@
 name: Gsuite Email With Known Abuse Web Service Link
 id: 8630aa22-042b-11ec-af39-acde48001122
-version: 10
+version: 11
 creation_date: '2021-08-23'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `gsuite_email_with_known_abuse_web_service_link_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
-known_false_positives: normal email contains this link that are known application within the organization or network can be catched by this detection.
+known_false_positives: normal email contains this link that are known application within the organization or network can be caught by this detection.
 references:
     - https://news.sophos.com/en-us/2021/07/22/malware-increasingly-targets-discord-for-abuse/
 drilldown_searches:

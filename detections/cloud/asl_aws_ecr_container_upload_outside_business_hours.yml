@@ -1,8 +1,8 @@
 name: ASL AWS ECR Container Upload Outside Business Hours
 id: 739ed682-27e9-4ba0-80e5-a91b97698213
-version: 12
+version: 13
 creation_date: '2024-05-22'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `asl_aws_ecr_container_upload_outside_business_hours_filter`
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
-known_false_positives: When your development is spreaded in different time zones, applying this rule can be difficult.
+known_false_positives: When your development is spread in different time zones, applying this rule can be difficult.
 references:
     - https://attack.mitre.org/techniques/T1204/003/
 drilldown_searches:

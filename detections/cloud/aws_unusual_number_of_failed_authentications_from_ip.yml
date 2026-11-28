@@ -1,8 +1,8 @@
 name: AWS Unusual Number of Failed Authentications From Ip
 id: 0b5c9c2b-e2cb-4831-b4f1-af125ceb1386
-version: 15
+version: 16
 creation_date: '2022-09-26'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `aws_unusual_number_of_failed_authentications_from_ip_filter`
 how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail. We recommend the users to try different combinations of the bucket span time and the calculation of the upperBound field to tune this search according to their environment
-known_false_positives: No known false postives for this detection. Please review this alert
+known_false_positives: No known false positives for this detection. Please review this alert
 references:
     - https://attack.mitre.org/techniques/T1110/003/
     - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/

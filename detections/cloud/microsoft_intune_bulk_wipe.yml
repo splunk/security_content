@@ -1,14 +1,14 @@
 name: Microsoft Intune Bulk Wipe
 id: c3f48aa9-878e-443f-8889-e42a11a9bea9
-version: 2
+version: 3
 creation_date: '2026-04-15'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Jake Enea
 status: production
 type: TTP
 description: |-
     The following analytic detects a high volume of "wipe ManagedDevice" events from the Intune admin portal (5+ per hour by default).
-    It leverages Intune audit logs to identify when this action is triggered. This activity is significant beacuse the "wipe ManagedDevice" action factory resets devices connected to your Microsoft Intune tenant.
+    It leverages Intune audit logs to identify when this action is triggered. This activity is significant because the "wipe ManagedDevice" action factory resets devices connected to your Microsoft Intune tenant.
     If confirmed malicious, an attacker can abuse this action to perform a large-scale data wiping attack against your managed endpoints.
 data_source:
     - Azure Monitor Activity
@@ -37,7 +37,7 @@ how_to_implement: |-
     Deploy as an event-based detection rule for quick deployment.
     Adjust the count threshold according to expected activity in your environment.
 known_false_positives: |-
-    Legitimate adminstrative usage of the "wipe ManagedDevice" action might trigger this detection.
+    Legitimate administrative usage of the "wipe ManagedDevice" action might trigger this detection.
     This action is typically used for offboarding endpoints or in response to a lost or stolen device.
 references:
     - https://www.lumos.com/blog/stryker-hack

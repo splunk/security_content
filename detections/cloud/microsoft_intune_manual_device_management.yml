@@ -1,8 +1,8 @@
 name: Microsoft Intune Manual Device Management
 id: 5ca7ebee-4ee7-4cf2-b3be-0ea26a00d822
-version: 4
+version: 5
 creation_date: '2025-01-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Dean Luxton
 status: production
 type: Hunting
@@ -23,7 +23,7 @@ how_to_implement: >-
     The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.
     To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
     Deploy as a risk based alerting rule for quick deployment or perform baselining & tune accordingly.
-known_false_positives: Legitimate adminstrative usage of this functionality will trigger this detection.
+known_false_positives: Legitimate administrative usage of this functionality will trigger this detection.
 references:
     - https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d
     - https://securityintelligence.com/x-force/detecting-intune-lateral-movement/

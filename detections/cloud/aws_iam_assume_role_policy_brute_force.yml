@@ -1,8 +1,8 @@
 name: AWS IAM Assume Role Policy Brute Force
 id: f19e09b0-9308-11eb-b7ec-acde48001122
-version: 10
+version: 11
 creation_date: '2021-04-06'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -21,7 +21,7 @@ search: |-
       | `security_content_ctime(lastTime)`
       | `aws_iam_assume_role_policy_brute_force_filter`
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS CloudTrail logs. Set the `where count` greater than a value to identify suspicious activity in your environment.
-known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users.
+known_false_positives: This detection will require tuning to provide high fidelity detection capabilities. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users.
 references:
     - https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities/
     - https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/
