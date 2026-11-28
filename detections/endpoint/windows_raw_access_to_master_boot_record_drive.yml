@@ -1,8 +1,8 @@
 name: Windows Raw Access To Master Boot Record Drive
 id: 7b83f666-900c-11ec-a2d9-acde48001122
-version: 13
+version: 14
 creation_date: '2022-02-18'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -11,7 +11,7 @@ data_source:
     - Sysmon EventID 9
 search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by dest dvc process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product Device Image | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_master_boot_record_drive_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the raw access read event (like sysmon eventcode 9), process name and process guid from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: There are som minimal number of normal applications from system32 folder like svchost.exe accessing the MBR. In this case we used 'system32' and 'syswow64' path as a filter for this detection.
+known_false_positives: There are some minimal number of normal applications from system32 folder like svchost.exe accessing the MBR. In this case we used 'system32' and 'syswow64' path as a filter for this detection.
 references:
     - https://www.splunk.com/en_us/blog/security/threat-advisory-strt-ta02-destructive-software.html
     - https://www.crowdstrike.com/blog/technical-analysis-of-whispergate-malware/

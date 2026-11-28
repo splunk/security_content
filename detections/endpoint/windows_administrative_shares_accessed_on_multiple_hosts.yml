@@ -1,8 +1,8 @@
 name: Windows Administrative Shares Accessed On Multiple Hosts
 id: d92f2d95-05fb-48a7-910f-4d3d61ab8655
-version: 10
+version: 11
 creation_date: '2023-03-23'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,7 +12,7 @@ data_source:
     - Windows Event Log Security 5145
 search: '`wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$" OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$") | bucket span=5m _time | stats dc(Computer) AS unique_targets values(Computer) as host_targets values(ShareName) as shares values(dest) as dest by _time, IpAddress, SubjectUserName, EventCode | where unique_targets > 30 | `windows_administrative_shares_accessed_on_multiple_hosts_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting file share events. The Advanced Security Audit policy setting `Audit Detailed File Share` or `Audit File Share` within `Object Access` need to be enabled.
-known_false_positives: An single endpoint accessing windows administrative shares across a large number of endpoints is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, administration systems and missconfigured systems.
+known_false_positives: An single endpoint accessing windows administrative shares across a large number of endpoints is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, administration systems and misconfigured systems.
 references:
     - https://attack.mitre.org/techniques/T1135/
     - https://en.wikipedia.org/wiki/Administrative_share

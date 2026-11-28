@@ -1,8 +1,8 @@
 name: Windows Kerberos Coercion via DNS
 id: 9029b575-6f6b-4ab1-b660-67b24b7e9c3d
-version: 5
+version: 6
 creation_date: '2025-11-18'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -20,7 +20,7 @@ search: |-
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
       | `windows_kerberos_coercion_via_dns_filter`
-how_to_implement: To successfully implement this search, you ned to be ingesting Event codes `4662`, `5136`, `5137`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. For these event codes to be generated, specific SACLs are required.
+how_to_implement: To successfully implement this search, you need to be ingesting Event codes `4662`, `5136`, `5137`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. For these event codes to be generated, specific SACLs are required.
 known_false_positives: Creating a DNS entry matching this pattern is very unusual in a production environment. Filter as needed.
 references:
     - https://web.archive.org/web/20250617122747/https://www.synacktiv.com/publications/ntlm-reflection-is-dead-long-live-ntlm-reflection-an-in-depth-analysis-of-cve-2025

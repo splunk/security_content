@@ -1,8 +1,8 @@
 name: Windows AD Short Lived Server Object
 id: 193769d3-1e33-43a9-970e-ad4a88256cdb
-version: 12
+version: 13
 creation_date: '2022-10-18'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -19,7 +19,7 @@ search: |-
         BY _time, Computer, SubjectUserName,
            dest
       | `windows_ad_short_lived_server_object_filter`
-how_to_implement: To successfully implement this search, you ned to be ingesting Event codes `5137` and `5141`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. For these event codes to be generated, specific SACLs are required.
+how_to_implement: To successfully implement this search, you need to be ingesting Event codes `5137` and `5141`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. For these event codes to be generated, specific SACLs are required.
 known_false_positives: Creating and deleting a server object within 30 seconds or less is unusual but not impossible in a production environment. Filter as needed.
 references:
     - https://www.dcshadow.com/

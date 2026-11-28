@@ -1,8 +1,8 @@
 name: Windows AD ServicePrincipalName Added To Domain Account
 id: 8a1259cb-0ea7-409c-8bfe-74bad89259f9
-version: 11
+version: 12
 creation_date: '2022-11-17'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ search: >-
     | stats values(ObjectDN) as ObjectDN by _time, Computer, SubjectUserName, AttributeValue
     | rex field=ObjectDN "^CN=(?P<user>[a-zA-Z0-9!#$%&'@^_{}~.-]+),"
     | rename Computer as dest, SubjectUserName as src_user  | `windows_ad_serviceprincipalname_added_to_domain_account_filter`
-how_to_implement: To successfully implement this search, you ned to be ingesting eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
+how_to_implement: To successfully implement this search, you need to be ingesting eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
 known_false_positives: A Service Principal Name should only be added to an account when an application requires it. While infrequent, this detection may trigger on legitimate actions. Filter as needed.
 references:
     - https://adsecurity.org/?p=3466

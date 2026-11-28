@@ -1,8 +1,8 @@
 name: Windows Unusual Count Of Disabled Users Failed Auth Using Kerberos
 id: f65aa026-b811-42ab-b4b9-d9088137648f
-version: 11
+version: 12
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -21,7 +21,7 @@ search: |-
       | search isOutlier=1
       | `windows_unusual_count_of_disabled_users_failed_auth_using_kerberos_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: A host failing to authenticate with multiple disabled domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, multi-user systems missconfigured systems.
+known_false_positives: A host failing to authenticate with multiple disabled domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, multi-user systems misconfigured systems.
 references:
     - https://attack.mitre.org/techniques/T1110/003/
 drilldown_searches:

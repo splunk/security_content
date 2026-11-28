@@ -1,8 +1,8 @@
 name: Windows Unusual Count Of Invalid Users Fail To Auth Using Kerberos
 id: f122cb2e-d773-4f11-8399-62a3572d8dd7
-version: 11
+version: 12
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -21,7 +21,7 @@ search: |-
       | search isOutlier=1
       | `windows_unusual_count_of_invalid_users_fail_to_auth_using_kerberos_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, multi-user systems and missconfigured systems.
+known_false_positives: A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, multi-user systems and misconfigured systems.
 references:
     - https://attack.mitre.org/techniques/T1110/003/
 drilldown_searches:
