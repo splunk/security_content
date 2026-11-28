@@ -1,8 +1,8 @@
 name: Windows WMI Process And Service List
 id: ef3c5ef2-3f6d-4087-aa75-49bf746dc907
-version: 11
+version: 12
 creation_date: '2022-12-13'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -26,7 +26,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `windows_wmi_process_and_service_list_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: netowrk administrator or IT may execute this command for auditing processes and services.
+known_false_positives: network administrator or IT may execute this command for auditing processes and services.
 references:
     - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
     - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/

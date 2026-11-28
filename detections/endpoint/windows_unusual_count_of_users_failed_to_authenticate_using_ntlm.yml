@@ -1,8 +1,8 @@
 name: Windows Unusual Count Of Users Failed To Authenticate Using NTLM
 id: 6f6c8fd7-6a6b-4af9-a0e9-57cfc47a58b4
-version: 12
+version: 13
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -21,7 +21,7 @@ search: |-
       | search isOutlier=1
       | `windows_unusual_count_of_users_failed_to_authenticate_using_ntlm_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation` within `Account Logon` needs to be enabled.
-known_false_positives: A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host's local accounts.
+known_false_positives: A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and misconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host's local accounts.
 references:
     - https://attack.mitre.org/techniques/T1110/003/
     - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-credential-validation

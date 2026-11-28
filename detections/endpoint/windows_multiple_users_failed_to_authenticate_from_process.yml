@@ -1,8 +1,8 @@
 name: Windows Multiple Users Failed To Authenticate From Process
 id: 9015385a-9c84-11eb-bef2-acde48001122
-version: 13
+version: 14
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -19,8 +19,8 @@ search: |-
       | rename Computer as dest
       | where unique_accounts > 30
       | `windows_multiple_users_failed_to_authenticate_from_process_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers aas well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
-known_false_positives: A process failing to authenticate with multiple users is not a common behavior for legitimate user sessions. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
+known_false_positives: A process failing to authenticate with multiple users is not a common behavior for legitimate user sessions. Possible false positive scenarios include but are not limited to vulnerability scanners and misconfigured systems.
 references:
     - https://attack.mitre.org/techniques/T1110/003/
     - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625

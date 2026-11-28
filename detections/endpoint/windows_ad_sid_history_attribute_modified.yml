@@ -1,8 +1,8 @@
 name: Windows AD SID History Attribute Modified
 id: 1155e47d-307f-4247-beab-71071e3a458c
-version: 11
+version: 12
 creation_date: '2022-11-17'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ search: |-
            AttributeValue
       | rename Computer as dest
       | `windows_ad_sid_history_attribute_modified_filter`
-how_to_implement: To successfully implement this search, you ned to be ingesting eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
+how_to_implement: To successfully implement this search, you need to be ingesting eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
 known_false_positives: Domain mergers and migrations may generate large volumes of false positives for this analytic.
 references:
     - https://adsecurity.org/?p=1772

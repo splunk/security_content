@@ -1,8 +1,8 @@
 name: Windows Multiple Users Failed To Authenticate Using Kerberos
 id: 3a91a212-98a9-11eb-b86a-acde48001122
-version: 12
+version: 13
 creation_date: '2021-04-14'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -17,7 +17,7 @@ search: |-
       | where unique_accounts > 30
       | `windows_multiple_users_failed_to_authenticate_using_kerberos_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, missconfigured systems and multi-user systems like Citrix farms.
+known_false_positives: A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, misconfigured systems and multi-user systems like Citrix farms.
 references:
     - https://attack.mitre.org/techniques/T1110/003/
     - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn319109(v=ws.11)

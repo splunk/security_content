@@ -1,8 +1,8 @@
 name: Windows Firewall Rule Deletion
 id: ca5327e1-0a91-4e23-bbd4-8901806c00e1
-version: 8
+version: 9
 creation_date: '2025-03-21'
-modification_date: '2026-05-13'
+modification_date: '2026-11-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -17,7 +17,7 @@ search: |-
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
       | `windows_firewall_rule_deletion_filter`
-how_to_implement: This detection is based on data collected from Endpoint Detection and Response (EDR) agents, which provide security-related telemetry from monitored endpoints. Specifically, it focuses on Windows Security Event Log entries with EventID 4948, which indicates that a Windows Firewall rule has been delted. To implement this detection in Splunk, you must ingest Windows Security Event Logs that capture EventID 4948, ensuring that critical fields such as _time, EventRecordID, ProcessID, ThreadID, Computer, ProfileChanged, RuleName, and RuleId are available for analysis. These logs must be processed using the appropriate Splunk Technology Add-ons (TAs) to ensure compatibility with the EDR product and proper field extraction. Additionally, mapping these logs to the appropriate data model, such as the Endpoint data model, enhances structured analysis. Leveraging the Splunk Common Information Model (CIM) helps normalize field names, ensuring consistency across different data sources. By implementing this approach, you can effectively detect and monitor Windows Firewall rule modifications, providing visibility into potential security risks or unauthorized changes.
+how_to_implement: This detection is based on data collected from Endpoint Detection and Response (EDR) agents, which provide security-related telemetry from monitored endpoints. Specifically, it focuses on Windows Security Event Log entries with EventID 4948, which indicates that a Windows Firewall rule has been deleted. To implement this detection in Splunk, you must ingest Windows Security Event Logs that capture EventID 4948, ensuring that critical fields such as _time, EventRecordID, ProcessID, ThreadID, Computer, ProfileChanged, RuleName, and RuleId are available for analysis. These logs must be processed using the appropriate Splunk Technology Add-ons (TAs) to ensure compatibility with the EDR product and proper field extraction. Additionally, mapping these logs to the appropriate data model, such as the Endpoint data model, enhances structured analysis. Leveraging the Splunk Common Information Model (CIM) helps normalize field names, ensuring consistency across different data sources. By implementing this approach, you can effectively detect and monitor Windows Firewall rule modifications, providing visibility into potential security risks or unauthorized changes.
 known_false_positives: Legitimate admin delete, Group Policy updates, software installs, security tools, and automated scripts can trigger false positives for Event ID 4948.
 references:
     - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4948
